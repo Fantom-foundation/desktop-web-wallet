@@ -67,9 +67,9 @@ header {
           .nav-link {
             text-transform: $navlink-textTransform;
             transition: 0.3s all;
-            color: mep-get($color, nav-link);
+            color: map-get($color, nav-link);
             &:hover {
-              color: mep-get($color, nav-link-hover);
+              color: map-get($color, nav-link-hover);
             }
             @media (max-width: 767px) {
               text-align: center;
