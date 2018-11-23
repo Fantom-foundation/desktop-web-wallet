@@ -32,12 +32,33 @@
       size: 63px;
       weight: 400;
     }
+    @media (max-width: 991px) {
+      font: {
+        size: 44px;
+      }
+    }
+    @media (max-width: 767px) {
+      letter-spacing: 1px;
+      font: {
+        size: 36px;
+      }
+    }
   }
   h3 {
     letter-spacing: 0.6px;
     font: {
       size: 30px;
       weight: 100;
+    }
+    @media (max-width: 991px) {
+      font: {
+        size: 22px;
+      }
+    }
+    @media (max-width: 767px) {
+      font: {
+        size: 16px;
+      }
     }
   }
   .btn {
@@ -48,10 +69,17 @@
       weight: 100;
       size: 20px;
     }
-    @media (max-width: 767px) {
-      margin: {
-        bottom: 20px;
+    @media (max-width: 991px) {
+      font: {
+        size: 16px;
       }
+    }
+    @media (max-width: 767px) {
+      font: {
+        size: 14px;
+      }
+      margin: 0 14px;
+      margin-bottom: 20px;
     }
   }
 }
