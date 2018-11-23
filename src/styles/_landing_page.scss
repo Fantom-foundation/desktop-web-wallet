@@ -22,8 +22,9 @@
     font: {
       family: "Noto Sans Condensed";
     }
-    margin: {
-      bottom: 72px;
+    margin-bottom: 72px;
+    @media (max-width: 991px) {
+      margin-bottom: 44px;
     }
   }
   h2 {
