@@ -1,5 +1,6 @@
 import React from 'react';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
+import logo from '../../../../../images/logo/fantom.png';
 
 export default class Example extends React.Component {
   constructor(props) {
@@ -21,9 +22,11 @@ export default class Example extends React.Component {
   render() {
     const { isOpen } = this.state;
     return (
-      <div>
-        <Navbar color="light" dark expand="md">
-          <NavbarBrand href="/">Fantom</NavbarBrand>
+      <div className="nav-holder">
+        <Navbar dark expand="md">
+          <NavbarBrand href="/">
+            <img className="logo" src={logo} alt="logo" />
+          </NavbarBrand>
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>

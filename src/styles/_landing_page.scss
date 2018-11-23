@@ -1,0 +1,57 @@
+.landing-page {
+}
+.landing-banner {
+  background: {
+    color: #000;
+    image: url(images/backgrounds/smoke-waves.png);
+    position: center;
+    size: cover;
+    repeat: no-repeat;
+  }
+  .main-row {
+    align-items: center;
+    min-height: 700px;
+    height: 100vh;
+
+    -webkit-box-pack: center;
+    -webkit-justify-content: center;
+    -ms-flex-pack: center;
+  }
+  h2,
+  h3 {
+    font: {
+      family: "Noto Sans Condensed";
+    }
+    margin: {
+      bottom: 72px;
+    }
+  }
+  h2 {
+    letter-spacing: 3px;
+    font: {
+      size: 63px;
+      weight: 400;
+    }
+  }
+  h3 {
+    letter-spacing: 0.6px;
+    font: {
+      size: 30px;
+      weight: 100;
+    }
+  }
+  .btn {
+    text-transform: uppercase;
+    margin: 0 40px;
+    letter-spacing: 1px;
+    font: {
+      weight: 100;
+      size: 20px;
+    }
+    @media (max-width: 767px) {
+      margin: {
+        bottom: 20px;
+      }
+    }
+  }
+}

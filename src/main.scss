@@ -1,8 +1,78 @@
-@import "./styles/colors";
+@font-face {
+  font-family: "Noto Sans";
+  src: url("./fonts/noto-sans/NotoSans-Thin.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 100;
+}
+@font-face {
+  font-family: "Noto Sans";
+  src: url("./fonts/noto-sans/NotoSans-Light.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Noto Sans";
+  src: url("./fonts/noto-sans/NotoSans-Regular.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Noto Sans";
+  src: url("./fonts/noto-sans/NotoSans-Bold.ttf") format("truetype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@font-face {
+  font-family: "Noto Sans Condensed";
+  src: url("./fonts/noto-sans-condensed/NotoSans-CondensedThin.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 100;
+}
+
+@font-face {
+  font-family: "Noto Sans Condensed";
+  src: url("./fonts/noto-sans-condensed/NotoSans-CondensedLight.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 200;
+}
+@font-face {
+  font-family: "Noto Sans Condensed";
+  src: url("./fonts/noto-sans-condensed/NotoSans-CondensedExtraLight.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 300;
+}
+@font-face {
+  font-family: "Noto Sans Condensed";
+  src: url("./fonts/noto-sans-condensed/NotoSans-Condensed.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 400;
+}
+@font-face {
+  font-family: "Noto Sans Condensed";
+  src: url("./fonts/noto-sans-condensed/NotoSans-CondensedSemiBold.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 700;
+}
+@font-face {
+  font-family: "Noto Sans Condensed";
+  src: url("./fonts/noto-sans-condensed/NotoSans-CondensedBold.ttf")
+    format("truetype");
+  font-style: normal;
+  font-weight: 700;
+}
+
+@import "./styles/gloable_variables";
 @import "./styles/typography";
 @import "./styles/mixin";
 @import "./styles/container";
 @import "./styles/button";
 @import "./styles/style";
+@import "./styles/landing_page";
 @import "./styles/header_footer";
 @import "./styles/form";

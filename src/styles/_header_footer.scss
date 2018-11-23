@@ -1,0 +1,41 @@
+header {
+  height: 218px;
+  background: #000;
+  position: relative;
+  .nav-holder {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    left: 0;
+  }
+  nav {
+    max-width: 1600px;
+    margin: auto;
+    .logo {
+      height: 39px;
+    }
+    .navbar-collapse {
+      .navbar-nav {
+        .nav-item {
+          margin-left: 160px;
+          &:nth-child(1) {
+            margin-left: 0;
+          }
+          font: {
+            family: $navlink-fontFamily;
+            size: 18;
+            weight: 400;
+          }
+          .nav-link {
+            text-transform: $navlink-textTransform;
+            transition: 0.3s all;
+            color: mep-get($color, nav-link);
+            &:hover {
+              color: mep-get($color, nav-link-hover);
+            }
+          }
+        }
+      }
+    }
+  }
+}
