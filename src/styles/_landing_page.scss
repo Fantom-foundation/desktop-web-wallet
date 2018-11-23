@@ -3,10 +3,22 @@
 .landing-banner {
   background: {
     color: #000;
-    image: url(images/backgrounds/smoke-waves.png);
+    // image: url(images/backgrounds/smoke-waves.png);
     position: center;
     size: cover;
     repeat: no-repeat;
+  }
+  position: relative;
+  #particles-js {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 3px;
+  }
+  .container {
+    z-index: 1;
+    position: relative;
   }
   .main-row {
     align-items: center;

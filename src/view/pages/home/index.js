@@ -1,3 +1,4 @@
+/* global document */
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import Layout from '../../components/layout';
@@ -6,6 +7,20 @@ export default class Home extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
+  }
+
+  componentDidMount() {
+    const particles = document.createElement('script');
+    particles.src = 'js/particles/particles.min.js';
+    document.getElementById('scripts').appendChild(particles);
+
+    const particlesApp = document.createElement('script');
+    particlesApp.src = 'js/particles/app.js';
+    document.getElementById('scripts').appendChild(particlesApp);
+
+    const particlesState = document.createElement('script');
+    particlesState.src = 'js/particles/lib/stats.js';
+    document.getElementById('scripts').appendChild(particlesState);
   }
 
   render() {
@@ -32,6 +47,8 @@ export default class Home extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
+            <div id="particles-js" />
+            <span id="scripts" />
           </section>
         </Layout>
       </div>

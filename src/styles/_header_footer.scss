@@ -1,18 +1,12 @@
 header {
-  height: 170px;
+  // height: 170px;
   background: #000;
   position: relative;
   position: sticky;
   top: 0;
   z-index: 999999;
   .nav-holder {
-    padding-top: 110px;
-    @media (max-width: 991px) {
-      padding-top: 80px;
-    }
-    @media (max-width: 767px) {
-      padding-top: 40px;
-    }
+    padding: 20px 0;
   }
   nav {
     overflow: hidden;
@@ -39,14 +33,20 @@ header {
       }
       .navbar-nav {
         .nav-item {
+          // @media (min-width: 768px) {
+          //   margin-left: 50px;
+          // }
+          // @media (min-width: 992px) {
+          //   margin-left: 100px;
+          // }
+          // @media (min-width: 1201px) {
+          //   margin-left: 160px;
+          // }
           @media (min-width: 768px) {
-            margin-left: 50px;
+            margin-left: 20px;
           }
           @media (min-width: 992px) {
-            margin-left: 100px;
-          }
-          @media (min-width: 1201px) {
-            margin-left: 160px;
+            margin-left: 40px;
           }
           &:nth-child(1) {
             margin-left: 0 !important;
