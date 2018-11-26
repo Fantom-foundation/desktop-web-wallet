@@ -10,12 +10,12 @@ export default class Layout extends React.PureComponent {
   }
 
   render() {
-    const { children } = this.props;
+    const { children, noFooter } = this.props;
     return (
       <>
         <Header />
         {children}
-        <Footer />
+        {!noFooter ? <Footer /> : null}
       </>
     );
   }
@@ -23,8 +23,10 @@ export default class Layout extends React.PureComponent {
 
 Layout.propTypes = {
   children: PropTypes.node,
+  noFooter: PropTypes.bool,
 };
 
 Layout.defaultProps = {
   children: null,
+  noFooter: false,
 };
