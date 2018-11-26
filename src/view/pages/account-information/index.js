@@ -40,7 +40,7 @@ export default class AccountInformation extends React.PureComponent {
               <Row>
                 <Col>
                   <div id="mnemonic-collector">
-                    <ul>
+                    <ul className="blur">
                       <li>Exile</li>
                       <li>Puzzle</li>
                       <li>Bomb</li>
@@ -54,6 +54,11 @@ export default class AccountInformation extends React.PureComponent {
                       <li>Noise</li>
                       <li>Dish</li>
                     </ul>
+                    <div className="blur-overley">
+                      <div className="holder">
+                        <h2>Click Here To Reveal Secret Words</h2>
+                      </div>
+                    </div>
                   </div>
                 </Col>
               </Row>

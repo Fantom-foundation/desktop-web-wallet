@@ -1,9 +1,15 @@
+$border-radius: 8px;
 #mnemonic-collector {
+  position: relative;
   max-width: 804px;
   border: 2px dashed #fff;
+  border-radius: $border-radius;
   padding: 54px 64px;
   margin: auto;
   ul {
+    &.blur {
+      filter: blur(4px);
+    }
     text-align: center;
     padding: 0;
     margin: 0;
@@ -15,6 +21,31 @@
       font: {
         family: "Roboto Condensed";
         size: 26px;
+      }
+    }
+  }
+  .blur-overley {
+    border-radius: $border-radius;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background: rgba(103, 103, 103, 0.72);
+    .holder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      h2 {
+        color: #fff;
+        text-align: center;
+        font: {
+          family: "Roboto Condensed";
+          size: 26px;
+        }
       }
     }
   }
