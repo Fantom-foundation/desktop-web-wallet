@@ -1,0 +1,21 @@
+.btn {
+  font-family: "Noto Sans";
+  padding: {
+    left: 30px;
+    right: 30px;
+  }
+  &.rounded {
+    border-radius: 50px !important;
+  }
+  &.btn-dark {
+    border: 2px solid map-get($color, btn-dark-outline);
+    background: {
+      color: map-get($color, btn-dark);
+    }
+    &:hover {
+      background: {
+        color: map-get($color, btn-dark-hover);
+      }
+    }
+  }
+}

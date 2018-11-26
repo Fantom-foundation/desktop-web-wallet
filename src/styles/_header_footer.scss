@@ -1,0 +1,83 @@
+header {
+  // height: 170px;
+  background: #000;
+  position: relative;
+  position: sticky;
+  top: 0;
+  z-index: 999999;
+  .nav-holder {
+    padding: 20px 0;
+  }
+  nav {
+    overflow: hidden;
+    max-width: 1600px;
+    margin: auto;
+    .logo {
+      height: 39px;
+    }
+    .navbar-collapse {
+      position: relative;
+      &:before {
+        @media (max-width: 767px) {
+          position: absolute;
+          content: "";
+          top: 0;
+          right: 0px;
+          bottom: 0;
+          left: 0px;
+          background: #383838;
+          z-index: -1;
+          border-bottom-right-radius: 10px;
+          border-bottom-left-radius: 10px;
+        }
+      }
+      .navbar-nav {
+        .nav-item {
+          // @media (min-width: 768px) {
+          //   margin-left: 50px;
+          // }
+          // @media (min-width: 992px) {
+          //   margin-left: 100px;
+          // }
+          // @media (min-width: 1201px) {
+          //   margin-left: 160px;
+          // }
+          @media (min-width: 768px) {
+            margin-left: 20px;
+          }
+          @media (min-width: 992px) {
+            margin-left: 40px;
+          }
+          &:nth-child(1) {
+            margin-left: 0 !important;
+            border-top: 0px !important;
+          }
+
+          font: {
+            family: $navlink-fontFamily;
+            size: 18px;
+            weight: 400;
+          }
+          @media (max-width: 767px) {
+            border-top: 1px solid #000;
+            font: {
+              size: 16px;
+            }
+          }
+          .nav-link {
+            text-transform: $navlink-textTransform;
+            transition: 0.3s all;
+            color: map-get($color, nav-link);
+            &:hover {
+              color: map-get($color, nav-link-hover);
+            }
+            @media (max-width: 767px) {
+              text-align: center;
+              padding: 10px 0;
+            }
+          }
+        }
+      }
+    }
+  }
+}
