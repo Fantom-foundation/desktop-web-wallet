@@ -1,14 +1,18 @@
+$white: #fff;
 $color: (
-  white: #fff,
+  white: $white,
   black: #000,
-  nav-link: #fff,
+  nav-link: $white,
   nav-link-hover: #8e8e8e,
   btn-dark: #000,
   btn-dark-hover: #3b4c5a,
   btn-dark-outline: #679ed2,
+  btn-add-wallet: #1c1c1c,
+  btn-add-wallet-background: $white,
   card-account-no: #5ea5ee,
   add-wallet-title: #feffff,
-  add-wallet-title-background: #5ea5ee
+  add-wallet-title-background: #5ea5ee,
+  mnemonic-collector-list: #5ea5ee
 );
 
 $navlink-fontFamily: "Noto Sans";

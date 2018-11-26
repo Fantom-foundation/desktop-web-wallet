@@ -9,3 +9,24 @@ body {
     color: #1e1e1e !important;
   }
 }
+
+.page-title {
+  padding: 100px 0;
+  .title {
+    letter-spacing: 4px;
+    font: {
+      family: "Roboto Condensed";
+      size: 46px;
+    }
+    @media (max-width: 991px) {
+      font: {
+        size: 38px;
+      }
+    }
+    @media (max-width: 767px) {
+      font: {
+        size: 32px;
+      }
+    }
+  }
+}

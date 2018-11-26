@@ -11,17 +11,47 @@
     max-width: 100%;
     font: {
       family: "Roboto Condensed";
+      size: 28px;
     }
-    padding: 23px;
+    padding: 14px 30px;
     margin: 0;
     color: map-get($color, add-wallet-title);
     background: {
       color: map-get($color, add-wallet-title-background);
     }
+    @media (max-width: 991px) {
+      font: {
+        size: 24px;
+      }
+    }
+    @media (max-width: 767px) {
+      font: {
+        size: 22px;
+      }
+    }
   }
   .btn {
-    -ms-flex: 0 0 25%;
-    flex: 0 0 25px;
-    max-width: 25px;
+    position: relative;
+    width: 70px;
+    color: map-get($color, btn-add-wallet);
+    border-radius: 0;
+    background: {
+      color: map-get($color, btn-add-wallet-background);
+    }
+    i {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+
+      &.fa-plus {
+        border: 3px solid;
+        padding: 5px;
+        border-radius: 100%;
+      }
+      &.fa-print {
+        font-size: 28px;
+      }
+    }
   }
 }

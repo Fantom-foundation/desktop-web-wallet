@@ -21,13 +21,18 @@
     position: relative;
   }
   .main-row {
+    $less-height: 105px;
     align-items: center;
-    min-height: 700px;
-    height: 100vh;
-
+    min-height: 400px;
+    height: calc(100vh - #{$less-height});
     -webkit-box-pack: center;
     -webkit-justify-content: center;
     -ms-flex-pack: center;
+    > .col {
+      margin: {
+        top: -($less-height/2);
+      }
+    }
   }
   h2,
   h3 {

@@ -3,7 +3,7 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import Layout from '../../components/layout';
 import avatar from '../../../images/icons/icon.png';
 
-export default class Home extends React.PureComponent {
+export default class AccountManagement extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
@@ -13,19 +13,19 @@ export default class Home extends React.PureComponent {
     return (
       <div id="account-management" className="account-management">
         <Layout>
-          <section className="">
+          <section className="page-title">
             <Container>
               <Row>
                 <Col>
-                  <h2 className="title text-white text-uppercase">
-                    <span>Account Mnagement</span>
+                  <h2 className="title text-white text-center text-uppercase m-0">
+                    <span>Account Management</span>
                   </h2>
                 </Col>
               </Row>
             </Container>
           </section>
           <section className="bg-dark" style={{ padding: '0 0 120px' }}>
-            <Container className="account-view-container">
+            <Container className="account-card-container">
               <Row style={{ marginBottom: '90px' }}>
                 <Col>
                   <div className="add-wallet">

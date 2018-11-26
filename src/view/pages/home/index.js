@@ -50,7 +50,7 @@ class Home extends React.PureComponent {
     console.log(this.props, 'this.props');
     return (
       <div id="home" className="home landing-page">
-        <Layout>
+        <Layout noFooter>
           <section className="landing-banner">
             <Container>
               <Row className="main-row">
@@ -58,7 +58,6 @@ class Home extends React.PureComponent {
                   <h2 className="title text-white text-uppercase">
                     <span>Operachain Powered Wallet</span>
                   </h2>
-
                   <h3 className="title text-white text-uppercase">
                     <span>Send and Recive ETH, Wan and All Compatible Tokens</span>
                   </h3>

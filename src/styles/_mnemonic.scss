@@ -1,0 +1,21 @@
+#mnemonic-collector {
+  max-width: 804px;
+  border: 2px dashed #fff;
+  padding: 54px 64px;
+  margin: auto;
+  ul {
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    margin: -22px -15px;
+    li {
+      margin: 22px 15px;
+      display: inline-block;
+      color: map-get($color, mnemonic-collector-list);
+      font: {
+        family: "Roboto Condensed";
+        size: 26px;
+      }
+    }
+  }
+}
