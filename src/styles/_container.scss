@@ -1,0 +1,7 @@
+.container {
+  &.account-view-container {
+    @media (min-width: 992px) {
+      max-width: 1550px;
+    }
+  }
+}

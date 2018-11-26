@@ -1,27 +1,14 @@
-/* -----------------------------------------------
-/* How to use? : Check the GitHub README
-/* ----------------------------------------------- */
-
-/* To load a config file (particles.json) you need to host this demo (MAMP/WAMP/local)... */
-/*
-particlesJS.load('particles-js', 'particles.json', function() {
-  console.log('particles.js loaded - callback');
-});
-*/
-
-/* Otherwise just put the config content (json): */
-
 particlesJS('particles-js', {
   particles: {
     number: {
-      value: 130,
+      value: 70,
       density: {
         enable: true,
         value_area: 800,
       },
     },
     color: {
-      value: '#03b8fd',
+      value: '#008fc5',
     },
     shape: {
       type: 'circle',
