@@ -1,12 +1,17 @@
 /* global document */
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
 import Layout from '../../components/layout';
+import createAccount from '../../../redux/account/action';
 
-export default class Home extends React.PureComponent {
+class Home extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
+    this.createNewAccount = this.createNewAccount.bind(this);
   }
 
   componentDidMount() {
@@ -23,7 +28,26 @@ export default class Home extends React.PureComponent {
     document.getElementById('scripts').appendChild(particlesState);
   }
 
+  goToPage(route) {
+    const SELF = this;
+    const { history } = SELF.props;
+    history.push(route);
+  }
+
+  createNewAccount() {
+    const SELF = this;
+    const { createNewAccount } = SELF.props;
+    const data = {
+      accountName: 'accountName',
+      password: 'action.password',
+      passwordHint: 'action.passwordHint',
+      accountIcon: 'action.accountIcon',
+    };
+    createNewAccount(data);
+  }
+
   render() {
+    console.log(this.props, 'this.props');
     return (
       <div id="home" className="home landing-page">
         <Layout>
@@ -38,10 +62,14 @@ export default class Home extends React.PureComponent {
                   <h3 className="title text-white text-uppercase">
                     <span>Send and Recive ETH, Wan and All Compatible Tokens</span>
                   </h3>
-                  <Button color="dark" className="rounded">
+                  <Button
+                    color="dark"
+                    className="rounded"
+                    onClick={() => this.goToPage('/account-management')}
+                  >
                     Open Wallet
                   </Button>
-                  <Button color="dark" className="rounded">
+                  <Button color="dark" className="rounded" onClick={this.createNewAccount}>
                     Learn More
                   </Button>
                 </Col>
@@ -55,3 +83,21 @@ export default class Home extends React.PureComponent {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  state,
+});
+
+const mapDispatchToProps = dispatch => ({
+  createNewAccount: data => {
+    dispatch(() => createAccount(data));
+  },
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  ),
+  withRouter
+)(Home);

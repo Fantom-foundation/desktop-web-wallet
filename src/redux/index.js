@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import account from './account/reducer';
+import accountInfo from './account/reducer';
 
 const rootReducer = combineReducers({
-  account,
+  accountInfo,
 });
 
 export default rootReducer;

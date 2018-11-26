@@ -37,7 +37,6 @@ export const configureStore = () => {
   // store = createStore(applyMiddleware(reduxThunk, axiosMiddleware(axiosClient)));
 
   persistor = persistStore(store);
-
   return { store, persistor };
 };
 

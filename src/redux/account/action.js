@@ -1,15 +1,10 @@
 import * as types from '../constants';
+import { dispatch } from '../store';
 
-export function createAccount(data) {
-  return {
-    type: types.CREATE_ACCOUNT,
+export default function createAccount(data) {
+  console.log(data, 'datadata');
+  dispatch({
+    type: types.CREATE_NEW_ACCOUNT,
     payload: data,
-  };
-}
-
-export function updateAccount(data) {
-  return {
-    type: types.UPDATE_ACCOUNT,
-    payload: data,
-  };
+  });
 }

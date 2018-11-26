@@ -1,26 +1,30 @@
-const defaultState = {
-  authenticated: false,
-  user: null,
-  token: null,
-  auth: null,
-};
+import * as types from '../constants';
+// import storage from '../store';
+
+const defaultState = {};
 
 const handlers = new class {
   // eslint-disable-next-line class-methods-use-this
-  CREATE_ACCOUNT(state, action) {
-    console.log(action, 'action CREATE_ACCOUNT');
-    return state;
-  }
-
-  // eslint-disable-next-line class-methods-use-this
-  UPDATE_ACCOUNT(state, action) {
-    console.log(action, 'action UPDATE_ACCOUNT');
-    return state;
+  CREATE_NEW_ACCOUNT(state, action) {
+    console.log(state, 'state');
+    console.log(action, 'action');
+    const { payload } = action;
+    switch (action.type) {
+      case types.CREATE_NEW_ACCOUNT:
+        return Object.assign({}, state, {
+          accountName: payload.accountName,
+          password: payload.password,
+          passwordHint: payload.passwordHint,
+          accountIcon: payload.accountIcon,
+        });
+      default:
+        return state;
+    }
   }
 }();
 
-function account(state = defaultState, action) {
+function accountInfo(state = defaultState, action) {
   return handlers[action.type] ? handlers[action.type](state, action) : state;
 }
 
-export default account;
+export default accountInfo;

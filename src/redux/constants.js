@@ -1,2 +1,2 @@
-export const CREATE_ACCOUNT = 'CREATE_ACCOUNT';
-export const UPDATE_ACCOUNT = 'UPDATE_ACCOUNT';
+// eslint-disable-next-line import/prefer-default-export
+export const CREATE_NEW_ACCOUNT = 'CREATE_NEW_ACCOUNT';
