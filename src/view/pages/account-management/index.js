@@ -13,12 +13,12 @@ export default class Home extends React.PureComponent {
     return (
       <div id="account-management" className="account-management">
         <Layout>
-          <section className="">
+          <section className="page-title">
             <Container>
               <Row>
                 <Col>
-                  <h2 className="title text-white text-uppercase">
-                    <span>Account Mnagement</span>
+                  <h2 className="title text-white text-center text-uppercase m-0">
+                    <span>Account Management</span>
                   </h2>
                 </Col>
               </Row>

@@ -19,6 +19,10 @@
     background: {
       color: #f8f8f8;
     }
+    @media (max-width: 767px) {
+      margin: auto;
+      max-width: 380px;
+    }
     .avatar {
       margin-bottom: 28px;
       .avatar-icon {
@@ -48,7 +52,7 @@
     .title {
       margin-bottom: 16px;
       font: {
-        size: 20px;
+        size: 22px;
         weight: bold;
       }
     }
