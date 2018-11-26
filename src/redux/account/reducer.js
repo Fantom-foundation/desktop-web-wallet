@@ -1,12 +1,16 @@
 import * as types from '../constants';
 // import storage from '../store';
 
-const defaultState = {};
+const defaultState = {
+  accountName: '',
+  password: '',
+  passwordHint: '',
+  reEnteredPassword: '',
+};
 
 const handlers = new class {
   // eslint-disable-next-line class-methods-use-this
   CREATE_NEW_ACCOUNT(state, action) {
-    console.log(state, 'state');
     console.log(action, 'action');
     const { payload } = action;
     switch (action.type) {
@@ -15,7 +19,8 @@ const handlers = new class {
           accountName: payload.accountName,
           password: payload.password,
           passwordHint: payload.passwordHint,
-          accountIcon: payload.accountIcon,
+          reEnteredPassword: payload.reEnteredPassword,
+          selectedIcon: payload.selectedIcon,
         });
       default:
         return state;

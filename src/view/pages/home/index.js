@@ -1,17 +1,12 @@
 /* global document */
 import React from 'react';
-import { connect } from 'react-redux';
-import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
 import Layout from '../../components/layout';
-import createAccount from '../../../redux/account/action';
 
 class Home extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
-    this.createNewAccount = this.createNewAccount.bind(this);
   }
 
   componentDidMount() {
@@ -32,18 +27,6 @@ class Home extends React.PureComponent {
     const SELF = this;
     const { history } = SELF.props;
     history.push(route);
-  }
-
-  createNewAccount() {
-    const SELF = this;
-    const { createNewAccount } = SELF.props;
-    const data = {
-      accountName: 'accountName',
-      password: 'action.password',
-      passwordHint: 'action.passwordHint',
-      accountIcon: 'action.accountIcon',
-    };
-    createNewAccount(data);
   }
 
   render() {
@@ -83,20 +66,4 @@ class Home extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  state,
-});
-
-const mapDispatchToProps = dispatch => ({
-  createNewAccount: data => {
-    dispatch(() => createAccount(data));
-  },
-});
-
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  withRouter
-)(Home);
+export default Home;
