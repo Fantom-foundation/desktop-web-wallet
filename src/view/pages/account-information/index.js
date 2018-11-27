@@ -6,7 +6,7 @@ import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import { withRouter } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import Layout from '../../components/layout';
 import AccountProcess from '../../components/account-process';
@@ -84,9 +84,9 @@ class AccountInformation extends React.PureComponent {
               </Row>
             </Container>
           </section>
-          <section className="bg-dark" style={{ padding: '20px 0 70px' }}>
+          <section className="bg-dark" style={{ padding: '40px 0 70px' }}>
             <Container>
-              <Row className="acc-details bg-dark-light" style={{ marginBottom: '20px' }}>
+              <Row className="acc-details bg-dark-light" style={{ marginBottom: '30px' }}>
                 <Col>
                   <div className="acc-qr">
                     <QR />
@@ -163,6 +163,47 @@ class AccountInformation extends React.PureComponent {
                       </p>
                     </Col>
                   </Row>
+                </Col>
+              </Row>
+            </Container>
+
+            <Container className="acc-footer">
+              <Row>
+                <Col>
+                  <p className="text-white">
+                    Please back up the recovery phase now. Make sure to keep it private and secure,
+                    it allows full and unlimited access to your account and help you to restore your
+                    wallet.
+                  </p>
+                  <FormGroup>
+                    <Label for="msg" className="text-white">
+                      Type{' '}
+                      <span className="text-primary">
+                        {'"'}I have written down the phrase{'"'}
+                      </span>
+                      below to confirm it is backed up.
+                    </Label>
+                    <div className="input-holder">
+                      <Input type="text" name="msg" id="msg" autoFocus={false} />
+                      <i className="fas fa-pencil-alt" />
+                    </div>
+                  </FormGroup>
+                </Col>
+              </Row>
+            </Container>
+          </section>
+          <section style={{ padding: '40px 0' }}>
+            <Container>
+              <Row className="back-next-btn">
+                <Col className="text-right">
+                  <Button className="light">
+                    <i className="fas fa-chevron-left" /> Back
+                  </Button>
+                </Col>
+                <Col>
+                  <Button>
+                    Next <i className="fas fa-chevron-right" />
+                  </Button>
                 </Col>
               </Row>
             </Container>
