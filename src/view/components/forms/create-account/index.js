@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Form, FormGroup, Input, Button } from 'reactstrap';
+import { Row, Col, Form, FormGroup, Input } from 'reactstrap';
 import DisplayIdenticons from '../../../general/identicons';
 import cross from './cross.svg';
 import check from './check.svg';
@@ -20,12 +20,15 @@ export default class CreateAccount extends React.PureComponent {
       password,
       reEnteredPassword,
       passwordHint,
-      createNewAccount,
       date,
       animateRefreshIcon,
       identiconsId,
       onRefresh,
       getRadioIconData,
+      containNumber,
+      containCapitalLetter,
+      hasLengthGreaterThanEight,
+      error,
     } = SELF.props;
     return (
       <Form id="create-account-form">
@@ -61,19 +64,24 @@ export default class CreateAccount extends React.PureComponent {
                 style={{ backgroundImage: `url(${lock})` }}
               />
             </FormGroup>
+            {error && <p style={{ color: 'red' }}>Paswords do not match</p>}
           </Col>
           <Col md={4} lg={3}>
             <ul className="pass-validator">
               <li className="correct">
-                <img src={check} alt="correct" className="ico" />
+                <img
+                  src={hasLengthGreaterThanEight ? check : cross}
+                  alt="correct"
+                  className="ico"
+                />
                 8+ Characters
               </li>
               <li className="false">
-                <img src={cross} alt="invalid" className="ico" />
+                <img src={containCapitalLetter ? check : cross} alt="invalid" className="ico" />
                 1+ Capilital Letter
               </li>
               <li className="false">
-                <img src={cross} alt="invalid" className="ico" />
+                <img src={containNumber ? check : cross} alt="invalid" className="ico" />
                 1+ Number
               </li>
             </ul>
@@ -96,7 +104,7 @@ export default class CreateAccount extends React.PureComponent {
           onRefresh={onRefresh}
           getRadioIconData={getRadioIconData}
         />
-        <Button onClick={createNewAccount}>Create Account</Button>
+        {/* <Button onClick={createNewAccount}>Create Account</Button> */}
       </Form>
     );
   }

@@ -11,8 +11,22 @@ import refreshIcon from '../../../images/icons/refresh-icon.svg';
 export default class DisplayIdenticons extends React.PureComponent {
   render() {
     const { animateRefreshIcon, onRefresh, identiconsId } = this.props;
+
     const items = [];
-    for (let i = 0; i < 6; i += 1) {
+    let i = 0;
+    if (identiconsId) {
+      items.push(
+        <IdenticonsIcon
+          selectedIcon={identiconsId}
+          accountIcon={identiconsId}
+          key={0}
+          {...this.props}
+          index={0}
+        />
+      );
+      i = 1;
+    }
+    for (i; i < 6; i += 1) {
       const item = <IdenticonsIcon accountIcon={identiconsId} key={i} {...this.props} index={i} />;
       items.push(item);
     }

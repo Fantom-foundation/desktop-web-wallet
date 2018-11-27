@@ -30,7 +30,6 @@ class Home extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props, 'this.props');
     return (
       <div id="home" className="home landing-page">
         <Layout noFooter>

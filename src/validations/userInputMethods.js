@@ -1,21 +1,30 @@
 export default class ValidationMethods {
   // eslint-disable-next-line class-methods-use-this
   isPasswordCorrect(password) {
+    const obj = {
+      containNumber: true,
+      containCapitalLetter: true,
+      hasLengthGreaterThanEight: true,
+    };
     if (password) {
       // check it contains at least 1 number
       if (!/\d/.test(password)) {
-        return false;
+        obj.containNumber = false;
       }
       // check it contains at least 1 Capital letter
       if (password.toLowerCase() === password) {
-        return false;
+        obj.containCapitalLetter = false;
       }
       // check it has length of 8 characters
       if (password.length < 8) {
-        return false;
+        obj.hasLengthGreaterThanEight = false;
       }
-      return true;
+      return obj;
     }
-    return false;
+    return {
+      containNumber: false,
+      containCapitalLetter: false,
+      hasLengthGreaterThanEight: false,
+    };
   }
 }

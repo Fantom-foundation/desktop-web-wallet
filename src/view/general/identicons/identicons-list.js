@@ -22,10 +22,13 @@ export default class IdenticonsIcon extends Component {
   render() {
     const SELF = this;
     const { index, date, key } = SELF.props;
+    const { accountIcon } = SELF.props;
     const iconIndex = index.toString();
     const currentDate = date.toString();
     const identiconsId = iconIndex + currentDate;
-    const { accountIcon } = SELF.props;
+    // if (accountIcon === selectedIcon) {
+    //   identiconsId = selectedIcon;
+    // }
     let checked = false;
     if (accountIcon && accountIcon === identiconsId) {
       checked = true;
@@ -47,7 +50,7 @@ export default class IdenticonsIcon extends Component {
               <span />
             </div>
             <div className=" identicon-holder">
-              <Identicons id={identiconsId} width={40} size={3} />
+              <Identicons id={identiconsId} width={40} key={key} size={3} />
             </div>
           </label>
         </FormGroup>

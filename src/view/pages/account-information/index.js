@@ -8,29 +8,41 @@ import { withRouter } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
+import { CONFIRMATION_PHASE } from '../../../redux/constants';
 import Layout from '../../components/layout';
 import AccountProcess from '../../components/account-process';
 // import createMnemonic from '../../../redux/keys/actions';
-import { createMnemonic } from '../../../redux/accountInProgress/action';
+import {
+  createMnemonic,
+  createAccount,
+  incrementStepNo,
+} from '../../../redux/accountInProgress/action';
 import Identicons from '../../general/identicons/identicons';
-import qrImg from '../../../images/qr/FantomQR.jpg';
+// import qrImg from '../../../images/qr/FantomQR.jpg';
 import noView from '../../../images/icons/no-view.png';
 
-const QR = () => (
-  <>
-    <img src={qrImg} className="w-100" alt="qr-img" />
-  </>
-);
+// const QR = () => (
+//   <>
+//     <img src={qrImg} className="w-100" alt="qr-img" />
+//   </>
+// );
 
 class AccountInformation extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       // masterKey: '',
-      // publicKey: '',
+      publicKey: '',
       // privateKey: '',
+      revealSecret: false,
+      confirmationPhrase: '',
+      // disableNextButton: false,
     };
     this.copyToClipboard = this.copyToClipboard.bind(this);
+    this.revealSecret = this.revealSecret.bind(this);
+    this.getMnemonics = this.getMnemonics.bind(this);
+    this.goToNextScreen = this.goToNextScreen.bind(this);
+    this.goToPreviousScreen = this.goToPreviousScreen.bind(this);
   }
 
   componentDidMount() {
@@ -44,18 +56,60 @@ class AccountInformation extends React.PureComponent {
     this.walletSetup(seed, mnemonic);
   }
 
+  onUpdate(key, value) {
+    this.setState({
+      [key]: value,
+    });
+  }
+
+  getMnemonics() {
+    const SELF = this;
+    const { accountInfo } = SELF.props;
+    const { mnemonic } = accountInfo;
+    const mnemonicsList = [];
+    const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
+    if (generatedMnemonic && generatedMnemonic.length > 0) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const name of generatedMnemonic) {
+        mnemonicsList.push(<li>{name}</li>);
+      }
+    }
+
+    return mnemonicsList;
+  }
+
+  revealSecret() {
+    this.setState({
+      revealSecret: true,
+    });
+  }
+
+  goToNextScreen() {
+    const SELF = this;
+    const { goToStep, history } = SELF.props;
+    goToStep({ stepNo: 3 });
+    history.push('/account-management');
+  }
+
+  goToPreviousScreen() {
+    const SELF = this;
+    const { goToStep, history } = SELF.props;
+    goToStep({ stepNo: 1 });
+    history.push('/create-account');
+  }
+
   walletSetup(seed, mnemonic) {
     const SELF = this;
     const { setMnemonicCode } = SELF.props;
     const root = Hdkey.fromMasterSeed(seed);
-    // const masterKey = root.privateKey.toString('hex');
+    // const masterK  ey = root.privateKey.toString('hex');
     const addrNode = root.derive("m/44'/60'/0'/0/0");
     const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
-    // const addr = EthUtil.publicToAddress(pubKey).toString('hex');
-    // const publicKey = EthUtil.toChecksumAddress(addr);
-    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
+    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+    const publicKey = EthUtil.toChecksumAddress(addr);
+    // const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
     // setKeys({ masterKey, publicKey, privateKey });
-    // this.setState({ masterKey, publicKey, privateKey });
+    this.setState({ publicKey });
     setMnemonicCode({ mnemonic });
   }
 
@@ -70,8 +124,9 @@ class AccountInformation extends React.PureComponent {
     const SELF = this;
     const { accountInfo } = SELF.props;
     const { accountName, selectedIcon, stepNo } = accountInfo;
-    const { publicKey } = SELF.state;
-    console.log(this.props, 'props');
+    const { publicKey, revealSecret, confirmationPhrase } = this.state;
+    const getMnemonics = this.getMnemonics();
+    const isConfirmationPhaseValid = confirmationPhrase === CONFIRMATION_PHASE;
     return (
       <div id="account-information" className="account-information">
         <Layout>
@@ -89,7 +144,8 @@ class AccountInformation extends React.PureComponent {
               <Row className="acc-details bg-dark-light" style={{ marginBottom: '30px' }}>
                 <Col>
                   <div className="acc-qr">
-                    <QR />
+                    {/* <QR /> */}
+                    <QRCode value="publicKey" level="H" size={158} />
                   </div>
                   <div className="acc-name-holder">
                     <Identicons id={selectedIcon} width={50} size={3} />
@@ -99,8 +155,13 @@ class AccountInformation extends React.PureComponent {
                   <div className="account-no">
                     <p>
                       <span>
-                        {/* <i className="fas fa-clone" onClick={this.copyToClipboard} /> */}
-                        <i className="fas fa-clone" />
+                        <button
+                          type="button"
+                          className="clipboard-btn"
+                          onClick={this.copyToClipboard}
+                        >
+                          <i className="fas fa-clone" />
+                        </button>
                       </span>
                       {publicKey}
                     </p>
@@ -108,7 +169,7 @@ class AccountInformation extends React.PureComponent {
                 </Col>
                 <Col className="qr-col">
                   {/* <QR /> */}
-                  <QRCode value={publicKey} level="H" size={158} />
+                  <QRCode value="publicKey" level="H" size={158} />
                 </Col>
               </Row>
             </Container>
@@ -130,25 +191,18 @@ class AccountInformation extends React.PureComponent {
                   <Row style={{ padding: '0 0 90px' }}>
                     <Col>
                       <div id="mnemonic-collector">
-                        <ul className="blur">
-                          <li>Exile</li>
-                          <li>Puzzle</li>
-                          <li>Bomb</li>
-                          <li>Picnic</li>
-                          <li>Huge</li>
-                          <li>Bulb</li>
-                          <li>You</li>
-                          <li>Cause</li>
-                          <li>Salt</li>
-                          <li>Emotions</li>
-                          <li>Noise</li>
-                          <li>Dish</li>
-                        </ul>
-                        <div className="blur-overley">
-                          <div className="holder">
-                            <h2>Click Here To Reveal Secret Words</h2>
-                          </div>
-                        </div>
+                        <ul className={!revealSecret ? 'blur' : ''}>{getMnemonics}</ul>
+                        {!revealSecret && (
+                          <button
+                            className="blur-overley"
+                            type="button"
+                            onClick={this.revealSecret}
+                          >
+                            <div className="holder">
+                              <h2>Click Here To Reveal Secret Words</h2>
+                            </div>
+                          </button>
+                        )}
                       </div>
                     </Col>
                   </Row>
@@ -179,12 +233,21 @@ class AccountInformation extends React.PureComponent {
                     <Label for="msg" className="text-white">
                       Type{' '}
                       <span className="text-primary">
-                        {'"'}I have written down the phrase{'"'}
+                        {'"'}
+                        {CONFIRMATION_PHASE}
+                        {'"'}
                       </span>
                       below to confirm it is backed up.
                     </Label>
                     <div className="input-holder">
-                      <Input type="text" name="msg" id="msg" autoFocus={false} />
+                      <Input
+                        type="text"
+                        name="msg"
+                        onChange={e => this.onUpdate('confirmationPhrase', e.currentTarget.value)}
+                        id="msg"
+                        value={confirmationPhrase}
+                        autoFocus={false}
+                      />
                       <i className="fas fa-pencil-alt" />
                     </div>
                   </FormGroup>
@@ -196,12 +259,15 @@ class AccountInformation extends React.PureComponent {
             <Container>
               <Row className="back-next-btn">
                 <Col className="text-right">
-                  <Button className="light">
+                  <Button className="light" onClick={this.goToPreviousScreen}>
                     <i className="fas fa-chevron-left" /> Back
                   </Button>
                 </Col>
                 <Col>
-                  <Button>
+                  <Button
+                    className={isConfirmationPhaseValid ? '' : 'light'}
+                    onClick={this.goToNextScreen}
+                  >
                     Next <i className="fas fa-chevron-right" />
                   </Button>
                 </Col>
@@ -223,8 +289,14 @@ const mapDispatchToProps = dispatch => ({
   // setKeys: data => {
   //   dispatch(() => createPublicPrivateKeys(data));
   // },
+  incrementStepNo: data => {
+    dispatch(() => createAccount(data));
+  },
   setMnemonicCode: data => {
     dispatch(() => createMnemonic(data));
+  },
+  goToStep: data => {
+    dispatch(() => incrementStepNo(data));
   },
 });
 

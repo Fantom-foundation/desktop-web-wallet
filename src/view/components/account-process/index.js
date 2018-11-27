@@ -15,7 +15,7 @@ export default class AccountProcess extends React.PureComponent {
       return className;
     }
     for (let i = 1; i <= stepNo; i += 1) {
-      className = className.concat(`t-${stepNo}`);
+      className = className.concat(`t-${i} `);
     }
     return className;
   }

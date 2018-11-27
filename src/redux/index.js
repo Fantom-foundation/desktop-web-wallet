@@ -5,7 +5,6 @@ import accountInfo from './accountInProgress/reducers';
 
 const rootReducer = combineReducers({
   accountInfo,
-  // accountKeys,
 });
 
 export default rootReducer;

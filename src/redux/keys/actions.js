@@ -10,7 +10,6 @@ import { dispatch } from '../store';
 // }
 
 export default function createMnemonic(data) {
-  console.log(data, 'createMnemoniccreateMnemonic');
   dispatch({
     type: types.MNEMONIC_CODE,
     payload: data,
