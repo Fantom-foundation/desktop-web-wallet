@@ -1,14 +1,20 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
 import Layout from '../../components/layout';
 
-export default class AccountInformation extends React.PureComponent {
+class AccountInformation extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   render() {
+    // const SELF = this;
+    // const {} = SELF.props;
+    console.log(this.props, 'props');
     return (
       <div id="account-information" className="account-information">
         <Layout>
@@ -69,3 +75,31 @@ export default class AccountInformation extends React.PureComponent {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  accountName: state.accountInfo.accountName,
+  password: state.accountInfo.password,
+  reEnteredPassword: state.accountInfo.reEnteredPassword,
+  passwordHint: state.accountInfo.passwordHint,
+  selectedIcon: state.accountInfo.selectedIcon,
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   createNewAccount: data => {
+//     dispatch(() => createAccount(data));
+//   },
+//   setKeys: data => {
+//     dispatch(() => createPublicPrivateKeys(data));
+//   },
+//   setMnemonicCode: data => {
+//     dispatch(() => createMnemonic(data));
+//   },
+// });
+
+export default compose(
+  connect(
+    mapStateToProps
+    // mapDispatchToProps
+  ),
+  withRouter
+)(AccountInformation);
