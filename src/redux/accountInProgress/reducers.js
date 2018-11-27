@@ -1,12 +1,7 @@
 import * as types from '../constants';
 // import storage from '../store';
 
-const defaultState = {
-  accountName: '',
-  password: '',
-  passwordHint: '',
-  reEnteredPassword: '',
-};
+const defaultState = {};
 
 const accountInfo = (state = defaultState, action) => {
   const { payload } = action;
@@ -17,6 +12,12 @@ const accountInfo = (state = defaultState, action) => {
         password: payload.password,
         passwordHint: payload.passwordHint,
         selectedIcon: payload.selectedIcon,
+        stepNo: payload.stepNo,
+      });
+    }
+    case types.MNEMONIC_CODE: {
+      return Object.assign({}, state, {
+        mnemonic: payload.mnemonic,
       });
     }
     default:

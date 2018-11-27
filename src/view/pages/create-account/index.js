@@ -1,16 +1,12 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import Hdkey from 'hdkey';
-import EthUtil from 'ethereumjs-util';
-import Bip39 from 'bip39';
 import { compose } from 'redux';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Layout from '../../components/layout';
 import CreateAccountForm from '../../components/forms/create-account';
 import AccountProcess from '../../components/account-process';
-import createAccount from '../../../redux/account/action';
-import { createPublicPrivateKeys, createMnemonic } from '../../../redux/keys/actions';
+import { createAccount } from '../../../redux/accountInProgress/action';
 import ValidationMethods from '../../../validations/userInputMethods';
 
 const validationMethods = new ValidationMethods();
@@ -28,18 +24,11 @@ class CreateAccount extends React.PureComponent {
       animateRefreshIcon: false,
       identiconsId: '',
       error: false,
-      stepNo: 0,
     };
     this.createNewAccount = this.createNewAccount.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.getRadioIconData = this.getRadioIconData.bind(this);
-  }
-
-  componentDidMount() {
-    const mnemonic = Bip39.generateMnemonic();
-    const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
-    this.walletSetup(seed, mnemonic);
   }
 
   /**
@@ -89,18 +78,16 @@ class CreateAccount extends React.PureComponent {
   createNewAccount() {
     const SELF = this;
     const { createNewAccount } = SELF.props;
-    const { accountName, password, reEnteredPassword, passwordHint, identiconsId } = SELF.state;
+    const { accountName, password, reEnteredPassword, passwordHint, identiconsId } = this.state;
     const data = {
       accountName,
       password,
       passwordHint,
       reEnteredPassword,
       selectedIcon: identiconsId,
+      stepNo: 1,
     };
     createNewAccount(data);
-    this.setState({
-      stepNo: 1,
-    });
     SELF.props.history.push('/account-information');
   }
 
@@ -112,8 +99,7 @@ class CreateAccount extends React.PureComponent {
    * and both the passwords are same
    */
   isValidPassword(key, value) {
-    const SELF = this;
-    const { password } = SELF.state;
+    const { password } = this.state;
     const isValid = validationMethods.isPasswordCorrect(value);
     if (!isValid) {
       this.setState({
@@ -130,21 +116,8 @@ class CreateAccount extends React.PureComponent {
     }
   }
 
-  walletSetup(seed, mnemonic) {
-    const SELF = this;
-    const { setKeys, setMnemonicCode } = SELF.props;
-    const root = Hdkey.fromMasterSeed(seed);
-    const masterKey = root.privateKey.toString('hex');
-    const addrNode = root.derive("m/44'/60'/0'/0/0");
-    const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
-    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
-    const publicKey = EthUtil.toChecksumAddress(addr);
-    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    setKeys({ masterKey, publicKey, privateKey });
-    setMnemonicCode({ mnemonic });
-  }
-
   render() {
+    const SELF = this;
     const {
       accountName,
       password,
@@ -154,8 +127,8 @@ class CreateAccount extends React.PureComponent {
       animateRefreshIcon,
       identiconsId,
       error,
-      stepNo,
     } = this.state;
+    const { stepNo } = SELF.props;
     return (
       <div id="account-information" className="account-information">
         {error && <p style={{ color: 'white' }}>Has Error</p>}
@@ -215,20 +188,14 @@ class CreateAccount extends React.PureComponent {
 const mapStateToProps = state => ({
   accountName: state.accountInfo.accountName,
   password: state.accountInfo.password,
-  reEnteredPassword: state.accountInfo.reEnteredPassword,
   passwordHint: state.accountInfo.passwordHint,
   selectedIcon: state.accountInfo.selectedIcon,
+  stepNo: state.accountInfo.stepNo,
 });
 
 const mapDispatchToProps = dispatch => ({
   createNewAccount: data => {
     dispatch(() => createAccount(data));
-  },
-  setKeys: data => {
-    dispatch(() => createPublicPrivateKeys(data));
-  },
-  setMnemonicCode: data => {
-    dispatch(() => createMnemonic(data));
   },
 });
 

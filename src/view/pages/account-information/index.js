@@ -1,10 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import Hdkey from 'hdkey';
+import EthUtil from 'ethereumjs-util';
+import Bip39 from 'bip39';
 import { withRouter } from 'react-router-dom';
+import copy from 'copy-to-clipboard';
 import { Container, Row, Col, Button } from 'reactstrap';
+import QRCode from 'qrcode.react';
 import Layout from '../../components/layout';
 import AccountProcess from '../../components/account-process';
+// import createMnemonic from '../../../redux/keys/actions';
+import { createMnemonic } from '../../../redux/accountInProgress/action';
 import Identicons from '../../general/identicons/identicons';
 import qrImg from '../../../images/qr/FantomQR.jpg';
 import noView from '../../../images/icons/no-view.png';
@@ -18,12 +25,52 @@ const QR = () => (
 class AccountInformation extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      // masterKey: '',
+      // publicKey: '',
+      // privateKey: '',
+    };
+    this.copyToClipboard = this.copyToClipboard.bind(this);
+  }
+
+  componentDidMount() {
+    const SELF = this;
+    const { accountInfo } = SELF.props;
+    let { mnemonic } = accountInfo;
+    if (!mnemonic) {
+      mnemonic = Bip39.generateMnemonic();
+    }
+    const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
+    this.walletSetup(seed, mnemonic);
+  }
+
+  walletSetup(seed, mnemonic) {
+    const SELF = this;
+    const { setMnemonicCode } = SELF.props;
+    const root = Hdkey.fromMasterSeed(seed);
+    // const masterKey = root.privateKey.toString('hex');
+    const addrNode = root.derive("m/44'/60'/0'/0/0");
+    const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
+    // const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+    // const publicKey = EthUtil.toChecksumAddress(addr);
+    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
+    // setKeys({ masterKey, publicKey, privateKey });
+    // this.setState({ masterKey, publicKey, privateKey });
+    setMnemonicCode({ mnemonic });
+  }
+
+  copyToClipboard() {
+    const SELF = this;
+    const { accountKeys } = SELF.props;
+    const { publicKey } = accountKeys;
+    copy(publicKey);
   }
 
   render() {
-    // const SELF = this;
-    // const {} = SELF.props;
+    const SELF = this;
+    const { accountInfo } = SELF.props;
+    const { accountName, selectedIcon, stepNo } = accountInfo;
+    const { publicKey } = SELF.state;
     console.log(this.props, 'props');
     return (
       <div id="account-information" className="account-information">
@@ -32,7 +79,7 @@ class AccountInformation extends React.PureComponent {
             <Container>
               <Row>
                 <Col>
-                  <AccountProcess />
+                  <AccountProcess stepNo={stepNo} />
                 </Col>
               </Row>
             </Container>
@@ -45,21 +92,23 @@ class AccountInformation extends React.PureComponent {
                     <QR />
                   </div>
                   <div className="acc-name-holder">
-                    <Identicons id="01543302166156" width={50} size={3} />
-                    <h2 className="acc-name">TestAccount</h2>
+                    <Identicons id={selectedIcon} width={50} size={3} />
+                    <h2 className="acc-name">{accountName}</h2>
                   </div>
                   <h3 className="address">Your Address</h3>
                   <div className="account-no">
                     <p>
                       <span>
+                        {/* <i className="fas fa-clone" onClick={this.copyToClipboard} /> */}
                         <i className="fas fa-clone" />
                       </span>
-                      123fmjkdfg1262fkdcju4738jer584th45ut5j45r9tj459ot0r
+                      {publicKey}
                     </p>
                   </div>
                 </Col>
                 <Col className="qr-col">
-                  <QR />
+                  {/* <QR /> */}
+                  <QRCode value={publicKey} level="H" size={158} />
                 </Col>
               </Row>
             </Container>
@@ -125,29 +174,23 @@ class AccountInformation extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  accountName: state.accountInfo.accountName,
-  password: state.accountInfo.password,
-  reEnteredPassword: state.accountInfo.reEnteredPassword,
-  passwordHint: state.accountInfo.passwordHint,
-  selectedIcon: state.accountInfo.selectedIcon,
+  accountInfo: state.accountInfo,
+  stepNo: state.accountInfo.stepNo,
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   createNewAccount: data => {
-//     dispatch(() => createAccount(data));
-//   },
-//   setKeys: data => {
-//     dispatch(() => createPublicPrivateKeys(data));
-//   },
-//   setMnemonicCode: data => {
-//     dispatch(() => createMnemonic(data));
-//   },
-// });
+const mapDispatchToProps = dispatch => ({
+  // setKeys: data => {
+  //   dispatch(() => createPublicPrivateKeys(data));
+  // },
+  setMnemonicCode: data => {
+    dispatch(() => createMnemonic(data));
+  },
+});
 
 export default compose(
   connect(
-    mapStateToProps
-    // mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
   ),
   withRouter
 )(AccountInformation);
