@@ -8,7 +8,13 @@ body {
     color: #1e1e1e !important;
   }
 }
-.page-title {
+.bg-dark-light {
+  background: {
+    // color: #272727 !important;
+    color: #383838 !important;
+  }
+}
+#272727 .page-title {
   padding: 100px 0;
   .title {
     letter-spacing: 4px;
@@ -124,5 +130,33 @@ body {
         }
       }
     }
+  }
+}
+
+.no-capture {
+  img {
+    margin-bottom: 30px;
+  }
+  h2,
+  p {
+    font: {
+      family: "Roboto Condensed";
+    }
+  }
+  h2 {
+    font: {
+      size: 30px;
+    }
+    margin-bottom: 20px;
+  }
+
+  p {
+    font: {
+      size: 20px;
+      weight: 300;
+    }
+    line-height: 38px;
+    max-width: 560px;
+    margin: auto;
   }
 }
