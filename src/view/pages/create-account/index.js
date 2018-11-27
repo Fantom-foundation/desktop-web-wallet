@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row, Col, Button } from 'reactstrap';
 import { withRouter } from 'react-router-dom';
 import Layout from '../../components/layout';
 import CreateAccountForm from '../../components/forms/create-account';
@@ -156,6 +156,22 @@ class CreateAccount extends React.PureComponent {
                     onRefresh={this.onRefresh}
                     getRadioIconData={this.getRadioIconData}
                   />
+                </Col>
+              </Row>
+            </Container>
+          </section>
+          <section style={{ padding: '40px 0' }}>
+            <Container>
+              <Row className="back-next-btn">
+                <Col className="text-right">
+                  <Button className="light">
+                    <i className="fas fa-chevron-left" /> Back
+                  </Button>
+                </Col>
+                <Col>
+                  <Button>
+                    Next <i className="fas fa-chevron-right" />
+                  </Button>
                 </Col>
               </Row>
             </Container>

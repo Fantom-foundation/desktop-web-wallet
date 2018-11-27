@@ -54,3 +54,27 @@
     }
   }
 }
+
+.back-next-btn {
+  .btn {
+    &.light {
+      opacity: 0.7;
+    }
+    border: 0;
+    box-shadow: none;
+    background: transparent;
+    color: map-get($color, back-next-btn);
+    font: {
+      family: "Roboto Condensed";
+      size: 26px;
+    }
+    @media (max-width: 767px) {
+      font: {
+        size: 20px;
+      }
+    }
+    &:hover {
+      color: map-get($color, back-next-btn-hover);
+    }
+  }
+}
