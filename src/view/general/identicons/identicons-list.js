@@ -21,7 +21,7 @@ export default class IdenticonsIcon extends Component {
 
   render() {
     const SELF = this;
-    const { index, date } = SELF.props;
+    const { index, date, key } = SELF.props;
     const iconIndex = index.toString();
     const currentDate = date.toString();
     const identiconsId = iconIndex + currentDate;
@@ -33,18 +33,23 @@ export default class IdenticonsIcon extends Component {
     return (
       <li>
         <FormGroup className="form-radio-label">
-          <input
-            name="name"
-            className="form-radio-field"
-            type="radio"
-            value={checked}
-            defaultChecked={checked}
-            onClick={() => this.getRadioIconData(identiconsId)}
-          />
-          <i className="form-radio-button" />
-          <div className="d-inline-block theme-blue-shadow identicon-boxes-container">
-            <Identicons id={identiconsId} width={40} size={3} />
-          </div>
+          <label htmlFor={key}>
+            <div className="radio-holder">
+              <input
+                id={key}
+                name="name"
+                className="form-radio-field"
+                type="radio"
+                value={checked}
+                defaultChecked={checked}
+                onClick={() => this.getRadioIconData(identiconsId)}
+              />
+              <span />
+            </div>
+            <div className=" identicon-holder">
+              <Identicons id={identiconsId} width={40} size={3} />
+            </div>
+          </label>
         </FormGroup>
       </li>
     );

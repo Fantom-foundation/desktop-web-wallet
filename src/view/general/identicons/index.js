@@ -18,20 +18,22 @@ export default class DisplayIdenticons extends React.PureComponent {
     }
 
     return (
-      <Row className="m-auto" style={{ maxWidth: '635px' }}>
-        <Col>
-          <ul className="identicon m-0 p-0">{items}</ul>
-        </Col>
-        <Col className="identicon-refresh">
-          <img
-            aria-hidden
-            src={refreshIcon}
-            alt="Refresh"
-            className={`${animateRefreshIcon && 'rotation anti-clock'}`}
-            onClick={() => onRefresh()}
-          />
-        </Col>
-      </Row>
+      <div className="avatar-selector">
+        <Row>
+          <Col>
+            <ul className="identicon">{items}</ul>
+          </Col>
+          <Col className="identicon-refresh">
+            <img
+              aria-hidden
+              src={refreshIcon}
+              alt="Refresh"
+              className={`${animateRefreshIcon && 'rotation anti-clock'}`}
+              onClick={() => onRefresh()}
+            />
+          </Col>
+        </Row>
+      </div>
     );
   }
 }

@@ -28,3 +28,101 @@ body {
     }
   }
 }
+
+//avatar-selector for create account
+.avatar-selector {
+  max-width: 750px;
+  margin: auto;
+  .col {
+    &.identicon-refresh {
+      max-width: 60px;
+      img {
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+      }
+    }
+    .identicon {
+      padding: 0;
+      margin: 0;
+      li {
+        display: inline-block;
+        .form-radio-label {
+          label {
+            cursor: pointer;
+            .radio-holder {
+              position: relative;
+              display: inline-block;
+              margin: 0px 20px;
+              input {
+                &[type="radio"] {
+                  -webkit-box-sizing: border-box;
+                  box-sizing: border-box;
+                  padding: 0;
+                  &:not(:checked),
+                  &:checked {
+                    position: absolute;
+                    opacity: 0;
+                    pointer-events: none;
+                  }
+                  &:not(:checked) + span,
+                  &:checked + span {
+                    position: relative;
+                    padding-left: 25px;
+                    cursor: pointer;
+                    display: inline-block;
+                    height: 25px;
+                    line-height: 25px;
+                    font-size: 1rem;
+                    -webkit-transition: 0.28s ease;
+                    transition: 0.28s ease;
+                    -webkit-user-select: none;
+                    -moz-user-select: none;
+                    -ms-user-select: none;
+                    user-select: none;
+                  }
+                  &:not(:checked) + span:before,
+                  &:not(:checked) + span:after {
+                    border: 2px solid #9f9f9f;
+                  }
+                  &:not(:checked) + span:after {
+                    -webkit-transform: scale(0);
+                    transform: scale(0);
+                  }
+                  &:checked + span:after {
+                    background-color: #5ea5ee;
+                    transform: scale(0.5);
+                  }
+                  &:checked + span:after,
+                  &:checked + span:before {
+                    border: 2px solid #5ea5ee;
+                  }
+                  & + span:before,
+                  & + span:after {
+                    content: "";
+                    border-radius: 100%;
+                    position: absolute;
+                    left: 0;
+                    top: 0;
+                    margin: 4px;
+                    width: 16px;
+                    height: 16px;
+                    z-index: 0;
+                    -webkit-transition: 0.28s ease;
+                    transition: 0.28s ease;
+                  }
+                }
+              }
+            }
+
+            .identicon-holder {
+              display: inline-block;
+              svg {
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

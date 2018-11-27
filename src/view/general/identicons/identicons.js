@@ -32,5 +32,10 @@ export default function Identicons(props) {
     },
     end() {},
   });
-  return React.createElement('svg', null, rects);
+
+  return (
+    <svg width={width} height={width + 10}>
+      <g>{rects}</g>
+    </svg>
+  );
 }
