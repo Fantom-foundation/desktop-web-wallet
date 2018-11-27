@@ -1,11 +1,12 @@
 $white: #fff;
-$theme-blue: #5ea5ee;
+$theme-blue: #549aec;
 $theme-blue-hover: #4b89ca;
 $color: (
   white: $white,
   black: #000,
   nav-link: $white,
   nav-link-hover: #8e8e8e,
+  text-primary: $theme-blue,
   btn-dark: #000,
   btn-dark-hover: #3b4c5a,
   btn-dark-outline: #679ed2,
@@ -14,9 +15,9 @@ $color: (
   back-next-btn: $theme-blue,
   back-next-btn-hover: $theme-blue-hover,
   acc-info-copy-text: $white,
-  acc-info-copy-btn: $theme-blue-hover,
+  acc-info-copy-btn: $theme-blue,
   acc-info-acc-name: $white,
-  acc-info-address-title: $theme-blue-hover,
+  acc-info-address-title: $theme-blue,
   card-account-no: $theme-blue,
   add-wallet-title: #feffff,
   add-wallet-title-background: $theme-blue,
