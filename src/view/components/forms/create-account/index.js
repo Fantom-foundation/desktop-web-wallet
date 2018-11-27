@@ -1,6 +1,10 @@
 import React from 'react';
 import { Row, Col, Form, FormGroup, Input, Button } from 'reactstrap';
 import DisplayIdenticons from '../../../general/identicons';
+import cross from './cross.svg';
+import check from './check.svg';
+import user from './user.svg';
+import lock from './lock.svg';
 
 export default class CreateAccount extends React.PureComponent {
   constructor(props) {
@@ -32,6 +36,7 @@ export default class CreateAccount extends React.PureComponent {
             placeholder="Enter Name"
             value={accountName}
             onChange={e => onUpdate('accountName', e.currentTarget.value)}
+            style={{ backgroundImage: `url(${user})` }}
           />
         </FormGroup>
         <Row>
@@ -43,6 +48,7 @@ export default class CreateAccount extends React.PureComponent {
                 placeholder="Enter Pass"
                 value={password}
                 onChange={e => onUpdate('password', e.currentTarget.value)}
+                style={{ backgroundImage: `url(${lock})` }}
               />
             </FormGroup>
             <FormGroup>
@@ -52,17 +58,25 @@ export default class CreateAccount extends React.PureComponent {
                 placeholder="Re Enter Pass"
                 value={reEnteredPassword}
                 onChange={e => onUpdate('reEnteredPassword', e.currentTarget.value)}
+                style={{ backgroundImage: `url(${lock})` }}
               />
             </FormGroup>
           </Col>
-          <Col sm={3}>
-            <div>
-              <ul>
-                <li className="correct">8+ Characters</li>
-                <li className="false">1+ Capilital Letter</li>
-                <li className="false">1+ Number</li>
-              </ul>
-            </div>
+          <Col md={4} lg={3}>
+            <ul className="pass-validator">
+              <li className="correct">
+                <img src={check} alt="correct" className="ico" />
+                8+ Characters
+              </li>
+              <li className="false">
+                <img src={cross} alt="invalid" className="ico" />
+                1+ Capilital Letter
+              </li>
+              <li className="false">
+                <img src={cross} alt="invalid" className="ico" />
+                1+ Number
+              </li>
+            </ul>
           </Col>
         </Row>
         <FormGroup>
@@ -72,6 +86,7 @@ export default class CreateAccount extends React.PureComponent {
             placeholder="Password Hint"
             value={passwordHint}
             onChange={e => onUpdate('passwordHint', e.currentTarget.value)}
+            style={{ backgroundImage: `url(${lock})` }}
           />
         </FormGroup>
         <DisplayIdenticons

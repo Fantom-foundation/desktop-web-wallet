@@ -1,13 +1,28 @@
+$border-radius: 8px;
 #mnemonic-collector {
+  position: relative;
   max-width: 804px;
   border: 2px dashed #fff;
+  border-radius: $border-radius;
   padding: 54px 64px;
   margin: auto;
+  @media (max-width: 767px) {
+    padding: 25px;
+  }
   ul {
+    &.blur {
+      filter: blur(4px);
+    }
     text-align: center;
     padding: 0;
     margin: 0;
     margin: -22px -15px;
+    @media (max-width: 767px) {
+      margin: -15px;
+    }
+    @media (max-width: 1400px) {
+      margin: -6px -15px;
+    }
     li {
       margin: 22px 15px;
       display: inline-block;
@@ -15,6 +30,46 @@
       font: {
         family: "Roboto Condensed";
         size: 26px;
+      }
+      @media (max-width: 767px) {
+        margin: 15px;
+        font: {
+          size: 22px;
+        }
+      }
+      @media (max-width: 1400px) {
+        margin: 6px 15px;
+      }
+    }
+  }
+  .blur-overley {
+    border-radius: $border-radius;
+    cursor: pointer;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 1;
+    background: rgba(103, 103, 103, 0.72);
+    .holder {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100%;
+      padding: 0 20px;
+      h2 {
+        color: #fff;
+        text-align: center;
+        font: {
+          family: "Roboto Condensed";
+          size: 26px;
+        }
+
+        @media (max-width: 576px) {
+          font-size: 20px;
+        }
       }
     }
   }
