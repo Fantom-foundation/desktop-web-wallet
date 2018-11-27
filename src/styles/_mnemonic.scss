@@ -6,6 +6,9 @@ $border-radius: 8px;
   border-radius: $border-radius;
   padding: 54px 64px;
   margin: auto;
+  @media (max-width: 767px) {
+    padding: 25px;
+  }
   ul {
     &.blur {
       filter: blur(4px);
@@ -14,6 +17,12 @@ $border-radius: 8px;
     padding: 0;
     margin: 0;
     margin: -22px -15px;
+    @media (max-width: 767px) {
+      margin: -15px;
+    }
+    @media (max-width: 1400px) {
+      margin: -6px -15px;
+    }
     li {
       margin: 22px 15px;
       display: inline-block;
@@ -21,6 +30,15 @@ $border-radius: 8px;
       font: {
         family: "Roboto Condensed";
         size: 26px;
+      }
+      @media (max-width: 767px) {
+        margin: 15px;
+        font: {
+          size: 22px;
+        }
+      }
+      @media (max-width: 1400px) {
+        margin: 6px 15px;
       }
     }
   }
