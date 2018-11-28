@@ -1,10 +1,12 @@
 import React, { Component } from 'react';
 import { Provider } from 'react-redux';
-// import { PersistGate } from 'redux-persist/integration/react';
-import './styles/app/app.scss';
+import { PersistGate } from 'redux-persist/integration/react';
 import { configureStore } from './redux/store';
 
-const { store } = configureStore();
+import Routes from './routes';
+
+const { store, persistor } = configureStore();
+
 class App extends Component {
   constructor(props) {
     super(props);
@@ -14,9 +16,9 @@ class App extends Component {
   render() {
     return (
       <Provider store={store}>
-        {/* <PersistGate loading={null} persistor={persistor}> */}
-        <p>Hello</p>
-        {/* </PersistGate> */}
+        <PersistGate loading={null} persistor={persistor}>
+          <Routes />
+        </PersistGate>
       </Provider>
     );
   }

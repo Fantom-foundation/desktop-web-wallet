@@ -1,0 +1,48 @@
+Bip39 is used to generate the recovery mnemonic phrase (or seed as it aslo called)
+
+DEFINITION of 'HD Wallet (Hierarchical Deterministic Wallet)'
+An HD Wallet, or Hierarchical Deterministic wallet, is a new-age digital wallet that automatically generates a
+hierarchical tree-like structure of private/public addresses (or keys), thereby addressing the problem of the 
+user having to generate them on his own.
+
+BREAKING DOWN 'HD Wallet (Hierarchical Deterministic Wallet)'
+A standard cryptocurrency wallet is used to store the cryptocurrency tokens or coins. It has a public address which the user 
+can give to others to receive funds from them, and a private key that the user uses to spend the stored tokens.
+This public/private combination mechanism ensures safety of the cryptocurrency tokens, but comes with an additional overhead 
+of the user being required to repeatedly generate a random pair of private/public addresses (or keys), and back up each time 
+one configures a new pair of addresses. As the number of transactions increases, this process becomes cumbersome for the user.
+
+HD Wallets, or Hierarchical Deterministic wallets, solve this problem by deriving all the addresses from a single master 
+seed (hence the name hierarchical). All HD wallets use a variant of the standard 12-word master seed key, and each time 
+this seed is extended at the end by a counter value which makes it possible to automatically derive an unlimited number of 
+new addresses.
+
+HD wallets eliminate the need for the user to constantly generate and wait for the secure keys to be generated, so he/she 
+only needs to worry about taking the backup. (For more, see Top 3 Mobile Wallets of 2018.)
+
+
+/****************************************************************************************************/
+
+Packages used to generate keys:-
+import Hdkey from 'hdkey';
+import EthUtil from 'ethereumjs-util';
+import Bip39 from 'bip39';
+import QRCode from 'qrcode.react'; // to generate QR code
+import WalletEther from 'ethereumjs-wallet';
+const fs = require('fs');
+const keythereum = require('keythereum');
+const Web3 = require('web3');
+
+Steps to generate public, private keys:-
+
+const mnemonic = Bip39.generateMnemonic(); // Generate mnemonic
+const seed = Bip39.mnemonicToSeed(mnemonic); // Generate Seed from mnemonic which is used to generate keys
+const root = Hdkey.fromMasterSeed(seed); // Generate HD key
+const masterPrivateKey = root.privateKey.toString('hex'); // Master Private Key
+const addrNode = root.derive("m/44'/60'/0'/0/0"); // HD Derive path
+const pubKey = EthUtil.privateToPublic(addrNode._privateKey); // Public key from Private key
+const addr = EthUtil.publicToAddress(pubKey).toString('hex'); // Public Address from Public key
+const address = EthUtil.toChecksumAddress(addr);
+const hexPrivateKey = EthUtil.bufferToHex(addrNode._privateKey); // Hex Private Key
+
+

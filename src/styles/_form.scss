@@ -1,0 +1,81 @@
+#create-account-form {
+  .pass-validator {
+    margin-top: 0px;
+    @media (min-width: 768px) {
+      margin-top: 52px;
+    }
+    li {
+      font: {
+        family: "Roboto Condensed";
+        size: 16px;
+      }
+      color: #fff;
+      list-style: none;
+      .ico {
+        height: 16px;
+        margin-right: 10px;
+      }
+    }
+  }
+  .form-group {
+    margin-bottom: 52px;
+    @media (max-width: 767px) {
+      margin-bottom: 30px;
+    }
+  }
+  input {
+    font: {
+      family: "Roboto Condensed";
+    }
+    background: {
+      color: transparent;
+      repeat: no-repeat;
+      size: auto 22px;
+      position: left center;
+    }
+    padding-left: 38px;
+    border: 0px;
+    border-bottom: 1px solid #383838;
+    color: #fff;
+    box-shadow: none;
+    border-radius: 0px;
+    &::-webkit-input-placeholder,
+    &::-moz-placeholder,
+    &:-ms-input-placeholder,
+    &:-moz-placeholder {
+      color: #8e8e8e !important;
+    }
+    &::placeholder {
+      color: #8e8e8e !important;
+    }
+    &:not(:placeholder-shown),
+    &:focus {
+      border-bottom: 1px solid #dcdcdc;
+    }
+  }
+}
+
+.back-next-btn {
+  .btn {
+    &.light {
+      opacity: 0.7;
+    }
+    border: 0;
+    box-shadow: none !important;
+    background: transparent !important;
+    color: map-get($color, back-next-btn);
+    font: {
+      family: "Roboto Condensed";
+      size: 26px;
+    }
+    @media (max-width: 767px) {
+      font: {
+        size: 20px;
+      }
+    }
+    &:hover,
+    &:active {
+      color: map-get($color, back-next-btn-hover);
+    }
+  }
+}

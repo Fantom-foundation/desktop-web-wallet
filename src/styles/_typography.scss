@@ -1,0 +1,7 @@
+.text-danger {
+  color: #f41d00 !important;
+}
+
+.text-primary {
+  color: map-get($color, text-primary) !important;
+}
