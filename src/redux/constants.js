@@ -4,4 +4,5 @@ export const CREATE_NEW_ACCOUNT = 'CREATE_NEW_ACCOUNT';
 export const MNEMONIC_CODE = 'MNEMONIC_CODE';
 export const ACCOUNT_IN_PROGRESS = 'ACCOUNT_IN_PROGRESS';
 export const INCREMENT_STEP_NO = 'INCREMENT_STEP_NO';
+export const NEXT_BUTTON_DISABLE = 'NEXT_BUTTON_DISABLE';
 export const CONFIRMATION_PHASE = 'I have written down the phrase';

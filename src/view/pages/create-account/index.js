@@ -1,14 +1,20 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import { Route, Switch, withRouter } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
-import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
-import Layout from '../../components/layout';
-import CreateAccountForm from '../../components/forms/create-account';
 import AccountProcess from '../../components/account-process';
-import { createAccount, incrementStepNo } from '../../../redux/accountInProgress/action';
+import Layout from '../../components/layout';
+import {
+  createAccount,
+  incrementStepNo,
+  setNextButtonStatus,
+} from '../../../redux/accountInProgress/action';
 import ValidationMethods from '../../../validations/userInputMethods';
+import CreateAccountSection from './create-account-section';
+import AccountInformation from '../account-information';
+import Confirm from '../confirm';
 
 const validationMethods = new ValidationMethods();
 
@@ -38,7 +44,10 @@ class CreateAccount extends React.PureComponent {
 
   componentWillMount() {
     const { password } = this.state;
+    const { setButtonStatus } = this.props;
     this.isValidPassword('password', password);
+    const isDisable = this.disableNextButton();
+    setButtonStatus({ isDisable });
   }
 
   /**
@@ -53,7 +62,7 @@ class CreateAccount extends React.PureComponent {
         [key]: value,
       },
       () => {
-        SELF.disableNextButton(key, value);
+        SELF.disableNextButton();
       }
     );
     if (key === 'password' || key === 'reEnteredPassword') {
@@ -138,6 +147,7 @@ class CreateAccount extends React.PureComponent {
       reEnteredPassword,
       passwordHint,
       identiconsId,
+      selectedIcon,
       containNumber,
       containCapitalLetter,
       hasLengthGreaterThanEight,
@@ -153,6 +163,9 @@ class CreateAccount extends React.PureComponent {
       containCapitalLetter,
       hasLengthGreaterThanEight,
     };
+    if (selectedIcon) {
+      data.identiconsId = selectedIcon;
+    }
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
@@ -164,22 +177,25 @@ class CreateAccount extends React.PureComponent {
 
   render() {
     const SELF = this;
-    const {
-      accountName,
-      password,
-      reEnteredPassword,
-      passwordHint,
-      date,
-      animateRefreshIcon,
-      identiconsId,
-      error,
-      containNumber,
-      containCapitalLetter,
-      hasLengthGreaterThanEight,
-      selectedIcon,
-    } = this.state;
-    const { stepNo } = SELF.props;
+    // const {
+    //   accountName,
+    //   password,
+    //   reEnteredPassword,
+    //   passwordHint,
+    //   date,
+    //   animateRefreshIcon,
+    //   identiconsId,
+    //   error,
+    //   containNumber,
+    //   containCapitalLetter,
+    //   hasLengthGreaterThanEight,
+    //   selectedIcon,
+    // } = this.state;
+    const { stepNo, isDisable, setButtonStatus } = SELF.props;
+    console.log(SELF.props, 'SELF.props');
     const disableNextButton = this.disableNextButton();
+    console.log(disableNextButton, 'disableNextButton');
+    setButtonStatus({ isDisable: disableNextButton });
     return (
       <div id="account-information" className="account-information">
         <Layout>
@@ -192,7 +208,7 @@ class CreateAccount extends React.PureComponent {
               </Row>
             </Container>
           </section>
-          <section className="bg-dark" style={{ padding: '80px 0' }}>
+          {/* <section className="bg-dark" style={{ padding: '80px 0' }}>
             <Container>
               <Row>
                 <Col>
@@ -216,7 +232,13 @@ class CreateAccount extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
-          </section>
+          </section> */}
+          <Header
+            {...this.state}
+            onUpdate={this.onUpdate}
+            getRadioIconData={this.getRadioIconData}
+            onRefresh={this.onRefresh}
+          />
           <section style={{ padding: '40px 0' }}>
             <Container>
               <Row className="back-next-btn">
@@ -227,8 +249,8 @@ class CreateAccount extends React.PureComponent {
                 </Col>
                 <Col>
                   <Button
-                    className={disableNextButton ? 'light' : ''}
-                    onClick={disableNextButton ? () => true : this.createNewAccount}
+                    className={isDisable ? 'light' : ''}
+                    onClick={isDisable ? () => true : this.createNewAccount}
                   >
                     Next <i className="fas fa-chevron-right" />
                   </Button>
@@ -242,12 +264,38 @@ class CreateAccount extends React.PureComponent {
   }
 }
 
+const Header = props => {
+  console.log(props);
+  return (
+    // <BrowserRouter>
+    <Switch>
+      <Route path="/account-information" component={AccountInformation} />
+      <Route path="/create-account" render={() => <CreateAccountSection {...props} />} />
+      <Route path="/confirm" component={Confirm} />
+    </Switch>
+    // </BrowserRouter>
+  );
+};
+
+// const Feed = props => (
+//   <Content>
+//     {props.item ? (
+//       <ItemState {...props} />
+//     ) : props.feed ? (
+//       <NormalState {...props} />
+//     ) : (
+//       <EmptyState />
+//     )}
+//   </Content>
+// );
+
 const mapStateToProps = state => ({
   accountName: state.accountInfo.accountName,
   password: state.accountInfo.password,
   passwordHint: state.accountInfo.passwordHint,
   selectedIcon: state.accountInfo.selectedIcon,
   stepNo: state.accountInfo.stepNo,
+  isDisable: state.accountInfo.isNextButtonDisable,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -256,6 +304,9 @@ const mapDispatchToProps = dispatch => ({
   },
   goToNextStep: data => {
     dispatch(() => incrementStepNo(data));
+  },
+  setButtonStatus: data => {
+    dispatch(() => setNextButtonStatus(data));
   },
 });
 
