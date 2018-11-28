@@ -26,7 +26,7 @@ export default class AccountProcess extends React.PureComponent {
     return (
       // <React.Fragment>
       //   <Layout />
-      <section style={{ padding: '90px 0' }}>
+      <section style={{ padding: '30px 0' }}>
         <Container>
           <Row>
             <Col>
