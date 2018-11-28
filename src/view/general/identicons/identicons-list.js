@@ -21,14 +21,14 @@ export default class IdenticonsIcon extends Component {
 
   render() {
     const SELF = this;
-    const { index, date, key } = SELF.props;
+    const { index, date, key, selectedIcon } = SELF.props;
     const { accountIcon } = SELF.props;
     const iconIndex = index.toString();
     const currentDate = date.toString();
-    const identiconsId = iconIndex + currentDate;
-    // if (accountIcon === selectedIcon) {
-    //   identiconsId = selectedIcon;
-    // }
+    let identiconsId = iconIndex + currentDate;
+    if (selectedIcon && index === 0) {
+      identiconsId = selectedIcon;
+    }
     let checked = false;
     if (accountIcon && accountIcon === identiconsId) {
       checked = true;

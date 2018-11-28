@@ -259,7 +259,7 @@ class AccountInformation extends React.PureComponent {
             <Container>
               <Row className="back-next-btn">
                 <Col className="text-right">
-                  <Button className="light" onClick={this.goToPreviousScreen}>
+                  <Button onClick={this.goToPreviousScreen}>
                     <i className="fas fa-chevron-left" /> Back
                   </Button>
                 </Col>

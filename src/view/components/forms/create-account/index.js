@@ -28,6 +28,7 @@ export default class CreateAccount extends React.PureComponent {
       containNumber,
       containCapitalLetter,
       hasLengthGreaterThanEight,
+      selectedIcon,
       error,
     } = SELF.props;
     return (
@@ -48,7 +49,7 @@ export default class CreateAccount extends React.PureComponent {
               <Input
                 type="password"
                 name="pass"
-                placeholder="Enter Pass"
+                placeholder="Enter Password"
                 value={password}
                 onChange={e => onUpdate('password', e.currentTarget.value)}
                 style={{ backgroundImage: `url(${lock})` }}
@@ -58,7 +59,7 @@ export default class CreateAccount extends React.PureComponent {
               <Input
                 type="password"
                 name="name"
-                placeholder="Re Enter Pass"
+                placeholder="Re Enter Password"
                 value={reEnteredPassword}
                 onChange={e => onUpdate('reEnteredPassword', e.currentTarget.value)}
                 style={{ backgroundImage: `url(${lock})` }}
@@ -101,6 +102,7 @@ export default class CreateAccount extends React.PureComponent {
           animateRefreshIcon={animateRefreshIcon}
           date={date}
           identiconsId={identiconsId}
+          selectedIcon={selectedIcon}
           onRefresh={onRefresh}
           getRadioIconData={getRadioIconData}
         />

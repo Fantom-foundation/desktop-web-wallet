@@ -10,15 +10,14 @@ import refreshIcon from '../../../images/icons/refresh-icon.svg';
 
 export default class DisplayIdenticons extends React.PureComponent {
   render() {
-    const { animateRefreshIcon, onRefresh, identiconsId } = this.props;
-
+    const { animateRefreshIcon, onRefresh, identiconsId, selectedIcon } = this.props;
     const items = [];
     let i = 0;
-    if (identiconsId) {
+    if (selectedIcon) {
       items.push(
         <IdenticonsIcon
-          selectedIcon={identiconsId}
-          accountIcon={identiconsId}
+          selectedIcon={selectedIcon}
+          accountIcon={selectedIcon || identiconsId}
           key={0}
           {...this.props}
           index={0}

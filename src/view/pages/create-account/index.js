@@ -23,7 +23,8 @@ class CreateAccount extends React.PureComponent {
       passwordHint: initialInfo.passwordHint,
       date: new Date().getTime(),
       animateRefreshIcon: false,
-      identiconsId: initialInfo.selectedIcon,
+      identiconsId: '',
+      selectedIcon: initialInfo.selectedIcon,
       error: false,
       containNumber: false,
       containCapitalLetter: false,
@@ -33,6 +34,11 @@ class CreateAccount extends React.PureComponent {
     this.onUpdate = this.onUpdate.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.getRadioIconData = this.getRadioIconData.bind(this);
+  }
+
+  componentWillMount() {
+    const { password } = this.state;
+    this.isValidPassword('password', password);
   }
 
   /**
@@ -110,7 +116,7 @@ class CreateAccount extends React.PureComponent {
    */
   isValidPassword(key, value) {
     const { password } = this.state;
-    const isValid = validationMethods.isPasswordCorrect(value);
+    const isValid = validationMethods.isPasswordCorrect(key, value);
     const isFalse = _.includes(isValid, false);
     if (key === 'password' && isFalse) {
       this.setState(isValid);
@@ -135,6 +141,7 @@ class CreateAccount extends React.PureComponent {
       containNumber,
       containCapitalLetter,
       hasLengthGreaterThanEight,
+      error,
     } = this.state;
     const data = {
       accountName,
@@ -147,8 +154,9 @@ class CreateAccount extends React.PureComponent {
       hasLengthGreaterThanEight,
     };
     const isAnyFieldEmpty = _.includes(data, '');
+    const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (isAnyFieldEmpty || isPasswordIncorrect) {
+    if (isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error) {
       return true;
     }
     return false;
@@ -168,6 +176,7 @@ class CreateAccount extends React.PureComponent {
       containNumber,
       containCapitalLetter,
       hasLengthGreaterThanEight,
+      selectedIcon,
     } = this.state;
     const { stepNo } = SELF.props;
     const disableNextButton = this.disableNextButton();
@@ -197,6 +206,7 @@ class CreateAccount extends React.PureComponent {
                     date={date}
                     animateRefreshIcon={animateRefreshIcon}
                     identiconsId={identiconsId}
+                    selectedIcon={selectedIcon}
                     onRefresh={this.onRefresh}
                     getRadioIconData={this.getRadioIconData}
                     containNumber={containNumber}
