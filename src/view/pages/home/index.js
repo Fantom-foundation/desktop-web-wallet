@@ -48,7 +48,7 @@ class Home extends React.PureComponent {
                   <Button
                     color="dark"
                     className="rounded"
-                    onClick={() => this.goToPage('/account-management')}
+                    onClick={() => this.goToPage('/create-account')}
                   >
                     Open Wallet
                   </Button>
