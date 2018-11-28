@@ -94,7 +94,7 @@ $border-radius: 8px;
         size: 20px;
       }
     }
-    @media (max-width: 567px) {
+    @media (max-width: 575px) {
       font: {
         size: 18px;
       }
@@ -173,7 +173,6 @@ $border-radius: 8px;
       margin: auto;
       margin-bottom: 30px;
       display: block;
-
       text-transform: uppercase;
       transition: 0.3s all;
       &:hover {
@@ -186,7 +185,7 @@ $border-radius: 8px;
       }
       &.cancel {
         color: #fff;
-        border: 2px solid #fff;
+        border: 1px solid #fff;
         background: transparent;
       }
     }
