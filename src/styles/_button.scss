@@ -7,6 +7,18 @@
   &.rounded {
     border-radius: 50px !important;
   }
+  &.btn-primary {
+    box-shadow: none;
+    border: 1px solid map-get($color, btn-primary);
+    background: {
+      color: map-get($color, btn-primary);
+    }
+    &:hover {
+      background: {
+        color: map-get($color, btn-primary-hover);
+      }
+    }
+  }
   &.btn-dark {
     border: 2px solid map-get($color, btn-dark-outline);
     background: {

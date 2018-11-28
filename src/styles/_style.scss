@@ -13,7 +13,7 @@ body {
     color: #313131 !important;
   }
 }
- .page-title {
+.page-title {
   padding: 100px 0;
   .title {
     letter-spacing: 4px;
@@ -160,12 +160,15 @@ body {
   }
 }
 .acc-footer {
-  padding: 100px 0 0;
+  padding: {
+    top: 100px;
+    bottom: 0;
+  }
   p {
     margin-bottom: 80px;
     font: {
       family: "Noto Sans";
-      size: 24px;
+      size: 22px;
       weight: 300;
     }
     @media (max-width: 767px) {
@@ -179,7 +182,7 @@ body {
     margin-bottom: 30px;
     font: {
       family: "Noto Sans";
-      size: 26px;
+      size: 24px;
     }
     @media (max-width: 767px) {
       font: {

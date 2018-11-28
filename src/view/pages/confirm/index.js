@@ -13,7 +13,15 @@ export default class AccountManagement extends React.PureComponent {
     return (
       <div id="confirm" className="confirm">
         <Layout>
-          <AccountProcess />
+          <section style={{ padding: '90px 0' }}>
+            <Container>
+              <Row>
+                <Col>
+                  <AccountProcess />
+                </Col>
+              </Row>
+            </Container>
+          </section>
           <section className="bg-dark">
             <Container>
               <Row>
@@ -40,6 +48,28 @@ export default class AccountManagement extends React.PureComponent {
                             <li>
                               <Button color="primary">Exile</Button>
                             </li>
+
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
                           </ul>
                         </div>
                         <div className="mnemonic-selector">
@@ -53,14 +83,32 @@ export default class AccountManagement extends React.PureComponent {
                             <li>
                               <Button color="primary">Bomb</Button>
                             </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
+                            <li>
+                              <Button color="primary">Bomb</Button>
+                            </li>
                           </ul>
-                          <div className="mnemonic-btn">
-                            <Button className="create-wallet">Create Wallet</Button>
-                            <Button className="cancel">Cancel</Button>
-                          </div>
                         </div>
                       </Col>
                     </Row>
+                    <div className="mnemonic-btn">
+                      <Button className="create-wallet">Create Wallet</Button>
+                      <Button className="cancel">Cancel</Button>
+                    </div>
                   </div>
                 </Col>
               </Row>
