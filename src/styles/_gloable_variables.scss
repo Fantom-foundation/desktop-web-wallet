@@ -6,7 +6,11 @@ $color: (
   black: #000,
   nav-link: $white,
   nav-link-hover: #8e8e8e,
+  footer-menu-title: $theme-blue,
+  footer-menu-link: $white,
   text-primary: $theme-blue,
+  btn-primary: $theme-blue,
+  btn-primary-hover: $theme-blue-hover,
   btn-dark: #000,
   btn-dark-hover: #3b4c5a,
   btn-dark-outline: #679ed2,
@@ -25,4 +29,6 @@ $color: (
 );
 
 $navlink-fontFamily: "Noto Sans";
+$footerTitle-fontFamily: "Noto Sans";
+$footerlink-fontFamily: "Noto Sans";
 $navlink-textTransform: uppercase;

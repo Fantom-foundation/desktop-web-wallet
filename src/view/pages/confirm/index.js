@@ -18,8 +18,6 @@ class Confirm extends React.PureComponent {
   render() {
     return (
       <div id="confirm" className="confirm">
-        {/* <Layout> */}
-        {/* <AccountProcess /> */}
         <section className="bg-dark">
           <Container>
             <Row>
@@ -29,7 +27,7 @@ class Confirm extends React.PureComponent {
                     <span>Enter Your Mnemonic</span>
                   </h2>
                   <Button>
-                    <i className="fas fa-print" />
+                    <i className="fas fa-sync-alt" />
                   </Button>
                 </div>
               </Col>
@@ -46,6 +44,28 @@ class Confirm extends React.PureComponent {
                           <li>
                             <Button color="primary">Exile</Button>
                           </li>
+
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
                         </ul>
                       </div>
                       <div className="mnemonic-selector">
@@ -59,40 +79,37 @@ class Confirm extends React.PureComponent {
                           <li>
                             <Button color="primary">Bomb</Button>
                           </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
+                          <li>
+                            <Button color="primary">Bomb</Button>
+                          </li>
                         </ul>
-                        <div className="mnemonic-btn">
-                          <Button className="create-wallet">Create Wallet</Button>
-                          <Button className="cancel">Cancel</Button>
-                        </div>
                       </div>
                     </Col>
                   </Row>
+                  <div className="mnemonic-btn">
+                    <Button className="create-wallet">Create Wallet</Button>
+                    <Button className="cancel">Cancel</Button>
+                  </div>
                 </div>
               </Col>
             </Row>
           </Container>
         </section>
-        {/* <section style={{ padding: '40px 0' }}>
-          <Container>
-            <Row className="back-next-btn">
-              <Col className="text-right">
-                <Button className="light">
-                  <i className="fas fa-chevron-left" /> Back
-                </Button>
-              </Col>
-              <Col>
-                <Button
-
-                // className={disableNextButton ? 'light' : ''}
-                // onClick={disableNextButton ? () => true : this.createNewAccount}
-                >
-                  Create <i className="fas fa-chevron-right" />
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </section> */}
-        {/* </Layout> */}
       </div>
     );
   }
