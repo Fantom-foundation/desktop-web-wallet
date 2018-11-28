@@ -31,7 +31,7 @@ export default class AccountManagement extends React.PureComponent {
                       <span>Enter Your Mnemonic</span>
                     </h2>
                     <Button>
-                      <i className="fas fa-print" />
+                      <i className="fas fa-sync-alt" />
                     </Button>
                   </div>
                 </Col>
