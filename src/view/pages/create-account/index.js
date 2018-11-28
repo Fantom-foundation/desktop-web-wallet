@@ -35,11 +35,16 @@ class CreateAccount extends React.PureComponent {
       containNumber: false,
       containCapitalLetter: false,
       hasLengthGreaterThanEight: false,
+      nextButtonFunction: '',
+      backButtonFunction: '',
     };
     this.createNewAccount = this.createNewAccount.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
     this.getRadioIconData = this.getRadioIconData.bind(this);
+    this.goToNextScreen = this.goToNextScreen.bind(this);
+    this.goToPreviousScreen = this.goToPreviousScreen.bind(this);
+    this.goToAccountInfoScreen = this.goToAccountInfoScreen.bind(this);
   }
 
   componentWillMount() {
@@ -48,6 +53,7 @@ class CreateAccount extends React.PureComponent {
     this.isValidPassword('password', password);
     const isDisable = this.disableNextButton();
     setButtonStatus({ isDisable });
+    this.setStepNoWithRouting();
   }
 
   /**
@@ -68,6 +74,37 @@ class CreateAccount extends React.PureComponent {
     if (key === 'password' || key === 'reEnteredPassword') {
       this.isValidPassword(key, value);
     }
+  }
+
+  setStepNoWithRouting() {
+    const { location, goToNextStep } = this.props;
+    const { pathname } = location;
+    let stepNo = 1;
+    if (pathname === '/confirm') {
+      stepNo = 3;
+    } else if (pathname === '/account-information') {
+      stepNo = 2;
+    }
+    goToNextStep({ stepNo });
+  }
+
+  setFunctionCalls() {
+    const { location } = this.props;
+    const { pathname } = location;
+    let nextButtonFunction = this.createNewAccount;
+    let backButtonFunction = () => true;
+    if (pathname === '/confirm') {
+      nextButtonFunction = backButtonFunction;
+      backButtonFunction = this.goToAccountInfoScreen;
+    } else if (pathname === '/account-information') {
+      nextButtonFunction = this.goToNextScreen;
+      backButtonFunction = this.goToPreviousScreen;
+    }
+
+    return {
+      nextButtonFunction,
+      backButtonFunction,
+    };
   }
 
   /**
@@ -92,9 +129,36 @@ class CreateAccount extends React.PureComponent {
    * This method will set the icon Id
    */
   getRadioIconData(identiconsId) {
-    this.setState({
-      identiconsId,
-    });
+    const SELF = this;
+    this.setState(
+      {
+        identiconsId,
+      },
+      () => {
+        SELF.disableNextButton();
+      }
+    );
+  }
+
+  goToNextScreen() {
+    const SELF = this;
+    const { goToNextStep, history } = SELF.props;
+    goToNextStep({ stepNo: 3 });
+    history.push('/confirm');
+  }
+
+  goToAccountInfoScreen() {
+    const SELF = this;
+    const { goToNextStep, history } = SELF.props;
+    goToNextStep({ stepNo: 2 });
+    history.push('/account-information');
+  }
+
+  goToPreviousScreen() {
+    const SELF = this;
+    const { goToNextStep, history } = SELF.props;
+    goToNextStep({ stepNo: 1 });
+    history.push('/create-account');
   }
 
   /**
@@ -141,6 +205,9 @@ class CreateAccount extends React.PureComponent {
   }
 
   disableNextButton() {
+    const SELF = this;
+    const { setButtonStatus, location } = SELF.props;
+    const { pathname } = location;
     const {
       accountName,
       password,
@@ -153,6 +220,7 @@ class CreateAccount extends React.PureComponent {
       hasLengthGreaterThanEight,
       error,
     } = this.state;
+    let isDisable = false;
     const data = {
       accountName,
       password,
@@ -170,32 +238,19 @@ class CreateAccount extends React.PureComponent {
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
     if (isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error) {
-      return true;
+      isDisable = true;
     }
-    return false;
+    if (pathname === '/confirm') {
+      isDisable = true;
+    }
+    setButtonStatus({ isDisable });
   }
 
   render() {
     const SELF = this;
-    // const {
-    //   accountName,
-    //   password,
-    //   reEnteredPassword,
-    //   passwordHint,
-    //   date,
-    //   animateRefreshIcon,
-    //   identiconsId,
-    //   error,
-    //   containNumber,
-    //   containCapitalLetter,
-    //   hasLengthGreaterThanEight,
-    //   selectedIcon,
-    // } = this.state;
-    const { stepNo, isDisable, setButtonStatus } = SELF.props;
-    console.log(SELF.props, 'SELF.props');
-    const disableNextButton = this.disableNextButton();
-    console.log(disableNextButton, 'disableNextButton');
-    setButtonStatus({ isDisable: disableNextButton });
+    const { stepNo, isDisable, location } = SELF.props;
+    const { pathname } = location;
+    const functionToCall = this.setFunctionCalls();
     return (
       <div id="account-information" className="account-information">
         <Layout>
@@ -208,31 +263,6 @@ class CreateAccount extends React.PureComponent {
               </Row>
             </Container>
           </section>
-          {/* <section className="bg-dark" style={{ padding: '80px 0' }}>
-            <Container>
-              <Row>
-                <Col>
-                  <CreateAccountForm
-                    accountName={accountName}
-                    password={password}
-                    error={error}
-                    reEnteredPassword={reEnteredPassword}
-                    passwordHint={passwordHint}
-                    onUpdate={this.onUpdate}
-                    date={date}
-                    animateRefreshIcon={animateRefreshIcon}
-                    identiconsId={identiconsId}
-                    selectedIcon={selectedIcon}
-                    onRefresh={this.onRefresh}
-                    getRadioIconData={this.getRadioIconData}
-                    containNumber={containNumber}
-                    containCapitalLetter={containCapitalLetter}
-                    hasLengthGreaterThanEight={hasLengthGreaterThanEight}
-                  />
-                </Col>
-              </Row>
-            </Container>
-          </section> */}
           <Header
             {...this.state}
             onUpdate={this.onUpdate}
@@ -243,14 +273,23 @@ class CreateAccount extends React.PureComponent {
             <Container>
               <Row className="back-next-btn">
                 <Col className="text-right">
-                  <Button className="light">
+                  <Button
+                    className={pathname === '/create-account' ? 'light' : ''}
+                    onClick={functionToCall.backButtonFunction}
+                  >
                     <i className="fas fa-chevron-left" /> Back
                   </Button>
                 </Col>
                 <Col>
                   <Button
-                    className={isDisable ? 'light' : ''}
-                    onClick={isDisable ? () => true : this.createNewAccount}
+                    className={
+                      isDisable || isDisable === undefined || pathname === '/confirm' ? 'light' : ''
+                    }
+                    onClick={
+                      isDisable || isDisable === undefined
+                        ? () => true
+                        : functionToCall.nextButtonFunction
+                    }
                   >
                     Next <i className="fas fa-chevron-right" />
                   </Button>
@@ -264,30 +303,13 @@ class CreateAccount extends React.PureComponent {
   }
 }
 
-const Header = props => {
-  console.log(props);
-  return (
-    // <BrowserRouter>
-    <Switch>
-      <Route path="/account-information" component={AccountInformation} />
-      <Route path="/create-account" render={() => <CreateAccountSection {...props} />} />
-      <Route path="/confirm" component={Confirm} />
-    </Switch>
-    // </BrowserRouter>
-  );
-};
-
-// const Feed = props => (
-//   <Content>
-//     {props.item ? (
-//       <ItemState {...props} />
-//     ) : props.feed ? (
-//       <NormalState {...props} />
-//     ) : (
-//       <EmptyState />
-//     )}
-//   </Content>
-// );
+const Header = props => (
+  <Switch>
+    <Route path="/account-information" component={AccountInformation} />
+    <Route path="/create-account" render={() => <CreateAccountSection {...props} />} />
+    <Route path="/confirm" component={Confirm} />
+  </Switch>
+);
 
 const mapStateToProps = state => ({
   accountName: state.accountInfo.accountName,

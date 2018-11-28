@@ -65,7 +65,7 @@ class AccountInformation extends React.PureComponent {
       {
         [key]: value,
       },
-      () => this.disableNextButton()
+      () => this.disableNextButton(key, value)
     );
   }
 
@@ -85,14 +85,15 @@ class AccountInformation extends React.PureComponent {
     return mnemonicsList;
   }
 
-  disableNextButton() {
+  disableNextButton(key, value) {
     const SELF = this;
     const { setButtonStatus } = SELF.props;
     const { revealSecret, confirmationPhrase } = this.state;
     let isDisable = true;
     const data = {
-      revealSecret,
-      confirmationPhrase: confirmationPhrase === CONFIRMATION_PHASE,
+      revealSecret: key === 'revealSecret' ? value === true : revealSecret,
+      confirmationPhrase:
+        key === 'confirmationPhrase' ? value === CONFIRMATION_PHASE : confirmationPhrase,
     };
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
@@ -104,24 +105,10 @@ class AccountInformation extends React.PureComponent {
   }
 
   revealSecret() {
-    const SELF = this;
-    const { setButtonStatus } = SELF.props;
     this.setState({
       revealSecret: true,
     });
-    const { confirmationPhrase } = this.state;
-    const data = {
-      revealSecret: true,
-      confirmationPhrase: confirmationPhrase === CONFIRMATION_PHASE,
-    };
-    const isAnyFieldEmpty = _.includes(data, '');
-    const isAnyFieldUndefined = _.includes(data, undefined);
-    const isPasswordIncorrect = _.includes(data, false);
-    if (!isAnyFieldEmpty && !isPasswordIncorrect && !isAnyFieldUndefined) {
-      setButtonStatus({ isDisable: false });
-    } else {
-      setButtonStatus({ isDisable: true });
-    }
+    this.disableNextButton('revealSecret', true);
   }
 
   goToNextScreen() {
@@ -173,22 +160,11 @@ class AccountInformation extends React.PureComponent {
     console.log(data, 'datatadta');
     return (
       <div id="account-information" className="account-information">
-        {/* <Layout> */}
-        {/* <section style={{ padding: '90px 0' }}>
-            <Container>
-              <Row>
-                <Col>
-                  <AccountProcess stepNo={stepNo} />
-                </Col>
-              </Row>
-            </Container>
-          </section> */}
         <section className="bg-dark" style={{ padding: '40px 0 70px' }}>
           <Container>
             <Row className="acc-details bg-dark-light" style={{ marginBottom: '30px' }}>
               <Col>
                 <div className="acc-qr">
-                  {/* <QR /> */}
                   <QRCode value="publicKey" level="H" size={158} />
                 </div>
                 <div className="acc-name-holder">
@@ -212,7 +188,6 @@ class AccountInformation extends React.PureComponent {
                 </div>
               </Col>
               <Col className="qr-col">
-                {/* <QR /> */}
                 <QRCode value="publicKey" level="H" size={158} />
               </Col>
             </Row>
@@ -295,26 +270,6 @@ class AccountInformation extends React.PureComponent {
             </Row>
           </Container>
         </section>
-        {/* <section style={{ padding: '40px 0' }}>
-          <Container>
-            <Row className="back-next-btn">
-              <Col className="text-right">
-                <Button onClick={this.goToPreviousScreen}>
-                  <i className="fas fa-chevron-left" /> Back
-                </Button>
-              </Col>
-              <Col>
-                <Button
-                  className={isConfirmationPhaseValid ? '' : 'light'}
-                  onClick={isConfirmationPhaseValid ? this.goToNextScreen : () => true}
-                >
-                  Next <i className="fas fa-chevron-right" />
-                </Button>
-              </Col>
-            </Row>
-          </Container>
-        </section> */}
-        {/* </Layout> */}
       </div>
     );
   }
