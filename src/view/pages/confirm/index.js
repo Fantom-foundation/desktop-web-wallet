@@ -11,6 +11,8 @@ import {
   emptyState,
 } from '../../../redux/accountInProgress/action';
 import createWallet from '../../../redux/account/action';
+import CancelWalletModal from '../../components/modals/cancel-wallet';
+import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
 
 class Confirm extends React.PureComponent {
   constructor(props) {
@@ -18,12 +20,16 @@ class Confirm extends React.PureComponent {
     this.state = {
       selectedMnemonicsArray: [],
       mnemonicsArray: [],
+      toggleModal: false,
+      openIncorrectMnemonicsModal: false,
     };
     this.selectMnemonic = this.selectMnemonic.bind(this);
     this.getMnemonics = this.getMnemonics.bind(this);
     this.getSelectedMnemonics = this.getSelectedMnemonics.bind(this);
     this.createWallet = this.createWallet.bind(this);
     this.cancelWallet = this.cancelWallet.bind(this);
+    this.cancelModalToggle = this.cancelModalToggle.bind(this);
+    this.toggleIncorrectMnemonicsModal = this.toggleIncorrectMnemonicsModal.bind(this);
   }
 
   componentWillMount() {
@@ -145,18 +151,31 @@ class Confirm extends React.PureComponent {
       publicAddress,
     };
     data = _.omit(data, ['stepNo', 'isNextButtonDisable']);
-    console.log(data, 'datadata');
     if (selectedMnemonicsArray.join(' ') === mnemonic) {
       addWallet(data);
       removeAccount();
       history.push('/account-management');
     } else {
-      console.log('doesnotmatch');
+      this.toggleIncorrectMnemonicsModal();
     }
   }
 
+  cancelModalToggle() {
+    const { toggleModal } = this.state;
+    this.setState({
+      toggleModal: !toggleModal,
+    });
+  }
+
+  toggleIncorrectMnemonicsModal() {
+    const { openIncorrectMnemonicsModal } = this.state;
+    this.setState({
+      openIncorrectMnemonicsModal: !openIncorrectMnemonicsModal,
+    });
+  }
+
   render() {
-    const { mnemonicsArray } = this.state;
+    const { mnemonicsArray, toggleModal, openIncorrectMnemonicsModal } = this.state;
     const selectedMnemonics = this.getSelectedMnemonics();
     return (
       <div id="confirm" className="confirm">
@@ -193,7 +212,7 @@ class Confirm extends React.PureComponent {
                     <Button className="create-wallet" onClick={this.createWallet}>
                       Create Wallet
                     </Button>
-                    <Button className="cancel" onClick={this.cancelWallet}>
+                    <Button className="cancel" onClick={this.cancelModalToggle}>
                       Cancel
                     </Button>
                   </div>
@@ -201,6 +220,15 @@ class Confirm extends React.PureComponent {
               </Col>
             </Row>
           </Container>
+          <CancelWalletModal
+            toggleModal={toggleModal}
+            cancelModalToggle={this.cancelModalToggle}
+            cancelWallet={this.cancelWallet}
+          />
+          <IncorrectMnemonicsModal
+            openIncorrectMnemonicsModal={openIncorrectMnemonicsModal}
+            toggleIncorrectMnemonicsModal={this.toggleIncorrectMnemonicsModal}
+          />
         </section>
       </div>
     );
