@@ -156,9 +156,9 @@ class AccountInformation extends React.PureComponent {
                 </div>
               </Col>
             </Row>
-            <Row className="bg-dark-light" style={{ padding: '70px 0' }}>
+            <Row className="bg-dark-light" style={{ padding: '40px 0' }}>
               <Col>
-                <Row style={{ padding: '0 0 90px' }}>
+                <Row style={{ padding: '0 0 40px' }}>
                   <Col>
                     <div id="mnemonic-collector">
                       <ul className={!revealSecret ? 'blur' : ''}>{getMnemonics}</ul>
