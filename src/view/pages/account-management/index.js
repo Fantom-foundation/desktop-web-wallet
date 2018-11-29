@@ -14,6 +14,9 @@ class AccountManagement extends React.PureComponent {
     this.copyToClipboard = this.copyToClipboard.bind(this);
   }
 
+  /**
+   * This method will return the accounts list
+   */
   getAccountsList() {
     const SELF = this;
     const { accountsList } = SELF.props;
@@ -57,6 +60,9 @@ class AccountManagement extends React.PureComponent {
     return accounts;
   }
 
+  /**
+   * This method will copy the text
+   */
   copyToClipboard() {
     const SELF = this;
     const { accountKeys } = SELF.props;
@@ -65,7 +71,6 @@ class AccountManagement extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props, 'this.props');
     const accountList = this.getAccountsList();
     return (
       <div id="account-management" className="account-management">
@@ -97,106 +102,6 @@ class AccountManagement extends React.PureComponent {
               </Row>
               <Row id="account-card" className="text-center ">
                 {accountList}
-                {/* <Col md={6} lg={3} className="main-col">
-                  <div className="accounts-holder">
-                    <div className="avatar">
-                      <span className="avatar-icon">
-                        <img src={avatar} alt="TestAccount" />
-                      </span>
-                    </div>
-                    <h2 className="title ">
-                      <span>TestAccount</span>
-                    </h2>
-                    <div className="account-no">
-                      <p>
-                        <span>
-                          <i className="fas fa-clone" />
-                        </span>
-                        gfvgv
-                      </p>
-                    </div>
-                  </div>
-                </Col> */}
-                {/* <Col md={6} lg={3} className="main-col">
-                  <div className="accounts-holder">
-                    <div className="avatar">
-                      <span className="avatar-icon">
-                        <img src={avatar} alt="TestAccount" />
-                      </span>
-                    </div>
-                    <h2 className="title ">
-                      <span>TestAccount</span>
-                    </h2>
-                    <div className="account-no">
-                      <p>
-                        <span>
-                          <i className="fas fa-clone" />
-                        </span>
-                        123fmjkdfg1262
-                      </p>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={6} lg={3} className="main-col">
-                  <div className="accounts-holder">
-                    <div className="avatar">
-                      <span className="avatar-icon">
-                        <img src={avatar} alt="TestAccount" />
-                      </span>
-                    </div>
-                    <h2 className="title ">
-                      <span>TestAccount</span>
-                    </h2>
-                    <div className="account-no">
-                      <p>
-                        <span>
-                          <i className="fas fa-clone" />
-                        </span>
-                        123fmjkdfg1262fgnncdbtrgtrgtngjfjhuvfdfgdgfghf
-                      </p>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={6} lg={3} className="main-col">
-                  <div className="accounts-holder">
-                    <div className="avatar">
-                      <span className="avatar-icon">
-                        <img src={avatar} alt="TestAccount" />
-                      </span>
-                    </div>
-                    <h2 className="title ">
-                      <span>TestAccount</span>
-                    </h2>
-                    <div className="account-no">
-                      <p>
-                        <span>
-                          <i className="fas fa-clone" />
-                        </span>
-                        gfvgv
-                      </p>
-                    </div>
-                  </div>
-                </Col>
-                <Col md={6} lg={3} className="main-col">
-                  <div className="accounts-holder">
-                    <div className="avatar">
-                      <span className="avatar-icon">
-                        <img src={avatar} alt="TestAccount" />
-                      </span>
-                    </div>
-                    <h2 className="title ">
-                      <span>TestAccount</span>
-                    </h2>
-                    <div className="account-no">
-                      <p>
-                        <span>
-                          <i className="fas fa-clone" />
-                        </span>
-                        gfvgv
-                      </p>
-                    </div>
-                  </div>
-                </Col> */}
               </Row>
             </Container>
           </section>

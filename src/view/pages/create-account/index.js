@@ -72,6 +72,9 @@ class CreateAccount extends React.PureComponent {
     }
   }
 
+  /**
+   * This method will set the stepNo according to the current route
+   */
   setStepNoWithRouting() {
     const { location, goToNextStep } = this.props;
     const { pathname } = location;
@@ -84,6 +87,10 @@ class CreateAccount extends React.PureComponent {
     goToNextStep({ stepNo });
   }
 
+  /**
+   * This method will set the funciton calls on back and
+   * next button according to the current route
+   */
   setFunctionCalls() {
     const { location } = this.props;
     const { pathname } = location;
@@ -136,12 +143,18 @@ class CreateAccount extends React.PureComponent {
     );
   }
 
+  /**
+   * This method will unblur the blurred part which hides the mnemonics
+   */
   revealSecret() {
     this.setState({
       revealSecret: true,
     });
   }
 
+  /**
+   * This method will move to the Confirm screen and set the step no
+   */
   goToNextScreen() {
     const SELF = this;
     const { goToNextStep, history } = SELF.props;
@@ -149,6 +162,9 @@ class CreateAccount extends React.PureComponent {
     history.push('/confirm');
   }
 
+  /**
+   * This method will move to the Account information screen and set the step no
+   */
   goToAccountInfoScreen() {
     const SELF = this;
     const { goToNextStep, history } = SELF.props;
@@ -160,6 +176,9 @@ class CreateAccount extends React.PureComponent {
     history.push('/account-information');
   }
 
+  /**
+   * This method will move to the previous create account screen and set the step no
+   */
   goToPreviousScreen() {
     const SELF = this;
     const { goToNextStep, history } = SELF.props;
@@ -214,6 +233,9 @@ class CreateAccount extends React.PureComponent {
     }
   }
 
+  /**
+   * This method will check the status of the next button on the step one
+   */
   disableNextButtonOnStepOne() {
     const SELF = this;
     const { location } = SELF.props;
@@ -259,6 +281,9 @@ class CreateAccount extends React.PureComponent {
     return false;
   }
 
+  /**
+   * This method will check the status of the next button on the step two
+   */
   disableNextButtonOnStepTwo() {
     const { revealSecret, confirmationPhrase } = this.state;
     const data = {
@@ -274,6 +299,9 @@ class CreateAccount extends React.PureComponent {
     return true;
   }
 
+  /**
+   * This method will return the status of the next button
+   */
   disableNextButton() {
     const SELF = this;
     const { stepNo } = SELF.props;
@@ -307,7 +335,6 @@ class CreateAccount extends React.PureComponent {
       <div id="account-information" className="account-information">
         <Layout>
           <AccountProcess stepNo={stepNo} />
-
           <Header
             {...this.state}
             onUpdate={this.onUpdate}
@@ -363,7 +390,6 @@ const mapStateToProps = state => ({
   passwordHint: state.accountInfo.passwordHint,
   selectedIcon: state.accountInfo.selectedIcon,
   stepNo: state.accountInfo.stepNo,
-  isDisable: state.accountInfo.isNextButtonDisable,
 });
 
 const mapDispatchToProps = dispatch => ({

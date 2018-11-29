@@ -25,6 +25,10 @@ class Home extends React.PureComponent {
     });
   }
 
+  /**
+   * @param {Page route} route
+   * This method will push screen to the passed route
+   */
   goToPage(route) {
     const SELF = this;
     const { history } = SELF.props;

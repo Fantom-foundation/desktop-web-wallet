@@ -39,6 +39,9 @@ class Confirm extends React.PureComponent {
     });
   }
 
+  /**
+   * This method will return the mnemonics list
+   */
   getMnemonics() {
     const SELF = this;
     const { accountInfo } = SELF.props;
@@ -63,6 +66,9 @@ class Confirm extends React.PureComponent {
     return mnemonicsList;
   }
 
+  /**
+   * This method will return the selected mnemonics
+   */
   getSelectedMnemonics() {
     const SELF = this;
     const { selectedMnemonicsArray } = this.state;
@@ -83,6 +89,10 @@ class Confirm extends React.PureComponent {
     return mnemonicsList;
   }
 
+  /**
+   * @param {Name of the mnemonic} name
+   * This method will remove the mnemonic from the selected mnemonics
+   */
   unselectMnemonic(name) {
     const SELF = this;
     const { accountInfo } = SELF.props;
@@ -105,6 +115,10 @@ class Confirm extends React.PureComponent {
     });
   }
 
+  /**
+   * @param {Name of the mnemonic} name
+   * This method will push the selected mnemonic in the selected mnemonic array
+   */
   selectMnemonic(name) {
     const SELF = this;
     const { accountInfo } = SELF.props;
@@ -129,37 +143,47 @@ class Confirm extends React.PureComponent {
     }
   }
 
+  /**
+   * This method will cancel the wallet creation process
+   */
   cancelWallet() {
     const SELF = this;
-    const { accountsList, history, removeAccount } = SELF.props;
+    const { accountsList, history, resetState } = SELF.props;
     if (accountsList.length === 0) {
       history.push('/create-account');
-      removeAccount();
+      // This method will reset the state of accountInfo reducer
+      resetState();
     } else {
       history.push('/account-management');
-      removeAccount();
+      resetState();
     }
   }
 
+  /**
+   * This method will create the wallet
+   */
   createWallet() {
     const SELF = this;
-    const { addWallet, accountInfo, publicAddress, history, removeAccount } = SELF.props;
+    const { addWallet, accountInfo, publicAddress, history, resetState } = SELF.props;
     const { mnemonic } = accountInfo;
     const { selectedMnemonicsArray } = this.state;
     let data = {
       ...accountInfo,
       publicAddress,
     };
-    data = _.omit(data, ['stepNo', 'isNextButtonDisable']);
+    data = _.omit(data, ['stepNo']);
     if (selectedMnemonicsArray.join(' ') === mnemonic) {
       addWallet(data);
-      removeAccount();
+      resetState();
       history.push('/account-management');
     } else {
       this.toggleIncorrectMnemonicsModal();
     }
   }
 
+  /**
+   * This method will toggle the cancel wallet modal
+   */
   cancelModalToggle() {
     const { toggleModal } = this.state;
     this.setState({
@@ -167,6 +191,9 @@ class Confirm extends React.PureComponent {
     });
   }
 
+  /**
+   * This method will toggle the Incorrect Mnemonics modal
+   */
   toggleIncorrectMnemonicsModal() {
     const { openIncorrectMnemonicsModal } = this.state;
     this.setState({
@@ -193,7 +220,6 @@ class Confirm extends React.PureComponent {
                 </div>
               </Col>
             </Row>
-
             <Row>
               <Col>
                 <div id="mnemonic-selector">
@@ -243,9 +269,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // setKeys: data => {
-  //   dispatch(() => createPublicPrivateKeys(data));
-  // },
   incrementStepNo: data => {
     dispatch(() => createAccount(data));
   },
@@ -258,7 +281,7 @@ const mapDispatchToProps = dispatch => ({
   addWallet: data => {
     dispatch(() => createWallet(data));
   },
-  removeAccount: () => {
+  resetState: () => {
     dispatch(() => emptyState());
   },
 });
