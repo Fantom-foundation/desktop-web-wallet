@@ -79,12 +79,12 @@ $border-radius: 8px;
 #mnemonic-selector {
   .bg-dark-light {
     padding: {
-      top: 50px;
-      bottom: 100px;
+      top: 42px;
+      bottom: 70px;
     }
   }
   h2 {
-    margin: 90px 0 70px;
+    margin: 55px 0 40px;
     font: {
       family: "Noto Sans";
       size: 24px;
@@ -103,9 +103,10 @@ $border-radius: 8px;
 
   .btn {
     border-radius: $border-radius;
+    padding: 4px 26px;
     font: {
       family: "Noto Sans";
-      size: 18px;
+      size: 16px;
     }
   }
   ul {
@@ -126,17 +127,20 @@ $border-radius: 8px;
   .mnemonic-container {
     max-width: 804px;
     border: 2px dashed #fff;
-    min-height: 153px;
+    min-height: 146px;
     border-radius: $border-radius;
     padding: 54px 64px;
-    margin-bottom: 200px;
+    margin-bottom: 100px;
     @media (max-width: 991px) {
-      margin-bottom: 120px;
+      margin-bottom: 80px;
     }
     @media (max-width: 767px) {
-      min-height: 105px;
+      min-height: 98px;
       padding: 30px;
-      margin-bottom: 90px;
+      margin-bottom: 60px;
+    }
+    @media (max-width: 575px) {
+      padding: 30px 20px;
     }
     ul {
       li {
@@ -169,9 +173,9 @@ $border-radius: 8px;
   .mnemonic-btn {
     padding: 70px 0;
     .btn {
-      height: 60px;
+      height: 50px;
       margin: auto;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
       display: block;
       text-transform: uppercase;
       transition: 0.3s all;

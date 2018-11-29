@@ -124,7 +124,7 @@ class AccountInformation extends React.PureComponent {
         <section className="bg-dark" style={{ padding: '40px 0 70px' }}>
           <Container>
             <Row className="acc-details bg-dark-light" style={{ marginBottom: '30px' }}>
-              <Col>
+              <Col className="left-col">
                 <div className="acc-qr">
                   <QRCode value="publicKey" level="H" size={158} />
                 </div>
@@ -166,7 +166,7 @@ class AccountInformation extends React.PureComponent {
                 </div>
               </Col>
             </Row>
-            <Row className="bg-dark-light" style={{ padding: '90px 0' }}>
+            <Row className="bg-dark-light" style={{ padding: '70px 0' }}>
               <Col>
                 <Row style={{ padding: '0 0 90px' }}>
                   <Col>

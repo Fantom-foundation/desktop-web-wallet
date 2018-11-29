@@ -14,21 +14,21 @@ body {
   }
 }
 .page-title {
-  padding: 100px 0;
+  padding: 60px 0;
   .title {
     letter-spacing: 4px;
     font: {
       family: "Roboto Condensed";
-      size: 46px;
+      size: 36px;
     }
     @media (max-width: 991px) {
       font: {
-        size: 38px;
+        size: 28px;
       }
     }
     @media (max-width: 767px) {
       font: {
-        size: 32px;
+        size: 22px;
       }
     }
   }
