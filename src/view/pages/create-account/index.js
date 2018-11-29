@@ -237,9 +237,6 @@ class CreateAccount extends React.PureComponent {
    * This method will check the status of the next button on the step one
    */
   disableNextButtonOnStepOne() {
-    const SELF = this;
-    const { location } = SELF.props;
-    const { pathname } = location;
     const {
       accountName,
       password,
@@ -268,13 +265,7 @@ class CreateAccount extends React.PureComponent {
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (
-      isAnyFieldEmpty ||
-      isPasswordIncorrect ||
-      isAnyFieldUndefined ||
-      error ||
-      pathname === '/confirm'
-    ) {
+    if (isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error) {
       return true;
     }
 
