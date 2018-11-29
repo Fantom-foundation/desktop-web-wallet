@@ -11,9 +11,9 @@
     max-width: 100%;
     font: {
       family: "Roboto Condensed";
-      size: 28px;
+      size: 24px;
     }
-    padding: 14px 30px;
+    padding: 12px 30px;
     margin: 0;
     color: map-get($color, add-wallet-title);
     background: {
@@ -21,18 +21,19 @@
     }
     @media (max-width: 991px) {
       font: {
-        size: 24px;
+        size: 22px;
       }
     }
     @media (max-width: 767px) {
+      padding: 12px 18px;
       font: {
-        size: 22px;
+        size: 20px;
       }
     }
   }
   .btn {
     position: relative;
-    width: 70px;
+    width: 65px;
     color: map-get($color, btn-add-wallet);
     border-radius: 0;
     background: {
@@ -49,9 +50,11 @@
         padding: 5px;
         border-radius: 100%;
       }
-      &.fa-print,
+      &.fa-print {
+        font-size: 24px;
+      }
       &.fa-sync-alt {
-        font-size: 28px;
+        font-size: 22px;
       }
     }
   }

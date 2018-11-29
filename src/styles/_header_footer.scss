@@ -10,10 +10,11 @@ header {
   }
   nav {
     overflow: hidden;
-    max-width: 1600px;
+    // max-width: 1600px;
+    max-width: 1140px;
     margin: auto;
     .logo {
-      height: 39px;
+      height: 30px;
     }
     .navbar-collapse {
       position: relative;
@@ -55,13 +56,13 @@ header {
 
           font: {
             family: $navlink-fontFamily;
-            size: 18px;
+            size: 16px;
             weight: 400;
           }
           @media (max-width: 767px) {
             border-top: 1px solid #000;
             font: {
-              size: 16px;
+              size: 14px;
             }
           }
           .nav-link {
@@ -116,13 +117,13 @@ header {
         color: map-get($color, footer-menu-link);
         font: {
           family: $footerlink-fontFamily;
-          size: 18px;
+          size: 16px;
           weight: 300;
         }
 
         @media (max-width: 767px) {
           font: {
-            size: 16px;
+            size: 14px;
           }
         }
       }

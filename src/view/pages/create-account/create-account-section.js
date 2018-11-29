@@ -29,7 +29,7 @@ export default class CreateAccountSection extends React.PureComponent {
     } = SELF.props;
     return (
       <div id="account-information" className="account-information">
-        <section className="bg-dark" style={{ padding: '80px 0' }}>
+        <section className="bg-dark" style={{ padding: '60px 0' }}>
           <Container>
             <Row>
               <Col>

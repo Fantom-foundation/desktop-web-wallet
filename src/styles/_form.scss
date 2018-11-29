@@ -2,7 +2,7 @@
   .pass-validator {
     margin-top: 0px;
     @media (min-width: 768px) {
-      margin-top: 52px;
+      margin-top: 32px;
     }
     li {
       font: {
@@ -18,9 +18,12 @@
     }
   }
   .form-group {
-    margin-bottom: 52px;
+    margin-bottom: 32px;
     @media (max-width: 767px) {
-      margin-bottom: 30px;
+      margin-bottom: 24px;
+    }
+    &.form-radio-label {
+      margin-bottom: 16px;
     }
   }
   input {
@@ -30,7 +33,7 @@
     background: {
       color: transparent;
       repeat: no-repeat;
-      size: auto 22px;
+      size: auto 20px;
       position: left center;
     }
     padding-left: 38px;
