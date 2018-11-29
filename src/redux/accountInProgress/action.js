@@ -28,10 +28,3 @@ export function incrementStepNo(data) {
     payload: data,
   });
 }
-
-export function setNextButtonStatus(data) {
-  dispatch({
-    type: types.NEXT_BUTTON_DISABLE,
-    payload: data,
-  });
-}

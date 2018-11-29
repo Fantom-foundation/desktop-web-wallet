@@ -6,7 +6,6 @@ import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import { withRouter } from 'react-router-dom';
 import copy from 'copy-to-clipboard';
-import _ from 'lodash';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import { CONFIRMATION_PHASE } from '../../../redux/constants';
@@ -14,7 +13,6 @@ import createPublicPrivateKeys from '../../../redux/keys/actions';
 import {
   createMnemonic,
   createAccount,
-  setNextButtonStatus,
   incrementStepNo,
 } from '../../../redux/accountInProgress/action';
 import Identicons from '../../general/identicons/identicons';
@@ -33,19 +31,11 @@ class AccountInformation extends React.PureComponent {
     this.state = {
       // masterKey: '',
       // privateKey: '',
-      revealSecret: false,
-      confirmationPhrase: '',
-      // disableNextButton: false,
     };
     this.copyToClipboard = this.copyToClipboard.bind(this);
-    this.revealSecret = this.revealSecret.bind(this);
     this.getMnemonics = this.getMnemonics.bind(this);
     this.goToNextScreen = this.goToNextScreen.bind(this);
     this.goToPreviousScreen = this.goToPreviousScreen.bind(this);
-  }
-
-  componentWillMount() {
-    this.disableNextButton();
   }
 
   componentDidMount() {
@@ -60,12 +50,9 @@ class AccountInformation extends React.PureComponent {
   }
 
   onUpdate(key, value) {
-    this.setState(
-      {
-        [key]: value,
-      },
-      () => this.disableNextButton(key, value)
-    );
+    this.setState({
+      [key]: value,
+    });
   }
 
   getMnemonics() {
@@ -82,32 +69,6 @@ class AccountInformation extends React.PureComponent {
     }
 
     return mnemonicsList;
-  }
-
-  disableNextButton(key, value) {
-    const SELF = this;
-    const { setButtonStatus } = SELF.props;
-    const { revealSecret, confirmationPhrase } = this.state;
-    let isDisable = true;
-    const data = {
-      revealSecret: key === 'revealSecret' ? value === true : revealSecret,
-      confirmationPhrase:
-        key === 'confirmationPhrase' ? value === CONFIRMATION_PHASE : confirmationPhrase,
-    };
-    const isAnyFieldEmpty = _.includes(data, '');
-    const isAnyFieldUndefined = _.includes(data, undefined);
-    const isPasswordIncorrect = _.includes(data, false);
-    if (!isAnyFieldEmpty && !isPasswordIncorrect && !isAnyFieldUndefined) {
-      isDisable = false;
-    }
-    setButtonStatus({ isDisable });
-  }
-
-  revealSecret() {
-    this.setState({
-      revealSecret: true,
-    });
-    this.disableNextButton('revealSecret', true);
   }
 
   goToNextScreen() {
@@ -147,16 +108,17 @@ class AccountInformation extends React.PureComponent {
 
   render() {
     const SELF = this;
-    const { accountInfo, accountKeys } = SELF.props;
+    const {
+      accountInfo,
+      accountKeys,
+      revealSecret,
+      revealSecretFunc,
+      confirmationPhrase,
+      onUpdate,
+    } = SELF.props;
     const { accountName, selectedIcon } = accountInfo;
     const { publicAddress } = accountKeys;
-    const { revealSecret, confirmationPhrase } = this.state;
     const getMnemonics = this.getMnemonics();
-    const data = {
-      revealSecret,
-      confirmationPhrase: confirmationPhrase === CONFIRMATION_PHASE,
-    };
-    console.log(data, 'datatadta');
     return (
       <div id="account-information" className="account-information">
         <section className="bg-dark" style={{ padding: '40px 0 70px' }}>
@@ -211,7 +173,7 @@ class AccountInformation extends React.PureComponent {
                     <div id="mnemonic-collector">
                       <ul className={!revealSecret ? 'blur' : ''}>{getMnemonics}</ul>
                       {!revealSecret && (
-                        <button className="blur-overley" type="button" onClick={this.revealSecret}>
+                        <button className="blur-overley" type="button" onClick={revealSecretFunc}>
                           <div className="holder">
                             <h2>Click Here To Reveal Secret Words</h2>
                           </div>
@@ -257,7 +219,7 @@ class AccountInformation extends React.PureComponent {
                     <Input
                       type="text"
                       name="msg"
-                      onChange={e => this.onUpdate('confirmationPhrase', e.currentTarget.value)}
+                      onChange={e => onUpdate('confirmationPhrase', e.currentTarget.value)}
                       id="msg"
                       value={confirmationPhrase}
                       autoFocus={false}
@@ -292,9 +254,6 @@ const mapDispatchToProps = dispatch => ({
   },
   goToStep: data => {
     dispatch(() => incrementStepNo(data));
-  },
-  setButtonStatus: data => {
-    dispatch(() => setNextButtonStatus(data));
   },
 });
 

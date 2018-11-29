@@ -24,11 +24,6 @@ const accountInfo = (state = defaultState, action) => {
         stepNo: payload.stepNo,
       });
     }
-    case types.NEXT_BUTTON_DISABLE: {
-      return Object.assign({}, state, {
-        isNextButtonDisable: payload.isDisable,
-      });
-    }
     case types.EMPTY_STATE: {
       return defaultState;
     }

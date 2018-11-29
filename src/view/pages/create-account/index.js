@@ -6,11 +6,7 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import _ from 'lodash';
 import AccountProcess from '../../components/account-process';
 import Layout from '../../components/layout';
-import {
-  createAccount,
-  incrementStepNo,
-  setNextButtonStatus,
-} from '../../../redux/accountInProgress/action';
+import { createAccount, incrementStepNo } from '../../../redux/accountInProgress/action';
 import ValidationMethods from '../../../validations/userInputMethods';
 import CreateAccountSection from './create-account-section';
 import AccountInformation from '../account-information';
@@ -37,6 +33,8 @@ class CreateAccount extends React.PureComponent {
       hasLengthGreaterThanEight: false,
       nextButtonFunction: '',
       backButtonFunction: '',
+      revealSecret: false,
+      confirmationPhrase: '',
     };
     this.createNewAccount = this.createNewAccount.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
@@ -45,14 +43,12 @@ class CreateAccount extends React.PureComponent {
     this.goToNextScreen = this.goToNextScreen.bind(this);
     this.goToPreviousScreen = this.goToPreviousScreen.bind(this);
     this.goToAccountInfoScreen = this.goToAccountInfoScreen.bind(this);
+    this.revealSecret = this.revealSecret.bind(this);
   }
 
   componentWillMount() {
     const { password } = this.state;
-    const { setButtonStatus } = this.props;
     this.isValidPassword('password', password);
-    const isDisable = this.disableNextButton();
-    setButtonStatus({ isDisable });
     this.setStepNoWithRouting();
   }
 
@@ -140,6 +136,12 @@ class CreateAccount extends React.PureComponent {
     );
   }
 
+  revealSecret() {
+    this.setState({
+      revealSecret: true,
+    });
+  }
+
   goToNextScreen() {
     const SELF = this;
     const { goToNextStep, history } = SELF.props;
@@ -151,6 +153,10 @@ class CreateAccount extends React.PureComponent {
     const SELF = this;
     const { goToNextStep, history } = SELF.props;
     goToNextStep({ stepNo: 2 });
+    this.setState({
+      revealSecret: false,
+      confirmationPhrase: '',
+    });
     history.push('/account-information');
   }
 
@@ -177,6 +183,10 @@ class CreateAccount extends React.PureComponent {
     };
     createNewAccount(data);
     goToNextStep({ stepNo: 2 });
+    this.setState({
+      revealSecret: false,
+      confirmationPhrase: '',
+    });
     SELF.props.history.push('/account-information');
   }
 
@@ -204,9 +214,9 @@ class CreateAccount extends React.PureComponent {
     }
   }
 
-  disableNextButton() {
+  disableNextButtonOnStepOne() {
     const SELF = this;
-    const { setButtonStatus, location } = SELF.props;
+    const { location } = SELF.props;
     const { pathname } = location;
     const {
       accountName,
@@ -220,7 +230,6 @@ class CreateAccount extends React.PureComponent {
       hasLengthGreaterThanEight,
       error,
     } = this.state;
-    let isDisable = false;
     const data = {
       accountName,
       password,
@@ -237,20 +246,63 @@ class CreateAccount extends React.PureComponent {
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error) {
-      isDisable = true;
+    if (
+      isAnyFieldEmpty ||
+      isPasswordIncorrect ||
+      isAnyFieldUndefined ||
+      error ||
+      pathname === '/confirm'
+    ) {
+      return true;
     }
-    if (pathname === '/confirm') {
-      isDisable = true;
+
+    return false;
+  }
+
+  disableNextButtonOnStepTwo() {
+    const { revealSecret, confirmationPhrase } = this.state;
+    const data = {
+      revealSecret,
+      confirmationPhrase,
+    };
+    const isAnyFieldEmpty = _.includes(data, '');
+    const isAnyFieldUndefined = _.includes(data, undefined);
+    const isPasswordIncorrect = _.includes(data, false);
+    if (!isAnyFieldEmpty && !isPasswordIncorrect && !isAnyFieldUndefined) {
+      return false;
     }
-    setButtonStatus({ isDisable });
+    return true;
+  }
+
+  disableNextButton() {
+    const SELF = this;
+    const { stepNo } = SELF.props;
+    if (stepNo === 1) {
+      return this.disableNextButtonOnStepOne();
+    }
+    if (stepNo === 2) {
+      return this.disableNextButtonOnStepTwo();
+    }
+    if (stepNo === 3) {
+      return true;
+    }
+
+    return false;
   }
 
   render() {
     const SELF = this;
-    const { stepNo, isDisable, location } = SELF.props;
+    const { stepNo, location } = SELF.props;
+    const { revealSecret, confirmationPhrase } = this.state;
     const { pathname } = location;
     const functionToCall = this.setFunctionCalls();
+    const isDisable = this.disableNextButton();
+    const data = {
+      onUpdate: this.onUpdate,
+      revealSecretFunc: this.revealSecret,
+      revealSecret,
+      confirmationPhrase,
+    };
     return (
       <div id="account-information" className="account-information">
         <Layout>
@@ -261,6 +313,7 @@ class CreateAccount extends React.PureComponent {
             onUpdate={this.onUpdate}
             getRadioIconData={this.getRadioIconData}
             onRefresh={this.onRefresh}
+            data={data}
           />
           <section style={{ padding: '40px 0' }}>
             <Container>
@@ -298,7 +351,7 @@ class CreateAccount extends React.PureComponent {
 
 const Header = props => (
   <Switch>
-    <Route path="/account-information" component={AccountInformation} />
+    <Route path="/account-information" render={() => <AccountInformation {...props.data} />} />
     <Route path="/create-account" render={() => <CreateAccountSection {...props} />} />
     <Route path="/confirm" component={Confirm} />
   </Switch>
@@ -319,9 +372,6 @@ const mapDispatchToProps = dispatch => ({
   },
   goToNextStep: data => {
     dispatch(() => incrementStepNo(data));
-  },
-  setButtonStatus: data => {
-    dispatch(() => setNextButtonStatus(data));
   },
 });
 
