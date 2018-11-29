@@ -108,11 +108,12 @@ class AccountInformation extends React.PureComponent {
     const { accountName, selectedIcon } = accountInfo;
     const { publicAddress } = accountKeys;
     const getMnemonics = this.getMnemonics();
+    const accDetailsYSpaces = '26px';
     return (
       <div id="account-information" className="account-information">
-        <section className="bg-dark" style={{ padding: '40px 0 70px' }}>
+        <section className="bg-dark" style={{ padding: `${accDetailsYSpaces} 0 60px` }}>
           <Container>
-            <Row className="acc-details bg-dark-light" style={{ marginBottom: '30px' }}>
+            <Row className="acc-details bg-dark-light" style={{ marginBottom: accDetailsYSpaces }}>
               <Col className="left-col">
                 <div className="acc-qr">
                   <QRCode value="publicKey" level="H" size={158} />

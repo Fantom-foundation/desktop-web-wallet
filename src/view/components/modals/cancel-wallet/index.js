@@ -13,12 +13,14 @@ export default class CancelWalletModal extends React.PureComponent {
     return (
       <Modal isOpen={toggleModal} toggle={cancelModalToggle}>
         <ModalHeader toggle={cancelModalToggle}>Cancel Wallet </ModalHeader>
-        <ModalBody>Are you sure, you want to cancel the wallet ?</ModalBody>
+        <ModalBody>
+          <p>Are you sure, you want to cancel the wallet?</p>
+        </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={e => cancelWallet(e)}>
             Yes
           </Button>{' '}
-          <Button color="danger" onClick={cancelModalToggle}>
+          <Button color="primary" onClick={cancelModalToggle}>
             No
           </Button>
         </ModalFooter>

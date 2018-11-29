@@ -223,7 +223,6 @@ class Confirm extends React.PureComponent {
             <Row>
               <Col>
                 <div id="mnemonic-selector">
-                  <h2 className="text-white">Enter Your Mnemonic to create your account below</h2>
                   <Row className="bg-dark-light">
                     <Col>
                       <div className="mnemonic-container">
