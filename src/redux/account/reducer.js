@@ -1,22 +1,29 @@
-import * as types from '../constants';
-// import storage from '../store';
+// import * as Actions from './action';
 
-const defaultState = {
-  accountName: '',
-  password: '',
-  passwordHint: '',
-  reEnteredPassword: '',
+const defaultState = { accountsList: [] };
+
+// Result of nearByUser api
+const addAccount = (action, state) => {
+  if (action && action.payload) {
+    const data = action.payload;
+    const { accountsList } = state;
+    if (data) {
+      const accounts = {
+        accountsList: accountsList.concat(data),
+      };
+      return accounts;
+    }
+  }
+  return {};
 };
 
-const accountInfo = (state = defaultState, action) => {
-  const { payload } = action;
+// Reducer for handling near by users
+const accounts = (state = defaultState, action) => {
   switch (action.type) {
-    case types.CREATE_NEW_ACCOUNT: {
+    case 'CREATE_WALLET': {
+      const accountsList = addAccount(action, state);
       return Object.assign({}, state, {
-        accountName: payload.accountName,
-        password: payload.password,
-        passwordHint: payload.passwordHint,
-        selectedIcon: payload.selectedIcon,
+        ...accountsList,
       });
     }
     default:
@@ -24,4 +31,4 @@ const accountInfo = (state = defaultState, action) => {
   }
 };
 
-export default accountInfo;
+export default accounts;

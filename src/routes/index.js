@@ -5,7 +5,8 @@ import AccountManagement from '../view/pages/account-management';
 import CreateAccount from '../view/pages/create-account';
 
 const Routes = () => (
-  <BrowserRouter>
+  // eslint-disable-next-line no-undef
+  <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>
     <Switch>
       <Route path="/" exact component={Home} />
       <Route path="/account-management" exact component={AccountManagement} />

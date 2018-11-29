@@ -142,6 +142,8 @@ class CreateAccountSection extends React.PureComponent {
       getRadioIconData,
       onRefresh,
     } = SELF.props;
+    console.log(SELF.props, 'SELF.propsSELF.props');
+    console.log(accountName, 'accountNameaccountName');
     return (
       <div id="account-information" className="account-information">
         <section className="bg-dark" style={{ padding: '80px 0' }}>

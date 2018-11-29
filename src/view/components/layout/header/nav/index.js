@@ -1,8 +1,10 @@
 import React from 'react';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import logo from '../../../../../images/logo/fantom.png';
 
-export default class Example extends React.Component {
+class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
 
@@ -19,6 +21,12 @@ export default class Example extends React.Component {
     });
   }
 
+  goToPage(route) {
+    const SELF = this;
+    const { history } = SELF.props;
+    history.push(route);
+  }
+
   render() {
     const { isOpen } = this.state;
     return (
@@ -31,10 +39,10 @@ export default class Example extends React.Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="#">Open Wallet</NavLink>
+                <NavLink onClick={() => this.goToPage('/account-management')}>Open Wallet</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="#">New Wallet</NavLink>
+                <NavLink onClick={() => this.goToPage('/create-account')}>New Wallet</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="#">View Address</NavLink>
@@ -46,3 +54,5 @@ export default class Example extends React.Component {
     );
   }
 }
+
+export default compose(withRouter)(NavigationBar);

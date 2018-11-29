@@ -8,7 +8,9 @@ import {
   createMnemonic,
   createAccount,
   incrementStepNo,
+  emptyState,
 } from '../../../redux/accountInProgress/action';
+import createWallet from '../../../redux/account/action';
 
 class Confirm extends React.PureComponent {
   constructor(props) {
@@ -20,6 +22,8 @@ class Confirm extends React.PureComponent {
     this.selectMnemonic = this.selectMnemonic.bind(this);
     this.getMnemonics = this.getMnemonics.bind(this);
     this.getSelectedMnemonics = this.getSelectedMnemonics.bind(this);
+    this.createWallet = this.createWallet.bind(this);
+    this.cancelWallet = this.cancelWallet.bind(this);
   }
 
   componentWillMount() {
@@ -119,6 +123,38 @@ class Confirm extends React.PureComponent {
     }
   }
 
+  cancelWallet() {
+    const SELF = this;
+    const { accountsList, history, removeAccount } = SELF.props;
+    if (accountsList.length === 0) {
+      history.push('/create-account');
+      removeAccount();
+    } else {
+      history.push('/account-management');
+      removeAccount();
+    }
+  }
+
+  createWallet() {
+    const SELF = this;
+    const { addWallet, accountInfo, publicAddress, history, removeAccount } = SELF.props;
+    const { mnemonic } = accountInfo;
+    const { selectedMnemonicsArray } = this.state;
+    let data = {
+      ...accountInfo,
+      publicAddress,
+    };
+    data = _.omit(data, ['stepNo', 'isNextButtonDisable']);
+    console.log(data, 'datadata');
+    if (selectedMnemonicsArray.join(' ') === mnemonic) {
+      addWallet(data);
+      removeAccount();
+      history.push('/account-management');
+    } else {
+      console.log('doesnotmatch');
+    }
+  }
+
   render() {
     const { mnemonicsArray } = this.state;
     const selectedMnemonics = this.getSelectedMnemonics();
@@ -154,8 +190,12 @@ class Confirm extends React.PureComponent {
                     </Col>
                   </Row>
                   <div className="mnemonic-btn">
-                    <Button className="create-wallet">Create Wallet</Button>
-                    <Button className="cancel">Cancel</Button>
+                    <Button className="create-wallet" onClick={this.createWallet}>
+                      Create Wallet
+                    </Button>
+                    <Button className="cancel" onClick={this.cancelWallet}>
+                      Cancel
+                    </Button>
                   </div>
                 </div>
               </Col>
@@ -170,6 +210,8 @@ class Confirm extends React.PureComponent {
 const mapStateToProps = state => ({
   accountInfo: state.accountInfo,
   stepNo: state.accountInfo.stepNo,
+  publicAddress: state.accountKeys.publicAddress,
+  accountsList: state.accounts.accountsList,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -184,6 +226,12 @@ const mapDispatchToProps = dispatch => ({
   },
   goToStep: data => {
     dispatch(() => incrementStepNo(data));
+  },
+  addWallet: data => {
+    dispatch(() => createWallet(data));
+  },
+  removeAccount: () => {
+    dispatch(() => emptyState());
   },
 });
 

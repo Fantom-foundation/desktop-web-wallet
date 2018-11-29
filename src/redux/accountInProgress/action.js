@@ -8,6 +8,13 @@ export function createAccount(data) {
   });
 }
 
+export function emptyState() {
+  dispatch({
+    type: types.EMPTY_STATE,
+    payload: {},
+  });
+}
+
 export function createMnemonic(data) {
   dispatch({
     type: types.MNEMONIC_CODE,

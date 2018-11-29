@@ -29,6 +29,9 @@ const accountInfo = (state = defaultState, action) => {
         isNextButtonDisable: payload.isDisable,
       });
     }
+    case types.EMPTY_STATE: {
+      return defaultState;
+    }
     default:
       return state;
   }

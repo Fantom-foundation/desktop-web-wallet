@@ -1,15 +1,72 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
+import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
+import copy from 'copy-to-clipboard';
 import Layout from '../../components/layout';
-import avatar from '../../../images/icons/icon.png';
+import Identicons from '../../general/identicons/identicons';
 
-export default class AccountManagement extends React.PureComponent {
+class AccountManagement extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
+    this.copyToClipboard = this.copyToClipboard.bind(this);
+  }
+
+  getAccountsList() {
+    const SELF = this;
+    const { accountsList } = SELF.props;
+    const accounts = [];
+    if (accountsList && accountsList.length > 0) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const account of accountsList) {
+        if (account) {
+          accounts.push(
+            <Col md={6} lg={3} className="main-col">
+              <div className="accounts-holder">
+                <div className="avatar">
+                  <span className="avatar-icon">
+                    <Identicons id={account.selectedIcon} width={40} key={0} size={3} />
+                  </span>
+                </div>
+                <h2 className="title ">
+                  <span>{account.accountName}</span>
+                </h2>
+                <div className="account-no">
+                  <p>
+                    <span>
+                      <button
+                        type="button"
+                        className="clipboard-btn"
+                        onClick={SELF.copyToClipboard}
+                      >
+                        <i className="fas fa-clone" />
+                      </button>
+                    </span>
+                    {account.publicAddress}
+                  </p>
+                </div>
+              </div>
+            </Col>
+          );
+        }
+      }
+    }
+
+    return accounts;
+  }
+
+  copyToClipboard() {
+    const SELF = this;
+    const { accountKeys } = SELF.props;
+    const { publicAddress } = accountKeys;
+    copy(publicAddress);
   }
 
   render() {
+    console.log(this.props, 'this.props');
+    const accountList = this.getAccountsList();
     return (
       <div id="account-management" className="account-management">
         <Layout>
@@ -39,7 +96,8 @@ export default class AccountManagement extends React.PureComponent {
                 </Col>
               </Row>
               <Row id="account-card" className="text-center ">
-                <Col md={6} lg={3} className="main-col">
+                {accountList}
+                {/* <Col md={6} lg={3} className="main-col">
                   <div className="accounts-holder">
                     <div className="avatar">
                       <span className="avatar-icon">
@@ -58,8 +116,8 @@ export default class AccountManagement extends React.PureComponent {
                       </p>
                     </div>
                   </div>
-                </Col>
-                <Col md={6} lg={3} className="main-col">
+                </Col> */}
+                {/* <Col md={6} lg={3} className="main-col">
                   <div className="accounts-holder">
                     <div className="avatar">
                       <span className="avatar-icon">
@@ -138,7 +196,7 @@ export default class AccountManagement extends React.PureComponent {
                       </p>
                     </div>
                   </div>
-                </Col>
+                </Col> */}
               </Row>
             </Container>
           </section>
@@ -147,3 +205,13 @@ export default class AccountManagement extends React.PureComponent {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  accountsList: state.accounts.accountsList,
+  accountKeys: state.accountKeys,
+});
+
+export default compose(
+  connect(mapStateToProps),
+  withRouter
+)(AccountManagement);

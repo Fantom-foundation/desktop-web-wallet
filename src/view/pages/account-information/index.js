@@ -10,7 +10,7 @@ import _ from 'lodash';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import { CONFIRMATION_PHASE } from '../../../redux/constants';
-// import createMnemonic from '../../../redux/keys/actions';
+import createPublicPrivateKeys from '../../../redux/keys/actions';
 import {
   createMnemonic,
   createAccount,
@@ -32,7 +32,6 @@ class AccountInformation extends React.PureComponent {
     super(props);
     this.state = {
       // masterKey: '',
-      publicKey: '',
       // privateKey: '',
       revealSecret: false,
       confirmationPhrase: '',
@@ -127,16 +126,15 @@ class AccountInformation extends React.PureComponent {
 
   walletSetup(seed, mnemonic) {
     const SELF = this;
-    const { setMnemonicCode } = SELF.props;
+    const { setMnemonicCode, setKeys } = SELF.props;
     const root = Hdkey.fromMasterSeed(seed);
-    // const masterK  ey = root.privateKey.toString('hex');
+    // const masterKey = root.privateKey.toString('hex');
     const addrNode = root.derive("m/44'/60'/0'/0/0");
     const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
     const addr = EthUtil.publicToAddress(pubKey).toString('hex');
-    const publicKey = EthUtil.toChecksumAddress(addr);
-    // const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    // setKeys({ masterKey, publicKey, privateKey });
-    this.setState({ publicKey });
+    const publicAddress = EthUtil.toChecksumAddress(addr);
+    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
+    setKeys({ publicAddress });
     setMnemonicCode({ mnemonic });
   }
 
@@ -149,9 +147,10 @@ class AccountInformation extends React.PureComponent {
 
   render() {
     const SELF = this;
-    const { accountInfo } = SELF.props;
+    const { accountInfo, accountKeys } = SELF.props;
     const { accountName, selectedIcon } = accountInfo;
-    const { publicKey, revealSecret, confirmationPhrase } = this.state;
+    const { publicAddress } = accountKeys;
+    const { revealSecret, confirmationPhrase } = this.state;
     const getMnemonics = this.getMnemonics();
     const data = {
       revealSecret,
@@ -183,7 +182,7 @@ class AccountInformation extends React.PureComponent {
                         <i className="fas fa-clone" />
                       </button>
                     </span>
-                    {publicKey}
+                    {publicAddress}
                   </p>
                 </div>
               </Col>
@@ -278,12 +277,13 @@ class AccountInformation extends React.PureComponent {
 const mapStateToProps = state => ({
   accountInfo: state.accountInfo,
   stepNo: state.accountInfo.stepNo,
+  accountKeys: state.accountKeys,
 });
 
 const mapDispatchToProps = dispatch => ({
-  // setKeys: data => {
-  //   dispatch(() => createPublicPrivateKeys(data));
-  // },
+  setKeys: data => {
+    dispatch(() => createPublicPrivateKeys(data));
+  },
   incrementStepNo: data => {
     dispatch(() => createAccount(data));
   },
