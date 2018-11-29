@@ -254,15 +254,8 @@ class CreateAccount extends React.PureComponent {
     return (
       <div id="account-information" className="account-information">
         <Layout>
-          <section style={{ padding: '90px 0' }}>
-            <Container>
-              <Row>
-                <Col>
-                  <AccountProcess stepNo={stepNo} />
-                </Col>
-              </Row>
-            </Container>
-          </section>
+          <AccountProcess stepNo={stepNo} />
+
           <Header
             {...this.state}
             onUpdate={this.onUpdate}

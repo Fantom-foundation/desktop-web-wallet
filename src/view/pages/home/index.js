@@ -14,13 +14,15 @@ class Home extends React.PureComponent {
     particles.src = 'js/particles/particles.min.js';
     document.getElementById('scripts').appendChild(particles);
 
-    const particlesApp = document.createElement('script');
-    particlesApp.src = 'js/particles/app.js';
-    document.getElementById('scripts').appendChild(particlesApp);
+    particles.addEventListener('load', () => {
+      const particlesApp = document.createElement('script');
+      particlesApp.src = 'js/particles/app.js';
+      document.getElementById('scripts').appendChild(particlesApp);
 
-    const particlesState = document.createElement('script');
-    particlesState.src = 'js/particles/lib/stats.js';
-    document.getElementById('scripts').appendChild(particlesState);
+      const particlesState = document.createElement('script');
+      particlesState.src = 'js/particles/lib/stats.js';
+      document.getElementById('scripts').appendChild(particlesState);
+    });
   }
 
   goToPage(route) {
@@ -46,7 +48,7 @@ class Home extends React.PureComponent {
                   <Button
                     color="dark"
                     className="rounded"
-                    onClick={() => this.goToPage('/account-management')}
+                    onClick={() => this.goToPage('/create-account')}
                   >
                     Open Wallet
                   </Button>

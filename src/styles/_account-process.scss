@@ -33,14 +33,14 @@ $transition-time: 0.3s;
     }
     h2 {
       color: #fff;
-      margin-top: 40px;
+      margin-top: 10px;
       font: {
         family: "Roboto Condensed";
-        size: 22px;
+        size: 16px;
       }
       @media (max-width: 767px) {
         font: {
-          size: 18px;
+          size: 14px;
         }
       }
     }
