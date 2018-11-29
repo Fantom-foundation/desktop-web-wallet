@@ -155,7 +155,7 @@ class RestoreAccount extends React.PureComponent {
     const SELF = this;
     const { goToNextStep, history } = SELF.props;
     goToNextStep({ stepNo: 3 });
-    history.push('/confirm');
+    history.push('/confirm-restore');
   }
 
   /**

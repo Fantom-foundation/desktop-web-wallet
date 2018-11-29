@@ -145,7 +145,6 @@ class Confirm extends React.PureComponent {
       publicAddress,
     };
     data = _.omit(data, ['stepNo', 'isNextButtonDisable']);
-    console.log(data, 'datadata');
     if (selectedMnemonicsArray.join(' ') === mnemonic) {
       addWallet(data);
       removeAccount();

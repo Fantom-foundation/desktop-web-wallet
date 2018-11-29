@@ -65,7 +65,6 @@ class AccountManagement extends React.PureComponent {
   }
 
   render() {
-    console.log(this.props, 'this.props');
     const accountList = this.getAccountsList();
     return (
       <div id="account-management" className="account-management">

@@ -39,7 +39,7 @@ class NavigationBar extends React.Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink onClick={() => this.goToPage('/account-management')}>Open Wallet</NavLink>
+                <NavLink onClick={() => this.goToPage('/restore-account')}>Open Wallet</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink onClick={() => this.goToPage('/create-account')}>New Wallet</NavLink>
