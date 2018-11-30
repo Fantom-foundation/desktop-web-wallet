@@ -30,4 +30,20 @@ export default class ValidationMethods {
     }
     return obj;
   }
+
+  // eslint-disable-next-line class-methods-use-this
+  getSplittedArray(data) {
+    const commaSeperated = data.split(',');
+    const spaceSeperated = data.split(' ');
+    if (data) {
+      if (commaSeperated.length > 0) {
+        return commaSeperated;
+      }
+      if (spaceSeperated.length > 0) {
+        return spaceSeperated;
+      }
+    }
+
+    return [];
+  }
 }

@@ -11,6 +11,9 @@ import {
   emptyState,
 } from '../../../redux/accountInProgress/action';
 import createWallet from '../../../redux/account/action';
+import ValidationMethods from '../../../validations/userInputMethods';
+
+const validationMethods = new ValidationMethods();
 
 class Confirm extends React.PureComponent {
   constructor(props) {
@@ -36,23 +39,33 @@ class Confirm extends React.PureComponent {
   getMnemonics() {
     const SELF = this;
     const { accountInfo } = SELF.props;
+    const { selectedMnemonicsArray } = this.state;
     const { mnemonic } = accountInfo;
     let mnemonicsList = [];
-    const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
+    const generatedMnemonic = validationMethods.getSplittedArray(mnemonic);
     if (generatedMnemonic && generatedMnemonic.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
-      for (const name of generatedMnemonic) {
-        const index = _.findIndex(generatedMnemonic, mnemonicName => mnemonicName === name);
+      for (let i = 0; i < generatedMnemonic.length; i += 1) {
+        const selectedIndex = _.findIndex(
+          selectedMnemonicsArray,
+          mnemonicName => mnemonicName === generatedMnemonic[i]
+        );
         mnemonicsList.push(
-          <li className={`${name}_${index}`}>
-            <Button color="primary" onClick={() => SELF.selectMnemonic(name)}>
-              {name}
+          <li className={`${generatedMnemonic[i]}_${i}`}>
+            <Button
+              color="primary"
+              disabled={selectedIndex !== -1}
+              onClick={() => SELF.selectMnemonic(generatedMnemonic[i], i)}
+            >
+              {generatedMnemonic[i]}
             </Button>
           </li>
         );
       }
     }
-    mnemonicsList = _.shuffle(mnemonicsList);
+    if (selectedMnemonicsArray.length !== 0) {
+      mnemonicsList = _.shuffle(mnemonicsList);
+    }
 
     return mnemonicsList;
   }
@@ -63,11 +76,19 @@ class Confirm extends React.PureComponent {
     const mnemonicsList = [];
     if (selectedMnemonicsArray && selectedMnemonicsArray.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
-      for (const name of selectedMnemonicsArray) {
+      for (let i = 0; i < selectedMnemonicsArray.length; i += 1) {
         mnemonicsList.push(
           <li>
-            <Button color="primary" onClick={() => SELF.unselectMnemonic(name)}>
-              {name}
+            <Button
+              color="primary"
+              onClick={() =>
+                SELF.unselectMnemonic(
+                  selectedMnemonicsArray[i].name,
+                  selectedMnemonicsArray[i].index
+                )
+              }
+            >
+              {selectedMnemonicsArray[i].name}
             </Button>
           </li>
         );
@@ -77,47 +98,35 @@ class Confirm extends React.PureComponent {
     return mnemonicsList;
   }
 
-  unselectMnemonic(name) {
-    const SELF = this;
-    const { accountInfo } = SELF.props;
-    const { mnemonic } = accountInfo;
-    const { selectedMnemonicsArray } = SELF.state;
+  unselectMnemonic(name, index) {
+    const { selectedMnemonicsArray } = this.state;
     const clonedArray = selectedMnemonicsArray.slice();
-    const index = _.findIndex(mnemonic.split(' '), mnemonicName => mnemonicName === name);
     const selectedIndex = _.findIndex(
       selectedMnemonicsArray,
-      mnemonicName => mnemonicName === name
+      mnemonicName => mnemonicName.index === index
     );
     // eslint-disable-next-line no-undef
     const findSelectedMnemonic = document.getElementsByClassName(`${name}_${index}`);
-    if (findSelectedMnemonic) {
+    const hasSelectedClass = findSelectedMnemonic[0].classList.contains('selected');
+    if (hasSelectedClass) {
       findSelectedMnemonic[0].classList.remove('selected');
+      clonedArray.splice(selectedIndex, 1);
+      this.setState({
+        selectedMnemonicsArray: clonedArray,
+      });
     }
-    clonedArray.splice(selectedIndex, 1);
-    SELF.setState({
-      selectedMnemonicsArray: clonedArray,
-    });
   }
 
-  selectMnemonic(name) {
-    const SELF = this;
-    const { accountInfo } = SELF.props;
-    const { mnemonic } = accountInfo;
-    const { selectedMnemonicsArray } = SELF.state;
+  selectMnemonic(name, index) {
+    const { selectedMnemonicsArray } = this.state;
     const clonedArray = selectedMnemonicsArray.slice();
-    const index = _.findIndex(mnemonic.split(' '), mnemonicName => mnemonicName === name);
-    const selectedIndex = _.findIndex(
-      selectedMnemonicsArray,
-      mnemonicName => mnemonicName === name
-    );
     // eslint-disable-next-line no-undef
     const findSelectedMnemonic = document.getElementsByClassName(`${name}_${index}`);
-    if (findSelectedMnemonic) {
+    const hasSelectedClass = findSelectedMnemonic[0].classList.contains('selected');
+    if (!hasSelectedClass) {
       findSelectedMnemonic[0].classList.add('selected');
-    }
-    if (selectedIndex === -1) {
-      clonedArray.push(name);
-      SELF.setState({
+      clonedArray.push({ name, index });
+      this.setState({
         selectedMnemonicsArray: clonedArray,
       });
     }
@@ -145,7 +154,10 @@ class Confirm extends React.PureComponent {
       publicAddress,
     };
     data = _.omit(data, ['stepNo', 'isNextButtonDisable']);
-    if (selectedMnemonicsArray.join(' ') === mnemonic) {
+    if (
+      selectedMnemonicsArray.join(' ') === mnemonic ||
+      selectedMnemonicsArray.join(',') === mnemonic
+    ) {
       addWallet(data);
       removeAccount();
       history.push('/account-management');

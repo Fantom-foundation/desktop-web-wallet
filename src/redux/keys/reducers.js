@@ -13,11 +13,6 @@ const accountKeys = (state = defaultState, action) => {
         // privateKey: payload.privateKey,
       });
     }
-    case types.MNEMONIC_CODE: {
-      return Object.assign({}, state, {
-        mnemonic: payload.mnemonic,
-      });
-    }
     default:
       return state;
   }
