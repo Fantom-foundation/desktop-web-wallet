@@ -130,14 +130,14 @@ $border-radius: 8px;
     min-height: 146px;
     border-radius: $border-radius;
     padding: 54px 64px;
-    margin-bottom: 100px;
+    margin-bottom: 70px;
     @media (max-width: 991px) {
-      margin-bottom: 80px;
+      margin-bottom: 50px;
     }
     @media (max-width: 767px) {
       min-height: 98px;
       padding: 30px;
-      margin-bottom: 60px;
+      margin-bottom: 40px;
     }
     @media (max-width: 575px) {
       padding: 30px 20px;

@@ -14,6 +14,9 @@ class AccountManagement extends React.PureComponent {
     this.copyToClipboard = this.copyToClipboard.bind(this);
   }
 
+  /**
+   * This method will return the accounts list
+   */
   getAccountsList() {
     const SELF = this;
     const { accountsList } = SELF.props;
@@ -57,6 +60,9 @@ class AccountManagement extends React.PureComponent {
     return accounts;
   }
 
+  /**
+   * This method will copy the text
+   */
   copyToClipboard() {
     const SELF = this;
     const { accountKeys } = SELF.props;

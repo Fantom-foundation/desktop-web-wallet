@@ -11,6 +11,8 @@ import {
   emptyState,
 } from '../../../redux/accountInProgress/action';
 import createWallet from '../../../redux/account/action';
+import CancelWalletModal from '../../components/modals/cancel-wallet';
+import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
 import ValidationMethods from '../../../validations/userInputMethods';
 
 const validationMethods = new ValidationMethods();
@@ -21,12 +23,16 @@ class Confirm extends React.PureComponent {
     this.state = {
       selectedMnemonicsArray: [],
       mnemonicsArray: [],
+      toggleModal: false,
+      openIncorrectMnemonicsModal: false,
     };
     this.selectMnemonic = this.selectMnemonic.bind(this);
     this.getMnemonics = this.getMnemonics.bind(this);
     this.getSelectedMnemonics = this.getSelectedMnemonics.bind(this);
     this.createWallet = this.createWallet.bind(this);
     this.cancelWallet = this.cancelWallet.bind(this);
+    this.cancelModalToggle = this.cancelModalToggle.bind(this);
+    this.toggleIncorrectMnemonicsModal = this.toggleIncorrectMnemonicsModal.bind(this);
   }
 
   componentWillMount() {
@@ -36,6 +42,9 @@ class Confirm extends React.PureComponent {
     });
   }
 
+  /**
+   * This method will return the mnemonics list
+   */
   getMnemonics() {
     const SELF = this;
     const { accountInfo } = SELF.props;
@@ -70,6 +79,9 @@ class Confirm extends React.PureComponent {
     return mnemonicsList;
   }
 
+  /**
+   * This method will return the selected mnemonics
+   */
   getSelectedMnemonics() {
     const SELF = this;
     const { selectedMnemonicsArray } = this.state;
@@ -98,8 +110,13 @@ class Confirm extends React.PureComponent {
     return mnemonicsList;
   }
 
+  /**
+   * @param {Name of the mnemonic} name
+   * This method will remove the mnemonic from the selected mnemonics
+   */
   unselectMnemonic(name, index) {
-    const { selectedMnemonicsArray } = this.state;
+    const SELF = this;
+    const { selectedMnemonicsArray } = SELF.state;
     const clonedArray = selectedMnemonicsArray.slice();
     const selectedIndex = _.findIndex(
       selectedMnemonicsArray,
@@ -117,8 +134,13 @@ class Confirm extends React.PureComponent {
     }
   }
 
+  /**
+   * @param {Name of the mnemonic} name
+   * This method will push the selected mnemonic in the selected mnemonic array
+   */
   selectMnemonic(name, index) {
-    const { selectedMnemonicsArray } = this.state;
+    const SELF = this;
+    const { selectedMnemonicsArray } = SELF.state;
     const clonedArray = selectedMnemonicsArray.slice();
     // eslint-disable-next-line no-undef
     const findSelectedMnemonic = document.getElementsByClassName(`${name}_${index}`);
@@ -132,43 +154,70 @@ class Confirm extends React.PureComponent {
     }
   }
 
+  /**
+   * This method will cancel the wallet creation process
+   */
   cancelWallet() {
     const SELF = this;
-    const { accountsList, history, removeAccount } = SELF.props;
+    const { accountsList, history, resetState } = SELF.props;
     if (accountsList.length === 0) {
       history.push('/create-account');
-      removeAccount();
+      // This method will reset the state of accountInfo reducer
+      resetState();
     } else {
       history.push('/account-management');
-      removeAccount();
+      resetState();
     }
   }
 
+  /**
+   * This method will create the wallet
+   */
   createWallet() {
     const SELF = this;
-    const { addWallet, accountInfo, publicAddress, history, removeAccount } = SELF.props;
+    const { addWallet, accountInfo, publicAddress, history, resetState } = SELF.props;
     const { mnemonic } = accountInfo;
     const { selectedMnemonicsArray } = this.state;
     let data = {
       ...accountInfo,
       publicAddress,
     };
-    data = _.omit(data, ['stepNo', 'isNextButtonDisable']);
+    data = _.omit(data, ['stepNo']);
     if (
       selectedMnemonicsArray.join(' ') === mnemonic ||
       selectedMnemonicsArray.join(',') === mnemonic
     ) {
       data = _.omit(data, ['mnemoinc', 'password']);
       addWallet(data);
-      removeAccount();
+      resetState();
       history.push('/account-management');
     } else {
-      console.log('doesnotmatch');
+      this.toggleIncorrectMnemonicsModal();
     }
   }
 
+  /**
+   * This method will toggle the cancel wallet modal
+   */
+  cancelModalToggle() {
+    const { toggleModal } = this.state;
+    this.setState({
+      toggleModal: !toggleModal,
+    });
+  }
+
+  /**
+   * This method will toggle the Incorrect Mnemonics modal
+   */
+  toggleIncorrectMnemonicsModal() {
+    const { openIncorrectMnemonicsModal } = this.state;
+    this.setState({
+      openIncorrectMnemonicsModal: !openIncorrectMnemonicsModal,
+    });
+  }
+
   render() {
-    const { mnemonicsArray } = this.state;
+    const { mnemonicsArray, toggleModal, openIncorrectMnemonicsModal } = this.state;
     const selectedMnemonics = this.getSelectedMnemonics();
     return (
       <div id="confirm" className="confirm">
@@ -186,11 +235,9 @@ class Confirm extends React.PureComponent {
                 </div>
               </Col>
             </Row>
-
             <Row>
               <Col>
                 <div id="mnemonic-selector">
-                  <h2 className="text-white">Enter Your Mnemonic to create your account below</h2>
                   <Row className="bg-dark-light">
                     <Col>
                       <div className="mnemonic-container">
@@ -205,7 +252,7 @@ class Confirm extends React.PureComponent {
                     <Button className="create-wallet" onClick={this.createWallet}>
                       Create Wallet
                     </Button>
-                    <Button className="cancel" onClick={this.cancelWallet}>
+                    <Button className="cancel" onClick={this.cancelModalToggle}>
                       Cancel
                     </Button>
                   </div>
@@ -213,6 +260,15 @@ class Confirm extends React.PureComponent {
               </Col>
             </Row>
           </Container>
+          <CancelWalletModal
+            toggleModal={toggleModal}
+            cancelModalToggle={this.cancelModalToggle}
+            cancelWallet={this.cancelWallet}
+          />
+          <IncorrectMnemonicsModal
+            openIncorrectMnemonicsModal={openIncorrectMnemonicsModal}
+            toggleIncorrectMnemonicsModal={this.toggleIncorrectMnemonicsModal}
+          />
         </section>
       </div>
     );
@@ -227,9 +283,6 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  // setKeys: data => {
-  //   dispatch(() => createPublicPrivateKeys(data));
-  // },
   incrementStepNo: data => {
     dispatch(() => createAccount(data));
   },
@@ -242,7 +295,7 @@ const mapDispatchToProps = dispatch => ({
   addWallet: data => {
     dispatch(() => createWallet(data));
   },
-  removeAccount: () => {
+  resetState: () => {
     dispatch(() => emptyState());
   },
 });
