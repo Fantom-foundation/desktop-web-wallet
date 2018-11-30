@@ -318,10 +318,11 @@ class RestoreAccount extends React.PureComponent {
       revealSecret,
       confirmationPhrase,
     };
+
     return (
       <div id="account-information" className="account-information">
         <Layout>
-          <AccountProcess stepNo={stepNo} isRestoringAccount />
+          <AccountProcess restoreAccount stepNo={stepNo} isRestoringAccount />
           <Header
             {...this.state}
             onUpdate={this.onUpdate}
@@ -366,7 +367,7 @@ class RestoreAccount extends React.PureComponent {
 const Header = props => (
   <Switch>
     <Route path="/restore-account" render={() => <CreateAccountSection {...props} />} />
-    <Route path="/confirm" component={EnterMnemonics} />
+    <Route path="/confirm-restore" component={EnterMnemonics} />
   </Switch>
 );
 

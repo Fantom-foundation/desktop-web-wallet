@@ -357,10 +357,11 @@ class CreateAccount extends React.PureComponent {
       getRadioIconData: this.getRadioIconData,
       onRefresh: this.onRefresh,
     };
+    const isRestoreTab = location.pathname === '/restore-account';
     return (
       <div id="account-information" className="account-information">
         <Layout>
-          <AccountProcess stepNo={stepNo} />
+          <AccountProcess restoreAccount={isRestoreTab} stepNo={stepNo} />
 
           <Header
             {...this.state}

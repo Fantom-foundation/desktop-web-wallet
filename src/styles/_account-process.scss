@@ -12,6 +12,31 @@ $transition-time: 0.3s;
   @media (max-width: 767px) {
     max-width: 400px;
   }
+  &.restore-account {
+    max-width: 400px;
+    @media (max-width: 991px) {
+      max-width: 300px;
+    }
+
+    @media (max-width: 767px) {
+      max-width: 270px;
+    }
+    .c-2 {
+      h2 {
+        padding-right: 18px;
+        @media (max-width: 767px) {
+          padding-right: 21px;
+        }
+      }
+    }
+    .process-bar {
+      .holder {
+        .element {
+          width: 50%;
+        }
+      }
+    }
+  }
   .col {
     padding: 0;
     &.c-1 {
