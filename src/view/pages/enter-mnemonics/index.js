@@ -5,6 +5,7 @@ import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import _ from 'lodash';
+import Web3 from 'web3';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 import {
@@ -17,6 +18,8 @@ import createWallet from '../../../redux/account/action';
 import CancelWalletModal from '../../components/modals/cancel-wallet';
 import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
 import ValidationMethods from '../../../validations/userInputMethods';
+
+const web3 = new Web3();
 
 const validationMethods = new ValidationMethods();
 
@@ -80,6 +83,12 @@ class EnterMnemonics extends React.PureComponent {
     return { privateKey, publicAddress };
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  saveKeyStore(privateKey, password) {
+    const keystore = web3.eth.accounts.encrypt(privateKey, password);
+    return { keystore };
+  }
+
   createWallet() {
     const SELF = this;
     const { enteredMnemonic } = this.state;
@@ -90,6 +99,7 @@ class EnterMnemonics extends React.PureComponent {
       removeAccount,
       history,
       addWallet,
+      password,
     } = SELF.props;
     let data = {
       accountName,
@@ -100,7 +110,8 @@ class EnterMnemonics extends React.PureComponent {
     if (isMnemonicCorrect) {
       const seed = Bip39.mnemonicToSeed(enteredMnemonic); // creates seed buffer
       const keys = this.walletSetup(seed, enteredMnemonic);
-      data = { ...keys, ...data };
+      const keyStore = this.saveKeyStore(keys.privateKey, password);
+      data = { ...keys, ...data, ...keyStore };
       addWallet(data);
       removeAccount();
       history.push('/account-management');
@@ -215,6 +226,7 @@ const mapStateToProps = state => ({
   selectedIcon: state.accountInfo.selectedIcon,
   stepNo: state.accountInfo.stepNo,
   accountsList: state.accounts.accountsList,
+  privateKey: state.accountKeys.privateKey,
 });
 
 const mapDispatchToProps = dispatch => ({

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import _ from 'lodash';
+import Web3 from 'web3';
 import {
   createMnemonic,
   createAccount,
@@ -17,6 +18,7 @@ import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics
 import ValidationMethods from '../../../validations/userInputMethods';
 
 const validationMethods = new ValidationMethods();
+const web3 = new Web3();
 
 class Confirm extends React.PureComponent {
   constructor(props) {
@@ -153,6 +155,12 @@ class Confirm extends React.PureComponent {
     }
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  saveKeyStore(privateKey, password) {
+    const keystore = web3.eth.accounts.encrypt(privateKey, password);
+    return { keystore };
+  }
+
   /**
    * This method will cancel the wallet creation process
    */
@@ -181,8 +189,9 @@ class Confirm extends React.PureComponent {
       history,
       resetState,
       emptyKeysObject,
+      privateKey,
     } = SELF.props;
-    const { mnemonic } = accountInfo;
+    const { mnemonic, password } = accountInfo;
     const { selectedMnemonicsArray } = this.state;
     let data = {
       ...accountInfo,
@@ -198,6 +207,8 @@ class Confirm extends React.PureComponent {
       (mnemonicsArray.join(' ') === mnemonic || mnemonicsArray.join(',') === mnemonic)
     ) {
       data = _.omit(data, ['mnemoinc', 'password']);
+      const keyStore = this.saveKeyStore(privateKey, password);
+      data = { ...data, ...keyStore };
       addWallet(data);
       resetState();
       emptyKeysObject();
@@ -290,6 +301,7 @@ const mapStateToProps = state => ({
   accountInfo: state.accountInfo,
   stepNo: state.accountInfo.stepNo,
   publicAddress: state.accountKeys.publicAddress,
+  privateKey: state.accountKeys.privateKey,
   accountsList: state.accounts.accountsList,
 });
 
