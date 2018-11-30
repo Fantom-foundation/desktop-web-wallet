@@ -357,7 +357,9 @@ class CreateAccount extends React.PureComponent {
       getRadioIconData: this.getRadioIconData,
       onRefresh: this.onRefresh,
     };
-    const isRestoreTab = location.pathname === '/restore-account';
+
+    const isRestoreTab =
+      location.pathname === '/restore-account' || location.pathname === '/confirm-restore';
     return (
       <div id="account-information" className="account-information">
         <Layout>

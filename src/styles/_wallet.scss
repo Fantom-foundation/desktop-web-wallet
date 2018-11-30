@@ -1,3 +1,39 @@
+.wallet-bar {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  .title {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+
+    padding: 8px 30px;
+    margin: 0;
+    color: map-get($color, add-wallet-title);
+    background: {
+      color: map-get($color, add-wallet-title-background);
+    }
+    font: {
+      family: "Noto Sans";
+      size: 22px;
+      weight: 300;
+    }
+    @media (max-width: 991px) {
+      font: {
+        size: 20px;
+      }
+    }
+    @media (max-width: 767px) {
+      padding: 7px 18px;
+      font: {
+        size: 18px;
+      }
+    }
+  }
+}
 .add-wallet {
   display: -ms-flexbox;
   display: flex;
