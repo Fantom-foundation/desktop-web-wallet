@@ -77,13 +77,10 @@
 //account info
 #account-information {
   .acc-details {
-    padding: 42px 28px;
+    padding: 30px 28px;
 
-    @media (max-width: 767px) {
-      padding-bottom: 50px;
-    }
     .acc-name-holder {
-      margin-bottom: 50px;
+      margin-bottom: 26px;
       .acc-name {
         display: inline-block;
         padding-left: 30px;
@@ -125,6 +122,10 @@
     .acc-qr {
       text-align: center;
       margin-bottom: 15px;
+      canvas {
+        width: 120px;
+        height: 120px;
+      }
       img {
         max-width: 180px;
       }

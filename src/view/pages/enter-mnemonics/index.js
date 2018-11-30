@@ -1,6 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import Hdkey from 'hdkey';
+import EthUtil from 'ethereumjs-util';
+import Bip39 from 'bip39';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 import {
@@ -10,6 +13,7 @@ import {
   emptyState,
 } from '../../../redux/accountInProgress/action';
 import createWallet from '../../../redux/account/action';
+import createPublicPrivateKeys from '../../../redux/keys/actions';
 
 class EnterMnemonics extends React.PureComponent {
   constructor(props) {
@@ -42,6 +46,19 @@ class EnterMnemonics extends React.PureComponent {
     return false;
   }
 
+  walletSetup(seed) {
+    const SELF = this;
+    const { setKeys } = SELF.props;
+    const root = Hdkey.fromMasterSeed(seed);
+    // const masterKey = root.privateKey.toString('hex');
+    const addrNode = root.derive("m/44'/60'/0'/0/0");
+    const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
+    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+    const publicAddress = EthUtil.toChecksumAddress(addr);
+    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
+    setKeys({ privateKey, publicAddress });
+  }
+
   createWallet() {
     const SELF = this;
     const { enteredMnemonic } = this.state;
@@ -50,7 +67,6 @@ class EnterMnemonics extends React.PureComponent {
       password,
       passwordHint,
       identiconsId,
-      setMnemonicCode,
       removeAccount,
       history,
       addWallet,
@@ -64,9 +80,11 @@ class EnterMnemonics extends React.PureComponent {
     const isMnemonicCorrect = this.checkMnemonicIsCorrect();
     if (isMnemonicCorrect) {
       data.mnemonic = enteredMnemonic;
+      const seed = Bip39.mnemonicToSeed(enteredMnemonic); // creates seed buffer
+      this.walletSetup(seed, enteredMnemonic);
       addWallet(data);
       removeAccount();
-      setMnemonicCode({ mnemonic: enteredMnemonic });
+      // setMnemonicCode({ mnemonic: enteredMnemonic });
       history.push('/account-management');
     } else {
       console.log('data-incorrect');
@@ -144,6 +162,9 @@ const mapDispatchToProps = dispatch => ({
   },
   setMnemonicCode: data => {
     dispatch(() => createMnemonic(data));
+  },
+  setKeys: data => {
+    dispatch(() => createPublicPrivateKeys(data));
   },
   removeAccount: () => {
     dispatch(() => emptyState());
