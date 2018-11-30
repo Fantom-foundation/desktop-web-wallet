@@ -158,6 +158,7 @@ class Confirm extends React.PureComponent {
       selectedMnemonicsArray.join(' ') === mnemonic ||
       selectedMnemonicsArray.join(',') === mnemonic
     ) {
+      data = _.omit(data, ['mnemoinc', 'password']);
       addWallet(data);
       removeAccount();
       history.push('/account-management');

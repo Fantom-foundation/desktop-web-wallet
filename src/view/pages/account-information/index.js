@@ -95,7 +95,7 @@ class AccountInformation extends React.PureComponent {
     const addr = EthUtil.publicToAddress(pubKey).toString('hex');
     const publicAddress = EthUtil.toChecksumAddress(addr);
     const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    setKeys({ publicAddress });
+    setKeys({ privateKey, publicAddress });
     setMnemonicCode({ mnemonic });
   }
 

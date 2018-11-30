@@ -10,7 +10,7 @@ const accountKeys = (state = defaultState, action) => {
       return Object.assign({}, state, {
         // masterKey: payload.masterKey,
         publicAddress: payload.publicAddress,
-        // privateKey: payload.privateKey,
+        privateKey: payload.privateKey,
       });
     }
     default:
