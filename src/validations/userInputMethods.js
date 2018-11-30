@@ -33,17 +33,21 @@ export default class ValidationMethods {
 
   // eslint-disable-next-line class-methods-use-this
   getSplittedArray(data) {
-    const commaSeperated = data.split(',');
-    const spaceSeperated = data.split(' ');
     if (data) {
-      if (commaSeperated.length > 1) {
-        return commaSeperated;
-      }
+      const spaceSeperated = data.split(' ');
       if (spaceSeperated.length > 1) {
         return spaceSeperated;
       }
     }
 
     return [];
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  noSpecialChars(str) {
+    // eslint-disable-next-line no-param-reassign
+    str = String(str);
+    // eslint-disable-next-line no-useless-escape
+    return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?_.()@]/g.test(str);
   }
 }

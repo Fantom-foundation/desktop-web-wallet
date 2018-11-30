@@ -26,6 +26,7 @@ export default class CreateAccountSection extends React.PureComponent {
       onUpdate,
       getRadioIconData,
       onRefresh,
+      isAccountNameExists,
     } = SELF.props.formData;
     return (
       <div id="account-information" className="account-information">
@@ -36,6 +37,7 @@ export default class CreateAccountSection extends React.PureComponent {
                 <CreateAccountForm
                   accountName={accountName}
                   password={password}
+                  isAccountNameExists={isAccountNameExists}
                   error={error}
                   reEnteredPassword={reEnteredPassword}
                   passwordHint={passwordHint}

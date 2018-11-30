@@ -37,6 +37,7 @@ class CreateAccount extends React.PureComponent {
       backButtonFunction: '',
       revealSecret: false,
       confirmationPhrase: '',
+      isAccountNameExists: false,
     };
     this.createNewAccount = this.createNewAccount.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
@@ -191,6 +192,9 @@ class CreateAccount extends React.PureComponent {
     const SELF = this;
     const { history, goToNextStep } = SELF.props;
     goToNextStep({ stepNo: 1 });
+    this.setState({
+      isAccountNameExists: false,
+    });
     history.push('/restore-account');
   }
 
@@ -209,7 +213,7 @@ class CreateAccount extends React.PureComponent {
    */
   createNewAccount() {
     const SELF = this;
-    const { createNewAccount, goToNextStep, location, history } = SELF.props;
+    const { createNewAccount, goToNextStep, location, history, accountsList } = SELF.props;
     const { pathname } = location;
     const { accountName, password, reEnteredPassword, passwordHint, identiconsId } = this.state;
     const data = {
@@ -219,17 +223,28 @@ class CreateAccount extends React.PureComponent {
       reEnteredPassword,
       selectedIcon: identiconsId,
     };
-    createNewAccount(data);
-    if (pathname === '/restore-account') {
-      goToNextStep({ stepNo: 2 });
-      history.push('/confirm-restore');
+    const isNameExists = _.findIndex(
+      accountsList,
+      accountInfo => accountInfo.accountName === accountName
+    );
+    if (isNameExists === -1) {
+      createNewAccount(data);
+      if (pathname === '/restore-account') {
+        goToNextStep({ stepNo: 2 });
+        history.push('/confirm-restore');
+      } else {
+        goToNextStep({ stepNo: 2 });
+        this.setState({
+          revealSecret: false,
+          confirmationPhrase: '',
+          isAccountNameExists: false,
+        });
+        SELF.props.history.push('/account-information');
+      }
     } else {
-      goToNextStep({ stepNo: 2 });
       this.setState({
-        revealSecret: false,
-        confirmationPhrase: '',
+        isAccountNameExists: true,
       });
-      SELF.props.history.push('/account-information');
     }
   }
 
@@ -351,6 +366,7 @@ class CreateAccount extends React.PureComponent {
       containNumber,
       containCapitalLetter,
       hasLengthGreaterThanEight,
+      isAccountNameExists,
     } = this.state;
     const { pathname } = location;
     const functionToCall = this.setFunctionCalls();
@@ -377,6 +393,7 @@ class CreateAccount extends React.PureComponent {
       onUpdate: this.onUpdate,
       getRadioIconData: this.getRadioIconData,
       onRefresh: this.onRefresh,
+      isAccountNameExists,
     };
     const isRestoreTab =
       location.pathname === '/restore-account' || location.pathname === '/confirm-restore';
@@ -449,6 +466,7 @@ const mapStateToProps = state => ({
   passwordHint: state.accountInfo.passwordHint,
   selectedIcon: state.accountInfo.selectedIcon,
   stepNo: state.accountInfo.stepNo,
+  accountsList: state.accounts.accountsList,
 });
 
 const mapDispatchToProps = dispatch => ({

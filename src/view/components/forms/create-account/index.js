@@ -30,6 +30,7 @@ export default class CreateAccount extends React.PureComponent {
       hasLengthGreaterThanEight,
       selectedIcon,
       error,
+      isAccountNameExists,
     } = SELF.props;
     return (
       <Form id="create-account-form">
@@ -42,6 +43,11 @@ export default class CreateAccount extends React.PureComponent {
             onChange={e => onUpdate('accountName', e.currentTarget.value)}
             style={{ backgroundImage: `url(${user})` }}
           />
+          {isAccountNameExists ? (
+            <p style={{ color: 'red', 'margin-top': '10px' }}>Account Name already exists</p>
+          ) : (
+            ''
+          )}
         </FormGroup>
         <Row>
           <Col>

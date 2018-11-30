@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
 import copy from 'copy-to-clipboard';
+import _ from 'lodash';
 import Layout from '../../components/layout';
 import Identicons from '../../general/identicons/identicons';
 
@@ -25,8 +26,12 @@ class AccountManagement extends React.PureComponent {
       // eslint-disable-next-line no-restricted-syntax
       for (const account of accountsList) {
         if (account) {
+          const index = _.findIndex(
+            accountsList,
+            accountInfo => accountInfo.accountName === account.accountName
+          );
           accounts.push(
-            <Col md={6} lg={3} className="main-col">
+            <Col key={index} md={6} lg={3} className="main-col">
               <div className="accounts-holder">
                 <div className="avatar">
                   <span className="avatar-icon">
