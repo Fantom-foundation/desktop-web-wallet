@@ -125,7 +125,7 @@ class EnterMnemonics extends React.PureComponent {
                     <p className="text-white">
                       Enter your secret twelve word phrase here to restore your vault.
                     </p>
-                    <p className="text-danger">Seprate each word with a single space</p>
+                    <p className="text-danger">Separate each word with a single space</p>
                   </div>
                 </div>
               </div>
