@@ -150,3 +150,52 @@
     }
   }
 }
+
+.restore-confirm {
+  margin: auto;
+  max-width: 795px;
+  .vault-container {
+    padding: 1.5rem 3rem 1rem;
+    @media (max-width: 768px) {
+      padding: 1.5rem 2rem;
+    }
+    @media (max-width: 575px) {
+      padding: 1rem;
+    }
+    .form-group {
+      label {
+        color: map-get($color, restore-vault-input-label);
+        font: {
+          family: "Noto Sans";
+          size: 16px;
+        }
+        @media (max-width: 768px) {
+          font: {
+            size: 14px;
+          }
+        }
+      }
+      textarea {
+        color: #fff;
+        border-color: #484848;
+        box-shadow: none;
+        outline: none !important;
+        background: {
+          color: #323232;
+        }
+      }
+    }
+    p {
+      margin-bottom: 4px;
+      font: {
+        family: "Noto Sans";
+        size: 16px;
+      }
+      @media (max-width: 768px) {
+        font: {
+          size: 14px;
+        }
+      }
+    }
+  }
+}

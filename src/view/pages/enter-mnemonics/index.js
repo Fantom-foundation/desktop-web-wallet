@@ -5,6 +5,7 @@ import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import { withRouter } from 'react-router-dom';
+import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 import {
   createAccount,
   incrementStepNo,
@@ -88,16 +89,53 @@ class EnterMnemonics extends React.PureComponent {
   render() {
     const { enteredMnemonic } = this.state;
     return (
-      <div id="account-information" className="account-information">
-        <input
-          type="text"
-          onChange={e => this.onUpdate('enteredMnemonic', e.currentTarget.value)}
-          value={enteredMnemonic}
-        />
-        <button type="button" onClick={this.createWallet}>
-          Create Wallet
-        </button>
-      </div>
+      <section className="bg-dark">
+        <Container>
+          <Row>
+            <Col>
+              <div className="restore-confirm">
+                <div className="wallet-bar">
+                  <h2 className="title">
+                    <span>Restore Wallet</span>
+                  </h2>
+                </div>
+                <div className="vault-container bg-dark-light">
+                  {/* <input
+                    type="text"
+                    onChange={e => this.onUpdate('enteredMnemonic', e.currentTarget.value)}
+                    value={enteredMnemonic}
+                  /> */}
+                  <FormGroup>
+                    <Label for="wallet-seed">Wallet Seed</Label>
+                    <Input
+                      type="textarea"
+                      name="wallet-seed"
+                      id="wallet-seed"
+                      placeholder="Seprate each word with a single space"
+                      onChange={e => this.onUpdate('enteredMnemonic', e.currentTarget.value)}
+                      value={enteredMnemonic}
+                    />
+                  </FormGroup>
+                  <div className="text-center">
+                    <p className="text-white">
+                      Enter your secret twelve word phrase here to restore your vault.
+                    </p>
+                    <p className="text-danger">Separate each word with a single space</p>
+                  </div>
+                </div>
+              </div>
+              <div className="mnemonic-btn">
+                <Button className="create-wallet" onClick={this.createWallet}>
+                  Create Wallet
+                </Button>
+                <Button className="cancel" onClick={this.cancelWallet}>
+                  Cancel
+                </Button>
+              </div>
+            </Col>
+          </Row>
+        </Container>
+      </section>
     );
   }
 }
