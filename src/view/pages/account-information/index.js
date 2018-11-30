@@ -8,7 +8,7 @@ import copy from 'copy-to-clipboard';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import { CONFIRMATION_PHASE } from '../../../redux/constants';
-import createPublicPrivateKeys from '../../../redux/keys/actions';
+import { createPublicPrivateKeys } from '../../../redux/keys/actions';
 import {
   createMnemonic,
   createAccount,

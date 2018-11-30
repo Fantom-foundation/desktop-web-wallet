@@ -11,6 +11,7 @@ import {
   emptyState,
 } from '../../../redux/accountInProgress/action';
 import createWallet from '../../../redux/account/action';
+import { emptyKeysState } from '../../../redux/keys/actions';
 import CancelWalletModal from '../../components/modals/cancel-wallet';
 import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
 import ValidationMethods from '../../../validations/userInputMethods';
@@ -72,9 +73,7 @@ class Confirm extends React.PureComponent {
         );
       }
     }
-    if (selectedMnemonicsArray.length !== 0) {
-      mnemonicsList = _.shuffle(mnemonicsList);
-    }
+    mnemonicsList = _.shuffle(mnemonicsList);
 
     return mnemonicsList;
   }
@@ -175,7 +174,14 @@ class Confirm extends React.PureComponent {
    */
   createWallet() {
     const SELF = this;
-    const { addWallet, accountInfo, publicAddress, history, resetState } = SELF.props;
+    const {
+      addWallet,
+      accountInfo,
+      publicAddress,
+      history,
+      resetState,
+      emptyKeysObject,
+    } = SELF.props;
     const { mnemonic } = accountInfo;
     const { selectedMnemonicsArray } = this.state;
     let data = {
@@ -183,13 +189,18 @@ class Confirm extends React.PureComponent {
       publicAddress,
     };
     data = _.omit(data, ['stepNo']);
+    const mnemonicsArray = [];
+    if (selectedMnemonicsArray && selectedMnemonicsArray.length > 0) {
+      selectedMnemonicsArray.map(a => mnemonicsArray.push(a.name));
+    }
     if (
-      selectedMnemonicsArray.join(' ') === mnemonic ||
-      selectedMnemonicsArray.join(',') === mnemonic
+      mnemonicsArray.length > 0 &&
+      (mnemonicsArray.join(' ') === mnemonic || mnemonicsArray.join(',') === mnemonic)
     ) {
       data = _.omit(data, ['mnemoinc', 'password']);
       addWallet(data);
       resetState();
+      emptyKeysObject();
       history.push('/account-management');
     } else {
       this.toggleIncorrectMnemonicsModal();
@@ -294,6 +305,9 @@ const mapDispatchToProps = dispatch => ({
   },
   addWallet: data => {
     dispatch(() => createWallet(data));
+  },
+  emptyKeysObject: () => {
+    dispatch(() => emptyKeysState());
   },
   resetState: () => {
     dispatch(() => emptyState());

@@ -13,6 +13,9 @@ const accountKeys = (state = defaultState, action) => {
         privateKey: payload.privateKey,
       });
     }
+    case types.EMPTY_KEYS_STATE: {
+      return defaultState;
+    }
     default:
       return state;
   }

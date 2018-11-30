@@ -7,3 +7,4 @@ export const ACCOUNT_IN_PROGRESS = 'ACCOUNT_IN_PROGRESS';
 export const INCREMENT_STEP_NO = 'INCREMENT_STEP_NO';
 export const CONFIRMATION_PHASE = 'I have written down the phrase';
 export const EMPTY_STATE = 'EMPTY_STATE';
+export const EMPTY_KEYS_STATE = 'EMPTY_KEYS_STATE';

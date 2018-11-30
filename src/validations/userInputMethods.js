@@ -36,10 +36,10 @@ export default class ValidationMethods {
     const commaSeperated = data.split(',');
     const spaceSeperated = data.split(' ');
     if (data) {
-      if (commaSeperated.length > 0) {
+      if (commaSeperated.length > 1) {
         return commaSeperated;
       }
-      if (spaceSeperated.length > 0) {
+      if (spaceSeperated.length > 1) {
         return spaceSeperated;
       }
     }

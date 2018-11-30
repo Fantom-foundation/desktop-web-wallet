@@ -1,15 +1,14 @@
-// import * as Actions from './action';
+import * as types from '../constants';
 
 const defaultState = { accountsList: [] };
 
 // Result of nearByUser api
-const addAccount = (action, state) => {
-  if (action && action.payload) {
-    const data = action.payload;
+const addAccount = (payload, state) => {
+  if (payload) {
     const { accountsList } = state;
-    if (data) {
+    if (payload) {
       const accounts = {
-        accountsList: accountsList.concat(data),
+        accountsList: accountsList.concat(payload),
       };
       return accounts;
     }
@@ -19,9 +18,10 @@ const addAccount = (action, state) => {
 
 // Reducer for handling near by users
 const accounts = (state = defaultState, action) => {
+  const { payload } = action;
   switch (action.type) {
-    case 'CREATE_WALLET': {
-      const accountsList = addAccount(action, state);
+    case types.CREATE_WALLET: {
+      const accountsList = addAccount(payload, state);
       return Object.assign({}, state, {
         ...accountsList,
       });

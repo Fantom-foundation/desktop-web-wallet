@@ -12,7 +12,6 @@ import {
   emptyState,
 } from '../../../redux/accountInProgress/action';
 import createWallet from '../../../redux/account/action';
-import createPublicPrivateKeys from '../../../redux/keys/actions';
 
 class EnterMnemonics extends React.PureComponent {
   constructor(props) {
@@ -45,9 +44,8 @@ class EnterMnemonics extends React.PureComponent {
     return false;
   }
 
+  // eslint-disable-next-line class-methods-use-this
   walletSetup(seed) {
-    const SELF = this;
-    const { setKeys } = SELF.props;
     const root = Hdkey.fromMasterSeed(seed);
     // const masterKey = root.privateKey.toString('hex');
     const addrNode = root.derive("m/44'/60'/0'/0/0");
@@ -55,7 +53,7 @@ class EnterMnemonics extends React.PureComponent {
     const addr = EthUtil.publicToAddress(pubKey).toString('hex');
     const publicAddress = EthUtil.toChecksumAddress(addr);
     const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    setKeys({ privateKey, publicAddress });
+    return { privateKey, publicAddress };
   }
 
   createWallet() {
@@ -63,27 +61,24 @@ class EnterMnemonics extends React.PureComponent {
     const { enteredMnemonic } = this.state;
     const {
       accountName,
-      password,
       passwordHint,
       identiconsId,
       removeAccount,
       history,
       addWallet,
     } = SELF.props;
-    const data = {
+    let data = {
       accountName,
-      password,
       passwordHint,
       selectedIcon: identiconsId,
     };
     const isMnemonicCorrect = this.checkMnemonicIsCorrect();
     if (isMnemonicCorrect) {
-      data.mnemonic = enteredMnemonic;
       const seed = Bip39.mnemonicToSeed(enteredMnemonic); // creates seed buffer
-      this.walletSetup(seed, enteredMnemonic);
+      const keys = this.walletSetup(seed, enteredMnemonic);
+      data = { ...keys, ...data };
       addWallet(data);
       removeAccount();
-      // setMnemonicCode({ mnemonic: enteredMnemonic });
       history.push('/account-management');
     } else {
       console.log('data-incorrect');
@@ -124,9 +119,6 @@ const mapDispatchToProps = dispatch => ({
   },
   setMnemonicCode: data => {
     dispatch(() => createMnemonic(data));
-  },
-  setKeys: data => {
-    dispatch(() => createPublicPrivateKeys(data));
   },
   removeAccount: () => {
     dispatch(() => emptyState());

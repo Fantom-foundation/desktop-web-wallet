@@ -189,7 +189,8 @@ class CreateAccount extends React.PureComponent {
 
   goToAccountRestoreScreen() {
     const SELF = this;
-    const { history } = SELF.props;
+    const { history, goToNextStep } = SELF.props;
+    goToNextStep({ stepNo: 1 });
     history.push('/restore-account');
   }
 
@@ -220,6 +221,7 @@ class CreateAccount extends React.PureComponent {
     };
     createNewAccount(data);
     if (pathname === '/restore-account') {
+      goToNextStep({ stepNo: 2 });
       history.push('/confirm-restore');
     } else {
       goToNextStep({ stepNo: 2 });
@@ -376,7 +378,8 @@ class CreateAccount extends React.PureComponent {
       getRadioIconData: this.getRadioIconData,
       onRefresh: this.onRefresh,
     };
-    const isRestoreTab = location.pathname === '/restore-account';
+    const isRestoreTab =
+      location.pathname === '/restore-account' || location.pathname === '/confirm-restore';
     return (
       <div id="account-information" className="account-information">
         <Layout>
