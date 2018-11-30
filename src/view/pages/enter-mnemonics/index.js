@@ -111,7 +111,7 @@ class EnterMnemonics extends React.PureComponent {
                       type="textarea"
                       name="wallet-seed"
                       id="wallet-seed"
-                      placeholder="Seprate each word with a single space"
+                      placeholder="Separate each word with a single space"
                       onChange={e => this.onUpdate('enteredMnemonic', e.currentTarget.value)}
                       value={enteredMnemonic}
                     />
