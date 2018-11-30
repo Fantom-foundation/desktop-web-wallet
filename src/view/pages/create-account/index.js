@@ -27,7 +27,7 @@ class CreateAccount extends React.PureComponent {
       passwordHint: initialInfo.passwordHint,
       date: new Date().getTime(),
       animateRefreshIcon: false,
-      identiconsId: '',
+      identiconsId: initialInfo.selectedIcon || '',
       selectedIcon: initialInfo.selectedIcon,
       error: false,
       containNumber: false,
@@ -87,6 +87,8 @@ class CreateAccount extends React.PureComponent {
       stepNo = 3;
     } else if (pathname === '/account-information') {
       stepNo = 2;
+    } else if (pathname === '/restore-account') {
+      stepNo = 1;
     }
     goToNextStep({ stepNo });
   }
@@ -371,6 +373,7 @@ class CreateAccount extends React.PureComponent {
     const { pathname } = location;
     const functionToCall = this.setFunctionCalls();
     const isDisable = this.disableNextButton();
+    this.setStepNoWithRouting();
     const data = {
       onUpdate: this.onUpdate,
       revealSecretFunc: this.revealSecret,
@@ -415,7 +418,11 @@ class CreateAccount extends React.PureComponent {
               <Row className="back-next-btn">
                 <Col className="text-right">
                   <Button
-                    className={pathname === '/create-account' ? 'light' : ''}
+                    className={
+                      pathname === '/create-account' || pathname === '/restore-account'
+                        ? 'light'
+                        : ''
+                    }
                     onClick={functionToCall.backButtonFunction}
                   >
                     <i className="fas fa-chevron-left" /> Back
@@ -424,7 +431,12 @@ class CreateAccount extends React.PureComponent {
                 <Col>
                   <Button
                     className={
-                      isDisable || isDisable === undefined || pathname === '/confirm' ? 'light' : ''
+                      isDisable ||
+                      isDisable === undefined ||
+                      pathname === '/confirm' ||
+                      pathname === '/confirm-restore'
+                        ? 'light'
+                        : ''
                     }
                     onClick={
                       isDisable || isDisable === undefined
