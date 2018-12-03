@@ -306,24 +306,12 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  incrementStepNo: data => {
-    dispatch(() => createAccount(data));
-  },
-  setMnemonicCode: data => {
-    dispatch(() => createMnemonic(data));
-  },
-  goToStep: data => {
-    dispatch(() => incrementStepNo(data));
-  },
-  addWallet: data => {
-    dispatch(() => createWallet(data));
-  },
-  emptyKeysObject: () => {
-    dispatch(() => emptyKeysState());
-  },
-  resetState: () => {
-    dispatch(() => emptyState());
-  },
+  incrementStepNo: data => dispatch(createAccount(data)),
+  setMnemonicCode: data => dispatch(createMnemonic(data)),
+  goToStep: data => dispatch(incrementStepNo(data)),
+  addWallet: data => dispatch(createWallet(data)),
+  emptyKeysObject: () => dispatch(emptyKeysState()),
+  resetState: () => dispatch(emptyState()),
 });
 
 export default compose(

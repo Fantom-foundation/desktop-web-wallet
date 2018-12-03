@@ -7,6 +7,7 @@ import _ from 'lodash';
 import AccountProcess from '../../components/account-process';
 import Layout from '../../components/layout';
 import { createAccount, incrementStepNo } from '../../../redux/accountInProgress/action';
+import { getFantomBalance } from '../../../redux/getBalance/action';
 import ValidationMethods from '../../../validations/userInputMethods';
 import CreateAccountSection from './create-account-section';
 import AccountInformation from '../account-information';
@@ -48,6 +49,7 @@ class CreateAccount extends React.PureComponent {
     this.goToAccountInfoScreen = this.goToAccountInfoScreen.bind(this);
     this.revealSecret = this.revealSecret.bind(this);
     this.goToAccountRestoreScreen = this.goToAccountRestoreScreen.bind(this);
+    this.getBalance = this.getBalance.bind(this);
   }
 
   componentWillMount() {
@@ -150,6 +152,13 @@ class CreateAccount extends React.PureComponent {
         SELF.disableNextButton();
       }
     );
+  }
+
+  getBalance() {
+    const SELF = this;
+    const { getBalance } = SELF.props;
+
+    getBalance('0x3c650a6cbeba3a4a99057b102145f5075c701f57');
   }
 
   /**
@@ -446,6 +455,7 @@ class CreateAccount extends React.PureComponent {
                   >
                     Next <i className="fas fa-chevron-right" />
                   </Button>
+                  <Button onClick={this.getBalance}>Get Fantom Balance</Button>
                 </Col>
               </Row>
             </Container>
@@ -482,12 +492,9 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createNewAccount: data => {
-    dispatch(() => createAccount(data));
-  },
-  goToNextStep: data => {
-    dispatch(() => incrementStepNo(data));
-  },
+  createNewAccount: data => dispatch(createAccount(data)),
+  goToNextStep: data => dispatch(incrementStepNo(data)),
+  getBalance: data => dispatch(getFantomBalance(data)),
 });
 
 export default compose(

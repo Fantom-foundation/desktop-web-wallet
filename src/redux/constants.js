@@ -9,3 +9,7 @@ export const CONFIRMATION_PHASE = 'I have written down the phrase';
 export const EMPTY_STATE = 'EMPTY_STATE';
 export const SAVE_KEY_STORE = 'SAVE_KEY_STORE';
 export const EMPTY_KEYS_STATE = 'EMPTY_KEYS_STATE';
+export const GET_FANTOM_BALANCE = 'GET_FANTOM_BALANCE';
+export const GET_FANTOM_NONCE = 'GET_FANTOM_NONCE';
+export const SEND_RAW_TRANSACTIONS = 'SEND_RAW_TRANSACTIONS';
+export const GET_FANTOM_TRANSACTIONS = 'GET_FANTOM_TRANSACTIONS';
