@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button } from 'reactstrap';
 import copy from 'copy-to-clipboard';
 import _ from 'lodash';
@@ -47,7 +48,7 @@ class AccountManagement extends React.PureComponent {
                       <button
                         type="button"
                         className="clipboard-btn"
-                        onClick={SELF.copyToClipboard}
+                        onClick={() => SELF.copyToClipboard(index)}
                       >
                         <i className="fas fa-clone" />
                       </button>
@@ -68,11 +69,11 @@ class AccountManagement extends React.PureComponent {
   /**
    * This method will copy the text
    */
-  copyToClipboard() {
+  copyToClipboard(index) {
     const SELF = this;
-    const { accountKeys } = SELF.props;
-    const { publicAddress } = accountKeys;
-    copy(publicAddress);
+    const { accountsList } = SELF.props;
+    copy(accountsList[index].publicAddress);
+    ToastStore.success('Copy to clipboard');
   }
 
   render() {
@@ -109,6 +110,7 @@ class AccountManagement extends React.PureComponent {
                 {accountList}
               </Row>
             </Container>
+            <ToastContainer position={ToastContainer.POSITION.TOP_RIGHT} store={ToastStore} />
           </section>
         </Layout>
       </div>

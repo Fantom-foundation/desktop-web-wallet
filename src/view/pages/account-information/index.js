@@ -5,6 +5,8 @@ import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import copy from 'copy-to-clipboard';
+import { withAlert } from 'react-alert';
+import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import { CONFIRMATION_PHASE } from '../../../redux/constants';
@@ -81,7 +83,7 @@ class AccountInformation extends React.PureComponent {
     const addr = EthUtil.publicToAddress(pubKey).toString('hex');
     const publicAddress = EthUtil.toChecksumAddress(addr);
     const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    setKeys({ privateKey, publicAddress });
+    setKeys({ publicAddress });
     setMnemonicCode({ mnemonic });
   }
 
@@ -91,8 +93,9 @@ class AccountInformation extends React.PureComponent {
   copyToClipboard() {
     const SELF = this;
     const { accountKeys } = SELF.props;
-    const { publicKey } = accountKeys;
-    copy(publicKey);
+    const { publicAddress } = accountKeys;
+    copy(publicAddress);
+    ToastStore.success('Copy to clipboard');
   }
 
   render() {
@@ -220,6 +223,7 @@ class AccountInformation extends React.PureComponent {
               </Col>
             </Row>
           </Container>
+          <ToastContainer position={ToastContainer.POSITION.TOP_RIGHT} store={ToastStore} />
         </section>
       </div>
     );
@@ -243,5 +247,6 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  )
+  ),
+  withAlert
 )(AccountInformation);

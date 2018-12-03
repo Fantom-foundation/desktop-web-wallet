@@ -112,6 +112,7 @@ class EnterMnemonics extends React.PureComponent {
       const keys = this.walletSetup(seed, enteredMnemonic);
       const keyStore = this.saveKeyStore(keys.privateKey, password);
       data = { ...keys, ...data, ...keyStore };
+      data = _.omit(data, ['privateKey']);
       addWallet(data);
       removeAccount();
       history.push('/account-management');
@@ -226,7 +227,6 @@ const mapStateToProps = state => ({
   selectedIcon: state.accountInfo.selectedIcon,
   stepNo: state.accountInfo.stepNo,
   accountsList: state.accounts.accountsList,
-  privateKey: state.accountKeys.privateKey,
 });
 
 const mapDispatchToProps = dispatch => ({

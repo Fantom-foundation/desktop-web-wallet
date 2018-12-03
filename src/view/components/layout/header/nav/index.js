@@ -1,5 +1,6 @@
 import React from 'react';
 import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import logo from '../../../../../images/logo/fantom.png';
@@ -28,7 +29,9 @@ class NavigationBar extends React.Component {
   }
 
   render() {
+    const SELF = this;
     const { isOpen } = this.state;
+    const { accountsList } = SELF.props;
     return (
       <div className="nav-holder">
         <Navbar dark expand="md">
@@ -44,9 +47,13 @@ class NavigationBar extends React.Component {
               <NavItem>
                 <NavLink onClick={() => this.goToPage('/create-account')}>New Wallet</NavLink>
               </NavItem>
-              <NavItem>
-                <NavLink href="#">View Address</NavLink>
-              </NavItem>
+              {accountsList.length > 0 && (
+                <NavItem>
+                  <NavLink onClick={() => this.goToPage('/account-management')}>
+                    View Address
+                  </NavLink>
+                </NavItem>
+              )}
             </Nav>
           </Collapse>
         </Navbar>
@@ -55,4 +62,11 @@ class NavigationBar extends React.Component {
   }
 }
 
-export default compose(withRouter)(NavigationBar);
+const mapStateToProps = state => ({
+  accountsList: state.accounts.accountsList,
+});
+
+export default compose(
+  connect(mapStateToProps),
+  withRouter
+)(NavigationBar);

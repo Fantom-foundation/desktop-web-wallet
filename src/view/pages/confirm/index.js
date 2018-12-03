@@ -3,6 +3,8 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import Hdkey from 'hdkey';
+import EthUtil from 'ethereumjs-util';
 import _ from 'lodash';
 import Web3 from 'web3';
 import {
@@ -178,6 +180,21 @@ class Confirm extends React.PureComponent {
   }
 
   /**
+   * @param {Mnemonic Phrase} seed
+   * @param {Generated Mnemonic} mnemonic
+   * This method will generate the public, private keys and public address
+   */
+  walletSetup(seed) {
+    // eslint-disable-next-line no-unused-vars
+    const SELF = this;
+    const root = Hdkey.fromMasterSeed(seed);
+    // const masterKey = root.privateKey.toString('hex');
+    const addrNode = root.derive("m/44'/60'/0'/0/0");
+    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
+    return privateKey;
+  }
+
+  /**
    * This method will create the wallet
    */
   createWallet() {
@@ -189,7 +206,6 @@ class Confirm extends React.PureComponent {
       history,
       resetState,
       emptyKeysObject,
-      privateKey,
     } = SELF.props;
     const { mnemonic, password } = accountInfo;
     const { selectedMnemonicsArray } = this.state;
@@ -207,6 +223,8 @@ class Confirm extends React.PureComponent {
       (mnemonicsArray.join(' ') === mnemonic || mnemonicsArray.join(',') === mnemonic)
     ) {
       data = _.omit(data, ['mnemoinc', 'password']);
+      const privateKey = this.walletSetup(mnemonic);
+
       const keyStore = this.saveKeyStore(privateKey, password);
       data = { ...data, ...keyStore };
       addWallet(data);
@@ -301,7 +319,6 @@ const mapStateToProps = state => ({
   accountInfo: state.accountInfo,
   stepNo: state.accountInfo.stepNo,
   publicAddress: state.accountKeys.publicAddress,
-  privateKey: state.accountKeys.privateKey,
   accountsList: state.accounts.accountsList,
 });
 

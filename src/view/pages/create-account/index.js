@@ -313,7 +313,14 @@ class CreateAccount extends React.PureComponent {
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error) {
+    if (
+      isAnyFieldEmpty ||
+      isPasswordIncorrect ||
+      isAnyFieldUndefined ||
+      error ||
+      password === passwordHint ||
+      reEnteredPassword === passwordHint
+    ) {
       return true;
     }
 
