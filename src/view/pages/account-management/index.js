@@ -120,7 +120,6 @@ class AccountManagement extends React.PureComponent {
 
 const mapStateToProps = state => ({
   accountsList: state.accounts.accountsList,
-  accountKeys: state.accountKeys,
 });
 
 export default compose(

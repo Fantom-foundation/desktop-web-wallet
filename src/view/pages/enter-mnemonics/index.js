@@ -8,12 +8,7 @@ import _ from 'lodash';
 import Web3 from 'web3';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
-import {
-  createAccount,
-  incrementStepNo,
-  createMnemonic,
-  emptyState,
-} from '../../../redux/accountInProgress/action';
+import { emptyState } from '../../../redux/accountInProgress/action';
 import createWallet from '../../../redux/account/action';
 import CancelWalletModal from '../../components/modals/cancel-wallet';
 import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
@@ -50,27 +45,22 @@ class EnterMnemonics extends React.PureComponent {
     });
   }
 
+  /**
+   * @param {Private Key} privateKey
+   * @param {Account password} password
+   * This method will return the key store value of the particular account
+   */
   // eslint-disable-next-line class-methods-use-this
-  isValidSeedNames(seed) {
-    if (seed && seed.length > 0) {
-      return seed.map(name => validationMethods.noSpecialChars(name));
-    }
-
-    return false;
+  getKeyStore(privateKey, password) {
+    const keystore = web3.eth.accounts.encrypt(privateKey, password);
+    return { keystore };
   }
 
-  checkMnemonicIsCorrect() {
-    let { enteredMnemonic } = this.state;
-    enteredMnemonic = enteredMnemonic.trim();
-    const mnemonicsArray = enteredMnemonic.split(' ');
-    const isValidSeedNames = this.isValidSeedNames(mnemonicsArray);
-    const isAnyFalseName = _.includes(isValidSeedNames, false);
-    if (mnemonicsArray.length === 12 && !isAnyFalseName) {
-      return true;
-    }
-    return false;
-  }
-
+  /**
+   * @param {Mnemonic phrase} seed
+   * This method will return the private key and public address
+   * that are generated using mnemonic phrase
+   */
   // eslint-disable-next-line class-methods-use-this
   walletSetup(seed) {
     const root = Hdkey.fromMasterSeed(seed);
@@ -83,12 +73,37 @@ class EnterMnemonics extends React.PureComponent {
     return { privateKey, publicAddress };
   }
 
-  // eslint-disable-next-line class-methods-use-this
-  saveKeyStore(privateKey, password) {
-    const keystore = web3.eth.accounts.encrypt(privateKey, password);
-    return { keystore };
+  /**
+   * This method will check that the manually entered mnemonic phrase is correct
+   */
+  checkMnemonicIsCorrect() {
+    let { enteredMnemonic } = this.state;
+    enteredMnemonic = enteredMnemonic.trim();
+    const mnemonicsArray = enteredMnemonic.split(' ');
+    const isValidSeedNames = this.isValidSeedNames(mnemonicsArray);
+    const isAnyFalseName = _.includes(isValidSeedNames, false);
+    if (mnemonicsArray.length === 12 && !isAnyFalseName) {
+      return true;
+    }
+    return false;
   }
 
+  /**
+   * @param {Mnemonic Phrase} seed
+   * This method will check all the names are valid in the mnemonic phrase
+   */
+  // eslint-disable-next-line class-methods-use-this
+  isValidSeedNames(seed) {
+    if (seed && seed.length > 0) {
+      return seed.map(name => validationMethods.noSpecialChars(name));
+    }
+
+    return false;
+  }
+
+  /**
+   * This method will create the wallet
+   */
   createWallet() {
     const SELF = this;
     const { enteredMnemonic } = this.state;
@@ -110,7 +125,7 @@ class EnterMnemonics extends React.PureComponent {
     if (isMnemonicCorrect) {
       const seed = Bip39.mnemonicToSeed(enteredMnemonic); // creates seed buffer
       const keys = this.walletSetup(seed, enteredMnemonic);
-      const keyStore = this.saveKeyStore(keys.privateKey, password);
+      const keyStore = this.getKeyStore(keys.privateKey, password);
       data = { ...keys, ...data, ...keyStore };
       data = _.omit(data, ['privateKey']);
       addWallet(data);
@@ -224,15 +239,10 @@ const mapStateToProps = state => ({
   accountName: state.accountInfo.accountName,
   password: state.accountInfo.password,
   passwordHint: state.accountInfo.passwordHint,
-  selectedIcon: state.accountInfo.selectedIcon,
-  stepNo: state.accountInfo.stepNo,
   accountsList: state.accounts.accountsList,
 });
 
 const mapDispatchToProps = dispatch => ({
-  createNewAccount: data => dispatch(createAccount(data)),
-  goToNextStep: data => dispatch(incrementStepNo(data)),
-  setMnemonicCode: data => dispatch(createMnemonic(data)),
   removeAccount: () => dispatch(emptyState()),
   addWallet: data => dispatch(createWallet(data)),
 });

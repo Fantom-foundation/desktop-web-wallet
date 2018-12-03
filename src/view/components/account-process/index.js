@@ -111,7 +111,7 @@ export default class AccountProcess extends React.PureComponent {
   }
 }
 AccountProcess.propTypes = {
-  restoreAccount: PropTypes.node,
+  restoreAccount: PropTypes.bool,
 };
 
 AccountProcess.defaultProps = {

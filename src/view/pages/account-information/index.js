@@ -11,11 +11,7 @@ import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap
 import QRCode from 'qrcode.react';
 import { CONFIRMATION_PHASE } from '../../../redux/constants';
 import { createPublicPrivateKeys } from '../../../redux/keys/actions';
-import {
-  createMnemonic,
-  createAccount,
-  incrementStepNo,
-} from '../../../redux/accountInProgress/action';
+import { createMnemonic } from '../../../redux/accountInProgress/action';
 import Identicons from '../../general/identicons/identicons';
 import noView from '../../../images/icons/no-view.png';
 
@@ -238,9 +234,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   setKeys: data => dispatch(createPublicPrivateKeys(data)),
-  incrementStepNo: data => dispatch(createAccount(data)),
   setMnemonicCode: data => dispatch(createMnemonic(data)),
-  goToStep: data => dispatch(incrementStepNo(data)),
 });
 
 export default compose(

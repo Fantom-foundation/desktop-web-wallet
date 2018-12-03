@@ -7,12 +7,7 @@ import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import _ from 'lodash';
 import Web3 from 'web3';
-import {
-  createMnemonic,
-  createAccount,
-  incrementStepNo,
-  emptyState,
-} from '../../../redux/accountInProgress/action';
+import { emptyState } from '../../../redux/accountInProgress/action';
 import createWallet from '../../../redux/account/action';
 import { emptyKeysState } from '../../../redux/keys/actions';
 import CancelWalletModal from '../../components/modals/cancel-wallet';
@@ -317,15 +312,11 @@ class Confirm extends React.PureComponent {
 
 const mapStateToProps = state => ({
   accountInfo: state.accountInfo,
-  stepNo: state.accountInfo.stepNo,
   publicAddress: state.accountKeys.publicAddress,
   accountsList: state.accounts.accountsList,
 });
 
 const mapDispatchToProps = dispatch => ({
-  incrementStepNo: data => dispatch(createAccount(data)),
-  setMnemonicCode: data => dispatch(createMnemonic(data)),
-  goToStep: data => dispatch(incrementStepNo(data)),
   addWallet: data => dispatch(createWallet(data)),
   emptyKeysObject: () => dispatch(emptyKeysState()),
   resetState: () => dispatch(emptyState()),
