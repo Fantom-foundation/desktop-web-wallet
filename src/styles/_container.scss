@@ -10,4 +10,9 @@
       max-width: 1200px;
     }
   }
+  &.acc-details-container {
+    @media (min-width: 768px) and (max-width: 992px) {
+      max-width: 1200px;
+    }
+  }
 }
