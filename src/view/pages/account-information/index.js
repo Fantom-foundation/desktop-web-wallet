@@ -95,7 +95,7 @@ class AccountInformation extends React.PureComponent {
     const { accountKeys } = SELF.props;
     const { publicAddress } = accountKeys;
     copy(publicAddress);
-    ToastStore.success('Copy to clipboard');
+    ToastStore.info('Copy to clipboard');
   }
 
   render() {
@@ -223,7 +223,7 @@ class AccountInformation extends React.PureComponent {
               </Col>
             </Row>
           </Container>
-          <ToastContainer position={ToastContainer.POSITION.TOP_RIGHT} store={ToastStore} />
+          <ToastContainer position={ToastContainer.POSITION.CENTER} store={ToastStore} />
         </section>
       </div>
     );
