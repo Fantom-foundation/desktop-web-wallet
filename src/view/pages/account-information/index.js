@@ -233,18 +233,10 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  setKeys: data => {
-    dispatch(() => createPublicPrivateKeys(data));
-  },
-  incrementStepNo: data => {
-    dispatch(() => createAccount(data));
-  },
-  setMnemonicCode: data => {
-    dispatch(() => createMnemonic(data));
-  },
-  goToStep: data => {
-    dispatch(() => incrementStepNo(data));
-  },
+  setKeys: data => dispatch(createPublicPrivateKeys(data)),
+  incrementStepNo: data => dispatch(createAccount(data)),
+  setMnemonicCode: data => dispatch(createMnemonic(data)),
+  goToStep: data => dispatch(incrementStepNo(data)),
 });
 
 export default compose(

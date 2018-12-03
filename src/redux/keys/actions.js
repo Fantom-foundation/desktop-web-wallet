@@ -1,16 +1,15 @@
 import * as types from '../constants';
-import { dispatch } from '../store';
 
 export function createPublicPrivateKeys(data) {
-  dispatch({
+  return {
     type: types.MASTER_PUBLIC_PRIVATE_KEY,
     payload: data,
-  });
+  };
 }
 
 export function emptyKeysState() {
-  dispatch({
+  return {
     type: types.MASTER_PUBLIC_PRIVATE_KEY,
     payload: {},
-  });
+  };
 }

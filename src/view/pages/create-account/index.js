@@ -13,6 +13,7 @@ import AccountInformation from '../account-information';
 import Confirm from '../confirm';
 
 import EnterMnemonics from '../enter-mnemonics';
+import { CONFIRMATION_PHASE } from '../../../redux/constants';
 
 const validationMethods = new ValidationMethods();
 
@@ -206,7 +207,11 @@ class CreateAccount extends React.PureComponent {
   goToPreviousScreen() {
     const SELF = this;
     const { goToNextStep, history } = SELF.props;
+    const { identiconsId } = this.state;
     goToNextStep({ stepNo: 1 });
+    this.setState({
+      selectedIcon: identiconsId,
+    });
     history.push('/create-account');
   }
 
@@ -325,7 +330,12 @@ class CreateAccount extends React.PureComponent {
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (!isAnyFieldEmpty && !isPasswordIncorrect && !isAnyFieldUndefined) {
+    if (
+      !isAnyFieldEmpty &&
+      !isPasswordIncorrect &&
+      !isAnyFieldUndefined &&
+      confirmationPhrase === CONFIRMATION_PHASE
+    ) {
       return false;
     }
     return true;
@@ -482,12 +492,8 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  createNewAccount: data => {
-    dispatch(() => createAccount(data));
-  },
-  goToNextStep: data => {
-    dispatch(() => incrementStepNo(data));
-  },
+  createNewAccount: data => dispatch(createAccount(data)),
+  goToNextStep: data => dispatch(incrementStepNo(data)),
 });
 
 export default compose(
