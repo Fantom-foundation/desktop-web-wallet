@@ -194,9 +194,11 @@ class CreateAccount extends React.PureComponent {
   goToAccountRestoreScreen() {
     const SELF = this;
     const { history, goToNextStep } = SELF.props;
+    const { identiconsId } = this.state;
     goToNextStep({ stepNo: 1 });
     this.setState({
       isAccountNameExists: false,
+      selectedIcon: identiconsId,
     });
     history.push('/restore-account');
   }

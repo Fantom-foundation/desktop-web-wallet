@@ -29,6 +29,10 @@ export default class IdenticonsIcon extends Component {
     if (selectedIcon && index === 0) {
       identiconsId = selectedIcon;
     }
+    if (selectedIcon === identiconsId && index !== 0) {
+      const nextIndex = (index + 5).toString();
+      identiconsId = nextIndex + currentDate;
+    }
     let checked = false;
     if (accountIcon && accountIcon === identiconsId) {
       checked = true;
