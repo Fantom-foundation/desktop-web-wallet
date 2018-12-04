@@ -5,7 +5,6 @@ import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import copy from 'copy-to-clipboard';
-import { withAlert } from 'react-alert';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
@@ -91,7 +90,7 @@ class AccountInformation extends React.PureComponent {
     const { accountKeys } = SELF.props;
     const { publicAddress } = accountKeys;
     copy(publicAddress);
-    ToastStore.info('Copy to clipboard');
+    ToastStore.info('Copy to clipboard', 800);
   }
 
   render() {
@@ -219,7 +218,7 @@ class AccountInformation extends React.PureComponent {
               </Col>
             </Row>
           </Container>
-          <ToastContainer position={ToastContainer.POSITION.CENTER} store={ToastStore} />
+          <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore} />
         </section>
       </div>
     );
@@ -241,6 +240,5 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
-  withAlert
+  )
 )(AccountInformation);

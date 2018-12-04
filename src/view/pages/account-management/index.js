@@ -73,7 +73,7 @@ class AccountManagement extends React.PureComponent {
     const SELF = this;
     const { accountsList } = SELF.props;
     copy(accountsList[index].publicAddress);
-    ToastStore.info('Copy to clipboard');
+    ToastStore.info('Copy to clipboard', 800);
   }
 
   render() {

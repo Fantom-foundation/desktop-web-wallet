@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
+import PropTypes from 'prop-types';
 import CreateAccountForm from '../../components/forms/create-account';
 
 export default class CreateAccountSection extends React.PureComponent {
@@ -9,7 +10,7 @@ export default class CreateAccountSection extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
+    const { formData } = this.props;
     const {
       accountName,
       password,
@@ -27,7 +28,7 @@ export default class CreateAccountSection extends React.PureComponent {
       getRadioIconData,
       onRefresh,
       isAccountNameExists,
-    } = SELF.props.formData;
+    } = formData;
     return (
       <div id="account-information" className="account-information">
         <section className="bg-dark" style={{ padding: '60px 0' }}>
@@ -60,3 +61,12 @@ export default class CreateAccountSection extends React.PureComponent {
     );
   }
 }
+
+CreateAccountSection.propTypes = {
+  formData: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number,
+    PropTypes.func,
+    PropTypes.bool,
+  ]).isRequired,
+};

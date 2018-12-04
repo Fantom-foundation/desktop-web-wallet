@@ -88,6 +88,8 @@ class CreateAccount extends React.PureComponent {
       stepNo = 3;
     } else if (pathname === '/account-information') {
       stepNo = 2;
+    } else if (pathname === '/confirm-restore') {
+      stepNo = 2;
     } else if (pathname === '/restore-account') {
       stepNo = 1;
     }
@@ -180,6 +182,7 @@ class CreateAccount extends React.PureComponent {
     const { goToNextStep, history, location } = SELF.props;
     const { pathname } = location;
     if (pathname === '/restore-account') {
+      goToNextStep({ stepNo: 2 });
       history.push('/confirm-restore');
     } else {
       goToNextStep({ stepNo: 2 });
@@ -301,7 +304,6 @@ class CreateAccount extends React.PureComponent {
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       identiconsId,
       containNumber,
       containCapitalLetter,
