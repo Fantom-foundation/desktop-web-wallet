@@ -10,14 +10,12 @@ const getBalance = (state = defaultState, action) => {
       });
     }
     case `${actions.GET_FANTOM_BALANCE}_SUCCESS`: {
-      console.log(action, 'actionaction_SUCCESS');
       const { data } = action.payload;
       return Object.assign({}, state, {
         fantomBalance: data.balance,
       });
     }
     case `${actions.GET_FANTOM_BALANCE}_FAILURE`: {
-      console.log(action, 'actionaction_FAILURE');
       return defaultState;
     }
     default:

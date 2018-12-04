@@ -3,28 +3,20 @@ import * as actions from '../constants';
 const defaultState = {};
 
 const sendTransactions = (state = defaultState, action) => {
-  const { payload } = action;
   switch (action.type) {
-    case `${actions.SEND_RAW_TRANSACTIONS}`: {
+    case `${actions.TRANSFER_MONEY}`: {
       return Object.assign({}, state, {
-        // masterKey: payload.masterKey,
-        publicAddress: payload.publicAddress,
-        privateKey: payload.privateKey,
+        transactionHash: '',
       });
     }
-    case `${actions.SEND_RAW_TRANSACTIONS}_SUCCESS`: {
+    case `${actions.TRANSFER_MONEY}_SUCCESS`: {
+      const { data } = action.payload;
       return Object.assign({}, state, {
-        // masterKey: payload.masterKey,
-        publicAddress: payload.publicAddress,
-        privateKey: payload.privateKey,
+        transactionHash: data.txHash,
       });
     }
-    case `${actions.SEND_RAW_TRANSACTIONS}_FAILURE`: {
-      return Object.assign({}, state, {
-        // masterKey: payload.masterKey,
-        publicAddress: payload.publicAddress,
-        privateKey: payload.privateKey,
-      });
+    case `${actions.TRANSFER_MONEY}_FAILURE`: {
+      return defaultState;
     }
     case `${actions.GET_FANTOM_NONCE}`: {
       return Object.assign({}, state, {

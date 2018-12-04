@@ -14,7 +14,7 @@ export const sendRawTransaction = data =>
     },
   });
 
-export const getFantomNomce = address =>
+export const getFantomNonce = address =>
   action({
     type: actions.GET_FANTOM_NONCE,
     payload: {

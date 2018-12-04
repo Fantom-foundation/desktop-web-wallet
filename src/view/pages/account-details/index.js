@@ -1,21 +1,89 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import copy from 'copy-to-clipboard';
+import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import Layout from '../../components/layout';
+import { getFantomBalance } from '../../../redux/getBalance/action';
 import Identicons from '../../general/identicons/identicons';
 import DropDown from './dropDown';
+import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
+import { getFantomNonce, sendRawTransaction } from '../../../redux/sendTransactions/action';
+import { isAccountPasswordCorrect, transferMoneyViaFantom } from '../../../redux/accountManagement';
 
 class AccountDetails extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      isTransferringMoney: false,
+    };
+    this.transferMoney = this.transferMoney.bind(this);
+    this.copyToClipboard = this.copyToClipboard.bind(this);
+  }
+
+  componentWillMount() {
+    const SELF = this;
+    const { getBalance, getTransactions } = SELF.props;
+    const publicAddress = this.getAccountPublicAddress();
+    getBalance(publicAddress);
+    getTransactions(publicAddress);
+  }
+
+  getAccountPublicAddress() {
+    const SELF = this;
+    const { location, accountsList } = SELF.props;
+    const { state } = location;
+    const account = accountsList[state.selectedAccountIndex];
+
+    return account.publicAddress;
+  }
+
+  /**
+   * This method will copy the text
+   */
+  // eslint-disable-next-line class-methods-use-this
+  copyToClipboard(publicAddress) {
+    copy(publicAddress);
+    ToastStore.info('Copy to clipboard');
+  }
+
+  transferMoney() {
+    const SELF = this;
+    const { location, accountsList, transferMoney, getBalance } = SELF.props;
+    this.setState({
+      isTransferringMoney: true,
+    });
+    const isPasswordCorrect = Promise.resolve(isAccountPasswordCorrect(location, accountsList));
+    isPasswordCorrect
+      .then(() => {
+        const isTransferredPromise = Promise.resolve(
+          transferMoneyViaFantom(location, accountsList, transferMoney, getBalance)
+        );
+        isTransferredPromise
+          .then(status => {
+            ToastStore.info(`${status.message}`);
+          })
+          .catch(error => {
+            ToastStore.info(`${error.message}`);
+          });
+        this.setState({
+          isTransferringMoney: false,
+        });
+      })
+      .catch(error => {
+        this.setState({
+          isTransferringMoney: false,
+        });
+        ToastStore.info(`${error.message}`);
+      });
   }
 
   render() {
     const SELF = this;
-    const { accountsList, location } = SELF.props;
+    const { accountsList, location, balance } = SELF.props;
+    const { isTransferringMoney } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
     return (
@@ -44,7 +112,11 @@ class AccountDetails extends React.PureComponent {
                       <div className="account-no">
                         <p>
                           <span>
-                            <button type="button" className="clipboard-btn">
+                            <button
+                              type="button"
+                              onClick={() => this.copyToClipboard(account.publicAddress)}
+                              className="clipboard-btn"
+                            >
                               <i className="fas fa-clone" />
                             </button>
                           </span>
@@ -56,16 +128,27 @@ class AccountDetails extends React.PureComponent {
                         <p>13 Outgoing transaction</p>
                       </div>
                       <div className="qr">
-                        <QRCode value={account.publicAddress} level="H" size={158} />
+                        <QRCode
+                          bgColor="black"
+                          fgColor="white"
+                          value={account.publicAddress}
+                          level="H"
+                          size={158}
+                        />
                       </div>
                       <div className="ftm-no">
                         <p>
-                          2.10000000 <span>FTM</span>
+                          {balance} <span>FTM</span>
                         </p>
                       </div>
                       <center>
-                        <Button color="primary" className="bordered mt-3">
-                          Transfer
+                        <Button
+                          color="primary"
+                          onClick={this.transferMoney}
+                          disabled={isTransferringMoney}
+                          className={isTransferringMoney ? 'bordered mt-3 light' : 'bordered mt-3'}
+                        >
+                          {isTransferringMoney ? 'Transferring....' : 'Transfer'}
                         </Button>
                       </center>
                     </div>
@@ -148,6 +231,7 @@ class AccountDetails extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
+            <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore} />
           </section>
         </Layout>
       </div>
@@ -157,16 +241,20 @@ class AccountDetails extends React.PureComponent {
 
 const mapStateToProps = state => ({
   accountsList: state.accounts.accountsList,
+  balance: state.getBalance.fantomBalance,
+  nonce: state.sendTransactions.fantomNonce,
 });
 
-// const mapDispatchToProps = dispatch => ({
-//   setKeys: data => dispatch(createPublicPrivateKeys(data)),
-//   setMnemonicCode: data => dispatch(createMnemonic(data)),
-// });
+const mapDispatchToProps = dispatch => ({
+  getBalance: data => dispatch(getFantomBalance(data)),
+  getTransactions: data => dispatch(getTransactionsHistory(data)),
+  getNonce: data => dispatch(getFantomNonce(data)),
+  transferMoney: data => dispatch(sendRawTransaction(data)),
+});
 
 export default compose(
   connect(
-    mapStateToProps
-    // mapDispatchToProps
+    mapStateToProps,
+    mapDispatchToProps
   )
 )(AccountDetails);
