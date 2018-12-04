@@ -105,6 +105,7 @@ class AccountInformation extends React.PureComponent {
       onUpdate,
     } = SELF.props;
     const { accountName, selectedIcon } = accountInfo;
+    console.log('dssafdas', selectedIcon);
     const { publicAddress } = accountKeys;
     const getMnemonics = this.getMnemonics();
     const accDetailsYSpaces = '26px';
