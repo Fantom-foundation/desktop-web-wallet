@@ -1,17 +1,23 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Container, Row, Col, Button } from 'reactstrap';
 import QRCode from 'qrcode.react';
 import Layout from '../../components/layout';
 import Identicons from '../../general/identicons/identicons';
 import DropDown from './dropDown';
 
-class Home extends React.PureComponent {
+class AccountDetails extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   render() {
+    const SELF = this;
+    const { accountsList, location } = SELF.props;
+    const { state } = location;
+    const account = accountsList[state.selectedAccountIndex];
     return (
       <div id="account-datails" className="account-datails">
         <Layout>
@@ -31,10 +37,10 @@ class Home extends React.PureComponent {
                     <div id="acc-details">
                       <div className="text-center">
                         <span className="avatar">
-                          <Identicons id="31543490683846" width={40} size={3} />
+                          <Identicons id={account.selectedIcon} width={40} size={3} />
                         </span>
                       </div>
-                      <h2 className="acc-title text-primary">Test Account</h2>
+                      <h2 className="acc-title text-primary">{account.accountName}</h2>
                       <div className="account-no">
                         <p>
                           <span>
@@ -42,7 +48,7 @@ class Home extends React.PureComponent {
                               <i className="fas fa-clone" />
                             </button>
                           </span>
-                          y675y796597y969hky0y6mkdjngjvdfnjgjnv45646
+                          {account.publicAddress}
                         </p>
                       </div>
                       <div className="info">
@@ -50,7 +56,7 @@ class Home extends React.PureComponent {
                         <p>13 Outgoing transaction</p>
                       </div>
                       <div className="qr">
-                        <QRCode value="publicKey" level="H" size={158} />
+                        <QRCode value={account.publicAddress} level="H" size={158} />
                       </div>
                       <div className="ftm-no">
                         <p>
@@ -71,9 +77,9 @@ class Home extends React.PureComponent {
                       <h2 className="title ">
                         <span>Transactions</span>
                       </h2>
-                      <Button>
-                        <DropDown />
-                      </Button>
+                      {/* <Button> */}
+                      <DropDown />
+                      {/* </Button> */}
                     </div>
                   </div>
                   <div id="acc-cards" className="">
@@ -149,4 +155,18 @@ class Home extends React.PureComponent {
   }
 }
 
-export default Home;
+const mapStateToProps = state => ({
+  accountsList: state.accounts.accountsList,
+});
+
+// const mapDispatchToProps = dispatch => ({
+//   setKeys: data => dispatch(createPublicPrivateKeys(data)),
+//   setMnemonicCode: data => dispatch(createMnemonic(data)),
+// });
+
+export default compose(
+  connect(
+    mapStateToProps
+    // mapDispatchToProps
+  )
+)(AccountDetails);

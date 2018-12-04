@@ -14,6 +14,7 @@ class AccountManagement extends React.PureComponent {
     super(props);
     this.state = {};
     this.copyToClipboard = this.copyToClipboard.bind(this);
+    this.goToAccountDetail = this.goToAccountDetail.bind(this);
   }
 
   /**
@@ -32,7 +33,13 @@ class AccountManagement extends React.PureComponent {
             accountInfo => accountInfo.accountName === account.accountName
           );
           accounts.push(
-            <Col key={index} md={6} lg={3} className="main-col">
+            <Col
+              key={index}
+              md={6}
+              lg={3}
+              className="main-col"
+              onClick={() => this.goToAccountDetail(index)}
+            >
               <div className="accounts-holder">
                 <div className="avatar">
                   <span className="avatar-icon">
@@ -64,6 +71,12 @@ class AccountManagement extends React.PureComponent {
     }
 
     return accounts;
+  }
+
+  goToAccountDetail(index) {
+    const SELF = this;
+    const { history } = SELF.props;
+    history.push('/account-details', { selectedAccountIndex: index });
   }
 
   /**

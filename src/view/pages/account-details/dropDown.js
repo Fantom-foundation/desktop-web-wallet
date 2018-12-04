@@ -19,9 +19,7 @@ export default class DropDown extends React.Component {
 
   render() {
     return (
-      <Dropdown
-      // isOpen={this.state.dropdownOpen} toggle={this.toggle}
-      >
+      <Dropdown toggle={this.toggle}>
         <DropdownToggle caret>Dropdown</DropdownToggle>
         <DropdownMenu>
           <DropdownItem header>Header</DropdownItem>

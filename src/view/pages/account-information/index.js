@@ -5,7 +5,6 @@ import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import copy from 'copy-to-clipboard';
-import { withAlert } from 'react-alert';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
@@ -105,7 +104,6 @@ class AccountInformation extends React.PureComponent {
       onUpdate,
     } = SELF.props;
     const { accountName, selectedIcon } = accountInfo;
-    console.log('dssafdas', selectedIcon);
     const { publicAddress } = accountKeys;
     const getMnemonics = this.getMnemonics();
     const accDetailsYSpaces = '26px';
@@ -242,6 +240,5 @@ export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
-  withAlert
+  )
 )(AccountInformation);
