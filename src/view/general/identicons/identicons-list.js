@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormGroup } from 'reactstrap';
 import Identicons from './identicons';
 
@@ -12,17 +13,15 @@ export default class IdenticonsIcon extends Component {
    * @param {string} identiconsId
    */
   getRadioIconData(identiconsId) {
-    const SELF = this;
-    const { getRadioIconData } = SELF.props;
+    const { getRadioIconData } = this.props;
     if (getRadioIconData) {
       getRadioIconData(identiconsId);
     }
   }
 
   render() {
-    const SELF = this;
-    const { index, date, key, selectedIcon } = SELF.props;
-    const { accountIcon } = SELF.props;
+    const { index, date, key, selectedIcon } = this.props;
+    const { accountIcon } = this.props;
     const iconIndex = index.toString();
     const currentDate = date.toString();
     let identiconsId = iconIndex + currentDate;
@@ -74,4 +73,14 @@ export default class IdenticonsIcon extends Component {
 
 IdenticonsIcon.defaultProps = {
   date: '00000',
+  key: 0,
+};
+
+IdenticonsIcon.propTypes = {
+  getRadioIconData: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  date: PropTypes.string,
+  key: PropTypes.number,
+  selectedIcon: PropTypes.string.isRequired,
+  accountIcon: PropTypes.string.isRequired,
 };

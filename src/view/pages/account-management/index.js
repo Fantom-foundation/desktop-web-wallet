@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
+import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button } from 'reactstrap';
 import copy from 'copy-to-clipboard';
@@ -20,8 +21,7 @@ class AccountManagement extends React.PureComponent {
    * This method will return the accounts list
    */
   getAccountsList() {
-    const SELF = this;
-    const { accountsList } = SELF.props;
+    const { accountsList } = this.props;
     const accounts = [];
     if (accountsList && accountsList.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
@@ -48,7 +48,7 @@ class AccountManagement extends React.PureComponent {
                       <button
                         type="button"
                         className="clipboard-btn"
-                        onClick={() => SELF.copyToClipboard(index)}
+                        onClick={() => this.copyToClipboard(index)}
                       >
                         <i className="fas fa-clone" />
                       </button>
@@ -70,8 +70,7 @@ class AccountManagement extends React.PureComponent {
    * This method will copy the text
    */
   copyToClipboard(index) {
-    const SELF = this;
-    const { accountsList } = SELF.props;
+    const { accountsList } = this.props;
     copy(accountsList[index].publicAddress);
     ToastStore.info('Copy to clipboard', 800);
   }
@@ -121,6 +120,10 @@ class AccountManagement extends React.PureComponent {
 const mapStateToProps = state => ({
   accountsList: state.accounts.accountsList,
 });
+
+AccountManagement.propTypes = {
+  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+};
 
 export default compose(
   connect(mapStateToProps),

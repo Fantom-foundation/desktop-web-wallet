@@ -63,10 +63,5 @@ export default class CreateAccountSection extends React.PureComponent {
 }
 
 CreateAccountSection.propTypes = {
-  formData: PropTypes.oneOfType([
-    PropTypes.string,
-    PropTypes.number,
-    PropTypes.func,
-    PropTypes.bool,
-  ]).isRequired,
+  formData: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import Hdkey from 'hdkey';
+import PropTypes from 'prop-types';
 import EthUtil from 'ethereumjs-util';
 import _ from 'lodash';
 import Web3 from 'web3';
@@ -46,8 +47,7 @@ class Confirm extends React.PureComponent {
    * This method will return the mnemonics list
    */
   getMnemonics() {
-    const SELF = this;
-    const { accountInfo } = SELF.props;
+    const { accountInfo } = this.props;
     const { selectedMnemonicsArray } = this.state;
     const { mnemonic } = accountInfo;
     let mnemonicsList = [];
@@ -60,11 +60,11 @@ class Confirm extends React.PureComponent {
           mnemonicName => mnemonicName === generatedMnemonic[i]
         );
         mnemonicsList.push(
-          <li className={`${generatedMnemonic[i]}_${i}`}>
+          <li key={i} className={`${generatedMnemonic[i]}_${i}`}>
             <Button
               color="primary"
               disabled={selectedIndex !== -1}
-              onClick={() => SELF.selectMnemonic(generatedMnemonic[i], i)}
+              onClick={() => this.selectMnemonic(generatedMnemonic[i], i)}
             >
               {generatedMnemonic[i]}
             </Button>
@@ -81,18 +81,17 @@ class Confirm extends React.PureComponent {
    * This method will return the selected mnemonics
    */
   getSelectedMnemonics() {
-    const SELF = this;
     const { selectedMnemonicsArray } = this.state;
     const mnemonicsList = [];
     if (selectedMnemonicsArray && selectedMnemonicsArray.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
       for (let i = 0; i < selectedMnemonicsArray.length; i += 1) {
         mnemonicsList.push(
-          <li>
+          <li key={i}>
             <Button
               color="primary"
               onClick={() =>
-                SELF.unselectMnemonic(
+                this.unselectMnemonic(
                   selectedMnemonicsArray[i].name,
                   selectedMnemonicsArray[i].index
                 )
@@ -113,8 +112,7 @@ class Confirm extends React.PureComponent {
    * This method will remove the mnemonic from the selected mnemonics
    */
   unselectMnemonic(name, index) {
-    const SELF = this;
-    const { selectedMnemonicsArray } = SELF.state;
+    const { selectedMnemonicsArray } = this.state;
     const clonedArray = selectedMnemonicsArray.slice();
     const selectedIndex = _.findIndex(
       selectedMnemonicsArray,
@@ -137,8 +135,7 @@ class Confirm extends React.PureComponent {
    * This method will push the selected mnemonic in the selected mnemonic array
    */
   selectMnemonic(name, index) {
-    const SELF = this;
-    const { selectedMnemonicsArray } = SELF.state;
+    const { selectedMnemonicsArray } = this.state;
     const clonedArray = selectedMnemonicsArray.slice();
     // eslint-disable-next-line no-undef
     const findSelectedMnemonic = document.getElementsByClassName(`${name}_${index}`);
@@ -162,8 +159,7 @@ class Confirm extends React.PureComponent {
    * This method will cancel the wallet creation process
    */
   cancelWallet() {
-    const SELF = this;
-    const { accountsList, history, resetState } = SELF.props;
+    const { accountsList, history, resetState } = this.props;
     if (accountsList.length === 0) {
       history.push('/create-account');
       // This method will reset the state of accountInfo reducer
@@ -179,9 +175,9 @@ class Confirm extends React.PureComponent {
    * @param {Generated Mnemonic} mnemonic
    * This method will generate the public, private keys and public address
    */
+  // eslint-disable-next-line class-methods-use-this
   walletSetup(seed) {
     // eslint-disable-next-line no-unused-vars
-    const SELF = this;
     const root = Hdkey.fromMasterSeed(seed);
     // const masterKey = root.privateKey.toString('hex');
     const addrNode = root.derive("m/44'/60'/0'/0/0");
@@ -193,7 +189,6 @@ class Confirm extends React.PureComponent {
    * This method will create the wallet
    */
   createWallet() {
-    const SELF = this;
     const {
       addWallet,
       accountInfo,
@@ -201,7 +196,7 @@ class Confirm extends React.PureComponent {
       history,
       resetState,
       emptyKeysObject,
-    } = SELF.props;
+    } = this.props;
     const { mnemonic, password } = accountInfo;
     const { selectedMnemonicsArray } = this.state;
     let data = {
@@ -321,6 +316,16 @@ const mapDispatchToProps = dispatch => ({
   emptyKeysObject: () => dispatch(emptyKeysState()),
   resetState: () => dispatch(emptyState()),
 });
+
+Confirm.propTypes = {
+  accountInfo: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  publicAddress: PropTypes.string.isRequired,
+  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  addWallet: PropTypes.func.isRequired,
+  emptyKeysObject: PropTypes.func.isRequired,
+  resetState: PropTypes.func.isRequired,
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};
 
 export default compose(
   connect(

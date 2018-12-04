@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
+import PropTypes from 'prop-types';
 import copy from 'copy-to-clipboard';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
@@ -23,8 +24,7 @@ class AccountInformation extends React.PureComponent {
   }
 
   componentDidMount() {
-    const SELF = this;
-    const { accountInfo } = SELF.props;
+    const { accountInfo } = this.props;
     let { mnemonic } = accountInfo;
     if (!mnemonic) {
       mnemonic = Bip39.generateMnemonic();
@@ -48,15 +48,14 @@ class AccountInformation extends React.PureComponent {
    * This method will return the list of the Mnemonics
    */
   getMnemonics() {
-    const SELF = this;
-    const { accountInfo } = SELF.props;
+    const { accountInfo } = this.props;
     const { mnemonic } = accountInfo;
     const mnemonicsList = [];
     const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
     if (generatedMnemonic && generatedMnemonic.length > 0) {
       // eslint-disable-next-line no-restricted-syntax
-      for (const name of generatedMnemonic) {
-        mnemonicsList.push(<li>{name}</li>);
+      for (let i = 0; i < generatedMnemonic.length; i += 1) {
+        mnemonicsList.push(<li key={i}>{generatedMnemonic[i]}</li>);
       }
     }
 
@@ -69,8 +68,7 @@ class AccountInformation extends React.PureComponent {
    * This method will generate the public, private keys and public address
    */
   walletSetup(seed, mnemonic) {
-    const SELF = this;
-    const { setMnemonicCode, setKeys } = SELF.props;
+    const { setMnemonicCode, setKeys } = this.props;
     const root = Hdkey.fromMasterSeed(seed);
     // const masterKey = root.privateKey.toString('hex');
     const addrNode = root.derive("m/44'/60'/0'/0/0");
@@ -86,15 +84,13 @@ class AccountInformation extends React.PureComponent {
    * This method will copy the text
    */
   copyToClipboard() {
-    const SELF = this;
-    const { accountKeys } = SELF.props;
+    const { accountKeys } = this.props;
     const { publicAddress } = accountKeys;
     copy(publicAddress);
     ToastStore.info('Copy to clipboard', 800);
   }
 
   render() {
-    const SELF = this;
     const {
       accountInfo,
       accountKeys,
@@ -102,7 +98,7 @@ class AccountInformation extends React.PureComponent {
       revealSecretFunc,
       confirmationPhrase,
       onUpdate,
-    } = SELF.props;
+    } = this.props;
     const { accountName, selectedIcon } = accountInfo;
     const { publicAddress } = accountKeys;
     const getMnemonics = this.getMnemonics();
@@ -114,7 +110,7 @@ class AccountInformation extends React.PureComponent {
             <Row className="acc-details bg-dark-light" style={{ marginBottom: accDetailsYSpaces }}>
               <Col className="left-col">
                 <div className="acc-qr">
-                  <QRCode value="publicKey" level="H" size={158} />
+                  <QRCode bgColor="white" fgColor="black" value="publicKey" level="H" size={158} />
                 </div>
                 <div className="acc-name-holder">
                   <Identicons id={selectedIcon} width={50} size={3} />
@@ -227,7 +223,6 @@ class AccountInformation extends React.PureComponent {
 
 const mapStateToProps = state => ({
   accountInfo: state.accountInfo,
-  stepNo: state.accountInfo.stepNo,
   accountKeys: state.accountKeys,
 });
 
@@ -235,6 +230,17 @@ const mapDispatchToProps = dispatch => ({
   setKeys: data => dispatch(createPublicPrivateKeys(data)),
   setMnemonicCode: data => dispatch(createMnemonic(data)),
 });
+
+AccountInformation.propTypes = {
+  accountInfo: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
+  accountKeys: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  setKeys: PropTypes.func.isRequired,
+  setMnemonicCode: PropTypes.func.isRequired,
+  revealSecret: PropTypes.bool.isRequired,
+  revealSecretFunc: PropTypes.func.isRequired,
+  confirmationPhrase: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+};
 
 export default compose(
   connect(
