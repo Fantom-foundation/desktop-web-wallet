@@ -20,7 +20,7 @@ export default class IdenticonsIcon extends Component {
   }
 
   render() {
-    const { index, date, key, selectedIcon } = this.props;
+    const { index, date, selectedIcon } = this.props;
     const { accountIcon } = this.props;
     const iconIndex = index.toString();
     const currentDate = date.toString();
@@ -39,10 +39,10 @@ export default class IdenticonsIcon extends Component {
     return (
       <li>
         <FormGroup className="form-radio-label">
-          <label htmlFor={key}>
+          <label htmlFor={index}>
             <div className="radio-holder">
               <input
-                id={key}
+                id={index}
                 name="name"
                 className="form-radio-field"
                 type="radio"
@@ -53,7 +53,7 @@ export default class IdenticonsIcon extends Component {
               <span />
             </div>
             <div className=" identicon-holder">
-              <Identicons id={identiconsId} width={40} key={key} size={3} />
+              <Identicons id={identiconsId} width={40} key={index} size={3} />
             </div>
           </label>
         </FormGroup>
@@ -71,16 +71,10 @@ export default class IdenticonsIcon extends Component {
  *
  */
 
-IdenticonsIcon.defaultProps = {
-  date: '00000',
-  key: 0,
-};
-
 IdenticonsIcon.propTypes = {
   getRadioIconData: PropTypes.func.isRequired,
   index: PropTypes.number.isRequired,
-  date: PropTypes.string,
-  key: PropTypes.number,
+  date: PropTypes.number.isRequired,
   selectedIcon: PropTypes.string.isRequired,
   accountIcon: PropTypes.string.isRequired,
 };

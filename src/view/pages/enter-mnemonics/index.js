@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import PropTypes from 'prop-types';
 import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
@@ -105,7 +106,6 @@ class EnterMnemonics extends React.PureComponent {
    * This method will create the wallet
    */
   createWallet() {
-    const SELF = this;
     const { enteredMnemonic } = this.state;
     const {
       accountName,
@@ -115,7 +115,7 @@ class EnterMnemonics extends React.PureComponent {
       history,
       addWallet,
       password,
-    } = SELF.props;
+    } = this.props;
     let data = {
       accountName,
       passwordHint,
@@ -140,8 +140,7 @@ class EnterMnemonics extends React.PureComponent {
    * This method will cancel the wallet creation process
    */
   cancelWallet() {
-    const SELF = this;
-    const { accountsList, history, removeAccount } = SELF.props;
+    const { accountsList, history, removeAccount } = this.props;
     if (accountsList.length === 0) {
       history.push('/create-account');
       // This method will reset the state of accountInfo reducer
@@ -246,6 +245,17 @@ const mapDispatchToProps = dispatch => ({
   removeAccount: () => dispatch(emptyState()),
   addWallet: data => dispatch(createWallet(data)),
 });
+
+EnterMnemonics.propTypes = {
+  accountName: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  passwordHint: PropTypes.string.isRequired,
+  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  identiconsId: PropTypes.string.isRequired,
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  removeAccount: PropTypes.func.isRequired,
+  addWallet: PropTypes.func.isRequired,
+};
 
 export default compose(
   connect(

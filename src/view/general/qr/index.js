@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import QRCode from 'qrcode.react';
+import PropTypes from 'prop-types';
 import FantomLogo from '../fantomLogo/index';
 
 /**
@@ -8,8 +9,7 @@ import FantomLogo from '../fantomLogo/index';
  */
 class QRCodeIcon extends Component {
   renderLogo() {
-    const SELF = this;
-    const { address } = SELF.props;
+    const { address } = this.props;
     if (address !== undefined && address !== '') {
       return (
         <p
@@ -33,8 +33,7 @@ class QRCodeIcon extends Component {
   }
 
   render() {
-    const SELF = this;
-    const { address } = SELF.props;
+    const { address } = this.props;
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
         {this.renderLogo()}
@@ -43,5 +42,9 @@ class QRCodeIcon extends Component {
     );
   }
 }
+
+QRCodeIcon.propTypes = {
+  address: PropTypes.func.isRequired,
+};
 
 export default QRCodeIcon;

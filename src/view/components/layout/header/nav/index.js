@@ -1,6 +1,7 @@
 import React from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Collapse, Navbar, NavbarToggler, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import logo from '../../../../../images/logo/fantom.png';
@@ -23,15 +24,13 @@ class NavigationBar extends React.Component {
   }
 
   goToPage(route) {
-    const SELF = this;
-    const { history } = SELF.props;
+    const { history } = this.props;
     history.push(route);
   }
 
   render() {
-    const SELF = this;
     const { isOpen } = this.state;
-    const { accountsList } = SELF.props;
+    const { accountsList } = this.props;
     return (
       <div className="nav-holder">
         <Navbar dark expand="md">
@@ -65,6 +64,11 @@ class NavigationBar extends React.Component {
 const mapStateToProps = state => ({
   accountsList: state.accounts.accountsList,
 });
+
+NavigationBar.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+};
 
 export default compose(
   connect(mapStateToProps),

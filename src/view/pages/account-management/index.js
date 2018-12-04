@@ -15,6 +15,7 @@ class AccountManagement extends React.PureComponent {
     super(props);
     this.state = {};
     this.copyToClipboard = this.copyToClipboard.bind(this);
+    this.addAccount = this.addAccount.bind(this);
   }
 
   /**
@@ -67,6 +68,14 @@ class AccountManagement extends React.PureComponent {
   }
 
   /**
+   * This method will redirect user to the create account screen
+   */
+  addAccount() {
+    const { history } = this.props;
+    history.push('/create-account');
+  }
+
+  /**
    * This method will copy the text
    */
   copyToClipboard(index) {
@@ -99,7 +108,7 @@ class AccountManagement extends React.PureComponent {
                     <h2 className="title ">
                       <span>Accounts</span>
                     </h2>
-                    <Button>
+                    <Button onClick={this.addAccount}>
                       <i className="fas fa-plus" />
                     </Button>
                   </div>
@@ -123,6 +132,7 @@ const mapStateToProps = state => ({
 
 AccountManagement.propTypes = {
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default compose(

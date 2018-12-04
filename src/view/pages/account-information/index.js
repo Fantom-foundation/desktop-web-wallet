@@ -232,8 +232,8 @@ const mapDispatchToProps = dispatch => ({
 });
 
 AccountInformation.propTypes = {
-  accountInfo: PropTypes.oneOfType([PropTypes.string, PropTypes.number]).isRequired,
-  accountKeys: PropTypes.oneOfType([PropTypes.string]).isRequired,
+  accountInfo: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  accountKeys: PropTypes.oneOfType([PropTypes.object]).isRequired,
   setKeys: PropTypes.func.isRequired,
   setMnemonicCode: PropTypes.func.isRequired,
   revealSecret: PropTypes.bool.isRequired,

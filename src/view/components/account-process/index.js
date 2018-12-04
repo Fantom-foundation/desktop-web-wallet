@@ -10,8 +10,7 @@ export default class AccountProcess extends React.PureComponent {
   }
 
   getClassName() {
-    const SELF = this;
-    const { stepNo } = SELF.props;
+    const { stepNo } = this.props;
     let className = '';
     if (!stepNo) {
       return className;
@@ -112,6 +111,7 @@ export default class AccountProcess extends React.PureComponent {
 }
 AccountProcess.propTypes = {
   restoreAccount: PropTypes.bool,
+  stepNo: PropTypes.number.isRequired,
 };
 
 AccountProcess.defaultProps = {

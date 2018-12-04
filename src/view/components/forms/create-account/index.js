@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Form, FormGroup, Input } from 'reactstrap';
+import PropTypes from 'prop-types';
 import DisplayIdenticons from '../../../general/identicons';
 import cross from './cross.svg';
 import check from './check.svg';
@@ -13,7 +14,6 @@ export default class CreateAccount extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
     const {
       accountName,
       onUpdate,
@@ -31,7 +31,7 @@ export default class CreateAccount extends React.PureComponent {
       selectedIcon,
       error,
       isAccountNameExists,
-    } = SELF.props;
+    } = this.props;
     return (
       <Form id="create-account-form">
         <FormGroup>
@@ -117,3 +117,27 @@ export default class CreateAccount extends React.PureComponent {
     );
   }
 }
+
+CreateAccount.defaultProps = {
+  reEnteredPassword: '',
+  passwordHint: '',
+};
+
+CreateAccount.propTypes = {
+  accountName: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  password: PropTypes.string.isRequired,
+  reEnteredPassword: PropTypes.string,
+  passwordHint: PropTypes.string,
+  date: PropTypes.number.isRequired,
+  animateRefreshIcon: PropTypes.bool.isRequired,
+  identiconsId: PropTypes.string.isRequired,
+  onRefresh: PropTypes.func.isRequired,
+  getRadioIconData: PropTypes.func.isRequired,
+  containNumber: PropTypes.bool.isRequired,
+  containCapitalLetter: PropTypes.bool.isRequired,
+  hasLengthGreaterThanEight: PropTypes.bool.isRequired,
+  selectedIcon: PropTypes.string.isRequired,
+  error: PropTypes.bool.isRequired,
+  isAccountNameExists: PropTypes.bool.isRequired,
+};

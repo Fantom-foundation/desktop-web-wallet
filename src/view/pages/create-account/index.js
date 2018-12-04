@@ -498,14 +498,22 @@ const mapDispatchToProps = dispatch => ({
   goToNextStep: data => dispatch(incrementStepNo(data)),
 });
 
-Confirm.propTypes = {
-  accountName: PropTypes.string.isRequired,
-  password: PropTypes.string.isRequired,
-  passwordHint: PropTypes.string.isRequired,
-  selectedIcon: PropTypes.string.isRequired,
+CreateAccount.defaultProps = {
+  passwordHint: '',
+  stepNo: 0,
+  accountName: '',
+  password: '',
+  selectedIcon: '',
+};
+
+CreateAccount.propTypes = {
+  accountName: PropTypes.string,
+  password: PropTypes.string,
+  passwordHint: PropTypes.string,
+  selectedIcon: PropTypes.string,
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
   location: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  stepNo: PropTypes.string.isRequired,
+  stepNo: PropTypes.number,
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
   createNewAccount: PropTypes.func.isRequired,
   goToNextStep: PropTypes.func.isRequired,
