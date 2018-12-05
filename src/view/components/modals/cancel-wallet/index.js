@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export default class CancelWalletModal extends React.PureComponent {
@@ -8,8 +9,7 @@ export default class CancelWalletModal extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
-    const { toggleModal, cancelModalToggle, cancelWallet } = SELF.props;
+    const { toggleModal, cancelModalToggle, cancelWallet } = this.props;
     return (
       <Modal isOpen={toggleModal} toggle={cancelModalToggle}>
         <ModalHeader toggle={cancelModalToggle}>Cancel Wallet </ModalHeader>
@@ -28,3 +28,9 @@ export default class CancelWalletModal extends React.PureComponent {
     );
   }
 }
+
+CancelWalletModal.propTypes = {
+  toggleModal: PropTypes.bool.isRequired,
+  cancelModalToggle: PropTypes.func.isRequired,
+  cancelWallet: PropTypes.func.isRequired,
+};

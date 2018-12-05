@@ -9,9 +9,11 @@ export default class AccountProcess extends React.PureComponent {
     this.state = {};
   }
 
+  /**
+   * This method will return the className based on the step no
+   */
   getClassName() {
-    const SELF = this;
-    const { stepNo } = SELF.props;
+    const { stepNo } = this.props;
     let className = '';
     if (!stepNo) {
       return className;
@@ -24,9 +26,7 @@ export default class AccountProcess extends React.PureComponent {
 
   render() {
     const className = this.getClassName();
-
     const { restoreAccount } = this.props;
-
     return (
       <>
         <section style={{ padding: '30px 0' }}>
@@ -112,6 +112,7 @@ export default class AccountProcess extends React.PureComponent {
 }
 AccountProcess.propTypes = {
   restoreAccount: PropTypes.bool,
+  stepNo: PropTypes.number.isRequired,
 };
 
 AccountProcess.defaultProps = {

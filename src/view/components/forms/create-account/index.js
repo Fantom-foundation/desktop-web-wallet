@@ -19,7 +19,6 @@ export default class CreateAccount extends React.PureComponent {
       onUpdate,
       password,
       reEnteredPassword,
-      passwordHint,
       date,
       animateRefreshIcon,
       identiconsId,
@@ -65,7 +64,7 @@ export default class CreateAccount extends React.PureComponent {
               <Input
                 type="password"
                 name="name"
-                placeholder="Re Enter Password"
+                placeholder="Re-enter Password"
                 value={reEnteredPassword}
                 onChange={e => onUpdate('reEnteredPassword', e.currentTarget.value)}
                 style={{ backgroundImage: `url(${lock})` }}
@@ -84,8 +83,8 @@ export default class CreateAccount extends React.PureComponent {
                 8+ Characters
               </li>
               <li className="false">
-                <img src={containCapitalLetter ? check : cross} alt="invalid" className="ico" />
-                1+ Capilital Letter
+                <img src={containCapitalLetter ? check : cross} alt="invalid" className="ico" />1
+                Upper Case Letter
               </li>
               <li className="false">
                 <img src={containNumber ? check : cross} alt="invalid" className="ico" />
@@ -94,7 +93,7 @@ export default class CreateAccount extends React.PureComponent {
             </ul>
           </Col>
         </Row>
-        <FormGroup>
+        {/* <FormGroup>
           <Input
             type="text"
             name="name"
@@ -103,7 +102,7 @@ export default class CreateAccount extends React.PureComponent {
             onChange={e => onUpdate('passwordHint', e.currentTarget.value)}
             style={{ backgroundImage: `url(${lock})` }}
           />
-        </FormGroup>
+        </FormGroup> */}
         <DisplayIdenticons
           animateRefreshIcon={animateRefreshIcon}
           date={date}

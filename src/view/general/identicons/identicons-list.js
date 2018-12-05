@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormGroup } from 'reactstrap';
 import Identicons from './identicons';
 
@@ -12,17 +13,15 @@ export default class IdenticonsIcon extends Component {
    * @param {string} identiconsId
    */
   getRadioIconData(identiconsId) {
-    const SELF = this;
-    const { getRadioIconData } = SELF.props;
+    const { getRadioIconData } = this.props;
     if (getRadioIconData) {
       getRadioIconData(identiconsId);
     }
   }
 
   render() {
-    const SELF = this;
-    const { index, date, key, selectedIcon } = SELF.props;
-    const { accountIcon } = SELF.props;
+    const { index, date, selectedIcon } = this.props;
+    const { accountIcon } = this.props;
     const iconIndex = index.toString();
     const currentDate = date.toString();
     let identiconsId = iconIndex + currentDate;
@@ -40,10 +39,10 @@ export default class IdenticonsIcon extends Component {
     return (
       <li>
         <FormGroup className="form-radio-label">
-          <label htmlFor={key}>
+          <label htmlFor={index}>
             <div className="radio-holder">
               <input
-                id={key}
+                id={index}
                 name="name"
                 className="form-radio-field"
                 type="radio"
@@ -54,7 +53,7 @@ export default class IdenticonsIcon extends Component {
               <span />
             </div>
             <div className=" identicon-holder">
-              <Identicons id={identiconsId} width={40} key={key} size={3} />
+              <Identicons id={identiconsId} width={40} key={index} size={3} />
             </div>
           </label>
         </FormGroup>
@@ -72,6 +71,10 @@ export default class IdenticonsIcon extends Component {
  *
  */
 
-IdenticonsIcon.defaultProps = {
-  date: '00000',
+IdenticonsIcon.propTypes = {
+  getRadioIconData: PropTypes.func.isRequired,
+  index: PropTypes.number.isRequired,
+  date: PropTypes.number.isRequired,
+  selectedIcon: PropTypes.string.isRequired,
+  accountIcon: PropTypes.string.isRequired,
 };

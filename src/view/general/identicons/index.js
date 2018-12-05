@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
+import PropTypes from 'prop-types';
 import IdenticonsIcon from './identicons-list';
 import refreshIcon from '../../../images/icons/refresh-icon.svg';
 
@@ -50,3 +51,10 @@ export default class DisplayIdenticons extends React.PureComponent {
     );
   }
 }
+
+DisplayIdenticons.propTypes = {
+  animateRefreshIcon: PropTypes.bool.isRequired,
+  identiconsId: PropTypes.string.isRequired,
+  onRefresh: PropTypes.func.isRequired,
+  selectedIcon: PropTypes.string.isRequired,
+};

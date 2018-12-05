@@ -10,7 +10,6 @@ const accountInfo = (state = defaultState, action) => {
       return Object.assign({}, state, {
         accountName: payload.accountName,
         password: payload.password,
-        passwordHint: payload.passwordHint,
         selectedIcon: payload.selectedIcon,
       });
     }

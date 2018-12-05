@@ -2,7 +2,7 @@ import * as types from '../constants';
 
 const defaultState = { accountsList: [] };
 
-// Result of nearByUser api
+// return the list of registered accounts
 const addAccount = (payload, state) => {
   if (payload) {
     const { accountsList } = state;
@@ -16,7 +16,7 @@ const addAccount = (payload, state) => {
   return {};
 };
 
-// Reducer for handling near by users
+// reducer to set the accounts state variable
 const accounts = (state = defaultState, action) => {
   const { payload } = action;
   switch (action.type) {

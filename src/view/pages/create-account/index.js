@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Route, Switch, withRouter } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
+import PropTypes from 'prop-types';
 import _ from 'lodash';
 import AccountProcess from '../../components/account-process';
 import Layout from '../../components/layout';
@@ -25,7 +26,6 @@ class CreateAccount extends React.PureComponent {
       accountName: initialInfo.accountName,
       password: initialInfo.password,
       reEnteredPassword: initialInfo.reEnteredPassword,
-      passwordHint: initialInfo.passwordHint,
       date: new Date().getTime(),
       animateRefreshIcon: false,
       identiconsId: initialInfo.selectedIcon || '',
@@ -64,13 +64,12 @@ class CreateAccount extends React.PureComponent {
    * This method will update the value of the given key
    */
   onUpdate(key, value) {
-    const SELF = this;
     this.setState(
       {
         [key]: value,
       },
       () => {
-        SELF.disableNextButton();
+        this.disableNextButton();
       }
     );
     if (key === 'password' || key === 'reEnteredPassword') {
@@ -88,6 +87,8 @@ class CreateAccount extends React.PureComponent {
     if (pathname === '/confirm') {
       stepNo = 3;
     } else if (pathname === '/account-information') {
+      stepNo = 2;
+    } else if (pathname === '/confirm-restore') {
       stepNo = 2;
     } else if (pathname === '/restore-account') {
       stepNo = 1;
@@ -133,9 +134,8 @@ class CreateAccount extends React.PureComponent {
    * This method will return the initial account information
    */
   getInitialAccountInfo() {
-    const SELF = this;
-    const { accountName, password, passwordHint, selectedIcon } = SELF.props;
-    return { accountName, password, passwordHint, selectedIcon };
+    const { accountName, password, selectedIcon } = this.props;
+    return { accountName, password, selectedIcon };
   }
 
   /**
@@ -143,13 +143,12 @@ class CreateAccount extends React.PureComponent {
    * This method will set the icon Id
    */
   getRadioIconData(identiconsId) {
-    const SELF = this;
     this.setState(
       {
         identiconsId,
       },
       () => {
-        SELF.disableNextButton();
+        this.disableNextButton();
       }
     );
   }
@@ -174,8 +173,7 @@ class CreateAccount extends React.PureComponent {
    * This method will move to the Confirm screen and set the step no
    */
   goToNextScreen() {
-    const SELF = this;
-    const { goToNextStep, history } = SELF.props;
+    const { goToNextStep, history } = this.props;
     goToNextStep({ stepNo: 3 });
     history.push('/confirm');
   }
@@ -184,10 +182,10 @@ class CreateAccount extends React.PureComponent {
    * This method will move to the Account information screen and set the step no
    */
   goToAccountInfoScreen() {
-    const SELF = this;
-    const { goToNextStep, history, location } = SELF.props;
+    const { goToNextStep, history, location } = this.props;
     const { pathname } = location;
     if (pathname === '/restore-account') {
+      goToNextStep({ stepNo: 2 });
       history.push('/confirm-restore');
     } else {
       goToNextStep({ stepNo: 2 });
@@ -200,8 +198,7 @@ class CreateAccount extends React.PureComponent {
   }
 
   goToAccountRestoreScreen() {
-    const SELF = this;
-    const { history, goToNextStep } = SELF.props;
+    const { history, goToNextStep } = this.props;
     const { identiconsId } = this.state;
     goToNextStep({ stepNo: 1 });
     this.setState({
@@ -215,8 +212,7 @@ class CreateAccount extends React.PureComponent {
    * This method will move to the previous create account screen and set the step no
    */
   goToPreviousScreen() {
-    const SELF = this;
-    const { goToNextStep, history } = SELF.props;
+    const { goToNextStep, history } = this.props;
     const { identiconsId } = this.state;
     goToNextStep({ stepNo: 1 });
     this.setState({
@@ -229,14 +225,12 @@ class CreateAccount extends React.PureComponent {
    * This method will create the new account and set the state in the reducers
    */
   createNewAccount() {
-    const SELF = this;
-    const { createNewAccount, goToNextStep, location, history, accountsList } = SELF.props;
+    const { createNewAccount, goToNextStep, location, history, accountsList } = this.props;
     const { pathname } = location;
-    const { accountName, password, reEnteredPassword, passwordHint, identiconsId } = this.state;
+    const { accountName, password, reEnteredPassword, identiconsId } = this.state;
     const data = {
       accountName,
       password,
-      passwordHint,
       reEnteredPassword,
       selectedIcon: identiconsId,
     };
@@ -256,7 +250,7 @@ class CreateAccount extends React.PureComponent {
           confirmationPhrase: '',
           isAccountNameExists: false,
         });
-        SELF.props.history.push('/account-information');
+        history.push('/account-information');
       }
     } else {
       this.setState({
@@ -297,7 +291,6 @@ class CreateAccount extends React.PureComponent {
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       identiconsId,
       selectedIcon,
       containNumber,
@@ -309,7 +302,6 @@ class CreateAccount extends React.PureComponent {
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       identiconsId,
       containNumber,
       containCapitalLetter,
@@ -321,14 +313,7 @@ class CreateAccount extends React.PureComponent {
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (
-      isAnyFieldEmpty ||
-      isPasswordIncorrect ||
-      isAnyFieldUndefined ||
-      error ||
-      password === passwordHint ||
-      reEnteredPassword === passwordHint
-    ) {
+    if (isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error) {
       return true;
     }
 
@@ -362,8 +347,7 @@ class CreateAccount extends React.PureComponent {
    * This method will return the status of the next button
    */
   disableNextButton() {
-    const SELF = this;
-    const { stepNo } = SELF.props;
+    const { stepNo } = this.props;
     if (stepNo === 1) {
       return this.disableNextButtonOnStepOne();
     }
@@ -378,15 +362,13 @@ class CreateAccount extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
-    const { stepNo, location } = SELF.props;
+    const { stepNo, location } = this.props;
     const {
       revealSecret,
       confirmationPhrase,
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       selectedIcon,
       date,
       animateRefreshIcon,
@@ -411,7 +393,6 @@ class CreateAccount extends React.PureComponent {
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       date,
       animateRefreshIcon,
       identiconsId,
@@ -503,7 +484,6 @@ const Header = props => (
 const mapStateToProps = state => ({
   accountName: state.accountInfo.accountName,
   password: state.accountInfo.password,
-  passwordHint: state.accountInfo.passwordHint,
   selectedIcon: state.accountInfo.selectedIcon,
   stepNo: state.accountInfo.stepNo,
   accountsList: state.accounts.accountsList,
@@ -514,6 +494,25 @@ const mapDispatchToProps = dispatch => ({
   goToNextStep: data => dispatch(incrementStepNo(data)),
   getBalance: data => dispatch(getFantomBalance(data)),
 });
+
+CreateAccount.defaultProps = {
+  stepNo: 0,
+  accountName: '',
+  password: '',
+  selectedIcon: '',
+};
+
+CreateAccount.propTypes = {
+  accountName: PropTypes.string,
+  password: PropTypes.string,
+  selectedIcon: PropTypes.string,
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  location: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  stepNo: PropTypes.number,
+  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  createNewAccount: PropTypes.func.isRequired,
+  goToNextStep: PropTypes.func.isRequired,
+};
 
 export default compose(
   connect(

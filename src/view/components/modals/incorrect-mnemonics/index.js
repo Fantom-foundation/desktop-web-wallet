@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
 export default class IncorrectMnemonicsModal extends React.PureComponent {
@@ -8,8 +9,7 @@ export default class IncorrectMnemonicsModal extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
-    const { openIncorrectMnemonicsModal, toggleIncorrectMnemonicsModal } = SELF.props;
+    const { openIncorrectMnemonicsModal, toggleIncorrectMnemonicsModal } = this.props;
     return (
       <Modal isOpen={openIncorrectMnemonicsModal} toggle={toggleIncorrectMnemonicsModal}>
         <ModalHeader toggle={toggleIncorrectMnemonicsModal}>Incorrect Mnemonics</ModalHeader>
@@ -25,3 +25,8 @@ export default class IncorrectMnemonicsModal extends React.PureComponent {
     );
   }
 }
+
+IncorrectMnemonicsModal.propTypes = {
+  openIncorrectMnemonicsModal: PropTypes.bool.isRequired,
+  toggleIncorrectMnemonicsModal: PropTypes.func.isRequired,
+};

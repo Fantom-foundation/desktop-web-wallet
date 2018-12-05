@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
  *
  */
 
-class FantomLogo extends React.PureComponentComponent {
+class FantomLogo extends React.PureComponent {
   render() {
     const style = {
       fill: '#000100',
@@ -102,8 +102,8 @@ class FantomLogo extends React.PureComponentComponent {
   }
 }
 FantomLogo.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
-  logoType: PropTypes.number,
+  width: PropTypes.number.isRequired,
+  height: PropTypes.number.isRequired,
+  logoType: PropTypes.number.isRequired,
 };
 export default FantomLogo;
