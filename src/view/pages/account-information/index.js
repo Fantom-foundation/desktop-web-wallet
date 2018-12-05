@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Hdkey from 'hdkey';
-import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
@@ -14,6 +12,7 @@ import { createPublicPrivateKeys } from '../../../redux/keys/actions';
 import { createMnemonic } from '../../../redux/accountInProgress/action';
 import Identicons from '../../general/identicons/identicons';
 import noView from '../../../images/icons/no-view.png';
+import { walletSetup } from '../../../redux/accountManagement';
 
 class AccountInformation extends React.PureComponent {
   constructor(props) {
@@ -23,13 +22,14 @@ class AccountInformation extends React.PureComponent {
   }
 
   componentDidMount() {
-    const { accountInfo } = this.props;
+    const { accountInfo, setMnemonicCode, setKeys } = this.props;
     let { mnemonic } = accountInfo;
     if (!mnemonic) {
       mnemonic = Bip39.generateMnemonic();
     }
-    const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
-    this.walletSetup(seed, mnemonic);
+    const keys = walletSetup(mnemonic);
+    setKeys({ publicAddress: keys.publicAddress });
+    setMnemonicCode({ mnemonic });
   }
 
   /**
@@ -52,31 +52,12 @@ class AccountInformation extends React.PureComponent {
     const mnemonicsList = [];
     const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
     if (generatedMnemonic && generatedMnemonic.length > 0) {
-      // eslint-disable-next-line no-restricted-syntax
       for (let i = 0; i < generatedMnemonic.length; i += 1) {
         mnemonicsList.push(<li key={i}>{generatedMnemonic[i]}</li>);
       }
     }
 
     return mnemonicsList;
-  }
-
-  /**
-   * @param {Mnemonic Phrase} seed
-   * @param {Generated Mnemonic} mnemonic
-   * This method will generate the public, private keys and public address
-   */
-  walletSetup(seed, mnemonic) {
-    const { setMnemonicCode, setKeys } = this.props;
-    const root = Hdkey.fromMasterSeed(seed);
-    // const masterKey = root.privateKey.toString('hex');
-    const addrNode = root.derive("m/44'/60'/0'/0/0");
-    const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
-    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
-    const publicAddress = EthUtil.toChecksumAddress(addr);
-    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    setKeys({ publicAddress });
-    setMnemonicCode({ mnemonic });
   }
 
   render() {

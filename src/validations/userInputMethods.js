@@ -4,7 +4,6 @@ export default class ValidationMethods {
    * @param {Password} password
    * This method will check if the password is correct or not
    */
-  // eslint-disable-next-line class-methods-use-this
   isPasswordCorrect(key, password) {
     const obj = {
       containNumber: true,
@@ -59,10 +58,9 @@ export default class ValidationMethods {
    */
   // eslint-disable-next-line class-methods-use-this
   noSpecialChars(str) {
-    // eslint-disable-next-line no-param-reassign
-    str = String(str);
+    const string = String(str);
     // eslint-disable-next-line no-useless-escape
-    return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?_.()@]/g.test(str);
+    return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?_.()@]/g.test(string);
   }
 
   /**

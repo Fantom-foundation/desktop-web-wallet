@@ -7,6 +7,13 @@ import Web3 from 'web3';
 
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
 
+/**
+ * @param {To get Selected Account index} location
+ * @param {Accounts list} accountsList
+ * @param {Transfer Money Action} transferMoney
+ * @param {Get balance Action} getBalance
+ * This method will transfer the fantom from one account to another
+ */
 export function transferMoneyViaFantom(location, accountsList, transferMoney, getBalance) {
   const { state } = location;
   const account = accountsList[state.selectedAccountIndex];
@@ -46,7 +53,11 @@ export function transferMoneyViaFantom(location, accountsList, transferMoney, ge
   });
 }
 
-// eslint-disable-next-line consistent-return
+/**
+ * @param {To get Selected Account index} location
+ * @param {Accounts list} accountsList
+ * This method will check whether the account password is correct or not
+ */
 export function isAccountPasswordCorrect(location, accountsList) {
   const { state } = location;
   const account = accountsList[state.selectedAccountIndex];
@@ -67,4 +78,22 @@ export function isAccountPasswordCorrect(location, accountsList) {
     });
   }
   return { error: true, message: 'Unable to read data.' };
+}
+
+/**
+ * @param {Generated Mnemonic} mnemonic
+ * This method will return the public, private keys
+ */
+export function walletSetup(mnemonic) {
+  const seed = Bip39.mnemonicToSeed(mnemonic);
+  const root = Hdkey.fromMasterSeed(seed);
+  // const masterKey = root.privateKey.toString('hex');
+  const addrNode = root.derive("m/44'/60'/0'/0/0");
+  const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
+  const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+  const publicAddress = EthUtil.toChecksumAddress(addr);
+  // eslint-disable-next-line no-underscore-dangle
+  const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
+
+  return { publicAddress, privateKey };
 }

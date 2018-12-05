@@ -1,4 +1,3 @@
-// eslint-disable-next-line import/prefer-default-export
 export const CREATE_NEW_ACCOUNT = 'CREATE_NEW_ACCOUNT';
 export const CREATE_WALLET = 'CREATE_WALLET';
 export const MASTER_PUBLIC_PRIVATE_KEY = 'MASTER_PUBLIC_PRIVATE_KEY';

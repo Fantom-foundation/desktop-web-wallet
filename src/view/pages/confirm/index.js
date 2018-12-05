@@ -3,9 +3,7 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import Hdkey from 'hdkey';
 import PropTypes from 'prop-types';
-import EthUtil from 'ethereumjs-util';
 import _ from 'lodash';
 import Web3 from 'web3';
 import { emptyState } from '../../../redux/accountInProgress/action';
@@ -14,6 +12,7 @@ import { emptyKeysState } from '../../../redux/keys/actions';
 import CancelWalletModal from '../../components/modals/cancel-wallet';
 import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
 import ValidationMethods from '../../../validations/userInputMethods';
+import { walletSetup } from '../../../redux/accountManagement';
 
 const validationMethods = new ValidationMethods();
 const web3 = new Web3();
@@ -53,7 +52,6 @@ class Confirm extends React.PureComponent {
     let mnemonicsList = [];
     const generatedMnemonic = validationMethods.getSplittedArray(mnemonic);
     if (generatedMnemonic && generatedMnemonic.length > 0) {
-      // eslint-disable-next-line no-restricted-syntax
       for (let i = 0; i < generatedMnemonic.length; i += 1) {
         const selectedIndex = _.findIndex(
           selectedMnemonicsArray,
@@ -84,7 +82,6 @@ class Confirm extends React.PureComponent {
     const { selectedMnemonicsArray } = this.state;
     const mnemonicsList = [];
     if (selectedMnemonicsArray && selectedMnemonicsArray.length > 0) {
-      // eslint-disable-next-line no-restricted-syntax
       for (let i = 0; i < selectedMnemonicsArray.length; i += 1) {
         mnemonicsList.push(
           <li key={i}>
@@ -176,21 +173,6 @@ class Confirm extends React.PureComponent {
   }
 
   /**
-   * @param {Mnemonic Phrase} seed
-   * @param {Generated Mnemonic} mnemonic
-   * This method will generate the public, private keys and public address
-   */
-  // eslint-disable-next-line class-methods-use-this
-  walletSetup(seed) {
-    // eslint-disable-next-line no-unused-vars
-    const root = Hdkey.fromMasterSeed(seed);
-    // const masterKey = root.privateKey.toString('hex');
-    const addrNode = root.derive("m/44'/60'/0'/0/0");
-    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    return privateKey;
-  }
-
-  /**
    * This method will create the wallet
    */
   createWallet() {
@@ -218,9 +200,9 @@ class Confirm extends React.PureComponent {
       (mnemonicsArray.join(' ') === mnemonic || mnemonicsArray.join(',') === mnemonic)
     ) {
       data = _.omit(data, ['mnemoinc', 'password']);
-      const privateKey = this.walletSetup(mnemonic);
+      const keys = walletSetup(mnemonic);
 
-      const keyStore = this.saveKeyStore(privateKey, password);
+      const keyStore = this.saveKeyStore(keys.privateKey, password);
       data = { ...data, ...keyStore };
       addWallet(data);
       resetState();

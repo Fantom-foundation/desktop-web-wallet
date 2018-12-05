@@ -26,8 +26,8 @@ class AccountManagement extends React.PureComponent {
     const { accountsList } = this.props;
     const accounts = [];
     if (accountsList && accountsList.length > 0) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const account of accountsList) {
+      for (let i = 0; i < accountsList.length; i += 1) {
+        const account = accountsList[i];
         if (account) {
           const index = _.findIndex(
             accountsList,

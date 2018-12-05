@@ -2,9 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
-import Hdkey from 'hdkey';
-import EthUtil from 'ethereumjs-util';
-import Bip39 from 'bip39';
 import _ from 'lodash';
 import Web3 from 'web3';
 import { withRouter } from 'react-router-dom';
@@ -14,6 +11,7 @@ import createWallet from '../../../redux/account/action';
 import CancelWalletModal from '../../components/modals/cancel-wallet';
 import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
 import ValidationMethods from '../../../validations/userInputMethods';
+import { walletSetup } from '../../../redux/accountManagement';
 
 const web3 = new Web3();
 
@@ -58,23 +56,6 @@ class EnterMnemonics extends React.PureComponent {
   }
 
   /**
-   * @param {Mnemonic phrase} seed
-   * This method will return the private key and public address
-   * that are generated using mnemonic phrase
-   */
-  // eslint-disable-next-line class-methods-use-this
-  walletSetup(seed) {
-    const root = Hdkey.fromMasterSeed(seed);
-    // const masterKey = root.privateKey.toString('hex');
-    const addrNode = root.derive("m/44'/60'/0'/0/0");
-    const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
-    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
-    const publicAddress = EthUtil.toChecksumAddress(addr);
-    const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    return { privateKey, publicAddress };
-  }
-
-  /**
    * This method will check that the manually entered mnemonic phrase is correct
    */
   checkMnemonicIsCorrect() {
@@ -114,8 +95,7 @@ class EnterMnemonics extends React.PureComponent {
     };
     const isMnemonicCorrect = this.checkMnemonicIsCorrect();
     if (isMnemonicCorrect) {
-      const seed = Bip39.mnemonicToSeed(enteredMnemonic); // creates seed buffer
-      const keys = this.walletSetup(seed, enteredMnemonic);
+      const keys = walletSetup(enteredMnemonic);
       const keyStore = this.getKeyStore(keys.privateKey, password);
       data = { ...keys, ...data, ...keyStore };
       data = _.omit(data, ['privateKey']);

@@ -13,7 +13,6 @@ const Routes = () => (
       <Route path="/account-details" exact component={AccountDetails} />
       <Route path="/account-management" exact component={AccountManagement} />
       <Route path="/" component={CreateAccount} />
-      {/* <Route path="/confirm" exact component={Confirm} /> */}
     </Switch>
   </BrowserRouter>
 );

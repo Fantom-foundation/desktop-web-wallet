@@ -251,7 +251,6 @@ class CreateAccount extends React.PureComponent {
     }
   }
 
-  // eslint-disable-next-line class-methods-use-this
   /**
    * @param {Key name} key
    * @param {Value} value

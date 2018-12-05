@@ -29,6 +29,9 @@ class AccountDetails extends React.PureComponent {
     getBalance(publicAddress);
   }
 
+  /**
+   * This method will return the public address of the selected account
+   */
   getAccountPublicAddress() {
     const SELF = this;
     const { location, accountsList } = SELF.props;
@@ -38,6 +41,9 @@ class AccountDetails extends React.PureComponent {
     return account.publicAddress;
   }
 
+  /**
+   * This method will do the transaction functionality
+   */
   transferMoney() {
     const SELF = this;
     const { location, accountsList, transferMoney, getBalance } = SELF.props;
