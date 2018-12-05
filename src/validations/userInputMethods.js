@@ -12,8 +12,9 @@ export default class ValidationMethods {
         if (!/\d/.test(password)) {
           obj.containNumber = false;
         }
+        const noOfUpperCaseLetters = this.getNoOfUppercaseLetters(password);
         // check it contains at least 1 Capital letter
-        if (password.toLowerCase() === password) {
+        if (noOfUpperCaseLetters !== 1) {
           obj.containCapitalLetter = false;
         }
         // check it has length of 8 characters
@@ -49,5 +50,22 @@ export default class ValidationMethods {
     str = String(str);
     // eslint-disable-next-line no-useless-escape
     return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?_.()@]/g.test(str);
+  }
+
+  /**
+   * @param {String} str
+   * This method will return the no of upper case letters in the string
+   */
+  // eslint-disable-next-line class-methods-use-this
+  getNoOfUppercaseLetters(str) {
+    let count = 0;
+    const stringLength = str.length;
+    for (let i = 0; i < stringLength; i += 1) {
+      const character = str.charAt(i);
+      if (character >= 'A' && character <= 'Z') {
+        count += 1;
+      }
+    }
+    return count;
   }
 }
