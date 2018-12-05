@@ -28,32 +28,34 @@ class TransactionHistory extends React.PureComponent {
 
         if (isReceived || isSend) {
           transactionsHistory.push(
-            <Row className="">
-              <Col className="date-col">
-                <div style={{ backgroundImage: `url(${isReceived ? received : send})` }}>
-                  <p>{date.getDate()}</p>
-                  <p>{months[date.getMonth()]}</p>
-                </div>
-              </Col>
-              <Col className="acc-no-col">
-                <div className="">
-                  <p>
-                    <span>TX#</span> {transactions[i].txHash}
-                  </p>
-                  <p>
-                    <span>From:</span> {transactions[i].from}
-                  </p>
-                </div>
-              </Col>
-              <Col className="time-col">
-                <p>{moment(date).fromNow()}</p>
-              </Col>
-              <Col className="btn-col">
-                <Button color="green">
-                  {transactions[i].amount} <span>FTM</span>
-                </Button>
-              </Col>
-            </Row>
+            <div className="card bg-dark-light">
+              <Row className="">
+                <Col className="date-col">
+                  <div style={{ backgroundImage: `url(${isReceived ? received : send})` }}>
+                    <p>{date.getDate()}</p>
+                    <p>{months[date.getMonth()]}</p>
+                  </div>
+                </Col>
+                <Col className="acc-no-col">
+                  <div className="">
+                    <p>
+                      <span>TX#</span> {transactions[i].txHash}
+                    </p>
+                    <p>
+                      <span>From:</span> {transactions[i].from}
+                    </p>
+                  </div>
+                </Col>
+                <Col className="time-col">
+                  <p>{moment(date).fromNow()}</p>
+                </Col>
+                <Col className="btn-col">
+                  <Button color="green">
+                    {transactions[i].amount} <span>FTM</span>
+                  </Button>
+                </Col>
+              </Row>
+            </div>
           );
         }
       }
@@ -76,9 +78,7 @@ class TransactionHistory extends React.PureComponent {
         </div>
         <div id="acc-cards" className="">
           <Row>
-            <Col>
-              <div className="card bg-dark-light">{transactionsHistory}</div>
-            </Col>
+            <Col>{transactionsHistory}</Col>
           </Row>
         </div>
       </React.Fragment>
