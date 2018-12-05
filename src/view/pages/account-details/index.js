@@ -106,7 +106,7 @@ class AccountDetails extends React.PureComponent {
           <section style={{ padding: '30px 0' }}>
             <Container className="bg-dark acc-details-container">
               <Row>
-                <Col md={5} lg={4}>
+                <Col md={12} lg={4} className="mb-4 mb-lg-0">
                   <div className="bg-dark-light">
                     <div className="add-wallet">
                       <h2 className="title ">
@@ -117,7 +117,7 @@ class AccountDetails extends React.PureComponent {
                       </Button>
                     </div>
                     <div id="acc-details">
-                      <div className="text-center">
+                      <div className="avatar-container">
                         <span className="avatar">
                           <Identicons id={account.selectedIcon} width={40} size={3} />
                         </span>
@@ -158,7 +158,7 @@ class AccountDetails extends React.PureComponent {
                     </div>
                   </div>
                 </Col>
-                <Col md={7} lg={8}>
+                <Col md={12} lg={8}>
                   <TransactionHistory publicAddress={account.publicAddress} />
                 </Col>
               </Row>

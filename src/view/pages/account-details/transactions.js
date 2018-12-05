@@ -8,6 +8,9 @@ import DropDown from './dropDown';
 import { months } from '../../../redux/constants';
 import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
 
+import received from './received.svg';
+import send from './send.svg';
+
 class TransactionHistory extends React.PureComponent {
   componentWillMount() {
     const { getTransactions, publicAddress } = this.props;
@@ -20,11 +23,14 @@ class TransactionHistory extends React.PureComponent {
     if (transactions && transactions.length > 0) {
       for (let i = 0; i < transactions.length; i += 1) {
         const date = moment(transactions[i].date).toDate();
-        if (transactions[i].from === publicAddress || transactions[i].to === publicAddress) {
+        const isReceived = transactions[i].to === publicAddress;
+        const isSend = transactions[i].from === publicAddress;
+
+        if (isReceived || isSend) {
           transactionsHistory.push(
             <Row className="">
               <Col className="date-col">
-                <div>
+                <div style={{ backgroundImage: `url(${isReceived ? received : send})` }}>
                   <p>{date.getDate()}</p>
                   <p>{months[date.getMonth()]}</p>
                 </div>

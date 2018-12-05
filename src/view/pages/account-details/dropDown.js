@@ -20,13 +20,12 @@ export default class DropDown extends React.Component {
   render() {
     return (
       <Dropdown toggle={this.toggle}>
-        <DropdownToggle caret>Dropdown</DropdownToggle>
+        <DropdownToggle className="toggle-btn" caret>
+          All
+        </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem header>Header</DropdownItem>
-          <DropdownItem disabled>Action</DropdownItem>
-          <DropdownItem>Another Action</DropdownItem>
-          <DropdownItem divider />
-          <DropdownItem>Another Action</DropdownItem>
+          <DropdownItem>first</DropdownItem>
+          <DropdownItem>second</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );
