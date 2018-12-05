@@ -15,7 +15,6 @@ export default class CreateAccountSection extends React.PureComponent {
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       date,
       animateRefreshIcon,
       identiconsId,
@@ -41,7 +40,6 @@ export default class CreateAccountSection extends React.PureComponent {
                   isAccountNameExists={isAccountNameExists}
                   error={error}
                   reEnteredPassword={reEnteredPassword}
-                  passwordHint={passwordHint}
                   onUpdate={onUpdate}
                   date={date}
                   animateRefreshIcon={animateRefreshIcon}

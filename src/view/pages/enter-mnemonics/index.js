@@ -107,18 +107,9 @@ class EnterMnemonics extends React.PureComponent {
    */
   createWallet() {
     const { enteredMnemonic } = this.state;
-    const {
-      accountName,
-      passwordHint,
-      identiconsId,
-      removeAccount,
-      history,
-      addWallet,
-      password,
-    } = this.props;
+    const { accountName, identiconsId, removeAccount, history, addWallet, password } = this.props;
     let data = {
       accountName,
-      passwordHint,
       selectedIcon: identiconsId,
     };
     const isMnemonicCorrect = this.checkMnemonicIsCorrect();
@@ -237,7 +228,6 @@ class EnterMnemonics extends React.PureComponent {
 const mapStateToProps = state => ({
   accountName: state.accountInfo.accountName,
   password: state.accountInfo.password,
-  passwordHint: state.accountInfo.passwordHint,
   accountsList: state.accounts.accountsList,
 });
 
@@ -249,7 +239,6 @@ const mapDispatchToProps = dispatch => ({
 EnterMnemonics.propTypes = {
   accountName: PropTypes.string.isRequired,
   password: PropTypes.string.isRequired,
-  passwordHint: PropTypes.string.isRequired,
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
   identiconsId: PropTypes.string.isRequired,
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,

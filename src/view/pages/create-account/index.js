@@ -26,7 +26,6 @@ class CreateAccount extends React.PureComponent {
       accountName: initialInfo.accountName,
       password: initialInfo.password,
       reEnteredPassword: initialInfo.reEnteredPassword,
-      passwordHint: initialInfo.passwordHint,
       date: new Date().getTime(),
       animateRefreshIcon: false,
       identiconsId: initialInfo.selectedIcon || '',
@@ -134,8 +133,8 @@ class CreateAccount extends React.PureComponent {
    * This method will return the initial account information
    */
   getInitialAccountInfo() {
-    const { accountName, password, passwordHint, selectedIcon } = this.props;
-    return { accountName, password, passwordHint, selectedIcon };
+    const { accountName, password, selectedIcon } = this.props;
+    return { accountName, password, selectedIcon };
   }
 
   /**
@@ -220,11 +219,10 @@ class CreateAccount extends React.PureComponent {
   createNewAccount() {
     const { createNewAccount, goToNextStep, location, history, accountsList } = this.props;
     const { pathname } = location;
-    const { accountName, password, reEnteredPassword, passwordHint, identiconsId } = this.state;
+    const { accountName, password, reEnteredPassword, identiconsId } = this.state;
     const data = {
       accountName,
       password,
-      passwordHint,
       reEnteredPassword,
       selectedIcon: identiconsId,
     };
@@ -285,7 +283,6 @@ class CreateAccount extends React.PureComponent {
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       identiconsId,
       selectedIcon,
       containNumber,
@@ -308,14 +305,7 @@ class CreateAccount extends React.PureComponent {
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (
-      isAnyFieldEmpty ||
-      isPasswordIncorrect ||
-      isAnyFieldUndefined ||
-      error ||
-      password === passwordHint ||
-      reEnteredPassword === passwordHint
-    ) {
+    if (isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error) {
       return true;
     }
 
@@ -371,7 +361,6 @@ class CreateAccount extends React.PureComponent {
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       selectedIcon,
       date,
       animateRefreshIcon,
@@ -396,7 +385,6 @@ class CreateAccount extends React.PureComponent {
       accountName,
       password,
       reEnteredPassword,
-      passwordHint,
       date,
       animateRefreshIcon,
       identiconsId,
@@ -487,7 +475,6 @@ const Header = props => (
 const mapStateToProps = state => ({
   accountName: state.accountInfo.accountName,
   password: state.accountInfo.password,
-  passwordHint: state.accountInfo.passwordHint,
   selectedIcon: state.accountInfo.selectedIcon,
   stepNo: state.accountInfo.stepNo,
   accountsList: state.accounts.accountsList,
@@ -499,7 +486,6 @@ const mapDispatchToProps = dispatch => ({
 });
 
 CreateAccount.defaultProps = {
-  passwordHint: '',
   stepNo: 0,
   accountName: '',
   password: '',
@@ -509,7 +495,6 @@ CreateAccount.defaultProps = {
 CreateAccount.propTypes = {
   accountName: PropTypes.string,
   password: PropTypes.string,
-  passwordHint: PropTypes.string,
   selectedIcon: PropTypes.string,
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
   location: PropTypes.oneOfType([PropTypes.object]).isRequired,
