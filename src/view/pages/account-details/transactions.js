@@ -2,8 +2,10 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col, Button } from 'reactstrap';
-import DropDown from './dropDown';
 import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
+
+import received from './received.svg';
+import send from './send.svg';
 
 class TransactionHistory extends React.PureComponent {
   componentWillMount() {
@@ -20,7 +22,7 @@ class TransactionHistory extends React.PureComponent {
             <h2 className="title ">
               <span>Transactions</span>
             </h2>
-            <DropDown />
+            {/* <DropDown /> */}
           </div>
         </div>
         <div id="acc-cards" className="">
@@ -29,9 +31,9 @@ class TransactionHistory extends React.PureComponent {
               <div className="card bg-dark-light">
                 <Row className="">
                   <Col className="date-col">
-                    <div>
-                      <p>29</p>
-                      <p>Nov</p>
+                    <div style={{ backgroundImage: `url(${received})` }}>
+                      <p className="day">29</p>
+                      <p className="month">Nov</p>
                     </div>
                   </Col>
                   <Col className="acc-no-col">
@@ -58,15 +60,15 @@ class TransactionHistory extends React.PureComponent {
               <div className=" card bg-dark-light">
                 <Row className="">
                   <Col className="date-col">
-                    <div>
-                      <p>29</p>
-                      <p>Nov</p>
+                    <div style={{ backgroundImage: `url(${send})` }}>
+                      <p className="day">29</p>
+                      <p className="month">Nov</p>
                     </div>
                   </Col>
                   <Col className="acc-no-col">
                     <div className="">
                       <p>
-                        <span>TX#</span> 075868435934588gjtdrfh8tu4rut
+                        <span>TX#</span> 07586843593rtgrgt4588gjtdrfh8tu4rut
                       </p>
                       <p>
                         <span>To:</span> 075868435934588gjtdrfh8tu4rut
