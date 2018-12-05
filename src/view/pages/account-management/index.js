@@ -5,16 +5,16 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button } from 'reactstrap';
-import copy from 'copy-to-clipboard';
 import _ from 'lodash';
+import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
 import Identicons from '../../general/identicons/identicons';
+import ShowPublicAddress from '../../components/public-address';
 
 class AccountManagement extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
-    this.copyToClipboard = this.copyToClipboard.bind(this);
     this.goToAccountDetail = this.goToAccountDetail.bind(this);
     this.addAccount = this.addAccount.bind(this);
   }
@@ -50,20 +50,10 @@ class AccountManagement extends React.PureComponent {
                 <h2 className="title ">
                   <span>{account.accountName}</span>
                 </h2>
-                <div className="account-no">
-                  <p>
-                    <span>
-                      <button
-                        type="button"
-                        className="clipboard-btn"
-                        onClick={() => this.copyToClipboard(index)}
-                      >
-                        <i className="fas fa-clone" />
-                      </button>
-                    </span>
-                    {account.publicAddress}
-                  </p>
-                </div>
+                <ShowPublicAddress
+                  copyToClipboard={copyToClipboard}
+                  publicAddress={account.publicAddress}
+                />
               </div>
             </Col>
           );
@@ -74,6 +64,10 @@ class AccountManagement extends React.PureComponent {
     return accounts;
   }
 
+  /**
+   * @param {Selected Account Index} index
+   * This method will redirect user to the details of the selected account
+   */
   goToAccountDetail(index) {
     const SELF = this;
     const { history } = SELF.props;
@@ -86,15 +80,6 @@ class AccountManagement extends React.PureComponent {
   addAccount() {
     const { history } = this.props;
     history.push('/create-account');
-  }
-
-  /**
-   * This method will copy the text
-   */
-  copyToClipboard(index) {
-    const { accountsList } = this.props;
-    copy(accountsList[index].publicAddress);
-    ToastStore.info('Copy to clipboard', 800);
   }
 
   render() {

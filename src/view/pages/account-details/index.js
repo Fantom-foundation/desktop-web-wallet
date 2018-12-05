@@ -1,17 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import copy from 'copy-to-clipboard';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button } from 'reactstrap';
 import QRCode from 'qrcode.react';
+import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
 import { getFantomBalance } from '../../../redux/getBalance/action';
 import Identicons from '../../general/identicons/identicons';
-import DropDown from './dropDown';
-import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
 import { getFantomNonce, sendRawTransaction } from '../../../redux/sendTransactions/action';
 import { isAccountPasswordCorrect, transferMoneyViaFantom } from '../../../redux/accountManagement';
+import TransactionHistory from './transactions';
+import ShowPublicAddress from '../../components/public-address';
 
 class AccountDetails extends React.PureComponent {
   constructor(props) {
@@ -20,15 +20,13 @@ class AccountDetails extends React.PureComponent {
       isTransferringMoney: false,
     };
     this.transferMoney = this.transferMoney.bind(this);
-    this.copyToClipboard = this.copyToClipboard.bind(this);
   }
 
   componentWillMount() {
     const SELF = this;
-    const { getBalance, getTransactions } = SELF.props;
+    const { getBalance } = SELF.props;
     const publicAddress = this.getAccountPublicAddress();
     getBalance(publicAddress);
-    getTransactions(publicAddress);
   }
 
   getAccountPublicAddress() {
@@ -38,15 +36,6 @@ class AccountDetails extends React.PureComponent {
     const account = accountsList[state.selectedAccountIndex];
 
     return account.publicAddress;
-  }
-
-  /**
-   * This method will copy the text
-   */
-  // eslint-disable-next-line class-methods-use-this
-  copyToClipboard(publicAddress) {
-    copy(publicAddress);
-    ToastStore.info('Copy to clipboard');
   }
 
   transferMoney() {
@@ -109,20 +98,10 @@ class AccountDetails extends React.PureComponent {
                         </span>
                       </div>
                       <h2 className="acc-title text-primary">{account.accountName}</h2>
-                      <div className="account-no">
-                        <p>
-                          <span>
-                            <button
-                              type="button"
-                              onClick={() => this.copyToClipboard(account.publicAddress)}
-                              className="clipboard-btn"
-                            >
-                              <i className="fas fa-clone" />
-                            </button>
-                          </span>
-                          {account.publicAddress}
-                        </p>
-                      </div>
+                      <ShowPublicAddress
+                        copyToClipboard={copyToClipboard}
+                        publicAddress={account.publicAddress}
+                      />
                       <div className="info">
                         <p>Ledger testAccount</p>
                         <p>13 Outgoing transaction</p>
@@ -155,79 +134,7 @@ class AccountDetails extends React.PureComponent {
                   </div>
                 </Col>
                 <Col md={7} lg={8}>
-                  <div className="bg-dark-light">
-                    <div className="add-wallet">
-                      <h2 className="title ">
-                        <span>Transactions</span>
-                      </h2>
-                      {/* <Button> */}
-                      <DropDown />
-                      {/* </Button> */}
-                    </div>
-                  </div>
-                  <div id="acc-cards" className="">
-                    <Row>
-                      <Col>
-                        <div className="card bg-dark-light">
-                          <Row className="">
-                            <Col className="date-col">
-                              <div>
-                                <p>29</p>
-                                <p>Nov</p>
-                              </div>
-                            </Col>
-                            <Col className="acc-no-col">
-                              <div className="">
-                                <p>
-                                  <span>TX#</span> 075868435934588gjtdrfh8tu4rut
-                                </p>
-                                <p>
-                                  <span>From:</span> 075868435934588gjtdrfh8tu4rut
-                                </p>
-                              </div>
-                            </Col>
-                            <Col className="time-col">
-                              <p>23 mins 41 secs ago</p>
-                            </Col>
-                            <Col className="btn-col">
-                              <Button color="green">
-                                2.10000000 <span>FTM</span>
-                              </Button>
-                            </Col>
-                          </Row>
-                        </div>
-
-                        <div className=" card bg-dark-light">
-                          <Row className="">
-                            <Col className="date-col">
-                              <div>
-                                <p>29</p>
-                                <p>Nov</p>
-                              </div>
-                            </Col>
-                            <Col className="acc-no-col">
-                              <div className="">
-                                <p>
-                                  <span>TX#</span> 075868435934588gjtdrfh8tu4rut
-                                </p>
-                                <p>
-                                  <span>To:</span> 075868435934588gjtdrfh8tu4rut
-                                </p>
-                              </div>
-                            </Col>
-                            <Col className="time-col">
-                              <p>23 mins 41 secs ago</p>
-                            </Col>
-                            <Col className="btn-col">
-                              <Button color="red">
-                                2.10000000 <span>FTM</span>
-                              </Button>
-                            </Col>
-                          </Row>
-                        </div>
-                      </Col>
-                    </Row>
-                  </div>
+                  <TransactionHistory publicAddress={account.publicAddress} />
                 </Col>
               </Row>
             </Container>
@@ -247,7 +154,6 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getBalance: data => dispatch(getFantomBalance(data)),
-  getTransactions: data => dispatch(getTransactionsHistory(data)),
   getNonce: data => dispatch(getFantomNonce(data)),
   transferMoney: data => dispatch(sendRawTransaction(data)),
 });

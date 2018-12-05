@@ -5,10 +5,10 @@ import Hdkey from 'hdkey';
 import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import PropTypes from 'prop-types';
-import copy from 'copy-to-clipboard';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from 'qrcode.react';
+import copyToClipboard from '../../../utility';
 import { CONFIRMATION_PHASE } from '../../../redux/constants';
 import { createPublicPrivateKeys } from '../../../redux/keys/actions';
 import { createMnemonic } from '../../../redux/accountInProgress/action';
@@ -19,7 +19,6 @@ class AccountInformation extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {};
-    this.copyToClipboard = this.copyToClipboard.bind(this);
     this.getMnemonics = this.getMnemonics.bind(this);
   }
 
@@ -80,16 +79,6 @@ class AccountInformation extends React.PureComponent {
     setMnemonicCode({ mnemonic });
   }
 
-  /**
-   * This method will copy the text
-   */
-  copyToClipboard() {
-    const { accountKeys } = this.props;
-    const { publicAddress } = accountKeys;
-    copy(publicAddress);
-    ToastStore.info('Copy to clipboard', 800);
-  }
-
   render() {
     const {
       accountInfo,
@@ -123,7 +112,7 @@ class AccountInformation extends React.PureComponent {
                       <button
                         type="button"
                         className="clipboard-btn"
-                        onClick={this.copyToClipboard}
+                        onClick={e => copyToClipboard(e, publicAddress)}
                       >
                         <i className="fas fa-clone" />
                       </button>
