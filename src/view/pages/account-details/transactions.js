@@ -12,21 +12,32 @@ import received from './received.svg';
 import send from './send.svg';
 
 class TransactionHistory extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      type: 'all',
+    };
+    this.sortTransactions = this.sortTransactions.bind(this);
+  }
+
   componentWillMount() {
     const { getTransactions, publicAddress } = this.props;
     getTransactions(publicAddress);
   }
 
+  /**
+   * This method will return the UI for transactions
+   */
   getTransactionHistory() {
     const { transactions, publicAddress } = this.props;
+    const { type } = this.state;
     const transactionsHistory = [];
     if (transactions && transactions.length > 0) {
       for (let i = 0; i < transactions.length; i += 1) {
         const date = moment(transactions[i].date).toDate();
-        const isReceived = transactions[i].to === publicAddress;
-        const isSend = transactions[i].from === publicAddress;
-
-        if (isReceived || isSend) {
+        const isReceived = transactions[i].to === publicAddress && type === 'received';
+        const isSend = transactions[i].from === publicAddress && type === 'sent';
+        if (isReceived || isSend || type === 'all') {
           transactionsHistory.push(
             <div className="card bg-dark-light">
               <Row className="">
@@ -64,6 +75,12 @@ class TransactionHistory extends React.PureComponent {
     return transactionsHistory;
   }
 
+  sortTransactions(type) {
+    this.setState({
+      type,
+    });
+  }
+
   render() {
     const transactionsHistory = this.getTransactionHistory();
     return (
@@ -73,7 +90,7 @@ class TransactionHistory extends React.PureComponent {
             <h2 className="title ">
               <span>Transactions</span>
             </h2>
-            <DropDown />
+            <DropDown sortTransactions={this.sortTransactions} />
           </div>
         </div>
         <div id="acc-cards" className="">

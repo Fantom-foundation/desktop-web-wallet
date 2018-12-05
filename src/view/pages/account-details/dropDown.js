@@ -11,6 +11,9 @@ export default class DropDown extends React.Component {
     };
   }
 
+  /**
+   * This method will toggle the dropdown
+   */
   toggle() {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen,
@@ -18,14 +21,17 @@ export default class DropDown extends React.Component {
   }
 
   render() {
+    const SELF = this;
+    const { dropdownOpen } = this.state;
+    const { sortTransactions } = SELF.props;
     return (
-      <Dropdown toggle={this.toggle}>
+      <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
         <DropdownToggle className="toggle-btn" caret>
           All
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem>first</DropdownItem>
-          <DropdownItem>second</DropdownItem>
+          <DropdownItem onClick={() => sortTransactions('sent')}>Sent</DropdownItem>
+          <DropdownItem onClick={() => sortTransactions('received')}>Received</DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );
