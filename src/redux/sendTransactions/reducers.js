@@ -1,18 +1,29 @@
 import * as actions from '../constants';
 
-const defaultState = {};
+const defaultState = { transactions: [] };
+
+// return the list of registered accounts
+const addTransaction = (payload, state) => {
+  if (payload) {
+    const { transactions } = state;
+    if (payload) {
+      const Updatedtransactions = {
+        transactions: transactions.concat(payload),
+      };
+      return Updatedtransactions;
+    }
+  }
+  return {};
+};
 
 const sendTransactions = (state = defaultState, action) => {
   switch (action.type) {
-    case `${actions.TRANSFER_MONEY}`: {
-      return Object.assign({}, state, {
-        transactionHash: '',
-      });
-    }
     case `${actions.TRANSFER_MONEY}_SUCCESS`: {
-      const { data } = action.payload;
+      const { payload } = action;
+      payload.config.transferData.txHash = payload.data.txHash;
+      const transactions = addTransaction(payload.config.transferData, state);
       return Object.assign({}, state, {
-        transactionHash: data.txHash,
+        ...transactions,
       });
     }
     case `${actions.TRANSFER_MONEY}_FAILURE`: {

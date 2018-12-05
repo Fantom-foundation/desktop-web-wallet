@@ -6,6 +6,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
 import config from './config';
 import rootReducer from './index';
+// import rootReducer from './index';
 
 /**
  * Create Axios Client to communicate
@@ -23,6 +24,7 @@ let persistor = null;
 const persistConfig = {
   key: 'root',
   storage,
+  blacklist: ['getBalance'],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 /**

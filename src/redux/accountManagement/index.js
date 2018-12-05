@@ -37,11 +37,18 @@ export function transferMoneyViaFantom(location, accountsList, transferMoney, ge
             nonce: web3.utils.toHex(count),
             data: 'memo',
           };
+          const transferData = {
+            from: rawTx.from,
+            to: rawTx.to,
+            amount: 1,
+            date: new Date().getTime(),
+          };
           const tx = new Tx(rawTx);
           tx.sign(privateKeyBuffer);
           const serializedTx = tx.serialize();
           const hexTx = `0x${serializedTx.toString('hex')}`;
-          transferMoney(hexTx);
+          rawTx.date = new Date().getTime();
+          transferMoney({ hexTx, transferData });
           getBalance(account.publicAddress);
         });
         resolve({ isTransferred: true, message: 'Fantom Transferred successfully' });

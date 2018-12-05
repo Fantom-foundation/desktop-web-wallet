@@ -12,6 +12,7 @@
     "identicons": "^0.1.0",
     "keythereum": "^1.0.4",
     "lodash": "^4.17.11",
+    "moment": "^2.22.2",
     "prop-types": "^15.6.2",
     "qrcode.react": "^0.8.0",
     "react": "^16.6.3",

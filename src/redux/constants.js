@@ -13,3 +13,19 @@ export const GET_FANTOM_NONCE = 'GET_FANTOM_NONCE';
 export const SEND_RAW_TRANSACTIONS = 'SEND_RAW_TRANSACTIONS';
 export const GET_FANTOM_TRANSACTIONS = 'GET_FANTOM_TRANSACTIONS';
 export const TRANSFER_MONEY = 'TRANSFER_MONEY';
+export const ADD_TRANSACTION = 'ADD_TRANSACTION';
+
+export const months = [
+  'Jan',
+  'Feb',
+  'Mar',
+  'Apr',
+  'May',
+  'Jun',
+  'Jul',
+  'Aug',
+  'Sep',
+  'Oct',
+  'Nov',
+  'Dec',
+];

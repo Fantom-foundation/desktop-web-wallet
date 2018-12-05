@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
+import moment from 'moment';
 import DropDown from './dropDown';
+import { months } from '../../../redux/constants';
 import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
 
 class TransactionHistory extends React.PureComponent {
@@ -12,7 +14,50 @@ class TransactionHistory extends React.PureComponent {
     getTransactions(publicAddress);
   }
 
+  getTransactionHistory() {
+    const { transactions, publicAddress } = this.props;
+    const transactionsHistory = [];
+    if (transactions && transactions.length > 0) {
+      for (let i = 0; i < transactions.length; i += 1) {
+        const date = moment(transactions[i].date).toDate();
+        if (transactions[i].from === publicAddress || transactions[i].to === publicAddress) {
+          transactionsHistory.push(
+            <Row className="">
+              <Col className="date-col">
+                <div>
+                  <p>{date.getDate()}</p>
+                  <p>{months[date.getMonth()]}</p>
+                </div>
+              </Col>
+              <Col className="acc-no-col">
+                <div className="">
+                  <p>
+                    <span>TX#</span> {transactions[i].txHash}
+                  </p>
+                  <p>
+                    <span>From:</span> {transactions[i].from}
+                  </p>
+                </div>
+              </Col>
+              <Col className="time-col">
+                <p>{moment(date).fromNow()}</p>
+              </Col>
+              <Col className="btn-col">
+                <Button color="green">
+                  {transactions[i].amount} <span>FTM</span>
+                </Button>
+              </Col>
+            </Row>
+          );
+        }
+      }
+    }
+
+    return transactionsHistory;
+  }
+
   render() {
+    const transactionsHistory = this.getTransactionHistory();
     return (
       <React.Fragment>
         <div className="bg-dark-light">
@@ -26,63 +71,7 @@ class TransactionHistory extends React.PureComponent {
         <div id="acc-cards" className="">
           <Row>
             <Col>
-              <div className="card bg-dark-light">
-                <Row className="">
-                  <Col className="date-col">
-                    <div>
-                      <p>29</p>
-                      <p>Nov</p>
-                    </div>
-                  </Col>
-                  <Col className="acc-no-col">
-                    <div className="">
-                      <p>
-                        <span>TX#</span> 075868435934588gjtdrfh8tu4rut
-                      </p>
-                      <p>
-                        <span>From:</span> 075868435934588gjtdrfh8tu4rut
-                      </p>
-                    </div>
-                  </Col>
-                  <Col className="time-col">
-                    <p>23 mins 41 secs ago</p>
-                  </Col>
-                  <Col className="btn-col">
-                    <Button color="green">
-                      2.10000000 <span>FTM</span>
-                    </Button>
-                  </Col>
-                </Row>
-              </div>
-
-              <div className=" card bg-dark-light">
-                <Row className="">
-                  <Col className="date-col">
-                    <div>
-                      <p>29</p>
-                      <p>Nov</p>
-                    </div>
-                  </Col>
-                  <Col className="acc-no-col">
-                    <div className="">
-                      <p>
-                        <span>TX#</span> 075868435934588gjtdrfh8tu4rut
-                      </p>
-                      <p>
-                        <span>To:</span> 075868435934588gjtdrfh8tu4rut
-                      </p>
-                    </div>
-                  </Col>
-                  <Col className="time-col">
-                    <p>23 mins 41 secs ago</p>
-                  </Col>
-                  <Col className="btn-col">
-                    <Button color="red">
-                      2.10000000 <span>FTM</span>
-                    </Button>
-                  </Col>
-                </Row>
-              </div>
+              <div className="card bg-dark-light">{transactionsHistory}</div>
             </Col>
           </Row>
         </div>
@@ -91,6 +80,10 @@ class TransactionHistory extends React.PureComponent {
   }
 }
 
+const mapStateToProps = state => ({
+  transactions: state.sendTransactions.transactions,
+});
+
 const mapDispatchToProps = dispatch => ({
   getTransactions: data => dispatch(getTransactionsHistory(data)),
 });
@@ -98,11 +91,12 @@ const mapDispatchToProps = dispatch => ({
 TransactionHistory.propTypes = {
   getTransactions: PropTypes.func.isRequired,
   publicAddress: PropTypes.string.isRequired,
+  transactions: PropTypes.oneOfType([PropTypes.array]).isRequired,
 };
 
 export default compose(
   connect(
-    null,
+    mapStateToProps,
     mapDispatchToProps
   )
 )(TransactionHistory);
