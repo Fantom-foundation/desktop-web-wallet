@@ -25,6 +25,7 @@ class AccountDetails extends React.PureComponent {
     };
     this.transferMoney = this.transferMoney.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
+    // This will call the refresh the balance after every one second
     interval = setInterval(() => {
       getBalance(publicAddress);
     }, 1000);
@@ -51,6 +52,9 @@ class AccountDetails extends React.PureComponent {
     return account.publicAddress;
   }
 
+  /**
+   * This method will refresh the balance
+   */
   refreshBalance() {
     const { location, accountsList, getBalance } = this.props;
     const { state } = location;
