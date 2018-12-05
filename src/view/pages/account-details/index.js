@@ -3,38 +3,49 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button } from 'reactstrap';
+import PropTypes from 'prop-types';
 import QRCode from 'qrcode.react';
 import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
 import { getFantomBalance } from '../../../redux/getBalance/action';
 import Identicons from '../../general/identicons/identicons';
-import { getFantomNonce, sendRawTransaction } from '../../../redux/sendTransactions/action';
+import { sendRawTransaction } from '../../../redux/sendTransactions/action';
 import { isAccountPasswordCorrect, transferMoneyViaFantom } from '../../../redux/accountManagement';
 import TransactionHistory from './transactions';
 import ShowPublicAddress from '../../components/public-address';
 
+let interval = null;
 class AccountDetails extends React.PureComponent {
   constructor(props) {
     super(props);
+    const { getBalance } = props;
+    const publicAddress = this.getAccountPublicAddress();
     this.state = {
       isTransferringMoney: false,
     };
     this.transferMoney = this.transferMoney.bind(this);
+    this.refreshBalance = this.refreshBalance.bind(this);
+    // This will call the refresh the balance after every one second
+    interval = setInterval(() => {
+      getBalance(publicAddress);
+    }, 1000);
   }
 
   componentWillMount() {
-    const SELF = this;
-    const { getBalance } = SELF.props;
+    const { getBalance } = this.props;
     const publicAddress = this.getAccountPublicAddress();
     getBalance(publicAddress);
+  }
+
+  componentWillUnmount() {
+    clearInterval(interval);
   }
 
   /**
    * This method will return the public address of the selected account
    */
   getAccountPublicAddress() {
-    const SELF = this;
-    const { location, accountsList } = SELF.props;
+    const { location, accountsList } = this.props;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
 
@@ -42,11 +53,20 @@ class AccountDetails extends React.PureComponent {
   }
 
   /**
+   * This method will refresh the balance
+   */
+  refreshBalance() {
+    const { location, accountsList, getBalance } = this.props;
+    const { state } = location;
+    const account = accountsList[state.selectedAccountIndex];
+    getBalance(account.publicAddress);
+  }
+
+  /**
    * This method will do the transaction functionality
    */
   transferMoney() {
-    const SELF = this;
-    const { location, accountsList, transferMoney, getBalance } = SELF.props;
+    const { location, accountsList, transferMoney, getBalance } = this.props;
     this.setState({
       isTransferringMoney: true,
     });
@@ -76,8 +96,7 @@ class AccountDetails extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
-    const { accountsList, location, balance } = SELF.props;
+    const { accountsList, location, balance } = this.props;
     const { isTransferringMoney } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
@@ -93,7 +112,7 @@ class AccountDetails extends React.PureComponent {
                       <h2 className="title ">
                         <span>Account Management</span>
                       </h2>
-                      <Button>
+                      <Button onClick={this.refreshBalance}>
                         <i className="fas fa-sync-alt" />
                       </Button>
                     </div>
@@ -155,14 +174,20 @@ class AccountDetails extends React.PureComponent {
 const mapStateToProps = state => ({
   accountsList: state.accounts.accountsList,
   balance: state.getBalance.fantomBalance,
-  nonce: state.sendTransactions.fantomNonce,
 });
 
 const mapDispatchToProps = dispatch => ({
   getBalance: data => dispatch(getFantomBalance(data)),
-  getNonce: data => dispatch(getFantomNonce(data)),
   transferMoney: data => dispatch(sendRawTransaction(data)),
 });
+
+AccountDetails.propTypes = {
+  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  balance: PropTypes.number.isRequired,
+  getBalance: PropTypes.func.isRequired,
+  transferMoney: PropTypes.func.isRequired,
+  location: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};
 
 export default compose(
   connect(

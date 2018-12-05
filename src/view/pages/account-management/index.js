@@ -69,8 +69,7 @@ class AccountManagement extends React.PureComponent {
    * This method will redirect user to the details of the selected account
    */
   goToAccountDetail(index) {
-    const SELF = this;
-    const { history } = SELF.props;
+    const { history } = this.props;
     history.push('/account-details', { selectedAccountIndex: index });
   }
 

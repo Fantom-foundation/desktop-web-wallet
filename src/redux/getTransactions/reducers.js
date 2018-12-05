@@ -20,11 +20,7 @@ const getTransactions = (state = defaultState, action) => {
       });
     }
     case `${actions.GET_FANTOM_TRANSACTIONS}_FAILURE`: {
-      return Object.assign({}, state, {
-        // masterKey: payload.masterKey,
-        publicAddress: payload.publicAddress,
-        privateKey: payload.privateKey,
-      });
+      return defaultState;
     }
     default:
       return state;
