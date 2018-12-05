@@ -149,6 +149,11 @@ class Confirm extends React.PureComponent {
     }
   }
 
+  /**
+   * @param {Account Private key} privateKey
+   * @param {Account Password} Password
+   * This method will return key store value of the account
+   */
   // eslint-disable-next-line class-methods-use-this
   saveKeyStore(privateKey, password) {
     const keystore = web3.eth.accounts.encrypt(privateKey, password);

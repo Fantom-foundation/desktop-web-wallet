@@ -1,4 +1,9 @@
 export default class ValidationMethods {
+  /**
+   * @param {Name of the key} key
+   * @param {Password} password
+   * This method will check if the password is correct or not
+   */
   // eslint-disable-next-line class-methods-use-this
   isPasswordCorrect(key, password) {
     const obj = {
@@ -32,6 +37,10 @@ export default class ValidationMethods {
     return obj;
   }
 
+  /**
+   * @param {Data to be splitted} data
+   * This method will return array of the space seperated string
+   */
   // eslint-disable-next-line class-methods-use-this
   getSplittedArray(data) {
     if (data) {
@@ -44,6 +53,10 @@ export default class ValidationMethods {
     return [];
   }
 
+  /**
+   * @param {String to be checked} str
+   * This method will return boolean whether the string contains the special chars or not
+   */
   // eslint-disable-next-line class-methods-use-this
   noSpecialChars(str) {
     // eslint-disable-next-line no-param-reassign

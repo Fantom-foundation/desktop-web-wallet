@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import QRCode from 'qrcode.react';
 import PropTypes from 'prop-types';
 import FantomLogo from '../fantomLogo/index';
@@ -7,7 +7,10 @@ import FantomLogo from '../fantomLogo/index';
  * QRCodeIcon: This component is meant for rendering QR code image for particuler address on screen,
  *  along with fantom logo.
  */
-class QRCodeIcon extends Component {
+class QRCodeIcon extends React.PureComponent {
+  /**
+   * This method will return the Fantom logo
+   */
   renderLogo() {
     const { address } = this.props;
     if (address !== undefined && address !== '') {

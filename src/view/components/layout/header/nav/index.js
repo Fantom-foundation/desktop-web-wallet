@@ -23,6 +23,10 @@ class NavigationBar extends React.Component {
     });
   }
 
+  /**
+   * @param {Routing URL} route
+   * This method will push the screen to the passed route
+   */
   goToPage(route) {
     const { history } = this.props;
     history.push(route);
