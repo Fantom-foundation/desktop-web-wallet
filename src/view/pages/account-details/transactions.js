@@ -2,13 +2,13 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col, Button } from 'reactstrap';
+import PropTypes from 'prop-types';
 import DropDown from './dropDown';
 import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
 
 class TransactionHistory extends React.PureComponent {
   componentWillMount() {
-    const SELF = this;
-    const { getTransactions, publicAddress } = SELF.props;
+    const { getTransactions, publicAddress } = this.props;
     getTransactions(publicAddress);
   }
 
@@ -94,6 +94,11 @@ class TransactionHistory extends React.PureComponent {
 const mapDispatchToProps = dispatch => ({
   getTransactions: data => dispatch(getTransactionsHistory(data)),
 });
+
+TransactionHistory.propTypes = {
+  getTransactions: PropTypes.func.isRequired,
+  publicAddress: PropTypes.string.isRequired,
+};
 
 export default compose(
   connect(

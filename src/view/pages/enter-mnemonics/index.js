@@ -156,11 +156,6 @@ class EnterMnemonics extends React.PureComponent {
                   </h2>
                 </div>
                 <div className="vault-container bg-dark-light">
-                  {/* <input
-                    type="text"
-                    onChange={e => this.onUpdate('enteredMnemonic', e.currentTarget.value)}
-                    value={enteredMnemonic}
-                  /> */}
                   <FormGroup>
                     <Label for="wallet-seed">Wallet Seed</Label>
                     <Input
