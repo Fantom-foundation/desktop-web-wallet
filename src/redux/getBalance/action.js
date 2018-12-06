@@ -10,6 +10,7 @@ export const getFantomBalance = address =>
         url: `/account/${address}`,
         method: 'GET',
         data: {},
+        address,
       },
     },
   });

@@ -2,10 +2,15 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Web3 from 'web3';
+import { connect } from 'react-redux';
+// import PropTypes from 'prop-types';
+import { compose } from 'redux';
+import _ from 'lodash';
 import smallLogo from '../../../images/logo/fantom.png';
 import addressImage from '../../../images/address.svg';
 import amountImage from '../../../images/amount.svg';
 import passwordImage from '../../../images/password.svg';
+import { getFantomBalance } from '../../../redux/getBalance/action';
 import Loader from '../loader';
 import AccountList from '../../pages/account-details/accountList';
 
@@ -20,19 +25,20 @@ class SendMoney extends React.PureComponent {
       accountType: accountName,
       ftmAmount: '',
       optionalMessage: '',
-      isValidAddress: false,
       accountStore: [],
       password: '',
       // privateKey: '',
       // publicKey: '',
       loading: false,
       verificationError: '',
-      addressErrText: '',
+      // gasPrice: 0x000000000001,
+      // addressErrText: '',
       ammountErrText: '',
       // toAddress: '',
     };
     this.onUpdate = this.onUpdate.bind(this);
     this.setAccountType = this.setAccountType.bind(this);
+    this.disableContinueButton = this.disableContinueButton.bind(this);
   }
 
   // componentWillReceiveProps(nextProps){
@@ -182,24 +188,12 @@ class SendMoney extends React.PureComponent {
   /**
    * addressVerification() : To check address entered is valid address or not, if valid address then display green tick. Otherwise render error message.
    */
+  // eslint-disable-next-line class-methods-use-this
   addressVerification(address) {
-    let message = '';
-    if (address === '') {
-      message = 'An address must be specified.';
-    } else if (!Web3.utils.isAddress(address)) {
-      message = 'Must be valid address.';
+    if (!Web3.utils.isAddress(address)) {
+      return false;
     }
-    if (message === '') {
-      this.setState({
-        isValidAddress: true,
-        addressErrText: '',
-      });
-    } else {
-      this.setState({
-        isValidAddress: false,
-        addressErrText: message,
-      });
-    }
+    return true;
   }
 
   /**
@@ -208,60 +202,47 @@ class SendMoney extends React.PureComponent {
   ftmAmmountVerification(ammount) {
     const SELF = this;
     const { maxFantomBalance } = SELF.props;
-    let message = '';
-    if (ammount === '') {
-      message = 'An amount must be specified.';
-      // eslint-disable-next-line no-restricted-globals
-    } else if (isNaN(ammount)) {
-      message = 'Must be valid amount. Only numbers.';
-    } else if (ammount > maxFantomBalance) {
-      message = 'Insufficient balance.';
+    // eslint-disable-next-line no-restricted-globals
+    if (isNaN(ammount)) {
+      return false;
     }
-    if (message === '') {
-      this.setState({
-        ammountErrText: '',
-      });
-    } else {
-      this.setState({
-        ammountErrText: message,
-      });
+    if (ammount > maxFantomBalance) {
+      return false;
     }
+
+    return true;
   }
 
-  renderLoader() {
-    const { loading } = this.state;
-    if (loading) {
-      return (
-        <div className="loader-holder">
-          <Loader sizeUnit="px" size={25} color="#000" loading={loading} />
-        </div>
-      );
+  disableContinueButton() {
+    const { toAddress, ftmAmount, password } = this.state;
+    const data = {
+      toAddress,
+      ftmAmount,
+      password,
+    };
+    let isValidAddress = true;
+    let isValidAmount = true;
+    if (toAddress !== '') {
+      isValidAddress = this.addressVerification(toAddress);
     }
-    return null;
-  }
+    if (ftmAmount !== '') {
+      isValidAmount = this.ftmAmmountVerification(ftmAmount);
+    }
 
-  renderVerificationError() {
-    const { verificationError } = this.state;
-    if (verificationError !== '') {
-      return (
-        <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
-          {verificationError}
-        </small>
-      );
+    const isAnyFieldEmpty = _.includes(data, '');
+    const isAnyFieldUndefined = _.includes(data, undefined);
+    const isPasswordIncorrect = _.includes(data, false);
+    if (
+      isAnyFieldEmpty ||
+      isPasswordIncorrect ||
+      isAnyFieldUndefined ||
+      !isValidAddress ||
+      !isValidAmount
+    ) {
+      return true;
     }
-    return null;
-  }
 
-  renderAddressErrText() {
-    const { isValidAddress, addressErrText } = this.state;
-    if (!isValidAddress && addressErrText !== '') {
-      return (
-        <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
-          {addressErrText}
-        </small>
-      );
-    }
-    return null;
+    return false;
   }
 
   renderAmmountErrText() {
@@ -276,21 +257,59 @@ class SendMoney extends React.PureComponent {
     return null;
   }
 
+  // renderAddressErrText() {
+  //   const { addressErrText } = this.state;
+  //   if (!isValidAddress && addressErrText !== '') {
+  //     return (
+  //       <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
+  //         {addressErrText}
+  //       </small>
+  //     );
+  //   }
+  //   return null;
+  // }
+
+  renderVerificationError() {
+    const { verificationError } = this.state;
+    if (verificationError !== '') {
+      return (
+        <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
+          {verificationError}
+        </small>
+      );
+    }
+    return null;
+  }
+
+  renderLoader() {
+    const { loading } = this.state;
+    if (loading) {
+      return (
+        <div className="loader-holder">
+          <Loader sizeUnit="px" size={25} color="#000" loading={loading} />
+        </div>
+      );
+    }
+    return null;
+  }
+
   render() {
     const SELF = this;
-    const { maxFantomBalance, openTransferForm, transferMoney } = SELF.props;
+    const { maxFantomBalance, openTransferForm, transferMoney, balance } = SELF.props;
     const {
-      address,
-      // accountType,
+      toAddress,
       ftmAmount,
       optionalMessage,
       isValidAddress,
-      // accountStore,
-      // publicKey,
-      // privateKey,
       password,
       loading,
+      // gasPrice,
     } = this.state;
+    // const valInEther = Web3.utils.fromWei(`${balance.fantomBalance}`, 'ether');
+    // const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
+    // let maxFantomBalance = valInEther - gasPriceEther;
+    console.log(balance, 'balancebalancebalance');
+    const isDisable = this.disableContinueButton();
     return (
       <div id="coin-overley" className="">
         <div className="background-overley" onClick={openTransferForm} role="presentation" />
@@ -330,24 +349,21 @@ class SendMoney extends React.PureComponent {
                         style={{
                           backgroundImage: `url(${addressImage})`,
                         }}
-                        value={address}
+                        value={toAddress}
                         onChange={e => this.onUpdate('toAddress', e.currentTarget.value)}
                       />
                       {/* <img src={successCheck} alt={successCheck} /> */}
                     </div>
-                    {this.renderAddressErrText()}
+                    {/* {this.renderAddressErrText()} */}
                   </FormGroup>
 
                   <FormGroup>
                     <Label for="withdraw-from">Withdraw from</Label>
                     <div className="withdraw-holder">
                       <AccountList
-                        // accountType={accountType}
-                        // accountStore={accountStore}
                         setAccountType={this.setAccountType}
                         maxFantomBalance={maxFantomBalance}
                       />
-                      <span className="ftm text-white">{maxFantomBalance} FTM</span>
                     </div>
                   </FormGroup>
                   <Row className="change">
@@ -408,6 +424,7 @@ class SendMoney extends React.PureComponent {
                       <Button
                         // color={`${continueBtnColor}`}
                         color="primary"
+                        disabled={isDisable}
                         className="text-uppercase bordered"
                         onClick={transferMoney}
                       >
@@ -444,4 +461,27 @@ class SendMoney extends React.PureComponent {
   }
 }
 
-export default SendMoney;
+const mapStateToProps = state => ({
+  accountsList: state.accounts.accountsList,
+  balance: state.getBalance,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getBalance: data => dispatch(getFantomBalance(data)),
+  // transferMoney: data => dispatch(sendRawTransaction(data)),
+});
+
+SendMoney.propTypes = {
+  // accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  // balance: PropTypes.number.isRequired,
+  // getBalance: PropTypes.func.isRequired,
+  // transferMoney: PropTypes.func.isRequired,
+  // location: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(SendMoney);

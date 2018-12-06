@@ -5,6 +5,7 @@ import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import QRCode from 'qrcode.react';
+import Web3 from 'web3';
 import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
 import { getFantomBalance } from '../../../redux/getBalance/action';
@@ -15,12 +16,14 @@ import TransactionHistory from './transactions';
 import ShowPublicAddress from '../../components/public-address';
 import SendMoney from '../../general/sidebar';
 
-let interval = null;
+const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
+
+// const interval = null;
 class AccountDetails extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { getBalance } = props;
-    const publicAddress = this.getAccountPublicAddress();
+    // const { getBalance } = props;
+    // const publicAddress = this.getAccountPublicAddress();
     this.state = {
       isTransferringMoney: false,
       isCheckSend: false,
@@ -29,9 +32,9 @@ class AccountDetails extends React.PureComponent {
     this.refreshBalance = this.refreshBalance.bind(this);
     this.openTransferForm = this.openTransferForm.bind(this);
     // This will call the refresh the balance after every one second
-    interval = setInterval(() => {
-      getBalance(publicAddress);
-    }, 1000);
+    // interval = setInterval(() => {
+    //   getBalance(publicAddress);
+    // }, 1000);
   }
 
   componentWillMount() {
@@ -41,7 +44,7 @@ class AccountDetails extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    clearInterval(interval);
+    // clearInterval(interval);
   }
 
   /**
@@ -106,7 +109,7 @@ class AccountDetails extends React.PureComponent {
   }
 
   render() {
-    const { accountsList, location, balance } = this.props;
+    const { accountsList, location, balance, transactions } = this.props;
     const { isTransferringMoney, isCheckSend } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
@@ -139,7 +142,7 @@ class AccountDetails extends React.PureComponent {
                       />
                       <div className="info">
                         <p>Ledger testAccount</p>
-                        <p>13 Outgoing transaction</p>
+                        <p>{transactions.length} Outgoing transaction</p>
                       </div>
                       <div className="qr">
                         <QRCode
@@ -152,14 +155,14 @@ class AccountDetails extends React.PureComponent {
                       </div>
                       <div className="ftm-no">
                         <p>
-                          {balance} <span>FTM</span>
+                          {balance && web3.utils.fromWei(`${balance}`, 'ether')} <span>FTM</span>
                         </p>
                       </div>
                       <center>
                         <Button
                           color="primary"
                           onClick={this.openTransferForm}
-                          disabled={isTransferringMoney || balance <= 0}
+                          disabled={isTransferringMoney}
                           className={isTransferringMoney ? 'bordered mt-3 light' : 'bordered mt-3'}
                         >
                           {isTransferringMoney ? 'Transferring....' : 'Transfer'}
@@ -173,12 +176,13 @@ class AccountDetails extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
-            {isCheckSend && (
-              <SendMoney
-                openTransferForm={this.openTransferForm}
-                transferMoney={this.transferMoney}
-              />
-            )}
+            {isCheckSend ||
+              (true && (
+                <SendMoney
+                  openTransferForm={this.openTransferForm}
+                  transferMoney={this.transferMoney}
+                />
+              ))}
             <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore} />
           </section>
         </Layout>
@@ -190,6 +194,7 @@ class AccountDetails extends React.PureComponent {
 const mapStateToProps = state => ({
   accountsList: state.accounts.accountsList,
   balance: state.getBalance.fantomBalance,
+  transactions: state.sendTransactions.transactions,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -197,8 +202,13 @@ const mapDispatchToProps = dispatch => ({
   transferMoney: data => dispatch(sendRawTransaction(data)),
 });
 
+AccountDetails.defaultTypes = {
+  balance: 0,
+};
+
 AccountDetails.propTypes = {
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  transactions: PropTypes.oneOfType([PropTypes.array]).isRequired,
   balance: PropTypes.number.isRequired,
   getBalance: PropTypes.func.isRequired,
   transferMoney: PropTypes.func.isRequired,
