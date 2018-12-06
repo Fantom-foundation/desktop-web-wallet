@@ -4,7 +4,7 @@ import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
-import { Container, Row, Col, Button } from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
@@ -99,7 +99,7 @@ class AccountManagement extends React.PureComponent {
           </section>
           <section className="bg-dark" style={{ padding: '0 0 120px' }}>
             <Container className="account-card-container">
-              <Row style={{ marginBottom: '90px' }}>
+              {/* <Row style={{ marginBottom: '90px' }}>
                 <Col>
                   <div className="add-wallet">
                     <h2 className="title ">
@@ -110,7 +110,7 @@ class AccountManagement extends React.PureComponent {
                     </Button>
                   </div>
                 </Col>
-              </Row>
+              </Row> */}
               <Row id="account-card" className="text-center ">
                 {accountList}
               </Row>

@@ -71,11 +71,15 @@ header {
             color: map-get($color, nav-link);
             &:hover {
               color: map-get($color, nav-link-hover);
+              cursor: pointer;
             }
             @media (max-width: 767px) {
               text-align: center;
               padding: 10px 0;
             }
+          }
+          .selected {
+            color: map-get($color, nav-link-active) !important;
           }
         }
       }

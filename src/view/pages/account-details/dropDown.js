@@ -23,13 +23,14 @@ export default class DropDown extends React.Component {
   render() {
     const SELF = this;
     const { dropdownOpen } = this.state;
-    const { sortTransactions } = SELF.props;
+    const { sortTransactions, type } = SELF.props;
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
         <DropdownToggle className="toggle-btn" caret>
-          All
+          {type.toUpperCase()}
         </DropdownToggle>
         <DropdownMenu>
+          <DropdownItem onClick={() => sortTransactions('all')}>All</DropdownItem>
           <DropdownItem onClick={() => sortTransactions('sent')}>Sent</DropdownItem>
           <DropdownItem onClick={() => sortTransactions('received')}>Received</DropdownItem>
         </DropdownMenu>

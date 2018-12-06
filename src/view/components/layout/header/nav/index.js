@@ -10,9 +10,11 @@ class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
 
+    const { location } = props;
     this.toggle = this.toggle.bind(this);
     this.state = {
       isOpen: false,
+      pathname: location.pathname,
     };
   }
 
@@ -29,11 +31,14 @@ class NavigationBar extends React.Component {
    */
   goToPage(route) {
     const { history } = this.props;
+    this.setState({
+      pathname: route,
+    });
     history.push(route);
   }
 
   render() {
-    const { isOpen } = this.state;
+    const { isOpen, pathname } = this.state;
     const { accountsList } = this.props;
     return (
       <div className="nav-holder">
@@ -45,15 +50,28 @@ class NavigationBar extends React.Component {
           <Collapse isOpen={isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink onClick={() => this.goToPage('/restore-account')}>Open Wallet</NavLink>
+                <NavLink
+                  className={pathname === '/create-account' ? 'selected' : ''}
+                  onClick={() => this.goToPage('/create-account')}
+                >
+                  Create Wallet
+                </NavLink>
               </NavItem>
               <NavItem>
-                <NavLink onClick={() => this.goToPage('/create-account')}>New Wallet</NavLink>
+                <NavLink
+                  className={pathname === '/restore-account' ? 'selected' : ''}
+                  onClick={() => this.goToPage('/restore-account')}
+                >
+                  Restore Wallet
+                </NavLink>
               </NavItem>
               {accountsList.length > 0 && (
                 <NavItem>
-                  <NavLink onClick={() => this.goToPage('/account-management')}>
-                    View Address
+                  <NavLink
+                    className={pathname === '/account-management' ? 'selected' : ''}
+                    onClick={() => this.goToPage('/account-management')}
+                  >
+                    Accounts
                   </NavLink>
                 </NavItem>
               )}
@@ -72,6 +90,7 @@ const mapStateToProps = state => ({
 NavigationBar.propTypes = {
   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  location: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default compose(

@@ -199,7 +199,7 @@ class Confirm extends React.PureComponent {
       mnemonicsArray.length > 0 &&
       (mnemonicsArray.join(' ') === mnemonic || mnemonicsArray.join(',') === mnemonic)
     ) {
-      data = _.omit(data, ['mnemoinc', 'password']);
+      data = _.omit(data, ['mnemonic', 'password']);
       const keys = walletSetup(mnemonic);
 
       const keyStore = this.saveKeyStore(keys.privateKey, password);
