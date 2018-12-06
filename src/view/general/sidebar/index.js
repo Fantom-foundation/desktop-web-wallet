@@ -1,0 +1,447 @@
+import React from 'react';
+// import PropTypes from 'prop-types';
+import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
+import Web3 from 'web3';
+import smallLogo from '../../../images/logo/fantom.png';
+import addressImage from '../../../images/address.svg';
+import amountImage from '../../../images/amount.svg';
+import passwordImage from '../../../images/password.svg';
+import Loader from '../loader';
+import AccountList from '../../pages/account-details/accountList';
+
+class SendMoney extends React.PureComponent {
+  constructor(props) {
+    super(props);
+    // eslint-disable-next-line react/prop-types
+    const { accountName } = props;
+    this.state = {
+      address: '',
+      // eslint-disable-next-line react/no-unused-state
+      accountType: accountName,
+      ftmAmount: '',
+      optionalMessage: '',
+      isValidAddress: false,
+      accountStore: [],
+      password: '',
+      // privateKey: '',
+      // publicKey: '',
+      loading: false,
+      verificationError: '',
+      addressErrText: '',
+      ammountErrText: '',
+      // toAddress: '',
+    };
+    this.onUpdate = this.onUpdate.bind(this);
+    this.setAccountType = this.setAccountType.bind(this);
+  }
+
+  // componentWillReceiveProps(nextProps){
+  //     const { storeKeys,  publicKey, accountName  } = nextProps;
+  //     const userAccountStore = Store.store;
+  //     const accountDetailList = [];
+  //     for(const key of storeKeys){
+  //         accountDetailList.push(userAccountStore[key]);
+  //     }
+  //     this.setState({
+  //         accountStore: accountDetailList,
+  //         publicKey,
+  //         accountType: accountName,
+  //     });
+  // }
+
+  // componentDidMount() {
+  //   const { storeKeys, publicKey, accountName } = this.props;
+  //   const userAccountStore = Store.store;
+  //   const accountDetailList = [];
+  //   for (const key of storeKeys) {
+  //     accountDetailList.push(userAccountStore[key]);
+  //   }
+  //   this.setState({
+  //     accountStore: accountDetailList,
+  //     publicKey,
+  //     accountType: accountName,
+  //   });
+  // }
+
+  // setAddress(e) {
+  //   const address = e.target.value.trim();
+  //   this.setState({
+  //     address,
+  //   });
+  //   this.addressVerification(address);
+  // }
+
+  // setFTMAmount(e) {
+  //   const ftmAmount = e.target.value.trim();
+  //   this.setState({
+  //     ftmAmount,
+  //   });
+  //   this.ftmAmmountVerification(ftmAmount);
+  // }
+
+  onUpdate(key, value) {
+    this.setState({
+      [key]: value,
+    });
+  }
+
+  /**
+   * setAccountType() :  To set public key of selected account, and fetch balance for it.
+   */
+  setAccountType(e) {
+    const SELF = this;
+    const { accountStore } = this.state;
+    const accountType = e.target.innerText;
+    const { length } = accountStore;
+    let publicKey = '';
+    for (let account = 0; account < length; account += 1) {
+      if (accountStore[account].name === accountType) {
+        publicKey = accountStore[account].address;
+        const { getWalletDetail } = SELF.props;
+        if (getWalletDetail) {
+          getWalletDetail(publicKey);
+        }
+      }
+    }
+    // this.setState({
+    //   accountType,
+    //   publicKey,
+    // });
+  }
+
+  // setMessage(e) {
+  //   const optionalMessage = e.target.value;
+  //   this.setState({
+  //     optionalMessage,
+  //   });
+  // }
+
+  /**
+   * handleCheckSend() : User can transfer funds,
+   *  only if all detail is filled and private key is retrived for public key and password in state.
+   */
+
+  // handleCheckSend() {
+  //   const {
+  //     password,
+  //     publicKey,
+  //     loading,
+  //     addressErrText,
+  //     ammountErrText,
+  //     address,
+  //     ftmAmount,
+  //   } = this.state;
+  //   if (
+  //     loading ||
+  //     addressErrText !== '' ||
+  //     ammountErrText !== '' ||
+  //     address === '' ||
+  //     ftmAmount === '' ||
+  //     Number(ftmAmount) <= 0 ||
+  //     password === ''
+  //   ) {
+  //     return null;
+  //   }
+  //   const isValidDetail = this.handleSendMoney();
+  //   if (isValidDetail) {
+  //     setTimeout(() => {
+  //       this.getPrivateKeyOfAddress(publicKey, password);
+  //     }, 100);
+  //   }
+  // }
+
+  /**
+   *  handleSendMoney()  : This function is meant for handling input box validations ,
+   *  and navigate to CheckSend screen if all fields are filled.
+   */
+  handleSendMoney() {
+    const { address, ftmAmount, password } = this.state;
+
+    let message = '';
+    if (address === '') {
+      message = 'Please enter address.';
+    } else if (!Web3.utils.isAddress(address)) {
+      message = 'Please enter valid address.';
+    } else if (ftmAmount === '') {
+      message = 'Please enter valid amount';
+    } else if (password === '') {
+      message = 'Please enter password to continue!!';
+      this.setState({
+        verificationError: message,
+      });
+    }
+    if (message !== '') {
+      return false;
+    }
+    this.setState({
+      loading: true,
+    });
+    return true;
+  }
+
+  /**
+   * addressVerification() : To check address entered is valid address or not, if valid address then display green tick. Otherwise render error message.
+   */
+  addressVerification(address) {
+    let message = '';
+    if (address === '') {
+      message = 'An address must be specified.';
+    } else if (!Web3.utils.isAddress(address)) {
+      message = 'Must be valid address.';
+    }
+    if (message === '') {
+      this.setState({
+        isValidAddress: true,
+        addressErrText: '',
+      });
+    } else {
+      this.setState({
+        isValidAddress: false,
+        addressErrText: message,
+      });
+    }
+  }
+
+  /**
+   * ftmAmmountVerification() : To check ammount entered is valid or not, if invalid ammount then render error message.
+   */
+  ftmAmmountVerification(ammount) {
+    const SELF = this;
+    const { maxFantomBalance } = SELF.props;
+    let message = '';
+    if (ammount === '') {
+      message = 'An amount must be specified.';
+      // eslint-disable-next-line no-restricted-globals
+    } else if (isNaN(ammount)) {
+      message = 'Must be valid amount. Only numbers.';
+    } else if (ammount > maxFantomBalance) {
+      message = 'Insufficient balance.';
+    }
+    if (message === '') {
+      this.setState({
+        ammountErrText: '',
+      });
+    } else {
+      this.setState({
+        ammountErrText: message,
+      });
+    }
+  }
+
+  renderLoader() {
+    const { loading } = this.state;
+    if (loading) {
+      return (
+        <div className="loader-holder">
+          <Loader sizeUnit="px" size={25} color="#000" loading={loading} />
+        </div>
+      );
+    }
+    return null;
+  }
+
+  renderVerificationError() {
+    const { verificationError } = this.state;
+    if (verificationError !== '') {
+      return (
+        <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
+          {verificationError}
+        </small>
+      );
+    }
+    return null;
+  }
+
+  renderAddressErrText() {
+    const { isValidAddress, addressErrText } = this.state;
+    if (!isValidAddress && addressErrText !== '') {
+      return (
+        <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
+          {addressErrText}
+        </small>
+      );
+    }
+    return null;
+  }
+
+  renderAmmountErrText() {
+    const { ammountErrText } = this.state;
+    if (ammountErrText !== '') {
+      return (
+        <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
+          {ammountErrText}
+        </small>
+      );
+    }
+    return null;
+  }
+
+  render() {
+    const SELF = this;
+    const { maxFantomBalance, openTransferForm, transferMoney } = SELF.props;
+    const {
+      address,
+      // accountType,
+      ftmAmount,
+      optionalMessage,
+      isValidAddress,
+      // accountStore,
+      // publicKey,
+      // privateKey,
+      password,
+      loading,
+    } = this.state;
+    return (
+      <div id="coin-overley" className="">
+        <div className="background-overley" onClick={openTransferForm} role="presentation" />
+
+        <span className="close-btn text-white" onClick={openTransferForm} role="presentation">
+          &times;
+        </span>
+
+        <div className="overley-body  bg-dark">
+          <div className="main-header">
+            <img src={smallLogo} className="logo" alt="Fantom" />
+          </div>
+          <div className="main-body">
+            <div id="transaction-form">
+              <div>
+                <h2 className="text-white text-center text-uppercase heading">
+                  <span>Transfer</span>
+                </h2>
+                <div className="add-wallet">
+                  <h2 className="title">
+                    <span>Send Funds</span>
+                  </h2>
+                  <Button className="btn">
+                    <i className="fas fa-sync-alt" />
+                  </Button>
+                </div>
+                <div className="form">
+                  <FormGroup>
+                    <Label for="to-address">To Address</Label>
+                    <div className={`success-check ${isValidAddress ? 'success' : ''}`}>
+                      {' '}
+                      {/* add or remove --- success --- class  */}
+                      <Input
+                        type="text"
+                        id="to-address"
+                        placeholder="Enter Address"
+                        style={{
+                          backgroundImage: `url(${addressImage})`,
+                        }}
+                        value={address}
+                        onChange={e => this.onUpdate('toAddress', e.currentTarget.value)}
+                      />
+                      {/* <img src={successCheck} alt={successCheck} /> */}
+                    </div>
+                    {this.renderAddressErrText()}
+                  </FormGroup>
+
+                  <FormGroup>
+                    <Label for="withdraw-from">Withdraw from</Label>
+                    <div className="withdraw-holder">
+                      <AccountList
+                        // accountType={accountType}
+                        // accountStore={accountStore}
+                        setAccountType={this.setAccountType}
+                        maxFantomBalance={maxFantomBalance}
+                      />
+                      <span className="ftm text-white">{maxFantomBalance} FTM</span>
+                    </div>
+                  </FormGroup>
+                  <Row className="change">
+                    <Col>
+                      <FormGroup>
+                        <Label for="Amount">Amount</Label>
+                        <div className="input-holder">
+                          <Input
+                            type="text"
+                            id="to-address"
+                            style={{
+                              backgroundImage: `url(${amountImage})`,
+                            }}
+                            className="text-right"
+                            value={ftmAmount}
+                            onChange={e => this.onUpdate('ftmAmount', e.currentTarget.value)}
+                          />
+                        </div>
+                        {this.renderAmmountErrText()}
+                      </FormGroup>
+                    </Col>
+                  </Row>
+
+                  <FormGroup>
+                    <Label for="to-address">Enter Password</Label>
+                    <div className="success-check">
+                      {' '}
+                      {/* add or remove --- success --- class  */}
+                      <Input
+                        style={{
+                          backgroundImage: `url(${passwordImage})`,
+                        }}
+                        type="password"
+                        id="to-password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={e => this.onUpdate('password', e.currentTarget.value)}
+                      />
+                      {/* <img src={successCheck} alt={successCheck} /> */}
+                    </div>
+                    {this.renderVerificationError()}
+                  </FormGroup>
+
+                  <Label for="OptionalMessage">Note</Label>
+                  <FormGroup className="mb-1">
+                    <Input
+                      type="textarea"
+                      name="text"
+                      id="exampleText"
+                      placeholder="Optional Message"
+                      value={optionalMessage}
+                      onChange={e => this.onUpdate('optionalMessage', e.currentTarget.value)}
+                    />
+                  </FormGroup>
+                  <br />
+                  {!loading && (
+                    <center>
+                      <Button
+                        // color={`${continueBtnColor}`}
+                        color="primary"
+                        className="text-uppercase bordered"
+                        onClick={transferMoney}
+                      >
+                        Continue
+                      </Button>
+                    </center>
+                  )}
+
+                  {/* <span
+                    aria-hidden
+                    className="pointer"
+                    style={{
+                      position: 'absolute',
+                      top: '20px',
+                      right: '42px',
+                      fontSize: '25px',
+                      lineHeight: '55%',
+                      fontWeight: 100,
+                      fontFamily: 'Robotos',
+                      color: '#8D9BAE',
+                    }}
+                    onClick={this.handleModalClose.bind(this)}
+                  >
+                    &times;
+                  </span> */}
+                  {this.renderLoader()}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+}
+
+export default SendMoney;

@@ -1,0 +1,47 @@
+#print-screen {
+  background: #fff;
+  max-width: 750px;
+  margin: auto;
+  .row {
+    margin: 0;
+    .col {
+      padding: 0;
+      &.info {
+        @include responsive-width(calc(100% - 105px));
+        h2 {
+          margin-bottom: 8px;
+          font: {
+            size: 18px;
+            weight: 700;
+          }
+        }
+        p {
+          font: {
+            size: 16px;
+          }
+        }
+        .qr {
+        }
+      }
+      &.brand {
+        background: {
+          color: $theme-blue;
+        }
+        @include responsive-width(105px);
+        .brand-holder {
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: rotate(-90deg) translate(-50%, -50%);
+          transform-origin: 0 0;
+          img {
+          }
+          p {
+            margin: 0;
+            color: #fff;
+          }
+        }
+      }
+    }
+  }
+}

@@ -3,6 +3,9 @@ body {
     color: #000;
   }
 }
+.blur {
+  filter: blur(3px);
+}
 .bg-dark {
   background: {
     color: #1e1e1e !important;

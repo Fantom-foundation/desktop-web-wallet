@@ -7,7 +7,6 @@ import moment from 'moment';
 import DropDown from './dropDown';
 import { months } from '../../../redux/constants';
 import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
-
 import received from './received.svg';
 import send from './send.svg';
 
@@ -35,9 +34,13 @@ class TransactionHistory extends React.PureComponent {
     if (transactions && transactions.length > 0) {
       for (let i = 0; i < transactions.length; i += 1) {
         const date = moment(transactions[i].date).toDate();
-        const isReceived = transactions[i].to === publicAddress && type === 'received';
-        const isSend = transactions[i].from === publicAddress && type === 'sent';
-        if (isReceived || isSend || type === 'all') {
+        const isReceived = transactions[i].to === publicAddress;
+        const isSend = transactions[i].from === publicAddress;
+        if (
+          (isReceived && type === 'received') ||
+          (isSend && type === 'sent') ||
+          ((isReceived || isSend) && type === 'all')
+        ) {
           transactionsHistory.push(
             <div className="card bg-dark-light">
               <Row className="">
@@ -82,6 +85,7 @@ class TransactionHistory extends React.PureComponent {
   }
 
   render() {
+    const { type } = this.state;
     const transactionsHistory = this.getTransactionHistory();
     return (
       <React.Fragment>
@@ -90,7 +94,7 @@ class TransactionHistory extends React.PureComponent {
             <h2 className="title ">
               <span>Transactions</span>
             </h2>
-            <DropDown sortTransactions={this.sortTransactions} />
+            <DropDown sortTransactions={this.sortTransactions} type={type} />
           </div>
         </div>
         <div id="acc-cards" className="">

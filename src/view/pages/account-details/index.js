@@ -13,6 +13,7 @@ import { sendRawTransaction } from '../../../redux/sendTransactions/action';
 import { isAccountPasswordCorrect, transferMoneyViaFantom } from '../../../redux/accountManagement';
 import TransactionHistory from './transactions';
 import ShowPublicAddress from '../../components/public-address';
+import SendMoney from '../../general/sidebar';
 
 let interval = null;
 class AccountDetails extends React.PureComponent {
@@ -22,9 +23,11 @@ class AccountDetails extends React.PureComponent {
     const publicAddress = this.getAccountPublicAddress();
     this.state = {
       isTransferringMoney: false,
+      isCheckSend: false,
     };
     this.transferMoney = this.transferMoney.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
+    this.openTransferForm = this.openTransferForm.bind(this);
     // This will call the refresh the balance after every one second
     interval = setInterval(() => {
       getBalance(publicAddress);
@@ -95,9 +98,16 @@ class AccountDetails extends React.PureComponent {
       });
   }
 
+  openTransferForm() {
+    const { isCheckSend } = this.state;
+    this.setState({
+      isCheckSend: !isCheckSend,
+    });
+  }
+
   render() {
     const { accountsList, location, balance } = this.props;
-    const { isTransferringMoney } = this.state;
+    const { isTransferringMoney, isCheckSend } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
     return (
@@ -148,8 +158,8 @@ class AccountDetails extends React.PureComponent {
                       <center>
                         <Button
                           color="primary"
-                          onClick={this.transferMoney}
-                          disabled={isTransferringMoney}
+                          onClick={this.openTransferForm}
+                          disabled={isTransferringMoney || balance <= 0}
                           className={isTransferringMoney ? 'bordered mt-3 light' : 'bordered mt-3'}
                         >
                           {isTransferringMoney ? 'Transferring....' : 'Transfer'}
@@ -163,6 +173,12 @@ class AccountDetails extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
+            {isCheckSend && (
+              <SendMoney
+                openTransferForm={this.openTransferForm}
+                transferMoney={this.transferMoney}
+              />
+            )}
             <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore} />
           </section>
         </Layout>

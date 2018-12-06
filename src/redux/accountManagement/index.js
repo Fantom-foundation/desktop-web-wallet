@@ -30,7 +30,7 @@ export function transferMoneyViaFantom(location, accountsList, transferMoney, ge
         web3.eth.getGasPrice((err, result) => {
           const rawTx = {
             from: account.publicAddress,
-            to: '0xE5328056Fc785D0bce34BC3E1558013FECe3bd7e',
+            to: '0x1D97f9BcC819DB4817bfc3Ddfb2e9b8E499d97EB',
             value: web3.utils.toHex(web3.utils.toWei('1', 'ether')),
             gasLimit: web3.utils.toHex(22000),
             gasPrice: web3.utils.toHex(result),
