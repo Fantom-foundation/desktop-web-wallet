@@ -39,7 +39,7 @@ class TransactionHistory extends React.PureComponent {
         const isSend = transactions[i].from === publicAddress && type === 'sent';
         if (isReceived || isSend || type === 'all') {
           transactionsHistory.push(
-            <div className="card bg-dark-light">
+            <div key={i} className="card bg-dark-light">
               <Row className="">
                 <Col className="date-col">
                   <div style={{ backgroundImage: `url(${isReceived ? received : send})` }}>
@@ -83,6 +83,7 @@ class TransactionHistory extends React.PureComponent {
 
   render() {
     const transactionsHistory = this.getTransactionHistory();
+    const { type } = this.state;
     return (
       <React.Fragment>
         <div className="bg-dark-light">
@@ -90,12 +91,18 @@ class TransactionHistory extends React.PureComponent {
             <h2 className="title ">
               <span>Transactions</span>
             </h2>
-            <DropDown sortTransactions={this.sortTransactions} />
+            <DropDown sortTransactions={this.sortTransactions} type={type} />
           </div>
         </div>
         <div id="acc-cards" className="">
           <Row>
-            <Col>{transactionsHistory}</Col>
+            <Col>
+              {transactionsHistory.length > 0 ? (
+                transactionsHistory
+              ) : (
+                <p className="no-history-text">No Transactions History</p>
+              )}
+            </Col>
           </Row>
         </div>
       </React.Fragment>

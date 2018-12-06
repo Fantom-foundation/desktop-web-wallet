@@ -181,9 +181,13 @@ const mapDispatchToProps = dispatch => ({
   transferMoney: data => dispatch(sendRawTransaction(data)),
 });
 
+AccountDetails.defaultProps = {
+  balance: 0,
+};
+
 AccountDetails.propTypes = {
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  balance: PropTypes.number.isRequired,
+  balance: PropTypes.number,
   getBalance: PropTypes.func.isRequired,
   transferMoney: PropTypes.func.isRequired,
   location: PropTypes.oneOfType([PropTypes.object]).isRequired,
