@@ -193,7 +193,6 @@ class SendMoney extends React.PureComponent {
   ftmAmmountVerification(ammount) {
     const { balance } = this.props;
     const { selectedAccount, gasPrice } = this.state;
-    console.log(balance[selectedAccount.publicAddress], 'balance[selectedAccount.publicAddress]');
     const valInEther = Web3.utils.fromWei(`${balance[selectedAccount.publicAddress]}`, 'ether');
     const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
     const maxFantomBalance = valInEther - gasPriceEther;
@@ -259,12 +258,8 @@ class SendMoney extends React.PureComponent {
       password,
     };
     let isValidAddress = true;
-    let isValidAmount = true;
     if (toAddress !== '') {
       isValidAddress = this.addressVerification(toAddress);
-    }
-    if (ftmAmount !== '') {
-      isValidAmount = this.ftmAmmountVerification(ftmAmount);
     }
 
     const isAnyFieldEmpty = _.includes(data, '');
@@ -275,7 +270,7 @@ class SendMoney extends React.PureComponent {
       isPasswordIncorrect ||
       isAnyFieldUndefined ||
       !isValidAddress ||
-      !isValidAmount
+      !ftmAmount
     ) {
       return true;
     }
@@ -333,7 +328,6 @@ class SendMoney extends React.PureComponent {
 
   render() {
     const { openTransferForm, balance } = this.props;
-    let maxFantomBalance = 0;
     const {
       toAddress,
       ftmAmount,
@@ -344,15 +338,6 @@ class SendMoney extends React.PureComponent {
       selectedAccount,
       gasPrice,
     } = this.state;
-    const keys = Object.keys(balance);
-    console.log(balance, 'balancebalance');
-    if (balance && keys.length > 0) {
-      console.log(balance[selectedAccount.publicAddress], 'balance[selectedAccount.publicAddress]');
-      const valInEther = Web3.utils.fromWei(`${balance[selectedAccount.publicAddress]}`, 'ether');
-      const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
-      maxFantomBalance = valInEther - gasPriceEther;
-      maxFantomBalance = Number(maxFantomBalance).toFixed(4);
-    }
     const isDisable = this.disableContinueButton();
     return (
       <div id="coin-overley" className="">
@@ -407,7 +392,8 @@ class SendMoney extends React.PureComponent {
                       <AccountList
                         selectedAccount={selectedAccount}
                         setAccountType={this.setAccountType}
-                        maxFantomBalance={maxFantomBalance}
+                        balance={balance}
+                        gasPrice={gasPrice}
                       />
                     </div>
                   </FormGroup>
