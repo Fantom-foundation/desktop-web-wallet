@@ -418,7 +418,7 @@ class SendMoney extends React.PureComponent {
                         <div className="input-holder">
                           <Input
                             type="text"
-                            id="to-address"
+                            id="ftm-amount"
                             style={{
                               backgroundImage: `url(${amountImage})`,
                             }}
@@ -520,7 +520,7 @@ SendMoney.propTypes = {
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
   balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getBalance: PropTypes.func.isRequired,
-  openTransferForm: PropTypes.bool.isRequired,
+  openTransferForm: PropTypes.func.isRequired,
   transferMoney: PropTypes.func.isRequired,
   // transferMoney: PropTypes.func.isRequired,
   // location: PropTypes.oneOfType([PropTypes.object]).isRequired,

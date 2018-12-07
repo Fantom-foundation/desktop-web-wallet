@@ -66,11 +66,11 @@ const mapDispatchToProps = dispatch => ({
 });
 
 AccountList.propTypes = {
-  accountList: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  accountList: PropTypes.oneOfType([PropTypes.array]).isRequired,
   selectedAccount: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getBalance: PropTypes.func.isRequired,
   setAccountType: PropTypes.func.isRequired,
-  maxFantomBalance: PropTypes.func.isRequired,
+  maxFantomBalance: PropTypes.string.isRequired,
 };
 
 export default compose(

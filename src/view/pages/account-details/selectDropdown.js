@@ -43,9 +43,9 @@ class Select extends React.Component {
 }
 
 Select.propTypes = {
-  value: PropTypes.number.isRequired,
-  maxFantomBalance: PropTypes.number.isRequired,
-  accountDetailList: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
+  maxFantomBalance: PropTypes.string.isRequired,
+  accountDetailList: PropTypes.oneOfType([PropTypes.array]).isRequired,
 };
 
 const mapStateToProps = state => ({

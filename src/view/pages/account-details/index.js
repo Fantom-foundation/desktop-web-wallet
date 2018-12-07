@@ -258,7 +258,7 @@ AccountDetails.defaultTypes = {
 
 AccountDetails.propTypes = {
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  balanceInfo: PropTypes.number.isRequired,
+  balanceInfo: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getBalance: PropTypes.func.isRequired,
   transferMoney: PropTypes.func.isRequired,
   location: PropTypes.oneOfType([PropTypes.object]).isRequired,
