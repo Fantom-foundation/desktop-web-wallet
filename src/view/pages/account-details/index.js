@@ -15,6 +15,7 @@ import { isAccountPasswordCorrect, transferMoneyViaFantom } from '../../../redux
 import TransactionHistory from './transactions';
 import ShowPublicAddress from '../../components/public-address';
 import SendMoney from '../../general/sidebar';
+import HttpDataProvider from '../../../utility/httpProvider';
 
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
 
@@ -43,6 +44,10 @@ class AccountDetails extends React.PureComponent {
     getBalance(publicAddress);
   }
 
+  componentDidMount() {
+    this.fetchTransactionList();
+  }
+
   componentWillUnmount() {
     // clearInterval(interval);
   }
@@ -56,6 +61,48 @@ class AccountDetails extends React.PureComponent {
     const account = accountsList[state.selectedAccountIndex];
 
     return account.publicAddress;
+  }
+
+  /**
+   * This method will give the all transactions transferred from the given from address
+   */
+  // eslint-disable-next-line class-methods-use-this
+  fetchTransactionList() {
+    HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
+      query: `
+        {
+            transactions(from: "0xfd9ab87ecedc912a63f5b8fa3b8d7667d33fd981") {
+              pageInfo {
+              hasNextPage
+            }
+            edges {
+              cursor
+              node {
+                hash
+                from
+                to
+                block
+                value
+              }
+            }
+          }
+        }`,
+    })
+      .then(
+        res => {
+          console.log(res, 'graphql');
+          if (res && res.data) {
+            console.log(res);
+          }
+          return null;
+        },
+        () => {
+          console.log('1');
+        }
+      )
+      .catch(err => {
+        console.log(err, 'err in graphql');
+      });
   }
 
   /**
@@ -73,10 +120,12 @@ class AccountDetails extends React.PureComponent {
    */
   transferMoney() {
     const { location, accountsList, transferMoney, getBalance } = this.props;
+    const { state } = location;
+    const account = accountsList[state.selectedAccountIndex];
     this.setState({
       isTransferringMoney: true,
     });
-    const isPasswordCorrect = Promise.resolve(isAccountPasswordCorrect(location, accountsList));
+    const isPasswordCorrect = Promise.resolve(isAccountPasswordCorrect(account));
     isPasswordCorrect
       .then(() => {
         const isTransferredPromise = Promise.resolve(
@@ -109,10 +158,12 @@ class AccountDetails extends React.PureComponent {
   }
 
   render() {
-    const { accountsList, location, balance, transactions } = this.props;
+    const { accountsList, location, balanceInfo } = this.props;
     const { isTransferringMoney, isCheckSend } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
+    const balance = balanceInfo[account.publicAddress];
+    console.log(balanceInfo, 'Neeraj balanceInfo');
     return (
       <div id="account-datails" className="account-datails">
         <Layout>
@@ -140,10 +191,10 @@ class AccountDetails extends React.PureComponent {
                         copyToClipboard={copyToClipboard}
                         publicAddress={account.publicAddress}
                       />
-                      <div className="info">
+                      {/* <div className="info">
                         <p>Ledger testAccount</p>
                         <p>{transactions.length} Outgoing transaction</p>
-                      </div>
+                      </div> */}
                       <div className="qr">
                         <QRCode
                           bgColor="black"
@@ -193,8 +244,7 @@ class AccountDetails extends React.PureComponent {
 
 const mapStateToProps = state => ({
   accountsList: state.accounts.accountsList,
-  balance: state.getBalance.fantomBalance,
-  transactions: state.sendTransactions.transactions,
+  balanceInfo: state.getBalance,
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -203,13 +253,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 AccountDetails.defaultTypes = {
-  balance: 0,
+  balanceInfo: 0,
 };
 
 AccountDetails.propTypes = {
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  transactions: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  balance: PropTypes.number.isRequired,
+  balanceInfo: PropTypes.number.isRequired,
   getBalance: PropTypes.func.isRequired,
   transferMoney: PropTypes.func.isRequired,
   location: PropTypes.oneOfType([PropTypes.object]).isRequired,

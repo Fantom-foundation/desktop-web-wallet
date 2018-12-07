@@ -7,16 +7,19 @@ const getBalance = (state = defaultState, action) => {
   // const { request } = payload;
   switch (action.type) {
     case `${actions.GET_FANTOM_BALANCE}`: {
+      const accountInfo = {};
       return Object.assign({}, state, {
-        fantomBalance: 0,
+        ...state,
+        ...accountInfo,
       });
     }
     case `${actions.GET_FANTOM_BALANCE}_SUCCESS`: {
       const { config, data } = action.payload;
       const accountInfo = {
-        fantomBalance: data.balance,
-        address: config.address,
+        [config.address]: data.balance,
       };
+      console.log(state, 'Neeraj state');
+      console.log(accountInfo, 'Neeraj accountInfo');
       return Object.assign({}, state, {
         ...state,
         ...accountInfo,

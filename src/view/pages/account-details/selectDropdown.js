@@ -1,9 +1,12 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { compose } from 'redux';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import PropTypes from 'prop-types';
 import withdrawImage from '../../../images/withdraw.svg';
+import { getFantomBalance } from '../../../redux/getBalance/action';
 
-export default class Select extends React.Component {
+class Select extends React.Component {
   constructor(props) {
     super(props);
 
@@ -31,7 +34,7 @@ export default class Select extends React.Component {
           }}
         >
           {value}
-          <span className="ftm text-white">{maxFantomBalance} FTM</span>
+          <span className="ftm text-white"> {maxFantomBalance} FTM</span>
         </DropdownToggle>
         <DropdownMenu>{accountDetailList}</DropdownMenu>
       </Dropdown>
@@ -40,7 +43,22 @@ export default class Select extends React.Component {
 }
 
 Select.propTypes = {
-  value: PropTypes.string.isRequired,
+  value: PropTypes.number.isRequired,
   maxFantomBalance: PropTypes.number.isRequired,
-  accountDetailList: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  accountDetailList: PropTypes.number.isRequired,
 };
+
+const mapStateToProps = state => ({
+  balance: state.getBalance,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getBalance: data => dispatch(getFantomBalance(data)),
+});
+
+export default compose(
+  connect(
+    mapStateToProps,
+    mapDispatchToProps
+  )
+)(Select);

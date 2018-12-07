@@ -65,12 +65,10 @@ export function transferMoneyViaFantom(location, accountsList, transferMoney, ge
  * @param {Accounts list} accountsList
  * This method will check whether the account password is correct or not
  */
-export function isAccountPasswordCorrect(location, accountsList) {
-  const { state } = location;
-  const account = accountsList[state.selectedAccountIndex];
-  if (account.keystore) {
+export function isAccountPasswordCorrect(account, password) {
+  if (account && account.keystore) {
     return new Promise((resolve, reject) => {
-      keythereum.recover('aaaaaaaaA1', account.keystore, dataRes => {
+      keythereum.recover(password, account.keystore, dataRes => {
         if (dataRes instanceof Buffer) {
           const hexVal = EthUtil.bufferToHex(dataRes);
           resolve({ success: true, result: hexVal });

@@ -3,7 +3,7 @@ import React from 'react';
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Web3 from 'web3';
 import { connect } from 'react-redux';
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import _ from 'lodash';
 import smallLogo from '../../../images/logo/fantom.png';
@@ -13,32 +13,35 @@ import passwordImage from '../../../images/password.svg';
 import { getFantomBalance } from '../../../redux/getBalance/action';
 import Loader from '../loader';
 import AccountList from '../../pages/account-details/accountList';
+import { isAccountPasswordCorrect } from '../../../redux/accountManagement';
 
 class SendMoney extends React.PureComponent {
   constructor(props) {
     super(props);
     // eslint-disable-next-line react/prop-types
-    const { accountName } = props;
+    const { accountsList } = props;
     this.state = {
       address: '',
       // eslint-disable-next-line react/no-unused-state
-      accountType: accountName,
       ftmAmount: '',
       optionalMessage: '',
-      accountStore: [],
+      // accountStore: [],
       password: '',
+      isValidAddress: false,
+      selectedAccount: accountsList[0],
       // privateKey: '',
       // publicKey: '',
       loading: false,
       verificationError: '',
-      // gasPrice: 0x000000000001,
-      // addressErrText: '',
+      gasPrice: 0x000000000001,
+      addressErrText: '',
       ammountErrText: '',
       // toAddress: '',
     };
     this.onUpdate = this.onUpdate.bind(this);
     this.setAccountType = this.setAccountType.bind(this);
     this.disableContinueButton = this.disableContinueButton.bind(this);
+    this.isTransferDataCorrect = this.isTransferDataCorrect.bind(this);
   }
 
   // componentWillReceiveProps(nextProps){
@@ -94,26 +97,14 @@ class SendMoney extends React.PureComponent {
   /**
    * setAccountType() :  To set public key of selected account, and fetch balance for it.
    */
-  setAccountType(e) {
-    const SELF = this;
-    const { accountStore } = this.state;
-    const accountType = e.target.innerText;
-    const { length } = accountStore;
-    let publicKey = '';
-    for (let account = 0; account < length; account += 1) {
-      if (accountStore[account].name === accountType) {
-        publicKey = accountStore[account].address;
-        const { getWalletDetail } = SELF.props;
-        if (getWalletDetail) {
-          getWalletDetail(publicKey);
-        }
-      }
-    }
-    // this.setState({
-    //   accountType,
-    //   publicKey,
-    // });
-  }
+
+  setAccountType = (e, account) => {
+    const { getBalance } = this.props;
+    this.setState({
+      selectedAccount: account,
+    });
+    getBalance(account.publicAddress);
+  };
 
   // setMessage(e) {
   //   const optionalMessage = e.target.value;
@@ -191,9 +182,9 @@ class SendMoney extends React.PureComponent {
   // eslint-disable-next-line class-methods-use-this
   addressVerification(address) {
     if (!Web3.utils.isAddress(address)) {
-      return false;
+      return { status: false, message: 'Invalid Address' };
     }
-    return true;
+    return { status: true, message: '' };
   }
 
   /**
@@ -204,13 +195,31 @@ class SendMoney extends React.PureComponent {
     const { maxFantomBalance } = SELF.props;
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(ammount)) {
-      return false;
+      return { status: false, message: 'Invalid Amount' };
     }
     if (ammount > maxFantomBalance) {
-      return false;
+      return { status: false, message: 'Insufficient Funds' };
     }
 
-    return true;
+    return { status: true, message: '' };
+  }
+
+  async isTransferDataCorrect() {
+    const { toAddress, ftmAmount, password } = this.state;
+    const isValidAddress = this.addressVerification(toAddress);
+    const isValidAmount = this.ftmAmmountVerification(ftmAmount);
+    const isPasswordCorrect = await isAccountPasswordCorrect(password);
+    console.log(isPasswordCorrect, 'isPasswordcORRECT');
+    if (!isValidAddress.status) {
+      this.setState({
+        addressErrText: isValidAddress.message,
+      });
+    }
+    if (!isValidAmount.status) {
+      this.setState({
+        ammountErrText: isValidAmount.message,
+      });
+    }
   }
 
   disableContinueButton() {
@@ -257,17 +266,17 @@ class SendMoney extends React.PureComponent {
     return null;
   }
 
-  // renderAddressErrText() {
-  //   const { addressErrText } = this.state;
-  //   if (!isValidAddress && addressErrText !== '') {
-  //     return (
-  //       <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
-  //         {addressErrText}
-  //       </small>
-  //     );
-  //   }
-  //   return null;
-  // }
+  renderAddressErrText() {
+    const { addressErrText, isValidAddress } = this.state;
+    if (!isValidAddress && addressErrText !== '') {
+      return (
+        <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
+          {addressErrText}
+        </small>
+      );
+    }
+    return null;
+  }
 
   renderVerificationError() {
     const { verificationError } = this.state;
@@ -294,8 +303,8 @@ class SendMoney extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
-    const { maxFantomBalance, openTransferForm, transferMoney, balance } = SELF.props;
+    const { openTransferForm, balance } = this.props;
+    let maxFantomBalance = 0;
     const {
       toAddress,
       ftmAmount,
@@ -303,12 +312,18 @@ class SendMoney extends React.PureComponent {
       isValidAddress,
       password,
       loading,
-      // gasPrice,
+      selectedAccount,
+      gasPrice,
     } = this.state;
-    // const valInEther = Web3.utils.fromWei(`${balance.fantomBalance}`, 'ether');
-    // const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
-    // let maxFantomBalance = valInEther - gasPriceEther;
-    console.log(balance, 'balancebalancebalance');
+    const keys = Object.keys(balance);
+    console.log(balance, 'balancebalance');
+    if (balance && keys.length > 0) {
+      console.log(balance[selectedAccount.publicAddress], 'balance[selectedAccount.publicAddress]');
+      const valInEther = Web3.utils.fromWei(`${balance[selectedAccount.publicAddress]}`, 'ether');
+      const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
+      maxFantomBalance = valInEther - gasPriceEther;
+      maxFantomBalance = Number(maxFantomBalance).toFixed(4);
+    }
     const isDisable = this.disableContinueButton();
     return (
       <div id="coin-overley" className="">
@@ -354,13 +369,14 @@ class SendMoney extends React.PureComponent {
                       />
                       {/* <img src={successCheck} alt={successCheck} /> */}
                     </div>
-                    {/* {this.renderAddressErrText()} */}
+                    {this.renderAddressErrText()}
                   </FormGroup>
 
                   <FormGroup>
                     <Label for="withdraw-from">Withdraw from</Label>
                     <div className="withdraw-holder">
                       <AccountList
+                        selectedAccount={selectedAccount}
                         setAccountType={this.setAccountType}
                         maxFantomBalance={maxFantomBalance}
                       />
@@ -426,7 +442,7 @@ class SendMoney extends React.PureComponent {
                         color="primary"
                         disabled={isDisable}
                         className="text-uppercase bordered"
-                        onClick={transferMoney}
+                        onClick={this.isTransferDataCorrect}
                       >
                         Continue
                       </Button>
@@ -472,9 +488,10 @@ const mapDispatchToProps = dispatch => ({
 });
 
 SendMoney.propTypes = {
-  // accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  // balance: PropTypes.number.isRequired,
-  // getBalance: PropTypes.func.isRequired,
+  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  getBalance: PropTypes.func.isRequired,
+  openTransferForm: PropTypes.bool.isRequired,
   // transferMoney: PropTypes.func.isRequired,
   // location: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
