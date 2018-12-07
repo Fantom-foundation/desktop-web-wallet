@@ -86,7 +86,7 @@
         padding-left: 30px;
         color: map-get($color, acc-info-acc-name);
         font: {
-          family: "Roboto Condensed";
+          family: "Roboto";
           size: 26px;
         }
       }
@@ -96,7 +96,7 @@
       color: map-get($color, acc-info-address-title);
       margin-bottom: 22px;
       font: {
-        family: "Roboto Condensed";
+        family: "Roboto";
         size: 24px;
       }
     }
@@ -203,7 +203,7 @@
 #acc-details {
   padding: 30px 0;
   font: {
-    family: "Roboto Condensed";
+    family: "Roboto";
   }
   .avatar-container {
     text-align: center;
@@ -251,6 +251,8 @@
     }
     p {
       font: {
+        family: "Lato";
+
         size: 16px;
         weight: 300;
       }
