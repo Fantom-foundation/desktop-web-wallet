@@ -191,7 +191,12 @@ class SendMoney extends React.PureComponent {
    * ftmAmmountVerification() : To check ammount entered is valid or not, if invalid ammount then render error message.
    */
   ftmAmmountVerification(ammount) {
-    const { maxFantomBalance } = this.props;
+    const { balance } = this.props;
+    const { selectedAccount, gasPrice } = this.state;
+    console.log(balance[selectedAccount.publicAddress], 'balance[selectedAccount.publicAddress]');
+    const valInEther = Web3.utils.fromWei(`${balance[selectedAccount.publicAddress]}`, 'ether');
+    const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
+    const maxFantomBalance = valInEther - gasPriceEther;
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(ammount)) {
       return { status: false, message: 'Invalid Amount' };
@@ -204,20 +209,45 @@ class SendMoney extends React.PureComponent {
   }
 
   async isTransferDataCorrect() {
-    const { toAddress, ftmAmount, password } = this.state;
+    const { transferMoney } = this.props;
+    let isError = '';
+    const { toAddress, ftmAmount, password, selectedAccount } = this.state;
     const isValidAddress = this.addressVerification(toAddress);
     const isValidAmount = this.ftmAmmountVerification(ftmAmount);
-    const isPasswordCorrect = await isAccountPasswordCorrect(password);
-    console.log(isPasswordCorrect, 'isPasswordcORRECT');
+    const isPasswordCorrect = Promise.resolve(isAccountPasswordCorrect(selectedAccount, password));
     if (!isValidAddress.status) {
+      isError = true;
       this.setState({
         addressErrText: isValidAddress.message,
       });
+      return;
     }
     if (!isValidAmount.status) {
+      isError = true;
       this.setState({
         ammountErrText: isValidAmount.message,
       });
+      return;
+    }
+    isPasswordCorrect
+      .then(result => {
+        if (result.success) {
+          this.setState({
+            verificationError: '',
+          });
+        }
+      })
+      .catch(error => {
+        if (error.error) {
+          isError = true;
+          this.setState({
+            verificationError: error.message,
+          });
+        }
+      });
+
+    if (!isError) {
+      transferMoney();
     }
   }
 
@@ -491,7 +521,7 @@ SendMoney.propTypes = {
   balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getBalance: PropTypes.func.isRequired,
   openTransferForm: PropTypes.bool.isRequired,
-  maxFantomBalance: PropTypes.number.isRequired,
+  transferMoney: PropTypes.func.isRequired,
   // transferMoney: PropTypes.func.isRequired,
   // location: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
