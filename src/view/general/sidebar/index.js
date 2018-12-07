@@ -295,7 +295,7 @@ class SendMoney extends React.PureComponent {
 
   render() {
     const SELF = this;
-    const { maxFantomBalance, openTransferForm, transferMoney, balance } = SELF.props;
+    const { maxFantomBalance, openTransferForm, transferMoney, balance, addClass } = SELF.props;
     const {
       toAddress,
       ftmAmount,
@@ -311,14 +311,14 @@ class SendMoney extends React.PureComponent {
     console.log(balance, 'balancebalancebalance');
     const isDisable = this.disableContinueButton();
     return (
-      <div id="coin-overley" className="">
+      <div id="coin-overley">
         <div className="background-overley" onClick={openTransferForm} role="presentation" />
 
         <span className="close-btn text-white" onClick={openTransferForm} role="presentation">
           &times;
         </span>
 
-        <div className="overley-body  bg-dark">
+        <div className={`${addClass} overley-body  bg-dark`}>
           <div className="main-header">
             <img src={smallLogo} className="logo" alt="Fantom" />
           </div>

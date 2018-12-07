@@ -27,6 +27,7 @@ class AccountDetails extends React.PureComponent {
     this.state = {
       isTransferringMoney: false,
       isCheckSend: false,
+      addClass: '',
     };
     this.transferMoney = this.transferMoney.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
@@ -104,18 +105,24 @@ class AccountDetails extends React.PureComponent {
   openTransferForm() {
     const { isCheckSend } = this.state;
     this.setState({
-      isCheckSend: !isCheckSend,
+      addClass: 'closing',
     });
+    setTimeout(() => {
+      this.setState({
+        isCheckSend: !isCheckSend,
+        addClass: '',
+      });
+    }, 400);
   }
 
   render() {
     const { accountsList, location, balance, transactions } = this.props;
-    const { isTransferringMoney, isCheckSend } = this.state;
+    const { isTransferringMoney, isCheckSend, addClass } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
     return (
       <div id="account-datails" className="account-datails">
-        <Layout>
+        <Layout className={`${isCheckSend || (true && 'blur')}`}>
           <section style={{ padding: '30px 0' }}>
             <Container className="bg-dark acc-details-container">
               <Row>
@@ -176,16 +183,17 @@ class AccountDetails extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
-            {isCheckSend ||
-              (true && (
-                <SendMoney
-                  openTransferForm={this.openTransferForm}
-                  transferMoney={this.transferMoney}
-                />
-              ))}
             <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore} />
           </section>
         </Layout>
+        {isCheckSend ||
+          (true && (
+            <SendMoney
+              addClass={addClass}
+              openTransferForm={this.openTransferForm}
+              transferMoney={this.transferMoney}
+            />
+          ))}
       </div>
     );
   }
