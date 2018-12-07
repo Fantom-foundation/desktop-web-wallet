@@ -30,9 +30,8 @@ class AccountList extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
     const renderList = this.renderAccountList();
-    const { maxFantomBalance, selectedAccount } = SELF.props;
+    const { maxFantomBalance, selectedAccount } = this.props;
     return (
       <React.Fragment>
         {/* <Input
@@ -71,6 +70,7 @@ AccountList.propTypes = {
   selectedAccount: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getBalance: PropTypes.func.isRequired,
   setAccountType: PropTypes.func.isRequired,
+  maxFantomBalance: PropTypes.func.isRequired,
 };
 
 export default compose(

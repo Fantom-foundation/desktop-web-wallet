@@ -191,8 +191,7 @@ class SendMoney extends React.PureComponent {
    * ftmAmmountVerification() : To check ammount entered is valid or not, if invalid ammount then render error message.
    */
   ftmAmmountVerification(ammount) {
-    const SELF = this;
-    const { maxFantomBalance } = SELF.props;
+    const { maxFantomBalance } = this.props;
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(ammount)) {
       return { status: false, message: 'Invalid Amount' };
@@ -492,6 +491,7 @@ SendMoney.propTypes = {
   balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getBalance: PropTypes.func.isRequired,
   openTransferForm: PropTypes.bool.isRequired,
+  maxFantomBalance: PropTypes.number.isRequired,
   // transferMoney: PropTypes.func.isRequired,
   // location: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };

@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 
 export default class DropDown extends React.Component {
@@ -21,9 +22,8 @@ export default class DropDown extends React.Component {
   }
 
   render() {
-    const SELF = this;
     const { dropdownOpen } = this.state;
-    const { sortTransactions } = SELF.props;
+    const { sortTransactions } = this.props;
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
         <DropdownToggle className="toggle-btn" caret>
@@ -37,3 +37,7 @@ export default class DropDown extends React.Component {
     );
   }
 }
+
+DropDown.propTypes = {
+  sortTransactions: PropTypes.func.isRequired,
+};
