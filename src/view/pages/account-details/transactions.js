@@ -42,7 +42,7 @@ class TransactionHistory extends React.PureComponent {
           ((isReceived || isSend) && type === 'all')
         ) {
           transactionsHistory.push(
-            <div className="card bg-dark-light">
+            <div key={i} className="card bg-dark-light">
               <Row className="">
                 <Col className="date-col">
                   <div style={{ backgroundImage: `url(${isReceived ? received : send})` }}>

@@ -1,10 +1,14 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
+import Web3 from 'web3';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import PropTypes from 'prop-types';
 import withdrawImage from '../../../images/withdraw.svg';
 import { getFantomBalance } from '../../../redux/getBalance/action';
+import ValidationMethods from '../../../validations/userInputMethods';
+
+const validationMethods = new ValidationMethods();
 
 class Select extends React.Component {
   constructor(props) {
@@ -23,8 +27,16 @@ class Select extends React.Component {
   };
 
   render() {
-    const { value, maxFantomBalance, accountDetailList } = this.props;
+    const { value, accountDetailList, publicAddress, balance, gasPrice } = this.props;
     const { dropdownOpen } = this.state;
+    const keys = Object.keys(balance);
+    let maxFantomBalance = 0;
+    if (balance && keys.length > 0 && balance[publicAddress]) {
+      const valInEther = Web3.utils.fromWei(`${balance[publicAddress]}`, 'ether');
+      const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
+      maxFantomBalance = valInEther - gasPriceEther;
+      maxFantomBalance = validationMethods.toFixed(maxFantomBalance, 4);
+    }
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
         <DropdownToggle
@@ -43,9 +55,11 @@ class Select extends React.Component {
 }
 
 Select.propTypes = {
-  value: PropTypes.number.isRequired,
-  maxFantomBalance: PropTypes.number.isRequired,
-  accountDetailList: PropTypes.number.isRequired,
+  value: PropTypes.string.isRequired,
+  accountDetailList: PropTypes.oneOfType([PropTypes.array]).isRequired,
+  publicAddress: PropTypes.string.isRequired,
+  balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  gasPrice: PropTypes.string.isRequired,
 };
 
 const mapStateToProps = state => ({

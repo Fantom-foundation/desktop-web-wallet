@@ -30,9 +30,8 @@ class AccountList extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
     const renderList = this.renderAccountList();
-    const { maxFantomBalance, selectedAccount } = SELF.props;
+    const { selectedAccount, balance, gasPrice } = this.props;
     return (
       <React.Fragment>
         {/* <Input
@@ -51,7 +50,8 @@ class AccountList extends React.PureComponent {
           value={selectedAccount.accountName}
           publicAddress={selectedAccount.publicAddress}
           accountDetailList={renderList.accountDetailList}
-          maxFantomBalance={maxFantomBalance}
+          balance={balance}
+          gasPrice={gasPrice}
         />
       </React.Fragment>
     );
@@ -67,10 +67,12 @@ const mapDispatchToProps = dispatch => ({
 });
 
 AccountList.propTypes = {
-  accountList: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  accountList: PropTypes.oneOfType([PropTypes.array]).isRequired,
   selectedAccount: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getBalance: PropTypes.func.isRequired,
   setAccountType: PropTypes.func.isRequired,
+  balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  gasPrice: PropTypes.string.isRequired,
 };
 
 export default compose(

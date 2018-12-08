@@ -11,7 +11,7 @@ import Layout from '../../components/layout';
 import { getFantomBalance } from '../../../redux/getBalance/action';
 import Identicons from '../../general/identicons/identicons';
 import { sendRawTransaction } from '../../../redux/sendTransactions/action';
-import { isAccountPasswordCorrect, transferMoneyViaFantom } from '../../../redux/accountManagement';
+import { transferMoneyViaFantom } from '../../../redux/accountManagement';
 import TransactionHistory from './transactions';
 import ShowPublicAddress from '../../components/public-address';
 import SendMoney from '../../general/sidebar';
@@ -120,34 +120,22 @@ class AccountDetails extends React.PureComponent {
    */
   transferMoney() {
     const { location, accountsList, transferMoney, getBalance } = this.props;
-    const { state } = location;
-    const account = accountsList[state.selectedAccountIndex];
     this.setState({
       isTransferringMoney: true,
     });
-    const isPasswordCorrect = Promise.resolve(isAccountPasswordCorrect(account));
-    isPasswordCorrect
-      .then(() => {
-        const isTransferredPromise = Promise.resolve(
-          transferMoneyViaFantom(location, accountsList, transferMoney, getBalance)
-        );
-        isTransferredPromise
-          .then(status => {
-            ToastStore.info(`${status.message}`);
-          })
-          .catch(error => {
-            ToastStore.info(`${error.message}`);
-          });
-        this.setState({
-          isTransferringMoney: false,
-        });
+    const isTransferredPromise = Promise.resolve(
+      transferMoneyViaFantom(location, accountsList, transferMoney, getBalance)
+    );
+    isTransferredPromise
+      .then(status => {
+        ToastStore.info(`${status.message}`);
       })
       .catch(error => {
-        this.setState({
-          isTransferringMoney: false,
-        });
         ToastStore.info(`${error.message}`);
       });
+    this.setState({
+      isTransferringMoney: false,
+    });
   }
 
   openTransferForm() {
@@ -258,7 +246,7 @@ AccountDetails.defaultTypes = {
 
 AccountDetails.propTypes = {
   accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  balanceInfo: PropTypes.number.isRequired,
+  balanceInfo: PropTypes.oneOfType([PropTypes.object]).isRequired,
   getBalance: PropTypes.func.isRequired,
   transferMoney: PropTypes.func.isRequired,
   location: PropTypes.oneOfType([PropTypes.object]).isRequired,
