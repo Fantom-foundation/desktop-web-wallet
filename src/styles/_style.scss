@@ -21,7 +21,7 @@ body {
   .title {
     letter-spacing: 4px;
     font: {
-      family: "Roboto Condensed";
+      family: "Roboto";
       size: 36px;
     }
     @media (max-width: 991px) {
@@ -143,7 +143,7 @@ body {
   h2,
   p {
     font: {
-      family: "Roboto Condensed";
+      family: "Lato";
     }
   }
   h2 {
@@ -171,7 +171,7 @@ body {
   p {
     margin-bottom: 80px;
     font: {
-      family: "Noto Sans";
+      family: "Roboto";
       size: 22px;
       weight: 300;
     }
@@ -185,7 +185,7 @@ body {
   label {
     margin-bottom: 30px;
     font: {
-      family: "Noto Sans";
+      family: "Roboto";
       size: 24px;
     }
     @media (max-width: 767px) {
@@ -208,6 +208,9 @@ body {
         repeat: no-repeat;
         size: auto 22px;
         position: left center;
+      }
+      font: {
+        family: "Roboto";
       }
       padding-left: 38px;
       border: 0px;

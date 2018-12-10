@@ -34,15 +34,6 @@ header {
       }
       .navbar-nav {
         .nav-item {
-          // @media (min-width: 768px) {
-          //   margin-left: 50px;
-          // }
-          // @media (min-width: 992px) {
-          //   margin-left: 100px;
-          // }
-          // @media (min-width: 1201px) {
-          //   margin-left: 160px;
-          // }
           @media (min-width: 768px) {
             margin-left: 20px;
           }
@@ -53,16 +44,15 @@ header {
             margin-left: 0 !important;
             border-top: 0px !important;
           }
-
           font: {
-            family: $navlink-fontFamily;
-            size: 16px;
+            family: map-get($font, header-menu);
+            size: map-get($font, header-menu-size);
             weight: 400;
           }
           @media (max-width: 767px) {
             border-top: 1px solid #000;
             font: {
-              size: 14px;
+              size: map-get($font, header-menu-size) - 2px;
             }
           }
           .nav-link {
@@ -105,8 +95,8 @@ header {
     margin-bottom: 20px;
     color: map-get($color, footer-menu-title);
     font: {
-      family: $footerTitle-fontFamily;
-      size: 20px;
+      family: map-get($font, footer-menu-title);
+      size: map-get($font, footer-menu-title-size);
     }
   }
   .menu {
@@ -116,14 +106,14 @@ header {
       .menu-link {
         color: map-get($color, footer-menu-link);
         font: {
-          family: $footerlink-fontFamily;
-          size: 16px;
-          weight: 300;
+          family: map-get($font, footer-menu-link);
+          size: map-get($font, footer-menu-link-size);
+          weight: map-get($font, footer-menu-link-weight);
         }
 
         @media (max-width: 767px) {
           font: {
-            size: 14px;
+            size: map-get($font, footer-menu-link-size) - 2px;
           }
         }
       }

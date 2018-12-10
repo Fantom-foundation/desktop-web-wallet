@@ -28,7 +28,7 @@ $border-radius: 8px;
       display: inline-block;
       color: map-get($color, mnemonic-collector-list);
       font: {
-        family: "Roboto Condensed";
+        family: "Lato";
         size: 26px;
       }
       @media (max-width: 767px) {
@@ -64,8 +64,9 @@ $border-radius: 8px;
         color: #fff;
         text-align: center;
         font: {
-          family: "Roboto Condensed";
+          family: "Roboto";
           size: 26px;
+          weight: 400;
         }
 
         @media (max-width: 576px) {

@@ -30,8 +30,8 @@
           color: map-get($color, modal-title);
 
           font: {
-            family: "Noto Sans";
-            weight: bold;
+            family: map-get($font, modal-title);
+            weight: map-get($font, modal-title-weight);
           }
         }
         button {
