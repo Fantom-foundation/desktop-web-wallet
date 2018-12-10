@@ -4,6 +4,9 @@ import EthUtil from 'ethereumjs-util';
 import keythereum from 'keythereum';
 import Bip39 from 'bip39';
 import Web3 from 'web3';
+import axios from 'axios';
+import { getStore } from '../store';
+import config from '../config';
 
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
 
@@ -60,6 +63,77 @@ export function transferMoneyViaFantom(location, accountsList, transferMoney, ge
   });
 }
 
+function getNonceFantom(address) {
+  return new Promise((resolve, reject) => {
+    axios
+      .get(`${config.apiUrl}/account/${address}`)
+      .then(response => {
+        console.log('nonce', response.data.nonce);
+        resolve(response.data.nonce);
+        // tx.nonce = response.data.nonce
+        // generateRawTx(tx, priv)
+        return true;
+      })
+      .catch(error => {
+        console.log(error);
+        reject(error);
+      });
+  });
+}
+
+/**
+ * transferMoneyViaFantom()  : To transfer funds via testnet's own endpoint
+ *@param {*} from : Address of account from which to transfer.
+ *@param {*} to : Address of account to whom to transfer.
+ *@param {*} value : Amount to be transfered.
+ *@param {*} memo : : Message text for transaction.
+ *@param {*} privateKey : Private key of account from which to transfer.
+ */
+export function transferFantom(from, to, value, memo, privateKey) {
+  return new Promise((resolve, reject) => {
+    getNonceFantom(from)
+      .then(count => {
+        const privateKeyBuffer = EthUtil.toBuffer(privateKey);
+        const rawTx = {
+          from,
+          to,
+          value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
+          // gasPrice: '0x09184e72a000',
+          gasPrice: '0x000000000001',
+          gasLimit: '0x27100',
+          nonce: Web3.utils.toHex(count),
+          data: memo,
+        };
+        const tx = new Tx(rawTx);
+        tx.sign(privateKeyBuffer);
+        const serializedTx = tx.serialize();
+
+        const hexTx = `0x${serializedTx.toString('hex')}`;
+        axios
+          .post(`${config.apiUrl}/sendRawTransaction`, hexTx)
+          .then(response => {
+            if (response && response.data && response.data.txHash) {
+              resolve({ success: true, hash: response.data.txHash });
+            } else {
+              // eslint-disable-next-line prefer-promise-reject-errors
+              reject({ message: 'Invalid response received' });
+            }
+            return true;
+          })
+          .catch(error => {
+            console.log(error);
+            reject(error);
+          });
+        return true;
+      })
+      .catch(err => {
+        console.log(err, 'err');
+        // eslint-disable-next-line prefer-promise-reject-errors
+        reject({ success: false });
+      });
+  });
+}
+
 /**
  * @param {To get Selected Account index} location
  * @param {Accounts list} accountsList
@@ -102,3 +176,59 @@ export function walletSetup(mnemonic) {
 
   return { publicAddress, privateKey };
 }
+
+/**
+ *
+ * @param {String} address
+ * To get data of file having keystore contain address.
+ */
+export const getKeystoreDataOfAddress = address =>
+  new Promise((resolve, reject) => {
+    const store = getStore();
+    const state = store.getState();
+    const accountsList =
+      state.accounts && state.accounts.accountsList ? state.accounts.accountsList : [];
+    if (accountsList && accountsList.length) {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const account of accountsList) {
+        if (account.publicAddress === address) {
+          resolve({ success: true, result: account.keystore });
+        }
+      }
+    }
+    // eslint-disable-next-line prefer-promise-reject-errors
+    reject({ error: true, message: 'Not able to get keystore.' });
+  });
+
+/**
+ *
+ * @param {String} address
+ * @param {String} password
+ * To get private key from keystore. We just need to pass
+ * public address and password.
+ */
+export const getPrivateKeyOfAddress = (address, password) =>
+  new Promise((resolve, reject) => {
+    getKeystoreDataOfAddress(address)
+      .then(result => {
+        if (result.success && result.result) {
+          keythereum.recover(password, result.result, dataRes => {
+            if (dataRes instanceof Buffer) {
+              const hexVal = EthUtil.bufferToHex(dataRes);
+
+              resolve({ success: true, result: hexVal });
+            } else if (dataRes instanceof Error) {
+              reject(dataRes);
+            } else {
+              reject(new Error('Invalid Password.'));
+            }
+          });
+        } else {
+          reject(new Error('Unable to read data.'));
+        }
+        return true;
+      })
+      .catch(err => {
+        reject(err);
+      });
+  });

@@ -1,7 +1,8 @@
+/* eslint-disable no-console */
+
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import QRCode from 'qrcode.react';
@@ -16,6 +17,7 @@ import TransactionHistory from './transactions';
 import ShowPublicAddress from '../../components/public-address';
 import SendMoney from '../../general/sidebar';
 import HttpDataProvider from '../../../utility/httpProvider';
+import TransactionStatusModal from '../../components/modals/transaction-status-modal/index';
 
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
 
@@ -28,10 +30,13 @@ class AccountDetails extends React.PureComponent {
     this.state = {
       isTransferringMoney: false,
       isCheckSend: false,
+      openTxnStatusModal: false,
+      statusTextBody: '',
     };
     this.transferMoney = this.transferMoney.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
     this.openTransferForm = this.openTransferForm.bind(this);
+    this.toggleTxnStatusModal = this.toggleTxnStatusModal.bind(this);
     // This will call the refresh the balance after every one second
     // interval = setInterval(() => {
     //   getBalance(publicAddress);
@@ -128,10 +133,16 @@ class AccountDetails extends React.PureComponent {
     );
     isTransferredPromise
       .then(status => {
-        ToastStore.info(`${status.message}`);
+        this.setState({
+          openTxnStatusModal: true,
+          statusTextBody: status.message,
+        });
       })
       .catch(error => {
-        ToastStore.info(`${error.message}`);
+        this.setState({
+          openTxnStatusModal: true,
+          statusTextBody: error.message,
+        });
       });
     this.setState({
       isTransferringMoney: false,
@@ -145,9 +156,19 @@ class AccountDetails extends React.PureComponent {
     });
   }
 
+  /**
+   * This method will toggle the Transaction Status modal
+   */
+  toggleTxnStatusModal() {
+    this.setState({
+      openTxnStatusModal: false,
+      statusTextBody: '',
+    });
+  }
+
   render() {
     const { accountsList, location, balanceInfo } = this.props;
-    const { isTransferringMoney, isCheckSend } = this.state;
+    const { isTransferringMoney, isCheckSend, openTxnStatusModal, statusTextBody } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
     const balance = balanceInfo[account.publicAddress];
@@ -215,14 +236,20 @@ class AccountDetails extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
-            {isCheckSend ||
+
+            {isCheckSend &&
               (true && (
                 <SendMoney
                   openTransferForm={this.openTransferForm}
                   transferMoney={this.transferMoney}
                 />
               ))}
-            <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore} />
+            <TransactionStatusModal
+              openTxnStatusModal={openTxnStatusModal}
+              toggleTxnStatusModal={this.toggleTxnStatusModal}
+              statusTextHeader="Transfer Status"
+              statusTextBody={statusTextBody}
+            />
           </section>
         </Layout>
       </div>

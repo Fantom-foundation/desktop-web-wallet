@@ -16,6 +16,15 @@ body {
     color: #313131 !important;
   }
 }
+.hide-input {
+  width: 0;
+  height: 0;
+  opacity: 0;
+  position: fixed;
+  z-index: -99999;
+  left: -100px;
+  top: -100px;
+}
 .page-title {
   padding: 60px 0;
   .title {
@@ -236,4 +245,30 @@ body {
 }
 .modal-dialog {
   margin-top: 170px;
+}
+.warning-msg {
+  text-align: center;
+  img {
+    height: 20px;
+    margin-bottom: 10px;
+  }
+  h2 {
+    color: #ffcc4d;
+    font: {
+      family: "Roboto";
+      size: 20px;
+      weight: 500;
+    }
+  }
+  p {
+    color: #fff;
+    font: {
+      family: "Lato";
+      size: 14px;
+    }
+  }
+}
+.loader-center-align {
+  display: flex;
+  justify-content: center;
 }

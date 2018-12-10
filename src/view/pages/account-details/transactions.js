@@ -98,9 +98,7 @@ class TransactionHistory extends React.PureComponent {
           </div>
         </div>
         <div id="acc-cards" className="">
-          <Row>
-            <Col>{transactionsHistory}</Col>
-          </Row>
+          {transactionsHistory}
         </div>
       </React.Fragment>
     );

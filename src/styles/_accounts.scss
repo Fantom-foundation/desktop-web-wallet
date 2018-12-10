@@ -346,12 +346,28 @@
 }
 #acc-cards {
   color: #fff;
-
+  @media (min-width: 992px) {
+    height: 628px;
+    overflow-y: auto;
+    padding-right: 7px;
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 0;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #797979;
+      border-radius: 30px;
+    }
+  }
   font: {
     family: "Noto Sans";
   }
   .card {
     margin-top: 10px;
+    &:nth-last-child(1) {
+      margin-bottom: 10px;
+    }
     @media (max-width: 767px) {
       margin-top: 20px;
     }

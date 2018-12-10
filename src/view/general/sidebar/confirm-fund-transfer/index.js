@@ -2,21 +2,18 @@
 
 import React, { Component } from 'react';
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-// import TextField from './textField';
-import warningImg from './warning.svg';
-import TransactionStore from '../../../store/transactionStore';
-import { transferMoney } from './transfer';
-import addressImage from '../../../images/addressDisable.svg';
-import coinImage from '../../../images/coin.svg';
-// import memoImage from '../../../images/memo.svg';
-import fantomLogo from '../../../images/Logo/small-logo-white.svg';
-import Loader from '../../../general/loader/index';
-import { LOADER_COLOR } from '../../../constants/index';
+import warningImg from '../../../../images/warning.svg';
+// import TransactionStore from '../../../store/transactionStore';
+import { transferFantom } from '../../../../redux/accountManagement/index';
+import addressImage from '../../../../images/addressDisable.svg';
+import coinImage from '../../../../images/coin.svg';
+import fantomLogo from '../../../../images/logo/small-logo-white.svg';
+import Loader from '../../loader/index';
 
 /**
- * SendMoney: This component is meant for rendering modal for Check send.
+ * ConfirmFunds: This component is meant for rendering modal for Check send.
  */
-export default class SendMoney extends Component {
+export default class ConfirmFunds extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,22 +34,22 @@ export default class SendMoney extends Component {
    * If the transfer done successfully then , modal is closed and wallet balance and transaction details is updated.
    */
   transferMoney(from, to, value, memo, privateKey) {
-    const { handleModalClose, refreshWalletDetail } = this.props;
-    transferMoney(from, to, value, memo, privateKey)
+    const { handleModalClose, refreshWalletDetail, transferMoney, openTransferForm } = this.props;
+    transferFantom(from, to, value, memo, privateKey)
       .then(data => {
         if (data.hash && data.hash !== '') {
-          this.addTransactionLocally(value, from, to, data.hash, false);
+          // this.addTransactionLocally(value, from, to, data.hash, false);
           console.log(`Transfer successful with transaction hash: ${data.hash}`);
           this.setState({
             loading: false,
           });
 
           setTimeout(() => {
-            if (handleModalClose) {
-              handleModalClose();
+            if (transferMoney) {
+              transferMoney();
             }
-            if (refreshWalletDetail) {
-              refreshWalletDetail(from, to);
+            if (openTransferForm) {
+              openTransferForm();
             }
           }, 1000);
 
@@ -65,37 +62,37 @@ export default class SendMoney extends Component {
       .catch(err => {
         const message = err.message || 'Invalid error. Please check the data and try again.';
         console.log(`Transfer error message: `, message);
-        this.addTransactionLocally(value, from, to, '', true);
+        // this.addTransactionLocally(value, from, to, '', true);
         this.setState({ errorMessage: message });
       });
   }
 
-  addTransactionLocally(amount, from, to, hash, isError) {
-    const data = {
-      type: 'SENT',
-      amount,
-      transactionId: '',
-      time: new Date().getTime(),
-      amountUnit: 'FTM',
-      from,
-      to,
-      isError,
-      hash,
-    };
+  // addTransactionLocally(amount, from, to, hash, isError) {
+  //   const data = {
+  //     type: 'SENT',
+  //     amount,
+  //     transactionId: '',
+  //     time: new Date().getTime(),
+  //     amountUnit: 'FTM',
+  //     from,
+  //     to,
+  //     isError,
+  //     hash,
+  //   };
 
-    const key = 'Transactions';
-    const newObj = TransactionStore.get(key);
-    const objArr = newObj || [];
-    objArr.push(data);
-    TransactionStore.set(key, objArr);
-  }
+  //   const key = 'Transactions';
+  //   const newObj = TransactionStore.get(key);
+  //   const objArr = newObj || [];
+  //   objArr.push(data);
+  //   TransactionStore.set(key, objArr);
+  // }
 
   renderLoader() {
     const { loading } = this.state;
     if (loading) {
       return (
         <div className="loader-holder loader-center-align">
-          <Loader sizeUnit="px" size={25} color={LOADER_COLOR} loading={loading} />
+          <Loader sizeUnit="px" size={25} color="#549aec" loading={loading} />
         </div>
       );
     }
