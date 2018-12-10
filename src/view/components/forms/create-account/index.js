@@ -83,8 +83,8 @@ export default class CreateAccount extends React.PureComponent {
                 8+ Characters
               </li>
               <li className="false">
-                <img src={containCapitalLetter ? check : cross} alt="invalid" className="ico" />1
-                Upper Case Letter
+                <img src={containCapitalLetter ? check : cross} alt="invalid" className="ico" />
+                1+ Upper Case Letter
               </li>
               <li className="false">
                 <img src={containNumber ? check : cross} alt="invalid" className="ico" />

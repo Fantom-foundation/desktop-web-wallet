@@ -241,20 +241,11 @@ class Confirm extends React.PureComponent {
         <section className="bg-dark">
           <Container>
             <Row>
-              <Col className="px-0">
-                <div className="add-wallet">
-                  <h2 className="title ">
-                    <span>Enter Your Mnemonic</span>
-                  </h2>
-                  <Button>
-                    <i className="fas fa-sync-alt" />
-                  </Button>
-                </div>
-              </Col>
-            </Row>
-            <Row>
               <Col>
                 <div id="mnemonic-selector">
+                  <h2 className="text-white">
+                    Enter your mnemonics in the correct order to create your account below
+                  </h2>
                   <Row className="bg-dark-light">
                     <Col>
                       <div className="mnemonic-container">

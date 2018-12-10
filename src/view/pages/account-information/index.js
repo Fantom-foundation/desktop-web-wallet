@@ -156,7 +156,7 @@ class AccountInformation extends React.PureComponent {
               <Col>
                 <p className="text-white">
                   Please back up the recovery phase now. Make sure to keep it private and secure, it
-                  allows full and unlimited access to your account and help you to restore your
+                  allows full and unlimited access to your account and can be used to restore your
                   wallet.
                 </p>
                 <FormGroup>
