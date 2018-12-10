@@ -166,7 +166,7 @@ class AccountInformation extends React.PureComponent {
                       {'"'}
                       {CONFIRMATION_PHASE}
                       {'"'}
-                    </span>
+                    </span>{' '}
                     below to confirm it is backed up.
                   </Label>
                   <div className="input-holder">

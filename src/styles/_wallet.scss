@@ -17,7 +17,7 @@
       color: map-get($color, add-wallet-title-background);
     }
     font: {
-      family: "Noto Sans";
+      family: map-get($font, wallet-bar);
       size: 22px;
       weight: 300;
     }
@@ -46,8 +46,9 @@
     flex-grow: 1;
     max-width: 100%;
     font: {
-      family: "Roboto Condensed";
-      size: 24px;
+      family: map-get($font, wallet-bar);
+      size: map-get($font, wallet-bar-size);
+      weight: 400;
     }
     padding: 12px 30px;
     margin: 0;
@@ -57,13 +58,13 @@
     }
     @media (max-width: 991px) {
       font: {
-        size: 22px;
+        size: map-get($font, wallet-bar-size) - 2px;
       }
     }
     @media (max-width: 767px) {
       padding: 12px 18px;
       font: {
-        size: 20px;
+        size: map-get($font, wallet-bar-size) - 4px;
       }
     }
   }

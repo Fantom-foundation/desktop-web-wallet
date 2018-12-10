@@ -1,5 +1,5 @@
 .btn {
-  font-family: "Noto Sans";
+  font-family: map-get($font, btn);
   padding: {
     left: 30px;
     right: 30px;

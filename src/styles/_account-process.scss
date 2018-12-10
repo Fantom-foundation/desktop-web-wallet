@@ -82,7 +82,7 @@ $transition-time: 0.3s;
       color: #fff;
       margin-top: 10px;
       font: {
-        family: "Roboto Condensed";
+        family: map-get($font, acc-process);
         size: 16px;
       }
       @media (max-width: 767px) {

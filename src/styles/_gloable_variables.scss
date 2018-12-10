@@ -35,7 +35,25 @@ $color: (
   modal-footer-bg: #f7f5f4
 );
 
-$navlink-fontFamily: "Noto Sans";
-$footerTitle-fontFamily: "Noto Sans";
-$footerlink-fontFamily: "Noto Sans";
+$primary-font: "Roboto";
+$secondary-font: "Lato";
+
+$font: (
+  header-menu: $primary-font,
+  header-menu-size: 16px,
+  footer-menu-title: $primary-font,
+  footer-menu-title-size: 20px,
+  footer-menu-link: $secondary-font,
+  footer-menu-link-weight: 300,
+  footer-menu-link-size: 16px,
+  landing-banner: $secondary-font,
+  page-title: $primary-font,
+  acc-process: $primary-font,
+  wallet-bar: $primary-font,
+  wallet-bar-size: 24px,
+  modal-title: $primary-font,
+  modal-title-weight: bold,
+  btn: $primary-font
+);
+
 $navlink-textTransform: uppercase;
