@@ -1,19 +1,22 @@
 /* eslint-disable */
 
 import React, { Component } from 'react';
+import { compose } from 'redux';
+import { connect } from 'react-redux';
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import warningImg from '../../../../images/warning.svg';
 // import TransactionStore from '../../../store/transactionStore';
 import { transferFantom } from '../../../../redux/accountManagement/index';
 import addressImage from '../../../../images/addressDisable.svg';
 import coinImage from '../../../../images/coin.svg';
+import { getFantomBalance } from '../../../../redux/getBalance/action';
 import fantomLogo from '../../../../images/logo/small-logo-white.svg';
 import Loader from '../../loader/index';
 
 /**
  * ConfirmFunds: This component is meant for rendering modal for Check send.
  */
-export default class ConfirmFunds extends Component {
+class ConfirmFunds extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -34,8 +37,8 @@ export default class ConfirmFunds extends Component {
    * If the transfer done successfully then , modal is closed and wallet balance and transaction details is updated.
    */
   transferMoney(from, to, value, memo, privateKey) {
-    const { handleModalClose, refreshWalletDetail, transferMoney, openTransferForm } = this.props;
-    transferFantom(from, to, value, memo, privateKey, transferMoney)
+    const { transferMoney, openTransferForm, getBalance } = this.props;
+    transferFantom(from, to, value, memo, privateKey, transferMoney, getBalance)
       .then(data => {
         if (data.hash && data.hash !== '') {
           // this.addTransactionLocally(value, from, to, data.hash, false);
@@ -45,9 +48,6 @@ export default class ConfirmFunds extends Component {
           });
 
           setTimeout(() => {
-            // if (transferMoney) {
-            //   transferMoney();
-            // }
             if (openTransferForm) {
               openTransferForm();
             }
@@ -66,26 +66,6 @@ export default class ConfirmFunds extends Component {
         this.setState({ errorMessage: message });
       });
   }
-
-  // addTransactionLocally(amount, from, to, hash, isError) {
-  //   const data = {
-  //     type: 'SENT',
-  //     amount,
-  //     transactionId: '',
-  //     time: new Date().getTime(),
-  //     amountUnit: 'FTM',
-  //     from,
-  //     to,
-  //     isError,
-  //     hash,
-  //   };
-
-  //   const key = 'Transactions';
-  //   const newObj = TransactionStore.get(key);
-  //   const objArr = newObj || [];
-  //   objArr.push(data);
-  //   TransactionStore.set(key, objArr);
-  // }
 
   renderLoader() {
     const { loading } = this.state;
@@ -231,3 +211,14 @@ export default class ConfirmFunds extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  getBalance: data => dispatch(getFantomBalance(data)),
+});
+
+export default compose(
+  connect(
+    null,
+    mapDispatchToProps
+  )
+)(ConfirmFunds);

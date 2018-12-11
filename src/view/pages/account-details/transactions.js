@@ -17,6 +17,7 @@ class TransactionHistory extends React.PureComponent {
       txType: ALL_TX,
     };
     this.filterTransaction = this.filterTransaction.bind(this);
+    this.getNoTransactionsText = this.getNoTransactionsText.bind(this);
   }
 
   componentWillMount() {
@@ -25,17 +26,29 @@ class TransactionHistory extends React.PureComponent {
   }
 
   /**
+   * This method will return the text depending upon the sorting type
+   */
+  getNoTransactionsText() {
+    const { txType } = this.state;
+    if (txType === SENT_TX) {
+      return '(No sent transactions history)';
+    }
+    if (txType === RECEIVED_TX) {
+      return '(No received transactions history)';
+    }
+
+    return '(Your recent transactions will be displayed here)';
+  }
+
+  /**
    * This method will return the UI for transactions
    */
   getTransactionHistory() {
     const { transactions, publicAddress } = this.props;
     const { txType } = this.state;
+    const text = this.getNoTransactionsText();
 
-    const allTransaction = (
-      <p className="m-msg text-white  text-center mb-0">
-        (Your recent transactions will be displayed here)
-      </p>
-    );
+    const allTransaction = <p className="m-msg text-white  text-center mb-0">{text}</p>;
 
     const transactionsHistory = [];
     if (transactions && transactions.length > 0) {
@@ -63,7 +76,7 @@ class TransactionHistory extends React.PureComponent {
                       <span>TX#</span> {transactions[i].hexTx}
                     </p>
                     <p>
-                      <span>{isReceived ? 'From:' : 'To:'}</span>
+                      <span>{isReceived ? 'From: ' : 'To: '}</span>
                       {isReceived ? transactions[i].from : transactions[i].to}
                     </p>
                   </div>

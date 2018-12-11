@@ -96,7 +96,7 @@ function getNonceFantom(address) {
  *@param {*} memo : : Message text for transaction.
  *@param {*} privateKey : Private key of account from which to transfer.
  */
-export function transferFantom(from, to, value, memo, privateKey, transferMoney) {
+export function transferFantom(from, to, value, memo, privateKey, transferMoney, getBalance) {
   return new Promise((resolve, reject) => {
     getNonceFantom(from)
       .then(count => {
@@ -129,6 +129,7 @@ export function transferFantom(from, to, value, memo, privateKey, transferMoney)
                 date: new Date().getTime(),
               };
               transferMoney(transferData);
+              getBalance(from);
               resolve({ success: true, hash: response.data.txHash });
             } else {
               // eslint-disable-next-line prefer-promise-reject-errors

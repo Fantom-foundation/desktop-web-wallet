@@ -6,6 +6,7 @@ import { compose } from 'redux';
 import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import QRCode from 'qrcode.react';
+import _ from 'lodash';
 import Web3 from 'web3';
 import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
@@ -20,12 +21,16 @@ import TransactionStatusModal from '../../components/modals/transaction-status-m
 
 const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
 
-// const interval = null;
+let interval = null;
 class AccountDetails extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { accountsList } = props;
-    // const publicAddress = this.getAccountPublicAddress();
+    const { accountsList, getBalance } = props;
+    const publicAddress = this.getAccountPublicAddress();
+    const selectedAccount = _.filter(
+      accountsList,
+      account => account.publicAddress === publicAddress
+    );
     this.state = {
       isTransferringMoney: false,
       ftmAmount: '',
@@ -34,7 +39,7 @@ class AccountDetails extends React.PureComponent {
       isValidAddress: false,
       password: '',
       verificationError: '',
-      selectedAccount: accountsList[0],
+      selectedAccount: selectedAccount[0],
       isCheckSend: false,
       openTxnStatusModal: false,
       statusTextBody: '',
@@ -47,9 +52,9 @@ class AccountDetails extends React.PureComponent {
     this.toggleTxnStatusModal = this.toggleTxnStatusModal.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     // This will call the refresh the balance after every one second
-    // interval = setInterval(() => {
-    //   getBalance(publicAddress);
-    // }, 1000);
+    interval = setInterval(() => {
+      getBalance(publicAddress);
+    }, 5000);
   }
 
   componentWillMount() {
@@ -63,7 +68,7 @@ class AccountDetails extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    // clearInterval(interval);
+    clearInterval(interval);
   }
 
   onUpdate(key, value) {

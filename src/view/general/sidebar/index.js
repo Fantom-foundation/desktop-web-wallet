@@ -17,6 +17,7 @@ class SendMoney extends Component {
     };
     this.onConfirmSend = this.onConfirmSend.bind(this);
     this.handleGoBack = this.handleGoBack.bind(this);
+    this.getPrivateKeyOfAddress = this.getPrivateKeyOfAddress.bind(this);
   }
 
   onConfirmSend(toAddress, publicAddress, password) {

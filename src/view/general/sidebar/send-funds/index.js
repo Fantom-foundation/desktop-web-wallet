@@ -207,10 +207,6 @@ class SendMoney extends React.PureComponent {
     const isValidAddress = this.addressVerification(toAddress);
     const isValidAmount = this.ftmAmmountVerification(ftmAmount);
     const isPasswordCorrect = Promise.resolve(isAccountPasswordCorrect(selectedAccount, password));
-    const accountList = Promise.resolve(
-      this.getPrivateKeyOfAddress(selectedAccount.publicAddress, password)
-    );
-    console.log('accountList : ', accountList);
     if (selectedAccount.publicAddress === toAddress) {
       isError = true;
       this.setState({
@@ -225,7 +221,7 @@ class SendMoney extends React.PureComponent {
       });
       return;
     }
-    if (false) {
+    if (!isValidAmount.status) {
       isError = true;
       this.setState({
         ammountErrText: isValidAmount.message,
