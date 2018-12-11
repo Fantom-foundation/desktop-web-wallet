@@ -346,6 +346,11 @@
 }
 #acc-cards {
   color: #fff;
+
+  position: relative;
+  min-height: 200px;
+  height: calc(100% - 50px);
+
   @media (min-width: 992px) {
     height: 628px;
     overflow-y: auto;
@@ -360,8 +365,14 @@
       border-radius: 30px;
     }
   }
+  .m-msg {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+  }
   font: {
-    family: "Noto Sans";
+    family: "Roboto";
   }
   .card {
     margin-top: 10px;

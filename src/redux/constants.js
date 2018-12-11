@@ -14,6 +14,9 @@ export const SEND_RAW_TRANSACTIONS = 'SEND_RAW_TRANSACTIONS';
 export const GET_FANTOM_TRANSACTIONS = 'GET_FANTOM_TRANSACTIONS';
 export const TRANSFER_MONEY = 'TRANSFER_MONEY';
 export const ADD_TRANSACTION = 'ADD_TRANSACTION';
+export const ALL_TX = 'All';
+export const SENT_TX = 'Sent';
+export const RECEIVED_TX = 'Received';
 
 export const months = [
   'Jan',
