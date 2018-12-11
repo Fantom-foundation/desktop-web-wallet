@@ -1,11 +1,8 @@
-/* eslint-disable */
-
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import warningImg from '../../../../images/warning.svg';
-// import TransactionStore from '../../../store/transactionStore';
 import { transferFantom } from '../../../../redux/accountManagement/index';
 import addressImage from '../../../../images/addressDisable.svg';
 import coinImage from '../../../../images/coin.svg';
@@ -41,7 +38,6 @@ class ConfirmFunds extends Component {
     transferFantom(from, to, value, memo, privateKey, transferMoney, getBalance)
       .then(data => {
         if (data.hash && data.hash !== '') {
-          // this.addTransactionLocally(value, from, to, data.hash, false);
           console.log(`Transfer successful with transaction hash: ${data.hash}`);
           this.setState({
             loading: false,
@@ -56,27 +52,12 @@ class ConfirmFunds extends Component {
           return;
         }
         console.log(`Transfer successful.`);
-
-        return true;
       })
       .catch(err => {
         const message = err.message || 'Invalid error. Please check the data and try again.';
         console.log(`Transfer error message: `, message);
-        // this.addTransactionLocally(value, from, to, '', true);
         this.setState({ errorMessage: message });
       });
-  }
-
-  renderLoader() {
-    const { loading } = this.state;
-    if (loading) {
-      return (
-        <div className="loader-holder loader-center-align">
-          <Loader sizeUnit="px" size={25} color="#549aec" loading={loading} />
-        </div>
-      );
-    }
-    return null;
   }
 
   /**
@@ -90,8 +71,23 @@ class ConfirmFunds extends Component {
     this.transferMoney(publicKey, address, amount, memo, privateKey);
   }
 
+  /**
+   * This method will return the loader component
+   */
+  renderLoader() {
+    const { loading } = this.state;
+    if (loading) {
+      return (
+        <div className="loader-holder loader-center-align">
+          <Loader sizeUnit="px" size={25} color="#549aec" loading={loading} />
+        </div>
+      );
+    }
+    return null;
+  }
+
   render() {
-    const { address, amount, memo, rotate, onRefresh } = this.props;
+    const { address, amount, memo, rotate, onRefresh, handleGoBack } = this.props;
     const { errorMessage, coin } = this.state;
     return (
       <React.Fragment>
@@ -197,7 +193,7 @@ class ConfirmFunds extends Component {
                     color="primary"
                     className="text-uppercase bordered "
                     style={{ marginTop: '18px' }}
-                    onClick={() => this.props.handleGoBack()}
+                    onClick={handleGoBack}
                   >
                     Back
                   </Button>

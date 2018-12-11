@@ -4,6 +4,7 @@ import { compose } from 'redux';
 import { Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
+import _ from 'lodash';
 import DropDown from '../dropDown';
 import { months, ALL_TX, SENT_TX, RECEIVED_TX } from '../../../../redux/constants';
 import { getTransactionsHistory } from '../../../../redux/getTransactions/actions';
@@ -97,6 +98,7 @@ class TransactionHistory extends React.PureComponent {
     }
 
     if (transactionsHistory.length) {
+      _.reverse(transactionsHistory);
       return transactionsHistory;
     }
 
