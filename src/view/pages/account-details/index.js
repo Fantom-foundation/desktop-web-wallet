@@ -222,7 +222,7 @@ class AccountDetails extends React.PureComponent {
     console.log(this.state, 'this.statethis.state');
     return (
       <div id="account-datails" className="account-datails">
-        <Layout className={`${isCheckSend || (true && 'blur')}`}>
+        <Layout className={`${isCheckSend && 'blur'}`}>
           <section style={{ padding: '30px 0' }}>
             <Container className="bg-dark acc-details-container">
               <Row>
@@ -284,22 +284,6 @@ class AccountDetails extends React.PureComponent {
               </Row>
             </Container>
 
-            {isCheckSend && (
-              <SendMoney
-                openTransferForm={this.openTransferForm}
-                transferMoney={transferMoney}
-                ftmAmount={ftmAmount}
-                optionalMessage={optionalMessage}
-                gasPrice={gasPrice}
-                isValidAddress={isValidAddress}
-                password={password}
-                verificationError={verificationError}
-                toAddress={toAddress}
-                onUpdate={this.onUpdate}
-                setAccountType={this.setAccountType}
-                selectedAccount={selectedAccount}
-              />
-            )}
             <TransactionStatusModal
               openTxnStatusModal={openTxnStatusModal}
               toggleTxnStatusModal={this.toggleTxnStatusModal}
@@ -308,14 +292,24 @@ class AccountDetails extends React.PureComponent {
             />
           </section>
         </Layout>
-        {isCheckSend ||
-          (true && (
-            <SendMoney
-              addClass={addClass}
-              openTransferForm={this.openTransferForm}
-              transferMoney={this.transferMoney}
-            />
-          ))}
+
+        {isCheckSend && (
+          <SendMoney
+            openTransferForm={this.openTransferForm}
+            transferMoney={transferMoney}
+            ftmAmount={ftmAmount}
+            optionalMessage={optionalMessage}
+            gasPrice={gasPrice}
+            isValidAddress={isValidAddress}
+            password={password}
+            verificationError={verificationError}
+            toAddress={toAddress}
+            onUpdate={this.onUpdate}
+            setAccountType={this.setAccountType}
+            selectedAccount={selectedAccount}
+            addClass={addClass}
+          />
+        )}
       </div>
     );
   }
