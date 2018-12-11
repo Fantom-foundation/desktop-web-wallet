@@ -11,73 +11,21 @@ import amountImage from '../../../../images/amount.svg';
 import passwordImage from '../../../../images/password.svg';
 import { getFantomBalance } from '../../../../redux/getBalance/action';
 import Loader from '../../loader';
-import AccountList from '../../../pages/account-details/accountList';
+import AccountList from '../../../pages/account-details/transferMoney/accountList';
 import { isAccountPasswordCorrect } from '../../../../redux/accountManagement';
 
 class SendMoney extends React.PureComponent {
   constructor(props) {
     super(props);
-    // eslint-disable-next-line react/prop-types
     this.state = {
       address: '',
-      // eslint-disable-next-line react/no-unused-state
-      // accountStore: [],
       isValidAddress: false,
-      // privateKey: '',
-      // publicKey: '',
       loading: false,
-      // toAddress: '',
     };
-    // this.onUpdate = this.onUpdate.bind(this);
-    // this.setAccountType = this.setAccountType.bind(this);
     this.disableContinueButton = this.disableContinueButton.bind(this);
     this.isTransferDataCorrect = this.isTransferDataCorrect.bind(this);
     this.onConfirmSend = this.onConfirmSend.bind(this);
   }
-
-  // componentWillReceiveProps(nextProps){
-  //     const { storeKeys,  publicKey, accountName  } = nextProps;
-  //     const userAccountStore = Store.store;
-  //     const accountDetailList = [];
-  //     for(const key of storeKeys){
-  //         accountDetailList.push(userAccountStore[key]);
-  //     }
-  //     this.setState({
-  //         accountStore: accountDetailList,
-  //         publicKey,
-  //         accountType: accountName,
-  //     });
-  // }
-
-  // componentDidMount() {
-  //   const { storeKeys, publicKey, accountName } = this.props;
-  //   const userAccountStore = Store.store;
-  //   const accountDetailList = [];
-  //   for (const key of storeKeys) {
-  //     accountDetailList.push(userAccountStore[key]);
-  //   }
-  //   this.setState({
-  //     accountStore: accountDetailList,
-  //     publicKey,
-  //     accountType: accountName,
-  //   });
-  // }
-
-  // setAddress(e) {
-  //   const address = e.target.value.trim();
-  //   this.setState({
-  //     address,
-  //   });
-  //   this.addressVerification(address);
-  // }
-
-  // setFTMAmount(e) {
-  //   const ftmAmount = e.target.value.trim();
-  //   this.setState({
-  //     ftmAmount,
-  //   });
-  //   this.ftmAmmountVerification(ftmAmount);
-  // }
 
   onUpdate(key, value) {
     this.setState({
@@ -88,59 +36,6 @@ class SendMoney extends React.PureComponent {
   onConfirmSend() {
     this.isTransferDataCorrect();
   }
-
-  /**
-   * setAccountType() :  To set public key of selected account, and fetch balance for it.
-   */
-
-  // setAccountType = (e, account) => {
-  //   const { getBalance } = this.props;
-  //   this.setState({
-  //     selectedAccount: account,
-  //   });
-  //   getBalance(account.publicAddress);
-  // };
-
-  // setMessage(e) {
-  //   const optionalMessage = e.target.value;
-  //   this.setState({
-  //     optionalMessage,
-  //   });
-  // }
-
-  /**
-   * handleCheckSend() : User can transfer funds,
-   *  only if all detail is filled and private key is retrived for public key and password in state.
-   */
-
-  // handleCheckSend() {
-  //   const {
-  //     password,
-  //     publicKey,
-  //     loading,
-  //     addressErrText,
-  //     ammountErrText,
-  //     address,
-  //     ftmAmount,
-  //   } = this.state;
-  //   if (
-  //     loading ||
-  //     addressErrText !== '' ||
-  //     ammountErrText !== '' ||
-  //     address === '' ||
-  //     ftmAmount === '' ||
-  //     Number(ftmAmount) <= 0 ||
-  //     password === ''
-  //   ) {
-  //     return null;
-  //   }
-  //   const isValidDetail = this.handleSendMoney();
-  //   if (isValidDetail) {
-  //     setTimeout(() => {
-  //       this.getPrivateKeyOfAddress(publicKey, password);
-  //     }, 100);
-  //   }
-  // }
 
   /**
    *  handleSendMoney()  : This function is meant for handling input box validations ,
@@ -174,7 +69,6 @@ class SendMoney extends React.PureComponent {
   /**
    * addressVerification() : To check address entered is valid address or not, if valid address then display green tick. Otherwise render error message.
    */
-  // eslint-disable-next-line class-methods-use-this
   addressVerification(address) {
     if (!Web3.utils.isAddress(address)) {
       return { status: false, message: 'Invalid Address' };
@@ -424,7 +318,7 @@ class SendMoney extends React.PureComponent {
                   id="to-password"
                   autoCorrect="new-password"
                   placeholder="Password"
-                  autoComplete={false}
+                  autoComplete="off"
                   value={password}
                   onChange={e => onUpdate('password', e.currentTarget.value)}
                 />
@@ -448,35 +342,15 @@ class SendMoney extends React.PureComponent {
             {!loading && (
               <center>
                 <Button
-                  // color={`${continueBtnColor}`}
                   color="primary"
                   disabled={isDisable}
                   className="text-uppercase bordered"
-                  // onClick={this.isTransferDataCorrect}
                   onClick={this.onConfirmSend}
                 >
                   Continue
                 </Button>
               </center>
             )}
-
-            {/* <span
-                    aria-hidden
-                    className="pointer"
-                    style={{
-                      position: 'absolute',
-                      top: '20px',
-                      right: '42px',
-                      fontSize: '25px',
-                      lineHeight: '55%',
-                      fontWeight: 100,
-                      fontFamily: 'Robotos',
-                      color: '#8D9BAE',
-                    }}
-                    onClick={this.handleModalClose.bind(this)}
-                  >
-                    &times;
-                  </span> */}
             {this.renderLoader()}
           </div>
         </div>
@@ -491,19 +365,22 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getBalance: data => dispatch(getFantomBalance(data)),
-  // transferMoney: data => dispatch(sendRawTransaction(data)),
 });
+
+SendMoney.defaultProps = {
+  loading: false,
+};
 
 SendMoney.propTypes = {
   balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
   toAddress: PropTypes.string.isRequired,
-  ftmAmount: PropTypes.number.isRequired,
+  ftmAmount: PropTypes.string.isRequired,
   optionalMessage: PropTypes.string.isRequired,
-  isValidAddress: PropTypes.string.isRequired,
+  isValidAddress: PropTypes.bool.isRequired,
   password: PropTypes.string.isRequired,
-  loading: PropTypes.bool.isRequired,
+  loading: PropTypes.bool,
   onUpdate: PropTypes.func.isRequired,
-  gasPrice: PropTypes.string.isRequired,
+  gasPrice: PropTypes.number.isRequired,
   selectedAccount: PropTypes.oneOfType([PropTypes.object]).isRequired,
   setAccountType: PropTypes.func.isRequired,
 };

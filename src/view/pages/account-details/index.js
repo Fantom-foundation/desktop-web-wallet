@@ -6,14 +6,14 @@ import { compose } from 'redux';
 import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import QRCode from 'qrcode.react';
+import { ToastContainer, ToastStore } from 'react-toasts';
 import _ from 'lodash';
-import Web3 from 'web3';
 import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
 import { getFantomBalance } from '../../../redux/getBalance/action';
 import Identicons from '../../general/identicons/identicons';
 import { sendRawTransaction } from '../../../redux/sendTransactions/action';
-import TransactionHistory from './transactions';
+import TransactionHistory from './transferMoney/transactions';
 import ShowPublicAddress from '../../components/public-address';
 import SendMoney from '../../general/sidebar/index';
 import HttpDataProvider from '../../../utility/httpProvider';
@@ -104,7 +104,6 @@ class AccountDetails extends React.PureComponent {
   /**
    * This method will give the all transactions transferred from the given from address
    */
-  // eslint-disable-next-line class-methods-use-this
   fetchTransactionList() {
     HttpDataProvider.post('http://18.216.205.167:5000/graphql?', {
       query: `
@@ -153,35 +152,6 @@ class AccountDetails extends React.PureComponent {
     getBalance(account.publicAddress);
   }
 
-  /**
-   * This method will do the transaction functionality
-   */
-  // transferMoney() {
-  //   const { location, accountsList, transferMoney, getBalance } = this.props;
-  //   this.setState({
-  //     isTransferringMoney: true,
-  //   });
-  //   const isTransferredPromise = Promise.resolve(
-  //     transferMoneyViaFantom(location, accountsList, transferMoney, getBalance)
-  //   );
-  //   isTransferredPromise
-  //     .then(status => {
-  //       this.setState({
-  //         openTxnStatusModal: true,
-  //         statusTextBody: status.message,
-  //       });
-  //     })
-  //     .catch(error => {
-  //       this.setState({
-  //         openTxnStatusModal: true,
-  //         statusTextBody: error.message,
-  //       });
-  //     });
-  //   this.setState({
-  //     isTransferringMoney: false,
-  //   });
-  // }
-
   openTransferForm() {
     const { isCheckSend } = this.state;
     this.setState({
@@ -224,11 +194,9 @@ class AccountDetails extends React.PureComponent {
     } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
-    let balance = balanceInfo[account.publicAddress];
-    console.log(this.state, 'this.statethis.state');
-    if (balance) {
-      balance = Web3.utils.fromWei(`${balance}`, 'ether');
-      balance = validationMethods.toFixed(balance, 4);
+    let valInEther = balanceInfo[account.publicAddress];
+    if (valInEther) {
+      valInEther = validationMethods.getFormattedBalances(valInEther, gasPrice);
     }
     return (
       <div id="account-datails" className="account-datails">
@@ -272,7 +240,7 @@ class AccountDetails extends React.PureComponent {
                       </div>
                       <div className="ftm-no">
                         <p>
-                          {balance} <span>FTM</span>
+                          {valInEther ? valInEther.balance : 0} <span>FTM</span>
                         </p>
                       </div>
                       <center>
@@ -293,6 +261,7 @@ class AccountDetails extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
+            <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore} />
 
             <TransactionStatusModal
               openTxnStatusModal={openTxnStatusModal}

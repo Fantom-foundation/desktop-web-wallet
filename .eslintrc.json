@@ -10,6 +10,9 @@
   "rules": {
     "import/no-unresolved": "off",
     "react/prop-types": "off",
+    "class-methods-use-this": "off",
+    "prefer-promise-reject-errors": "off",
+    "no-useless-escape": "off",
     "react/jsx-filename-extension": [
       1,
       {

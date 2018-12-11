@@ -38,9 +38,7 @@ class SendMoney extends Component {
 
         if (hexPrivateKey !== '') {
           this.setState({
-            // verificationError: '',
             isConfirmSend: true,
-            // loading: false,
             address: toAddress,
             publicKey,
             privateKey: hexPrivateKey,
@@ -50,9 +48,7 @@ class SendMoney extends Component {
       })
       .catch(() => {
         this.setState({
-          // verificationError: 'Incorrect password.',
           privateKey: '',
-          // loading: false,
           isConfirmSend: false,
         });
       });
@@ -137,8 +133,6 @@ class SendMoney extends Component {
 SendMoney.propTypes = {
   openTransferForm: PropTypes.func.isRequired,
   transferMoney: PropTypes.func.isRequired,
-  // transferMoney: PropTypes.func.isRequired,
-  // location: PropTypes.oneOfType([PropTypes.object]).isRequired,
 };
 
 export default SendMoney;

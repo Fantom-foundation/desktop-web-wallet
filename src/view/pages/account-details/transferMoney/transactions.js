@@ -4,11 +4,11 @@ import { compose } from 'redux';
 import { Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
-import DropDown from './dropDown';
-import { months, ALL_TX, SENT_TX, RECEIVED_TX } from '../../../redux/constants';
-import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
-import received from './received.svg';
-import send from './send.svg';
+import DropDown from '../dropDown';
+import { months, ALL_TX, SENT_TX, RECEIVED_TX } from '../../../../redux/constants';
+import { getTransactionsHistory } from '../../../../redux/getTransactions/actions';
+import received from '../../../../images/received.svg';
+import send from '../../../../images/send.svg';
 
 class TransactionHistory extends React.PureComponent {
   constructor(props) {

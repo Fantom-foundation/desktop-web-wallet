@@ -1,10 +1,11 @@
+import Web3 from 'web3';
+
 export default class ValidationMethods {
   /**
    * @param {Name of the key} key
    * @param {Password} password
    * This method will check if the password is correct or not
    */
-  // eslint-disable-next-line class-methods-use-this
   isPasswordCorrect(key, password) {
     const obj = {
       containNumber: true,
@@ -40,7 +41,6 @@ export default class ValidationMethods {
    * @param {Data to be splitted} data
    * This method will return array of the space seperated string
    */
-  // eslint-disable-next-line class-methods-use-this
   getSplittedArray(data) {
     if (data) {
       const spaceSeperated = data.split(' ');
@@ -56,10 +56,8 @@ export default class ValidationMethods {
    * @param {String to be checked} str
    * This method will return boolean whether the string contains the special chars or not
    */
-  // eslint-disable-next-line class-methods-use-this
   noSpecialChars(str) {
     const string = String(str);
-    // eslint-disable-next-line no-useless-escape
     return !/[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?_.()@]/g.test(string);
   }
 
@@ -67,7 +65,6 @@ export default class ValidationMethods {
    * @param {String} str
    * This method will return the no of upper case letters in the string
    */
-  // eslint-disable-next-line class-methods-use-this
   getNoOfUppercaseLetters(str) {
     let count = 0;
     const stringLength = str.length;
@@ -80,9 +77,18 @@ export default class ValidationMethods {
     return count;
   }
 
-  // eslint-disable-next-line class-methods-use-this
   toFixed(num, fixed) {
     const re = new RegExp(`^-?\\d+(?:.\\d{0,${fixed || -1}})?`);
     return num.toString().match(re)[0];
+  }
+
+  getFormattedBalances(balance, gasPrice) {
+    let valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
+    const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
+    let maxFantomBalance = valInEther - gasPriceEther;
+    maxFantomBalance = this.toFixed(maxFantomBalance, 4);
+    valInEther = this.toFixed(valInEther, 4);
+
+    return { balance: valInEther, maxFantomBalance };
   }
 }

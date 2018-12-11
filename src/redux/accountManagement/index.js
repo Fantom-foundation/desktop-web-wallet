@@ -8,68 +8,10 @@ import axios from 'axios';
 import { getStore } from '../store';
 import config from '../config';
 
-const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
-
 /**
- * @param {To get Selected Account index} location
- * @param {Accounts list} accountsList
- * @param {Transfer Money Action} transferMoney
- * @param {Get balance Action} getBalance
- * This method will transfer the fantom from one account to another
+ * @param {Public Address} address
+ * This method will resolve the nonce for the particular account
  */
-export function transferMoneyViaFantom(location, accountsList, transferMoney, getBalance) {
-  const { state } = location;
-  const account = accountsList[state.selectedAccountIndex];
-  const seed = Bip39.mnemonicToSeed(account.mnemonic);
-  const root = Hdkey.fromMasterSeed(seed);
-  const addrNode = root.derive("m/44'/60'/0'/0/0");
-  // eslint-disable-next-line no-underscore-dangle
-  const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
-  return new Promise((resolve, reject) => {
-    web3.eth
-      .getTransactionCount(account.publicAddress)
-      .then(count => {
-        const privateKeyBuffer = EthUtil.toBuffer(privateKey);
-        web3.eth.getGasPrice((err, result) => {
-          const rawTx = {
-            from: account.publicAddress,
-            to: '0x1D97f9BcC819DB4817bfc3Ddfb2e9b8E499d97EB',
-            value: web3.utils.toHex(web3.utils.toWei('1', 'ether')),
-            gasLimit: web3.utils.toHex(22000),
-            gasPrice: web3.utils.toHex(result),
-            nonce: web3.utils.toHex(count),
-            data: 'memo',
-          };
-          // const transferData = {
-          //   from: rawTx.from,
-          //   to: rawTx.to,
-          //   amount: 1,
-          //   date: new Date().getTime(),
-          // };
-          const tx = new Tx(rawTx);
-          tx.sign(privateKeyBuffer);
-          // const serializedTx = tx.serialize();
-          // const hexTx = `0x${serializedTx.toString('hex')}`;
-          rawTx.date = new Date().getTime();
-          // transferMoney({ hexTx, transferData });
-          this.transferFantom({
-            from: rawTx.from,
-            // to,
-            // value,
-            // memo,
-            privateKey,
-          });
-          getBalance(account.publicAddress);
-        });
-        resolve({ isTransferred: true, message: 'Fantom Transferred successfully' });
-      })
-      .catch(() => {
-        // eslint-disable-next-line prefer-promise-reject-errors
-        reject({ isTransferred: false, message: 'Fantom Transferred successfully' });
-      });
-  });
-}
-
 function getNonceFantom(address) {
   return new Promise((resolve, reject) => {
     axios
@@ -86,7 +28,7 @@ function getNonceFantom(address) {
 }
 
 /**
- * transferMoneyViaFantom()  : To transfer funds via testnet's own endpoint
+ * transferFantom()  : To transfer funds via testnet's own endpoint
  *@param {*} from : Address of account from which to transfer.
  *@param {*} to : Address of account to whom to transfer.
  *@param {*} value : Amount to be transfered.
@@ -102,7 +44,6 @@ export function transferFantom(from, to, value, memo, privateKey, transferMoney,
           from,
           to,
           value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
-          // gasPrice: '0x09184e72a000',
           gasPrice: '0x000000000001',
           gasLimit: '0x27100',
           nonce: Web3.utils.toHex(count),
@@ -129,7 +70,6 @@ export function transferFantom(from, to, value, memo, privateKey, transferMoney,
               getBalance(from);
               resolve({ success: true, hash: response.data.txHash });
             } else {
-              // eslint-disable-next-line prefer-promise-reject-errors
               reject({ message: 'Invalid response received' });
             }
             return true;
@@ -141,7 +81,6 @@ export function transferFantom(from, to, value, memo, privateKey, transferMoney,
       })
       .catch(err => {
         console.log(err, 'err');
-        // eslint-disable-next-line prefer-promise-reject-errors
         reject({ success: false });
       });
   });
@@ -161,10 +100,8 @@ export function isAccountPasswordCorrect(account, password) {
           resolve({ success: true, result: hexVal });
         }
         if (dataRes instanceof Error) {
-          // eslint-disable-next-line prefer-promise-reject-errors
           reject({ error: true, message: 'Invalid Password.' });
         }
-        // eslint-disable-next-line prefer-promise-reject-errors
         reject({ error: true, message: 'Invalid Password.' });
       });
     });
@@ -202,14 +139,12 @@ export const getKeystoreDataOfAddress = address =>
     const accountsList =
       state.accounts && state.accounts.accountsList ? state.accounts.accountsList : [];
     if (accountsList && accountsList.length) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const account of accountsList) {
-        if (account.publicAddress === address) {
-          resolve({ success: true, result: account.keystore });
+      for (let i = 0; i < accountsList.length; i += 1) {
+        if (accountsList[i].publicAddress === address) {
+          resolve({ success: true, result: accountsList[i].keystore });
         }
       }
     }
-    // eslint-disable-next-line prefer-promise-reject-errors
     reject({ error: true, message: 'Not able to get keystore.' });
   });
 

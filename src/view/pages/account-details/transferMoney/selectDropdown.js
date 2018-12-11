@@ -1,12 +1,11 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Web3 from 'web3';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import PropTypes from 'prop-types';
-import withdrawImage from '../../../images/withdraw.svg';
-import { getFantomBalance } from '../../../redux/getBalance/action';
-import ValidationMethods from '../../../validations/userInputMethods';
+import withdrawImage from '../../../../images/withdraw.svg';
+import { getFantomBalance } from '../../../../redux/getBalance/action';
+import ValidationMethods from '../../../../validations/userInputMethods';
 
 const validationMethods = new ValidationMethods();
 
@@ -30,12 +29,9 @@ class Select extends React.Component {
     const { value, accountDetailList, publicAddress, balance, gasPrice } = this.props;
     const { dropdownOpen } = this.state;
     const keys = Object.keys(balance);
-    let maxFantomBalance = 0;
+    let valInEther = 0;
     if (balance && keys.length > 0 && balance[publicAddress]) {
-      const valInEther = Web3.utils.fromWei(`${balance[publicAddress]}`, 'ether');
-      const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
-      maxFantomBalance = valInEther - gasPriceEther;
-      maxFantomBalance = validationMethods.toFixed(maxFantomBalance, 4);
+      valInEther = validationMethods.getFormattedBalances(balance[publicAddress], gasPrice);
     }
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
@@ -46,7 +42,10 @@ class Select extends React.Component {
           }}
         >
           {value}
-          <span className="ftm text-white"> {maxFantomBalance} FTM</span>
+          <span className="ftm text-white">
+            {' '}
+            {valInEther ? valInEther.maxFantomBalance : 0} FTM
+          </span>
         </DropdownToggle>
         <DropdownMenu>{accountDetailList}</DropdownMenu>
       </Dropdown>
@@ -59,7 +58,7 @@ Select.propTypes = {
   accountDetailList: PropTypes.oneOfType([PropTypes.array]).isRequired,
   publicAddress: PropTypes.string.isRequired,
   balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  gasPrice: PropTypes.string.isRequired,
+  gasPrice: PropTypes.number.isRequired,
 };
 
 const mapStateToProps = state => ({
