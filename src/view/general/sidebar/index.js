@@ -12,8 +12,6 @@ class SendMoney extends Component {
     this.state = {
       isConfirmSend: false,
       address: '',
-      ftmAmount: '',
-      optionalMessage: '',
       publicKey: '',
       privateKey: '',
     };
@@ -21,9 +19,9 @@ class SendMoney extends Component {
     this.handleGoBack = this.handleGoBack.bind(this);
   }
 
-  onConfirmSend(toAddress, ftmAmount, optionalMessage, publicAddress, password) {
+  onConfirmSend(toAddress, publicAddress, password) {
     if (publicAddress !== '' && password !== '') {
-      this.getPrivateKeyOfAddress(toAddress, ftmAmount, optionalMessage, publicAddress, password);
+      this.getPrivateKeyOfAddress(toAddress, publicAddress, password);
     }
   }
 
@@ -32,7 +30,7 @@ class SendMoney extends Component {
    * @param {String} publicKey ,
    * @param {String} password ,
    */
-  getPrivateKeyOfAddress(toAddress, ftmAmount, optionalMessage, publicKey, password) {
+  getPrivateKeyOfAddress(toAddress, publicKey, password) {
     getPrivateKeyOfAddress(publicKey, password)
       .then(res => {
         const hexPrivateKey = res.result;
@@ -43,8 +41,6 @@ class SendMoney extends Component {
             isConfirmSend: true,
             // loading: false,
             address: toAddress,
-            ftmAmount,
-            optionalMessage,
             publicKey,
             privateKey: hexPrivateKey,
           });
@@ -68,21 +64,37 @@ class SendMoney extends Component {
   }
 
   renderScreen() {
-    const { openTransferForm, transferMoney } = this.props;
     const {
-      isConfirmSend,
-      address,
+      openTransferForm,
+      transferMoney,
+      gasPrice,
+      isValidAddress,
+      password,
+      verificationError,
+      toAddress,
+      selectedAccount,
       ftmAmount,
       optionalMessage,
-      publicKey,
-      privateKey,
-    } = this.state;
+      onUpdate,
+      setAccountType,
+    } = this.props;
+    const { isConfirmSend, address, publicKey, privateKey } = this.state;
     if (!isConfirmSend) {
       return (
         <SendFunds
           openTransferForm={openTransferForm}
           transferMoney={transferMoney}
           onConfirmSend={this.onConfirmSend}
+          ftmAmount={ftmAmount}
+          optionalMessage={optionalMessage}
+          gasPrice={gasPrice}
+          isValidAddress={isValidAddress}
+          password={password}
+          verificationError={verificationError}
+          toAddress={toAddress}
+          onUpdate={onUpdate}
+          setAccountType={setAccountType}
+          selectedAccount={selectedAccount}
         />
       );
     }

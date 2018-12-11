@@ -35,7 +35,7 @@ export default class ConfirmFunds extends Component {
    */
   transferMoney(from, to, value, memo, privateKey) {
     const { handleModalClose, refreshWalletDetail, transferMoney, openTransferForm } = this.props;
-    transferFantom(from, to, value, memo, privateKey)
+    transferFantom(from, to, value, memo, privateKey, transferMoney)
       .then(data => {
         if (data.hash && data.hash !== '') {
           // this.addTransactionLocally(value, from, to, data.hash, false);
@@ -45,9 +45,9 @@ export default class ConfirmFunds extends Component {
           });
 
           setTimeout(() => {
-            if (transferMoney) {
-              transferMoney();
-            }
+            // if (transferMoney) {
+            //   transferMoney();
+            // }
             if (openTransferForm) {
               openTransferForm();
             }

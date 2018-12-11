@@ -18,27 +18,18 @@ class SendMoney extends React.PureComponent {
   constructor(props) {
     super(props);
     // eslint-disable-next-line react/prop-types
-    const { accountsList } = props;
     this.state = {
       address: '',
       // eslint-disable-next-line react/no-unused-state
-      ftmAmount: '',
-      optionalMessage: '',
       // accountStore: [],
-      password: '',
       isValidAddress: false,
-      selectedAccount: accountsList[0],
       // privateKey: '',
       // publicKey: '',
       loading: false,
-      verificationError: '',
-      gasPrice: 0x000000000001,
-      addressErrText: '',
-      ammountErrText: '',
       // toAddress: '',
     };
-    this.onUpdate = this.onUpdate.bind(this);
-    this.setAccountType = this.setAccountType.bind(this);
+    // this.onUpdate = this.onUpdate.bind(this);
+    // this.setAccountType = this.setAccountType.bind(this);
     this.disableContinueButton = this.disableContinueButton.bind(this);
     this.isTransferDataCorrect = this.isTransferDataCorrect.bind(this);
     this.onConfirmSend = this.onConfirmSend.bind(this);
@@ -102,13 +93,13 @@ class SendMoney extends React.PureComponent {
    * setAccountType() :  To set public key of selected account, and fetch balance for it.
    */
 
-  setAccountType = (e, account) => {
-    const { getBalance } = this.props;
-    this.setState({
-      selectedAccount: account,
-    });
-    getBalance(account.publicAddress);
-  };
+  // setAccountType = (e, account) => {
+  //   const { getBalance } = this.props;
+  //   this.setState({
+  //     selectedAccount: account,
+  //   });
+  //   getBalance(account.publicAddress);
+  // };
 
   // setMessage(e) {
   //   const optionalMessage = e.target.value;
@@ -195,8 +186,7 @@ class SendMoney extends React.PureComponent {
    * ftmAmmountVerification() : To check ammount entered is valid or not, if invalid ammount then render error message.
    */
   ftmAmmountVerification(ammount) {
-    const { balance } = this.props;
-    const { selectedAccount, gasPrice } = this.state;
+    const { balance, selectedAccount, gasPrice } = this.props;
     const valInEther = Web3.utils.fromWei(`${balance[selectedAccount.publicAddress]}`, 'ether');
     const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
     const maxFantomBalance = valInEther - gasPriceEther;
@@ -212,16 +202,22 @@ class SendMoney extends React.PureComponent {
   }
 
   async isTransferDataCorrect() {
-    const { onConfirmSend } = this.props;
+    const { onConfirmSend, toAddress, ftmAmount, password, selectedAccount } = this.props;
     let isError = '';
-    const { toAddress, ftmAmount, password, selectedAccount, optionalMessage } = this.state;
     const isValidAddress = this.addressVerification(toAddress);
     const isValidAmount = this.ftmAmmountVerification(ftmAmount);
     const isPasswordCorrect = Promise.resolve(isAccountPasswordCorrect(selectedAccount, password));
-    // const accountList = Promise.resolve(
-    //   getPrivateKeyOfAddress(selectedAccount.publicAddress, password)
-    // );
-    // console.log('accountList : ', accountList);
+    const accountList = Promise.resolve(
+      this.getPrivateKeyOfAddress(selectedAccount.publicAddress, password)
+    );
+    console.log('accountList : ', accountList);
+    if (selectedAccount.publicAddress === toAddress) {
+      isError = true;
+      this.setState({
+        addressErrText: 'Source and Destination cannot be same',
+      });
+      return;
+    }
     if (!isValidAddress.status) {
       isError = true;
       this.setState({
@@ -229,7 +225,7 @@ class SendMoney extends React.PureComponent {
       });
       return;
     }
-    if (!isValidAmount.status) {
+    if (false) {
       isError = true;
       this.setState({
         ammountErrText: isValidAmount.message,
@@ -254,12 +250,12 @@ class SendMoney extends React.PureComponent {
       });
 
     if (!isError) {
-      onConfirmSend(toAddress, ftmAmount, optionalMessage, selectedAccount.publicAddress, password);
+      onConfirmSend(toAddress, selectedAccount.publicAddress, password);
     }
   }
 
   disableContinueButton() {
-    const { toAddress, ftmAmount, password } = this.state;
+    const { toAddress, ftmAmount, password } = this.props;
     const data = {
       toAddress,
       ftmAmount,
@@ -335,17 +331,30 @@ class SendMoney extends React.PureComponent {
   }
 
   render() {
-    const { balance } = this.props;
     const {
+      balance,
       toAddress,
       ftmAmount,
       optionalMessage,
       isValidAddress,
       password,
       loading,
-      selectedAccount,
+      onUpdate,
       gasPrice,
-    } = this.state;
+      selectedAccount,
+      setAccountType,
+    } = this.props;
+    console.log(this.props, 'this.propsthis.props');
+    // const {
+    //   toAddress,
+    //   ftmAmount,
+    //   optionalMessage,
+    //   isValidAddress,
+    //   password,
+    //   loading,
+    //   selectedAccount,
+    //   gasPrice,
+    // } = this.state;
     const isDisable = this.disableContinueButton();
     return (
       <div id="transaction-form">
@@ -378,7 +387,7 @@ class SendMoney extends React.PureComponent {
                     backgroundImage: `url(${addressImage})`,
                   }}
                   value={toAddress}
-                  onChange={e => this.onUpdate('toAddress', e.currentTarget.value)}
+                  onChange={e => onUpdate('toAddress', e.currentTarget.value)}
                 />
                 {/* <img src={successCheck} alt={successCheck} /> */}
               </div>
@@ -390,7 +399,7 @@ class SendMoney extends React.PureComponent {
               <div className="withdraw-holder">
                 <AccountList
                   selectedAccount={selectedAccount}
-                  setAccountType={this.setAccountType}
+                  setAccountType={setAccountType}
                   balance={balance}
                   gasPrice={gasPrice}
                 />
@@ -409,7 +418,7 @@ class SendMoney extends React.PureComponent {
                         backgroundImage: `url(${amountImage})`,
                       }}
                       value={ftmAmount}
-                      onChange={e => this.onUpdate('ftmAmount', e.currentTarget.value)}
+                      onChange={e => onUpdate('ftmAmount', e.currentTarget.value)}
                     />
                   </div>
                   {this.renderAmmountErrText()}
@@ -432,7 +441,7 @@ class SendMoney extends React.PureComponent {
                   placeholder="Password"
                   autoComplete={false}
                   value={password}
-                  onChange={e => this.onUpdate('password', e.currentTarget.value)}
+                  onChange={e => onUpdate('password', e.currentTarget.value)}
                 />
                 {/* <img src={successCheck} alt={successCheck} /> */}
               </div>
@@ -447,7 +456,7 @@ class SendMoney extends React.PureComponent {
                 id="exampleText"
                 placeholder="Optional Message"
                 value={optionalMessage}
-                onChange={e => this.onUpdate('optionalMessage', e.currentTarget.value)}
+                onChange={e => onUpdate('optionalMessage', e.currentTarget.value)}
               />
             </FormGroup>
             <br />
@@ -492,7 +501,6 @@ class SendMoney extends React.PureComponent {
 }
 
 const mapStateToProps = state => ({
-  accountsList: state.accounts.accountsList,
   balance: state.getBalance,
 });
 
@@ -502,10 +510,17 @@ const mapDispatchToProps = dispatch => ({
 });
 
 SendMoney.propTypes = {
-  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
   balance: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  getBalance: PropTypes.func.isRequired,
-  // location: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  toAddress: PropTypes.string.isRequired,
+  ftmAmount: PropTypes.number.isRequired,
+  optionalMessage: PropTypes.string.isRequired,
+  isValidAddress: PropTypes.string.isRequired,
+  password: PropTypes.string.isRequired,
+  loading: PropTypes.bool.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  gasPrice: PropTypes.string.isRequired,
+  selectedAccount: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  setAccountType: PropTypes.func.isRequired,
 };
 
 export default compose(

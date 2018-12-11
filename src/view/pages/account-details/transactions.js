@@ -53,7 +53,7 @@ class TransactionHistory extends React.PureComponent {
                 <Col className="acc-no-col">
                   <div className="">
                     <p>
-                      <span>TX#</span> {transactions[i].txHash}
+                      <span>TX#</span> {transactions[i].hexTx}
                     </p>
                     <p>
                       <span>From:</span> {transactions[i].from}

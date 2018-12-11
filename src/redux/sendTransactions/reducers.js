@@ -17,10 +17,10 @@ const addTransaction = (payload, state) => {
 };
 
 const sendTransactions = (state = defaultState, action) => {
+  console.log(action, 'actionaction');
   switch (action.type) {
     case `${actions.TRANSFER_MONEY}_SUCCESS`: {
       const { payload } = action;
-      payload.config.transferData.txHash = payload.data.txHash;
       const transactions = addTransaction(payload.config.transferData, state);
       return Object.assign({}, state, {
         ...transactions,

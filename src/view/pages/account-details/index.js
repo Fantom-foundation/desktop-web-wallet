@@ -12,7 +12,6 @@ import Layout from '../../components/layout';
 import { getFantomBalance } from '../../../redux/getBalance/action';
 import Identicons from '../../general/identicons/identicons';
 import { sendRawTransaction } from '../../../redux/sendTransactions/action';
-import { transferMoneyViaFantom } from '../../../redux/accountManagement';
 import TransactionHistory from './transactions';
 import ShowPublicAddress from '../../components/public-address';
 import SendMoney from '../../general/sidebar';
@@ -25,18 +24,27 @@ const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io
 class AccountDetails extends React.PureComponent {
   constructor(props) {
     super(props);
-    // const { getBalance } = props;
+    const { accountsList } = props;
     // const publicAddress = this.getAccountPublicAddress();
     this.state = {
       isTransferringMoney: false,
+      ftmAmount: '',
+      optionalMessage: '',
+      gasPrice: 0x000000000001,
+      isValidAddress: false,
+      password: '',
+      verificationError: '',
+      selectedAccount: accountsList[0],
       isCheckSend: false,
       openTxnStatusModal: false,
       statusTextBody: '',
+      toAddress: '',
     };
-    this.transferMoney = this.transferMoney.bind(this);
+    this.setAccountType = this.setAccountType.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
     this.openTransferForm = this.openTransferForm.bind(this);
     this.toggleTxnStatusModal = this.toggleTxnStatusModal.bind(this);
+    this.onUpdate = this.onUpdate.bind(this);
     // This will call the refresh the balance after every one second
     // interval = setInterval(() => {
     //   getBalance(publicAddress);
@@ -56,6 +64,24 @@ class AccountDetails extends React.PureComponent {
   componentWillUnmount() {
     // clearInterval(interval);
   }
+
+  onUpdate(key, value) {
+    this.setState({
+      [key]: value,
+    });
+  }
+
+  /**
+   * setAccountType() :  To set public key of selected account, and fetch balance for it.
+   */
+
+  setAccountType = (e, account) => {
+    const { getBalance } = this.props;
+    this.setState({
+      selectedAccount: account,
+    });
+    getBalance(account.publicAddress);
+  };
 
   /**
    * This method will return the public address of the selected account
@@ -123,31 +149,31 @@ class AccountDetails extends React.PureComponent {
   /**
    * This method will do the transaction functionality
    */
-  transferMoney() {
-    const { location, accountsList, transferMoney, getBalance } = this.props;
-    this.setState({
-      isTransferringMoney: true,
-    });
-    const isTransferredPromise = Promise.resolve(
-      transferMoneyViaFantom(location, accountsList, transferMoney, getBalance)
-    );
-    isTransferredPromise
-      .then(status => {
-        this.setState({
-          openTxnStatusModal: true,
-          statusTextBody: status.message,
-        });
-      })
-      .catch(error => {
-        this.setState({
-          openTxnStatusModal: true,
-          statusTextBody: error.message,
-        });
-      });
-    this.setState({
-      isTransferringMoney: false,
-    });
-  }
+  // transferMoney() {
+  //   const { location, accountsList, transferMoney, getBalance } = this.props;
+  //   this.setState({
+  //     isTransferringMoney: true,
+  //   });
+  //   const isTransferredPromise = Promise.resolve(
+  //     transferMoneyViaFantom(location, accountsList, transferMoney, getBalance)
+  //   );
+  //   isTransferredPromise
+  //     .then(status => {
+  //       this.setState({
+  //         openTxnStatusModal: true,
+  //         statusTextBody: status.message,
+  //       });
+  //     })
+  //     .catch(error => {
+  //       this.setState({
+  //         openTxnStatusModal: true,
+  //         statusTextBody: error.message,
+  //       });
+  //     });
+  //   this.setState({
+  //     isTransferringMoney: false,
+  //   });
+  // }
 
   openTransferForm() {
     const { isCheckSend } = this.state;
@@ -167,12 +193,25 @@ class AccountDetails extends React.PureComponent {
   }
 
   render() {
-    const { accountsList, location, balanceInfo } = this.props;
-    const { isTransferringMoney, isCheckSend, openTxnStatusModal, statusTextBody } = this.state;
+    const { accountsList, location, balanceInfo, transferMoney } = this.props;
+    const {
+      isTransferringMoney,
+      isCheckSend,
+      openTxnStatusModal,
+      statusTextBody,
+      ftmAmount,
+      selectedAccount,
+      optionalMessage,
+      gasPrice,
+      isValidAddress,
+      password,
+      verificationError,
+      toAddress,
+    } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
     const balance = balanceInfo[account.publicAddress];
-    console.log(balanceInfo, 'Neeraj balanceInfo');
+    console.log(this.state, 'this.statethis.state');
     return (
       <div id="account-datails" className="account-datails">
         <Layout>
@@ -237,13 +276,22 @@ class AccountDetails extends React.PureComponent {
               </Row>
             </Container>
 
-            {isCheckSend &&
-              (true && (
-                <SendMoney
-                  openTransferForm={this.openTransferForm}
-                  transferMoney={this.transferMoney}
-                />
-              ))}
+            {isCheckSend && (
+              <SendMoney
+                openTransferForm={this.openTransferForm}
+                transferMoney={transferMoney}
+                ftmAmount={ftmAmount}
+                optionalMessage={optionalMessage}
+                gasPrice={gasPrice}
+                isValidAddress={isValidAddress}
+                password={password}
+                verificationError={verificationError}
+                toAddress={toAddress}
+                onUpdate={this.onUpdate}
+                setAccountType={this.setAccountType}
+                selectedAccount={selectedAccount}
+              />
+            )}
             <TransactionStatusModal
               openTxnStatusModal={openTxnStatusModal}
               toggleTxnStatusModal={this.toggleTxnStatusModal}
