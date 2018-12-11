@@ -14,7 +14,7 @@ import Identicons from '../../general/identicons/identicons';
 import { sendRawTransaction } from '../../../redux/sendTransactions/action';
 import TransactionHistory from './transactions';
 import ShowPublicAddress from '../../components/public-address';
-import SendMoney from '../../general/sidebar';
+import SendMoney from '../../general/sidebar/index';
 import HttpDataProvider from '../../../utility/httpProvider';
 import TransactionStatusModal from '../../components/modals/transaction-status-modal/index';
 
@@ -39,6 +39,7 @@ class AccountDetails extends React.PureComponent {
       openTxnStatusModal: false,
       statusTextBody: '',
       toAddress: '',
+      addClass: '',
     };
     this.setAccountType = this.setAccountType.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
@@ -178,8 +179,14 @@ class AccountDetails extends React.PureComponent {
   openTransferForm() {
     const { isCheckSend } = this.state;
     this.setState({
-      isCheckSend: !isCheckSend,
+      addClass: 'closing',
     });
+    setTimeout(() => {
+      this.setState({
+        isCheckSend: !isCheckSend,
+        addClass: '',
+      });
+    }, 400);
   }
 
   /**
@@ -207,6 +214,7 @@ class AccountDetails extends React.PureComponent {
       password,
       verificationError,
       toAddress,
+      addClass,
     } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
@@ -214,7 +222,7 @@ class AccountDetails extends React.PureComponent {
     console.log(this.state, 'this.statethis.state');
     return (
       <div id="account-datails" className="account-datails">
-        <Layout>
+        <Layout className={`${isCheckSend || (true && 'blur')}`}>
           <section style={{ padding: '30px 0' }}>
             <Container className="bg-dark acc-details-container">
               <Row>
@@ -300,6 +308,14 @@ class AccountDetails extends React.PureComponent {
             />
           </section>
         </Layout>
+        {isCheckSend ||
+          (true && (
+            <SendMoney
+              addClass={addClass}
+              openTransferForm={this.openTransferForm}
+              transferMoney={this.transferMoney}
+            />
+          ))}
       </div>
     );
   }

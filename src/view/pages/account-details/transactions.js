@@ -5,7 +5,7 @@ import { Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import moment from 'moment';
 import DropDown from './dropDown';
-import { months } from '../../../redux/constants';
+import { months, ALL_TX, SENT_TX, RECEIVED_TX } from '../../../redux/constants';
 import { getTransactionsHistory } from '../../../redux/getTransactions/actions';
 import received from './received.svg';
 import send from './send.svg';
@@ -14,9 +14,9 @@ class TransactionHistory extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
-      type: 'all',
+      txType: ALL_TX,
     };
-    this.sortTransactions = this.sortTransactions.bind(this);
+    this.filterTransaction = this.filterTransaction.bind(this);
   }
 
   componentWillMount() {
@@ -29,18 +29,25 @@ class TransactionHistory extends React.PureComponent {
    */
   getTransactionHistory() {
     const { transactions, publicAddress } = this.props;
-    const { type } = this.state;
+    const { txType } = this.state;
+
+    const allTransaction = (
+      <p className="m-msg text-white  text-center mb-0">
+        (Your recent transactions will be displayed here)
+      </p>
+    );
+
     const transactionsHistory = [];
     if (transactions && transactions.length > 0) {
       for (let i = 0; i < transactions.length; i += 1) {
         const date = moment(transactions[i].date).toDate();
-        const isReceived = transactions[i].to === publicAddress;
-        const isSend = transactions[i].from === publicAddress;
-        if (
-          (isReceived && type === 'received') ||
-          (isSend && type === 'sent') ||
-          ((isReceived || isSend) && type === 'all')
-        ) {
+
+        const isReceived =
+          transactions[i].to === publicAddress && (txType === RECEIVED_TX || txType === ALL_TX);
+        const isSend =
+          transactions[i].from === publicAddress && (txType === SENT_TX || txType === ALL_TX);
+
+        if (isReceived || isSend) {
           transactionsHistory.push(
             <div key={i} className="card bg-dark-light">
               <Row className="">
@@ -56,7 +63,8 @@ class TransactionHistory extends React.PureComponent {
                       <span>TX#</span> {transactions[i].hexTx}
                     </p>
                     <p>
-                      <span>From:</span> {transactions[i].from}
+                      <span>{isReceived ? 'From:' : 'To:'}</span>
+                      {isReceived ? transactions[i].from : transactions[i].to}
                     </p>
                   </div>
                 </Col>
@@ -64,7 +72,7 @@ class TransactionHistory extends React.PureComponent {
                   <p>{moment(date).fromNow()}</p>
                 </Col>
                 <Col className="btn-col">
-                  <Button color="green">
+                  <Button color={`${isReceived ? 'green' : 'red'}`}>
                     {transactions[i].amount} <span>FTM</span>
                   </Button>
                 </Col>
@@ -75,17 +83,21 @@ class TransactionHistory extends React.PureComponent {
       }
     }
 
-    return transactionsHistory;
+    if (transactionsHistory.length) {
+      return transactionsHistory;
+    }
+
+    return allTransaction;
   }
 
-  sortTransactions(type) {
+  filterTransaction(type) {
     this.setState({
-      type,
+      txType: type,
     });
   }
 
   render() {
-    const { type } = this.state;
+    const { txType } = this.state;
     const transactionsHistory = this.getTransactionHistory();
     return (
       <React.Fragment>
@@ -94,12 +106,10 @@ class TransactionHistory extends React.PureComponent {
             <h2 className="title ">
               <span>Transactions</span>
             </h2>
-            <DropDown sortTransactions={this.sortTransactions} type={type} />
+            <DropDown filterTransaction={this.filterTransaction} txType={txType} />
           </div>
         </div>
-        <div id="acc-cards" className="">
-          {transactionsHistory}
-        </div>
+        <div id="acc-cards">{transactionsHistory}</div>
       </React.Fragment>
     );
   }

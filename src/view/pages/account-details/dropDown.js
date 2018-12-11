@@ -1,14 +1,18 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
+import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../redux/constants';
 
 export default class DropDown extends React.Component {
   constructor(props) {
     super(props);
 
     this.toggle = this.toggle.bind(this);
+    this.filterTransaction = this.filterTransaction.bind(this);
+    const { txType } = this.props || 'All';
     this.state = {
       dropdownOpen: false,
+      txType,
     };
   }
 
@@ -21,17 +25,32 @@ export default class DropDown extends React.Component {
     }));
   }
 
+  /**
+   * Filter to display transaction list.
+   */
+  filterTransaction(txType) {
+    const { filterTransaction } = this.props;
+    if (filterTransaction) {
+      filterTransaction(txType);
+      this.setState({
+        txType,
+      });
+    }
+  }
+
   render() {
-    const { dropdownOpen } = this.state;
-    const { sortTransactions } = this.props;
+    const { dropdownOpen, txType } = this.state;
     return (
       <Dropdown isOpen={dropdownOpen} toggle={this.toggle}>
         <DropdownToggle className="toggle-btn" caret>
-          All
+          {txType}
         </DropdownToggle>
         <DropdownMenu>
-          <DropdownItem onClick={() => sortTransactions('sent')}>Sent</DropdownItem>
-          <DropdownItem onClick={() => sortTransactions('received')}>Received</DropdownItem>
+          <DropdownItem onClick={() => this.filterTransaction(ALL_TX)}>{ALL_TX}</DropdownItem>
+          <DropdownItem onClick={() => this.filterTransaction(SENT_TX)}>{SENT_TX}</DropdownItem>
+          <DropdownItem onClick={() => this.filterTransaction(RECEIVED_TX)}>
+            {RECEIVED_TX}
+          </DropdownItem>
         </DropdownMenu>
       </Dropdown>
     );
@@ -39,5 +58,5 @@ export default class DropDown extends React.Component {
 }
 
 DropDown.propTypes = {
-  sortTransactions: PropTypes.func.isRequired,
+  filterTransaction: PropTypes.func.isRequired,
 };

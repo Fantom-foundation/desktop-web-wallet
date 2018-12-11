@@ -113,12 +113,12 @@ class SendMoney extends Component {
   }
 
   render() {
-    const { openTransferForm } = this.props;
+    const { openTransferForm, addClass } = this.props;
     return (
-      <div id="coin-overley" className="">
+      <div id="coin-overley">
         <div className="background-overley" onClick={openTransferForm} role="presentation" />
 
-        <div className="overley-body  bg-dark">
+        <div className={`${addClass} overley-body  bg-dark`}>
           <div className="main-header">
             <span className="close-btn text-white" onClick={openTransferForm} role="presentation">
               &times;
