@@ -166,7 +166,7 @@
       label {
         color: map-get($color, restore-vault-input-label);
         font: {
-          family: "Noto Sans";
+          family: map-get($font, restore-confirm);
           size: 16px;
         }
         @media (max-width: 768px) {
@@ -188,7 +188,7 @@
     p {
       margin-bottom: 4px;
       font: {
-        family: "Noto Sans";
+        family: map-get($font, restore-confirm);
         size: 16px;
       }
       @media (max-width: 768px) {

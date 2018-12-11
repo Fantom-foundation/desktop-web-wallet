@@ -1,5 +1,7 @@
 $white: #fff;
-$theme-blue: #549aec;
+// $theme-blue: #549aec;
+$theme-blue: #00b1ff;
+
 $theme-blue-hover: #4b89ca;
 $color: (
   white: $white,
@@ -52,8 +54,13 @@ $font: (
   wallet-bar: $primary-font,
   wallet-bar-size: 24px,
   modal-title: $primary-font,
-  modal-title-weight: bold,
-  btn: $primary-font
+  modal-title-weight: 500,
+  modal-btn: $primary-font,
+  modal-btn-weight: 300,
+  modal-body-text: $secondary-font,
+  modal-body-text-weight: 400,
+  btn: $primary-font,
+  restore-confirm: $primary-font
 );
 
 $navlink-textTransform: uppercase;

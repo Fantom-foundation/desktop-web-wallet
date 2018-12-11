@@ -28,7 +28,6 @@
         }
         .modal-title {
           color: map-get($color, modal-title);
-
           font: {
             family: map-get($font, modal-title);
             weight: map-get($font, modal-title-weight);
@@ -42,12 +41,11 @@
         padding: 30px 26px;
         p {
           font: {
-            family: "Noto Sans";
-            weight: 400;
+            family: map-get($font, modal-body-text);
+            weight: map-get($font, modal-body-text-weight);
           }
         }
       }
-
       .modal-footer {
         background: {
           color: map-get($color, modal-footer-bg);
@@ -55,8 +53,8 @@
         .btn {
           text-transform: uppercase;
           font: {
-            family: "Noto Sans";
-            weight: 300;
+            family: map-get($font, modal-btn);
+            weight: map-get($font, modal-btn-weight);
           }
         }
       }
