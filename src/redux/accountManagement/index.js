@@ -40,18 +40,25 @@ export function transferMoneyViaFantom(location, accountsList, transferMoney, ge
             nonce: web3.utils.toHex(count),
             data: 'memo',
           };
-          const transferData = {
-            from: rawTx.from,
-            to: rawTx.to,
-            amount: 1,
-            date: new Date().getTime(),
-          };
+          // const transferData = {
+          //   from: rawTx.from,
+          //   to: rawTx.to,
+          //   amount: 1,
+          //   date: new Date().getTime(),
+          // };
           const tx = new Tx(rawTx);
           tx.sign(privateKeyBuffer);
-          const serializedTx = tx.serialize();
-          const hexTx = `0x${serializedTx.toString('hex')}`;
+          // const serializedTx = tx.serialize();
+          // const hexTx = `0x${serializedTx.toString('hex')}`;
           rawTx.date = new Date().getTime();
-          transferMoney({ hexTx, transferData });
+          // transferMoney({ hexTx, transferData });
+          this.transferFantom({
+            from: rawTx.from,
+            // to,
+            // value,
+            // memo,
+            privateKey,
+          });
           getBalance(account.publicAddress);
         });
         resolve({ isTransferred: true, message: 'Fantom Transferred successfully' });
@@ -89,7 +96,7 @@ function getNonceFantom(address) {
  *@param {*} memo : : Message text for transaction.
  *@param {*} privateKey : Private key of account from which to transfer.
  */
-export function transferFantom(from, to, value, memo, privateKey) {
+export function transferFantom(from, to, value, memo, privateKey, transferMoney, getBalance) {
   return new Promise((resolve, reject) => {
     getNonceFantom(from)
       .then(count => {
@@ -113,6 +120,16 @@ export function transferFantom(from, to, value, memo, privateKey) {
           .post(`${config.apiUrl}/sendRawTransaction`, hexTx)
           .then(response => {
             if (response && response.data && response.data.txHash) {
+              const transferData = {
+                from,
+                to,
+                amount: value,
+                memo,
+                hexTx: response.data.txHash,
+                date: new Date().getTime(),
+              };
+              transferMoney(transferData);
+              getBalance(from);
               resolve({ success: true, hash: response.data.txHash });
             } else {
               // eslint-disable-next-line prefer-promise-reject-errors

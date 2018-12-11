@@ -10,7 +10,7 @@ export const sendRawTransaction = data =>
         url: '/sendRawTransaction',
         method: 'POST',
         data: data.hexTx,
-        transferData: data.transferData,
+        transferData: data,
       },
     },
   });
