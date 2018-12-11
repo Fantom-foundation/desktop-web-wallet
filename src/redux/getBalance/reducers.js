@@ -18,8 +18,6 @@ const getBalance = (state = defaultState, action) => {
       const accountInfo = {
         [config.address]: data.balance,
       };
-      console.log(state, 'Neeraj state');
-      console.log(accountInfo, 'Neeraj accountInfo');
       return Object.assign({}, state, {
         ...state,
         ...accountInfo,

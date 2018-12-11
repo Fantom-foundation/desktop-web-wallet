@@ -340,17 +340,6 @@ class SendMoney extends React.PureComponent {
       selectedAccount,
       setAccountType,
     } = this.props;
-    console.log(this.props, 'this.propsthis.props');
-    // const {
-    //   toAddress,
-    //   ftmAmount,
-    //   optionalMessage,
-    //   isValidAddress,
-    //   password,
-    //   loading,
-    //   selectedAccount,
-    //   gasPrice,
-    // } = this.state;
     const isDisable = this.disableContinueButton();
     return (
       <div id="transaction-form">

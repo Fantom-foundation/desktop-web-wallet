@@ -18,8 +18,9 @@ import ShowPublicAddress from '../../components/public-address';
 import SendMoney from '../../general/sidebar/index';
 import HttpDataProvider from '../../../utility/httpProvider';
 import TransactionStatusModal from '../../components/modals/transaction-status-modal/index';
+import ValidationMethods from '../../../validations/userInputMethods';
 
-const web3 = new Web3(new Web3.providers.HttpProvider('https://ropsten.infura.io/'));
+const validationMethods = new ValidationMethods();
 
 let interval = null;
 class AccountDetails extends React.PureComponent {
@@ -223,8 +224,12 @@ class AccountDetails extends React.PureComponent {
     } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
-    const balance = balanceInfo[account.publicAddress];
+    let balance = balanceInfo[account.publicAddress];
     console.log(this.state, 'this.statethis.state');
+    if (balance) {
+      balance = Web3.utils.fromWei(`${balance}`, 'ether');
+      balance = validationMethods.toFixed(balance, 4);
+    }
     return (
       <div id="account-datails" className="account-datails">
         <Layout className={`${isCheckSend && 'blur'}`}>
@@ -267,7 +272,7 @@ class AccountDetails extends React.PureComponent {
                       </div>
                       <div className="ftm-no">
                         <p>
-                          {balance && web3.utils.fromWei(`${balance}`, 'ether')} <span>FTM</span>
+                          {balance} <span>FTM</span>
                         </p>
                       </div>
                       <center>

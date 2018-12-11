@@ -75,15 +75,12 @@ function getNonceFantom(address) {
     axios
       .get(`${config.apiUrl}/account/${address}`)
       .then(response => {
-        console.log('nonce', response.data.nonce);
         resolve(response.data.nonce);
-        // tx.nonce = response.data.nonce
-        // generateRawTx(tx, priv)
         return true;
       })
       .catch(error => {
-        console.log(error);
         reject(error);
+        return true;
       });
   });
 }
@@ -138,7 +135,6 @@ export function transferFantom(from, to, value, memo, privateKey, transferMoney,
             return true;
           })
           .catch(error => {
-            console.log(error);
             reject(error);
           });
         return true;

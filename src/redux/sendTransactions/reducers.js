@@ -17,7 +17,6 @@ const addTransaction = (payload, state) => {
 };
 
 const sendTransactions = (state = defaultState, action) => {
-  console.log(action, 'actionaction');
   switch (action.type) {
     case `${actions.TRANSFER_MONEY}_SUCCESS`: {
       const { payload } = action;
