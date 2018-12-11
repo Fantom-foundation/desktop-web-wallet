@@ -35,6 +35,12 @@ class Home extends React.PureComponent {
     history.push(route);
   }
 
+  // eslint-disable-next-line class-methods-use-this
+  learnMore() {
+    // eslint-disable-next-line no-undef
+    window.open('http://fantom.foundation/');
+  }
+
   render() {
     return (
       <div id="home" className="home landing-page">
@@ -52,11 +58,11 @@ class Home extends React.PureComponent {
                   <Button
                     color="dark"
                     className="rounded"
-                    onClick={() => this.goToPage('/restore-account')}
+                    onClick={() => this.goToPage('/create-account')}
                   >
-                    Open Wallet
+                    Create Wallet
                   </Button>
-                  <Button color="dark" className="rounded" onClick={this.createNewAccount}>
+                  <Button color="dark" className="rounded" onClick={this.learnMore}>
                     Learn More
                   </Button>
                 </Col>

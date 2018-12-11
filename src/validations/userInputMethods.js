@@ -4,6 +4,7 @@ export default class ValidationMethods {
    * @param {Password} password
    * This method will check if the password is correct or not
    */
+  // eslint-disable-next-line class-methods-use-this
   isPasswordCorrect(key, password) {
     const obj = {
       containNumber: true,
@@ -16,9 +17,8 @@ export default class ValidationMethods {
         if (!/\d/.test(password)) {
           obj.containNumber = false;
         }
-        const noOfUpperCaseLetters = this.getNoOfUppercaseLetters(password);
         // check it contains at least 1 Capital letter
-        if (noOfUpperCaseLetters !== 1) {
+        if (password.toLowerCase() === password) {
           obj.containCapitalLetter = false;
         }
         // check it has length of 8 characters
