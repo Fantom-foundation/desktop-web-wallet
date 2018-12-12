@@ -1,171 +1,105 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import Hdkey from 'hdkey';
-import EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
-import { withRouter } from 'react-router-dom';
-import copy from 'copy-to-clipboard';
-import _ from 'lodash';
-import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
-import QRCode from 'qrcode.react';
-import { CONFIRMATION_PHASE } from '../../../redux/constants';
-// import createMnemonic from '../../../redux/keys/actions';
-import {
-  createMnemonic,
-  createAccount,
-  setNextButtonStatus,
-  incrementStepNo,
-} from '../../../redux/accountInProgress/action';
-import Identicons from '../../general/identicons/identicons';
-// import qrImg from '../../../images/qr/FantomQR.jpg';
-import noView from '../../../images/icons/no-view.png';
+import PropTypes from 'prop-types';
+import { ToastContainer, ToastStore } from 'react-toasts';
+import ReactToPrint from 'react-to-print';
 
-// const QR = () => (
-//   <>
-//     <img src={qrImg} className="w-100" alt="qr-img" />
-//   </>
-// );
+import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
+import QRCode from '../../general/qr/index';
+import copyToClipboard from '../../../utility';
+import { CONFIRMATION_PHASE } from '../../../redux/constants';
+import { createPublicPrivateKeys } from '../../../redux/keys/actions';
+import { createMnemonic } from '../../../redux/accountInProgress/action';
+import Identicons from '../../general/identicons/identicons';
+import noView from '../../../images/icons/no-view.png';
+import { walletSetup } from '../../../redux/accountManagement';
+
+import AccountDetailPrint from '../../components/print-form/index';
 
 class AccountInformation extends React.PureComponent {
   constructor(props) {
     super(props);
-    this.state = {
-      // masterKey: '',
-      publicKey: '',
-      // privateKey: '',
-      revealSecret: false,
-      confirmationPhrase: '',
-      // disableNextButton: false,
-    };
-    this.copyToClipboard = this.copyToClipboard.bind(this);
-    this.revealSecret = this.revealSecret.bind(this);
+    this.state = {};
     this.getMnemonics = this.getMnemonics.bind(this);
-    this.goToNextScreen = this.goToNextScreen.bind(this);
-    this.goToPreviousScreen = this.goToPreviousScreen.bind(this);
-  }
-
-  componentWillMount() {
-    this.disableNextButton();
   }
 
   componentDidMount() {
-    const SELF = this;
-    const { accountInfo } = SELF.props;
+    const { accountInfo, setMnemonicCode, setKeys } = this.props;
     let { mnemonic } = accountInfo;
-    if (!mnemonic) {
-      mnemonic = Bip39.generateMnemonic();
-    }
-    const seed = Bip39.mnemonicToSeed(mnemonic); // creates seed buffer
-    this.walletSetup(seed, mnemonic);
+    mnemonic = Bip39.generateMnemonic();
+    const keys = walletSetup(mnemonic);
+    setKeys({ publicAddress: keys.publicAddress });
+    setMnemonicCode({ mnemonic });
   }
 
+  /**
+   * @param {State Variable} key
+   * @param {Value of the variable} value
+   * This method will update the value of the state variables
+   */
   onUpdate(key, value) {
-    this.setState(
-      {
-        [key]: value,
-      },
-      () => this.disableNextButton(key, value)
-    );
+    this.setState({
+      [key]: value,
+    });
   }
 
+  /**
+   * This method will return the list of the Mnemonics
+   */
   getMnemonics() {
-    const SELF = this;
-    const { accountInfo } = SELF.props;
+    const { accountInfo } = this.props;
     const { mnemonic } = accountInfo;
     const mnemonicsList = [];
     const generatedMnemonic = mnemonic ? mnemonic.split(' ') : mnemonic;
     if (generatedMnemonic && generatedMnemonic.length > 0) {
-      // eslint-disable-next-line no-restricted-syntax
-      for (const name of generatedMnemonic) {
-        mnemonicsList.push(<li>{name}</li>);
+      for (let i = 0; i < generatedMnemonic.length; i += 1) {
+        mnemonicsList.push(<li key={i}>{generatedMnemonic[i]}</li>);
       }
     }
 
     return mnemonicsList;
   }
 
-  disableNextButton(key, value) {
-    const SELF = this;
-    const { setButtonStatus } = SELF.props;
-    const { revealSecret, confirmationPhrase } = this.state;
-    let isDisable = true;
-    const data = {
-      revealSecret: key === 'revealSecret' ? value === true : revealSecret,
-      confirmationPhrase:
-        key === 'confirmationPhrase' ? value === CONFIRMATION_PHASE : confirmationPhrase,
-    };
-    const isAnyFieldEmpty = _.includes(data, '');
-    const isAnyFieldUndefined = _.includes(data, undefined);
-    const isPasswordIncorrect = _.includes(data, false);
-    if (!isAnyFieldEmpty && !isPasswordIncorrect && !isAnyFieldUndefined) {
-      isDisable = false;
-    }
-    setButtonStatus({ isDisable });
-  }
+  // To  render account information print screen
+  printAccountData() {
+    const { accountInfo, accountKeys } = this.props;
+    const { mnemonic } = accountInfo;
+    const { publicAddress } = accountKeys;
 
-  revealSecret() {
-    this.setState({
-      revealSecret: true,
-    });
-    this.disableNextButton('revealSecret', true);
-  }
-
-  goToNextScreen() {
-    const SELF = this;
-    const { goToStep, history } = SELF.props;
-    goToStep({ stepNo: 3 });
-    history.push('/confirm');
-  }
-
-  goToPreviousScreen() {
-    const SELF = this;
-    const { goToStep, history } = SELF.props;
-    goToStep({ stepNo: 1 });
-    history.push('/create-account');
-  }
-
-  walletSetup(seed, mnemonic) {
-    const SELF = this;
-    const { setMnemonicCode } = SELF.props;
-    const root = Hdkey.fromMasterSeed(seed);
-    // const masterK  ey = root.privateKey.toString('hex');
-    const addrNode = root.derive("m/44'/60'/0'/0/0");
-    const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
-    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
-    const publicKey = EthUtil.toChecksumAddress(addr);
-    // const privateKey = EthUtil.bufferToHex(addrNode._privateKey); //eslint-disable-line
-    // setKeys({ masterKey, publicKey, privateKey });
-    this.setState({ publicKey });
-    setMnemonicCode({ mnemonic });
-  }
-
-  copyToClipboard() {
-    const SELF = this;
-    const { accountKeys } = SELF.props;
-    const { publicKey } = accountKeys;
-    copy(publicKey);
+    return (
+      <div style={{ display: 'none' }}>
+        {/* eslint-disable-next-line no-return-assign */}
+        <div ref={el => (this.printAccountDetail = el)}>
+          <AccountDetailPrint mnemonic={mnemonic} address={publicAddress} />
+        </div>
+      </div>
+    );
   }
 
   render() {
-    const SELF = this;
-    const { accountInfo } = SELF.props;
-    const { accountName, selectedIcon } = accountInfo;
-    const { publicKey, revealSecret, confirmationPhrase } = this.state;
-    const getMnemonics = this.getMnemonics();
-    const data = {
+    const {
+      accountInfo,
+      accountKeys,
       revealSecret,
-      confirmationPhrase: confirmationPhrase === CONFIRMATION_PHASE,
-    };
-    console.log(data, 'datatadta');
+      revealSecretFunc,
+      confirmationPhrase,
+      onUpdate,
+    } = this.props;
+    const { accountName, selectedIcon } = accountInfo;
+    const { publicAddress } = accountKeys;
+    const getMnemonics = this.getMnemonics();
+    const accDetailsYSpaces = '26px';
     return (
       <div id="account-information" className="account-information">
-        <section className="bg-dark" style={{ padding: '40px 0 70px' }}>
+        <section className="bg-dark" style={{ padding: `${accDetailsYSpaces} 0 60px` }}>
+          {this.printAccountData()}
           <Container>
-            <Row className="acc-details bg-dark-light" style={{ marginBottom: '30px' }}>
-              <Col>
+            <Row className="acc-details bg-dark-light" style={{ marginBottom: accDetailsYSpaces }}>
+              <Col className="left-col">
                 <div className="acc-qr">
-                  <QRCode value="publicKey" level="H" size={158} />
+                  <QRCode bgColor="black" fgColor="white" address={publicAddress} />
                 </div>
                 <div className="acc-name-holder">
                   <Identicons id={selectedIcon} width={50} size={3} />
@@ -178,17 +112,17 @@ class AccountInformation extends React.PureComponent {
                       <button
                         type="button"
                         className="clipboard-btn"
-                        onClick={this.copyToClipboard}
+                        onClick={e => copyToClipboard(e, publicAddress)}
                       >
                         <i className="fas fa-clone" />
                       </button>
                     </span>
-                    {publicKey}
+                    {publicAddress}
                   </p>
                 </div>
               </Col>
               <Col className="qr-col">
-                <QRCode value="publicKey" level="H" size={158} />
+                <QRCode bgColor="black" fgColor="white" address={publicAddress} />
               </Col>
             </Row>
           </Container>
@@ -199,20 +133,25 @@ class AccountInformation extends React.PureComponent {
                   <h2 className="title ">
                     <span>Owner Recovery Phrase</span>
                   </h2>
-                  <Button>
-                    <i className="fas fa-print" />
-                  </Button>
+                  <ReactToPrint
+                    trigger={() => (
+                      <Button>
+                        <i className="fas fa-print" />{' '}
+                      </Button>
+                    )}
+                    content={() => this.printAccountDetail}
+                  />
                 </div>
               </Col>
             </Row>
-            <Row className="bg-dark-light" style={{ padding: '90px 0' }}>
+            <Row className="bg-dark-light" style={{ padding: '40px 0' }}>
               <Col>
-                <Row style={{ padding: '0 0 90px' }}>
+                <Row style={{ padding: '0 0 40px' }}>
                   <Col>
                     <div id="mnemonic-collector">
                       <ul className={!revealSecret ? 'blur' : ''}>{getMnemonics}</ul>
                       {!revealSecret && (
-                        <button className="blur-overley" type="button" onClick={this.revealSecret}>
+                        <button className="blur-overley" type="button" onClick={revealSecretFunc}>
                           <div className="holder">
                             <h2>Click Here To Reveal Secret Words</h2>
                           </div>
@@ -241,7 +180,7 @@ class AccountInformation extends React.PureComponent {
               <Col>
                 <p className="text-white">
                   Please back up the recovery phase now. Make sure to keep it private and secure, it
-                  allows full and unlimited access to your account and help you to restore your
+                  allows full and unlimited access to your account and can be used to restore your
                   wallet.
                 </p>
                 <FormGroup>
@@ -251,14 +190,14 @@ class AccountInformation extends React.PureComponent {
                       {'"'}
                       {CONFIRMATION_PHASE}
                       {'"'}
-                    </span>
+                    </span>{' '}
                     below to confirm it is backed up.
                   </Label>
                   <div className="input-holder">
                     <Input
                       type="text"
                       name="msg"
-                      onChange={e => this.onUpdate('confirmationPhrase', e.currentTarget.value)}
+                      onChange={e => onUpdate('confirmationPhrase', e.currentTarget.value)}
                       id="msg"
                       value={confirmationPhrase}
                       autoFocus={false}
@@ -269,6 +208,7 @@ class AccountInformation extends React.PureComponent {
               </Col>
             </Row>
           </Container>
+          <ToastContainer position={ToastContainer.POSITION.TOP_CENTER} store={ToastStore} />
         </section>
       </div>
     );
@@ -277,31 +217,28 @@ class AccountInformation extends React.PureComponent {
 
 const mapStateToProps = state => ({
   accountInfo: state.accountInfo,
-  stepNo: state.accountInfo.stepNo,
+  accountKeys: state.accountKeys,
 });
 
 const mapDispatchToProps = dispatch => ({
-  // setKeys: data => {
-  //   dispatch(() => createPublicPrivateKeys(data));
-  // },
-  incrementStepNo: data => {
-    dispatch(() => createAccount(data));
-  },
-  setMnemonicCode: data => {
-    dispatch(() => createMnemonic(data));
-  },
-  goToStep: data => {
-    dispatch(() => incrementStepNo(data));
-  },
-  setButtonStatus: data => {
-    dispatch(() => setNextButtonStatus(data));
-  },
+  setKeys: data => dispatch(createPublicPrivateKeys(data)),
+  setMnemonicCode: data => dispatch(createMnemonic(data)),
 });
+
+AccountInformation.propTypes = {
+  accountInfo: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  accountKeys: PropTypes.oneOfType([PropTypes.object]).isRequired,
+  setKeys: PropTypes.func.isRequired,
+  setMnemonicCode: PropTypes.func.isRequired,
+  revealSecret: PropTypes.bool.isRequired,
+  revealSecretFunc: PropTypes.func.isRequired,
+  confirmationPhrase: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+};
 
 export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
-  withRouter
+  )
 )(AccountInformation);

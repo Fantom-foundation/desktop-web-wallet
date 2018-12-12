@@ -10,7 +10,11 @@
   }
   .main-col {
     padding: 0 7px;
-    margin-bottom: 14px;
+    // margin-bottom: 14px;
+    margin-top: 14px;
+  }
+  .main-col:hover {
+    cursor: pointer;
   }
   .accounts-holder {
     height: 100%;
@@ -33,19 +37,18 @@
         border-radius: 100%;
         box-shadow: 0px 6px 8.73px 0.27px rgba(0, 0, 0, 0.14);
         position: relative;
-        img {
+        svg {
           position: absolute;
           top: 50%;
           left: 50%;
-          transform: translate(-50%, -50%) scale(0.6);
-          width: 100%;
+          transform: translate(-50%, -50%) scale(0.9);
         }
       }
     }
     .title,
     p {
       font: {
-        family: "Roboto Condensed";
+        family: map-get($font, page-title);
       }
     }
     .title {
@@ -78,19 +81,16 @@
 //account info
 #account-information {
   .acc-details {
-    padding: 50px 28px;
+    padding: 30px 28px;
 
-    @media (max-width: 767px) {
-      padding-bottom: 50px;
-    }
     .acc-name-holder {
-      margin-bottom: 50px;
+      margin-bottom: 26px;
       .acc-name {
         display: inline-block;
         padding-left: 30px;
         color: map-get($color, acc-info-acc-name);
         font: {
-          family: "Roboto Condensed";
+          family: "Roboto";
           size: 26px;
         }
       }
@@ -100,7 +100,7 @@
       color: map-get($color, acc-info-address-title);
       margin-bottom: 22px;
       font: {
-        family: "Roboto Condensed";
+        family: "Roboto";
         size: 24px;
       }
     }
@@ -113,7 +113,7 @@
       }
       p {
         font: {
-          family: "Noto Sans";
+          family: "Lato";
           weight: 200;
           size: 18px;
         }
@@ -126,6 +126,10 @@
     .acc-qr {
       text-align: center;
       margin-bottom: 15px;
+      canvas {
+        width: 120px;
+        height: 120px;
+      }
       img {
         max-width: 180px;
       }
@@ -134,13 +138,400 @@
       }
     }
     .col {
-      &.qr-col {
-        max-width: 230px;
-        @media (max-width: 767px) {
-          max-width: 200px;
+      &.left-col {
+        @media (min-width: 768px) {
+          max-width: calc(100% - 190px);
         }
+      }
+      &.qr-col {
+        text-align: right;
+        max-width: 190px;
+
         @media (max-width: 767px) {
           display: none;
+        }
+      }
+    }
+  }
+}
+
+.restore-confirm {
+  margin: auto;
+  max-width: 795px;
+  .vault-container {
+    padding: 1.5rem 3rem 1rem;
+    @media (max-width: 768px) {
+      padding: 1.5rem 2rem;
+    }
+    @media (max-width: 575px) {
+      padding: 1rem;
+    }
+    .form-group {
+      label {
+        color: map-get($color, restore-vault-input-label);
+        font: {
+          family: map-get($font, restore-confirm);
+          size: 16px;
+        }
+        @media (max-width: 768px) {
+          font: {
+            size: 14px;
+          }
+        }
+      }
+      textarea {
+        color: #fff;
+        border-color: #484848;
+        box-shadow: none;
+        outline: none !important;
+        background: {
+          color: #323232;
+        }
+      }
+    }
+    p {
+      margin-bottom: 4px;
+      font: {
+        family: map-get($font, restore-confirm);
+        size: 16px;
+      }
+      @media (max-width: 768px) {
+        font: {
+          size: 14px;
+        }
+      }
+    }
+  }
+}
+
+#acc-details {
+  padding: 30px 0;
+  font: {
+    family: "Roboto";
+  }
+  .avatar-container {
+    text-align: center;
+    @media (max-width: 991px) and (min-width: 768px) {
+      text-align: left;
+      padding: 0 20px;
+    }
+    .avatar {
+      background: #fff;
+      border-radius: 100%;
+      height: 75px;
+      width: 75px;
+      margin-bottom: 14px;
+      display: inline-block;
+      position: relative;
+      svg {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+    }
+  }
+  .acc-title {
+    text-align: center;
+    margin-bottom: 12px;
+    @media (max-width: 991px) and (min-width: 768px) {
+      text-align: left;
+      padding: 0 20px;
+    }
+    font: {
+      size: 22px;
+    }
+  }
+  .account-no {
+    padding: 0 10%;
+    text-align: left;
+    @media (max-width: 991px) and (min-width: 768px) {
+      padding: 0 20px;
+    }
+    i {
+      color: map-get($color, acc-details-copy-btn);
+      cursor: pointer;
+      margin-right: 3px;
+    }
+    p {
+      font: {
+        family: "Lato";
+
+        size: 16px;
+        weight: 300;
+      }
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      color: map-get($color, acc-details-acc-no);
+      @media (max-width: 991px) {
+        margin-bottom: 5px;
+      }
+      .btn {
+        margin-right: 6px;
+      }
+    }
+  }
+  .info {
+    text-align: center;
+    margin-bottom: 20px;
+    @media (max-width: 991px) and (min-width: 768px) {
+      text-align: left;
+      padding: 0 20px;
+    }
+    @media (max-width: 991px) {
+      margin-bottom: 10px;
+    }
+    p {
+      font: {
+        weight: 300;
+      }
+      padding: 5px 0;
+      margin-bottom: 8px;
+      color: #fff;
+      background: #323232;
+      @media (max-width: 991px) {
+        margin-bottom: 0px;
+        padding: 3px 0;
+      }
+    }
+  }
+  .qr {
+    margin-bottom: 30px;
+    text-align: center;
+    @media (max-width: 991px) and (min-width: 768px) {
+      position: absolute;
+      top: 85px;
+      right: 35px;
+    }
+    @media (max-width: 991px) {
+      margin-bottom: 10px;
+    }
+    canvas {
+      @media (max-width: 991px) {
+        width: 130px !important;
+        height: 130px !important;
+      }
+    }
+  }
+  .ftm-no {
+    p {
+      width: calc(100% - 20%);
+      text-align: center;
+      margin: auto;
+      color: #fff;
+      border: 1px solid #4a4a4a;
+      background: #323232;
+      padding: 2rem 2rem;
+      border-radius: 8px;
+      font: {
+        size: 22px;
+      }
+      @media (max-width: 991px) {
+        padding: 1rem 1rem;
+      }
+      @media (min-width: 768px) and (max-width: 991px) {
+        margin-top: 24px;
+      }
+      span {
+        font: {
+          size: 80%;
+          weight: 300;
+        }
+      }
+    }
+  }
+}
+#account-datails {
+  .add-wallet {
+    .title {
+      @media (max-width: 1200px) and (min-width: 992px) {
+        font: {
+          size: 18px;
+        }
+      }
+    }
+  }
+}
+#acc-cards {
+  color: #fff;
+
+  position: relative;
+  min-height: 200px;
+  height: calc(100% - 50px);
+
+  @media (min-width: 992px) {
+    height: 628px;
+    overflow-y: auto;
+    padding-right: 7px;
+    &::-webkit-scrollbar {
+      width: 5px;
+      height: 0;
+      background: transparent;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: #797979;
+      border-radius: 30px;
+    }
+  }
+  .m-msg {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    transform: translateY(-50%);
+  }
+  font: {
+    family: "Roboto";
+  }
+  .card {
+    margin-top: 10px;
+    &:nth-last-child(1) {
+      margin-bottom: 10px;
+    }
+    @media (max-width: 767px) {
+      margin-top: 20px;
+    }
+    .row {
+      margin: 0;
+    }
+    .col {
+      padding: 0;
+
+      &.acc-no-col,
+      &.time-col {
+        @media (max-width: 767px) {
+          padding-left: 80px !important;
+          p {
+            padding-left: 0px !important;
+          }
+        }
+      }
+
+      &.date-col {
+        text-align: center;
+        max-width: 60px;
+        @include responsive-width(80px);
+        @media (max-width: 767px) {
+          @include responsive-width(100%);
+          text-align: left;
+          padding: 0 15px;
+          position: absolute;
+          width: 80px;
+          height: calc(100% - 32px);
+        }
+        div {
+          background: {
+            size: auto 14px;
+            position: top right 4px;
+            repeat: no-repeat;
+          }
+          @media (max-width: 767px) {
+            height: 100%;
+            padding-top: 23px;
+            padding-left: 8px;
+
+            background: {
+              position: top 7px right 6px;
+            }
+          }
+          // @media (min-width: 767px) {
+          border-right: 1px solid #4a4a4a;
+          // }
+          p {
+            margin: 5px 0;
+            font: {
+              family: "Roboto";
+            }
+
+            &.day {
+              @media (max-width: 767px) {
+                margin-right: 10px;
+              }
+              font: {
+                size: 18px;
+                weight: 300;
+              }
+            }
+            &.month {
+              font: {
+                size: 12px;
+                weight: 300;
+              }
+            }
+          }
+        }
+      }
+      &.acc-no-col {
+        padding-left: 15px;
+        @include responsive-width(calc(100% - 360px));
+        @media (max-width: 767px) {
+          @include responsive-width(100%);
+          padding: 0 15px;
+        }
+        p {
+          font: {
+            size: 14px;
+            weight: 300;
+          }
+          margin: 7px 0;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          color: map-get($color, acc-details-card-acc-no);
+
+          span {
+            color: #fff;
+          }
+        }
+      }
+      &.time-col {
+        @include responsive-width(140px);
+        @media (max-width: 767px) {
+          @include responsive-width(100%);
+          text-align: left;
+        }
+        text-align: center;
+        p {
+          display: inline-block;
+          white-space: nowrap;
+          transform: skewX(-12deg);
+          font: {
+            size: 10px;
+          }
+          @media (min-width: 768px) {
+            margin: 25px 0 0;
+          }
+          @media (max-width: 767px) {
+            padding: 0 15px;
+            font: {
+              size: 14px;
+            }
+          }
+        }
+      }
+      &.btn-col {
+        text-align: right;
+        @include responsive-width(140px);
+        @media (max-width: 767px) {
+          @include responsive-width(100%);
+        }
+        .btn {
+          width: 100%;
+          padding: 6px 20px;
+          font: {
+            size: 12px;
+          }
+          color: #fff;
+
+          @media (min-width: 768px) {
+            margin-top: 16px;
+          }
+          &.btn-green {
+            background: #6abb10;
+          }
+          &.btn-red {
+            background: #ff2627;
+          }
         }
       }
     }

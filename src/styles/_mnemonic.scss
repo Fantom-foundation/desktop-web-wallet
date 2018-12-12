@@ -28,7 +28,7 @@ $border-radius: 8px;
       display: inline-block;
       color: map-get($color, mnemonic-collector-list);
       font: {
-        family: "Roboto Condensed";
+        family: "Lato";
         size: 26px;
       }
       @media (max-width: 767px) {
@@ -64,8 +64,9 @@ $border-radius: 8px;
         color: #fff;
         text-align: center;
         font: {
-          family: "Roboto Condensed";
+          family: "Roboto";
           size: 26px;
+          weight: 400;
         }
 
         @media (max-width: 576px) {
@@ -79,14 +80,14 @@ $border-radius: 8px;
 #mnemonic-selector {
   .bg-dark-light {
     padding: {
-      top: 50px;
-      bottom: 100px;
+      top: 42px;
+      bottom: 70px;
     }
   }
   h2 {
-    margin: 90px 0 70px;
+    margin: 55px 0 40px;
     font: {
-      family: "Noto Sans";
+      family: "Roboto";
       size: 24px;
     }
     @media (max-width: 767px) {
@@ -103,9 +104,10 @@ $border-radius: 8px;
 
   .btn {
     border-radius: $border-radius;
+    padding: 4px 26px;
     font: {
-      family: "Noto Sans";
-      size: 18px;
+      family: "Roboto";
+      size: 16px;
     }
   }
   ul {
@@ -126,17 +128,20 @@ $border-radius: 8px;
   .mnemonic-container {
     max-width: 804px;
     border: 2px dashed #fff;
-    min-height: 153px;
+    min-height: 146px;
     border-radius: $border-radius;
     padding: 54px 64px;
-    margin-bottom: 200px;
+    margin-bottom: 70px;
     @media (max-width: 991px) {
-      margin-bottom: 120px;
+      margin-bottom: 50px;
     }
     @media (max-width: 767px) {
-      min-height: 105px;
+      min-height: 98px;
       padding: 30px;
-      margin-bottom: 90px;
+      margin-bottom: 40px;
+    }
+    @media (max-width: 575px) {
+      padding: 30px 20px;
     }
     ul {
       li {
@@ -166,27 +171,34 @@ $border-radius: 8px;
       }
     }
   }
-  .mnemonic-btn {
-    padding: 70px 0;
-    .btn {
-      height: 60px;
-      margin: auto;
-      margin-bottom: 30px;
-      display: block;
-      text-transform: uppercase;
-      transition: 0.3s all;
-      &:hover {
-        opacity: 0.7;
-      }
-      &.create-wallet {
-        color: map-get($color, btn-primary);
-        border: 2px solid map-get($color, btn-primary);
-        background: transparent;
-      }
-      &.cancel {
-        color: #fff;
-        border: 1px solid #fff;
-        background: transparent;
+}
+.mnemonic-btn {
+  padding: 40px 0;
+  .btn {
+    height: 50px;
+    margin: auto;
+    margin-bottom: 24px;
+    display: block;
+    text-transform: uppercase;
+    transition: 0.3s all;
+    &:hover {
+      opacity: 0.7;
+    }
+    &.create-wallet {
+      color: map-get($color, btn-primary);
+      border: 2px solid map-get($color, btn-primary);
+      background: transparent;
+    }
+    &.cancel {
+      color: #fff;
+      border: 1px solid #fff;
+      background: transparent;
+    }
+    @media (max-width: 768px) {
+      height: 40px;
+      margin-bottom: 20px;
+      font: {
+        size: 14px;
       }
     }
   }

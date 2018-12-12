@@ -1,6 +1,7 @@
 /* global document */
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
+import PropTypes from 'prop-types';
 import Layout from '../../components/layout';
 
 class Home extends React.PureComponent {
@@ -25,10 +26,19 @@ class Home extends React.PureComponent {
     });
   }
 
+  /**
+   * @param {Page route} route
+   * This method will push screen to the passed route
+   */
   goToPage(route) {
-    const SELF = this;
-    const { history } = SELF.props;
+    const { history } = this.props;
     history.push(route);
+  }
+
+  // eslint-disable-next-line class-methods-use-this
+  learnMore() {
+    // eslint-disable-next-line no-undef
+    window.open('http://fantom.foundation/');
   }
 
   render() {
@@ -50,9 +60,9 @@ class Home extends React.PureComponent {
                     className="rounded"
                     onClick={() => this.goToPage('/create-account')}
                   >
-                    Open Wallet
+                    Create Wallet
                   </Button>
-                  <Button color="dark" className="rounded" onClick={this.createNewAccount}>
+                  <Button color="dark" className="rounded" onClick={this.learnMore}>
                     Learn More
                   </Button>
                 </Col>
@@ -66,5 +76,9 @@ class Home extends React.PureComponent {
     );
   }
 }
+
+Home.propTypes = {
+  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+};
 
 export default Home;

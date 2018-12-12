@@ -1,9 +1,8 @@
 import * as types from '../constants';
-import { dispatch } from '../store';
 
-export default function createAccount(data) {
-  dispatch({
-    type: types.CREATE_NEW_ACCOUNT,
+export default function createWallet(data) {
+  return {
+    type: types.CREATE_WALLET,
     payload: data,
-  });
+  };
 }

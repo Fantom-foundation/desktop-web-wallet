@@ -1,15 +1,33 @@
 .btn {
-  font-family: "Noto Sans";
+  font-family: map-get($font, btn);
   padding: {
     left: 30px;
     right: 30px;
+  }
+  &.bordered {
+    border-radius: 8px;
+    padding: 4px 26px;
+    font-size: 16px;
+    height: 50px;
+    font-family: "Roboto";
+    font-size: 16px;
+    border-width: 1px !important;
+    border-style: solid !important;
+    background: transparent !important;
+    &:hover {
+      opacity: 0.8;
+    }
   }
   &.rounded {
     border-radius: 50px !important;
   }
   &.btn-primary {
-    box-shadow: none;
+    box-shadow: none !important;
+    outline: none;
     border: 1px solid map-get($color, btn-primary);
+    &.bordered {
+      color: map-get($color, btn-primary) !important;
+    }
     background: {
       color: map-get($color, btn-primary);
     }

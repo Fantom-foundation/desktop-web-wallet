@@ -4,16 +4,17 @@ header {
   position: relative;
   position: sticky;
   top: 0;
-  z-index: 999999;
+  z-index: 999;
   .nav-holder {
     padding: 20px 0;
   }
   nav {
     overflow: hidden;
-    max-width: 1600px;
+    // max-width: 1600px;
+    max-width: 1140px;
     margin: auto;
     .logo {
-      height: 39px;
+      height: 30px;
     }
     .navbar-collapse {
       position: relative;
@@ -33,15 +34,6 @@ header {
       }
       .navbar-nav {
         .nav-item {
-          // @media (min-width: 768px) {
-          //   margin-left: 50px;
-          // }
-          // @media (min-width: 992px) {
-          //   margin-left: 100px;
-          // }
-          // @media (min-width: 1201px) {
-          //   margin-left: 160px;
-          // }
           @media (min-width: 768px) {
             margin-left: 20px;
           }
@@ -52,16 +44,15 @@ header {
             margin-left: 0 !important;
             border-top: 0px !important;
           }
-
           font: {
-            family: $navlink-fontFamily;
-            size: 18px;
+            family: map-get($font, header-menu);
+            size: map-get($font, header-menu-size);
             weight: 400;
           }
           @media (max-width: 767px) {
             border-top: 1px solid #000;
             font: {
-              size: 16px;
+              size: map-get($font, header-menu-size) - 2px;
             }
           }
           .nav-link {
@@ -70,11 +61,15 @@ header {
             color: map-get($color, nav-link);
             &:hover {
               color: map-get($color, nav-link-hover);
+              cursor: pointer;
             }
             @media (max-width: 767px) {
               text-align: center;
               padding: 10px 0;
             }
+          }
+          .selected {
+            color: map-get($color, nav-link-active) !important;
           }
         }
       }
@@ -104,8 +99,8 @@ header {
     margin-bottom: 20px;
     color: map-get($color, footer-menu-title);
     font: {
-      family: $footerTitle-fontFamily;
-      size: 20px;
+      family: map-get($font, footer-menu-title);
+      size: map-get($font, footer-menu-title-size);
     }
   }
   .menu {
@@ -115,14 +110,14 @@ header {
       .menu-link {
         color: map-get($color, footer-menu-link);
         font: {
-          family: $footerlink-fontFamily;
-          size: 18px;
-          weight: 300;
+          family: map-get($font, footer-menu-link);
+          size: map-get($font, footer-menu-link-size);
+          weight: map-get($font, footer-menu-link-weight);
         }
 
         @media (max-width: 767px) {
           font: {
-            size: 16px;
+            size: map-get($font, footer-menu-link-size) - 2px;
           }
         }
       }

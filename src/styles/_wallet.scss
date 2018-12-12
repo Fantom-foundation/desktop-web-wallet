@@ -1,3 +1,39 @@
+.wallet-bar {
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+  flex-wrap: wrap;
+  .title {
+    -ms-flex-preferred-size: 0;
+    flex-basis: 0;
+    -ms-flex-positive: 1;
+    flex-grow: 1;
+    max-width: 100%;
+
+    padding: 8px 30px;
+    margin: 0;
+    color: map-get($color, add-wallet-title);
+    background: {
+      color: map-get($color, add-wallet-title-background);
+    }
+    font: {
+      family: map-get($font, wallet-bar);
+      size: 22px;
+      weight: 300;
+    }
+    @media (max-width: 991px) {
+      font: {
+        size: 20px;
+      }
+    }
+    @media (max-width: 767px) {
+      padding: 7px 18px;
+      font: {
+        size: 18px;
+      }
+    }
+  }
+}
 .add-wallet {
   display: -ms-flexbox;
   display: flex;
@@ -10,10 +46,11 @@
     flex-grow: 1;
     max-width: 100%;
     font: {
-      family: "Roboto Condensed";
-      size: 28px;
+      family: map-get($font, wallet-bar);
+      size: map-get($font, wallet-bar-size);
+      weight: 400;
     }
-    padding: 14px 30px;
+    padding: 12px 30px;
     margin: 0;
     color: map-get($color, add-wallet-title);
     background: {
@@ -21,18 +58,34 @@
     }
     @media (max-width: 991px) {
       font: {
-        size: 24px;
+        size: map-get($font, wallet-bar-size) - 2px;
       }
     }
     @media (max-width: 767px) {
+      padding: 12px 18px;
       font: {
-        size: 22px;
+        size: map-get($font, wallet-bar-size) - 4px;
       }
+    }
+  }
+
+  .dropdown {
+    position: relative;
+    width: 100px;
+    color: map-get($color, btn-add-wallet);
+    border-radius: 0;
+    background: {
+      color: map-get($color, btn-add-wallet-background);
+    }
+    .toggle-btn {
+      width: 100%;
+      height: 100%;
+      padding: 0;
     }
   }
   .btn {
     position: relative;
-    width: 70px;
+    width: 65px;
     color: map-get($color, btn-add-wallet);
     border-radius: 0;
     background: {
@@ -49,9 +102,24 @@
         padding: 5px;
         border-radius: 100%;
       }
-      &.fa-print,
+      &.fa-print {
+        font-size: 24px;
+      }
       &.fa-sync-alt {
-        font-size: 28px;
+        font-size: 22px;
+      }
+      &.rotate {
+        animation: rotation 1s infinite;
+        @keyframes rotation {
+          from {
+            transform: rotate(0deg) translate(-50%, -50%);
+            transform-origin: 0 0;
+          }
+          to {
+            transform: rotate(360deg) translate(-50%, -50%);
+            transform-origin: 0 0;
+          }
+        }
       }
     }
   }

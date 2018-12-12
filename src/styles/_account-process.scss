@@ -1,21 +1,68 @@
-$b-bar: #5ea5ee;
+$b-bar: $theme-blue;
 $transition-time: 0.3s;
 #account-process {
-  max-width: 876px;
+  // max-width: 876px;
+  max-width: 700px;
   margin: auto;
   position: relative;
+  @media (max-width: 991px) {
+    max-width: 576px;
+  }
+
+  @media (max-width: 767px) {
+    max-width: 400px;
+  }
+  &.restore-account {
+    max-width: 400px;
+    @media (max-width: 991px) {
+      max-width: 300px;
+    }
+
+    @media (max-width: 767px) {
+      max-width: 270px;
+    }
+    .c-2 {
+      h2 {
+        padding-right: 18px;
+        @media (max-width: 767px) {
+          padding-right: 21px;
+        }
+      }
+    }
+    .process-bar {
+      .holder {
+        .element {
+          width: 50%;
+        }
+      }
+    }
+  }
   .col {
     padding: 0;
     &.c-1 {
       h2 {
+        transform: translateX(-6%);
         @media (max-width: 372px) {
           text-align: center;
         }
       }
     }
+    &.c-2 {
+      h2 {
+      }
+    }
+    &.c-3 {
+      h2 {
+        padding-right: 18px;
+        @media (max-width: 767px) {
+          padding-right: 21px;
+        }
+      }
+    }
     svg {
+      transform: scale(0.9);
       @media (max-width: 767px) {
-        transform: scale(0.6);
+        transform: scale(0.5);
       }
       @media (max-width: 500px) {
         transform: scale(0.5);
@@ -35,7 +82,7 @@ $transition-time: 0.3s;
       color: #fff;
       margin-top: 10px;
       font: {
-        family: "Roboto Condensed";
+        family: map-get($font, acc-process);
         size: 16px;
       }
       @media (max-width: 767px) {
@@ -111,6 +158,7 @@ $transition-time: 0.3s;
     .element {
       &.e-1 {
         &::before {
+          left: -1px;
           right: 0;
         }
       }
@@ -135,6 +183,7 @@ $transition-time: 0.3s;
       &.e-2,
       &.e-3 {
         &::before {
+          left: -1px;
           right: 0;
         }
       }
@@ -153,6 +202,7 @@ $transition-time: 0.3s;
     .element {
       &.e-4 {
         &::before {
+          left: -1px;
           right: 0;
         }
       }

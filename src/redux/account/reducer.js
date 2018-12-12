@@ -1,22 +1,29 @@
 import * as types from '../constants';
-// import storage from '../store';
 
-const defaultState = {
-  accountName: '',
-  password: '',
-  passwordHint: '',
-  reEnteredPassword: '',
+const defaultState = { accountsList: [] };
+
+// return the list of registered accounts
+const addAccount = (payload, state) => {
+  if (payload) {
+    const { accountsList } = state;
+    if (payload) {
+      const accounts = {
+        accountsList: accountsList.concat(payload),
+      };
+      return accounts;
+    }
+  }
+  return {};
 };
 
-const accountInfo = (state = defaultState, action) => {
+// reducer to set the accounts state variable
+const accounts = (state = defaultState, action) => {
   const { payload } = action;
   switch (action.type) {
-    case types.CREATE_NEW_ACCOUNT: {
+    case types.CREATE_WALLET: {
+      const accountsList = addAccount(payload, state);
       return Object.assign({}, state, {
-        accountName: payload.accountName,
-        password: payload.password,
-        passwordHint: payload.passwordHint,
-        selectedIcon: payload.selectedIcon,
+        ...accountsList,
       });
     }
     default:
@@ -24,4 +31,4 @@ const accountInfo = (state = defaultState, action) => {
   }
 };
 
-export default accountInfo;
+export default accounts;

@@ -1,5 +1,6 @@
 import React from 'react';
 import { Row, Col, Form, FormGroup, Input } from 'reactstrap';
+import PropTypes from 'prop-types';
 import DisplayIdenticons from '../../../general/identicons';
 import cross from './cross.svg';
 import check from './check.svg';
@@ -13,13 +14,11 @@ export default class CreateAccount extends React.PureComponent {
   }
 
   render() {
-    const SELF = this;
     const {
       accountName,
       onUpdate,
       password,
       reEnteredPassword,
-      passwordHint,
       date,
       animateRefreshIcon,
       identiconsId,
@@ -30,7 +29,8 @@ export default class CreateAccount extends React.PureComponent {
       hasLengthGreaterThanEight,
       selectedIcon,
       error,
-    } = SELF.props;
+      isAccountNameExists,
+    } = this.props;
     return (
       <Form id="create-account-form">
         <FormGroup>
@@ -42,6 +42,11 @@ export default class CreateAccount extends React.PureComponent {
             onChange={e => onUpdate('accountName', e.currentTarget.value)}
             style={{ backgroundImage: `url(${user})` }}
           />
+          {isAccountNameExists ? (
+            <p style={{ color: 'red', 'margin-top': '10px' }}>Account Name already exists</p>
+          ) : (
+            ''
+          )}
         </FormGroup>
         <Row>
           <Col>
@@ -59,7 +64,7 @@ export default class CreateAccount extends React.PureComponent {
               <Input
                 type="password"
                 name="name"
-                placeholder="Re Enter Password"
+                placeholder="Re-enter Password"
                 value={reEnteredPassword}
                 onChange={e => onUpdate('reEnteredPassword', e.currentTarget.value)}
                 style={{ backgroundImage: `url(${lock})` }}
@@ -79,7 +84,7 @@ export default class CreateAccount extends React.PureComponent {
               </li>
               <li className="false">
                 <img src={containCapitalLetter ? check : cross} alt="invalid" className="ico" />
-                1+ Capilital Letter
+                1+ Upper Case Letter
               </li>
               <li className="false">
                 <img src={containNumber ? check : cross} alt="invalid" className="ico" />
@@ -88,16 +93,6 @@ export default class CreateAccount extends React.PureComponent {
             </ul>
           </Col>
         </Row>
-        <FormGroup>
-          <Input
-            type="text"
-            name="name"
-            placeholder="Password Hint"
-            value={passwordHint}
-            onChange={e => onUpdate('passwordHint', e.currentTarget.value)}
-            style={{ backgroundImage: `url(${lock})` }}
-          />
-        </FormGroup>
         <DisplayIdenticons
           animateRefreshIcon={animateRefreshIcon}
           date={date}
@@ -106,8 +101,29 @@ export default class CreateAccount extends React.PureComponent {
           onRefresh={onRefresh}
           getRadioIconData={getRadioIconData}
         />
-        {/* <Button onClick={createNewAccount}>Create Account</Button> */}
       </Form>
     );
   }
 }
+
+CreateAccount.defaultProps = {
+  reEnteredPassword: '',
+};
+
+CreateAccount.propTypes = {
+  accountName: PropTypes.string.isRequired,
+  onUpdate: PropTypes.func.isRequired,
+  password: PropTypes.string.isRequired,
+  reEnteredPassword: PropTypes.string,
+  date: PropTypes.number.isRequired,
+  animateRefreshIcon: PropTypes.bool.isRequired,
+  identiconsId: PropTypes.string.isRequired,
+  onRefresh: PropTypes.func.isRequired,
+  getRadioIconData: PropTypes.func.isRequired,
+  containNumber: PropTypes.bool.isRequired,
+  containCapitalLetter: PropTypes.bool.isRequired,
+  hasLengthGreaterThanEight: PropTypes.bool.isRequired,
+  selectedIcon: PropTypes.string.isRequired,
+  error: PropTypes.bool.isRequired,
+  isAccountNameExists: PropTypes.bool.isRequired,
+};

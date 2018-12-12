@@ -1,0 +1,83 @@
+#coin-overley {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 9999;
+  .background-overley {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: #000;
+    opacity: 0.5;
+    z-index: 1;
+  }
+  .close-btn {
+    position: absolute;
+    z-index: 3;
+    top: 30px;
+    right: 30px;
+    line-height: 22px;
+    font: {
+      size: 33px;
+      weight: 500;
+    }
+    transition: 0.3s all;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.3;
+    }
+  }
+  $width: 700px;
+  .overley-body {
+    &.closing {
+      animation: overley-body-closing 0.4s !important;
+    }
+    overflow: auto;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    max-width: $width;
+    background: #fff;
+    z-index: 2;
+    animation: overley-body 0.7s cubic-bezier(0.52, 1.64, 0.37, 0.66);
+    &::-webkit-scrollbar {
+      width: 0;
+      height: 0;
+    }
+    .main-header {
+      padding: 26px 30px;
+      border-bottom: 1px solid #484848;
+      .logo {
+        height: 30px;
+      }
+    }
+    .main-body {
+      padding: 26px 30px;
+    }
+  }
+  @keyframes overley-body {
+    from {
+      right: -$width;
+    }
+
+    to {
+      right: 0px;
+    }
+  }
+  @keyframes overley-body-closing {
+    from {
+      right: 0px;
+    }
+
+    to {
+      right: -$width;
+      opacity: 0;
+    }
+  }
+}

@@ -1,12 +1,12 @@
 import React from 'react';
 import identicons from 'identicons';
+import PropTypes from 'prop-types';
 
 /**
  * Identicons()  : Function for creating Identicons.
  */
 
 export default function Identicons(props) {
-  // eslint-disable-next-line react/prop-types
   const { width, size, id } = props;
   const newWidth = width;
   const newsize = size;
@@ -26,7 +26,7 @@ export default function Identicons(props) {
         y: String(Math.floor(y * side)),
         width: String(Math.ceil(side)),
         height: String(Math.ceil(side)),
-        style: { fill: color },
+        style: { fill: color, saturation: 0, brightness: 0 },
       });
       rects.push(rect);
     },
@@ -39,3 +39,9 @@ export default function Identicons(props) {
     </svg>
   );
 }
+
+Identicons.propTypes = {
+  width: PropTypes.number.isRequired,
+  size: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+};

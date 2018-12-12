@@ -1,30 +1,29 @@
 import * as types from '../constants';
-import { dispatch } from '../store';
 
 export function createAccount(data) {
-  dispatch({
+  return {
     type: types.CREATE_NEW_ACCOUNT,
     payload: data,
-  });
+  };
+}
+
+export function emptyState() {
+  return {
+    type: types.EMPTY_STATE,
+    payload: {},
+  };
 }
 
 export function createMnemonic(data) {
-  dispatch({
+  return {
     type: types.MNEMONIC_CODE,
     payload: data,
-  });
+  };
 }
 
 export function incrementStepNo(data) {
-  dispatch({
+  return {
     type: types.INCREMENT_STEP_NO,
     payload: data,
-  });
-}
-
-export function setNextButtonStatus(data) {
-  dispatch({
-    type: types.NEXT_BUTTON_DISABLE,
-    payload: data,
-  });
+  };
 }

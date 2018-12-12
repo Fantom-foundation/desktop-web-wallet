@@ -1,11 +1,14 @@
 $white: #fff;
-$theme-blue: #549aec;
+// $theme-blue: #549aec;
+$theme-blue: #00b1ff;
+
 $theme-blue-hover: #4b89ca;
 $color: (
   white: $white,
   black: #000,
   nav-link: $white,
   nav-link-hover: #8e8e8e,
+  nav-link-active: #549aec,
   footer-menu-title: $theme-blue,
   footer-menu-link: $white,
   text-primary: $theme-blue,
@@ -16,19 +19,49 @@ $color: (
   btn-dark-outline: #679ed2,
   btn-add-wallet: #1c1c1c,
   btn-add-wallet-background: $white,
-  back-next-btn: $theme-blue,
-  back-next-btn-hover: $theme-blue-hover,
+  back-next-btn: $white,
+  back-next-btn-hover: #ccc,
   acc-info-copy-text: $white,
   acc-info-copy-btn: $theme-blue,
   acc-info-acc-name: $white,
   acc-info-address-title: $theme-blue,
+  acc-details-copy-btn: $theme-blue,
+  acc-details-acc-no: $white,
+  acc-details-card-acc-no: $theme-blue,
   card-account-no: $theme-blue,
   add-wallet-title: #feffff,
   add-wallet-title-background: $theme-blue,
-  mnemonic-collector-list: $theme-blue
+  mnemonic-collector-list: $theme-blue,
+  restore-vault-input-label: $white,
+  modal-header-border-line: #cecece,
+  modal-title: $theme-blue,
+  modal-footer-bg: #f7f5f4
 );
 
-$navlink-fontFamily: "Noto Sans";
-$footerTitle-fontFamily: "Noto Sans";
-$footerlink-fontFamily: "Noto Sans";
+$primary-font: "Roboto";
+$secondary-font: "Lato";
+
+$font: (
+  header-menu: $primary-font,
+  header-menu-size: 16px,
+  footer-menu-title: $primary-font,
+  footer-menu-title-size: 20px,
+  footer-menu-link: $secondary-font,
+  footer-menu-link-weight: 300,
+  footer-menu-link-size: 16px,
+  landing-banner: $secondary-font,
+  page-title: $primary-font,
+  acc-process: $primary-font,
+  wallet-bar: $primary-font,
+  wallet-bar-size: 20px,
+  modal-title: $primary-font,
+  modal-title-weight: 500,
+  modal-btn: $primary-font,
+  modal-btn-weight: 300,
+  modal-body-text: $secondary-font,
+  modal-body-text-weight: 400,
+  btn: $primary-font,
+  restore-confirm: $primary-font
+);
+
 $navlink-textTransform: uppercase;
