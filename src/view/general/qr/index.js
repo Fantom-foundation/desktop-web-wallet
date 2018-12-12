@@ -13,6 +13,7 @@ class QRCodeIcon extends React.PureComponent {
    */
   renderLogo() {
     const { address } = this.props;
+
     if (address !== undefined && address !== '') {
       return (
         <p
@@ -20,7 +21,7 @@ class QRCodeIcon extends React.PureComponent {
             padding: '1px 5px',
             alignSelf: 'center',
             justifyContent: 'center',
-            backgroundColor: 'white',
+            backgroundColor: 'black',
             position: 'absolute',
             top: '50%',
             left: '50%',
@@ -36,18 +37,25 @@ class QRCodeIcon extends React.PureComponent {
   }
 
   render() {
-    const { address } = this.props;
+    const { address, bgColor, fgColor } = this.props;
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
         {this.renderLogo()}
-        <QRCode bgColor="black" fgColor="white" value={`${address}`} level="H" size={158} />
+        <QRCode
+          bgColor={bgColor}
+          fgColor={fgColor}
+          value={`${address}`}
+          renderAs="svg"
+          level="H"
+          size={158}
+        />
       </div>
     );
   }
 }
 
 QRCodeIcon.propTypes = {
-  address: PropTypes.func.isRequired,
+  address: PropTypes.string.isRequired,
 };
 
 export default QRCodeIcon;

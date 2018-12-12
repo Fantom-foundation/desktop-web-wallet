@@ -26,7 +26,7 @@ export default function Identicons(props) {
         y: String(Math.floor(y * side)),
         width: String(Math.ceil(side)),
         height: String(Math.ceil(side)),
-        style: { fill: color },
+        style: { fill: color, saturation: 0, brightness: 0 },
       });
       rects.push(rect);
     },

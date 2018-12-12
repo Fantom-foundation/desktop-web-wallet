@@ -5,9 +5,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
-import QRCode from 'qrcode.react';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import _ from 'lodash';
+import QRCode from '../../general/qr/index';
 import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
 import { getFantomBalance } from '../../../redux/getBalance/action';
@@ -237,13 +237,7 @@ class AccountDetails extends React.PureComponent {
                         <p>{transactions.length} Outgoing transaction</p>
                       </div> */}
                       <div className="qr">
-                        <QRCode
-                          bgColor="black"
-                          fgColor="white"
-                          value={account.publicAddress}
-                          level="H"
-                          size={158}
-                        />
+                        <QRCode bgColor="black" fgColor="white" address={account.publicAddress} />
                       </div>
                       <div className="ftm-no">
                         <p>

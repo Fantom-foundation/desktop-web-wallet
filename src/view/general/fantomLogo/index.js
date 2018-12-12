@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 /**
  * FantomLogo : A svg file for rendering fantom logo in application.
@@ -7,16 +7,16 @@ import PropTypes from 'prop-types';
  *
  */
 
-class FantomLogo extends React.PureComponent {
+class FantomLogo extends PureComponent {
   render() {
     const style = {
-      fill: '#000100',
+      fill: 'white',
     };
     const { width, height, logoType } = this.props;
 
     if (logoType === 1) {
-      const viewWidth = width || 1042;
-      const viewHeight = height || 245;
+      const viewWidth = width || 90;
+      const viewHeight = height || 21.16;
       return (
         <svg
           id="Layer_1"
@@ -91,6 +91,7 @@ class FantomLogo extends React.PureComponent {
             points="78.11 5.36 78.11 15.62 80.36 15.62 80.36 8.86 84.05 13.62 87.84 8.89 87.84 15.62 90 15.62 90 5.36 87.76 5.36 84.05 10.04 80.42 5.36 78.11 5.36"
           />
           <path
+            style={style}
             id="Path_1144"
             data-name="Path 1144"
             d="M7.07,7.5l3.61-2.09V9.59Zm3.61,8.92L5.92,19.17,1.15,16.42V11.57l4.77,2.76,4.76-2.76Zm-9.53-11L4.77,7.5,1.15,9.59ZM6.49,8.49l3.62,2.09L6.49,12.67ZM5.34,12.67,1.73,10.58,5.34,8.49v4.17Zm4.77-8.26L5.92,6.84h0L1.72,4.41,5.92,2ZM0,4.08v13L5.92,20.5l5.91-3.42v-13L5.92.66Z"
@@ -101,9 +102,14 @@ class FantomLogo extends React.PureComponent {
     return null;
   }
 }
+FantomLogo.defaultProps = {
+  width: 90,
+  height: 21.16,
+  logoType: 2,
+};
 FantomLogo.propTypes = {
-  width: PropTypes.number.isRequired,
-  height: PropTypes.number.isRequired,
-  logoType: PropTypes.number.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number,
+  logoType: PropTypes.number,
 };
 export default FantomLogo;

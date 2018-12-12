@@ -80,6 +80,7 @@ export function transferFantom(from, to, value, memo, privateKey, transferMoney,
         return true;
       })
       .catch(err => {
+        // eslint-disable-next-line no-console
         console.log(err, 'err');
         reject({ success: false });
       });

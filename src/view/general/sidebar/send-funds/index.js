@@ -80,16 +80,16 @@ class SendMoney extends React.PureComponent {
   /**
    * ftmAmmountVerification() : To check ammount entered is valid or not, if invalid ammount then render error message.
    */
-  ftmAmmountVerification(ammount) {
+  ftmAmmountVerification(amount) {
     const { balance, selectedAccount, gasPrice } = this.props;
     const valInEther = Web3.utils.fromWei(`${balance[selectedAccount.publicAddress]}`, 'ether');
     const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
     const maxFantomBalance = valInEther - gasPriceEther;
     // eslint-disable-next-line no-restricted-globals
-    if (isNaN(ammount)) {
+    if (isNaN(amount)) {
       return { status: false, message: 'Invalid Amount' };
     }
-    if (ammount > maxFantomBalance) {
+    if (amount > maxFantomBalance) {
       return { status: false, message: 'Insufficient Funds' };
     }
 

@@ -1,7 +1,17 @@
 #print-screen {
+  position: relative;
   background: #fff;
-  max-width: 750px;
-  margin: auto;
+  max-width: 900px;
+  margin: 200px auto 0;
+  &::before {
+    content: "";
+    position: absolute;
+    top: -15px;
+    right: -15px;
+    bottom: -15px;
+    left: -15px;
+    background: #fff;
+  }
   .row {
     margin: 0;
     .col {
@@ -11,36 +21,49 @@
         h2 {
           margin-bottom: 8px;
           font: {
-            size: 18px;
+            family: "Roboto";
+            size: 22px;
             weight: 700;
           }
         }
         p {
+          margin-bottom: 1rem;
           font: {
-            size: 16px;
+            family: "Lato";
+            size: 18px;
           }
         }
         .qr {
+          padding-top: 10px;
         }
       }
       &.brand {
-        background: {
-          color: $theme-blue;
-        }
+        height: 322px;
+        background-color: #00b1ff;
         @include responsive-width(105px);
-        .brand-holder {
-          position: absolute;
-          top: 50%;
-          left: 50%;
-          transform: rotate(-90deg) translate(-50%, -50%);
-          transform-origin: 0 0;
-          img {
-          }
-          p {
-            margin: 0;
-            color: #fff;
-          }
+        img {
+          width: 100%;
+          height: 100%;
         }
+        // .brand-holder {
+        //   position: absolute;
+        //   top: 50%;
+        //   left: 50%;
+        //   transform: rotate(-90deg) translate(-50%, -50%);
+        //   transform-origin: 0 0;
+        //   img {
+        //     height: 37px;
+        //   }
+        //   p {
+        //     padding-left: 38px;
+        //     margin: 0;
+        //     color: #fff;
+        //     font: {
+        //       family: "Lato";
+        //       size: 13px;
+        //     }
+        //   }
+        // }
       }
     }
   }

@@ -4,8 +4,10 @@ import { compose } from 'redux';
 import Bip39 from 'bip39';
 import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
+import ReactToPrint from 'react-to-print';
+
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
-import QRCode from 'qrcode.react';
+import QRCode from '../../general/qr/index';
 import copyToClipboard from '../../../utility';
 import { CONFIRMATION_PHASE } from '../../../redux/constants';
 import { createPublicPrivateKeys } from '../../../redux/keys/actions';
@@ -13,6 +15,8 @@ import { createMnemonic } from '../../../redux/accountInProgress/action';
 import Identicons from '../../general/identicons/identicons';
 import noView from '../../../images/icons/no-view.png';
 import { walletSetup } from '../../../redux/accountManagement';
+
+import AccountDetailPrint from '../../components/print-form/index';
 
 class AccountInformation extends React.PureComponent {
   constructor(props) {
@@ -24,9 +28,7 @@ class AccountInformation extends React.PureComponent {
   componentDidMount() {
     const { accountInfo, setMnemonicCode, setKeys } = this.props;
     let { mnemonic } = accountInfo;
-    if (!mnemonic) {
-      mnemonic = Bip39.generateMnemonic();
-    }
+    mnemonic = Bip39.generateMnemonic();
     const keys = walletSetup(mnemonic);
     setKeys({ publicAddress: keys.publicAddress });
     setMnemonicCode({ mnemonic });
@@ -60,6 +62,22 @@ class AccountInformation extends React.PureComponent {
     return mnemonicsList;
   }
 
+  // To  render account information print screen
+  printAccountData() {
+    const { accountInfo, accountKeys } = this.props;
+    const { mnemonic } = accountInfo;
+    const { publicAddress } = accountKeys;
+
+    return (
+      <div style={{ display: 'none' }}>
+        {/* eslint-disable-next-line no-return-assign */}
+        <div ref={el => (this.printAccountDetail = el)}>
+          <AccountDetailPrint mnemonic={mnemonic} address={publicAddress} />
+        </div>
+      </div>
+    );
+  }
+
   render() {
     const {
       accountInfo,
@@ -76,11 +94,12 @@ class AccountInformation extends React.PureComponent {
     return (
       <div id="account-information" className="account-information">
         <section className="bg-dark" style={{ padding: `${accDetailsYSpaces} 0 60px` }}>
+          {this.printAccountData()}
           <Container>
             <Row className="acc-details bg-dark-light" style={{ marginBottom: accDetailsYSpaces }}>
               <Col className="left-col">
                 <div className="acc-qr">
-                  <QRCode bgColor="white" fgColor="black" value="publicKey" level="H" size={158} />
+                  <QRCode bgColor="black" fgColor="white" address={publicAddress} />
                 </div>
                 <div className="acc-name-holder">
                   <Identicons id={selectedIcon} width={50} size={3} />
@@ -103,7 +122,7 @@ class AccountInformation extends React.PureComponent {
                 </div>
               </Col>
               <Col className="qr-col">
-                <QRCode bgColor="black" fgColor="white" value="publicKey" level="H" size={158} />
+                <QRCode bgColor="black" fgColor="white" address={publicAddress} />
               </Col>
             </Row>
           </Container>
@@ -114,9 +133,14 @@ class AccountInformation extends React.PureComponent {
                   <h2 className="title ">
                     <span>Owner Recovery Phrase</span>
                   </h2>
-                  <Button>
-                    <i className="fas fa-print" />
-                  </Button>
+                  <ReactToPrint
+                    trigger={() => (
+                      <Button>
+                        <i className="fas fa-print" />{' '}
+                      </Button>
+                    )}
+                    content={() => this.printAccountDetail}
+                  />
                 </div>
               </Col>
             </Row>
