@@ -16,6 +16,9 @@ class AccountList extends React.PureComponent {
     getBalance(selectedAccount.publicAddress);
   }
 
+  /**
+   * This method will return the dropdown list of all the registered accounts
+   */
   renderAccountList() {
     const { accountList, setAccountType } = this.props;
     const accountDetailList = [];

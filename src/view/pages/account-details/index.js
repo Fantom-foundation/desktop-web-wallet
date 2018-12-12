@@ -72,6 +72,11 @@ class AccountDetails extends React.PureComponent {
     clearInterval(interval);
   }
 
+  /**
+   * @param {Key to update} key
+   * @param {Value entered} value
+   * This method will set the state variables with the passed value
+   */
   onUpdate(key, value) {
     this.setState({
       [key]: value,
@@ -81,7 +86,6 @@ class AccountDetails extends React.PureComponent {
   /**
    * setAccountType() :  To set public key of selected account, and fetch balance for it.
    */
-
   setAccountType = (e, account) => {
     const { getBalance } = this.props;
     this.setState({
@@ -152,6 +156,9 @@ class AccountDetails extends React.PureComponent {
     getBalance(account.publicAddress);
   }
 
+  /**
+   * This method will add the closing alider transition and closed the transfer slider
+   */
   openTransferForm() {
     const { isCheckSend } = this.state;
     this.setState({

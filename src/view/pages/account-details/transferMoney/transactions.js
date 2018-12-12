@@ -98,6 +98,7 @@ class TransactionHistory extends React.PureComponent {
     }
 
     if (transactionsHistory.length) {
+      // reverse the transactions list, so that most recent one appears first
       _.reverse(transactionsHistory);
       return transactionsHistory;
     }
@@ -105,6 +106,10 @@ class TransactionHistory extends React.PureComponent {
     return allTransaction;
   }
 
+  /**
+   * @param {Filter type} type
+   * This method will filter the transactions depending upon the selected type
+   */
   filterTransaction(type) {
     this.setState({
       txType: type,

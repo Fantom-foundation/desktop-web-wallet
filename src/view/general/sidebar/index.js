@@ -20,6 +20,9 @@ class SendMoney extends Component {
     this.getPrivateKeyOfAddress = this.getPrivateKeyOfAddress.bind(this);
   }
 
+  /**
+   * This method will redirect user to the comfirm screen,if account has private key
+   */
   onConfirmSend(toAddress, publicAddress, password) {
     if (publicAddress !== '' && password !== '') {
       this.getPrivateKeyOfAddress(toAddress, publicAddress, password);
@@ -54,12 +57,18 @@ class SendMoney extends Component {
       });
   }
 
+  /**
+   * This method will redirect user to transfer screen
+   */
   handleGoBack() {
     this.setState({
       isConfirmSend: false,
     });
   }
 
+  /**
+   * This method will return the component depending upon the status (Send, Confirm) of the payment
+   */
   renderScreen() {
     const {
       openTransferForm,

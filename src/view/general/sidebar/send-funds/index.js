@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
 import Web3 from 'web3';
 import { connect } from 'react-redux';
@@ -27,14 +26,16 @@ class SendMoney extends React.PureComponent {
     this.onConfirmSend = this.onConfirmSend.bind(this);
   }
 
-  onUpdate(key, value) {
-    this.setState({
-      [key]: value,
-    });
-  }
-
-  onConfirmSend() {
-    this.isTransferDataCorrect();
+  /**
+   * This method will redirect user to the configm screen
+   * If the data is correct
+   */
+  async onConfirmSend() {
+    const { onConfirmSend, toAddress, password, selectedAccount } = this.props;
+    const isCorrect = await this.isTransferDataCorrect();
+    if (!isCorrect) {
+      onConfirmSend(toAddress, selectedAccount.publicAddress, password);
+    }
   }
 
   /**
@@ -95,55 +96,56 @@ class SendMoney extends React.PureComponent {
     return { status: true, message: '' };
   }
 
+  /**
+   * This method will check whether data filled is correct
+   */
   async isTransferDataCorrect() {
-    const { onConfirmSend, toAddress, ftmAmount, password, selectedAccount } = this.props;
-    let isError = '';
-    const isValidAddress = this.addressVerification(toAddress);
-    const isValidAmount = this.ftmAmmountVerification(ftmAmount);
-    const isPasswordCorrect = Promise.resolve(isAccountPasswordCorrect(selectedAccount, password));
-    if (selectedAccount.publicAddress === toAddress) {
-      isError = true;
-      this.setState({
-        addressErrText: 'Source and Destination cannot be same',
-      });
-      return;
+    const { toAddress, ftmAmount, password, selectedAccount } = this.props;
+    let isPasswordChecked = false;
+    const transferDataPromise = new Promise(resolve => {
+      const data = {
+        verificationError: '',
+        addressErrText: '',
+        ammountErrText: '',
+      };
+      const isValidAddress = this.addressVerification(toAddress);
+      const isValidAmount = this.ftmAmmountVerification(ftmAmount);
+      const isPasswordCorrect = isAccountPasswordCorrect(selectedAccount, password);
+      isPasswordCorrect
+        .then(() => {
+          isPasswordChecked = true;
+          resolve(data);
+        })
+        .catch(err => {
+          isPasswordChecked = true;
+          data.verificationError = err.message;
+          resolve(data);
+        });
+      if (selectedAccount.publicAddress === toAddress) {
+        data.addressErrText = 'You can not send funds to yourself.';
+      }
+      if (!isValidAddress.status) {
+        data.addressErrText = isValidAddress.message;
+      }
+      if (!isValidAmount.status) {
+        data.ammountErrText = isValidAmount.message;
+      }
+      if (isPasswordChecked) {
+        resolve(data);
+      }
+    });
+    const data = await transferDataPromise;
+    const hasError = Object.values(data).find(value => value !== '');
+    if (hasError) {
+      this.setState(data);
+      return true;
     }
-    if (!isValidAddress.status) {
-      isError = true;
-      this.setState({
-        addressErrText: isValidAddress.message,
-      });
-      return;
-    }
-    if (!isValidAmount.status) {
-      isError = true;
-      this.setState({
-        ammountErrText: isValidAmount.message,
-      });
-      return;
-    }
-    isPasswordCorrect
-      .then(result => {
-        if (result.success) {
-          this.setState({
-            verificationError: '',
-          });
-        }
-      })
-      .catch(error => {
-        if (error.error) {
-          isError = true;
-          this.setState({
-            verificationError: error.message,
-          });
-        }
-      });
-
-    if (!isError) {
-      onConfirmSend(toAddress, selectedAccount.publicAddress, password);
-    }
+    return false;
   }
 
+  /**
+   * This method will check the status of the continue button
+   */
   disableContinueButton() {
     const { toAddress, ftmAmount, password } = this.props;
     const data = {
@@ -172,6 +174,9 @@ class SendMoney extends React.PureComponent {
     return false;
   }
 
+  /**
+   * This method will return the amount error component that shows the error message
+   */
   renderAmmountErrText() {
     const { ammountErrText } = this.state;
     if (ammountErrText !== '') {
@@ -184,6 +189,9 @@ class SendMoney extends React.PureComponent {
     return null;
   }
 
+  /**
+   * This method will return the address error component that shows the error message
+   */
   renderAddressErrText() {
     const { addressErrText, isValidAddress } = this.state;
     if (!isValidAddress && addressErrText !== '') {
@@ -196,6 +204,9 @@ class SendMoney extends React.PureComponent {
     return null;
   }
 
+  /**
+   * This method will return the password error component that shows the error message
+   */
   renderVerificationError() {
     const { verificationError } = this.state;
     if (verificationError !== '') {
@@ -208,6 +219,9 @@ class SendMoney extends React.PureComponent {
     return null;
   }
 
+  /**
+   * This method will return loader component
+   */
   renderLoader() {
     const { loading } = this.state;
     if (loading) {

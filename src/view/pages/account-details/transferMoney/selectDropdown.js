@@ -19,6 +19,9 @@ class Select extends React.Component {
     };
   }
 
+  /**
+   * This method will toggle the dropdown accounts list
+   */
   toggle = () => {
     this.setState(prevState => ({
       dropdownOpen: !prevState.dropdownOpen,
