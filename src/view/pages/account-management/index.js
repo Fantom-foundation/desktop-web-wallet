@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Redirect } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col } from 'reactstrap';
@@ -83,6 +83,9 @@ class AccountManagement extends React.PureComponent {
 
   render() {
     const accountList = this.getAccountsList();
+    if (accountList.length <= 0) {
+      return <Redirect to="/" />;
+    }
     return (
       <div id="account-management" className="account-management">
         <Layout>

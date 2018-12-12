@@ -1,4 +1,5 @@
 import { combineReducers } from 'redux';
+import { reducer as toastrReducer } from 'react-redux-toastr';
 import accounts from './account/reducer';
 import accountInfo from './accountInProgress/reducers';
 import accountKeys from './keys/reducers';
@@ -13,6 +14,7 @@ const rootReducer = combineReducers({
   getBalance,
   getTransactions,
   sendTransactions,
+  toastr: toastrReducer,
 });
 
 export default rootReducer;

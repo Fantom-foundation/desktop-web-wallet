@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Route, Switch, withRouter } from 'react-router-dom';
+import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
@@ -457,17 +457,25 @@ class CreateAccount extends React.PureComponent {
 
 const Header = props => (
   <Switch>
-    <Route path="/account-information" render={() => <AccountInformation {...props.data} />} />
+    <Route
+      path="/account-information"
+      exact
+      render={() => <AccountInformation {...props.data} />}
+    />
     <Route
       path="/create-account"
+      exact
       render={() => <CreateAccountSection formData={props.formData} />}
     />
     <Route
       path="/restore-account"
+      exact
       render={() => <CreateAccountSection formData={props.formData} />}
     />
-    <Route path="/confirm-restore" render={() => <EnterMnemonics {...props} />} />
-    <Route path="/confirm" component={Confirm} />
+    <Route path="/confirm-restore" exact render={() => <EnterMnemonics {...props} />} />
+    <Route path="/confirm" exact component={Confirm} />
+    <Route path="/confirm" exact component={Confirm} />
+    <Route render={() => <Redirect to="/" />} />
   </Switch>
 );
 
