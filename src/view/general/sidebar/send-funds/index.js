@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import _ from 'lodash';
+import BigInt from 'big-integer';
 import addressImage from '../../../../images/address.svg';
 import amountImage from '../../../../images/amount.svg';
 import passwordImage from '../../../../images/password.svg';
@@ -82,14 +83,16 @@ class SendMoney extends React.PureComponent {
    */
   ftmAmmountVerification(amount) {
     const { balance, selectedAccount, gasPrice } = this.props;
-    const valInEther = Web3.utils.fromWei(`${balance[selectedAccount.publicAddress]}`, 'ether');
-    const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
-    const maxFantomBalance = valInEther - gasPriceEther;
+    const balanceCurrent = balance[selectedAccount.publicAddress];
+    const maxFantomBalance = BigInt(balanceCurrent).minus(gasPrice);
+    const valInEther = Web3.utils.fromWei(`${maxFantomBalance}`, 'ether');
+    // const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
+    // const maxFantomBalance = valInEther - gasPriceEther;
     // eslint-disable-next-line no-restricted-globals
     if (isNaN(amount)) {
       return { status: false, message: 'Invalid Amount' };
     }
-    if (amount > maxFantomBalance) {
+    if (amount > valInEther) {
       return { status: false, message: 'Insufficient Funds' };
     }
 

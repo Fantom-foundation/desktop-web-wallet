@@ -7,6 +7,7 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import _ from 'lodash';
+import { Redirect } from 'react-router-dom';
 import QRCode from '../../general/qr/index';
 import copyToClipboard from '../../../utility';
 import Layout from '../../components/layout';
@@ -28,10 +29,17 @@ class AccountDetails extends React.PureComponent {
     super(props);
     const { accountsList, getBalance } = props;
     const publicAddress = this.getAccountPublicAddress();
-    const selectedAccount = _.filter(
-      accountsList,
-      account => account.publicAddress === publicAddress
-    );
+    let selectedAccount;
+    if (publicAddress && publicAddress !== '') {
+      const selectedAccounts = _.filter(
+        accountsList,
+        account => account.publicAddress === publicAddress
+      );
+      if (selectedAccounts && selectedAccounts.length && selectedAccounts.length > 0) {
+        [selectedAccount] = selectedAccounts;
+      }
+    }
+
     this.state = {
       isTransferringMoney: false,
       ftmAmount: '',
@@ -40,12 +48,13 @@ class AccountDetails extends React.PureComponent {
       isValidAddress: false,
       password: '',
       verificationError: '',
-      selectedAccount: selectedAccount[0],
+      selectedAccount,
       isCheckSend: false,
       openTxnStatusModal: false,
       statusTextBody: '',
       toAddress: '',
       addClass: '',
+      publicAddress,
     };
     this.setAccountType = this.setAccountType.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
@@ -61,7 +70,9 @@ class AccountDetails extends React.PureComponent {
   componentWillMount() {
     const { getBalance } = this.props;
     const publicAddress = this.getAccountPublicAddress();
-    getBalance(publicAddress);
+    if (publicAddress && publicAddress !== '') {
+      getBalance(publicAddress);
+    }
   }
 
   componentDidMount() {
@@ -100,9 +111,13 @@ class AccountDetails extends React.PureComponent {
   getAccountPublicAddress() {
     const { location, accountsList } = this.props;
     const { state } = location;
-    const account = accountsList[state.selectedAccountIndex];
+    if (state && accountsList && accountsList.length && accountsList.length > 0) {
+      const account = accountsList[state.selectedAccountIndex];
 
-    return account.publicAddress;
+      return account.publicAddress;
+    }
+
+    return null;
   }
 
   /**
@@ -183,6 +198,10 @@ class AccountDetails extends React.PureComponent {
   }
 
   render() {
+    const { publicAddress } = this.state;
+    if (!publicAddress || publicAddress === '') {
+      return <Redirect to="/" />;
+    }
     const { accountsList, location, balanceInfo, transferMoney } = this.props;
     const {
       isTransferringMoney,

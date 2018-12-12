@@ -286,3 +286,28 @@ body {
   font-size: 20px;
   margin-top: 20px;
 }
+
+.redux-toastr {
+  .toastr {
+    .rrt-middle-container {
+      text-align: center;
+      width: 100%;
+      margin: 0;
+      padding-left: 20px;
+      transform: translateY(11px);
+      > div {
+        margin-bottom: 0px;
+      }
+    }
+  }
+  .toastr.rrt-success {
+    background: {
+      color: $theme-blue !important;
+    }
+    .rrt-progressbar {
+      background: {
+        color: $theme-blue-hover !important;
+      }
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import copy from 'copy-to-clipboard';
-import { ToastStore } from 'react-toasts';
+// import { ToastStore } from 'react-toasts';
+import { toastr } from 'react-redux-toastr';
 
 /**
  * @param {String to copy} publicAddress
@@ -8,5 +9,6 @@ import { ToastStore } from 'react-toasts';
 export default function copyToClipboard(e, publicAddress) {
   e.stopPropagation();
   copy(publicAddress);
-  ToastStore.info('Copy to clipboard', 500);
+  // ToastStore.info('Copy to clipboard', 500);
+  toastr.success('Copied to clipboard');
 }
