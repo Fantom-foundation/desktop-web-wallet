@@ -1,4 +1,5 @@
 import Web3 from 'web3';
+import BigInt from 'big-integer';
 
 export default class ValidationMethods {
   /**
@@ -83,12 +84,14 @@ export default class ValidationMethods {
   }
 
   getFormattedBalances(balance, gasPrice) {
+    const balanceCurrent = balance;
+    let balanceCanTransfer = BigInt(balanceCurrent).minus(gasPrice);
+    balanceCanTransfer = Web3.utils.fromWei(`${balanceCanTransfer}`, 'ether');
+
     let valInEther = Web3.utils.fromWei(`${balance}`, 'ether');
-    const gasPriceEther = Web3.utils.fromWei(`${gasPrice}`, 'ether');
-    let maxFantomBalance = valInEther - gasPriceEther;
-    maxFantomBalance = this.toFixed(maxFantomBalance, 4);
+    balanceCanTransfer = this.toFixed(balanceCanTransfer, 4);
     valInEther = this.toFixed(valInEther, 4);
 
-    return { balance: valInEther, maxFantomBalance };
+    return { balance: valInEther, maxFantomBalance: balanceCanTransfer };
   }
 }

@@ -18,6 +18,7 @@ class SendMoney extends Component {
     this.onConfirmSend = this.onConfirmSend.bind(this);
     this.handleGoBack = this.handleGoBack.bind(this);
     this.getPrivateKeyOfAddress = this.getPrivateKeyOfAddress.bind(this);
+    this.refreshWalletDetail = this.refreshWalletDetail.bind(this);
   }
 
   componentDidMount() {
@@ -68,11 +69,19 @@ class SendMoney extends Component {
   /**
    * This method will redirect user to transfer screen
    */
+  // eslint-disable-next-line react/sort-comp
   handleGoBack() {
     this.setState({
       isConfirmSend: false,
     });
   }
+
+  refreshWalletDetail = address => {
+    const { refreshWalletDetail } = this.props;
+    if (refreshWalletDetail) {
+      refreshWalletDetail(address);
+    }
+  };
 
   /**
    * This method will return the component depending upon the status (Send, Confirm) of the payment
@@ -91,6 +100,7 @@ class SendMoney extends Component {
       optionalMessage,
       onUpdate,
       setAccountType,
+      isRefreshing,
     } = this.props;
     const { isConfirmSend, address, publicKey, privateKey } = this.state;
     if (!isConfirmSend) {
@@ -109,6 +119,8 @@ class SendMoney extends Component {
           onUpdate={onUpdate}
           setAccountType={setAccountType}
           selectedAccount={selectedAccount}
+          isRefreshing={isRefreshing}
+          refreshWalletDetail={this.refreshWalletDetail}
         />
       );
     }
@@ -122,6 +134,8 @@ class SendMoney extends Component {
         transferMoney={transferMoney}
         openTransferForm={openTransferForm}
         handleGoBack={this.handleGoBack}
+        refreshWalletDetail={this.refreshWalletDetail}
+        isRefreshing={isRefreshing}
       />
     );
   }

@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
@@ -87,7 +88,20 @@ class ConfirmFunds extends Component {
   }
 
   render() {
-    const { address, amount, memo, rotate, onRefresh, handleGoBack } = this.props;
+    const {
+      address,
+      amount,
+      memo,
+      handleGoBack,
+      refreshWalletDetail,
+      publicKey,
+      isRefreshing,
+    } = this.props;
+
+    let rotate = '';
+    if (isRefreshing) {
+      rotate = 'rotate';
+    }
     const { errorMessage, coin } = this.state;
     return (
       <React.Fragment>
@@ -100,7 +114,7 @@ class ConfirmFunds extends Component {
               <h2 className="title">
                 <span>Send Funds - Confirm</span>
               </h2>
-              <Button className="btn" onClick={onRefresh}>
+              <Button className="btn" onClick={() => refreshWalletDetail(publicKey)}>
                 <i className={`fas fa-sync-alt ${rotate}`} />
               </Button>
             </div>

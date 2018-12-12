@@ -54,13 +54,17 @@ class AccountDetails extends React.PureComponent {
       statusTextBody: '',
       toAddress: '',
       addClass: '',
+      currentAccount: selectedAccount,
       publicAddress,
+      refreshBtnAnimation: false,
+      isRefreshing: false,
     };
     this.setAccountType = this.setAccountType.bind(this);
     this.refreshBalance = this.refreshBalance.bind(this);
     this.openTransferForm = this.openTransferForm.bind(this);
     this.toggleTxnStatusModal = this.toggleTxnStatusModal.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
+    this.transferMoney = this.transferMoney.bind(this);
     // This will call the refresh the balance after every one second
     interval = setInterval(() => {
       getBalance(publicAddress);
@@ -166,6 +170,15 @@ class AccountDetails extends React.PureComponent {
    */
   refreshBalance() {
     const { location, accountsList, getBalance } = this.props;
+    this.setState({
+      refreshBtnAnimation: true,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        refreshBtnAnimation: false,
+      });
+    }, 1000);
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
     getBalance(account.publicAddress);
@@ -175,13 +188,18 @@ class AccountDetails extends React.PureComponent {
    * This method will add the closing alider transition and closed the transfer slider
    */
   openTransferForm() {
-    const { isCheckSend } = this.state;
+    const { isCheckSend, currentAccount } = this.state;
     this.setState({
       addClass: 'closing',
     });
     setTimeout(() => {
       this.setState({
         isCheckSend: !isCheckSend,
+        ftmAmount: '',
+        optionalMessage: '',
+        toAddress: '',
+        selectedAccount: currentAccount,
+        password: '',
         addClass: '',
       });
     }, 400);
@@ -197,12 +215,44 @@ class AccountDetails extends React.PureComponent {
     });
   }
 
+  transferMoney(data) {
+    // eslint-disable-next-line react/destructuring-assignment
+    this.props.transferMoney(data).then(response => {
+      const { getBalance } = this.props;
+      const { publicAddress } = this.state;
+      getBalance(publicAddress);
+      console.log(response, 'response');
+      if (response && response.payload && response.payload.status < 400) {
+        this.setState({
+          openTxnStatusModal: true,
+          statusTextBody: 'Funds transfered successfully.',
+        });
+      } else {
+        this.setState({
+          openTxnStatusModal: true,
+          statusTextBody: 'Error in funds transfer.',
+        });
+      }
+    });
+  }
+
+  refreshWalletBalance(address) {
+    const { getBalance } = this.props;
+    getBalance(address);
+    this.setState({
+      isRefreshing: true,
+    });
+    setTimeout(() => {
+      this.setState({ isRefreshing: false });
+    }, 2000);
+  }
+
   render() {
-    const { publicAddress } = this.state;
+    const { publicAddress, refreshBtnAnimation } = this.state;
     if (!publicAddress || publicAddress === '') {
       return <Redirect to="/" />;
     }
-    const { accountsList, location, balanceInfo, transferMoney } = this.props;
+    const { accountsList, location, balanceInfo } = this.props;
     const {
       isTransferringMoney,
       isCheckSend,
@@ -217,12 +267,18 @@ class AccountDetails extends React.PureComponent {
       verificationError,
       toAddress,
       addClass,
+      isRefreshing,
     } = this.state;
     const { state } = location;
     const account = accountsList[state.selectedAccountIndex];
     let valInEther = balanceInfo[account.publicAddress];
     if (valInEther) {
       valInEther = validationMethods.getFormattedBalances(valInEther, gasPrice);
+    }
+
+    let rotate = '';
+    if (refreshBtnAnimation) {
+      rotate = 'rotate';
     }
     return (
       <div id="account-datails" className="account-datails">
@@ -237,7 +293,7 @@ class AccountDetails extends React.PureComponent {
                         <span>Account Management</span>
                       </h2>
                       <Button onClick={this.refreshBalance}>
-                        <i className="fas fa-sync-alt" />
+                        <i className={`fas fa-sync-alt ${rotate}`} />
                       </Button>
                     </div>
                     <div id="acc-details">
@@ -295,7 +351,7 @@ class AccountDetails extends React.PureComponent {
         {isCheckSend && (
           <SendMoney
             openTransferForm={this.openTransferForm}
-            transferMoney={transferMoney}
+            transferMoney={this.transferMoney}
             ftmAmount={ftmAmount}
             optionalMessage={optionalMessage}
             gasPrice={gasPrice}
@@ -307,6 +363,8 @@ class AccountDetails extends React.PureComponent {
             setAccountType={this.setAccountType}
             selectedAccount={selectedAccount}
             addClass={addClass}
+            refreshWalletDetail={address => this.refreshWalletBalance(address)}
+            isRefreshing={isRefreshing}
           />
         )}
       </div>

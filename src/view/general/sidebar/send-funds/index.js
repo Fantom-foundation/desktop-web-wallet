@@ -250,8 +250,14 @@ class SendMoney extends React.PureComponent {
       gasPrice,
       selectedAccount,
       setAccountType,
+      refreshWalletDetail,
+      isRefreshing,
     } = this.props;
     const isDisable = this.disableContinueButton();
+    let rotate = '';
+    if (isRefreshing) {
+      rotate = 'rotate';
+    }
     return (
       <div id="transaction-form">
         <div>
@@ -262,8 +268,11 @@ class SendMoney extends React.PureComponent {
             <h2 className="title">
               <span>Send Funds</span>
             </h2>
-            <Button className="btn">
-              <i className="fas fa-sync-alt" />
+            <Button
+              className="btn"
+              onClick={() => refreshWalletDetail(selectedAccount.publicAddress)}
+            >
+              <i className={`fas fa-sync-alt ${rotate}`} />
             </Button>
           </div>
           <div className="form">
