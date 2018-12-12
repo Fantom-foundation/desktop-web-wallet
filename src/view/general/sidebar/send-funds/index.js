@@ -179,7 +179,7 @@ class SendMoney extends React.PureComponent {
    */
   renderAmmountErrText() {
     const { ammountErrText } = this.state;
-    if (ammountErrText !== '') {
+    if (ammountErrText && ammountErrText !== '') {
       return (
         <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
           {ammountErrText}
@@ -194,7 +194,7 @@ class SendMoney extends React.PureComponent {
    */
   renderAddressErrText() {
     const { addressErrText, isValidAddress } = this.state;
-    if (!isValidAddress && addressErrText !== '') {
+    if (!isValidAddress && addressErrText && addressErrText !== '') {
       return (
         <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
           {addressErrText}
@@ -209,7 +209,7 @@ class SendMoney extends React.PureComponent {
    */
   renderVerificationError() {
     const { verificationError } = this.state;
-    if (verificationError !== '') {
+    if (verificationError && verificationError !== '') {
       return (
         <small className="form-element-hint" style={{ color: '#FF0000', paddingLeft: '10px' }}>
           {verificationError}

@@ -20,6 +20,14 @@ class SendMoney extends Component {
     this.getPrivateKeyOfAddress = this.getPrivateKeyOfAddress.bind(this);
   }
 
+  componentDidMount() {
+    document.body.className += 'no-overflow'; // eslint-disable-line
+  }
+
+  componentWillUnmount() {
+    document.body.className = document.body.className.replace('no-overflow', ''); // eslint-disable-line
+  }
+
   /**
    * This method will redirect user to the comfirm screen,if account has private key
    */

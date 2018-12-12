@@ -40,7 +40,7 @@ class QRCodeIcon extends React.PureComponent {
     return (
       <div style={{ position: 'relative', display: 'inline-block' }}>
         {this.renderLogo()}
-        <QRCode value={`${address}`} level="H" size={158} />
+        <QRCode bgColor="black" fgColor="white" value={`${address}`} level="H" size={158} />
       </div>
     );
   }

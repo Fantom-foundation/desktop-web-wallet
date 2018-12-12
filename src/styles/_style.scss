@@ -3,6 +3,11 @@ body {
     color: #030303;
   }
 }
+
+.no-overflow {
+  overflow: hidden;
+}
+
 .blur {
   filter: blur(3px);
 }

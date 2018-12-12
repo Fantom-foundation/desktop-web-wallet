@@ -103,7 +103,7 @@ class AccountInformation extends React.PureComponent {
                 </div>
               </Col>
               <Col className="qr-col">
-                <QRCode value="publicKey" level="H" size={158} />
+                <QRCode bgColor="black" fgColor="white" value="publicKey" level="H" size={158} />
               </Col>
             </Row>
           </Container>
