@@ -47,7 +47,7 @@ export default class AccountProcess extends React.PureComponent {
                         />
                       </g>
                     </svg>
-                    <h2>Create Account</h2>
+                    <h2>{restoreAccount ? 'Restore Wallet' : 'Create Account'}</h2>
                   </Col>
 
                   {!restoreAccount ? (

@@ -53,7 +53,7 @@ class Home extends React.PureComponent {
                     <span>Operachain Powered Wallet</span>
                   </h2>
                   <h3 className="title text-white text-uppercase">
-                    <span>Send and Recive ETH, Wan and All Compatible Tokens</span>
+                    <span>Send and Receive FTM</span>
                   </h3>
                   <Button
                     color="dark"

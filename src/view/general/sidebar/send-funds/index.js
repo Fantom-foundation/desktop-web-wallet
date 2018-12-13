@@ -92,7 +92,7 @@ class SendMoney extends React.PureComponent {
     if (isNaN(amount)) {
       return { status: false, message: 'Invalid Amount' };
     }
-    if (amount > valInEther) {
+    if (Number(amount) > Number(valInEther)) {
       return { status: false, message: 'Insufficient Funds' };
     }
 

@@ -30,6 +30,7 @@ export default class CreateAccount extends React.PureComponent {
       selectedIcon,
       error,
       isAccountNameExists,
+      selectIconError,
     } = this.props;
     return (
       <Form id="create-account-form">
@@ -69,8 +70,8 @@ export default class CreateAccount extends React.PureComponent {
                 onChange={e => onUpdate('reEnteredPassword', e.currentTarget.value)}
                 style={{ backgroundImage: `url(${lock})` }}
               />
+              {error && <p style={{ color: 'red' }}>Passwords do not match</p>}
             </FormGroup>
-            {error && <p style={{ color: 'red' }}>Paswords do not match</p>}
           </Col>
           <Col md={4} lg={3}>
             <ul className="pass-validator">
@@ -101,6 +102,7 @@ export default class CreateAccount extends React.PureComponent {
           onRefresh={onRefresh}
           getRadioIconData={getRadioIconData}
         />
+        {selectIconError && <p style={{ color: 'red' }}>Please select an icon</p>}
       </Form>
     );
   }

@@ -14,7 +14,7 @@ export default class IncorrectMnemonicsModal extends React.PureComponent {
       <Modal isOpen={openIncorrectMnemonicsModal} toggle={toggleIncorrectMnemonicsModal}>
         <ModalHeader toggle={toggleIncorrectMnemonicsModal}>Incorrect Mnemonics</ModalHeader>
         <ModalBody>
-          <p>The mnemonics that you entered are incorrect.</p>
+          <p>The mnemonics you entered are incorrect.</p>
         </ModalBody>
         <ModalFooter>
           <Button color="primary" onClick={toggleIncorrectMnemonicsModal}>

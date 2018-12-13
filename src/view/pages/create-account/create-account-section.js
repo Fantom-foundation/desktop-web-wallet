@@ -23,6 +23,7 @@ export default class CreateAccountSection extends React.PureComponent {
       containCapitalLetter,
       hasLengthGreaterThanEight,
       selectedIcon,
+      selectIconError,
       onUpdate,
       getRadioIconData,
       onRefresh,
@@ -50,6 +51,7 @@ export default class CreateAccountSection extends React.PureComponent {
                   containNumber={containNumber}
                   containCapitalLetter={containCapitalLetter}
                   hasLengthGreaterThanEight={hasLengthGreaterThanEight}
+                  selectIconError={selectIconError}
                 />
               </Col>
             </Row>

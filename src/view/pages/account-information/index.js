@@ -166,8 +166,8 @@ class AccountInformation extends React.PureComponent {
                     <h2 className="text-danger">Screenshots are not secure</h2>
                     <p className="text-white mb-0">
                       If you take a screenshot, your backup may be viewed by other apps. You can
-                      make a safe backup by writting down on a physical paper or print your mnemonic
-                      passphrase.
+                      make a safe backup by writing it down on a physical paper or by printing a
+                      copy.
                     </p>
                   </Col>
                 </Row>
@@ -179,9 +179,9 @@ class AccountInformation extends React.PureComponent {
             <Row>
               <Col>
                 <p className="text-white">
-                  Please back up the recovery phase now. Make sure to keep it private and secure, it
-                  allows full and unlimited access to your account and can be used to restore your
-                  wallet.
+                  Please back up the recovery phrase now. Make sure to keep it private and secure.
+                  It allows full and unlimited access to your account, and can be used to restore
+                  your wallet.
                 </p>
                 <FormGroup>
                   <Label for="msg" className="text-white">

@@ -36,6 +36,7 @@ class CreateAccount extends React.PureComponent {
       hasLengthGreaterThanEight: false,
       nextButtonFunction: '',
       backButtonFunction: '',
+      selectIconError: false,
       revealSecret: false,
       confirmationPhrase: '',
       isAccountNameExists: false,
@@ -63,8 +64,13 @@ class CreateAccount extends React.PureComponent {
    * This method will update the value of the given key
    */
   onUpdate(key, value) {
+    const obj = {};
+    if (key === 'selectedIcon') {
+      obj.selectIconError = false;
+    }
     this.setState(
       {
+        ...obj,
         [key]: value,
       },
       () => {
@@ -258,20 +264,14 @@ class CreateAccount extends React.PureComponent {
    * and both the passwords are same
    */
   isValidPassword(key, value) {
-    const { password } = this.state;
-    const isValid = validationMethods.isPasswordCorrect(key, value);
-    const isFalse = _.includes(isValid, false);
-    if (key === 'password' && isFalse) {
-      this.setState(isValid);
+    const { password, reEnteredPassword } = this.state;
+    const passwordVal = key === 'password' ? value : password;
+    const rePasswordVal = key === 'reEnteredPassword' ? value : reEnteredPassword;
+    const isValid = validationMethods.isPasswordCorrect('password', passwordVal);
+    if (rePasswordVal && rePasswordVal !== '') {
+      isValid.error = passwordVal !== rePasswordVal;
     }
-    if (key === 'reEnteredPassword' && value !== '' && password !== value) {
-      this.setState({
-        error: true,
-      });
-    } else {
-      isValid.error = false;
-      this.setState(isValid);
-    }
+    this.setState(isValid);
   }
 
   /**
@@ -352,6 +352,17 @@ class CreateAccount extends React.PureComponent {
     return false;
   }
 
+  nextForIdenticonIcon() {
+    const { stepNo } = this.props;
+    if (stepNo === 1) {
+      const { selectedIcon, accountName, password, reEnteredPassword } = this.state;
+      if (accountName !== '' && password !== '' && reEnteredPassword !== '' && !selectedIcon) {
+        this.setState({ selectIconError: true });
+      }
+    }
+    return true;
+  }
+
   render() {
     const { stepNo, location } = this.props;
     const {
@@ -369,6 +380,7 @@ class CreateAccount extends React.PureComponent {
       containCapitalLetter,
       hasLengthGreaterThanEight,
       isAccountNameExists,
+      selectIconError,
     } = this.state;
     const { pathname } = location;
     const functionToCall = this.setFunctionCalls();
@@ -396,7 +408,9 @@ class CreateAccount extends React.PureComponent {
       getRadioIconData: this.getRadioIconData,
       onRefresh: this.onRefresh,
       isAccountNameExists,
+      selectIconError,
     };
+
     const isRestoreTab =
       location.pathname === '/restore-account' || location.pathname === '/confirm-restore';
     return (
@@ -439,7 +453,7 @@ class CreateAccount extends React.PureComponent {
                     }
                     onClick={
                       isDisable || isDisable === undefined
-                        ? () => true
+                        ? () => this.nextForIdenticonIcon()
                         : functionToCall.nextButtonFunction
                     }
                   >

@@ -8170,6 +8170,13 @@ react-spinners@^0.4.7:
     react-emotion "^9.1.1"
     recompose "0.27.1"
 
+react-to-print@^2.0.0-alpha-4:
+  version "2.0.0-alpha-4"
+  resolved "https://registry.yarnpkg.com/react-to-print/-/react-to-print-2.0.0-alpha-4.tgz#5a750ec39520bd67a009d9f4ad702eaefcccfe63"
+  dependencies:
+    prop-types "^15.6.0"
+    react "^16.2.0"
+
 react-toasts@^2.0.14:
   version "2.0.14"
   resolved "https://registry.yarnpkg.com/react-toasts/-/react-toasts-2.0.14.tgz#f7104f4822d2a5571eb134b0edfddf27b65cd8fe"
@@ -8186,7 +8193,7 @@ react-transition-group@^2.3.1:
     prop-types "^15.6.2"
     react-lifecycles-compat "^3.0.4"
 
-react@^16.6.3:
+react@^16.2.0, react@^16.6.3:
   version "16.6.3"
   resolved "https://registry.yarnpkg.com/react/-/react-16.6.3.tgz#25d77c91911d6bbdd23db41e70fb094cc1e0871c"
   dependencies:
