@@ -363,7 +363,28 @@ class CreateAccount extends React.PureComponent {
     return true;
   }
 
+  isAllowedPath() {
+    const { stepNo, location } = this.props;
+    const { pathname } = location || {};
+    if (pathname === '/create-account') {
+      return true;
+    }
+    if (pathname === '/account-information') {
+      return stepNo < 3;
+    }
+    if (pathname === '/confirm-restore') {
+      return stepNo === 3;
+    }
+    if (pathname === '/confirm') {
+      return stepNo === 2;
+    }
+    return false;
+  }
+
   render() {
+    if (!this.isAllowedPath()) {
+      return <Redirect to="/" />;
+    }
     const { stepNo, location } = this.props;
     const {
       revealSecret,
