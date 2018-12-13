@@ -52,7 +52,7 @@ class CreateAccount extends React.PureComponent {
     this.goToAccountRestoreScreen = this.goToAccountRestoreScreen.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { password } = this.state;
     this.isValidPassword('password', password);
     this.setStepNoWithRouting();
@@ -366,23 +366,27 @@ class CreateAccount extends React.PureComponent {
   isAllowedPath() {
     const { stepNo, location } = this.props;
     const { pathname } = location || {};
-    if (pathname === '/create-account') {
+    if (pathname === '/create-account' || pathname === '/restore-account') {
       return true;
     }
     if (pathname === '/account-information') {
-      return stepNo < 3;
+      return stepNo > 1;
     }
     if (pathname === '/confirm-restore') {
-      return stepNo === 3;
-    }
-    if (pathname === '/confirm') {
       return stepNo === 2;
     }
-    return false;
+    if (pathname === '/confirm') {
+      return stepNo === 3;
+    }
+    return undefined;
   }
 
   render() {
-    if (!this.isAllowedPath()) {
+    const isAllowedPath = this.isAllowedPath();
+    if (isAllowedPath === false) {
+      return <Redirect to="/create-account" />;
+    }
+    if (isAllowedPath === undefined) {
       return <Redirect to="/" />;
     }
     const { stepNo, location } = this.props;
