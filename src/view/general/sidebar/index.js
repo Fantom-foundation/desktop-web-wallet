@@ -4,7 +4,7 @@ import SendFunds from './send-funds/index';
 
 import ConfirmFunds from './confirm-fund-transfer/index';
 import { getPrivateKeyOfAddress } from '../../../redux/accountManagement';
-import smallLogo from '../../../images/logo/FANTOM_LOGO_White.svg';
+import smallLogo from '../../../images/logo/FantomWallet.svg';
 
 class SendMoney extends Component {
   constructor(props) {

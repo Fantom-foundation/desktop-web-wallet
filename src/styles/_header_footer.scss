@@ -1,3 +1,4 @@
+$mobile-width: 285px;
 header {
   // height: 170px;
   background: #000;
@@ -7,32 +8,91 @@ header {
   z-index: 999;
   .nav-holder {
     padding: 20px 0;
+    @media (max-width: 767px) {
+      padding: 10px 0;
+    }
   }
   nav {
     overflow: hidden;
     // max-width: 1600px;
     max-width: 1140px;
     margin: auto;
+    .btn {
+      position: fixed;
+      background: transparent;
+      border-radius: 0px;
+      @media (min-width: 768px) {
+        display: none;
+      }
+      padding: 0;
+      &.open {
+        top: 30px;
+        right: 21px;
+        height: 13px;
+        width: 19px;
+      }
+      &.close {
+        opacity: 1 !important;
+        z-index: 99999;
+        top: 20px;
+        right: 15px;
+        width: 31px;
+        height: 31px;
+        &.dim {
+          animation: dim 0.4s !important;
+        }
+      }
+    }
     .logo {
       height: 30px;
     }
     .navbar-collapse {
       position: relative;
-      &:before {
-        @media (max-width: 767px) {
+      @media (max-width: 767px) {
+        position: fixed;
+        right: 0;
+        top: 0;
+        width: 100%;
+        height: 100vh;
+        display: block !important;
+        .overlay {
           position: absolute;
-          content: "";
+          height: 100%;
+          width: 100%;
           top: 0;
-          right: 0px;
-          bottom: 0;
-          left: 0px;
-          background: #383838;
-          z-index: -1;
-          border-bottom-right-radius: 10px;
-          border-bottom-left-radius: 10px;
+          left: 0;
+          z-index: 1;
         }
       }
       .navbar-nav {
+        @media (max-width: 767px) {
+          // right:-$mobile-width;
+          display: -ms-flexbox;
+          display: flex;
+          align-items: center;
+
+          align-items: flex-start;
+          padding: 75px 35px 0;
+
+          width: 100%;
+          height: 100%;
+
+          box-shadow: -3px 2px 4px 0 rgba(0, 0, 0, 0.5);
+          background-image: linear-gradient(156deg, #171717, #797979);
+          z-index: 9999;
+
+          position: absolute;
+          right: 0;
+          top: 0;
+          width: $mobile-width;
+          height: 100vh;
+          display: block !important;
+          animation: overley-body 0.5s cubic-bezier(0.52, 1.64, 0.37, 0.66);
+          &.closing {
+            animation: overley-body-closing 0.4s !important;
+          }
+        }
+
         .nav-item {
           @media (min-width: 768px) {
             margin-left: 20px;
@@ -50,7 +110,6 @@ header {
             weight: 400;
           }
           @media (max-width: 767px) {
-            border-top: 1px solid #000;
             font: {
               size: map-get($font, header-menu-size) - 2px;
             }
@@ -59,12 +118,52 @@ header {
             text-transform: $navlink-textTransform;
             transition: 0.3s all;
             color: map-get($color, nav-link);
+            @media (max-width: 991px) {
+              padding: 26px 4px;
+              font: {
+                size: 16px;
+              }
+            }
+            @media (max-width: 767px) {
+              padding: 8px 0px;
+              margin-bottom: 11px;
+              font: {
+                size: 14px;
+              }
+              position: relative;
+              &::before {
+                content: "";
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                right: 0;
+                height: 5px;
+                @media (max-width: 767px) {
+                  right: initial;
+                  width: 25px;
+                  height: 1px;
+                  background: map-get($color, white);
+                }
+              }
+              &.selected {
+                color: map-get($color, header-menu-active);
+                position: relative;
+                &::before {
+                  background: map-get($color, nav-link-active);
+                  @media (max-width: 767px) {
+                    height: 1px;
+                  }
+                }
+              }
+            }
             &:hover {
               color: map-get($color, nav-link-hover);
               cursor: pointer;
+              &::before {
+                background: map-get($color, nav-link-hover);
+              }
             }
             @media (max-width: 767px) {
-              text-align: center;
               padding: 10px 0;
             }
           }
@@ -122,5 +221,34 @@ header {
         }
       }
     }
+  }
+}
+
+@keyframes overley-body {
+  from {
+    right: -$mobile-width;
+  }
+
+  to {
+    right: 0px;
+  }
+}
+@keyframes overley-body-closing {
+  from {
+    right: 0px;
+  }
+
+  to {
+    right: -$mobile-width;
+    opacity: 0;
+  }
+}
+@keyframes dim {
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0;
   }
 }
