@@ -164,7 +164,6 @@ export default class Footer extends React.PureComponent {
                   <a
                     className="menu-link"
                     href="mailto:contact@fantom.foundation"
-                    target="_blank"
                     rel="noopener noreferrer"
                   >
                     Mail
