@@ -82,7 +82,7 @@ class NavigationBar extends React.Component {
     return (
       <div className="nav-holder">
         <Navbar dark expand="md">
-          <NavbarBrand href="/">
+          <NavbarBrand onClick={() => this.goToPage('/')}>
             <img className="logo" src={logo} alt="logo" />
           </NavbarBrand>
           <button
