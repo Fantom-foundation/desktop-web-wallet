@@ -27,12 +27,12 @@ class NavigationBar extends React.Component {
 
   componentDidMount() {
     this.handleResize();
-    window.addEventListener('resize', this.handleResize);// eslint-disable-line
+    window.addEventListener('resize', this.handleResize); // eslint-disable-line
   }
 
   componentWillUnmount() {
     document.body.className = document.body.className.replace('no-overflow', ''); // eslint-disable-line
-    window.removeEventListener('resize', this.handleResize);// eslint-disable-line
+    window.removeEventListener('resize', this.handleResize); // eslint-disable-line
   }
 
   toggleNavbar = e => {
@@ -82,7 +82,7 @@ class NavigationBar extends React.Component {
     return (
       <div className="nav-holder">
         <Navbar dark expand="md">
-          <NavbarBrand onClick={() => this.goToPage('/')}>
+          <NavbarBrand onClick={() => this.goToPage('/')} className="pointer">
             <img className="logo" src={logo} alt="logo" />
           </NavbarBrand>
           <button
