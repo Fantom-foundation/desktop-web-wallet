@@ -10,6 +10,7 @@ import { months, ALL_TX, SENT_TX, RECEIVED_TX } from '../../../../redux/constant
 import { getTransactionsHistory } from '../../../../redux/getTransactions/actions';
 import received from '../../../../images/received.svg';
 import send from '../../../../images/send.svg';
+import TxHashTooltip from '../../../components/txnHashTooltip';
 
 class TransactionHistory extends React.PureComponent {
   constructor(props) {
@@ -45,7 +46,7 @@ class TransactionHistory extends React.PureComponent {
    * This method will return the UI for transactions
    */
   getTransactionHistory() {
-    const { transactions, publicAddress } = this.props;
+    const { transactions, publicAddress, copyToClipboard } = this.props;
     const { txType } = this.state;
     const text = this.getNoTransactionsText();
 
@@ -73,9 +74,14 @@ class TransactionHistory extends React.PureComponent {
                 </Col>
                 <Col className="acc-no-col">
                   <div className="">
-                    <p>
+                    <TxHashTooltip
+                      index={i}
+                      hash={transactions[i].hexTx}
+                      copyToClipboard={copyToClipboard}
+                    />
+                    {/* <p>
                       <span>TX#</span> {transactions[i].hexTx}
-                    </p>
+                    </p> */}
                     <p>
                       <span>{isReceived ? 'From: ' : 'To: '}</span>
                       {isReceived ? transactions[i].from : transactions[i].to}

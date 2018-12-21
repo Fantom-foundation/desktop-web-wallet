@@ -99,7 +99,7 @@ class AccountInformation extends React.PureComponent {
             <Row className="acc-details bg-dark-light" style={{ marginBottom: accDetailsYSpaces }}>
               <Col className="left-col">
                 <div className="acc-qr">
-                  <QRCode bgColor="black" fgColor="white" address={publicAddress} />
+                  <QRCode bgColor="white" fgColor="black" address={publicAddress} />
                 </div>
                 <div className="acc-name-holder">
                   <Identicons id={selectedIcon} width={50} size={3} />
@@ -122,7 +122,7 @@ class AccountInformation extends React.PureComponent {
                 </div>
               </Col>
               <Col className="qr-col">
-                <QRCode bgColor="black" fgColor="white" address={publicAddress} />
+                <QRCode bgColor="white" fgColor="black" address={publicAddress} />
               </Col>
             </Row>
           </Container>

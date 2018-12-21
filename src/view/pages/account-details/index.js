@@ -312,7 +312,7 @@ class AccountDetails extends React.PureComponent {
                         <p>{transactions.length} Outgoing transaction</p>
                       </div> */}
                       <div className="qr">
-                        <QRCode bgColor="black" fgColor="white" address={account.publicAddress} />
+                        <QRCode bgColor="white" fgColor="black" address={account.publicAddress} />
                       </div>
                       <div className="ftm-no">
                         <p>
@@ -333,7 +333,10 @@ class AccountDetails extends React.PureComponent {
                   </div>
                 </Col>
                 <Col md={12} lg={8}>
-                  <TransactionHistory publicAddress={account.publicAddress} />
+                  <TransactionHistory
+                    publicAddress={account.publicAddress}
+                    copyToClipboard={copyToClipboard}
+                  />
                 </Col>
               </Row>
             </Container>

@@ -38,32 +38,26 @@
         }
       }
       &.brand {
-        height: 322px;
         background-color: #00b1ff;
-        @include responsive-width(105px);
-        img {
-          width: 100%;
-          height: 100%;
+        .brand-holder {
+          text-align: center;
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: rotate(-90deg) translate(-50%, -50%);
+          transform-origin: 0 0;
+          img {
+            height: 37px;
+          }
+          p {
+            margin: 0;
+            color: #fff;
+            font: {
+              family: "Lato";
+              size: 13px;
+            }
+          }
         }
-        // .brand-holder {
-        //   position: absolute;
-        //   top: 50%;
-        //   left: 50%;
-        //   transform: rotate(-90deg) translate(-50%, -50%);
-        //   transform-origin: 0 0;
-        //   img {
-        //     height: 37px;
-        //   }
-        //   p {
-        //     padding-left: 38px;
-        //     margin: 0;
-        //     color: #fff;
-        //     font: {
-        //       family: "Lato";
-        //       size: 13px;
-        //     }
-        //   }
-        // }
       }
     }
   }

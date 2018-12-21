@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
 import QRCodeIcon from '../../general/qr/index';
-import BrandLogo from '../../../images/logo/print-logo.png';
+import BrandLogo from '../../../images/logo/FantomWallet.svg';
 
 // To render screen for printout of account-info.
 class AccountDetailPrint extends Component {
@@ -35,7 +35,10 @@ class AccountDetailPrint extends Component {
             </div>
           </Col>
           <Col className="brand">
-            <img src={BrandLogo} alt="logo" />
+            <div className="brand-holder">
+              <img src={BrandLogo} alt="logo" />
+              <p>https://fantom.foundation/</p>
+            </div>
           </Col>
         </Row>
       </div>
