@@ -397,73 +397,9 @@
     .col {
       padding: 0;
 
-      &.acc-no-col,
-      &.time-col {
-        @media (max-width: 767px) {
-          padding-left: 80px !important;
-          p {
-            padding-left: 0px !important;
-          }
-        }
-      }
-
-      &.date-col {
-        text-align: center;
-        max-width: 60px;
-        @include responsive-width(80px);
-        @media (max-width: 767px) {
-          @include responsive-width(100%);
-          text-align: left;
-          padding: 0 15px;
-          position: absolute;
-          width: 80px;
-          height: calc(100% - 32px);
-        }
-        div {
-          background: {
-            size: auto 14px;
-            position: top right 4px;
-            repeat: no-repeat;
-          }
-          @media (max-width: 767px) {
-            height: 100%;
-            padding-top: 23px;
-            padding-left: 8px;
-
-            background: {
-              position: top 7px right 6px;
-            }
-          }
-          // @media (min-width: 767px) {
-          border-right: 1px solid #4a4a4a;
-          // }
-          p {
-            margin: 5px 0;
-            font: {
-              family: "Roboto";
-            }
-
-            &.day {
-              @media (max-width: 767px) {
-                margin-right: 10px;
-              }
-              font: {
-                size: 18px;
-                weight: 300;
-              }
-            }
-            &.month {
-              font: {
-                size: 12px;
-                weight: 300;
-              }
-            }
-          }
-        }
-      }
       &.acc-no-col {
         padding-left: 15px;
-        @include responsive-width(calc(100% - 360px));
+        @include responsive-width(calc(100% - 140px));
         @media (max-width: 767px) {
           @include responsive-width(100%);
           padding: 0 15px;
@@ -484,31 +420,7 @@
           }
         }
       }
-      &.time-col {
-        @include responsive-width(140px);
-        @media (max-width: 767px) {
-          @include responsive-width(100%);
-          text-align: left;
-        }
-        text-align: center;
-        p {
-          display: inline-block;
-          white-space: nowrap;
-          transform: skewX(-12deg);
-          font: {
-            size: 10px;
-          }
-          @media (min-width: 768px) {
-            margin: 25px 0 0;
-          }
-          @media (max-width: 767px) {
-            padding: 0 15px;
-            font: {
-              size: 14px;
-            }
-          }
-        }
-      }
+
       &.btn-col {
         text-align: right;
         @include responsive-width(140px);

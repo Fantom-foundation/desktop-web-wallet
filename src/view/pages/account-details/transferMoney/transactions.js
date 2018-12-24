@@ -2,29 +2,97 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col, Button } from 'reactstrap';
+import Web3 from 'web3';
 import PropTypes from 'prop-types';
-import moment from 'moment';
 import _ from 'lodash';
 import DropDown from '../dropDown';
-import { months, ALL_TX, SENT_TX, RECEIVED_TX } from '../../../../redux/constants';
+import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../../redux/constants';
 import { getTransactionsHistory } from '../../../../redux/getTransactions/actions';
-import received from '../../../../images/received.svg';
-import send from '../../../../images/send.svg';
 import TxHashTooltip from '../../../components/txnHashTooltip';
+import HttpDataProvider from '../../../../utility/httpProvider';
+import Loader from '../../../general/loader';
 
 class TransactionHistory extends React.PureComponent {
   constructor(props) {
     super(props);
     this.state = {
       txType: ALL_TX,
+      transactions: [],
+      isLoading: false,
     };
     this.filterTransaction = this.filterTransaction.bind(this);
     this.getNoTransactionsText = this.getNoTransactionsText.bind(this);
   }
 
   componentWillMount() {
-    const { getTransactions, publicAddress } = this.props;
-    getTransactions(publicAddress);
+    const { publicAddress } = this.props;
+    this.setState({
+      isLoading: true,
+    });
+    this.fetchTransactionList(publicAddress);
+
+    this.txnInterval = setInterval(() => {
+      this.fetchTransactionList(publicAddress);
+    }, 4000);
+  }
+
+  // eslint-disable-next-line react/sort-comp
+  fetchTransactionList(address) {
+    // eslint-disable-next-line no-param-reassign
+    HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
+      query: `
+        {
+          transactions(first: 100,from: "${address}", to: "${address}", byDirection: "desc") {
+            pageInfo {
+              hasNextPage
+            }
+            edges {
+              cursor
+              node {
+                hash
+                from
+                to
+                block
+                value
+              }
+            }
+          }
+        }`,
+    })
+      .then(
+        res => {
+          if (res && res.data && res.data.data) {
+            this.formatTransactionList(res.data.data);
+          }
+          this.setState({
+            isLoading: false,
+          });
+          return null;
+        },
+        () => {
+          console.log('1');
+        }
+      )
+      .catch(err => {
+        this.setState({
+          isLoading: false,
+        });
+        console.log(err, 'err in graphql');
+      });
+  }
+
+  formatTransactionList(data) {
+    if (data && data.transactions && data.transactions.edges && data.transactions.edges.length) {
+      const edgesArray = data.transactions.edges;
+      const transactionArr = [];
+      // eslint-disable-next-line no-restricted-syntax
+      for (const edge of edgesArray) {
+        if (edge && edge.node) {
+          transactionArr.push(edge.node);
+        }
+      }
+      this.setState({ transactions: transactionArr });
+    }
   }
 
   /**
@@ -46,7 +114,8 @@ class TransactionHistory extends React.PureComponent {
    * This method will return the UI for transactions
    */
   getTransactionHistory() {
-    const { transactions, publicAddress, copyToClipboard } = this.props;
+    const { publicAddress, copyToClipboard } = this.props;
+    const { transactions } = this.state;
     const { txType } = this.state;
     const text = this.getNoTransactionsText();
 
@@ -55,8 +124,6 @@ class TransactionHistory extends React.PureComponent {
     const transactionsHistory = [];
     if (transactions && transactions.length > 0) {
       for (let i = 0; i < transactions.length; i += 1) {
-        const date = moment(transactions[i].date).toDate();
-
         const isReceived =
           transactions[i].to === publicAddress && (txType === RECEIVED_TX || txType === ALL_TX);
         const isSend =
@@ -66,34 +133,26 @@ class TransactionHistory extends React.PureComponent {
           transactionsHistory.push(
             <div key={i} className="card bg-dark-light">
               <Row className="">
-                <Col className="date-col">
-                  <div style={{ backgroundImage: `url(${isReceived ? received : send})` }}>
-                    <p>{date.getDate()}</p>
-                    <p>{months[date.getMonth()]}</p>
-                  </div>
-                </Col>
                 <Col className="acc-no-col">
                   <div className="">
                     <TxHashTooltip
                       index={i}
-                      hash={transactions[i].hexTx}
+                      hash={transactions[i].hash}
                       copyToClipboard={copyToClipboard}
                     />
-                    {/* <p>
-                      <span>TX#</span> {transactions[i].hexTx}
-                    </p> */}
                     <p>
                       <span>{isReceived ? 'From: ' : 'To: '}</span>
                       {isReceived ? transactions[i].from : transactions[i].to}
                     </p>
                   </div>
                 </Col>
-                <Col className="time-col">
-                  <p>{moment(date).fromNow()}</p>
-                </Col>
+
                 <Col className="btn-col">
                   <Button color={`${isReceived ? 'green' : 'red'}`}>
-                    {transactions[i].amount} <span>FTM</span>
+                    {transactions[i].value
+                      ? Web3.utils.fromWei(`${transactions[i].value}`, 'ether')
+                      : '--'}{' '}
+                    <span>FTM</span>
                   </Button>
                 </Col>
               </Row>
@@ -122,8 +181,23 @@ class TransactionHistory extends React.PureComponent {
     });
   }
 
+  componentWillUnmount() {
+    clearInterval(this.txnInterval);
+  }
+
+  renderLoader() {
+    const { isLoading } = this.state;
+    return (
+      <div className="loader">
+        <div className="loader-holder loader-center-align">
+          <Loader sizeUnit="px" size={25} color="white" loading={isLoading} />
+        </div>
+      </div>
+    );
+  }
+
   render() {
-    const { txType } = this.state;
+    const { txType, isLoading } = this.state;
     const transactionsHistory = this.getTransactionHistory();
     return (
       <React.Fragment>
@@ -135,7 +209,7 @@ class TransactionHistory extends React.PureComponent {
             <DropDown filterTransaction={this.filterTransaction} txType={txType} />
           </div>
         </div>
-        <div id="acc-cards">{transactionsHistory}</div>
+        <div id="acc-cards">{isLoading ? this.renderLoader() : transactionsHistory}</div>
       </React.Fragment>
     );
   }
