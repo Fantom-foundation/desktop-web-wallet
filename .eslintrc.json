@@ -28,6 +28,7 @@
         "functions":"never"
       }
     ],
+    "react/destructuring-assignment": "warn",
     "react/jsx-props-no-spreading": "off",
     "no-restricted-syntax":1,
     "react/prop-types":0,

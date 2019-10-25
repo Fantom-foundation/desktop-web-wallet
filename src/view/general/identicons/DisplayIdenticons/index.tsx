@@ -34,6 +34,7 @@ export default class DisplayIdenticons extends React.PureComponent<Props> {
         <Row>
           <Col>
             <ul className="identicon">
+
               {selectedIcon && (
                 <IdenticonsIcon
                   selectedIcon={selectedIcon}
@@ -43,7 +44,8 @@ export default class DisplayIdenticons extends React.PureComponent<Props> {
                   getRadioIconData={getRadioIconData}
                 />
               )}
-              {range(0, selectedIcon ? 5 : 6).map(el => (
+
+              {range(1, selectedIcon ? 6 : 7).map(el => (
                 <IdenticonsIcon
                   accountIcon={identiconsId}
                   key={el}

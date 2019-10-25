@@ -25,7 +25,7 @@ type Props = {
   selectIconError: boolean;
 };
 
-export default class CreateAccount extends React.PureComponent<Props> {
+export default class CreateAccountForm extends React.PureComponent<Props> {
   render() {
     const {
       accountName,
@@ -108,6 +108,7 @@ export default class CreateAccount extends React.PureComponent<Props> {
             </ul>
           </Col>
         </Row>
+
         <DisplayIdenticons
           animateRefreshIcon={animateRefreshIcon}
           date={date}
@@ -116,6 +117,7 @@ export default class CreateAccount extends React.PureComponent<Props> {
           onRefresh={onRefresh}
           getRadioIconData={getRadioIconData}
         />
+
         {selectIconError && <p style={{ color: 'red' }}>Please select an icon</p>}
       </Form>
     );

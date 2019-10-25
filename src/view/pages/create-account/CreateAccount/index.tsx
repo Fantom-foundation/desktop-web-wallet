@@ -6,14 +6,28 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import _ from 'lodash';
 import AccountProcess from '~/view/components/account-process';
 import Layout from '~/view/components/layout';
-import { createAccount, incrementStepNo } from '~/redux/accountInProgress/action';
-import { getFantomBalance } from '~/redux/getBalance/action';
+import * as ACCOUNT_IN_PROGRESS_ACTIONS from '~/redux/accountInProgress/action';
+import * as GET_BALANCE_ACTION from '~/redux/getBalance/action';
 import ValidationMethods from '~/validations/userInputMethods';
 
 import { CONFIRMATION_PHASE } from '~/redux/constants';
 import { CreateAccountHeader } from '../CreateAccountHeader';
 
 const validationMethods = new ValidationMethods();
+
+const mapStateToProps = state => ({
+  accountName: state.accountInfo.accountName,
+  password: state.accountInfo.password,
+  selectedIcon: state.accountInfo.selectedIcon,
+  stepNo: state.accountInfo.stepNo,
+  accountsList: state.accounts.accountsList,
+});
+
+const mapDispatchToProps = {
+  createAccount: ACCOUNT_IN_PROGRESS_ACTIONS.createAccount,
+  incrementStepNo: ACCOUNT_IN_PROGRESS_ACTIONS.incrementStepNo,
+  getFantomBalance: GET_BALANCE_ACTION.getFantomBalance,
+};
 
 type State = {
   accountName: string;
@@ -36,20 +50,13 @@ type State = {
   selectedIconError: boolean;
 };
 
-type Props = RouteComponentProps & {
-  accountName: string;
-  password: string;
-  selectedIcon: string;
-  stepNo?: number;
-  accountsList: any[];
-  createNewAccount: (data: Partial<State>) => void;
-  goToNextStep: ({ stepNo: number }) => void;
-};
+type Props = RouteComponentProps &
+  typeof mapDispatchToProps &
+  ReturnType<typeof mapStateToProps> & {};
 
 class CreateAccount extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
-    // const initialInfo = this.getInitialAccountInfo();
 
     this.state = {
       accountName: props.accountName || '',
@@ -90,8 +97,6 @@ class CreateAccount extends React.PureComponent<Props, State> {
   }
 
   /**
-   * @param {Name of the key} key
-   * @param {Value of the key} value
    * This method will update the value of the given key
    */
   onUpdate(key: keyof State, value: State[keyof State]) {
@@ -115,7 +120,7 @@ class CreateAccount extends React.PureComponent<Props, State> {
    * This method will set the stepNo according to the current route
    */
   setStepNoWithRouting() {
-    const { location, goToNextStep } = this.props;
+    const { location, incrementStepNo } = this.props;
     const { pathname } = location;
     let stepNo = 1;
     if (pathname === '/confirm') {
@@ -127,7 +132,8 @@ class CreateAccount extends React.PureComponent<Props, State> {
     } else if (pathname === '/restore-account') {
       stepNo = 1;
     }
-    goToNextStep({ stepNo });
+
+    incrementStepNo({ stepNo });
   }
 
   /**
@@ -201,8 +207,8 @@ class CreateAccount extends React.PureComponent<Props, State> {
    * This method will move to the Confirm screen and set the step no
    */
   goToNextScreen() {
-    const { goToNextStep, history } = this.props;
-    goToNextStep({ stepNo: 3 });
+    const { incrementStepNo, history } = this.props;
+    incrementStepNo({ stepNo: 3 });
     history.push('/confirm');
   }
 
@@ -210,14 +216,14 @@ class CreateAccount extends React.PureComponent<Props, State> {
    * This method will move to the Account information screen and set the step no
    */
   goToAccountInfoScreen() {
-    const { goToNextStep, history, location } = this.props;
+    const { incrementStepNo, history, location } = this.props;
     const { pathname } = location;
 
     if (pathname === '/restore-account') {
-      goToNextStep({ stepNo: 2 });
+      incrementStepNo({ stepNo: 2 });
       history.push('/confirm-restore');
     } else {
-      goToNextStep({ stepNo: 2 });
+      incrementStepNo({ stepNo: 2 });
       this.setState({
         revealSecret: false,
         confirmationPhrase: '',
@@ -227,9 +233,9 @@ class CreateAccount extends React.PureComponent<Props, State> {
   }
 
   goToAccountRestoreScreen() {
-    const { history, goToNextStep } = this.props;
+    const { history, incrementStepNo } = this.props;
     const { identiconsId } = this.state;
-    goToNextStep({ stepNo: 1 });
+    incrementStepNo({ stepNo: 1 });
     this.setState({
       isAccountNameExists: false,
       selectedIcon: identiconsId,
@@ -241,9 +247,9 @@ class CreateAccount extends React.PureComponent<Props, State> {
    * This method will move to the previous create account screen and set the step no
    */
   goToPreviousScreen() {
-    const { goToNextStep, history } = this.props;
+    const { incrementStepNo, history } = this.props;
     const { identiconsId } = this.state;
-    goToNextStep({ stepNo: 1 });
+    incrementStepNo({ stepNo: 1 });
     this.setState({
       selectedIcon: identiconsId,
     });
@@ -254,7 +260,7 @@ class CreateAccount extends React.PureComponent<Props, State> {
    * This method will create the new account and set the state in the reducers
    */
   createNewAccount() {
-    const { createNewAccount, goToNextStep, location, history, accountsList } = this.props;
+    const { createAccount, incrementStepNo, location, history, accountsList } = this.props;
     const { pathname } = location;
     const { accountName, password, reEnteredPassword, identiconsId } = this.state;
 
@@ -271,13 +277,13 @@ class CreateAccount extends React.PureComponent<Props, State> {
     );
 
     if (isNameExists === -1) {
-      createNewAccount(data);
+      createAccount(data);
 
       if (pathname === '/restore-account') {
-        goToNextStep({ stepNo: 2 });
+        incrementStepNo({ stepNo: 2 });
         history.push('/confirm-restore');
       } else {
-        goToNextStep({ stepNo: 2 });
+        incrementStepNo({ stepNo: 2 });
         this.setState({
           revealSecret: false,
           confirmationPhrase: '',
@@ -358,7 +364,7 @@ class CreateAccount extends React.PureComponent<Props, State> {
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    
+
     return (
       isAnyFieldEmpty ||
       isPasswordIncorrect ||
@@ -383,7 +389,7 @@ class CreateAccount extends React.PureComponent<Props, State> {
    */
   disableNextButton() {
     const { stepNo } = this.props;
-    
+
     if (stepNo === 1) {
       return this.disableNextButtonOnStepOne();
     }
@@ -391,7 +397,7 @@ class CreateAccount extends React.PureComponent<Props, State> {
     if (stepNo === 2) {
       return this.disableNextButtonOnStepTwo();
     }
-    
+
     if (stepNo === 3) {
       return true;
     }
@@ -549,20 +555,6 @@ class CreateAccount extends React.PureComponent<Props, State> {
     );
   }
 }
-
-const mapStateToProps = state => ({
-  accountName: state.accountInfo.accountName,
-  password: state.accountInfo.password,
-  selectedIcon: state.accountInfo.selectedIcon,
-  stepNo: state.accountInfo.stepNo,
-  accountsList: state.accounts.accountsList,
-});
-
-const mapDispatchToProps = dispatch => ({
-  createNewAccount: data => dispatch(createAccount(data)),
-  goToNextStep: data => dispatch(incrementStepNo(data)),
-  getBalance: data => dispatch(getFantomBalance(data)),
-});
 
 export default compose(
   connect(

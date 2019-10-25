@@ -34,7 +34,9 @@ const CreateAccountHeader: FC<Props> = props => (
     />
 
     <Route path="/confirm-restore" exact render={() => <EnterMnemonics {...props} />} />
+
     <Route path="/confirm" exact component={Confirm} />
+    
     <Route path="/confirm" exact component={Confirm} />
     
     <Redirect to="/" />

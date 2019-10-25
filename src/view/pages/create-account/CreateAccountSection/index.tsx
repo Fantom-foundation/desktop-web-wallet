@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { FC } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import CreateAccountForm from '~/view/components/forms/CreateAccount';
+import CreateAccountForm from '~/view/components/forms/CreateAccountForm';
 
 type Props = {
   formData: {
@@ -23,72 +23,60 @@ type Props = {
     isAccountNameExists: boolean;
     selectedIconError: boolean;
 
+    onUpdate;
+    getRadioIconData;
+    onRefresh;
+  };
+};
+
+const CreateAccountSection: FC<Props> = ({
+  formData: {
+    accountName,
+    password,
+    reEnteredPassword,
+    date,
+    animateRefreshIcon,
+    identiconsId,
+    error,
+    containNumber,
+    containCapitalLetter,
+    hasLengthGreaterThanEight,
+    selectedIcon,
+    selectIconError,
     onUpdate,
     getRadioIconData,
     onRefresh,
+    isAccountNameExists,
   },
-}
+}) => (
+  <div id="account-information" className="account-information">
+    <section className="bg-dark" style={{ padding: '60px 0' }}>
+      <Container>
+        <Row>
+          <Col>
+            <CreateAccountForm
+              accountName={accountName}
+              password={password}
+              isAccountNameExists={isAccountNameExists}
+              error={error}
+              reEnteredPassword={reEnteredPassword}
+              onUpdate={onUpdate}
+              date={date}
+              animateRefreshIcon={animateRefreshIcon}
+              identiconsId={identiconsId}
+              selectedIcon={selectedIcon}
+              onRefresh={onRefresh}
+              getRadioIconData={getRadioIconData}
+              containNumber={containNumber}
+              containCapitalLetter={containCapitalLetter}
+              hasLengthGreaterThanEight={hasLengthGreaterThanEight}
+              selectIconError={selectIconError}
+            />
+          </Col>
+        </Row>
+      </Container>
+    </section>
+  </div>
+);
 
-export default class CreateAccountSection extends React.PureComponent<Props> {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
-  render() {
-    const { formData } = this.props;
-    const {
-      accountName,
-      password,
-      reEnteredPassword,
-      date,
-      animateRefreshIcon,
-      identiconsId,
-      error,
-      containNumber,
-      containCapitalLetter,
-      hasLengthGreaterThanEight,
-      selectedIcon,
-      selectIconError,
-      onUpdate,
-      getRadioIconData,
-      onRefresh,
-      isAccountNameExists,
-    } = formData;
-
-    return (
-      <div id="account-information" className="account-information">
-        <section className="bg-dark" style={{ padding: '60px 0' }}>
-          <Container>
-            <Row>
-              <Col>
-                <CreateAccountForm
-                  accountName={accountName}
-                  password={password}
-                  isAccountNameExists={isAccountNameExists}
-                  error={error}
-                  reEnteredPassword={reEnteredPassword}
-                  onUpdate={onUpdate}
-                  date={date}
-                  animateRefreshIcon={animateRefreshIcon}
-                  identiconsId={identiconsId}
-                  selectedIcon={selectedIcon}
-                  onRefresh={onRefresh}
-                  getRadioIconData={getRadioIconData}
-                  containNumber={containNumber}
-                  containCapitalLetter={containCapitalLetter}
-                  hasLengthGreaterThanEight={hasLengthGreaterThanEight}
-                  selectIconError={selectIconError}
-                />
-              </Col>
-            </Row>
-          </Container>
-        </section>
-      </div>
-    );
-  }
-}
-
-// CreateAccountSection.propTypes = {
-//   formData: PropTypes.oneOfType([PropTypes.object]).isRequired,
-// };
+export default CreateAccountSection;
