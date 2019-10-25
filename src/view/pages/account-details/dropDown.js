@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Dropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
-import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../redux/constants';
+import { ALL_TX, SENT_TX, RECEIVED_TX } from '~/redux/constants';
 
 export default class DropDown extends React.Component {
   constructor(props) {

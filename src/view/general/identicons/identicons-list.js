@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormGroup } from 'reactstrap';
-import Identicons from './identicons';
+import Identicons from '~/view/general/identicons';
 
 /**
  * IdenticonsIcon :  This component is meant for rendering IdenticonsIcon list in create account screen of wallet setup.

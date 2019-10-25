@@ -8,18 +8,18 @@ import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import _ from 'lodash';
 import { Redirect } from 'react-router-dom';
-import QRCode from '../../general/qr/index';
-import copyToClipboard from '../../../utility';
-import Layout from '../../components/layout';
-import { getFantomBalance } from '../../../redux/getBalance/action';
-import Identicons from '../../general/identicons/identicons';
-import { sendRawTransaction } from '../../../redux/sendTransactions/action';
-import TransactionHistory from './transferMoney/transactions';
-import ShowPublicAddress from '../../components/public-address';
-import SendMoney from '../../general/sidebar/index';
-import HttpDataProvider from '../../../utility/httpProvider';
-import TransactionStatusModal from '../../components/modals/transaction-status-modal/index';
-import ValidationMethods from '../../../validations/userInputMethods';
+import QRCode from '~/view/general/qr/index';
+import copyToClipboard from '~/utility';
+import Layout from '~/view/components/layout';
+import { getFantomBalance } from '~/redux/getBalance/action';
+import Identicons from '~/view/general/identicons/identicons';
+import { sendRawTransaction } from '~/redux/sendTransactions/action';
+import TransactionHistory from '~/view/pages/account-details/transferMoney/transactions';
+import ShowPublicAddress from '~/view/components/public-address';
+import SendMoney from '~/view/general/sidebar/index';
+import HttpDataProvider from '~/utility/httpProvider';
+import TransactionStatusModal from '~/view/components/modals/transaction-status-modal/index';
+import ValidationMethods from '~/validations/userInputMethods';
 
 const validationMethods = new ValidationMethods();
 
@@ -71,16 +71,14 @@ class AccountDetails extends React.PureComponent {
     }, 5000);
   }
 
-  componentWillMount() {
+  componentDidMount() {
+    this.fetchTransactionList();
+
     const { getBalance } = this.props;
     const publicAddress = this.getAccountPublicAddress();
     if (publicAddress && publicAddress !== '') {
       getBalance(publicAddress);
     }
-  }
-
-  componentDidMount() {
-    this.fetchTransactionList();
   }
 
   componentWillUnmount() {
@@ -316,7 +314,9 @@ class AccountDetails extends React.PureComponent {
                       </div>
                       <div className="ftm-no">
                         <p>
-                          {valInEther ? valInEther.balance : 0} <span>FTM</span>
+                          {valInEther ? valInEther.balance : 0} 
+                          {' '}
+                          <span>FTM</span>
                         </p>
                       </div>
                       <center>

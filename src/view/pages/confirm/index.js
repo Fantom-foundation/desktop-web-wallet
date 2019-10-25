@@ -6,13 +6,13 @@ import { withRouter } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Web3 from 'web3';
-import { emptyState } from '../../../redux/accountInProgress/action';
-import createWallet from '../../../redux/account/action';
-import { emptyKeysState } from '../../../redux/keys/actions';
-import CancelWalletModal from '../../components/modals/cancel-wallet';
-import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
-import ValidationMethods from '../../../validations/userInputMethods';
-import { walletSetup } from '../../../redux/accountManagement';
+import { emptyState } from '~/redux/accountInProgress/action';
+import createWallet from '~/redux/account/action';
+import { emptyKeysState } from '~/redux/keys/actions';
+import CancelWalletModal from '~/view/components/modals/cancel-wallet';
+import IncorrectMnemonicsModal from '~/view/components/modals/incorrect-mnemonics';
+import ValidationMethods from '~/validations/userInputMethods';
+import { walletSetup } from '~/redux/accountManagement';
 
 const validationMethods = new ValidationMethods();
 const web3 = new Web3();
@@ -35,7 +35,7 @@ class Confirm extends React.PureComponent {
     this.toggleIncorrectMnemonicsModal = this.toggleIncorrectMnemonicsModal.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const mnemonics = this.getMnemonics();
     this.setState({
       mnemonicsArray: mnemonics,
@@ -91,8 +91,7 @@ class Confirm extends React.PureComponent {
                 this.unselectMnemonic(
                   selectedMnemonicsArray[i].name,
                   selectedMnemonicsArray[i].index
-                )
-              }
+                )}
             >
               {selectedMnemonicsArray[i].name}
             </Button>

@@ -1,9 +1,9 @@
 import React from 'react';
 import { Route, BrowserRouter, Switch } from 'react-router-dom';
-import Home from '../view/pages/home';
-import AccountManagement from '../view/pages/account-management';
-import CreateAccount from '../view/pages/create-account';
-import AccountDetails from '../view/pages/account-details';
+import Home from '~/view/pages/home';
+import AccountManagement from '~/view/pages/account-management';
+import CreateAccount from '~/view/pages/create-account';
+import AccountDetails from '~/view/pages/account-details';
 
 const Routes = () => (
   // eslint-disable-next-line no-undef

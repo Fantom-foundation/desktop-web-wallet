@@ -1,8 +1,8 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
-import IdenticonsIcon from './identicons-list';
-import refreshIcon from '../../../images/icons/refresh-icon.svg';
+import IdenticonsIcon from '~/view/general/identicons/identicons-list';
+import refreshIcon from '~/images/icons/refresh-icon.svg';
 
 /**
  * DisplayIdenticons  : This component is meant for rendering IdenticonsIcon list in create account screen of wallet setup.

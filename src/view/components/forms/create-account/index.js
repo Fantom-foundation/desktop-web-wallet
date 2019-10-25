@@ -1,7 +1,7 @@
 import React from 'react';
 import { Row, Col, Form, FormGroup, Input } from 'reactstrap';
 import PropTypes from 'prop-types';
-import DisplayIdenticons from '../../../general/identicons';
+import DisplayIdenticons from '~/view/general/identicons';
 import cross from './cross.svg';
 import check from './check.svg';
 import user from './user.svg';

@@ -34,7 +34,9 @@ export default class TxHashTooltip extends Component {
         id={`copyToClipboard_tooltip${index}`}
         onClick={e => copyToClipboard(e, hash)}
       >
-        <span>TX#</span> {hash}
+        <span>TX#</span> 
+        {' '}
+        {hash}
         <Tooltip
           placement="top"
           isOpen={isOpenTooltip}

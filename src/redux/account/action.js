@@ -1,4 +1,4 @@
-import * as types from '../constants';
+import * as types from '~/redux/constants';
 
 export default function createWallet(data) {
   return {

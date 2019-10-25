@@ -22,7 +22,8 @@ export default class CancelWalletModal extends React.PureComponent {
           </Button>
           <Button color="primary" onClick={e => cancelWallet(e)}>
             Yes
-          </Button>{' '}
+          </Button>
+          {' '}
         </ModalFooter>
       </Modal>
     );

@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import Header from './header';
-import Footer from './footer';
+import Header from '~/view/components/layout/header';
+import Footer from '~/view/components/layout/footer';
 
 export default class Layout extends React.PureComponent {
   constructor(props) {

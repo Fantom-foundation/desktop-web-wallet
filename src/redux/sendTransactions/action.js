@@ -1,5 +1,5 @@
-import action from '../action';
-import * as actions from '../constants';
+import action from '~/redux/action';
+import * as actions from '~/redux/constants';
 
 // Action to call to a backend nearByUsers API
 export const sendRawTransaction = data =>

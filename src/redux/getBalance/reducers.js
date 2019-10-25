@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 /* eslint-disable camelcase */
-import * as actions from '../constants';
+import * as actions from '~/redux/constants';
 
 const defaultState = {};
 
@@ -11,7 +11,7 @@ const defaultState = {};
 export const scientificToDecimal = num => {
   const sign = Math.sign(num);
   // if the number is in scientific notation remove it
-  if (/\d+\.?\d*e[\+\-]*\d+/i.test(num)) {
+  if (/\d+\.?\d*e[+-]*\d+/i.test(num)) {
     const zero = '0';
     const parts = String(num)
       .toLowerCase()
@@ -44,20 +44,16 @@ const getBalance = (state = defaultState, action) => {
   switch (action.type) {
     case `${actions.GET_FANTOM_BALANCE}`: {
       const accountInfo = {};
-      return Object.assign({}, state, {
-        ...state,
-        ...accountInfo,
-      });
+      return { ...state, ...state,
+        ...accountInfo};
     }
     case `${actions.GET_FANTOM_BALANCE}_SUCCESS`: {
       const { config, data } = action.payload;
       const accountInfo = {
         [config.address]: scientificToDecimal(data.balance),
       };
-      return Object.assign({}, state, {
-        ...state,
-        ...accountInfo,
-      });
+      return { ...state, ...state,
+        ...accountInfo};
     }
     case `${actions.GET_FANTOM_BALANCE}_FAILURE`: {
       return defaultState;

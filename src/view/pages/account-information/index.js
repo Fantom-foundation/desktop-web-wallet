@@ -7,16 +7,16 @@ import { ToastContainer, ToastStore } from 'react-toasts';
 import ReactToPrint from 'react-to-print';
 
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
-import QRCode from '../../general/qr/index';
-import copyToClipboard from '../../../utility';
-import { CONFIRMATION_PHASE } from '../../../redux/constants';
-import { createPublicPrivateKeys } from '../../../redux/keys/actions';
-import { createMnemonic } from '../../../redux/accountInProgress/action';
-import Identicons from '../../general/identicons/identicons';
-import noView from '../../../images/icons/no-view.png';
-import { walletSetup } from '../../../redux/accountManagement';
+import QRCode from '~/view/general/qr/index';
+import copyToClipboard from '~/utility';
+import { CONFIRMATION_PHASE } from '~/redux/constants';
+import { createPublicPrivateKeys } from '~/redux/keys/actions';
+import { createMnemonic } from '~/redux/accountInProgress/action';
+import Identicons from '~/view/general/identicons/identicons';
+import noView from '~/images/icons/no-view.png';
+import { walletSetup } from '~/redux/accountManagement';
 
-import AccountDetailPrint from '../../components/print-form/index';
+import AccountDetailPrint from '~/view/components/print-form/index';
 
 class AccountInformation extends React.PureComponent {
   constructor(props) {
@@ -136,7 +136,8 @@ class AccountInformation extends React.PureComponent {
                   <ReactToPrint
                     trigger={() => (
                       <Button>
-                        <i className="fas fa-print" />{' '}
+                        <i className="fas fa-print" />
+                        {' '}
                       </Button>
                     )}
                     content={() => this.printAccountDetail}
@@ -185,12 +186,14 @@ class AccountInformation extends React.PureComponent {
                 </p>
                 <FormGroup>
                   <Label for="msg" className="text-white">
-                    Type{' '}
+                    Type
+                    {' '}
                     <span className="text-primary">
-                      {'"'}
+                      &quot;
                       {CONFIRMATION_PHASE}
-                      {'"'}
-                    </span>{' '}
+                      &quot;
+                    </span>
+                    {' '}
                     below to confirm it is backed up.
                   </Label>
                   <div className="input-holder">

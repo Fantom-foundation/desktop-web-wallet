@@ -3,8 +3,8 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import PropTypes from 'prop-types';
 import { DropdownItem } from 'reactstrap';
-import SelectDropDown from './selectDropdown';
-import { getFantomBalance } from '../../../../redux/getBalance/action';
+import SelectDropDown from '~/view/pages/account-details/transferMoney/selectDropdown';
+import { getFantomBalance } from '~/redux/getBalance/action';
 /**
  * AccountList: This component is meant for rendering list of valid account in ' Withrom From ' type field in send funds screen.
  * User can select the account from which to transfer funds, selected account name is rendered in ' Withrom From ' field.
@@ -36,7 +36,7 @@ class AccountList extends React.PureComponent {
     const renderList = this.renderAccountList();
     const { selectedAccount, balance, gasPrice } = this.props;
     return (
-      <React.Fragment>
+      <>
         <SelectDropDown
           value={selectedAccount.accountName}
           publicAddress={selectedAccount.publicAddress}
@@ -44,7 +44,7 @@ class AccountList extends React.PureComponent {
           balance={balance}
           gasPrice={gasPrice}
         />
-      </React.Fragment>
+      </>
     );
   }
 }

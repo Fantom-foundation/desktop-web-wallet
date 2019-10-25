@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import SendFunds from './send-funds/index';
+import SendFunds from '~/view/general/sidebar/send-funds';
 
-import ConfirmFunds from './confirm-fund-transfer/index';
-import { getPrivateKeyOfAddress } from '../../../redux/accountManagement';
-import smallLogo from '../../../images/logo/FantomWallet.svg';
+import ConfirmFunds from '~/view/general/sidebar/confirm-fund-transfer/index';
+import { getPrivateKeyOfAddress } from '~/redux/accountManagement';
+import smallLogo from '~/images/logo/FantomWallet.svg';
 
 class SendMoney extends Component {
   constructor(props) {

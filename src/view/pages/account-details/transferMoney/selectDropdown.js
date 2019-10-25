@@ -3,9 +3,9 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Dropdown, DropdownToggle, DropdownMenu } from 'reactstrap';
 import PropTypes from 'prop-types';
-import withdrawImage from '../../../../images/withdraw.svg';
-import { getFantomBalance } from '../../../../redux/getBalance/action';
-import ValidationMethods from '../../../../validations/userInputMethods';
+import withdrawImage from '~/images/withdraw.svg';
+import { getFantomBalance } from '~/redux/getBalance/action';
+import ValidationMethods from '~/validations/userInputMethods';
 
 const validationMethods = new ValidationMethods();
 
@@ -47,7 +47,9 @@ class Select extends React.Component {
           {value}
           <span className="ftm text-white">
             {' '}
-            {valInEther ? valInEther.maxFantomBalance : 0} FTM
+            {valInEther ? valInEther.maxFantomBalance : 0}
+            {' '}
+FTM
           </span>
         </DropdownToggle>
         <DropdownMenu>{accountDetailList}</DropdownMenu>

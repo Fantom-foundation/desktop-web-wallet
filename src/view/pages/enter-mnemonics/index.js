@@ -6,12 +6,12 @@ import _ from 'lodash';
 import Web3 from 'web3';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
-import { emptyState } from '../../../redux/accountInProgress/action';
-import createWallet from '../../../redux/account/action';
-import CancelWalletModal from '../../components/modals/cancel-wallet';
-import IncorrectMnemonicsModal from '../../components/modals/incorrect-mnemonics';
-import ValidationMethods from '../../../validations/userInputMethods';
-import { walletSetup } from '../../../redux/accountManagement';
+import { emptyState } from '~/redux/accountInProgress/action';
+import createWallet from '~/redux/account/action';
+import CancelWalletModal from '~/view/components/modals/cancel-wallet';
+import IncorrectMnemonicsModal from '~/view/components/modals/incorrect-mnemonics';
+import ValidationMethods from '~/validations/userInputMethods';
+import { walletSetup } from '~/redux/accountManagement';
 
 const web3 = new Web3();
 

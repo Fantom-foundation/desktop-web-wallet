@@ -1,5 +1,5 @@
 import React from 'react';
-import Nav from './nav';
+import Nav from '~/view/components/layout/header/nav';
 
 export default class Header extends React.PureComponent {
   constructor(props) {

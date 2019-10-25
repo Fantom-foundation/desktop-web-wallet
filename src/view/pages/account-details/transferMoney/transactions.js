@@ -3,14 +3,13 @@ import { connect } from 'react-redux';
 import { compose } from 'redux';
 import { Row, Col, Button } from 'reactstrap';
 import Web3 from 'web3';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
-import DropDown from '../dropDown';
-import { ALL_TX, SENT_TX, RECEIVED_TX } from '../../../../redux/constants';
-import { getTransactionsHistory } from '../../../../redux/getTransactions/actions';
-import TxHashTooltip from '../../../components/txnHashTooltip';
-import HttpDataProvider from '../../../../utility/httpProvider';
-import Loader from '../../../general/loader';
+import DropDown from '~/view/pages/account-details/dropDown';
+import { ALL_TX, SENT_TX, RECEIVED_TX } from '~/redux/constants';
+import { getTransactionsHistory } from '~/redux/getTransactions/actions';
+import TxHashTooltip from '~/view/components/txnHashTooltip';
+import HttpDataProvider from '~/utility/httpProvider';
+import Loader from '~/view/general/loader';
 
 class TransactionHistory extends React.PureComponent {
   constructor(props) {
@@ -24,7 +23,7 @@ class TransactionHistory extends React.PureComponent {
     this.getNoTransactionsText = this.getNoTransactionsText.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const { publicAddress } = this.props;
     this.setState({
       isLoading: true,
@@ -151,7 +150,8 @@ class TransactionHistory extends React.PureComponent {
                   <Button color={`${isReceived ? 'green' : 'red'}`}>
                     {transactions[i].value
                       ? Web3.utils.fromWei(`${transactions[i].value}`, 'ether')
-                      : '--'}{' '}
+                      : '--'}
+                    {' '}
                     <span>FTM</span>
                   </Button>
                 </Col>
@@ -200,7 +200,7 @@ class TransactionHistory extends React.PureComponent {
     const { txType, isLoading } = this.state;
     const transactionsHistory = this.getTransactionHistory();
     return (
-      <React.Fragment>
+      <>
         <div className="bg-dark-light">
           <div className="add-wallet">
             <h2 className="title ">
@@ -210,7 +210,7 @@ class TransactionHistory extends React.PureComponent {
           </div>
         </div>
         <div id="acc-cards">{isLoading ? this.renderLoader() : transactionsHistory}</div>
-      </React.Fragment>
+      </>
     );
   }
 }
@@ -223,11 +223,11 @@ const mapDispatchToProps = dispatch => ({
   getTransactions: data => dispatch(getTransactionsHistory(data)),
 });
 
-TransactionHistory.propTypes = {
-  getTransactions: PropTypes.func.isRequired,
-  publicAddress: PropTypes.string.isRequired,
-  transactions: PropTypes.oneOfType([PropTypes.array]).isRequired,
-};
+// TransactionHistory.propTypes = {
+//   getTransactions: PropTypes.func.isRequired,
+//   publicAddress: PropTypes.string.isRequired,
+//   transactions: PropTypes.oneOfType([PropTypes.array]).isRequired,
+// };
 
 export default compose(
   connect(

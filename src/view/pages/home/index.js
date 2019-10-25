@@ -1,8 +1,7 @@
-/* global document */
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
-import Layout from '../../components/layout';
+import Layout from '~/view/components/layout';
 
 class Home extends React.PureComponent {
   constructor(props) {

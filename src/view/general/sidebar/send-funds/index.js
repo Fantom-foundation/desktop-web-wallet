@@ -6,13 +6,13 @@ import PropTypes from 'prop-types';
 import { compose } from 'redux';
 import _ from 'lodash';
 import BigInt from 'big-integer';
-import addressImage from '../../../../images/address.svg';
-import amountImage from '../../../../images/amount.svg';
-import passwordImage from '../../../../images/password.svg';
-import { getFantomBalance } from '../../../../redux/getBalance/action';
-import Loader from '../../loader';
-import AccountList from '../../../pages/account-details/transferMoney/accountList';
-import { isAccountPasswordCorrect } from '../../../../redux/accountManagement';
+import addressImage from '~/images/address.svg';
+import amountImage from '~/images/amount.svg';
+import passwordImage from '~/images/password.svg';
+import { getFantomBalance } from '~/redux/getBalance/action';
+import Loader from '~/view/general/loader';
+import AccountList from '~/view/pages/account-details/transferMoney/accountList';
+import { isAccountPasswordCorrect } from '~/redux/accountManagement';
 
 class SendMoney extends React.PureComponent {
   constructor(props) {

@@ -1,4 +1,4 @@
-import * as types from '../constants';
+import * as types from '~/redux/constants';
 
 const defaultState = { accountsList: [] };
 
@@ -22,9 +22,7 @@ const accounts = (state = defaultState, action) => {
   switch (action.type) {
     case types.CREATE_WALLET: {
       const accountsList = addAccount(payload, state);
-      return Object.assign({}, state, {
-        ...accountsList,
-      });
+      return { ...state, ...accountsList};
     }
     default:
       return state;

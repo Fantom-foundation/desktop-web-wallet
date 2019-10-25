@@ -1,4 +1,4 @@
-import * as actions from '../constants';
+import * as actions from '~/redux/constants';
 
 const defaultState = { transactions: [] };
 
@@ -21,23 +21,17 @@ const sendTransactions = (state = defaultState, action) => {
     case `${actions.TRANSFER_MONEY}_SUCCESS`: {
       const { payload } = action;
       const transactions = addTransaction(payload.config.transferData, state);
-      return Object.assign({}, state, {
-        ...transactions,
-      });
+      return { ...state, ...transactions};
     }
     case `${actions.TRANSFER_MONEY}_FAILURE`: {
       return defaultState;
     }
     case `${actions.GET_FANTOM_NONCE}`: {
-      return Object.assign({}, state, {
-        fantomNonce: '',
-      });
+      return { ...state, fantomNonce: ''};
     }
     case `${actions.GET_FANTOM_NONCE}_SUCCESS`: {
       const { data } = action.payload;
-      return Object.assign({}, state, {
-        fantomNonce: data.nonce,
-      });
+      return { ...state, fantomNonce: data.nonce};
     }
     case `${actions.GET_FANTOM_NONCE}_FAILURE`: {
       return defaultState;

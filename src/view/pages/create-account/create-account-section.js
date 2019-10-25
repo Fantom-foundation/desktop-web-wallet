@@ -1,7 +1,7 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import PropTypes from 'prop-types';
-import CreateAccountForm from '../../components/forms/create-account';
+import CreateAccountForm from '~/view/components/forms/create-account';
 
 export default class CreateAccountSection extends React.PureComponent {
   constructor(props) {

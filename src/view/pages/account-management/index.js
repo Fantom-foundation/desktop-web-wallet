@@ -6,10 +6,10 @@ import PropTypes from 'prop-types';
 import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col } from 'reactstrap';
 import _ from 'lodash';
-import copyToClipboard from '../../../utility';
-import Layout from '../../components/layout';
-import Identicons from '../../general/identicons/identicons';
-import ShowPublicAddress from '../../components/public-address';
+import copyToClipboard from '~/utility';
+import Layout from '~/view/components/layout';
+import Identicons from '~/view/general/identicons/identicons';
+import ShowPublicAddress from '~/view/components/public-address';
 
 class AccountManagement extends React.PureComponent {
   constructor(props) {

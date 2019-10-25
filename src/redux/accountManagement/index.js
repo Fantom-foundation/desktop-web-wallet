@@ -5,8 +5,8 @@ import keythereum from 'keythereum';
 import Bip39 from 'bip39';
 import Web3 from 'web3';
 import axios from 'axios';
-import { getStore } from '../store';
-import config from '../config';
+import { getStore } from '~/redux/store';
+import config from '~/redux/config';
 
 /**
  * @param {Public Address} address

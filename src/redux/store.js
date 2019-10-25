@@ -4,9 +4,8 @@ import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage'; // defaults to localStorage for web and AsyncStorage for react-native
-import config from './config';
-import rootReducer from './index';
-// import rootReducer from './index';
+import config from '~/redux/config';
+import rootReducer from '~/redux/index';
 
 /**
  * Create Axios Client to communicate

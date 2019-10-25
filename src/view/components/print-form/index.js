@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Row, Col } from 'reactstrap';
-import QRCodeIcon from '../../general/qr/index';
-import BrandLogo from '../../../images/logo/FantomWallet.svg';
+import QRCodeIcon from '~/view/general/qr/index';
+import BrandLogo from '~/images/logo/FantomWallet.svg';
 
 // To render screen for printout of account-info.
 class AccountDetailPrint extends Component {

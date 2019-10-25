@@ -6,10 +6,10 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { Collapse, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
-import logo from '../../../../../images/logo/FantomWallet.svg';
+import logo from '~/images/logo/FantomWallet.svg';
 
-import hamburgerBtn from '../../../../../images/icons/hamburger.svg';
-import closeBtn from '../../../../../images/icons/close.svg';
+import hamburgerBtn from '~/images/icons/hamburger.svg';
+import closeBtn from '~/images/icons/close.svg';
 
 class NavigationBar extends React.Component {
   constructor(props) {

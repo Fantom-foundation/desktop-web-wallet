@@ -5,16 +5,16 @@ import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
 import PropTypes from 'prop-types';
 import _ from 'lodash';
-import AccountProcess from '../../components/account-process';
-import Layout from '../../components/layout';
-import { createAccount, incrementStepNo } from '../../../redux/accountInProgress/action';
-import { getFantomBalance } from '../../../redux/getBalance/action';
-import ValidationMethods from '../../../validations/userInputMethods';
-import CreateAccountSection from './create-account-section';
-import AccountInformation from '../account-information';
-import Confirm from '../confirm';
-import EnterMnemonics from '../enter-mnemonics';
-import { CONFIRMATION_PHASE } from '../../../redux/constants';
+import AccountProcess from '~/view/components/account-process';
+import Layout from '~/view/components/layout';
+import { createAccount, incrementStepNo } from '~/redux/accountInProgress/action';
+import { getFantomBalance } from '~/redux/getBalance/action';
+import ValidationMethods from '~/validations/userInputMethods';
+import CreateAccountSection from '~/view/pages/create-account/create-account-section';
+import AccountInformation from '~/view/pages/account-information';
+import Confirm from '~/view/pages/confirm';
+import EnterMnemonics from '~/view/pages/enter-mnemonics';
+import { CONFIRMATION_PHASE } from '~/redux/constants';
 
 const validationMethods = new ValidationMethods();
 
@@ -463,7 +463,9 @@ class CreateAccount extends React.PureComponent {
                     }
                     onClick={functionToCall.backButtonFunction}
                   >
-                    <i className="fas fa-chevron-left" /> Back
+                    <i className="fas fa-chevron-left" />
+                    {' '}
+Back
                   </Button>
                 </Col>
                 <Col>
@@ -482,7 +484,9 @@ class CreateAccount extends React.PureComponent {
                         : functionToCall.nextButtonFunction
                     }
                   >
-                    Next <i className="fas fa-chevron-right" />
+                    Next 
+                    {' '}
+                    <i className="fas fa-chevron-right" />
                   </Button>
                 </Col>
               </Row>

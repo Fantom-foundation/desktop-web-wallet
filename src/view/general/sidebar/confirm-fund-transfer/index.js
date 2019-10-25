@@ -3,13 +3,13 @@ import React, { Component } from 'react';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
 import { Button, FormGroup, Label, Input, Row, Col } from 'reactstrap';
-import warningImg from '../../../../images/warning.svg';
-import { transferFantom } from '../../../../redux/accountManagement/index';
-import addressImage from '../../../../images/addressDisable.svg';
-import coinImage from '../../../../images/coin.svg';
-import { getFantomBalance } from '../../../../redux/getBalance/action';
-import fantomLogo from '../../../../images/logo/small-logo-white.svg';
-import Loader from '../../loader/index';
+import warningImg from '~/images/warning.svg';
+import { transferFantom } from '~/redux/accountManagement/index';
+import addressImage from '~/images/addressDisable.svg';
+import coinImage from '~/images/coin.svg';
+import { getFantomBalance } from '~/redux/getBalance/action';
+import fantomLogo from '~/images/logo/small-logo-white.svg';
+import Loader from '~/view/general/loader/index';
 
 /**
  * ConfirmFunds: This component is meant for rendering modal for Check send.
@@ -104,7 +104,7 @@ class ConfirmFunds extends Component {
     }
     const { errorMessage, coin } = this.state;
     return (
-      <React.Fragment>
+      <>
         <div id="transaction-form">
           <div>
             <h2 className="text-white text-center text-uppercase heading">
@@ -217,7 +217,7 @@ class ConfirmFunds extends Component {
             </div>
           </div>
         </div>
-      </React.Fragment>
+      </>
     );
   }
 }
