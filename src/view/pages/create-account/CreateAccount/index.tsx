@@ -1,35 +1,64 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { Route, Switch, withRouter, Redirect } from 'react-router-dom';
+import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import AccountProcess from '~/view/components/account-process';
 import Layout from '~/view/components/layout';
 import { createAccount, incrementStepNo } from '~/redux/accountInProgress/action';
 import { getFantomBalance } from '~/redux/getBalance/action';
 import ValidationMethods from '~/validations/userInputMethods';
-import CreateAccountSection from '~/view/pages/create-account/create-account-section';
-import AccountInformation from '~/view/pages/account-information';
-import Confirm from '~/view/pages/confirm';
-import EnterMnemonics from '~/view/pages/enter-mnemonics';
+
 import { CONFIRMATION_PHASE } from '~/redux/constants';
+import { CreateAccountHeader } from '../CreateAccountHeader';
 
 const validationMethods = new ValidationMethods();
 
-class CreateAccount extends React.PureComponent {
+type State = {
+  accountName: string;
+  password: string;
+  reEnteredPassword: string;
+  date: number;
+  animateRefreshIcon: boolean;
+  identiconsId: string;
+  selectedIcon: string;
+  error: boolean;
+  containNumber: boolean;
+  containCapitalLetter: boolean;
+  hasLengthGreaterThanEight: boolean;
+  nextButtonFunction: string;
+  backButtonFunction: string;
+  selectIconError: boolean;
+  revealSecret: boolean;
+  confirmationPhrase: string;
+  isAccountNameExists: boolean;
+  selectedIconError: boolean;
+};
+
+type Props = RouteComponentProps & {
+  accountName: string;
+  password: string;
+  selectedIcon: string;
+  stepNo?: number;
+  accountsList: any[];
+  createNewAccount: (data: Partial<State>) => void;
+  goToNextStep: ({ stepNo: number }) => void;
+};
+
+class CreateAccount extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
-    const initialInfo = this.getInitialAccountInfo();
+    // const initialInfo = this.getInitialAccountInfo();
+
     this.state = {
-      accountName: initialInfo.accountName,
-      password: initialInfo.password,
-      reEnteredPassword: initialInfo.reEnteredPassword,
+      accountName: props.accountName || '',
+      password: props.password || '',
+      reEnteredPassword: '',
       date: new Date().getTime(),
       animateRefreshIcon: false,
-      identiconsId: initialInfo.selectedIcon || '',
-      selectedIcon: initialInfo.selectedIcon,
+      identiconsId: props.selectedIcon || '',
+      selectedIcon: props.selectedIcon || '',
       error: false,
       containNumber: false,
       containCapitalLetter: false,
@@ -40,7 +69,9 @@ class CreateAccount extends React.PureComponent {
       revealSecret: false,
       confirmationPhrase: '',
       isAccountNameExists: false,
+      selectedIconError: false,
     };
+
     this.createNewAccount = this.createNewAccount.bind(this);
     this.onUpdate = this.onUpdate.bind(this);
     this.onRefresh = this.onRefresh.bind(this);
@@ -63,20 +94,18 @@ class CreateAccount extends React.PureComponent {
    * @param {Value of the key} value
    * This method will update the value of the given key
    */
-  onUpdate(key, value) {
-    const obj = {};
-    if (key === 'selectedIcon') {
-      obj.selectIconError = false;
-    }
+  onUpdate(key: keyof State, value: State[keyof State]) {
     this.setState(
-      {
-        ...obj,
+      state => ({
+        ...state,
+        ...(key === 'selectedIcon' ? { selectIconError: false } : {}),
         [key]: value,
-      },
+      }),
       () => {
         this.disableNextButton();
       }
     );
+
     if (key === 'password' || key === 'reEnteredPassword') {
       this.isValidPassword(key, value);
     }
@@ -109,7 +138,8 @@ class CreateAccount extends React.PureComponent {
     const { location } = this.props;
     const { pathname } = location;
     let nextButtonFunction = this.createNewAccount;
-    let backButtonFunction = () => true;
+    let backButtonFunction = () => {};
+
     if (pathname === '/confirm') {
       nextButtonFunction = backButtonFunction;
       backButtonFunction = this.goToAccountInfoScreen;
@@ -182,6 +212,7 @@ class CreateAccount extends React.PureComponent {
   goToAccountInfoScreen() {
     const { goToNextStep, history, location } = this.props;
     const { pathname } = location;
+
     if (pathname === '/restore-account') {
       goToNextStep({ stepNo: 2 });
       history.push('/confirm-restore');
@@ -226,18 +257,22 @@ class CreateAccount extends React.PureComponent {
     const { createNewAccount, goToNextStep, location, history, accountsList } = this.props;
     const { pathname } = location;
     const { accountName, password, reEnteredPassword, identiconsId } = this.state;
+
     const data = {
       accountName,
       password,
       reEnteredPassword,
       selectedIcon: identiconsId,
     };
+
     const isNameExists = _.findIndex(
       accountsList,
       accountInfo => accountInfo.accountName === accountName
     );
+
     if (isNameExists === -1) {
       createNewAccount(data);
+
       if (pathname === '/restore-account') {
         goToNextStep({ stepNo: 2 });
         history.push('/confirm-restore');
@@ -289,6 +324,7 @@ class CreateAccount extends React.PureComponent {
       hasLengthGreaterThanEight,
       error,
     } = this.state;
+
     const data = {
       accountName,
       password,
@@ -298,17 +334,16 @@ class CreateAccount extends React.PureComponent {
       containCapitalLetter,
       hasLengthGreaterThanEight,
     };
+
     if (selectedIcon) {
       data.identiconsId = selectedIcon;
     }
+
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error) {
-      return true;
-    }
 
-    return false;
+    return isAnyFieldEmpty || isPasswordIncorrect || isAnyFieldUndefined || error;
   }
 
   /**
@@ -323,15 +358,24 @@ class CreateAccount extends React.PureComponent {
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);
-    if (
-      !isAnyFieldEmpty &&
-      !isPasswordIncorrect &&
-      !isAnyFieldUndefined &&
-      confirmationPhrase === CONFIRMATION_PHASE
-    ) {
-      return false;
-    }
-    return true;
+    
+    return (
+      isAnyFieldEmpty ||
+      isPasswordIncorrect ||
+      isAnyFieldUndefined ||
+      confirmationPhrase !== CONFIRMATION_PHASE
+    );
+
+    // if (
+    //   !isAnyFieldEmpty &&
+    //   !isPasswordIncorrect &&
+    //   !isAnyFieldUndefined &&
+    //   confirmationPhrase === CONFIRMATION_PHASE
+    // ) {
+    //   return false;
+    // }
+
+    // return true;
   }
 
   /**
@@ -339,12 +383,15 @@ class CreateAccount extends React.PureComponent {
    */
   disableNextButton() {
     const { stepNo } = this.props;
+    
     if (stepNo === 1) {
       return this.disableNextButtonOnStepOne();
     }
+
     if (stepNo === 2) {
       return this.disableNextButtonOnStepTwo();
     }
+    
     if (stepNo === 3) {
       return true;
     }
@@ -364,11 +411,13 @@ class CreateAccount extends React.PureComponent {
   }
 
   isAllowedPath() {
-    const { stepNo, location } = this.props;
+    const { stepNo = 0, location } = this.props;
     const { pathname } = location || {};
+
     if (pathname === '/create-account' || pathname === '/restore-account') {
       return true;
     }
+
     if (pathname === '/account-information') {
       return stepNo > 1;
     }
@@ -389,7 +438,7 @@ class CreateAccount extends React.PureComponent {
     if (isAllowedPath === undefined) {
       return <Redirect to="/" />;
     }
-    const { stepNo, location } = this.props;
+    const { stepNo = 0, location } = this.props;
     const {
       revealSecret,
       confirmationPhrase,
@@ -411,12 +460,14 @@ class CreateAccount extends React.PureComponent {
     const functionToCall = this.setFunctionCalls();
     const isDisable = this.disableNextButton();
     this.setStepNoWithRouting();
+
     const data = {
       onUpdate: this.onUpdate,
       revealSecretFunc: this.revealSecret,
       revealSecret,
       confirmationPhrase,
     };
+
     const formData = {
       accountName,
       password,
@@ -438,12 +489,13 @@ class CreateAccount extends React.PureComponent {
 
     const isRestoreTab =
       location.pathname === '/restore-account' || location.pathname === '/confirm-restore';
+
     return (
       <div id="account-information" className="account-information">
         <Layout>
           <AccountProcess restoreAccount={isRestoreTab} stepNo={stepNo} />
 
-          <Header
+          <CreateAccountHeader
             {...this.state}
             onUpdate={this.onUpdate}
             getRadioIconData={this.getRadioIconData}
@@ -451,6 +503,7 @@ class CreateAccount extends React.PureComponent {
             data={data}
             formData={formData}
           />
+
           <section style={{ padding: '40px 0' }}>
             <Container>
               <Row className="back-next-btn">
@@ -464,8 +517,7 @@ class CreateAccount extends React.PureComponent {
                     onClick={functionToCall.backButtonFunction}
                   >
                     <i className="fas fa-chevron-left" />
-                    {' '}
-Back
+                    Back
                   </Button>
                 </Col>
                 <Col>
@@ -498,30 +550,6 @@ Back
   }
 }
 
-const Header = props => (
-  <Switch>
-    <Route
-      path="/account-information"
-      exact
-      render={() => <AccountInformation {...props.data} />}
-    />
-    <Route
-      path="/create-account"
-      exact
-      render={() => <CreateAccountSection formData={props.formData} />}
-    />
-    <Route
-      path="/restore-account"
-      exact
-      render={() => <CreateAccountSection formData={props.formData} />}
-    />
-    <Route path="/confirm-restore" exact render={() => <EnterMnemonics {...props} />} />
-    <Route path="/confirm" exact component={Confirm} />
-    <Route path="/confirm" exact component={Confirm} />
-    <Route render={() => <Redirect to="/" />} />
-  </Switch>
-);
-
 const mapStateToProps = state => ({
   accountName: state.accountInfo.accountName,
   password: state.accountInfo.password,
@@ -536,29 +564,9 @@ const mapDispatchToProps = dispatch => ({
   getBalance: data => dispatch(getFantomBalance(data)),
 });
 
-CreateAccount.defaultProps = {
-  stepNo: 0,
-  accountName: '',
-  password: '',
-  selectedIcon: '',
-};
-
-CreateAccount.propTypes = {
-  accountName: PropTypes.string,
-  password: PropTypes.string,
-  selectedIcon: PropTypes.string,
-  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  location: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  stepNo: PropTypes.number,
-  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  createNewAccount: PropTypes.func.isRequired,
-  goToNextStep: PropTypes.func.isRequired,
-};
-
 export default compose(
   connect(
     mapStateToProps,
     mapDispatchToProps
-  ),
-  withRouter
-)(CreateAccount);
+  )
+)(withRouter(CreateAccount));

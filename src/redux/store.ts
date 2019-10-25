@@ -17,8 +17,8 @@ const axiosClient = axios.create({
 });
 
 // Store instance
-let store = null;
-let persistor = null;
+// let store = null;
+// let persistor = null;
 
 const persistConfig = {
   key: 'root',
@@ -26,13 +26,13 @@ const persistConfig = {
   blacklist: ['getBalance'],
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
+const store = createStore(persistedReducer, applyMiddleware(reduxThunk, axiosMiddleware(axiosClient)));
+const persistor = persistStore(store);
+
 /**
  * Create the Redux store
  */
 export const configureStore = () => {
-  store = createStore(persistedReducer, applyMiddleware(reduxThunk, axiosMiddleware(axiosClient)));
-
-  persistor = persistStore(store);
   return { store, persistor };
 };
 
@@ -49,10 +49,10 @@ export const getPersistor = () => persistor;
 /**
  * Dispatch an action
  */
-export const dispatch = (...args) => store.dispatch(...args);
+// export const dispatch = (...args) => store.dispatch(...args);
 
 export default {
-  dispatch,
+  dispatch: store.dispatch,
   getStore,
   configureStore,
   persistor,

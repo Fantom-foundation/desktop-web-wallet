@@ -1,6 +1,6 @@
 import Tx from 'ethereumjs-tx';
 import Hdkey from 'hdkey';
-import EthUtil from 'ethereumjs-util';
+import * as EthUtil from 'ethereumjs-util';
 import keythereum from 'keythereum';
 import Bip39 from 'bip39';
 import Web3 from 'web3';

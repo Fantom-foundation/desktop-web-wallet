@@ -1,24 +1,37 @@
 import React from 'react';
 import { Row, Col, Form, FormGroup, Input } from 'reactstrap';
-import PropTypes from 'prop-types';
-import DisplayIdenticons from '~/view/general/identicons';
+import DisplayIdenticons from '~/view/general/identicons/DisplayIdenticons';
 import cross from './cross.svg';
 import check from './check.svg';
 import user from './user.svg';
 import lock from './lock.svg';
 
-export default class CreateAccount extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
+type Props = {
+  accountName: string;
+  onUpdate: (field: string, value: string) => void;
+  password: string;
+  reEnteredPassword?: string;
+  date: number;
+  animateRefreshIcon: boolean;
+  identiconsId: string;
+  onRefresh: () => void;
+  getRadioIconData: () => void;
+  containNumber: boolean;
+  containCapitalLetter: boolean;
+  hasLengthGreaterThanEight: boolean;
+  selectedIcon: string;
+  error: boolean;
+  isAccountNameExists: boolean;
+  selectIconError: boolean;
+};
 
+export default class CreateAccount extends React.PureComponent<Props> {
   render() {
     const {
       accountName,
       onUpdate,
       password,
-      reEnteredPassword,
+      reEnteredPassword = '',
       date,
       animateRefreshIcon,
       identiconsId,
@@ -32,6 +45,7 @@ export default class CreateAccount extends React.PureComponent {
       isAccountNameExists,
       selectIconError,
     } = this.props;
+
     return (
       <Form id="create-account-form">
         <FormGroup>
@@ -44,7 +58,7 @@ export default class CreateAccount extends React.PureComponent {
             style={{ backgroundImage: `url(${user})` }}
           />
           {isAccountNameExists ? (
-            <p style={{ color: 'red', 'margin-top': '10px' }}>Account Name already exists</p>
+            <p style={{ color: 'red', 'marginTop': '10px' }}>Account Name already exists</p>
           ) : (
             ''
           )}
@@ -107,25 +121,3 @@ export default class CreateAccount extends React.PureComponent {
     );
   }
 }
-
-CreateAccount.defaultProps = {
-  reEnteredPassword: '',
-};
-
-CreateAccount.propTypes = {
-  accountName: PropTypes.string.isRequired,
-  onUpdate: PropTypes.func.isRequired,
-  password: PropTypes.string.isRequired,
-  reEnteredPassword: PropTypes.string,
-  date: PropTypes.number.isRequired,
-  animateRefreshIcon: PropTypes.bool.isRequired,
-  identiconsId: PropTypes.string.isRequired,
-  onRefresh: PropTypes.func.isRequired,
-  getRadioIconData: PropTypes.func.isRequired,
-  containNumber: PropTypes.bool.isRequired,
-  containCapitalLetter: PropTypes.bool.isRequired,
-  hasLengthGreaterThanEight: PropTypes.bool.isRequired,
-  selectedIcon: PropTypes.string.isRequired,
-  error: PropTypes.bool.isRequired,
-  isAccountNameExists: PropTypes.bool.isRequired,
-};

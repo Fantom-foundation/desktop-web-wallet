@@ -71,6 +71,7 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@types/react-router-dom": "^5.1.0",
     "@typescript-eslint/parser": "^2.5.0",
     "eslint-config-airbnb": "^18.0.1",
     "eslint-config-prettier": "^6.4.0",

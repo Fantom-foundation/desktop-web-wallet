@@ -1,9 +1,35 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import PropTypes from 'prop-types';
-import CreateAccountForm from '~/view/components/forms/create-account';
+import CreateAccountForm from '~/view/components/forms/CreateAccount';
 
-export default class CreateAccountSection extends React.PureComponent {
+type Props = {
+  formData: {
+    accountName: string;
+    password: string;
+    reEnteredPassword: string;
+    date: number;
+    animateRefreshIcon: boolean;
+    identiconsId: string;
+    selectedIcon: string;
+    error: boolean;
+    containNumber: boolean;
+    containCapitalLetter: boolean;
+    hasLengthGreaterThanEight: boolean;
+    nextButtonFunction: string;
+    backButtonFunction: string;
+    selectIconError: boolean;
+    revealSecret: boolean;
+    confirmationPhrase: string;
+    isAccountNameExists: boolean;
+    selectedIconError: boolean;
+
+    onUpdate,
+    getRadioIconData,
+    onRefresh,
+  },
+}
+
+export default class CreateAccountSection extends React.PureComponent<Props> {
   constructor(props) {
     super(props);
     this.state = {};
@@ -29,6 +55,7 @@ export default class CreateAccountSection extends React.PureComponent {
       onRefresh,
       isAccountNameExists,
     } = formData;
+
     return (
       <div id="account-information" className="account-information">
         <section className="bg-dark" style={{ padding: '60px 0' }}>
@@ -62,6 +89,6 @@ export default class CreateAccountSection extends React.PureComponent {
   }
 }
 
-CreateAccountSection.propTypes = {
-  formData: PropTypes.oneOfType([PropTypes.object]).isRequired,
-};
+// CreateAccountSection.propTypes = {
+//   formData: PropTypes.oneOfType([PropTypes.object]).isRequired,
+// };
