@@ -6,7 +6,7 @@ import { Container, Row, Col, Button } from 'reactstrap';
 import _ from 'lodash';
 import AccountProcess from '~/view/components/account-process';
 import Layout from '~/view/components/layout';
-import * as ACCOUNT_IN_PROGRESS_ACTIONS from '~/redux/accountInProgress/action';
+import * as ACCOUNT_IN_PROGRESS_ACTIONS from '~/redux/accountInfo/action';
 import * as GET_BALANCE_ACTION from '~/redux/getBalance/action';
 import ValidationMethods from '~/validations/userInputMethods';
 

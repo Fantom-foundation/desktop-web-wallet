@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
 import { reducer as toastrReducer } from 'react-redux-toastr';
-import accounts from '~/redux/account/reducer';
-import accountInfo from '~/redux/accountInProgress/reducers';
-import accountKeys from '~/redux/keys/reducers';
+import accounts from '~/redux/accounts/reducer';
+import accountInfo from '~/redux/accountInfo/reducers';
+import accountKeys from '~/redux/accountKeys/reducers';
 import getBalance from '~/redux/getBalance/reducers';
 import getTransactions from '~/redux/getTransactions/reducers';
 import sendTransactions from '~/redux/sendTransactions/reducers';

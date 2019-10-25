@@ -10,8 +10,8 @@ import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap
 import QRCode from '~/view/general/qr/index';
 import copyToClipboard from '~/utility';
 import { CONFIRMATION_PHASE } from '~/redux/constants';
-import { createPublicPrivateKeys } from '~/redux/keys/actions';
-import { createMnemonic } from '~/redux/accountInProgress/action';
+import { createPublicPrivateKeys } from '~/redux/accountKeys/actions';
+import { createMnemonic } from '~/redux/accountInfo/action';
 import Identicons from '~/view/general/identicons/identicons';
 import noView from '~/images/icons/no-view.png';
 import { walletSetup } from '~/redux/accountManagement';

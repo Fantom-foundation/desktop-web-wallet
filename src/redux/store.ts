@@ -1,4 +1,4 @@
-import { createStore, applyMiddleware } from 'redux';
+import { createStore, applyMiddleware, compose } from 'redux';
 import reduxThunk from 'redux-thunk';
 import axios from 'axios';
 import axiosMiddleware from 'redux-axios-middleware';
@@ -25,8 +25,14 @@ const persistConfig = {
   storage,
   blacklist: ['getBalance'],
 };
+
+const composeEnhancers =
+  typeof window === 'object' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
+    ? (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__({})
+    : compose;
+
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = createStore(persistedReducer, applyMiddleware(reduxThunk, axiosMiddleware(axiosClient)));
+const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(reduxThunk, axiosMiddleware(axiosClient))));
 const persistor = persistStore(store);
 
 /**
