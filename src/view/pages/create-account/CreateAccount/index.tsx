@@ -24,7 +24,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = {
-  createAccount: ACCOUNT_IN_PROGRESS_ACTIONS.createAccount,
+  accountInfoCreateAccount: ACCOUNT_IN_PROGRESS_ACTIONS.accountInfoCreateAccount,
   incrementStepNo: ACCOUNT_IN_PROGRESS_ACTIONS.incrementStepNo,
   getFantomBalance: GET_BALANCE_ACTION.getFantomBalance,
 };
@@ -260,7 +260,7 @@ class CreateAccount extends React.PureComponent<Props, State> {
    * This method will create the new account and set the state in the reducers
    */
   createNewAccount() {
-    const { createAccount, incrementStepNo, location, history, accountsList } = this.props;
+    const { accountInfoCreateAccount, incrementStepNo, location, history, accountsList } = this.props;
     const { pathname } = location;
     const { accountName, password, reEnteredPassword, identiconsId } = this.state;
 
@@ -277,7 +277,7 @@ class CreateAccount extends React.PureComponent<Props, State> {
     );
 
     if (isNameExists === -1) {
-      createAccount(data);
+      accountInfoCreateAccount(data);
 
       if (pathname === '/restore-account') {
         incrementStepNo({ stepNo: 2 });
