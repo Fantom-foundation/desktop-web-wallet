@@ -32,7 +32,10 @@ const composeEnhancers =
     : compose;
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
-const store = createStore(persistedReducer, composeEnhancers(applyMiddleware(reduxThunk, axiosMiddleware(axiosClient))));
+const store = createStore(
+  persistedReducer,
+  composeEnhancers(applyMiddleware(reduxThunk, axiosMiddleware(axiosClient)))
+);
 const persistor = persistStore(store);
 
 /**

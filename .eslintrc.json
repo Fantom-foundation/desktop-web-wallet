@@ -29,6 +29,7 @@
       }
     ],
     "react/destructuring-assignment": "warn",
+    "no-prototype-builtins": "warn",
     "react/jsx-props-no-spreading": "off",
     "no-restricted-syntax":1,
     "react/prop-types":0,
