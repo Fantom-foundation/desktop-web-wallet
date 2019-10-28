@@ -52,7 +52,7 @@ const axiosClient = axios.create({
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['getBalance', 'router'],
+  blacklist: ['getBalance', 'router'], // TODO: persist only selected reducers
 };
 
 const composeEnhancers =
