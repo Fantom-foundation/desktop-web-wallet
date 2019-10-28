@@ -2,7 +2,7 @@ import Tx from 'ethereumjs-tx';
 import Hdkey from 'hdkey';
 import * as EthUtil from 'ethereumjs-util';
 import keythereum from 'keythereum';
-import Bip39 from 'bip39';
+import Bip39 from '~/view/pages/create-account/__AccountCreateInformation/node_modules/bip39';
 import Web3 from 'web3';
 import axios from 'axios';
 import { getStore } from '~/redux/store';
