@@ -7,7 +7,7 @@ import Web3 from 'web3';
 import { withRouter } from 'react-router-dom';
 import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 import { emptyState } from '~/redux/accountInfo/action';
-import createWallet from '~/redux/accounts/action';
+import { createWallet } from '~/redux/accounts/action';
 import CancelWalletModal from '~/view/components/modals/cancel-wallet';
 import IncorrectMnemonicsModal from '~/view/components/modals/incorrect-mnemonics';
 import ValidationMethods from '~/validations/userInputMethods';

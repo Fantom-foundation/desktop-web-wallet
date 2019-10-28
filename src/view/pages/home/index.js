@@ -68,6 +68,7 @@ class Home extends React.PureComponent {
               </Row>
             </Container>
             <div id="particles-js" />
+            
             <span id="scripts" />
           </section>
         </Layout>

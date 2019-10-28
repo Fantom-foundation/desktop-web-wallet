@@ -1,23 +1,45 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import { connect } from 'react-redux';
-import { compose } from 'redux';
 import { withRouter } from 'react-router-dom';
-import PropTypes from 'prop-types';
 import _ from 'lodash';
 import Web3 from 'web3';
-import { emptyState } from '~/redux/accountInfo/action';
-import createWallet from '~/redux/accounts/action';
-import { emptyKeysState } from '~/redux/accountKeys/actions';
+import * as ACCOUNT_INFO_ACTIONS from '~/redux/accountInfo/action';
+import * as ACCOUNT_ACTIONS from '~/redux/accounts/action';
+import * as ACCOUNT_KEYS_ACTIONS from '~/redux/accountKeys/actions';
 import CancelWalletModal from '~/view/components/modals/cancel-wallet';
 import IncorrectMnemonicsModal from '~/view/components/modals/incorrect-mnemonics';
 import ValidationMethods from '~/validations/userInputMethods';
 import { walletSetup } from '~/redux/accountManagement';
+import { RouteComponentProps } from 'react-router';
 
 const validationMethods = new ValidationMethods();
-const web3 = new Web3();
+const web3 = new Web3(null);
 
-class Confirm extends React.PureComponent {
+const mapStateToProps = state => ({
+  accountInfo: state.accountInfo,
+  publicAddress: state.accountKeys.publicAddress,
+  accountsList: state.accounts.accountsList,
+});
+
+const mapDispatchToProps = {
+  createWallet: ACCOUNT_ACTIONS.createWallet,
+  emptyKeysState: ACCOUNT_KEYS_ACTIONS.emptyKeysState,
+  emptyState: ACCOUNT_INFO_ACTIONS.emptyState,
+};
+
+type Props = ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps &
+  RouteComponentProps & {};
+
+type State = {
+  selectedMnemonicsArray: { name: string; index: number }[];
+  mnemonicsArray: string[];
+  toggleModal: boolean;
+  openIncorrectMnemonicsModal: boolean;
+};
+
+class AccountCreateConfirmUnconnected extends React.PureComponent<Props, State> {
   constructor(props) {
     super(props);
     this.state = {
@@ -49,8 +71,9 @@ class Confirm extends React.PureComponent {
     const { accountInfo } = this.props;
     const { selectedMnemonicsArray } = this.state;
     const { mnemonic } = accountInfo;
-    let mnemonicsList = [];
+    let mnemonicsList: any[] = [];
     const generatedMnemonic = validationMethods.getSplittedArray(mnemonic);
+
     if (generatedMnemonic && generatedMnemonic.length > 0) {
       for (let i = 0; i < generatedMnemonic.length; i += 1) {
         const selectedIndex = _.findIndex(
@@ -80,7 +103,8 @@ class Confirm extends React.PureComponent {
    */
   getSelectedMnemonics() {
     const { selectedMnemonicsArray } = this.state;
-    const mnemonicsList = [];
+    const mnemonicsList: any[] = [];
+
     if (selectedMnemonicsArray && selectedMnemonicsArray.length > 0) {
       for (let i = 0; i < selectedMnemonicsArray.length; i += 1) {
         mnemonicsList.push(
@@ -160,14 +184,14 @@ class Confirm extends React.PureComponent {
    * This method will cancel the wallet creation process
    */
   cancelWallet() {
-    const { accountsList, history, resetState } = this.props;
+    const { accountsList, history, emptyState } = this.props;
     if (accountsList.length === 0) {
       history.push('/create-account');
       // This method will reset the state of accountInfo reducer
-      resetState();
+      emptyState();
     } else {
       history.push('/account-management');
-      resetState();
+      emptyState();
     }
   }
 
@@ -176,12 +200,12 @@ class Confirm extends React.PureComponent {
    */
   createWallet() {
     const {
-      addWallet,
+      createWallet,
       accountInfo,
       publicAddress,
       history,
-      resetState,
-      emptyKeysObject,
+      emptyState,
+      emptyKeysState,
     } = this.props;
     const { mnemonic, password } = accountInfo;
     const { selectedMnemonicsArray } = this.state;
@@ -190,7 +214,7 @@ class Confirm extends React.PureComponent {
       publicAddress,
     };
     data = _.omit(data, ['stepNo']);
-    const mnemonicsArray = [];
+    const mnemonicsArray: any[] = [];
     if (selectedMnemonicsArray && selectedMnemonicsArray.length > 0) {
       selectedMnemonicsArray.map(a => mnemonicsArray.push(a.name));
     }
@@ -203,9 +227,9 @@ class Confirm extends React.PureComponent {
 
       const keyStore = this.saveKeyStore(keys.privateKey, password);
       data = { ...data, ...keyStore };
-      addWallet(data);
-      resetState();
-      emptyKeysObject();
+      createWallet(data);
+      emptyState();
+      emptyKeysState();
       history.push('/account-management');
     } else {
       this.toggleIncorrectMnemonicsModal();
@@ -282,32 +306,7 @@ class Confirm extends React.PureComponent {
   }
 }
 
-const mapStateToProps = state => ({
-  accountInfo: state.accountInfo,
-  publicAddress: state.accountKeys.publicAddress,
-  accountsList: state.accounts.accountsList,
-});
-
-const mapDispatchToProps = dispatch => ({
-  addWallet: data => dispatch(createWallet(data)),
-  emptyKeysObject: () => dispatch(emptyKeysState()),
-  resetState: () => dispatch(emptyState()),
-});
-
-Confirm.propTypes = {
-  accountInfo: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  publicAddress: PropTypes.string.isRequired,
-  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  addWallet: PropTypes.func.isRequired,
-  emptyKeysObject: PropTypes.func.isRequired,
-  resetState: PropTypes.func.isRequired,
-  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-};
-
-export default compose(
-  connect(
-    mapStateToProps,
-    mapDispatchToProps
-  ),
-  withRouter
-)(Confirm);
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(withRouter(AccountCreateConfirmUnconnected));

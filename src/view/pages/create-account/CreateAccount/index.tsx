@@ -356,11 +356,12 @@ class CreateAccount extends React.PureComponent<Props, State> {
    * This method will check the status of the next button on the step two
    */
   disableNextButtonOnStepTwo() {
-    const { revealSecret, confirmationPhrase } = this.state;
+    const { confirmationPhrase } = this.state;
     const data = {
-      revealSecret,
+      // revealSecret,
       confirmationPhrase,
     };
+
     const isAnyFieldEmpty = _.includes(data, '');
     const isAnyFieldUndefined = _.includes(data, undefined);
     const isPasswordIncorrect = _.includes(data, false);

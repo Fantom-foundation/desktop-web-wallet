@@ -1,8 +1,8 @@
 import React, { FC } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import CreateAccountSection from '~/view/pages/create-account/CreateAccountSection';
-import AccountInformation from '~/view/pages/account-information';
-import Confirm from '~/view/pages/confirm';
+import AccountInformation from '~/view/pages/create-account/AccountCreateInformation';
+import AccountCreateConfirm from '~/view/pages/create-account/AccountCreateConfirm';
 import EnterMnemonics from '~/view/pages/enter-mnemonics';
 
 interface Props {
@@ -35,10 +35,8 @@ const CreateAccountHeader: FC<Props> = props => (
 
     <Route path="/confirm-restore" exact render={() => <EnterMnemonics {...props} />} />
 
-    <Route path="/confirm" exact component={Confirm} />
-    
-    <Route path="/confirm" exact component={Confirm} />
-    
+    <Route path="/confirm" exact component={AccountCreateConfirm} />
+        
     <Redirect to="/" />
   </Switch>
 );
