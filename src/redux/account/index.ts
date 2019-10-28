@@ -2,6 +2,8 @@ import { createReducer } from '~/utility/createReducer';
 import { ACCOUNT_HANDLERS } from './handlers';
 import { AccountCreateCredentials } from '~/view/pages/create-account/AccountCreateCredentials';
 import { AccountCreateInfo } from '~/view/pages/create-account/AccountCreateInfo';
+import { AccountCreateConfirm } from '~/view/pages/create-account/AccountCreateConfirm';
+import { IAccount } from './types';
 
 export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,
@@ -12,8 +14,8 @@ export const ACCOUNT_CREATION_STAGES = {
 export const ACCOUNT_CREATION_STAGES_COMPONENTS = {
   [ACCOUNT_CREATION_STAGES.CREDENTIALS]: AccountCreateCredentials,
   [ACCOUNT_CREATION_STAGES.INFO]: AccountCreateInfo,
+  [ACCOUNT_CREATION_STAGES.CONFIRM]: AccountCreateConfirm,
 };
-
 export interface IAccountState {
   create: {
     stage: typeof ACCOUNT_CREATION_STAGES[keyof typeof ACCOUNT_CREATION_STAGES];
@@ -24,9 +26,10 @@ export interface IAccountState {
     public_address: string;
     errors: Record<string, string>;
   };
+  list: IAccount[];
 }
 
-const INITIAL_STATE: IAccountState = {
+export const ACCOUNT_INITIAL_STATE: IAccountState = {
   create: {
     stage: ACCOUNT_CREATION_STAGES.INFO,
     name: 'name',
@@ -36,6 +39,7 @@ const INITIAL_STATE: IAccountState = {
     mnemonic: '',
     errors: {},
   },
+  list: [],
 };
 
-export const account = createReducer(INITIAL_STATE, ACCOUNT_HANDLERS);
+export const account = createReducer(ACCOUNT_INITIAL_STATE, ACCOUNT_HANDLERS);

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import CreateAccountSection from '~/view/pages/create-account/CreateAccountSection';
 import AccountInformation from '~/view/pages/create-account/AccountCreateInformation';
-import AccountCreateConfirm from '~/view/pages/create-account/AccountCreateConfirm';
+import AccountCreateConfirm from '~/view/pages/create-account/AccountCreateConfirmation';
 import EnterMnemonics from '~/view/pages/enter-mnemonics';
 import { AccountCreateCredentials } from '../AccountCreateCredentials';
 

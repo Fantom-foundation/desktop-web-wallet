@@ -1,14 +1,16 @@
 import React from 'react';
-import { Route, BrowserRouter, Switch } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Home from '~/view/pages/home';
 import AccountManagement from '~/view/pages/account-management';
 import CreateAccount from '~/view/pages/create-account/CreateAccount';
 import AccountDetails from '~/view/pages/account-details';
 import { AccountCreateRouter } from '~/view/pages/create-account/AccountCreateRouter';
+import { ConnectedRouter } from "connected-react-router";
+import { history } from '~/redux/store';
 
 const Routes = () => (
   // eslint-disable-next-line no-undef
-  <BrowserRouter onUpdate={() => window.scrollTo(0, 0)}>
+  <ConnectedRouter onUpdate={() => window.scrollTo(0, 0)} history={history}>
     <Switch>
       <Route path="/" exact component={Home} />
       <Route path="/account-details" exact component={AccountDetails} />
@@ -17,7 +19,7 @@ const Routes = () => (
       <Route path="/create" component={AccountCreateRouter} />
       <Route path="/" component={CreateAccount} />
     </Switch>
-  </BrowserRouter>
+  </ConnectedRouter>
 );
 
 export default Routes;
