@@ -2,5 +2,7 @@ const prefix = 'ACCOUNT.';
 
 export const ACCOUNT_ACTIONS = {
   SET_CREATE: `${prefix}SET_CREATE`,
+  SET_CREATE_STAGE: `${prefix}SET_CREATE_STAGE`,
   CREATE_SET_CREDENTIALS: `${prefix}CREATE_SET_CREDENTIALS`,
+  CREATE_SET_INFO: `${prefix}CREATE_SET_INFO`,
 }

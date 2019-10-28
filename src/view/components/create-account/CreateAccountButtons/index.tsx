@@ -19,13 +19,13 @@ const CreateAccountButtons: FC<IProps> = ({
     <Container>
       <Row className="back-next-btn">
         <Col className="text-right">
-          <Button className={classNames({ light: !is_prev_disabled })} onClick={onBackPressed}>
+          <Button className={classNames({ light: is_prev_disabled })} onClick={onBackPressed} disabled={is_prev_disabled}>
             <i className="fas fa-chevron-left" />
             &nbsp;Back
           </Button>
         </Col>
         <Col>
-          <Button className={classNames({ light: !is_next_disabled })} onClick={onNextPressed}>
+          <Button className={classNames({ light: is_next_disabled })} onClick={onNextPressed} disabled={is_next_disabled}>
             Next&nbsp;
             <i className="fas fa-chevron-right" />
           </Button>

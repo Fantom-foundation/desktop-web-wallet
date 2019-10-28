@@ -28,9 +28,9 @@ const AccountCreateCredentialsUnconnected: FC<IProps> = ({
   history,
   accountCreateSetCredentials,
 }) => {
-  const [name, setName] = useState('tezter3');
-  const [password, setPassword] = useState('Tezter428');
-  const [password_again, setPasswordAgain] = useState('Tezter428');
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [password_again, setPasswordAgain] = useState('');
   const [date, setDate] = useState(new Date().getTime());
   const [errors, setErrors] = useState<Record<string, boolean>>(INITIAL_ERRORS);
   const [selected_icon, setSelectedIcon] = useState(`0${String(date)}`);
