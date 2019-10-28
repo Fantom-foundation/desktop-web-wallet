@@ -4,11 +4,6 @@ import PropTypes from 'prop-types';
 import Layout from '~/view/components/layout';
 
 class Home extends React.PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   componentDidMount() {
     const particles = document.createElement('script');
     particles.src = 'js/particles/particles.min.js';
@@ -68,7 +63,7 @@ class Home extends React.PureComponent {
               </Row>
             </Container>
             <div id="particles-js" />
-            
+
             <span id="scripts" />
           </section>
         </Layout>

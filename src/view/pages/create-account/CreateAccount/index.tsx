@@ -428,12 +428,19 @@ class CreateAccount extends React.PureComponent<Props, State> {
     if (pathname === '/account-information') {
       return stepNo > 1;
     }
+    
     if (pathname === '/confirm-restore') {
       return stepNo === 2;
     }
+
     if (pathname === '/confirm') {
       return stepNo === 3;
     }
+
+    if (pathname === '/create-account-new') {
+      return stepNo > 1;
+    }
+
     return undefined;
   }
 

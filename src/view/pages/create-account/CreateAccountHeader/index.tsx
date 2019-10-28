@@ -4,6 +4,7 @@ import CreateAccountSection from '~/view/pages/create-account/CreateAccountSecti
 import AccountInformation from '~/view/pages/create-account/AccountCreateInformation';
 import AccountCreateConfirm from '~/view/pages/create-account/AccountCreateConfirm';
 import EnterMnemonics from '~/view/pages/enter-mnemonics';
+import { AccountCreateCredentials } from '../AccountCreateCredentials';
 
 interface Props {
   onUpdate: (key: any, value: any) => void;
@@ -25,6 +26,12 @@ const CreateAccountHeader: FC<Props> = props => (
       path="/create-account"
       exact
       render={() => <CreateAccountSection formData={props.formData} />}
+    />
+
+    <Route
+      path="/create-account-new"
+      exact
+      component={AccountCreateCredentials}
     />
     
     <Route
