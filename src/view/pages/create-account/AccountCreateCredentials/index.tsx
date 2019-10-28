@@ -164,15 +164,6 @@ const AccountCreateCredentialsUnconnected: FC<IProps> = ({
                     selected={selected_icon}
                   />
 
-                  {/* <DisplayIdenticons
-                    animateRefreshIcon={false}
-                    date={date}
-                    identiconsId=""
-                    selectedIcon={selected_icon}
-                    onRefresh={onDateChange}
-                    getRadioIconData={setSelectedIcon}
-                  /> */}
-
                   {!!errors.icon && <p style={{ color: 'red' }}>Please select an icon</p>}
                 </Form>
               </Col>

@@ -26,7 +26,7 @@ export interface IAccountState {
     public_address: string;
     errors: Record<string, string>;
   };
-  list: IAccount[];
+  list: Record<string, IAccount>;
   selected: number;
 }
 
@@ -40,7 +40,7 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
     mnemonic: '',
     errors: {},
   },
-  list: [],
+  list: {},
   selected: -1,
 };
 
