@@ -12,10 +12,12 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
+import { push as historyPush } from 'connected-react-router';
 
 const mapStateToProps = selectAccountCreate;
 const mapDispatchToProps = {
   accountCreateSetCredentials: ACCOUNT_ACTIONS.accountCreateSetCredentials,
+  push: historyPush,
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
@@ -25,7 +27,7 @@ type IProps = ReturnType<typeof mapStateToProps> &
 const INITIAL_ERRORS = { name: false, password: false, passwords_match: false, icon: false };
 
 const AccountCreateCredentialsUnconnected: FC<IProps> = ({
-  history,
+  push,
   accountCreateSetCredentials,
 }) => {
   const [name, setName] = useState('');
@@ -64,7 +66,7 @@ const AccountCreateCredentialsUnconnected: FC<IProps> = ({
     });
   }, [accountCreateSetCredentials, name, password, password_again, selected_icon]);
 
-  const onBackPressed = useCallback(() => history.push('/'), [history]);
+  const onBackPressed = useCallback(() => push('/'), [push]);
 
   const is_long_enough = password.length > 8;
   const has_capital = password.match(/[A-Z]+/);

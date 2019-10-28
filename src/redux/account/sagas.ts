@@ -10,6 +10,8 @@ import { ACCOUNT_CREATION_STAGES, IAccountState, ACCOUNT_INITIAL_STATE } from '.
 import { accountMnemonicToKeys, getWeb3Keystore } from '~/utility/account';
 import bip from 'bip39';
 import { selectAccountCreate } from './selectors';
+import { push } from 'connected-react-router';
+import { URLS } from '~/constants/urls';
 
 function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
@@ -50,10 +52,12 @@ function* createSetConfirm() {
       public_address,
     })
   );
+  yield put(push(URLS.ACCOUNT_LIST));
 }
 
 function* createCancel() {
   yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));
+  yield put(push('/'));
 }
 
 export function* accountSaga() {

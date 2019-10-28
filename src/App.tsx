@@ -4,7 +4,7 @@ import { PersistGate } from 'redux-persist/integration/react';
 import ReduxToastr from 'react-redux-toastr';
 import { configureStore } from '~/redux/store';
 
-import Routes from '~/routes';
+import Routes from '~/Routes';
 
 const { store, persistor } = configureStore();
 
@@ -14,6 +14,7 @@ const App = () => (
       <PersistGate loading={null} persistor={persistor}>
         <Routes />
       </PersistGate>
+      
       <ReduxToastr
         timeOut={4000}
         newestOnTop={false}

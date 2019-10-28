@@ -52,7 +52,7 @@ const axiosClient = axios.create({
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['getBalance'],
+  blacklist: ['getBalance', 'router'],
 };
 
 const composeEnhancers =
