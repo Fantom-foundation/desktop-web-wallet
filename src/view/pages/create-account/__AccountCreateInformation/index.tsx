@@ -7,7 +7,7 @@ import ReactToPrint from 'react-to-print';
 
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';
 import QRCode from '~/view/general/qr';
-import copyToClipboard from '~/utility';
+import { copyToClipboard } from '~/utility/clipboard';
 import { CONFIRMATION_PHASE } from '~/redux/constants';
 import * as ACCOUNT_KEYS_ACTIONS from '~/redux/accountKeys/actions';
 import * as ACCOUNT_INFO_ACIONS from '~/redux/accountInfo/action';

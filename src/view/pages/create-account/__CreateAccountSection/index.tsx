@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import CreateAccountForm from '~/view/components/forms/CreateAccountForm';
+import CreateAccountForm from '~/view/components/forms/__CreateAccountForm';
 
 type Props = {
   formData: {

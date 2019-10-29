@@ -9,7 +9,7 @@ import { ToastContainer, ToastStore } from 'react-toasts';
 import _ from 'lodash';
 import { Redirect } from 'react-router-dom';
 import QRCode from '~/view/general/qr/index';
-import copyToClipboard from '~/utility';
+import { copyToClipboard } from '~/utility/clipboard';
 import { Layout } from '~/view/components/layout/Layout';
 import { getFantomBalance } from '~/redux/getBalance/action';
 import Identicons from '~/view/general/identicons/identicons';

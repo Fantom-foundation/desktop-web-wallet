@@ -16,7 +16,7 @@ export default class ShowPublicAddress extends React.PureComponent {
               <i className="fas fa-clone" />
             </button>
           </span>
-          {publicAddress}
+          {publicAddress} 
         </p>
       </div>
     );

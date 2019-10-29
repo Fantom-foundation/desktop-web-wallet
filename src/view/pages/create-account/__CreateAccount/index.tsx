@@ -5,7 +5,6 @@ import { withRouter, Redirect, RouteComponentProps } from 'react-router-dom';
 import { Container, Row, Col, Button } from 'reactstrap';
 import _ from 'lodash';
 import AccountProcess from '~/view/components/create-account/AccountProccess';
-import { Layout } from '~/view/components/layout/Layout';
 import * as ACCOUNT_IN_PROGRESS_ACTIONS from '~/redux/accountInfo/action';
 import * as GET_BALANCE_ACTION from '~/redux/getBalance/action';
 import ValidationMethods from '~/validations/userInputMethods';
@@ -260,7 +259,13 @@ class CreateAccount extends React.PureComponent<Props, State> {
    * This method will create the new account and set the state in the reducers
    */
   createNewAccount() {
-    const { accountInfoCreateAccount, incrementStepNo, location, history, accountsList } = this.props;
+    const {
+      accountInfoCreateAccount,
+      incrementStepNo,
+      location,
+      history,
+      accountsList,
+    } = this.props;
     const { pathname } = location;
     const { accountName, password, reEnteredPassword, identiconsId } = this.state;
 
@@ -428,7 +433,7 @@ class CreateAccount extends React.PureComponent<Props, State> {
     if (pathname === '/account-information') {
       return stepNo > 1;
     }
-    
+
     if (pathname === '/confirm-restore') {
       return stepNo === 2;
     }
@@ -506,59 +511,55 @@ class CreateAccount extends React.PureComponent<Props, State> {
 
     return (
       <div id="account-information" className="account-information">
-        <Layout>
-          <AccountProcess restoreAccount={isRestoreTab} stepNo={stepNo} />
+        <AccountProcess restoreAccount={isRestoreTab} stepNo={stepNo} />
 
-          <CreateAccountHeader
-            {...this.state}
-            onUpdate={this.onUpdate}
-            getRadioIconData={this.getRadioIconData}
-            onRefresh={this.onRefresh}
-            data={data}
-            formData={formData}
-          />
+        <CreateAccountHeader
+          {...this.state}
+          onUpdate={this.onUpdate}
+          getRadioIconData={this.getRadioIconData}
+          onRefresh={this.onRefresh}
+          data={data}
+          formData={formData}
+        />
 
-          <section style={{ padding: '40px 0' }}>
-            <Container>
-              <Row className="back-next-btn">
-                <Col className="text-right">
-                  <Button
-                    className={
-                      pathname === '/create-account' || pathname === '/restore-account'
-                        ? 'light'
-                        : ''
-                    }
-                    onClick={functionToCall.backButtonFunction}
-                  >
-                    <i className="fas fa-chevron-left" />
-                    Back
-                  </Button>
-                </Col>
-                <Col>
-                  <Button
-                    className={
-                      isDisable ||
-                      isDisable === undefined ||
-                      pathname === '/confirm' ||
-                      pathname === '/confirm-restore'
-                        ? 'light'
-                        : ''
-                    }
-                    onClick={
-                      isDisable || isDisable === undefined
-                        ? () => this.nextForIdenticonIcon()
-                        : functionToCall.nextButtonFunction
-                    }
-                  >
-                    Next 
-                    {' '}
-                    <i className="fas fa-chevron-right" />
-                  </Button>
-                </Col>
-              </Row>
-            </Container>
-          </section>
-        </Layout>
+        <section style={{ padding: '40px 0' }}>
+          <Container>
+            <Row className="back-next-btn">
+              <Col className="text-right">
+                <Button
+                  className={
+                    pathname === '/create-account' || pathname === '/restore-account' ? 'light' : ''
+                  }
+                  onClick={functionToCall.backButtonFunction}
+                >
+                  <i className="fas fa-chevron-left" />
+                  Back
+                </Button>
+              </Col>
+              <Col>
+                <Button
+                  className={
+                    isDisable ||
+                    isDisable === undefined ||
+                    pathname === '/confirm' ||
+                    pathname === '/confirm-restore'
+                      ? 'light'
+                      : ''
+                  }
+                  onClick={
+                    isDisable || isDisable === undefined
+                      ? () => this.nextForIdenticonIcon()
+                      : functionToCall.nextButtonFunction
+                  }
+                >
+                  Next 
+                  {' '}
+                  <i className="fas fa-chevron-right" />
+                </Button>
+              </Col>
+            </Row>
+          </Container>
+        </section>
       </div>
     );
   }

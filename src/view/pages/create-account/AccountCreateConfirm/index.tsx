@@ -1,7 +1,6 @@
 import React, { FC, useState, useCallback, useEffect, useMemo } from 'react';
 import { Col, Row, Container, Button } from 'reactstrap';
 import AccountProcess from '~/view/components/create-account/AccountProccess';
-import { Layout } from '~/view/components/layout/Layout';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
@@ -77,73 +76,71 @@ const AccountCreateConfirmUnconnected: FC<IProps> = ({
 
   return (
     <div id="account-information" className="account-information">
-      <Layout>
-        <AccountProcess restoreAccount={false} stepNo={3} />
+      <AccountProcess restoreAccount={false} stepNo={3} />
 
-        <section className="bg-dark" style={{ padding: '60px 0' }}>
-          <Container>
-            <Row>
-              <Col>
-                <div id="mnemonic-selector">
-                  <h2 className="text-white">
-                    Enter your mnemonics in the correct order to create your account below
-                  </h2>
-                  <Row className="bg-dark-light">
-                    <Col>
-                      <div className="mnemonic-container">
-                        <ul>
-                          {selected.map(item => (
-                            <li key={item}>
-                              <Button color="primary" onClick={onMnemonicRemove(item)}>
-                                {item}
-                              </Button>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
+      <section className="bg-dark" style={{ padding: '60px 0' }}>
+        <Container>
+          <Row>
+            <Col>
+              <div id="mnemonic-selector">
+                <h2 className="text-white">
+                  Enter your mnemonics in the correct order to create your account below
+                </h2>
+                <Row className="bg-dark-light">
+                  <Col>
+                    <div className="mnemonic-container">
+                      <ul>
+                        {selected.map(item => (
+                          <li key={item}>
+                            <Button color="primary" onClick={onMnemonicRemove(item)}>
+                              {item}
+                            </Button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
 
-                      <div className="mnemonic-selector">
-                        <ul>
-                          {shuffled_mnemonics.map(item => (
-                            <li key={item}>
-                              <Button
-                                color="primary"
-                                onClick={onMnemonicSelect(item)}
-                                disabled={selected.includes(item)}
-                              >
-                                {item}
-                              </Button>
-                            </li>
-                          ))}
-                        </ul>
-                      </div>
-                    </Col>
-                  </Row>
-                  <div className="mnemonic-btn">
-                    <Button className="create-wallet" onClick={onSubmit}>
-                      Create Wallet
-                    </Button>
-                    <Button className="cancel" onClick={onCancelModalOpen}>
-                      Cancel
-                    </Button>
-                  </div>
+                    <div className="mnemonic-selector">
+                      <ul>
+                        {shuffled_mnemonics.map(item => (
+                          <li key={item}>
+                            <Button
+                              color="primary"
+                              onClick={onMnemonicSelect(item)}
+                              disabled={selected.includes(item)}
+                            >
+                              {item}
+                            </Button>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </Col>
+                </Row>
+                <div className="mnemonic-btn">
+                  <Button className="create-wallet" onClick={onSubmit}>
+                    Create Wallet
+                  </Button>
+                  <Button className="cancel" onClick={onCancelModalOpen}>
+                    Cancel
+                  </Button>
                 </div>
-              </Col>
-            </Row>
-          </Container>
+              </div>
+            </Col>
+          </Row>
+        </Container>
 
-          <CancelWalletModal
-            toggleModal={is_cancel_modal_opened}
-            cancelModalToggle={onCancelModalClose}
-            cancelWallet={accountCreateCancel}
-          />
+        <CancelWalletModal
+          toggleModal={is_cancel_modal_opened}
+          cancelModalToggle={onCancelModalClose}
+          cancelWallet={accountCreateCancel}
+        />
 
-          <IncorrectMnemonicsModal
-            openIncorrectMnemonicsModal={is_incorrect_modal_visible}
-            toggleIncorrectMnemonicsModal={onIncorrectModalClose}
-          />
-        </section>
-      </Layout>
+        <IncorrectMnemonicsModal
+          openIncorrectMnemonicsModal={is_incorrect_modal_visible}
+          toggleIncorrectMnemonicsModal={onIncorrectModalClose}
+        />
+      </section>
     </div>
   );
 };

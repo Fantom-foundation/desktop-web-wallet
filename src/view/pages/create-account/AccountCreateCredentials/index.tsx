@@ -6,7 +6,6 @@ import { selectAccount } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
 import { AccountCreateCredentialForm } from '~/view/components/create-account/AccountCreateCredentialForm';
 import AccountProcess from '~/view/components/create-account/AccountProccess';
-import { Layout } from '~/view/components/layout/Layout';
 
 const mapStateToProps = selectAccount;
 const mapDispatchToProps = {
@@ -18,12 +17,14 @@ type IProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps &
   RouteComponentProps & {};
 
-const AccountCreateCredentialsUnconnected: FC<IProps> = ({ push, list, accountCreateSetCredentials }) => (
+const AccountCreateCredentialsUnconnected: FC<IProps> = ({
+  push,
+  list,
+  accountCreateSetCredentials,
+}) => (
   <div id="account-information" className="account-information">
-    <Layout>
-      <AccountProcess restoreAccount={false} stepNo={1} />
-      <AccountCreateCredentialForm push={push} onSubmit={accountCreateSetCredentials} list={list} />
-    </Layout>
+    <AccountProcess restoreAccount={false} stepNo={1} />
+    <AccountCreateCredentialForm push={push} onSubmit={accountCreateSetCredentials} list={list} />
   </div>
 );
 

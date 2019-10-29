@@ -11,22 +11,30 @@ import { URLS } from '~/constants/urls';
 import { AccountList } from '~/view/pages/account-list/AccountList';
 import { AccountRouter } from '../AccountRouter';
 import { AccountRestoreRouter } from '~/view/pages/create-account/AccountRestoreRouter';
+import { Layout } from '~/view/components/layout/Layout';
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
     <Switch>
-      <Route path="/" exact component={Home} />
-      <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
-      <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
-      <Route path={URLS.ACCOUNT_RESTORE} component={AccountRestoreRouter} />
-      <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
+      <Switch>
+        <Route path="/" exact component={Home} />
 
-      <Route path="/account-details" exact component={AccountDetails} />
-      <Route path="/account-management" exact component={AccountManagement} />
+        <Layout>
+          <Switch>
+            <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
+            <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
+            <Route path={URLS.ACCOUNT_RESTORE} component={AccountRestoreRouter} />
+            <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
 
-      <Route path="/" component={CreateAccount} />
+            <Route path="/account-details" exact component={AccountDetails} />
+            <Route path="/account-management" exact component={AccountManagement} />
 
-      <Redirect to="/" />
+            <Route path="/" component={CreateAccount} />
+
+            <Redirect to="/" />
+          </Switch>
+        </Layout>
+      </Switch>
     </Switch>
   </ConnectedRouter>
 );
