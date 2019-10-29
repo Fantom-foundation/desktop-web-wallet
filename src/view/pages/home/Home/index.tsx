@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
-import Layout from '~/view/components/layout';
+import { Layout } from '~/view/components/layout/Layout';
 // import particles from 'particles.js';
 // import * as particles from '~/utility/particles/particles.min.js';
 import Particles from 'react-particles-js';
@@ -50,9 +50,11 @@ class Home extends React.PureComponent {
                   <h2 className="title text-white text-uppercase">
                     <span>Operachain Powered Wallet</span>
                   </h2>
+                  
                   <h3 className="title text-white text-uppercase">
                     <span>Send and Receive FTM</span>
                   </h3>
+
                   <Button
                     color="dark"
                     className="rounded"
@@ -60,6 +62,7 @@ class Home extends React.PureComponent {
                   >
                     Create Wallet
                   </Button>
+
                   <Button color="dark" className="rounded" onClick={this.learnMore}>
                     Learn More
                   </Button>

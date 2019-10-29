@@ -1,5 +1,5 @@
 import React, { FC, useCallback } from 'react';
-import Layout from '~/view/components/layout';
+import { Layout } from '~/view/components/layout/Layout';
 import { Container, Row, Col } from 'reactstrap';
 import Identicons from '~/view/general/identicons/identicons';
 import ShowPublicAddress from '~/view/components/public-address';

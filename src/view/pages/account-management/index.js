@@ -7,7 +7,7 @@ import { ToastContainer, ToastStore } from 'react-toasts';
 import { Container, Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import copyToClipboard from '~/utility';
-import Layout from '~/view/components/layout';
+import { Layout } from '~/view/components/layout/Layout';
 import Identicons from '~/view/general/identicons/identicons';
 import ShowPublicAddress from '~/view/components/public-address';
 

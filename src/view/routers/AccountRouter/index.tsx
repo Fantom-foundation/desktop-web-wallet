@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Switch, Route } from 'react-router';
 import { URLS } from '~/constants/urls';
-import Layout from '~/view/components/layout';
+import { Layout } from '~/view/components/layout/Layout';
 
 const AccountRouter: FC<{}> = () => (
   <Layout>

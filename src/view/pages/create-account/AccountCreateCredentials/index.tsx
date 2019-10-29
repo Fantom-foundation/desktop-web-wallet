@@ -1,7 +1,7 @@
 import React, { FC, useState, useCallback } from 'react';
 import { Col, Row, Container, Form, FormGroup, Input } from 'reactstrap';
-import AccountProcess from '~/view/components/account-process';
-import Layout from '~/view/components/layout';
+import AccountProcess from '~/view/components/create-account/AccountProccess';
+import { Layout } from '~/view/components/layout/Layout';
 import cross from '~/images/cross.svg';
 import check from '~/images/check.svg';
 import user from '~/images/user.svg';

@@ -73,6 +73,7 @@ $transition-time: 0.3s;
       height: 60px;
       width: 81px;
       fill: #8f8f8f;
+      color: #8f8f8f;
       .ico {
         transform: scale(0.7);
         transform-origin: 50%;
@@ -146,6 +147,7 @@ $transition-time: 0.3s;
       }
     }
   }
+
   &.t-1 {
     .c-1 {
       h2 {
@@ -153,8 +155,10 @@ $transition-time: 0.3s;
       }
       svg {
         fill: $b-bar;
+        color: $b-bar;
       }
     }
+
     .element {
       &.e-1 {
         &::before {
@@ -164,6 +168,7 @@ $transition-time: 0.3s;
       }
     }
   }
+
   &.t-2 {
     .c-2 {
       h2 {

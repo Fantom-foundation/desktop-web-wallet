@@ -1,17 +1,31 @@
 /* eslint-disable jsx-a11y/click-events-have-key-events */
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React from 'react';
-import { compose } from 'redux';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { withRouter } from 'react-router-dom';
+import { withRouter, RouteComponentProps } from 'react-router-dom';
 import { Collapse, Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap';
 import logo from '~/images/logo/FantomWallet.svg';
 
 import hamburgerBtn from '~/images/icons/hamburger.svg';
 import closeBtn from '~/images/icons/close.svg';
 
-class NavigationBar extends React.Component {
+const mapStateToProps = state => ({
+  accountsList: state.accounts.accountsList,
+});
+
+type IProps = RouteComponentProps &
+  ReturnType<typeof mapStateToProps> & {
+    isShow: boolean;
+  };
+
+type IState = {
+  isShow: boolean;
+  pathname: string;
+  closing: boolean;
+  windowWidth: number;
+};
+
+export class LayoutHeaderNavUnconnected extends React.Component<IProps, IState> {
   constructor(props) {
     super(props);
 
@@ -85,12 +99,14 @@ class NavigationBar extends React.Component {
           <NavbarBrand onClick={() => this.goToPage('/')} className="pointer">
             <img className="logo" src={logo} alt="logo" />
           </NavbarBrand>
+
           <button
             type="button"
             className="btn open"
             style={{ backgroundImage: `url(${hamburgerBtn})` }}
             onClick={this.toggleNavbar}
           />
+
           {isShow && (
             <button
               type="button"
@@ -99,6 +115,7 @@ class NavigationBar extends React.Component {
               onClick={this.toggleNavbar}
             />
           )}
+
           {windowWidth >= 768 || isShow ? (
             <Collapse className={closing ? 'closing' : ''} navbar>
               <div className="overlay" onClick={this.toggleNavbar} />
@@ -138,17 +155,6 @@ class NavigationBar extends React.Component {
   }
 }
 
-const mapStateToProps = state => ({
-  accountsList: state.accounts.accountsList,
-});
+const LayoutHeaderNav = connect(mapStateToProps)(withRouter(LayoutHeaderNavUnconnected));
 
-NavigationBar.propTypes = {
-  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-  accountsList: PropTypes.oneOfType([PropTypes.array]).isRequired,
-  location: PropTypes.oneOfType([PropTypes.object]).isRequired,
-};
-
-export default compose(
-  connect(mapStateToProps),
-  withRouter
-)(NavigationBar);
+export { LayoutHeaderNav };

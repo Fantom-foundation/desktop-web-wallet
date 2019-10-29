@@ -10,7 +10,7 @@ import _ from 'lodash';
 import { Redirect } from 'react-router-dom';
 import QRCode from '~/view/general/qr/index';
 import copyToClipboard from '~/utility';
-import Layout from '~/view/components/layout';
+import { Layout } from '~/view/components/layout/Layout';
 import { getFantomBalance } from '~/redux/getBalance/action';
 import Identicons from '~/view/general/identicons/identicons';
 import { sendRawTransaction } from '~/redux/sendTransactions/action';
