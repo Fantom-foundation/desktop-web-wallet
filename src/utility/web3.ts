@@ -57,13 +57,13 @@ class Web3Agent {
   mnemonicToKeys = (mnemonic: string): { publicAddress; privateKey } => {
     const seed = Bip39.mnemonicToSeed(mnemonic);
     const root = Hdkey.fromMasterSeed(seed);
-  
+
     const addrNode = root.derive("m/44'/60'/0'/0/0");
     const pubKey = EthUtil.privateToPublic(addrNode._privateKey); 
     const addr = EthUtil.publicToAddress(pubKey).toString('hex');
     const publicAddress = EthUtil.toChecksumAddress(addr);
     const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
-  
+
     return { publicAddress, privateKey };
   }
 

@@ -30,7 +30,7 @@ export const accountCreateSetConfirm = () => ({
   type: ACCOUNT_ACTIONS.CREATE_SET_CONFIRM,
 });
 
-export const accountCreateRestoreMnemonics = ({ mnemonic }: Partial<IAccountState['create']>) => ({
+export const accountCreateRestoreMnemonics = ({ mnemonic }: Pick<IAccountState['create'], 'mnemonic'>) => ({
   type: ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS,
   mnemonic,
 });

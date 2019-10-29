@@ -31,16 +31,13 @@ function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCre
   );
 }
 
-function* createSetRestoreCredentials({ create }: ReturnType<typeof accountCreateSetRestoreCredentials>) {
-  const mnemonic: string = bip.generateMnemonic();
-  const { publicAddress: public_address } = accountMnemonicToKeys(mnemonic);
-
+function* createSetRestoreCredentials({
+  create,
+}: ReturnType<typeof accountCreateSetRestoreCredentials>) {
   yield put(
     accountSetCreate({
       ...create,
       stage: ACCOUNT_CREATION_STAGES.INFO,
-      public_address,
-      mnemonic,
     })
   );
 }
@@ -77,8 +74,9 @@ function* createCancel() {
 }
 
 function* createRestoreMnemonics({ mnemonic }: ReturnType<typeof accountCreateRestoreMnemonics>) {
-  // yield console.log({ mnemonic });
-  yield put(accountSetCreate({ mnemonic }));
+  const { publicAddress: public_address } = Fantom.mnemonicToKeys(mnemonic);
+
+  yield put(accountSetCreate({ mnemonic, public_address }));
   yield call(createSetConfirm);
 }
 
