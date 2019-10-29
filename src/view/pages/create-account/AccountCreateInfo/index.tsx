@@ -67,7 +67,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     if (!mnemonic || !password || !name || !public_address) onBackPressed();
   });
 
-  const printer = useRef<HTMLDivElement>(null);
+  const printer = useRef<any>(null);
   const onCopy = useCallback<MouseEventHandler<HTMLButtonElement>>(
     event => copyToClipboard(event, public_address),
     [public_address]
