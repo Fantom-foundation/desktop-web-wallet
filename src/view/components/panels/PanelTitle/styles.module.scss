@@ -1,0 +1,21 @@
+@import "~/styles/variables.scss";
+
+.panel {
+  background: $color_primary;
+  height: $panel_height; 
+  font-size: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-display: row;
+}
+
+.title { 
+  flex: 1;
+  padding: 12px 30px;
+  text-transform: capitalize;
+}
+
+.right {
+  flex: 0;
+}

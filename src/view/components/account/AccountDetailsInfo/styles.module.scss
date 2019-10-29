@@ -1,0 +1,58 @@
+@import '~/styles/variables.scss';
+
+.wrap {
+  background: $color_gray;
+  display: flex;
+  flex-direction: column;
+}
+
+.content {
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.icon {
+  background: white;
+  width: 75px;
+  height: 75px;
+  flex: 0 0 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  border-radius: 100%;
+}
+
+.name {
+  margin: 10px;
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 22px;
+  color: $color_primary;
+}
+
+.address {
+  min-width: 0;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.qr {
+  margin: 10px 0;
+}
+
+.balance {
+  margin: 20px 10%;
+  text-align: center;
+  color: #fff;
+  border: 1px solid lighten($color_lightgray, 4%);
+  background: $color_lightgray;
+  padding: 2rem 2rem;
+  border-radius: 8px;
+  font-size: 22px;
+  align-self: stretch;
+}
