@@ -1,4 +1,6 @@
-particlesJS('particles-js', {
+import { IParticlesParams } from 'react-particles-js';
+
+export const PARTICLES_PARAMS: IParticlesParams = {
   particles: {
     number: {
       value: 70,
@@ -92,7 +94,7 @@ particlesJS('particles-js', {
         size: 0,
         duration: 2,
         opacity: 0,
-        speed: 3,
+        // speed: 3,
       },
       repulse: {
         distance: 400,
@@ -107,4 +109,4 @@ particlesJS('particles-js', {
     },
   },
   retina_detect: false,
-});
+};

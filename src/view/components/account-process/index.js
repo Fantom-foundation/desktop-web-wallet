@@ -109,6 +109,7 @@ export default class AccountProcess extends React.PureComponent {
     );
   }
 }
+
 AccountProcess.propTypes = {
   restoreAccount: PropTypes.bool,
   stepNo: PropTypes.number.isRequired,

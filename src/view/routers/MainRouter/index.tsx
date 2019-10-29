@@ -1,6 +1,6 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import Home from '~/view/pages/home';
+import Home from '~/view/pages/home/Home';
 import AccountManagement from '~/view/pages/account-management';
 import CreateAccount from '~/view/pages/create-account/__CreateAccount';
 import AccountDetails from '~/view/pages/account-details';

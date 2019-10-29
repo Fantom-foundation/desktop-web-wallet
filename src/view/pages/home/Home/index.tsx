@@ -1,33 +1,37 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
-import PropTypes from 'prop-types';
 import Layout from '~/view/components/layout';
+// import particles from 'particles.js';
+// import * as particles from '~/utility/particles/particles.min.js';
+import Particles from 'react-particles-js';
+import { PARTICLES_PARAMS } from '~/constants/particles';
+import * as styles from './styles.module.scss';
 
 class Home extends React.PureComponent {
   componentDidMount() {
-    const particles = document.createElement('script');
-    particles.src = 'js/particles/particles.min.js';
-    document.getElementById('scripts').appendChild(particles);
-
-    particles.addEventListener('load', () => {
-      const particlesApp = document.createElement('script');
-      particlesApp.src = 'js/particles/app.js';
-      document.getElementById('scripts').appendChild(particlesApp);
-
-      const particlesState = document.createElement('script');
-      particlesState.src = 'js/particles/lib/stats.js';
-      document.getElementById('scripts').appendChild(particlesState);
-    });
+    // particles.load('particles-js', '/js/particles/app.js');
+    // console.log({ particles });
+    // const particles = document.createElement('script');
+    // particles.src = 'js/particles/particles.min.js';
+    // document.getElementById('scripts').appendChild(particles);
+    // particles.addEventListener('load', () => {
+    //   const particlesApp = document.createElement('script');
+    //   particlesApp.src = 'js/particles/app.js';
+    //   document.getElementById('scripts').appendChild(particlesApp);
+    //   const particlesState = document.createElement('script');
+    //   particlesState.src = 'js/particles/lib/stats.js';
+    //   document.getElementById('scripts').appendChild(particlesState);
+    // });
   }
 
   /**
    * @param {Page route} route
    * This method will push screen to the passed route
    */
-  goToPage(route) {
-    const { history } = this.props;
-    history.push(route);
-  }
+  // goToPage(route) {
+    // const { history } = this.props;
+    // history.push(route);
+  // }
 
   // eslint-disable-next-line class-methods-use-this
   learnMore() {
@@ -52,7 +56,7 @@ class Home extends React.PureComponent {
                   <Button
                     color="dark"
                     className="rounded"
-                    onClick={() => this.goToPage('/create-account')}
+                    // onClick={() => this.goToPage('/create-account')}
                   >
                     Create Wallet
                   </Button>
@@ -62,7 +66,9 @@ class Home extends React.PureComponent {
                 </Col>
               </Row>
             </Container>
-            <div id="particles-js" />
+            <div id="particles-js">
+              <Particles params={PARTICLES_PARAMS} className={styles.particles} />
+            </div>
 
             <span id="scripts" />
           </section>
@@ -72,8 +78,8 @@ class Home extends React.PureComponent {
   }
 }
 
-Home.propTypes = {
-  history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-};
+// Home.propTypes = {
+//   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
+// };
 
 export default Home;
