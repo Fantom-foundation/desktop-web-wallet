@@ -1,10 +1,9 @@
 import React, { FC, useCallback } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Identicons from '~/view/general/identicons/identicons';
-import ShowPublicAddress from '~/view/components/public-address';
+import { Address } from '~/view/components/common/Address';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
-import { copyToClipboard } from '~/utility/clipboard'; 
 import { push as historyPush } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
 
@@ -21,15 +20,6 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
       push(URLS.ACCOUNT.BASE(address));
     },
     [push]
-  );
-
-  const onCopy = useCallback(
-    public_address => event => {
-      event.preventDefault();
-      event.stopPropagation();
-      copyToClipboard(event, public_address);
-    },
-    []
   );
 
   return (
@@ -68,9 +58,8 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
                       <span>{account.name}</span>
                     </h2>
 
-                    <ShowPublicAddress
-                      copyToClipboard={onCopy(account.public_address)}
-                      publicAddress={account.public_address}
+                    <Address
+                      address={account.public_address}
                     />
                   </div>
                 </Col>

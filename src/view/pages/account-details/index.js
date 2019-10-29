@@ -15,7 +15,6 @@ import { getFantomBalance } from '~/redux/getBalance/action';
 import Identicons from '~/view/general/identicons/identicons';
 import { sendRawTransaction } from '~/redux/sendTransactions/action';
 import TransactionHistory from '~/view/pages/account-details/transferMoney/transactions';
-import ShowPublicAddress from '~/view/components/public-address';
 import SendMoney from '~/view/general/sidebar/index';
 import HttpDataProvider from '~/utility/httpProvider';
 import TransactionStatusModal from '~/view/components/modals/transaction-status-modal/index';
@@ -301,10 +300,6 @@ class AccountDetails extends React.PureComponent {
                         </span>
                       </div>
                       <h2 className="acc-title text-primary">{account.accountName}</h2>
-                      <ShowPublicAddress
-                        copyToClipboard={copyToClipboard}
-                        publicAddress={account.publicAddress}
-                      />
                       {/* <div className="info">
                         <p>Ledger testAccount</p>
                         <p>{transactions.length} Outgoing transaction</p>

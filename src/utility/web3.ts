@@ -5,7 +5,10 @@ import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
 import { EncryptedKeystoreV3Json } from 'web3-core';
 
-const { REACT_APP_KEY_INFURA, REACT_APP_EXAMPLE_ADDRESS } = process.env;
+const {
+  /* REACT_APP_API_URL_FANTOM , */ REACT_APP_KEY_INFURA,
+  REACT_APP_EXAMPLE_ADDRESS,
+} = process.env;
 
 // const URL_FANTOM = REACT_APP_API_URL_FANTOM;
 const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${REACT_APP_KEY_INFURA}`;
@@ -59,13 +62,13 @@ class Web3Agent {
     const root = Hdkey.fromMasterSeed(seed);
 
     const addrNode = root.derive("m/44'/60'/0'/0/0");
-    const pubKey = EthUtil.privateToPublic(addrNode._privateKey); 
+    const pubKey = EthUtil.privateToPublic(addrNode._privateKey);
     const addr = EthUtil.publicToAddress(pubKey).toString('hex');
     const publicAddress = EthUtil.toChecksumAddress(addr);
     const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
 
     return { publicAddress, privateKey };
-  }
+  };
 
   getKestore = (privateKey: string, password: string): EncryptedKeystoreV3Json =>
     this.web3.eth.accounts.encrypt(privateKey, password);
