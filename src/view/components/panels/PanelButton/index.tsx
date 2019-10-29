@@ -5,15 +5,17 @@ import { FaIcon } from '~/view/components/common/FaIcon';
 
 interface IProps {
   icon: string;
+  spin?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
 };
 
 const PanelButton: FC<IProps> = ({
   icon,
+  spin,
   onClick,
 }) => (
   <Button onClick={onClick} className={styles.button}>
-    <FaIcon icon={icon} />
+    <FaIcon icon={icon} spin={spin} />
   </Button>
 )
 

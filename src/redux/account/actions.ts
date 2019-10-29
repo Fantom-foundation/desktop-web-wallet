@@ -52,3 +52,14 @@ export const accountAddAccount = (account: IAccount) => ({
   type: ACCOUNT_ACTIONS.ADD_ACCOUNT,
   account,
 });
+
+export const accountGetBalance = (id: IAccount['public_address']) => ({
+  type: ACCOUNT_ACTIONS.GET_BALANCE,
+  id,
+})
+
+export const accountSetAccount = (id: IAccount['public_address'], data: Partial<IAccount>) => ({
+  type: ACCOUNT_ACTIONS.SET_ACCOUNT,
+  id,
+  data,
+})
