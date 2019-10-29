@@ -49,9 +49,14 @@ const getBalance = (state = defaultState, action) => {
     }
     case `${actions.GET_FANTOM_BALANCE}_SUCCESS`: {
       const { config, data } = action.payload;
+      console.log({ config, data });
+
+      if (!data) return state; // TODO: fix this
+
       const accountInfo = {
         [config.address]: scientificToDecimal(data.balance),
       };
+
       return { ...state, ...state,
         ...accountInfo};
     }

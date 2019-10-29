@@ -27,7 +27,6 @@ export interface IAccountState {
     errors: Record<string, string>;
   };
   list: Record<string, IAccount>;
-  selected: number;
 }
 
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
@@ -41,7 +40,6 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
     errors: {},
   },
   list: {},
-  selected: -1,
 };
 
 export const account = createReducer(ACCOUNT_INITIAL_STATE, ACCOUNT_HANDLERS);

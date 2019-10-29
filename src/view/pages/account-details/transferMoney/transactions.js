@@ -37,6 +37,7 @@ class TransactionHistory extends React.PureComponent {
 
   // eslint-disable-next-line react/sort-comp
   fetchTransactionList(address) {
+    if (true) return; // TODO: Reimplement this with sagas
     // eslint-disable-next-line no-param-reassign
     HttpDataProvider.post('https://graphql.fantom.services/graphql?', {
       query: `

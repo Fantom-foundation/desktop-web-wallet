@@ -1,4 +1,4 @@
-import Tx from 'ethereumjs-tx';
+import { Transaction } from 'ethereumjs-tx';
 import Hdkey from 'hdkey';
 import * as EthUtil from 'ethereumjs-util';
 import keythereum from 'keythereum';
@@ -31,7 +31,7 @@ function getNonceFantom(address: string): Promise<number> {
  *@param {*} from : Address of account from which to transfer.
  *@param {*} to : Address of account to whom to transfer.
  *@param {*} value : Amount to be transfered.
- *@param {*} memo : : Message text for transaction.
+ *@param {*} memo : : Message text for Transaction.
  *@param {*} privateKey : Private key of account from which to transfer.
  */
 export function transferFantom(
@@ -63,7 +63,7 @@ export function transferFantom(
           nonce: Web3.utils.toHex(count),
           data: memo,
         };
-        const tx = new Tx(rawTx);
+        const tx = new Transaction(rawTx);
         tx.sign(privateKeyBuffer);
         const serializedTx = tx.serialize();
 

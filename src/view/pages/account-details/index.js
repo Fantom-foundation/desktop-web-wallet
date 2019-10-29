@@ -27,7 +27,7 @@ let interval = null;
 class AccountDetails extends React.PureComponent {
   constructor(props) {
     super(props);
-    const { accountsList, getBalance } = props;
+    const { accountsList /* getBalance */ } = props;
     const publicAddress = this.getAccountPublicAddress();
     let selectedAccount;
     if (publicAddress && publicAddress !== '') {
@@ -67,18 +67,18 @@ class AccountDetails extends React.PureComponent {
     this.transferMoney = this.transferMoney.bind(this);
     // This will call the refresh the balance after every one second
     interval = setInterval(() => {
-      getBalance(publicAddress);
+      // getBalance(publicAddress); // TODO: Reimplement this
     }, 5000);
   }
 
   componentDidMount() {
     this.fetchTransactionList();
 
-    const { getBalance } = this.props;
-    const publicAddress = this.getAccountPublicAddress();
-    if (publicAddress && publicAddress !== '') {
-      getBalance(publicAddress);
-    }
+    // const { getBalance } = this.props;
+    // const publicAddress = this.getAccountPublicAddress();
+    // if (publicAddress && publicAddress !== '') {
+      // getBalance(publicAddress); // TODO: Reimplement this
+    // }
   }
 
   componentWillUnmount() {
