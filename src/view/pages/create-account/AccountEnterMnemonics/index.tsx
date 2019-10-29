@@ -4,12 +4,12 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
-import AccountProcess from '~/view/components/create-account/AccountProccess';
+import { AccountRestoreProcess } from '~/view/components/create-account/AccountRestoreProcess';
 import CancelWalletModal from '~/view/components/modals/cancel-wallet';
 import IncorrectMnemonicsModal from '~/view/components/modals/incorrect-mnemonics';
 import { Container, Row, Col, FormGroup, Label, Input, Button } from 'reactstrap';
 
-const mapStateToProps = selectAccountCreate;
+const mapStateToProps = selectAccountCreate; 
 const mapDispatchToProps = {
   accountCreateRestoreMnemonics: ACCOUNT_ACTIONS.accountCreateRestoreMnemonics,
   accountCreateCancel: ACCOUNT_ACTIONS.accountCreateCancel,
@@ -66,7 +66,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
   return (
     <div id="account-information" className="account-information">
-      <AccountProcess restoreAccount stepNo={2} />
+      <AccountRestoreProcess stepNo={2} />
 
       <section className="bg-dark" style={{ paddingTop: 60 }}>
         <Container>

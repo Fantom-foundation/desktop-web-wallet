@@ -5,7 +5,7 @@ import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
 import { AccountCreateCredentialForm } from '~/view/components/create-account/AccountCreateCredentialForm';
-import AccountProcess from '~/view/components/create-account/AccountProccess';
+import { AccountCreateProcess } from '~/view/components/create-account/AccountCreateProccess';
 
 const mapStateToProps = selectAccount;
 const mapDispatchToProps = {
@@ -23,7 +23,7 @@ const AccountCreateCredentialsUnconnected: FC<IProps> = ({
   accountCreateSetCredentials,
 }) => (
   <div id="account-information" className="account-information">
-    <AccountProcess restoreAccount={false} stepNo={1} />
+    <AccountCreateProcess stepNo={1} />
     <AccountCreateCredentialForm push={push} onSubmit={accountCreateSetCredentials} list={list} />
   </div>
 );

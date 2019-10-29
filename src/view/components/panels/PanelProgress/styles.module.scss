@@ -1,0 +1,86 @@
+@import '~/styles/variables.scss';
+
+.wrap {
+  max-width: 700px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  position: relative;
+  padding-bottom: 40px;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  position: relative;
+  z-index: 3;
+
+  svg {
+    fill: #999999;
+    color: #999999;
+  }
+
+  &.active {
+    .title {
+      color: $color_primary;
+    }
+
+    svg {
+      fill: $color_primary;
+      color: $color_primary;
+    }
+  }
+}
+
+.line {
+  flex: 1;
+  height: 16px;
+  position: absolute;
+  top: 16px;
+  left: 0;
+  width: 100%;
+  padding: 0 20px 0 30px;
+  box-sizing: border-box;
+  flex-direction: row;
+  display: flex;
+}
+
+.seg {
+  background: #bbbbbb;
+  transform: skew(-35deg);
+  flex: 1;
+  height: 100%;
+  display: flex;
+
+  &.active {
+    background: $color_primary;
+  }
+  
+  &::before {
+    content: '';
+    width: 50%;
+    height: 100%;
+    background: #999999;
+  }
+
+  &.active, &.current {
+    &::before {
+      background: $color_primary;
+    }
+  }
+}
+
+.spacer {
+  flex: 1;
+}
+
+.title {
+  position: absolute;
+  top: 60px;
+  white-space: nowrap;
+  left: 50%;
+  transform: translate(-50%, 0);
+}

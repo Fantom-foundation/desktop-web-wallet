@@ -9,7 +9,7 @@ import React, {
   useMemo,
 } from 'react';
 import { Col, Row, Container, Label, FormGroup, Input, Button } from 'reactstrap';
-import AccountProcess from '~/view/components/create-account/AccountProccess';
+import { AccountCreateProcess } from '~/view/components/create-account/AccountCreateProccess';
 import { CreateAccountButtons } from '~/view/components/create-account/CreateAccountButtons';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
@@ -85,7 +85,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 
   return (
     <div id="account-information" className="account-information">
-      <AccountProcess restoreAccount={false} stepNo={2} />
+      <AccountCreateProcess stepNo={2} />
 
       <section className="bg-dark" style={{ padding: '60px 0' }}>
         <div style={{ display: 'none' }}>

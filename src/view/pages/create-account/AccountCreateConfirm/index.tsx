@@ -1,6 +1,6 @@
 import React, { FC, useState, useCallback, useEffect, useMemo } from 'react';
 import { Col, Row, Container, Button } from 'reactstrap';
-import AccountProcess from '~/view/components/create-account/AccountProccess';
+import { AccountCreateProcess } from '~/view/components/create-account/AccountCreateProccess';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
@@ -76,7 +76,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> = ({
 
   return (
     <div id="account-information" className="account-information">
-      <AccountProcess restoreAccount={false} stepNo={3} />
+      <AccountCreateProcess stepNo={3} />
 
       <section className="bg-dark" style={{ padding: '60px 0' }}>
         <Container>
