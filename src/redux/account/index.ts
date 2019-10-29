@@ -5,6 +5,7 @@ import { AccountCreateInfo } from '~/view/pages/create-account/AccountCreateInfo
 import { AccountCreateConfirm } from '~/view/pages/create-account/AccountCreateConfirm';
 import { IAccount } from './types';
 import { AccountRestoreCredentials } from '~/view/pages/create-account/AccountRestoreCredentials';
+import { AccountEnterMnemonics } from '~/view/pages/create-account/AccountEnterMnemonics';
 
 export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,
@@ -20,7 +21,7 @@ export const ACCOUNT_CREATION_STAGES_COMPONENTS = {
 
 export const ACCOUNT_RESTORE_STAGES_COMPONENTS = {
   [ACCOUNT_CREATION_STAGES.CREDENTIALS]: AccountRestoreCredentials,
-  [ACCOUNT_CREATION_STAGES.INFO]: AccountCreateInfo,
+  [ACCOUNT_CREATION_STAGES.INFO]: AccountEnterMnemonics,
 };
 export interface IAccountState {
   create: {
@@ -37,7 +38,7 @@ export interface IAccountState {
 
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
   create: {
-    stage: ACCOUNT_CREATION_STAGES.INFO,
+    stage: ACCOUNT_CREATION_STAGES.CREDENTIALS,
     name: 'name',
     password: 'Puzzword12345',
     icon: '11572238206314',

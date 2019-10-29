@@ -50,7 +50,7 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
               {Object.values(list).length > 0 &&
                 Object.values(list).map(account => (
                   <Col
-                    key={account.name}
+                    key={account.public_address}
                     md={6}
                     lg={3}
                     className="main-col"

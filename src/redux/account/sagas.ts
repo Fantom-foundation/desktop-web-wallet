@@ -1,4 +1,4 @@
-import { takeLatest, put, select } from 'redux-saga/effects';
+import { takeLatest, put, select, call } from 'redux-saga/effects';
 import { ACCOUNT_ACTIONS } from './constants';
 import {
   accountCreateSetCredentials,
@@ -7,6 +7,7 @@ import {
   accountAddAccount,
   accountCreateSetRestoreCredentials,
   accountCreateClear,
+  accountCreateRestoreMnemonics,
 } from './actions';
 import { ACCOUNT_CREATION_STAGES, IAccountState, ACCOUNT_INITIAL_STATE } from '.';
 import { accountMnemonicToKeys } from '~/utility/account';
@@ -75,10 +76,17 @@ function* createCancel() {
   yield put(push('/'));
 }
 
+function* createRestoreMnemonics({ mnemonic }: ReturnType<typeof accountCreateRestoreMnemonics>) {
+  // yield console.log({ mnemonic });
+  yield put(accountSetCreate({ mnemonic }));
+  yield call(createSetConfirm);
+}
+
 export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS, createSetCredentials);
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_RESTORE_CREDENTIALS, createSetRestoreCredentials);
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_INFO, createSetInfo);
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_CONFIRM, createSetConfirm);
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_CANCEL, createCancel);
+  yield takeLatest(ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS, createRestoreMnemonics);
 }

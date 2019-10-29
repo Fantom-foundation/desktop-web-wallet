@@ -1,6 +1,6 @@
 import Web3 from 'web3';
 import { Transaction } from 'ethereumjs-tx';
-import EthUtil from 'ethereumjs-util';
+import * as EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
 import { EncryptedKeystoreV3Json } from 'web3-core';

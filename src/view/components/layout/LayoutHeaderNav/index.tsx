@@ -45,8 +45,8 @@ export class LayoutHeaderNavUnconnected extends React.Component<IProps, IState> 
   }
 
   componentWillUnmount() {
-    document.body.className = document.body.className.replace('no-overflow', ''); // eslint-disable-line
     window.removeEventListener('resize', this.handleResize); // eslint-disable-line
+    document.body.className = document.body.className.replace('no-overflow', ''); // eslint-disable-line
   }
 
   toggleNavbar = e => {
@@ -130,8 +130,8 @@ export class LayoutHeaderNavUnconnected extends React.Component<IProps, IState> 
                 </NavItem>
                 <NavItem>
                   <NavLink
-                    className={pathname === '/restore-account' ? 'selected' : ''}
-                    onClick={() => this.goToPage('/restore-account')}
+                    className={pathname === '/account/restore' ? 'selected' : ''}
+                    onClick={() => this.goToPage('/account/restore')}
                   >
                     Restore Wallet
                   </NavLink>

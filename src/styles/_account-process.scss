@@ -177,6 +177,7 @@ $transition-time: 0.3s;
       svg {
         transition-delay: $transition-time;
         fill: $b-bar;
+        color: $b-bar;
       }
     }
     .element {
