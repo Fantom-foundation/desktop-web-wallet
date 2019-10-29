@@ -5,11 +5,14 @@ import {
   accountSetList,
   accountAddAccount,
 } from '~/redux/account/actions';
-import { IAccountState } from '.';
+import { IAccountState, ACCOUNT_INITIAL_STATE } from '.';
 import { ACCOUNT_ACTIONS } from './constants';
 
 const setCreate = (state: IAccountState, { create }: ReturnType<typeof accountSetCreate>) =>
   assocPath(['create'], { ...state.create, ...create }, state);
+
+const createClear = (state: IAccountState) =>
+  assocPath(['create'], ACCOUNT_INITIAL_STATE.create, state);
 
 const setCreateStage = (
   state: IAccountState,
@@ -26,5 +29,6 @@ export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_CREATE]: setCreate,
   [ACCOUNT_ACTIONS.SET_CREATE_STAGE]: setCreateStage,
   [ACCOUNT_ACTIONS.SET_LIST]: setList,
+  [ACCOUNT_ACTIONS.CREATE_CLEAR]: createClear,
   [ACCOUNT_ACTIONS.ADD_ACCOUNT]: addAccount,
 };

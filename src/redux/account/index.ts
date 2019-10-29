@@ -4,6 +4,7 @@ import { AccountCreateCredentials } from '~/view/pages/create-account/AccountCre
 import { AccountCreateInfo } from '~/view/pages/create-account/AccountCreateInfo';
 import { AccountCreateConfirm } from '~/view/pages/create-account/AccountCreateConfirm';
 import { IAccount } from './types';
+import { AccountRestoreCredentials } from '~/view/pages/create-account/AccountRestoreCredentials';
 
 export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,
@@ -15,6 +16,11 @@ export const ACCOUNT_CREATION_STAGES_COMPONENTS = {
   [ACCOUNT_CREATION_STAGES.CREDENTIALS]: AccountCreateCredentials,
   [ACCOUNT_CREATION_STAGES.INFO]: AccountCreateInfo,
   [ACCOUNT_CREATION_STAGES.CONFIRM]: AccountCreateConfirm,
+};
+
+export const ACCOUNT_RESTORE_STAGES_COMPONENTS = {
+  [ACCOUNT_CREATION_STAGES.CREDENTIALS]: AccountRestoreCredentials,
+  [ACCOUNT_CREATION_STAGES.INFO]: AccountCreateInfo,
 };
 export interface IAccountState {
   create: {

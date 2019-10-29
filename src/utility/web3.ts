@@ -1,6 +1,9 @@
 import Web3 from 'web3';
 import { Transaction } from 'ethereumjs-tx';
 import EthUtil from 'ethereumjs-util';
+import Bip39 from 'bip39';
+import Hdkey from 'hdkey';
+import { EncryptedKeystoreV3Json } from 'web3-core';
 
 const { REACT_APP_API_URL_FANTOM, REACT_APP_KEY_INFURA, REACT_APP_EXAMPLE_ADDRESS } = process.env;
 
@@ -50,6 +53,22 @@ class Web3Agent {
     const res = await this.web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
     return res;
   }
+
+  mnemonicToKeys = (mnemonic: string): { publicAddress; privateKey } => {
+    const seed = Bip39.mnemonicToSeed(mnemonic);
+    const root = Hdkey.fromMasterSeed(seed);
+  
+    const addrNode = root.derive("m/44'/60'/0'/0/0");
+    const pubKey = EthUtil.privateToPublic(addrNode._privateKey); 
+    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+    const publicAddress = EthUtil.toChecksumAddress(addr);
+    const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
+  
+    return { publicAddress, privateKey };
+  }
+
+  getKestore = (privateKey: string, password: string): EncryptedKeystoreV3Json =>
+    this.web3.eth.accounts.encrypt(privateKey, password);
 }
 
 const Fantom = new Web3Agent(URL_FANTOM);

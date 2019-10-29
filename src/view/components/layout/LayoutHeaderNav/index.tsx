@@ -122,8 +122,8 @@ export class LayoutHeaderNavUnconnected extends React.Component<IProps, IState> 
               <Nav className="ml-auto" navbar>
                 <NavItem>
                   <NavLink
-                    className={pathname === '/create-account' ? 'selected' : ''}
-                    onClick={() => this.goToPage('/create-account')}
+                    className={pathname === '/account/create' ? 'selected' : ''}
+                    onClick={() => this.goToPage('/account/create')}
                   >
                     Create Wallet
                   </NavLink>
@@ -139,8 +139,8 @@ export class LayoutHeaderNavUnconnected extends React.Component<IProps, IState> 
                 {accountsList.length > 0 && (
                   <NavItem>
                     <NavLink
-                      className={pathname === '/account-management' ? 'selected' : ''}
-                      onClick={() => this.goToPage('/account-management')}
+                      className={pathname === '/accounts' ? 'selected' : ''}
+                      onClick={() => this.goToPage('/accounts')}
                     >
                       Accounts
                     </NavLink>

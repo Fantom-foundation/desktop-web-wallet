@@ -17,6 +17,11 @@ export const accountCreateSetCredentials = (create: Partial<IAccountState['creat
   create,
 });
 
+export const accountCreateSetRestoreCredentials = (create: Partial<IAccountState['create']>) => ({
+  type: ACCOUNT_ACTIONS.CREATE_SET_RESTORE_CREDENTIALS,
+  create,
+});
+
 export const accountCreateSetInfo = () => ({
   type: ACCOUNT_ACTIONS.CREATE_SET_INFO,
 });
@@ -27,6 +32,10 @@ export const accountCreateSetConfirm = () => ({
 
 export const accountCreateCancel = () => ({
   type: ACCOUNT_ACTIONS.CREATE_CANCEL,
+});
+
+export const accountCreateClear = () => ({
+  type: ACCOUNT_ACTIONS.CREATE_CLEAR,
 });
 
 export const accountSetList = (list: IAccountState['list']) => ({

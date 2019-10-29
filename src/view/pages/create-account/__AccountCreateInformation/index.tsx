@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
 import Bip39 from 'bip39';
-import { ToastContainer, ToastStore } from 'react-toasts';
+import { ToastContainer, ToastStore } from 'react-toasts'; 
 import ReactToPrint from 'react-to-print';
 
 import { Container, Row, Col, Button, FormGroup, Label, Input } from 'reactstrap';

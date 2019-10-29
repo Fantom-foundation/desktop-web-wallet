@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route, Switch, Redirect } from 'react-router-dom';
 import Home from '~/view/pages/home/Home';
-import AccountManagement from '~/view/pages/account-management';
+import AccountManagement from '~/view/pages/__account-management';
 import CreateAccount from '~/view/pages/create-account/__CreateAccount';
 import AccountDetails from '~/view/pages/account-details';
 import { AccountCreateRouter } from '~/view/pages/create-account/AccountCreateRouter';
@@ -10,6 +10,7 @@ import { history } from '~/redux/store';
 import { URLS } from '~/constants/urls';
 import { AccountList } from '~/view/pages/account-list/AccountList';
 import { AccountRouter } from '../AccountRouter';
+import { AccountRestoreRouter } from '~/view/pages/create-account/AccountRestoreRouter';
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
@@ -17,6 +18,7 @@ const MainRouter = () => (
       <Route path="/" exact component={Home} />
       <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
       <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
+      <Route path={URLS.ACCOUNT_RESTORE} component={AccountRestoreRouter} />
       <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
 
       <Route path="/account-details" exact component={AccountDetails} />

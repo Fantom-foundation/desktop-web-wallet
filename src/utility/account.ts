@@ -138,7 +138,7 @@ export const accountMnemonicToKeys = (mnemonic: string): { publicAddress; privat
   const root = Hdkey.fromMasterSeed(seed);
 
   const addrNode = root.derive("m/44'/60'/0'/0/0");
-  const pubKey = EthUtil.privateToPublic(addrNode._privateKey); //eslint-disable-line
+  const pubKey = EthUtil.privateToPublic(addrNode._privateKey); 
   const addr = EthUtil.publicToAddress(pubKey).toString('hex');
   const publicAddress = EthUtil.toChecksumAddress(addr);
   const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
