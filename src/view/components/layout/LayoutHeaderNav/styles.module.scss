@@ -1,0 +1,124 @@
+@import "~/styles/variables.scss";
+
+.header {
+  height: 100px;
+  position: fixed;
+  top: 0;
+  left: 0;
+  will-change: transform;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: black;
+  width: 100%;
+
+  @include tablet {
+    height: 64px;
+  }
+}
+
+.content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logo {
+  height: 40px;
+
+  @include tablet {
+    height: 30px;
+  }  
+}
+
+.links {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  @include tablet {
+    display: none;
+  }
+  
+  & > a {
+    transition: color 0.25s;
+    color: white !important;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding: 0 20px;
+    text-decoration: none !important;
+
+    &:hover {
+      color: $color_primary !important;
+    }
+
+    &.active {
+      color: $color_primary !important;
+    }
+  }
+}
+
+.burger {
+  flex: 1;
+  justify-content: flex-end;
+  display: none;
+
+  img {
+    width: 28px;
+  }
+
+  @include tablet {
+    display: flex;
+  }  
+}
+
+.menu {
+  position: fixed;
+  right: 0;
+  top: 0;
+  height: 100vh;
+  width: 100vw;
+  max-width: 0;
+  background: linear-gradient(160deg, #111111, #333333);
+  overflow: hidden;
+  will-change: max-width;
+  transition: max-width 0.5s;
+
+  &.active {
+    max-width: 320px;
+    box-sizing: border-box;
+    box-shadow: black -60px 0 60px;
+  }
+}
+
+.menu_content {
+  width: 100vw;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  padding: 100px 40px 40px;
+
+  & > a {
+    transition: color 0.25s;
+    color: white !important;
+    font-size: 18px;
+    text-transform: uppercase;
+    padding: 15px 20px;
+    text-decoration: none !important;
+
+    &:hover {
+      color: $color_primary !important;
+    }
+
+    &.active {
+      color: $color_primary !important;
+    }
+  }
+}
+
+.close {
+  position: absolute;
+  left: 260px;
+  top: 20px;
+}

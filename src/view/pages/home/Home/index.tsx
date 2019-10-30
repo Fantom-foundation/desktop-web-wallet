@@ -20,9 +20,9 @@ const Home: FC<{}> = () => {
             Create Wallet
           </Link>
 
-          <Link className={styles.rounded} to="http://fantom.foundation/" target="_blank">
+          <a className={styles.rounded} href="http://fantom.foundation/" target="_blank" rel="noopener noreferrer">
             Learn More
-          </Link>
+          </a>
         </div>
       </div>
 
