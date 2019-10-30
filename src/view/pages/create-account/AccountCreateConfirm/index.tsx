@@ -1,4 +1,4 @@
-import React, { FC, useState, useCallback, useEffect, useMemo } from 'react';
+import React, { FC, useState, useCallback, useEffect, useMemo, memo } from 'react';
 import { Col, Row, Container, Button } from 'reactstrap';
 import { AccountCreateProcess } from '~/view/components/create-account/AccountCreateProccess';
 import { connect } from 'react-redux';
@@ -22,7 +22,7 @@ type IProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps &
   RouteComponentProps & {};
 
-const AccountCreateConfirmUnconnected: FC<IProps> = ({
+const AccountCreateConfirmUnconnected: FC<IProps> = memo(({
   accountSetCreateStage,
   accountCreateCancel,
   accountCreateSetConfirm,
@@ -74,8 +74,6 @@ const AccountCreateConfirmUnconnected: FC<IProps> = ({
   useEffect(() => {
     if (!mnemonic) onBackPressed();
   });
-
-  //  id="account-information" className="account-information"
 
   return (
     <div>
@@ -143,7 +141,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> = ({
       </section>
     </div>
   );
-};
+});
 
 const AccountCreateConfirm = connect(
   mapStateToProps,

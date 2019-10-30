@@ -78,7 +78,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
             <Col>
               <div className={styles.content}>
                 <PanelTitle title="Restore Wallet" />
-                
+
                 <div className={styles.inputs}>
                   <FormGroup>
                     <Label for="wallet-seed">Wallet Seed</Label>
