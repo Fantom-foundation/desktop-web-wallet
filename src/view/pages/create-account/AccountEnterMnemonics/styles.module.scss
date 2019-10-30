@@ -1,0 +1,36 @@
+@import "~/styles/variables.scss";
+
+.center {
+  text-align: center;
+}
+
+.container {
+  background: $color_darkgray;
+  padding-top: 60px;
+}
+
+.warn {
+  color: red;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 0;
+  flex-direction: column;
+
+  & > button {
+    margin: 10px 0;
+  }
+}
+
+.content {
+  max-width: 800px;
+  margin: auto;
+  background: transparentize($color_lightgray, 0.5);
+}
+
+.inputs {
+  padding: 20px;
+}

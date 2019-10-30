@@ -9,6 +9,7 @@ import { ACCOUNT_CREATION_STAGES } from '~/redux/account';
 import IncorrectMnemonicsModal from '~/view/components/modals/incorrect-mnemonics';
 import CancelWalletModal from '~/view/components/modals/cancel-wallet';
 import shuffle from 'lodash/shuffle';
+import * as styles from './styles.module.scss';
 
 const mapStateToProps = selectAccountCreate;
 const mapDispatchToProps = {
@@ -74,46 +75,45 @@ const AccountCreateConfirmUnconnected: FC<IProps> = ({
     if (!mnemonic) onBackPressed();
   });
 
+  //  id="account-information" className="account-information"
+
   return (
-    <div id="account-information" className="account-information">
+    <div>
       <AccountCreateProcess stepNo={3} />
 
-      <section className="bg-dark" style={{ padding: '60px 0' }}>
+      <section className={styles.content}>
         <Container>
           <Row>
             <Col>
-              <div id="mnemonic-selector">
-                <h2 className="text-white">
+              <div className={styles.mnemonics}>
+                <h2>
                   Enter your mnemonics in the correct order to create your account below
                 </h2>
-                <Row className="bg-dark-light">
+
+                <Row className={styles.selectors}>
                   <Col>
-                    <div className="mnemonic-container">
-                      <ul>
-                        {selected.map(item => (
-                          <li key={item}>
-                            <Button color="primary" onClick={onMnemonicRemove(item)}>
-                              {item}
-                            </Button>
-                          </li>
-                        ))}
-                      </ul>
+                    <div className={styles.mnemonic_container}>
+                      {selected.map(item => (
+                        <div key={item} className={styles.item}>
+                          <Button color="primary" onClick={onMnemonicRemove(item)}>
+                            {item}
+                          </Button>
+                        </div>
+                      ))}
                     </div>
 
-                    <div className="mnemonic-selector">
-                      <ul>
-                        {shuffled_mnemonics.map(item => (
-                          <li key={item}>
-                            <Button
-                              color="primary"
-                              onClick={onMnemonicSelect(item)}
-                              disabled={selected.includes(item)}
-                            >
-                              {item}
-                            </Button>
-                          </li>
-                        ))}
-                      </ul>
+                    <div className={styles.mnemonic_selector}>
+                      {shuffled_mnemonics.map(item => (
+                        <div key={item} className={styles.item}>
+                          <Button
+                            color="primary"
+                            onClick={onMnemonicSelect(item)}
+                            disabled={selected.includes(item)}
+                          >
+                            {item}
+                          </Button>
+                        </div>
+                      ))}
                     </div>
                   </Col>
                 </Row>

@@ -24,6 +24,12 @@ import AccountDetailPrint from '~/view/components/print-form';
 import classNames from 'classnames';
 import noView from '~/images/icons/no-view.png';
 import { CONFIRMATION_PHASE } from '~/redux/constants';
+import * as styles from './styles.module.scss';
+import { PanelTitle } from '~/view/components/panels/PanelTitle';
+import { FaIcon } from '~/view/components/common/FaIcon';
+import { PanelButton } from '~/view/components/panels/PanelButton';
+import { Address } from '~/view/components/common/Address';
+import { TextInput } from '~/view/components/inputs/TextInput';
 
 const mapStateToProps = selectAccountCreate;
 const mapDispatchToProps = {
@@ -73,101 +79,85 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     [public_address]
   );
 
-  const onRevealSecret = useCallback<MouseEventHandler<HTMLButtonElement>>(
+  const onRevealSecret = useCallback<MouseEventHandler<HTMLDivElement>>(
     () => setIsRevealed(!is_revealed),
     [setIsRevealed, is_revealed]
-  );
-
-  const onPhraseChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
-    ({ target: { value } }) => setPhrase(value),
-    [setPhrase]
   );
 
   return (
     <div id="account-information" className="account-information">
       <AccountCreateProcess stepNo={2} />
 
-      <section className="bg-dark" style={{ padding: '60px 0' }}>
-        <div style={{ display: 'none' }}>
+      <section className={styles.content}>
+        <div className={styles.printer}>
           <div ref={printer}>
             <AccountDetailPrint mnemonic={mnemonic} address={public_address} />
           </div>
         </div>
 
         <Container>
-          <Row className="acc-details bg-dark-light" style={{ marginBottom: 26 }}>
-            <Col className="left-col">
-              <div className="acc-qr">
-                <QRCodeIcon bgColor="white" fgColor="black" address={public_address} />
-              </div>
-              <div className="acc-name-holder">
+          <Row className={styles.account}>
+            <Col className={styles.info}>
+              <div className={styles.name}>
                 <Identicons id={icon} width={50} size={3} />
-                <h2 className="acc-name">{name}</h2>
+                <h2>{name}</h2>
               </div>
-              <h3 className="address">Your Address</h3>
-              <div className="account-no">
-                <p>
-                  <span>
-                    <button type="button" className="clipboard-btn" onClick={onCopy}>
-                      <i className="fas fa-clone" />
-                    </button>
-                  </span>
-                  {public_address}
-                </p>
+
+              <h3>Your Address</h3>
+
+              <div>
+                <Address address={public_address} />
               </div>
             </Col>
 
-            <Col className="qr-col">
+            <Col className={styles.qr}>
               <QRCodeIcon bgColor="white" fgColor="black" address={public_address} />
             </Col>
           </Row>
         </Container>
 
-        <Container>
+        <Container className={styles.word_container}>
           <Row>
-            <Col className="px-0">
-              <div className="add-wallet">
-                <h2 className="title ">
-                  <span>Owner Recovery Phrase</span>
-                </h2>
+            <PanelTitle
+              title="Owner Recovery Phrase"
+              right={
                 <ReactToPrint
-                  trigger={() => (
-                    <Button>
-                      <i className="fas fa-print" />
-                    </Button>
-                  )}
+                  trigger={() => <PanelButton icon="fa-print" />}
                   content={() => printer.current}
                 />
-              </div>
-            </Col>
+              }
+            />
           </Row>
 
-          <Row className="bg-dark-light" style={{ padding: '40px 0' }}>
+          <Row className={styles.mnemonics}>
             <Col>
-              <Row style={{ padding: '0 0 40px' }}>
-                <Col>
-                  <div id="mnemonic-collector">
-                    <ul className={classNames({ blur: !is_revealed })}>
-                      {mnemonic && mnemonic.split(' ').map(word => <li key={word}>{word}</li>)}
-                    </ul>
+              <Row>
+                <Col className={styles.mnemonics_content}>
+                  <div className={styles.mnemonics_collector}>
+                    <div className={classNames(styles.words, { [styles.blur]: !is_revealed })}>
+                      {mnemonic &&
+                        mnemonic.split(' ').map(word => (
+                          <div className={styles.word} key={word}>
+                            {word}
+                          </div>
+                        ))}
 
-                    {!is_revealed && (
-                      <button className="blur-overley" type="button" onClick={onRevealSecret}>
-                        <div className="holder">
+                      {!is_revealed && (
+                        <div className={styles.overlay} onClick={onRevealSecret}>
                           <h2>Click Here To Reveal Secret Words</h2>
                         </div>
-                      </button>
-                    )}
+                      )}
+                    </div>
                   </div>
                 </Col>
               </Row>
               <Row>
-                <Col className="text-center no-capture">
+                <Col className={styles.notice}>
                   <img src={noView} alt="no-view" />
 
-                  <h2 className="text-danger">Screenshots are not secure</h2>
+                  <h2>Screenshots are not secure</h2>
 
-                  <p className="text-white mb-0">
+                  <p>
                     If you take a screenshot, your backup may be viewed by other apps. You can make
                     a safe backup by writing it down on a physical paper or by printing a copy.
                   </p>
@@ -177,18 +167,19 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
           </Row>
         </Container>
 
-        <Container className="acc-footer">
+        <Container>
           <Row>
             <Col>
-              <p className="text-white">
+              <p className={styles.backup}>
                 Please back up the recovery phrase now. Make sure to keep it private and secure. It
                 allows full and unlimited access to your account, and can be used to restore your
                 wallet.
               </p>
+
               <FormGroup>
-                <Label for="msg" className="text-white">
+                <Label for="msg" className={styles.label}>
                   Type&nbsp;
-                  <span className="text-primary">
+                  <span>
                     &quot;
                     {CONFIRMATION_PHASE}
                     &quot;
@@ -196,18 +187,13 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
                   &nbsp; below to confirm it is backed up.
                 </Label>
 
-                <div className="input-holder">
-                  <Input
-                    type="text"
-                    name="msg"
-                    onChange={onPhraseChange}
-                    id="msg"
+                <div>
+                  <TextInput
                     value={phrase}
-                    autoFocus={false}
+                    handler={setPhrase}
                     autoComplete="off"
+                    fa_icon="fa-pencil-alt"
                   />
-
-                  <i className="fas fa-pencil-alt" />
                 </div>
               </FormGroup>
             </Col>

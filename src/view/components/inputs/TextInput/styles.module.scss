@@ -1,0 +1,44 @@
+@import "~/styles/variables.scss";
+
+.input {
+  position: relative;
+
+  i {
+    position: absolute;
+    left: 5px;
+    top: 10px;
+    font-size: 18px;
+  }
+
+  img {
+    max-width: 20px;
+    max-height: 20px;
+    position: absolute;
+    top: 7px;
+    left: 0;
+  }
+
+  input {
+    outline: none !important;
+    background: none !important;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+    height: 40px;
+    width: 100%;
+    font-size: 20px;
+    box-sizing: border-box;
+    padding: 5px;
+    transition: border 0.25s;
+
+    &:focus {
+      border-bottom: 1px solid $color_primary;
+    }
+  }
+
+  &.has_icon {
+    input {
+      padding: 5px 5px 5px 32px;
+    }
+  }
+}

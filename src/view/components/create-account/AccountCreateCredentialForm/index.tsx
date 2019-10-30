@@ -8,6 +8,8 @@ import { CreateAccountButtons } from '~/view/components/create-account/CreateAcc
 import { CreateAccountIcons } from '~/view/components/create-account/CreateAccountIcons';
 import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
+import * as styles from './styles.module.scss';
+import { TextInput } from '../../inputs/TextInput';
 
 type IProps = {
   push: Push;
@@ -73,73 +75,65 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
         <Container>
           <Row>
             <Col>
-              <Form id="create-account-form" autoComplete="off">
+              <Form id={styles.form} autoComplete="off">
                 <FormGroup>
-                  <Input
-                    type="text"
-                    name="name"
+                  <TextInput
                     placeholder="Enter Name"
+                    handler={setName}
                     value={name}
-                    onChange={onNameChange}
-                    style={{ backgroundImage: `url(${user})` }}
+                    icon={user}
                     autoComplete="off"
                   />
 
-                  {errors.name && (
-                    <p style={{ color: 'red', marginTop: '10px' }}>Account Name is required</p>
-                  )}
+                  {errors.name && <p className={styles.error}>Account Name is required</p>}
 
-                  {errors.unique && (
-                    <p style={{ color: 'red', marginTop: '10px' }}>Account Name already exists</p>
-                  )}
+                  {errors.unique && <p className={styles.error}>Account Name already exists</p>}
                 </FormGroup>
 
                 <Row>
                   <Col>
                     <FormGroup>
-                      <Input
+                      <TextInput
                         type="password"
-                        name="pass"
                         placeholder="Enter Password"
                         value={password}
-                        onChange={onPasswordChange}
-                        style={{ backgroundImage: `url(${lock})` }}
+                        handler={setPassword}
+                        icon={lock}
                         autoComplete="off"
                       />
 
                       {!!errors.password && (
-                        <p style={{ color: 'red' }}>Valid password is required</p>
+                        <p className={styles.error}>Valid password is required</p>
                       )}
                     </FormGroup>
 
                     <FormGroup>
-                      <Input
+                      <TextInput
                         type="password"
-                        name="name"
-                        placeholder="Re-enter Password"
+                        placeholder="Enter Password Again"
                         value={password_again}
-                        onChange={onPasswordAgainChange}
-                        style={{ backgroundImage: `url(${lock})` }}
+                        handler={setPasswordAgain}
+                        icon={lock}
                         autoComplete="off"
                       />
 
                       {!!errors.passwords_match && (
-                        <p style={{ color: 'red' }}>Passwords do not match</p>
+                        <p className={styles.error}>Passwords do not match</p>
                       )}
                     </FormGroup>
                   </Col>
 
                   <Col md={4} lg={3}>
-                    <ul className="pass-validator">
-                      <li className="correct">
+                    <ul className={styles.validator}>
+                      <li>
                         <img src={is_long_enough ? check : cross} alt="correct" className="ico" />
                         8+ Characters
                       </li>
-                      <li className="correct">
+                      <li>
                         <img src={has_capital ? check : cross} alt="correct" className="ico" />
                         1+ Upper Case Letter
                       </li>
-                      <li className="correct">
+                      <li>
                         <img src={has_number ? check : cross} alt="correct" className="ico" />
                         1+ Number
                       </li>
@@ -154,7 +148,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                   selected={selected_icon}
                 />
 
-                {!!errors.icon && <p style={{ color: 'red' }}>Please select an icon</p>}
+                {!!errors.icon && <p className={styles.error}>Please select an icon</p>}
               </Form>
             </Col>
           </Row>

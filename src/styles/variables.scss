@@ -4,6 +4,7 @@ $color_primary: #00b1ff;
 $color_gray: #232323;
 $color_darkgray: #171717;
 $color_lightgray: #323232;
+$color_red: red;
 
 @mixin tablet {
   @media (max-width: 768px) {

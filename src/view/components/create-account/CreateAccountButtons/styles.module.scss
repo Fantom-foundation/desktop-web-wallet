@@ -1,0 +1,26 @@
+.buttons {
+  padding: 40px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+}
+
+.button {
+  background: none;
+  outline: none;
+  border:none;
+  font-size: 24px;
+
+  i {
+    margin: 0 10px;
+  }
+
+  &:disabled {
+    background: none;    
+  }
+
+  &:hover, &:active {
+    background: none;
+  }
+}
