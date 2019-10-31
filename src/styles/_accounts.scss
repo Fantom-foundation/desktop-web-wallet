@@ -1,3 +1,9 @@
+@mixin responsive-width($Width) {
+  -ms-flex: $Width !important;
+  flex: 0 0 $Width !important;
+  max-width: $Width !important;
+}
+
 #account-card {
   margin: {
     left: -7px;

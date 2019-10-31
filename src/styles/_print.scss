@@ -1,3 +1,9 @@
+@mixin responsive-width($Width) {
+  -ms-flex: $Width !important;
+  flex: 0 0 $Width !important;
+  max-width: $Width !important;
+}
+
 #print-screen {
   position: relative;
   background: #fff;
@@ -20,6 +26,7 @@
       padding: 0;
       &.info {
         @include responsive-width(calc(100% - 105px));
+
         h2 {
           margin-bottom: 8px;
           font: {

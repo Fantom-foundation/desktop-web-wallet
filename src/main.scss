@@ -2,7 +2,7 @@
 
 @import "./styles/gloable_variables";
 // @import "./styles/typography";
-@import "./styles/mixin"; // inspect
+// @import "./styles/mixin"; // inspect
 // @import "./styles/container"; // drop
 @import "./styles/button"; // should be at globals, need to fix buttons at account/restore/confirm
 @import "./styles/style"; // should be at global
@@ -13,8 +13,8 @@
 // @import "./styles/account-process";
 // @import "./styles/wallet";
 @import "./styles/mnemonic"; // need to fix buttons at account/create/confirm
-@import "./styles/form"; // need to reimplement sidebar
+// @import "./styles/form"; // need to reimplement sidebar
 @import "styles/print";
-@import "./styles/sidebar"; // need to fix transfer money sidebar
+// @import "./styles/sidebar"; // need to fix transfer money sidebar
 
 // @import "./styles/loader";

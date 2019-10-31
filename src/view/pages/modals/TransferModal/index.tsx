@@ -1,4 +1,4 @@
-import React, { FC, useMemo, useState, useCallback } from 'react';
+import React, { FC, useMemo, useState, useCallback, useEffect } from 'react';
 import { IModalChildProps } from '~/redux/modal/constants';
 import { PanelTitle } from '~/view/components/panels/PanelTitle';
 import * as styles from './styles.module.scss';
