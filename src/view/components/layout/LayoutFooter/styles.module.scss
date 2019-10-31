@@ -1,0 +1,23 @@
+@import "~/styles/variables.scss";
+
+.footer {
+  ul {
+    padding: 0 0 0 15px;
+  }
+
+  li {
+    padding: 5px 0;
+  }
+
+  a {
+    text-decoration: none;
+    color: white;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: $color_primary;
+    padding-left: 15px;
+  }
+}
