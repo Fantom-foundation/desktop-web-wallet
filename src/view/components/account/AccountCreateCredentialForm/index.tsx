@@ -1,11 +1,11 @@
 import React, { FC, useState, useCallback } from 'react';
-import { Col, Row, Container, Form, FormGroup, Input } from 'reactstrap';
+import { Col, Row, Container, Form, FormGroup } from 'reactstrap';
 import cross from '~/images/cross.svg';
 import check from '~/images/check.svg';
 import user from '~/images/user.svg';
 import lock from '~/images/lock.svg';
-import { CreateAccountButtons } from '~/view/components/create-account/CreateAccountButtons';
-import { CreateAccountIcons } from '~/view/components/create-account/CreateAccountIcons';
+import { CreateAccountButtons } from '~/view/components/account/CreateAccountButtons';
+import { CreateAccountIcons } from '~/view/components/account/CreateAccountIcons';
 import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
 import * as styles from './styles.module.scss';
@@ -32,12 +32,6 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
   const [date, setDate] = useState(new Date().getTime());
   const [errors, setErrors] = useState<Record<string, boolean>>(INITIAL_ERRORS);
   const [selected_icon, setSelectedIcon] = useState(`0${String(date)}`);
-
-  const onNameChange = useCallback(event => setName(event.target.value), [setName]);
-  const onPasswordChange = useCallback(event => setPassword(event.target.value), [setPassword]);
-  const onPasswordAgainChange = useCallback(event => setPasswordAgain(event.target.value), [
-    setPasswordAgain,
-  ]);
 
   const onDateChange = useCallback(() => {
     const new_date = new Date().getTime();

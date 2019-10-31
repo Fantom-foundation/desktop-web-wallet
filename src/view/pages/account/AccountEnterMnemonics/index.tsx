@@ -4,13 +4,13 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
-import { AccountRestoreProcess } from '~/view/components/create-account/AccountRestoreProcess';
-import CancelWalletModal from '~/view/components/modals/cancel-wallet';
-import IncorrectMnemonicsModal from '~/view/components/modals/incorrect-mnemonics';
+import { AccountRestoreProcess } from '~/view/components/account/AccountRestoreProcess';
 import { Container, Row, Col, FormGroup, Label, Button } from 'reactstrap';
 import { PanelTitle } from '~/view/components/panels/PanelTitle';
 import { Textarea } from '~/view/components/inputs/Textarea';
 import * as styles from './styles.module.scss';
+import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
+import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 
 const mapStateToProps = selectAccountCreate;
 const mapDispatchToProps = {
@@ -109,15 +109,19 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
           </Row>
         </Container>
 
-        <CancelWalletModal
-          toggleModal={is_cancel_modal_opened}
-          cancelModalToggle={onCancelModalClose}
-          cancelWallet={accountCreateCancel}
+        <DialogPrompt
+          title="Cancel Wallet"
+          body="Are you sure you want to cancel the create wallet process?"
+          onConfirm={accountCreateCancel}
+          onClose={onCancelModalClose}
+          isOpened={is_cancel_modal_opened}
         />
 
-        <IncorrectMnemonicsModal
-          openIncorrectMnemonicsModal={is_incorrect_modal_visible}
-          toggleIncorrectMnemonicsModal={onIncorrectModalClose}
+        <DialogInfo
+          isOpened={is_incorrect_modal_visible}
+          onClose={onIncorrectModalClose}
+          body="The mnemonics you entered are incorrect"
+          title="Incorrect Mnemonics"
         />
       </section>
     </div>

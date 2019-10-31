@@ -1,11 +1,12 @@
-@import "~/styles/variables.scss";
+@import '~/styles/variables.scss';
 
 .textarea {
   background: $color_lightgray;
   border-radius: 2px;
-  box-shadow: rgba(255,255,255,0.1) 0 0 0 1px;
+  box-shadow: rgba(255, 255, 255, 0.1) 0 0 0 1px;
 
   textarea {
+    color: white;
     border: none;
     background: none;
     width: 100%;

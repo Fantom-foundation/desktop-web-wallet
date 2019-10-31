@@ -4,8 +4,8 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
-import { AccountCreateCredentialForm } from '~/view/components/create-account/AccountCreateCredentialForm';
-import { AccountCreateProcess } from '~/view/components/create-account/AccountCreateProccess';
+import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
+import { AccountCreateProcess } from '~/view/components/account/AccountCreateProccess';
 
 const mapStateToProps = selectAccount;
 const mapDispatchToProps = {

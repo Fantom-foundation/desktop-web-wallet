@@ -9,8 +9,8 @@ import React, {
   useMemo,
 } from 'react';
 import { Col, Row, Container, Label, FormGroup, Input, Button } from 'reactstrap';
-import { AccountCreateProcess } from '~/view/components/create-account/AccountCreateProccess';
-import { CreateAccountButtons } from '~/view/components/create-account/CreateAccountButtons';
+import { AccountCreateProcess } from '~/view/components/account/AccountCreateProccess';
+import { CreateAccountButtons } from '~/view/components/account/CreateAccountButtons';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';

@@ -1,11 +1,11 @@
 import { createReducer } from '~/utility/createReducer';
 import { ACCOUNT_HANDLERS } from './handlers';
-import { AccountCreateCredentials } from '~/view/pages/create-account/AccountCreateCredentials';
-import { AccountCreateInfo } from '~/view/pages/create-account/AccountCreateInfo';
-import { AccountCreateConfirm } from '~/view/pages/create-account/AccountCreateConfirm';
+import { AccountCreateCredentials } from '~/view/pages/account/AccountCreateCredentials';
+import { AccountCreateInfo } from '~/view/pages/account/AccountCreateInfo';
+import { AccountCreateConfirm } from '~/view/pages/account/AccountCreateConfirm';
 import { IAccount } from './types';
-import { AccountRestoreCredentials } from '~/view/pages/create-account/AccountRestoreCredentials';
-import { AccountEnterMnemonics } from '~/view/pages/create-account/AccountEnterMnemonics';
+import { AccountRestoreCredentials } from '~/view/pages/account/AccountRestoreCredentials';
+import { AccountEnterMnemonics } from '~/view/pages/account/AccountEnterMnemonics';
 
 export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,
