@@ -3,6 +3,7 @@
   background: #fff;
   max-width: 900px;
   margin: 200px auto 0;
+
   &::before {
     content: "";
     position: absolute;
@@ -12,6 +13,7 @@
     left: -15px;
     background: #fff;
   }
+  
   .row {
     margin: 0;
     .col {

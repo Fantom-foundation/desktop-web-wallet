@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import { Transaction } from 'ethereumjs-tx';
+import Transaction from 'ethereumjs-tx';
 import * as EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
@@ -18,7 +18,7 @@ export interface ITransfer {
   to: string;
   value: string;
   memo: string;
-  private_key: string;
+  privateKey: string;
 }
 
 class Web3Agent {
@@ -33,7 +33,7 @@ class Web3Agent {
     return res;
   }
 
-  async transfer({ from, to, value, memo, private_key }: ITransfer) {
+  async transfer({ from, to, value, memo, privateKey }: ITransfer) {
     const nonce = await this.web3.eth.getTransactionCount(from);
     const gasPrice = await this.web3.eth.getGasPrice();
 
@@ -47,15 +47,18 @@ class Web3Agent {
       data: memo,
     };
 
-    const privateKeyBuffer = EthUtil.toBuffer(private_key);
+    const privateKeyBuffer = EthUtil.toBuffer(privateKey);
 
     const tx = new Transaction(rawTx);
+    
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
 
     const res = await this.web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+    
     return res;
   }
+
 
   mnemonicToKeys = (mnemonic: string): { publicAddress; privateKey } => {
     const seed = Bip39.mnemonicToSeed(mnemonic);
@@ -70,8 +73,8 @@ class Web3Agent {
     return { publicAddress, privateKey };
   };
 
-  getKestore = (privateKey: string, password: string): EncryptedKeystoreV3Json =>
-    this.web3.eth.accounts.encrypt(privateKey, password);
+  getKeystore = (privateKey: string, password: string): EncryptedKeystoreV3Json =>
+    this.web3.eth.accounts.encrypt(privateKey, password); 
 }
 
 // const Fantom = new Web3Agent(URL_FANTOM);

@@ -1,0 +1,45 @@
+@import '~/styles/variables.scss';
+
+.select {
+  position: relative;
+
+  select {
+    outline: none !important;
+    color: white;
+    height: 40px;
+    width: 100%;
+    font-size: 20px;
+    box-sizing: border-box;
+    padding: 5px;
+    transition: border 0.25s;
+    font-size: 16px;
+    background: $color_input_bg;
+    border: lighten($color_input_bg, 8%) 1px solid;
+    border-radius: 4px;
+  }
+
+  option {
+    height: 40px;
+  }
+
+  i {
+    position: absolute;
+    bottom: 9px;
+    left: 7px;
+    font-size: 18px;
+  }
+
+  img {
+    max-width: 20px;
+    max-height: 20px;
+    position: absolute;
+    bottom: 9px;
+    left: 7px;
+  }
+
+  &.has_icon {
+    select {
+      padding: 5px 5px 5px 32px;
+    }
+  }
+}

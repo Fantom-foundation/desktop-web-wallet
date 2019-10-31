@@ -3,7 +3,7 @@ import { Switch, Route, RouteComponentProps } from 'react-router';
 import { URLS } from '~/constants/urls';
 import { selectAccount } from '~/redux/account/selectors';
 import { push as historyPush, push } from 'connected-react-router';
-import { AccountDetails } from '~/view/pages/account-details/AccountDetails';
+import { AccountDetails } from '~/view/pages/account/AccountDetails';
 import { connect } from 'react-redux';
 
 const mapStateToProps = selectAccount;

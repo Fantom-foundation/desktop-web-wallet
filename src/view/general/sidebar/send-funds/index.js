@@ -11,7 +11,7 @@ import amountImage from '~/images/amount.svg';
 import passwordImage from '~/images/password.svg';
 import { getFantomBalance } from '~/redux/getBalance/action';
 import Loader from '~/view/general/loader';
-import AccountList from '~/view/pages/account-details/transferMoney/accountList';
+// import AccountList from '~/view/pages/account-details/transferMoney/accountList';
 import { isAccountPasswordCorrect } from '~/redux/accountManagement';
 
 class SendMoney extends React.PureComponent {
@@ -302,12 +302,16 @@ class SendMoney extends React.PureComponent {
             <FormGroup>
               <Label for="withdraw-from">Withdraw from</Label>
               <div className="withdraw-holder">
-                <AccountList
+                {
+                  /*
+                  <AccountList
                   selectedAccount={selectedAccount}
                   setAccountType={setAccountType}
                   balance={balance}
                   gasPrice={gasPrice}
-                />
+                  />
+                  */
+                }
               </div>
             </FormGroup>
             <Row className="change">

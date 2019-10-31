@@ -19,11 +19,15 @@ export const ACCOUNT_ACTIONS = {
   ADD_ACCOUNT: `${prefix}ADD_ACCOUNT`,
 
   GET_BALANCE: `${prefix}GET_BALANCE`,
+  
+  SEND_FUNDS: `${prefix}SEND_FUNDS`,
+  TRANSFER_CLEAR: `${prefix}TRANSFER_CLEAR`,
 }
 
 export const EMPTY_ACCOUNT: IAccount = {
   name: '',
-  public_address: '',
+  publicAddress: '',
+  privateKey: '',
   balance: 0,
   icon: '', 
   keystore: null,

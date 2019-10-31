@@ -1,7 +1,7 @@
 import React, { FC, MouseEventHandler } from 'react';
 import { Button } from 'reactstrap';
 import * as styles from './styles.module.scss';
-import { FaIcon } from '~/view/components/common/FaIcon';
+import { FaIcon } from '~/view/components/inputs/FaIcon';
 
 interface IProps {
   icon: string;

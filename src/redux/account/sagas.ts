@@ -10,6 +10,7 @@ import {
   accountCreateRestoreMnemonics,
   accountGetBalance,
   accountSetAccount,
+  accountSendFunds,
 } from './actions';
 import { ACCOUNT_CREATION_STAGES, IAccountState, ACCOUNT_INITIAL_STATE } from '.';
 import { accountMnemonicToKeys } from '~/utility/account';
@@ -19,16 +20,18 @@ import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
 import { Fantom } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
+import BN from 'bn.js';
+import Web3 from 'web3';
 
 function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
-  const { publicAddress: public_address } = accountMnemonicToKeys(mnemonic);
+  const { publicAddress: publicAddress } = accountMnemonicToKeys(mnemonic);
 
   yield put(
     accountSetCreate({
       ...create,
       stage: ACCOUNT_CREATION_STAGES.INFO,
-      public_address,
+      publicAddress,
       mnemonic,
     })
   );
@@ -50,15 +53,15 @@ function* createSetInfo() {
 }
 
 function* createSetConfirm() {
-  const { mnemonic, password, name, icon, public_address }: IAccountState['create'] = yield select(
+  const { mnemonic, password, name, icon, publicAddress }: IAccountState['create'] = yield select(
     selectAccountCreate
   );
 
-  if (!name || !password || !icon || !public_address || !mnemonic)
+  if (!name || !password || !icon || !publicAddress || !mnemonic)
     return yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));
 
-  const keys = Fantom.mnemonicToKeys(mnemonic);
-  const keystore = Fantom.getKestore(keys.privateKey, password);
+  const { privateKey } = Fantom.mnemonicToKeys(mnemonic);
+  const keystore = Fantom.getKeystore(privateKey, password);
 
   yield put(
     accountAddAccount({
@@ -66,7 +69,8 @@ function* createSetConfirm() {
       name,
       icon,
       keystore,
-      public_address,
+      publicAddress,
+      privateKey,
     })
   );
   yield put(push(URLS.ACCOUNT_LIST));
@@ -78,9 +82,9 @@ function* createCancel() {
 }
 
 function* createRestoreMnemonics({ mnemonic }: ReturnType<typeof accountCreateRestoreMnemonics>) {
-  const { publicAddress: public_address } = Fantom.mnemonicToKeys(mnemonic);
+  const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 
-  yield put(accountSetCreate({ mnemonic, public_address }));
+  yield put(accountSetCreate({ mnemonic, publicAddress }));
   yield call(createSetConfirm);
 }
 
@@ -115,6 +119,24 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
   }
 }
 
+function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof accountSendFunds>) {
+  const { list }: IAccountState = yield select(selectAccount);
+  const { privateKey } = list[from] || {};
+
+  if (!privateKey) {
+    console.log('No private key?'); // TODO: handle this
+    return;
+  }
+
+  yield Fantom.transfer({
+    from, 
+    to,
+    value: amount.toString(),
+    memo: message,
+    privateKey,
+  });
+}
+
 export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS, createSetCredentials);
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_RESTORE_CREDENTIALS, createSetRestoreCredentials);
@@ -124,4 +146,6 @@ export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS, createRestoreMnemonics);
 
   yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
+  
+  yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
 }

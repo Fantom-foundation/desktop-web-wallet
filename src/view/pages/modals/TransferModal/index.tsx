@@ -1,0 +1,167 @@
+import React, { FC, useMemo, useState, useCallback } from 'react';
+import { IModalChildProps } from '~/redux/modal/constants';
+import { PanelTitle } from '~/view/components/panels/PanelTitle';
+import * as styles from './styles.module.scss';
+import { PanelButton } from '~/view/components/panels/PanelButton';
+import { TextInput } from '~/view/components/inputs/TextInput';
+import { Textarea } from '~/view/components/inputs/Textarea';
+import { Select } from '~/view/components/inputs/Select';
+import { selectModal } from '~/redux/modal/selectors';
+import { selectAccount } from '~/redux/account/selectors';
+import { connect } from 'react-redux';
+import { Button } from 'reactstrap';
+
+import image_address from '~/images/address.svg';
+import image_amount from '~/images/amount.svg';
+import image_password from '~/images/password.svg';
+import image_from from '~/images/withdraw.svg';
+import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
+import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
+
+const mapStateToProps = state => ({
+  modal: selectModal(state),
+  account: selectAccount(state),
+});
+
+const mapDispatchToProps = {
+  accountSendFunds: ACCOUNT_ACTIONS.accountSendFunds,
+  accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
+};
+
+type IProps = IModalChildProps &
+  ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps & {};
+
+const TransferModalUnconnected: FC<IProps> = ({
+  account: {
+    list,
+    transfer: { errors, is_sent, is_processing },
+  },
+  accountSendFunds,
+  onClose,
+  accountTransferClear,
+}) => {
+  const [to, setTo] = useState(''); // 0x31DFF4d32F473C2B1D6A9FBF9c9B5d078B61EE42
+  const [from, setFrom] = useState(''); // Web3.utils.isAddress
+  const [amount, setAmount] = useState('');
+  const [password, setPassword] = useState(''); // Tezter1234
+  const [message, setMessage] = useState('');
+
+  const senders = useMemo(
+    () => Object.entries(list).reduce((obj, [id, account]) => ({ ...obj, [id]: account.name }), {}),
+    [list]
+  );
+
+  const onSubmit = useCallback(
+    event => {
+      event.preventDefault();
+      accountSendFunds({ to, from, amount: parseFloat(amount), message, password });
+    },
+    [accountSendFunds, to, from, amount, password, message]
+  );
+
+  return (
+    <form className={styles.wrap} onSubmit={onSubmit} autoComplete="off">
+      <h2>Transfer</h2>
+
+      <PanelTitle title="Send Funds" right={<PanelButton icon="fa-sync-alt" />} />
+
+      <div className={styles.form}>
+        <div className={styles.item}>
+          <TextInput
+            name="to"
+            placeholder="Enter address"
+            label="To address"
+            value={to}
+            handler={setTo}
+            icon={image_address}
+            disabled={is_processing}
+          />
+
+          {errors.to && <div className={styles.error}>Not a valid address</div>}
+        </div>
+
+        <div className={styles.item}>
+          <Select
+            label="Withdraw from"
+            options={senders}
+            handler={setFrom}
+            placeholder="Select account"
+            value={from}
+            icon={image_from}
+            disabled={is_processing}
+          />
+
+          {errors.from && <div className={styles.error}>Please select an address</div>}
+          {errors.balance && <div className={styles.error}>Not enough currency</div>}
+        </div>
+
+        <div className={styles.item}>
+          <TextInput
+            name="amount"
+            placeholder=""
+            label="Amount"
+            value={amount}
+            handler={setAmount}
+            icon={image_amount}
+            disabled={is_processing}
+            autoComplete="off"
+          />
+
+          {errors.amount && <div className={styles.error}>Incorrect value</div>}
+        </div>
+
+        <div className={styles.item}>
+          <TextInput
+            name="password"
+            placeholder="Password for account"
+            label="Enter password"
+            value={password}
+            handler={setPassword}
+            type="password"
+            icon={image_password}
+            disabled={is_processing}
+            autoComplete="off"
+          />
+
+          {errors.password && <div className={styles.error}>Incorrect password</div>}
+        </div>
+
+        <div className={styles.item}>
+          <Textarea
+            name="note"
+            placeholder="Optional message"
+            label="Note"
+            value={message}
+            handler={setMessage}
+            disabled={is_processing}
+          />
+        </div>
+
+        <div className={styles.button}>
+          <Button color="primary bordered" type="submit" disabled={is_processing}>
+            Continue
+          </Button>
+
+          <Button color="secondary bordered" type="button" onClick={onClose}>
+            Cancel
+          </Button>
+        </div>
+
+        <DialogInfo
+          title="Success!"
+          body="Transfer complete"
+          onClose={accountTransferClear}
+          isOpened={is_sent}
+        />
+      </div>
+    </form>
+  );
+};
+
+const TransferModal = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(TransferModalUnconnected);
+
+export { TransferModal };

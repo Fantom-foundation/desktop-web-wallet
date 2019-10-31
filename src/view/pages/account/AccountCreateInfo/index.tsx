@@ -26,9 +26,9 @@ import noView from '~/images/icons/no-view.png';
 import { CONFIRMATION_PHASE } from '~/redux/constants';
 import * as styles from './styles.module.scss';
 import { PanelTitle } from '~/view/components/panels/PanelTitle';
-import { FaIcon } from '~/view/components/common/FaIcon';
+import { FaIcon } from '~/view/components/inputs/FaIcon';
 import { PanelButton } from '~/view/components/panels/PanelButton';
-import { Address } from '~/view/components/common/Address';
+import { Address } from '~/view/components/account/Address';
 import { TextInput } from '~/view/components/inputs/TextInput';
 
 const mapStateToProps = selectAccountCreate;
@@ -47,7 +47,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   mnemonic,
   password,
   name,
-  public_address,
+  publicAddress,
   icon,
 }) => {
   const [is_revealed, setIsRevealed] = useState(false);
@@ -70,13 +70,13 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   );
 
   useEffect(() => {
-    if (!mnemonic || !password || !name || !public_address) onBackPressed();
+    if (!mnemonic || !password || !name || !publicAddress) onBackPressed();
   });
 
   const printer = useRef<any>(null);
   const onCopy = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    event => copyToClipboard(event, public_address),
-    [public_address]
+    event => copyToClipboard(event, publicAddress),
+    [publicAddress]
   );
 
   const onRevealSecret = useCallback<MouseEventHandler<HTMLDivElement>>(
@@ -91,7 +91,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
       <section className={styles.content}>
         <div className={styles.printer}>
           <div ref={printer}>
-            <AccountDetailPrint mnemonic={mnemonic} address={public_address} />
+            <AccountDetailPrint mnemonic={mnemonic} address={publicAddress} />
           </div>
         </div>
 
@@ -106,12 +106,12 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
               <h3>Your Address</h3>
 
               <div>
-                <Address address={public_address} />
+                <Address address={publicAddress} />
               </div>
             </Col>
 
             <Col className={styles.qr}>
-              <QRCodeIcon bgColor="white" fgColor="black" address={public_address} />
+              <QRCodeIcon bgColor="white" fgColor="black" address={publicAddress} />
             </Col>
           </Row>
         </Container>

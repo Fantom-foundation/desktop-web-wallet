@@ -30,8 +30,13 @@ export interface IAccountState {
     password: string;
     icon: string;
     mnemonic: string;
-    public_address: string;
+    publicAddress: string;
     errors: Record<string, string>;
+  };
+  transfer: {
+    errors: Record<string, string>;
+    is_processing: boolean;
+    is_sent: boolean;
   };
   list: Record<string, IAccount>;
 }
@@ -42,9 +47,14 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
     name: 'name',
     password: 'Puzzword12345',
     icon: '11572238206314',
-    public_address: '',
+    publicAddress: '',
     mnemonic: '',
     errors: {},
+  },
+  transfer: {
+    errors: {},
+    is_processing: false,
+    is_sent: false,
   },
   list: {},
 };

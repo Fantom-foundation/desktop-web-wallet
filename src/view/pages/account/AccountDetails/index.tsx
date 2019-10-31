@@ -19,33 +19,13 @@ const AccountDetails: FC<IProps> = ({ account }) => (
 
       <Col md={12} lg={8}>
         Transactions will appear here
-        
+
         <DialogInfo
-          isOpened
+          isOpened={false}
           onClose={console.log}
           title="Transfer Status"
           body="Status text body"
         />
-        
-        {true && (
-          <SendMoney
-            openTransferForm={console.log}
-            transferMoney={console.log}
-            ftmAmount="0.1"
-            optionalMessage="MESSAGE"
-            gasPrice="GAS_PRICE"
-            password="PASSWORD"
-            verificationError="ERROR"
-            toAddress="TO_ADDRESS"
-            onUpdate={console.log}
-            setAccountType={console.log}
-            selectedAccount="123"
-            addClass={console.log}
-            refreshWalletDetail={console.log}
-            isValidAddress
-            isRefreshing
-          />
-        )}
       </Col>
     </Row>
   </Container>

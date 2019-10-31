@@ -30,7 +30,9 @@ export const accountCreateSetConfirm = () => ({
   type: ACCOUNT_ACTIONS.CREATE_SET_CONFIRM,
 });
 
-export const accountCreateRestoreMnemonics = ({ mnemonic }: Pick<IAccountState['create'], 'mnemonic'>) => ({
+export const accountCreateRestoreMnemonics = ({
+  mnemonic,
+}: Pick<IAccountState['create'], 'mnemonic'>) => ({
   type: ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS,
   mnemonic,
 });
@@ -53,13 +55,38 @@ export const accountAddAccount = (account: IAccount) => ({
   account,
 });
 
-export const accountGetBalance = (id: IAccount['public_address']) => ({
+export const accountGetBalance = (id: IAccount['publicAddress']) => ({
   type: ACCOUNT_ACTIONS.GET_BALANCE,
   id,
-})
+});
 
-export const accountSetAccount = (id: IAccount['public_address'], data: Partial<IAccount>) => ({
+export const accountSetAccount = (id: IAccount['publicAddress'], data: Partial<IAccount>) => ({
   type: ACCOUNT_ACTIONS.SET_ACCOUNT,
   id,
   data,
-})
+});
+
+export const accountSendFunds = ({
+  from,
+  to,
+  password,
+  amount,
+  message,
+}: {
+  from: IAccount['publicAddress'];
+  to: IAccount['publicAddress'];
+  password: string;
+  amount: number;
+  message: string;
+}) => ({
+  type: ACCOUNT_ACTIONS.SEND_FUNDS,
+  from,
+  to,
+  password,
+  amount,
+  message,
+});
+
+export const accountTransferClear = () => ({
+  type: ACCOUNT_ACTIONS.TRANSFER_CLEAR,
+});

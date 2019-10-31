@@ -1,17 +1,26 @@
 import React, { FC, InputHTMLAttributes, useCallback, ChangeEventHandler } from 'react';
 import { Input } from 'reactstrap';
 import * as styles from './styles.module.scss';
-import { FaIcon } from '../../common/FaIcon';
+import { FaIcon } from '../FaIcon';
 import classNames from 'classnames';
 
 type IProps = InputHTMLAttributes<HTMLInputElement> & {
   icon?: string;
+  label?: string;
   fa_icon?: string;
   handler?: (val: string) => void;
   error?: string;
+  appearance?: 'seamless' | 'usual';
 };
 
-const TextInput: FC<IProps> = ({ icon, fa_icon, handler, ...props }) => {
+const TextInput: FC<IProps> = ({
+  appearance = 'usual',
+  label,
+  icon,
+  fa_icon,
+  handler,
+  ...props
+}) => {
   const onChange = useCallback<ChangeEventHandler<HTMLInputElement>>(
     ({ target: { value } }) => {
       if (!handler) return;
@@ -21,9 +30,16 @@ const TextInput: FC<IProps> = ({ icon, fa_icon, handler, ...props }) => {
   );
 
   return (
-    <div className={classNames(styles.input, { [styles.has_icon]: icon || fa_icon })}>
+    <div
+      className={classNames(styles.input, styles[appearance], {
+        [styles.has_icon]: icon || fa_icon,
+      })}
+    >
+      {label && <div className={styles.label}>{label}:</div>}
+
       {fa_icon && <FaIcon icon={fa_icon} />}
       {icon && <img src={icon} alt="icon" />}
+
       <input {...props} onChange={onChange} />
     </div>
   );

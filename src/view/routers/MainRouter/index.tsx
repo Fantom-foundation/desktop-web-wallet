@@ -5,7 +5,7 @@ import { AccountCreateRouter } from '~/view/pages/account/AccountCreateRouter';
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from '~/redux/store';
 import { URLS } from '~/constants/urls';
-import { AccountList } from '~/view/pages/account-list/AccountList';
+import { AccountList } from '~/view/pages/account/AccountList';
 import { AccountRouter } from '../AccountRouter';
 import { AccountRestoreRouter } from '~/view/pages/account/AccountRestoreRouter';
 import { Layout } from '~/view/components/layout/Layout';

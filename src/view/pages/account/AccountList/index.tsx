@@ -1,7 +1,7 @@
 import React, { FC, useCallback } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Identicons from '~/view/general/identicons/identicons';
-import { Address } from '~/view/components/common/Address';
+import { Address } from '~/view/components/account/Address';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
 import { push as historyPush } from 'connected-react-router';
@@ -43,10 +43,10 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
             {Object.values(list).length > 0 &&
               Object.values(list).map(account => (
                 <Col                  
-                  key={account.public_address}
+                  key={account.publicAddress}
                   md={6}
                   lg={3}
-                  onClick={onAccountSelect(account.public_address)}
+                  onClick={onAccountSelect(account.publicAddress)}
                 >
                   <div className={styles.card}>
                     <div className="avatar">
@@ -60,7 +60,7 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
                     </h2>
 
                     <Address
-                      address={account.public_address}
+                      address={account.publicAddress}
                     />
                   </div>
                 </Col>

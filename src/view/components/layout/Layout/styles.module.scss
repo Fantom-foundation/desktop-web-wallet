@@ -3,4 +3,11 @@
   min-height: 100vh;
   display: flex;
   flex-direction: column;
+  filter: blur(0);
+  transition: filter 0.25s;
+  will-change: filter;
+
+  &.blurred {
+    filter: blur(10px);
+  }
 }

@@ -6,6 +6,9 @@ $color_darkgray: #171717;
 $color_lightgray: #323232;
 $color_red: red;
 
+$color_input_bg: #333333;
+$modal_shadow: transparentize(black, 0.3) -30px 0 60px, inset transparentize(white, 0.9) 1px 0;
+
 @mixin tablet {
   @media (max-width: 768px) {
     @content

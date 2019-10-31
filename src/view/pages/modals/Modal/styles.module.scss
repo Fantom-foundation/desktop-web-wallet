@@ -1,0 +1,72 @@
+@import "~/styles/variables.scss";
+
+$modal_width: 500px;
+
+.modal {
+  position: fixed;
+  top: 0;
+  right: 0;
+  height: 100vh;
+  width: 100vw;
+  max-width: 0;
+  background: red;
+  z-index: 11;
+  background: $color_darkgray;
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  flex-direction: column;
+  color: white;
+  overflow: hidden;
+  will-change: max-width;
+  transition: max-width 0.5s;
+  z-index: 2;
+  
+  &.active {
+    max-width: $modal_width;
+    box-shadow: $modal_shadow;
+  }
+}
+
+.header {
+  flex: 0 0 80px;
+  border-bottom: 1px solid $color_lightgray;
+  height: 100vh;
+  width: 100vw;
+  max-width: $modal_width;
+}
+
+.content {
+  height: 100vh;
+  width: 100vw;
+  max-width: $modal_width;
+  overflow: auto;
+  flex: 1;
+}
+
+.shade {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparentize($color: black, $amount: 0.7);
+  z-index: 0;
+  pointer-events: none;
+  touch-action: none;
+  opacity: 0;
+  transition: opacity 0.5s;
+
+  &.active {
+    opacity: 1;
+  }
+}
+
+.close {
+  position: absolute;
+  right: 20px;
+  top: 25px;
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}

@@ -3,9 +3,10 @@ import * as styles from './styles.module.scss';
 
 type IProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   handler?: (val: string) => void;
+  label?: string;
 };
 
-const Textarea: FC<IProps> = ({ handler, ...props }) => {
+const Textarea: FC<IProps> = ({ label, handler, ...props }) => {
   const onChange = useCallback<ChangeEventHandler<HTMLTextAreaElement>>(
     ({ target: { value } }) => {
       if (!handler) return;
@@ -17,6 +18,7 @@ const Textarea: FC<IProps> = ({ handler, ...props }) => {
 
   return (
     <div className={styles.textarea}>
+      {label && <div className={styles.label}>{label}:</div>}
       <textarea {...props} onChange={onChange} />
     </div>
   );

@@ -1,23 +1,28 @@
 import React, { HTMLAttributes } from 'react';
 import { LayoutHeader } from '~/view/components/layout/LayoutHeader';
 import { LayoutFooter } from '~/view/components/layout/LayoutFooter';
+import { connect } from 'react-redux';
 import classNames from 'classnames';
 import * as styles from './styles.module.scss';
+import { selectModal } from '~/redux/modal/selectors';
 
-interface IProps extends HTMLAttributes<HTMLDivElement> {
+const mapStateToProps = selectModal;
+
+type IProps = HTMLAttributes<HTMLDivElement> & ReturnType<typeof mapStateToProps> & {
   noFooter?: boolean;
 }
 
-export class Layout extends React.PureComponent<IProps> {
+class LayoutUnconnected extends React.PureComponent<IProps> {
   constructor(props) {
     super(props);
     this.state = {};
   }
 
   render() {
-    const { children, noFooter, className } = this.props;
+    const { children, noFooter, className, isOpened } = this.props;
+
     return (
-      <div className={classNames(styles.layout, className)}>
+      <div className={classNames(styles.layout, className, { [styles.blurred]: isOpened })}>
         <LayoutHeader />
         
         {children}
@@ -27,3 +32,7 @@ export class Layout extends React.PureComponent<IProps> {
     );
   }
 }
+
+const Layout = connect(mapStateToProps)(LayoutUnconnected);
+
+export { Layout };

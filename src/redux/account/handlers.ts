@@ -14,20 +14,23 @@ const setCreate = (state: IAccountState, { create }: ReturnType<typeof accountSe
 
 const createClear = (state: IAccountState) =>
   assocPath(['create'], ACCOUNT_INITIAL_STATE.create, state);
-
-const setCreateStage = (
+  
+  const setCreateStage = (
   state: IAccountState,
   { stage }: ReturnType<typeof accountSetCreateStage>
-) => assocPath(['create', 'stage'], stage, state);
-
-const setList = (state: IAccountState, { list }: ReturnType<typeof accountSetList>) =>
+  ) => assocPath(['create', 'stage'], stage, state);
+  
+  const setList = (state: IAccountState, { list }: ReturnType<typeof accountSetList>) =>
   assocPath(['list'], list, state);
-
-const addAccount = (state: IAccountState, { account }: ReturnType<typeof accountAddAccount>) =>
-  assocPath(['list'], { ...state.list, [account.public_address]: account }, state);
-
-const setAccount = (state: IAccountState, { id, data }: ReturnType<typeof accountSetAccount>) =>
+  
+  const addAccount = (state: IAccountState, { account }: ReturnType<typeof accountAddAccount>) =>
+  assocPath(['list'], { ...state.list, [account.publicAddress]: account }, state);
+  
+  const setAccount = (state: IAccountState, { id, data }: ReturnType<typeof accountSetAccount>) =>
   assocPath(['list'], { ...state.list, [id]: { ...(state.list[id] || {}), ...data } }, state);
+  
+  const transferClear = (state: IAccountState) =>
+    assocPath(['transfer'], ACCOUNT_INITIAL_STATE.transfer, state);
 
 export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_CREATE]: setCreate,
@@ -36,4 +39,5 @@ export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.CREATE_CLEAR]: createClear,
   [ACCOUNT_ACTIONS.ADD_ACCOUNT]: addAccount,
   [ACCOUNT_ACTIONS.SET_ACCOUNT]: setAccount,
+  [ACCOUNT_ACTIONS.TRANSFER_CLEAR]: transferClear,
 };

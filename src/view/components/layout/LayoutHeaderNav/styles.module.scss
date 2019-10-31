@@ -11,7 +11,8 @@
   justify-content: center;
   background: black;
   width: 100%;
-
+  z-index: 2;
+  
   @include tablet {
     height: 64px;
   }
@@ -88,7 +89,7 @@
   &.active {
     max-width: 320px;
     box-sizing: border-box;
-    box-shadow: black -60px 0 60px;
+    box-shadow: $modal_shadow;
   }
 }
 

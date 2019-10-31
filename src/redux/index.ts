@@ -1,9 +1,11 @@
 import { combineReducers } from 'redux';
 import { reducer as toastr } from 'react-redux-toastr';
 import { account, IAccountState } from '~/redux/account';
+import { modal, IModalState } from '~/redux/modal';
 
 export interface IState {
   account: IAccountState,
+  modal: IModalState,
   // accountInfo: any,
   // accounts: any,
   // accountKeys: any,
@@ -22,6 +24,7 @@ const rootReducer = combineReducers<IState>({
   // sendTransactions,
   toastr,
   account,
+  modal,
 });
 
 export default rootReducer;
