@@ -2,7 +2,6 @@ import React, { useMemo, FC, useState, useCallback } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
 import * as styles from './styles.module.scss';
-import classNames from 'classnames';
 
 import { Container, Row, Col } from 'reactstrap';
 import logo from '~/images/logo/FantomWallet.svg';
@@ -10,12 +9,13 @@ import logo from '~/images/logo/FantomWallet.svg';
 import hamburgerBtn from '~/images/icons/hamburger.svg';
 import closeBtn from '~/images/icons/close.svg';
 import { URLS } from '~/constants/urls';
+import classNames from 'classnames';
 
 const mapStateToProps = state => ({
   accountsList: state.accounts.accountsList,
 });
 
-type IProps = RouteComponentProps & ReturnType<typeof mapStateToProps> & {};
+type IProps = RouteComponentProps & ReturnType<typeof mapStateToProps> & { isBlurred: boolean };
 
 const DESTINATIONS = {
   create: URLS.ACCOUNT_CREATE,
@@ -23,7 +23,7 @@ const DESTINATIONS = {
   accounts: /^\/accounts/gi,
 };
 
-const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname } }) => {
+const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlurred }) => {
   const [is_menu_active, setMenuIsActive] = useState(false);
 
   const currents = useMemo(
@@ -43,7 +43,7 @@ const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname } }) => {
   }, [is_menu_active, setMenuIsActive]);
 
   return (
-    <div className={styles.header}>
+    <div className={classNames(styles.header, { [styles.blurred]: isBlurred })}>
       <Container>
         <Row>
           <Col className={styles.content}>

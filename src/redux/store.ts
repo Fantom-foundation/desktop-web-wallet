@@ -35,7 +35,7 @@ export interface IState {
   modal: IModalState;
   
   toastr: any;
-  accounts: any;
+  // accounts: any;
   getBalance: any;
 
   // accountInfo: any;
@@ -50,7 +50,7 @@ const rootReducer = combineReducers<IState>({
   router: connectRouter(history),
   modal,
   
-  accounts: persistReducer(accountsPersistConfig, accounts),
+  // accounts: persistReducer(accountsPersistConfig, accounts),
   getBalance,
 
   // accountInfo,
@@ -64,7 +64,7 @@ const rootReducer = combineReducers<IState>({
 //   responseType: 'json',
 // });
 
-// const persistConfig = {
+// const persistConfig = { 
 //   key: 'root',
 //   storage,
 //   blacklist: ['getBalance', 'router'], // TODO: persist only selected reducers

@@ -20,7 +20,7 @@ $modal_width: 500px;
   overflow: hidden;
   will-change: max-width;
   transition: max-width 0.5s;
-  z-index: 2;
+  z-index: 5;
   
   &.active {
     max-width: $modal_width;

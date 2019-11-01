@@ -17,7 +17,7 @@ import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
 import { ACCOUNT_CREATION_STAGES } from '~/redux/account';
 import Identicons from '~/view/general/identicons/identicons';
-import QRCodeIcon from '~/view/general/qr';
+import QRCodeIcon from '~/view/general/QRCodeIcon';
 import { copyToClipboard } from '~/utility/clipboard';
 import ReactToPrint from 'react-to-print';
 import AccountDetailPrint from '~/view/components/print-form';

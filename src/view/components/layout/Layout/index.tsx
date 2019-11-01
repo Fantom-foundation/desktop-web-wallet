@@ -23,7 +23,7 @@ class LayoutUnconnected extends React.PureComponent<IProps> {
 
     return (
       <div className={classNames(styles.layout, className, { [styles.blurred]: isOpened })}>
-        <LayoutHeader />
+        <LayoutHeader isBlurred={isOpened} />
         
         {children}
 

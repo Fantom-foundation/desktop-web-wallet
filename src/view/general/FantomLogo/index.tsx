@@ -1,18 +1,17 @@
 import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-/**
- * FantomLogo : A svg file for rendering fantom logo in application.
- *
- * logoType: For small icon pass {2} as props, for larger one pass {1}.
- *
- */
 
-class FantomLogo extends PureComponent {
+interface IProps {
+  width?: number;
+  height?: number;
+  logoType?: number;
+}
+
+class FantomLogo extends PureComponent<IProps> {
   render() {
     const style = {
       fill: 'white',
     };
-    const { width, height, logoType } = this.props;
+    const { width = 90, height = 21.16, logoType = 2 } = this.props;
 
     if (logoType === 1) {
       const viewWidth = width || 90;
@@ -102,14 +101,5 @@ class FantomLogo extends PureComponent {
     return null;
   }
 }
-FantomLogo.defaultProps = {
-  width: 90,
-  height: 21.16,
-  logoType: 2,
-};
-FantomLogo.propTypes = {
-  width: PropTypes.number,
-  height: PropTypes.number,
-  logoType: PropTypes.number,
-};
+
 export default FantomLogo;

@@ -12,6 +12,10 @@
   background: black;
   width: 100%;
   z-index: 2;
+
+  &.blurred {
+    filter: blur(10px);
+  }
   
   @include tablet {
     height: 64px;

@@ -3,10 +3,14 @@ import { LayoutHeaderNav } from '~/view/components/layout/LayoutHeaderNav';
 import * as styles from './styles.module.scss';
 import { createPortal } from 'react-dom';
 
-export const LayoutHeader = () => (
+interface IProps {
+  isBlurred: boolean;
+}
+
+export const LayoutHeader = ({ isBlurred }) => (
   <header id="header">
     <div className={styles.placeholder} />
 
-    {createPortal(<LayoutHeaderNav />, document.body)}
+    {createPortal(<LayoutHeaderNav isBlurred={isBlurred}/>, document.body)}
   </header>
 );

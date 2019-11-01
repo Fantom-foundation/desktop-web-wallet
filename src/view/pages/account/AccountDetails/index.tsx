@@ -3,7 +3,6 @@ import { Row, Col, Container } from 'reactstrap';
 import { IAccount } from '~/redux/account/types';
 import { AccountDetailsInfo } from '~/view/components/account/AccountDetailsInfo';
 import * as styles from './styles.module.scss';
-import SendMoney from '~/view/general/sidebar/index';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 
 interface IProps {

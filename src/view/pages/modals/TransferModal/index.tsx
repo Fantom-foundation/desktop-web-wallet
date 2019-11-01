@@ -62,6 +62,10 @@ const TransferModalUnconnected: FC<IProps> = ({
     [accountSendFunds, to, from, amount, password, message]
   );
 
+  const onSendErrorReveal = useCallback(() => {
+    accountSetTransferErrors({});
+  }, [accountSetTransferErrors]);
+
   useEffect(() => {
     if (Object.keys(errors).length) accountSetTransferErrors({});
   }, [to, from, amount, password, message]);
@@ -164,6 +168,13 @@ const TransferModalUnconnected: FC<IProps> = ({
           body="Transfer complete"
           onClose={accountTransferClear}
           isOpened={is_sent}
+        />
+
+        <DialogInfo
+          title="Error"
+          body={errors.send}
+          onClose={onSendErrorReveal}
+          isOpened={!!errors.send}
         />
       </div>
     </form>

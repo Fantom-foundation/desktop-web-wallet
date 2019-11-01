@@ -56,9 +56,7 @@ class Web3Agent {
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
 
-    const res = await this.web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-
-    return res;
+    return this.web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
   }
 
   mnemonicToKeys = (mnemonic: string): { publicAddress; privateKey } => {

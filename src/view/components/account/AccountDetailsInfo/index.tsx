@@ -6,7 +6,7 @@ import { Button } from 'reactstrap';
 import { PanelButton } from '~/view/components/panels/PanelButton';
 import Identicons from '~/view/general/identicons/identicons';
 import { Address } from '~/view/components/account/Address';
-import QRCodeIcon from '~/view/general/qr';
+import QRCodeIcon from '~/view/general/QRCodeIcon';
 import { connect } from 'react-redux';
 
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
@@ -53,7 +53,7 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({ account, accountGetBalance,
 
         <div className={styles.qr}>
           <QRCodeIcon bgColor="white" fgColor="black" address={account.publicAddress} />
-        </div>
+        </div> 
 
         <div className={styles.balance}>
           <b>{account.balance || '0'}</b>

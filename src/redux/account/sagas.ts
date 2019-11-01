@@ -15,18 +15,18 @@ import {
   accountSetTransfer,
 } from './actions';
 import { ACCOUNT_CREATION_STAGES, IAccountState, ACCOUNT_INITIAL_STATE } from '.';
-import { accountMnemonicToKeys } from '~/utility/account';
+// import { accountMnemonicToKeys } from '~/utility/account';
 import bip from 'bip39';
 import { selectAccountCreate, selectAccount } from './selectors';
 import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
-import { Fantom } from '~/utility/web3';
+import { Fantom } from '~/utility/web3'; 
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
 
 function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
-  const { publicAddress } = accountMnemonicToKeys(mnemonic);
+  const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 
   yield put(
     accountSetCreate({
@@ -122,7 +122,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 
 function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof accountSendFunds>) {
   yield put(accountSetTransferErrors({}));
-  
+
   const { list }: IAccountState = yield select(selectAccount);
 
   if (!list.hasOwnProperty(from))
@@ -154,9 +154,11 @@ function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof a
       memo: message,
       privateKey,
     });
-    yield put(accountSetTransfer({ is_processing: false, is_sent: true }));
+
+    yield put(accountSetTransfer({ ...ACCOUNT_INITIAL_STATE.transfer, is_sent: true }));
+    yield call(getBalance, accountGetBalance(from));
   } catch (e) {
-    yield put(accountSetTransfer({ is_processing: false, errors: { send: e } }));
+    yield put(accountSetTransfer({ is_processing: false, errors: { send: e.toString() } }));
   }
 }
 
