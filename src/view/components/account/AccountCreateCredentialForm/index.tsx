@@ -10,7 +10,6 @@ import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
 import * as styles from './styles.module.scss';
 import { TextInput } from '../../inputs/TextInput';
-import { DialogInfo } from '../../dialogs/DialogInfo';
 
 type IProps = {
   push: Push;
@@ -109,7 +108,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                         value={password_again}
                         handler={setPasswordAgain}
                         icon={lock}
-                        autoComplete="off"
+                        autoComplete="new-password"
                       />
 
                       {!!errors.passwords_match && (
