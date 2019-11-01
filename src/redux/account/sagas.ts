@@ -70,7 +70,6 @@ function* createSetConfirm() {
       icon,
       keystore,
       publicAddress,
-      privateKey,
     })
   );
   yield put(push(URLS.ACCOUNT_LIST));

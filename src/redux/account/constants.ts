@@ -29,12 +29,11 @@ export const ACCOUNT_ACTIONS = {
 export const EMPTY_ACCOUNT: IAccount = {
   name: '',
   publicAddress: '',
-  privateKey: '',
   balance: 0,
   icon: '', 
   keystore: null,
 
-  is_loading_balance: false,
+  is_loading_balance: false, 
 }
 
 export const CONFIRMATION_PHRASE = "I have written down the phrase"; 

@@ -7,7 +7,7 @@ type IProps = ButtonHTMLAttributes<HTMLButtonElement> & {
   icon: string;
   spin?: boolean;
   onClick?: MouseEventHandler<HTMLDivElement>;
-};
+}; 
 
 const PanelButton: FC<IProps> = ({
   icon,
