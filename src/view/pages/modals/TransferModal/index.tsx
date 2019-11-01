@@ -17,6 +17,7 @@ import image_password from '~/images/password.svg';
 import image_from from '~/images/withdraw.svg';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
+import { FaIcon } from '~/view/components/inputs/FaIcon';
 
 const mapStateToProps = state => ({
   modal: selectModal(state),
@@ -27,6 +28,7 @@ const mapDispatchToProps = {
   accountSendFunds: ACCOUNT_ACTIONS.accountSendFunds,
   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
   accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
+  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
 };
 
 type IProps = IModalChildProps &
@@ -42,11 +44,12 @@ const TransferModalUnconnected: FC<IProps> = ({
   accountSendFunds,
   accountTransferClear,
   accountSetTransferErrors,
+  accountGetBalance,
 }) => {
   const [to, setTo] = useState('');
-  const [from, setFrom] = useState(''); 
+  const [from, setFrom] = useState('');
   const [amount, setAmount] = useState('0');
-  const [password, setPassword] = useState(''); 
+  const [password, setPassword] = useState('');
   const [message, setMessage] = useState('');
 
   const senders = useMemo(
@@ -69,6 +72,19 @@ const TransferModalUnconnected: FC<IProps> = ({
   useEffect(() => {
     if (Object.keys(errors).length) accountSetTransferErrors({});
   }, [to, from, amount, password, message]);
+
+  useEffect(() => {
+    if (from && list.hasOwnProperty(from)) accountGetBalance(from);
+  }, [from]);
+
+  const balance = useMemo(() => {
+    const account = from && list[from];
+
+    if (!account) return null;
+    if (account.is_loading_balance) return null;
+
+    return `${list[from].balance} FTM`;
+  }, [from]);
 
   return (
     <form className={styles.wrap} onSubmit={onSubmit} autoComplete="off">
@@ -104,6 +120,7 @@ const TransferModalUnconnected: FC<IProps> = ({
             value={from}
             icon={image_from}
             disabled={is_processing}
+            right={balance}
           />
 
           {errors.from && <div className={styles.error}>{errors.from}</div>}

@@ -43,3 +43,11 @@
     }
   }
 }
+
+.right {
+  position: absolute;
+  bottom: 7px;
+  right: 20px;
+  pointer-events: none;
+  touch-action: none;
+}

@@ -80,8 +80,8 @@ class Web3Agent {
     );
 }
 
-const Fantom = new Web3Agent(URL_FANTOM);
-// const Fantom = new Web3Agent(URL_ETHEREUM);
+// const Fantom = new Web3Agent(URL_FANTOM);
+const Fantom = new Web3Agent(URL_ETHEREUM);
 const Ethereum = new Web3Agent(URL_ETHEREUM);
 
 export { Fantom, Ethereum };
