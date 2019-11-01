@@ -1,6 +1,8 @@
+@import "~/styles/variables.scss";
+
 .validator {
   margin-top: 10px;
-  
+
   img {
     width: 16px;
     margin-right: 10px;
@@ -9,4 +11,9 @@
 
 .error {
   color: red;
+}
+
+.wrap {
+  padding: 70px 0 50px;
+  background: $color_darkgray;
 }
