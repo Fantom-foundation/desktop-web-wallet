@@ -6,6 +6,7 @@ type IProps = {
   bgColor?: string;
   fgColor?: string;
   address: string;
+  text?: string;
 }
 
 class QRCodeIcon extends React.PureComponent<IProps> {

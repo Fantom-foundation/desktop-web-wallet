@@ -19,7 +19,7 @@ import Identicons from '~/view/general/identicons/identicons';
 import QRCodeIcon from '~/view/general/QRCodeIcon';
 import { copyToClipboard } from '~/utility/clipboard';
 import ReactToPrint from 'react-to-print';
-import AccountDetailPrint from '~/view/components/print-form';
+import AccountDetailPrint from '~/view/components/print/AccountDetailPrint';
 import classNames from 'classnames';
 import noView from '~/images/icons/no-view.png';
 import { CONFIRMATION_PHRASE } from '~/redux/account/constants';
