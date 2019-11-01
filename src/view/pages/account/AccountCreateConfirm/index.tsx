@@ -109,11 +109,11 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
                       </div>
                     </Col>
                   </Row>
-                  <div className="mnemonic-btn">
-                    <Button className="create-wallet" onClick={onSubmit}>
+                  <div className={styles.buttons}>
+                    <Button color="primary bordered" onClick={onSubmit}>
                       Create Wallet
                     </Button>
-                    <Button className="cancel" onClick={onCancelModalOpen}>
+                    <Button className="secondary bordered" onClick={onCancelModalOpen}>
                       Cancel
                     </Button>
                   </div>

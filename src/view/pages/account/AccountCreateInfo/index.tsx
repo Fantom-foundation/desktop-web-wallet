@@ -5,10 +5,9 @@ import React, {
   useEffect,
   MouseEventHandler,
   useRef,
-  ChangeEventHandler,
   useMemo,
 } from 'react';
-import { Col, Row, Container, Label, FormGroup, Input, Button } from 'reactstrap';
+import { Col, Row, Container, Label, FormGroup } from 'reactstrap';
 import { AccountCreateProcess } from '~/view/components/account/AccountCreateProccess';
 import { CreateAccountButtons } from '~/view/components/account/CreateAccountButtons';
 import { connect } from 'react-redux';
@@ -23,10 +22,9 @@ import ReactToPrint from 'react-to-print';
 import AccountDetailPrint from '~/view/components/print-form';
 import classNames from 'classnames';
 import noView from '~/images/icons/no-view.png';
-import { CONFIRMATION_PHASE } from '~/redux/constants';
+import { CONFIRMATION_PHRASE } from '~/redux/account/constants';
 import * as styles from './styles.module.scss';
 import { PanelTitle } from '~/view/components/panels/PanelTitle';
-import { FaIcon } from '~/view/components/inputs/FaIcon';
 import { PanelButton } from '~/view/components/panels/PanelButton';
 import { Address } from '~/view/components/account/Address';
 import { TextInput } from '~/view/components/inputs/TextInput';
@@ -54,7 +52,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   const [phrase, setPhrase] = useState('');
 
   const is_next_disabled = useMemo(
-    () => phrase.toLowerCase().trim() !== CONFIRMATION_PHASE.toLowerCase().trim() || !is_revealed,
+    () => phrase.toLowerCase().trim() !== CONFIRMATION_PHRASE.toLowerCase().trim() || !is_revealed,
     [is_revealed, phrase]
   );
 
@@ -181,7 +179,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
                   Type&nbsp;
                   <span>
                     &quot;
-                    {CONFIRMATION_PHASE}
+                    {CONFIRMATION_PHRASE}
                     &quot;
                   </span>
                   &nbsp; below to confirm it is backed up.

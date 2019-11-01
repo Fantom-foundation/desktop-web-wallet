@@ -1,6 +1,5 @@
 import React, { useMemo, FC, useState, useCallback } from 'react';
-import { connect } from 'react-redux';
-import { withRouter, Link, RouteComponentProps } from 'react-router-dom';
+import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
 import * as styles from './styles.module.scss';
 
 import { Container, Row, Col } from 'reactstrap';
@@ -11,11 +10,7 @@ import closeBtn from '~/images/icons/close.svg';
 import { URLS } from '~/constants/urls';
 import classNames from 'classnames';
 
-const mapStateToProps = state => ({
-  accountsList: state.accounts.accountsList,
-});
-
-type IProps = RouteComponentProps & ReturnType<typeof mapStateToProps> & { isBlurred: boolean };
+type IProps = RouteComponentProps & { isBlurred: boolean  };
 
 const DESTINATIONS = {
   create: URLS.ACCOUNT_CREATE,
@@ -109,6 +104,6 @@ const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlur
   );
 };
 
-const LayoutHeaderNav = connect(mapStateToProps)(withRouter(LayoutHeaderNavUnconnected));
+const LayoutHeaderNav = withRouter(LayoutHeaderNavUnconnected);
 
 export { LayoutHeaderNav };

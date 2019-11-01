@@ -55,3 +55,15 @@
 .selectors {
   background: $color_lightgray;
 }
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 20px 0;
+  
+  & > * {
+    margin: 10px 0;
+  }
+}

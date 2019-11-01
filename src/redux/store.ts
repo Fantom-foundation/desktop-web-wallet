@@ -6,11 +6,10 @@ import { accountSaga } from './account/sagas';
 import { createBrowserHistory } from 'history';
 import { routerMiddleware, RouterState, connectRouter } from 'connected-react-router';
 import { reducer as toastr } from 'react-redux-toastr';
-import accounts from '~/redux/accounts/reducer';
 
 // import accountInfo from '~/redux/__accountInfo/reducers';
 // import accountKeys from '~/redux/__accountKeys/reducers';
-import getBalance from '~/redux/getBalance/reducers';
+// import getBalance from '~/redux/getBalance/reducers';
 // import getTransactions from '~/redux/getTransactions/reducers';
 // import sendTransactions from '~/redux/sendTransactions/reducers';
 
@@ -24,19 +23,14 @@ const accountPersistConfig = {
   storage,
 };
 
-const accountsPersistConfig = {
-  key: 'accounts',
-  storage,
-};
-
 export interface IState {
   account: IAccountState;
   router: RouterState;
-  modal: IModalState;
-  
+  modal: IModalState;  
   toastr: any;
+
   // accounts: any;
-  getBalance: any;
+  // getBalance: any;
 
   // accountInfo: any;
   // accountKeys: any;
@@ -48,14 +42,13 @@ const rootReducer = combineReducers<IState>({
   toastr,
   account: persistReducer(accountPersistConfig, account),
   router: connectRouter(history),
-  modal,
-  
+  modal, 
   // accounts: persistReducer(accountsPersistConfig, accounts),
-  getBalance,
+  // getBalance,
 
   // accountInfo,
   // accountKeys,
-  // getTransactions,
+  // getTransactions, 
   // sendTransactions,
 });
 

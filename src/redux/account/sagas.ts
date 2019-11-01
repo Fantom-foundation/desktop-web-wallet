@@ -15,7 +15,6 @@ import {
   accountSetTransfer,
 } from './actions';
 import { ACCOUNT_CREATION_STAGES, IAccountState, ACCOUNT_INITIAL_STATE } from '.';
-// import { accountMnemonicToKeys } from '~/utility/account';
 import bip from 'bip39';
 import { selectAccountCreate, selectAccount } from './selectors';
 import { push } from 'connected-react-router';
@@ -48,7 +47,7 @@ function* createSetRestoreCredentials({
     })
   );
 }
-
+ 
 function* createSetInfo() {
   yield put(accountSetCreateStage(ACCOUNT_CREATION_STAGES.CONFIRM));
 }

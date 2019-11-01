@@ -36,3 +36,5 @@ export const EMPTY_ACCOUNT: IAccount = {
 
   is_loading_balance: false,
 }
+
+export const CONFIRMATION_PHRASE = "I have written down the phrase"; 
