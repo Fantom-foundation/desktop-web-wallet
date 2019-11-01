@@ -10,6 +10,7 @@ import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
 import * as styles from './styles.module.scss';
 import { TextInput } from '../../inputs/TextInput';
+import { DialogInfo } from '../../dialogs/DialogInfo';
 
 type IProps = {
   push: Push;
