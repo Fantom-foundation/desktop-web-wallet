@@ -9,8 +9,12 @@ import hamburgerBtn from '~/images/icons/hamburger.svg';
 import closeBtn from '~/images/icons/close.svg';
 import { URLS } from '~/constants/urls';
 import classNames from 'classnames';
+import { selectAccount } from '~/redux/account/selectors';
+import { connect } from 'react-redux';
 
-type IProps = RouteComponentProps & { isBlurred: boolean  };
+const mapStateToProps = selectAccount;
+
+type IProps = ReturnType<typeof mapStateToProps> & RouteComponentProps & { isBlurred: boolean };
 
 const DESTINATIONS = {
   create: URLS.ACCOUNT_CREATE,
@@ -18,7 +22,7 @@ const DESTINATIONS = {
   accounts: /^\/accounts/gi,
 };
 
-const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlurred }) => {
+const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlurred, list }) => {
   const [is_menu_active, setMenuIsActive] = useState(false);
 
   const currents = useMemo(
@@ -61,7 +65,10 @@ const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlur
               </Link>
               <Link
                 to={URLS.ACCOUNT_LIST}
-                className={classNames({ [styles.active]: currents.accounts })}
+                className={classNames({
+                  [styles.active]: currents.accounts,
+                  [styles.disabled]: !Object.keys(list).length,
+                })}
               >
                 Accounts
               </Link>
@@ -104,6 +111,6 @@ const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlur
   );
 };
 
-const LayoutHeaderNav = withRouter(LayoutHeaderNavUnconnected);
+const LayoutHeaderNav = connect(mapStateToProps)(withRouter(LayoutHeaderNavUnconnected));
 
 export { LayoutHeaderNav };
