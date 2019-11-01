@@ -118,20 +118,20 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                   </Col>
 
                   <Col md={4} lg={3}>
-                    <ul className={styles.validator}>
-                      <li>
+                    <div className={styles.validator}>
+                      <div>
                         <img src={is_long_enough ? check : cross} alt="correct" className="ico" />
                         8+ Characters
-                      </li>
-                      <li>
+                      </div>
+                      <div>
                         <img src={has_capital ? check : cross} alt="correct" className="ico" />
                         1+ Upper Case Letter
-                      </li>
-                      <li>
+                      </div>
+                      <div>
                         <img src={has_number ? check : cross} alt="correct" className="ico" />
                         1+ Number
-                      </li>
-                    </ul>
+                      </div>
+                    </div>
                   </Col>
                 </Row>
 
