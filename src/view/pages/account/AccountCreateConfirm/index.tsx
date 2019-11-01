@@ -6,7 +6,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
 import { ACCOUNT_CREATION_STAGES } from '~/redux/account';
-import shuffle from 'lodash/shuffle'; 
+import shuffle from 'lodash/shuffle';
 import * as styles from './styles.module.scss';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';

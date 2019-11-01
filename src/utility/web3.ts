@@ -7,12 +7,9 @@ import { EncryptedKeystoreV3Json } from 'web3-core';
 import { IAccount } from '~/redux/account/types';
 import keythereum from 'keythereum';
 
-const {
-  /* REACT_APP_API_URL_FANTOM , */ REACT_APP_KEY_INFURA,
-  REACT_APP_EXAMPLE_ADDRESS,
-} = process.env;
+const { REACT_APP_API_URL_FANTOM, REACT_APP_KEY_INFURA, REACT_APP_EXAMPLE_ADDRESS } = process.env;
 
-// const URL_FANTOM = REACT_APP_API_URL_FANTOM;
+const URL_FANTOM = REACT_APP_API_URL_FANTOM;
 const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${REACT_APP_KEY_INFURA}`;
 
 export interface ITransfer {
@@ -83,8 +80,8 @@ class Web3Agent {
     );
 }
 
-// const Fantom = new Web3Agent(URL_FANTOM);
-const Fantom = new Web3Agent(URL_ETHEREUM);
+const Fantom = new Web3Agent(URL_FANTOM);
+// const Fantom = new Web3Agent(URL_ETHEREUM);
 const Ethereum = new Web3Agent(URL_ETHEREUM);
 
 export { Fantom, Ethereum };

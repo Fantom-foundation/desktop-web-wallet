@@ -89,3 +89,27 @@ $navlink-textTransform: uppercase;
     min-width: 100px;
   }
 }
+
+.btn {
+  outline: none !important;
+
+  &.btn-primary.bordered {
+    background: none !important;
+    color: $theme-blue;
+    border: 1px solid $theme-blue;
+  }
+
+  &.btn-secondary {
+    &:not(:disabled):not(.disabled):active:focus, &:hover {
+      outline: none;
+      background: none;
+      box-shadow: none;
+    }
+  }
+
+  &.btn-secondary.bordered {
+    background: none !important;
+    color: #999999;
+    border: 1px solid #999999;
+  }
+}
