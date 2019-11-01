@@ -2,6 +2,7 @@ import React, { FC } from 'react';
 import { Row, Col } from 'reactstrap';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import BrandLogo from '~/images/logo/FantomWallet.svg';
+import * as styles from './styles.module.scss';
 
 interface IProps {
   mnemonic: string;
@@ -9,7 +10,7 @@ interface IProps {
 }
 
 const AccountDetailPrint: FC<IProps> = ({ mnemonic, address }) => (
-  <div id="print-screen">
+  <div className={styles.print}>
     <Row>
       <Col className="info">
         <h2>Your Address</h2>
@@ -20,6 +21,7 @@ const AccountDetailPrint: FC<IProps> = ({ mnemonic, address }) => (
           <QRCodeIcon address={address} bgColor="white" fgColor="black" />
         </div>
       </Col>
+      
       <Col className="brand">
         <div className="brand-holder">
           <img src={BrandLogo} alt="logo" />
