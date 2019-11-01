@@ -43,10 +43,10 @@ const TransferModalUnconnected: FC<IProps> = ({
   accountTransferClear,
   accountSetTransferErrors,
 }) => {
-  const [to, setTo] = useState(''); // 0x31DFF4d32F473C2B1D6A9FBF9c9B5d078B61EE42
-  const [from, setFrom] = useState(''); // Web3.utils.isAddress
-  const [amount, setAmount] = useState('');
-  const [password, setPassword] = useState(''); // Tezter1234
+  const [to, setTo] = useState('');
+  const [from, setFrom] = useState(''); 
+  const [amount, setAmount] = useState('0');
+  const [password, setPassword] = useState(''); 
   const [message, setMessage] = useState('');
 
   const senders = useMemo(
