@@ -18,6 +18,7 @@ import image_from from '~/images/withdraw.svg';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 import { FaIcon } from '~/view/components/inputs/FaIcon';
+import { useCloseOnEscape } from '~/utility/hooks';
 
 const mapStateToProps = state => ({
   modal: selectModal(state),
@@ -85,6 +86,8 @@ const TransferModalUnconnected: FC<IProps> = ({
 
     return `${list[from].balance} FTM`;
   }, [from]);
+
+  useCloseOnEscape(onClose);
 
   return (
     <form className={styles.wrap} onSubmit={onSubmit} autoComplete="off">
