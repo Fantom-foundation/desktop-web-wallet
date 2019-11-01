@@ -22,6 +22,8 @@ export const ACCOUNT_ACTIONS = {
   
   SEND_FUNDS: `${prefix}SEND_FUNDS`,
   TRANSFER_CLEAR: `${prefix}TRANSFER_CLEAR`,
+  SET_TRANSFER: `${prefix}SET_TRANSFER`,
+  SET_TRANSFER_ERRORS: `${prefix}SET_TRANSFER_ERRORS`,
 }
 
 export const EMPTY_ACCOUNT: IAccount = {

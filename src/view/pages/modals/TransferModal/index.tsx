@@ -26,6 +26,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   accountSendFunds: ACCOUNT_ACTIONS.accountSendFunds,
   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
+  accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
 };
 
 type IProps = IModalChildProps &
@@ -37,9 +38,10 @@ const TransferModalUnconnected: FC<IProps> = ({
     list,
     transfer: { errors, is_sent, is_processing },
   },
-  accountSendFunds,
   onClose,
+  accountSendFunds,
   accountTransferClear,
+  accountSetTransferErrors,
 }) => {
   const [to, setTo] = useState(''); // 0x31DFF4d32F473C2B1D6A9FBF9c9B5d078B61EE42
   const [from, setFrom] = useState(''); // Web3.utils.isAddress
@@ -60,11 +62,18 @@ const TransferModalUnconnected: FC<IProps> = ({
     [accountSendFunds, to, from, amount, password, message]
   );
 
+  useEffect(() => {
+    if (Object.keys(errors).length) accountSetTransferErrors({});
+  }, [to, from, amount, password, message]);
+
   return (
     <form className={styles.wrap} onSubmit={onSubmit} autoComplete="off">
       <h2>Transfer</h2>
 
-      <PanelTitle title="Send Funds" right={<PanelButton icon="fa-sync-alt" />} />
+      <PanelTitle
+        title="Send Funds"
+        right={<PanelButton icon="fa-sync-alt" spin={is_processing} type="button" />}
+      />
 
       <div className={styles.form}>
         <div className={styles.item}>
@@ -76,9 +85,10 @@ const TransferModalUnconnected: FC<IProps> = ({
             handler={setTo}
             icon={image_address}
             disabled={is_processing}
+            type="text"
           />
 
-          {errors.to && <div className={styles.error}>Not a valid address</div>}
+          {errors.to && <div className={styles.error}>{errors.to}</div>}
         </div>
 
         <div className={styles.item}>
@@ -92,23 +102,24 @@ const TransferModalUnconnected: FC<IProps> = ({
             disabled={is_processing}
           />
 
-          {errors.from && <div className={styles.error}>Please select an address</div>}
-          {errors.balance && <div className={styles.error}>Not enough currency</div>}
+          {errors.from && <div className={styles.error}>{errors.from}</div>}
         </div>
 
         <div className={styles.item}>
           <TextInput
-            name="amount"
+            name="data-amount"
             placeholder=""
             label="Amount"
             value={amount}
             handler={setAmount}
             icon={image_amount}
             disabled={is_processing}
-            autoComplete="off"
+            type="number"
+            autoComplete="nope"
           />
 
-          {errors.amount && <div className={styles.error}>Incorrect value</div>}
+          {errors.balance && <div className={styles.error}>{errors.balance}</div>}
+          {errors.amount && <div className={styles.error}>{errors.amount}</div>}
         </div>
 
         <div className={styles.item}>
@@ -121,10 +132,10 @@ const TransferModalUnconnected: FC<IProps> = ({
             type="password"
             icon={image_password}
             disabled={is_processing}
-            autoComplete="off"
+            autoComplete="new-password"
           />
 
-          {errors.password && <div className={styles.error}>Incorrect password</div>}
+          {errors.password && <div className={styles.error}>{errors.password}</div>}
         </div>
 
         <div className={styles.item}>

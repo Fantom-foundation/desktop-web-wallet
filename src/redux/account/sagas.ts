@@ -11,6 +11,8 @@ import {
   accountGetBalance,
   accountSetAccount,
   accountSendFunds,
+  accountSetTransferErrors,
+  accountSetTransfer,
 } from './actions';
 import { ACCOUNT_CREATION_STAGES, IAccountState, ACCOUNT_INITIAL_STATE } from '.';
 import { accountMnemonicToKeys } from '~/utility/account';
@@ -20,12 +22,11 @@ import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
 import { Fantom } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
-import BN from 'bn.js';
-import Web3 from 'web3';
+import { validateAccountTransaction } from './validators';
 
 function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
-  const { publicAddress: publicAddress } = accountMnemonicToKeys(mnemonic);
+  const { publicAddress } = accountMnemonicToKeys(mnemonic);
 
   yield put(
     accountSetCreate({
@@ -97,18 +98,18 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
     );
 
     const { list } = yield select(selectAccount);
-    
+
     if (!id || !list[id]) return;
-    
+
     const result = yield call(Fantom.getBalance.bind(Fantom), id);
-    
+
     if (!result) return;
     const balance = parseFloat(parseFloat(fromWei(result)).toFixed(4));
-    
+
     yield put(
       accountSetAccount(id, {
-      balance,
-    })
+        balance,
+      })
     );
   } finally {
     yield put(
@@ -120,21 +121,43 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 }
 
 function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof accountSendFunds>) {
+  yield put(accountSetTransferErrors({}));
+  
   const { list }: IAccountState = yield select(selectAccount);
-  const { privateKey } = list[from] || {};
 
-  if (!privateKey) {
-    console.log('No private key?'); // TODO: handle this
-    return;
-  }
+  if (!list.hasOwnProperty(from))
+    return yield put(accountSetTransferErrors({ from: 'Not a correct sender' }));
 
-  yield Fantom.transfer({
-    from, 
+  yield call(getBalance, accountGetBalance(from));
+
+  const { keystore, balance } = list[from];
+
+  const privateKey = yield call(Fantom.getPrivateKey, keystore, password);
+
+  const validation_errors = validateAccountTransaction({
+    from,
     to,
-    value: amount.toString(),
-    memo: message,
     privateKey,
+    balance,
+    amount,
   });
+
+  if (Object.keys(validation_errors).length)
+    return yield put(accountSetTransferErrors(validation_errors));
+
+  try {
+    yield put(accountSetTransfer({ is_processing: true }));
+    yield Fantom.transfer({
+      from,
+      to,
+      value: amount.toString(),
+      memo: message,
+      privateKey,
+    });
+    yield put(accountSetTransfer({ is_processing: false, is_sent: true }));
+  } catch (e) {
+    yield put(accountSetTransfer({ is_processing: false, errors: { send: e } }));
+  }
 }
 
 export function* accountSaga() {
@@ -146,6 +169,6 @@ export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS, createRestoreMnemonics);
 
   yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
-  
+
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
 }

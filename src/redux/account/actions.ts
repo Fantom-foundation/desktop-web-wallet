@@ -90,3 +90,13 @@ export const accountSendFunds = ({
 export const accountTransferClear = () => ({
   type: ACCOUNT_ACTIONS.TRANSFER_CLEAR,
 });
+
+export const accountSetTransferErrors = (errors: IAccountState['transfer']['errors']) => ({
+  type: ACCOUNT_ACTIONS.SET_TRANSFER_ERRORS,
+  errors,
+});
+
+export const accountSetTransfer = (transfer: Partial<IAccountState['transfer']>) => ({
+  type: ACCOUNT_ACTIONS.SET_TRANSFER,
+  transfer,
+});

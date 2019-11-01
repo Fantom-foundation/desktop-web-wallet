@@ -4,6 +4,8 @@ import * as EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
 import { EncryptedKeystoreV3Json } from 'web3-core';
+import { IAccount } from '~/redux/account/types';
+import keythereum from 'keythereum';
 
 const {
   /* REACT_APP_API_URL_FANTOM , */ REACT_APP_KEY_INFURA,
@@ -50,15 +52,14 @@ class Web3Agent {
     const privateKeyBuffer = EthUtil.toBuffer(privateKey);
 
     const tx = new Transaction(rawTx);
-    
+
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
 
     const res = await this.web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
-    
+
     return res;
   }
-
 
   mnemonicToKeys = (mnemonic: string): { publicAddress; privateKey } => {
     const seed = Bip39.mnemonicToSeed(mnemonic);
@@ -74,7 +75,14 @@ class Web3Agent {
   };
 
   getKeystore = (privateKey: string, password: string): EncryptedKeystoreV3Json =>
-    this.web3.eth.accounts.encrypt(privateKey, password); 
+    this.web3.eth.accounts.encrypt(privateKey, password);
+
+  getPrivateKey = (keystore: IAccount['keystore'], password: string): Promise<string | null> =>
+    new Promise(resolve =>
+      keythereum.recover(password, keystore, dataRes => {
+        resolve(dataRes instanceof Buffer ? EthUtil.bufferToHex(dataRes) : null);
+      })
+    );
 }
 
 // const Fantom = new Web3Agent(URL_FANTOM);
