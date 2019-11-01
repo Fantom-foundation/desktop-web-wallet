@@ -1,8 +1,9 @@
 import React, { FC } from 'react';
-import { FormGroup, Row, Col } from 'reactstrap';
+import { Row, Col } from 'reactstrap';
 import _ from 'lodash';
 import Identicons from '~/view/general/identicons/identicons';
 import refreshIcon from '~/images/icons/refresh-icon.svg';
+import classNames from 'classnames';
 import * as styles from './styles.module.scss';
 
 interface IProps {
@@ -17,22 +18,17 @@ const CreateAccountIcons: FC<IProps> = ({ date, selected, onSelect, onRefresh })
     <Row>
       <Col className={styles.icons}>
         {_.range(0, 6).map(el => (
-          <div key={el}>
-            <label htmlFor={el}>
-              <div className={styles.radio}>
-                <input
-                  id={el}
-                  name="name"
-                  className="form-radio-field"
-                  type="radio"
-                  checked={selected === String(el) + String(date)}
-                  onChange={() => onSelect(String(el) + String(date))}
-                  readOnly
-                />
+          <div key={el} onClick={() => onSelect(String(el) + String(date))}>
+            <div className={styles.radio}>
+              <div
+                id={el}
+                className={classNames(styles.check, {
+                  [styles.checked]: selected === String(el) + String(date),
+                })}
+              />
 
-                <Identicons id={String(el) + String(date)} width={40} key={el} size={3} />
-              </div>
-            </label>
+              <Identicons id={String(el) + String(date)} width={40} key={el} size={3} />
+            </div>
           </div>
         ))}
       </Col>
