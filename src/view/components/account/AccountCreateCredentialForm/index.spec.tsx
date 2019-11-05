@@ -5,7 +5,6 @@ import { EMPTY_ACCOUNT } from '~/redux/account/constants';
 import styles from './styles.module.scss';
 import { URLS } from '~/constants/urls';
 import { act } from 'react-dom/test-utils';
-import { TextInput } from '../../inputs/TextInput';
 
 describe('', () => {
   const push = jest.fn();

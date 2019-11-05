@@ -1,7 +1,7 @@
 import { MODAL_ACTIONS } from './constants';
 import { modalShow } from './actions';
 import { IModalState } from '.';
-import assocPath from 'ramda/es/assocPath';
+import { assocPath } from 'ramda';
 
 const showModal = (state: IModalState, { current }: ReturnType<typeof modalShow>): IModalState => ({
   ...state,

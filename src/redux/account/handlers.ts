@@ -1,4 +1,4 @@
-import assocPath from 'ramda/es/assocPath';
+import { assocPath } from 'ramda';
 import {
   accountSetCreate,
   accountSetCreateStage,

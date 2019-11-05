@@ -22,6 +22,7 @@ const CreateAccountButtons: FC<IProps> = ({
       className={classNames(styles.button, { [styles.disabled]: is_prev_disabled })}
       onClick={onBackPressed}
       disabled={is_prev_disabled}
+      id="account_prev_button"
     >
       <FaIcon icon="fa-chevron-left" />
       Back
@@ -31,6 +32,7 @@ const CreateAccountButtons: FC<IProps> = ({
       className={classNames(styles.button, { [styles.disabled]: is_next_disabled })}
       onClick={onNextPressed}
       disabled={is_next_disabled}
+      id="account_next_button"
     >
       Next
       <FaIcon icon="fa-chevron-right" />

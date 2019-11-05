@@ -69,13 +69,9 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 
   useEffect(() => {
     if (!mnemonic || !password || !name || !publicAddress) onBackPressed();
-  });
+  }, []);
 
   const printer = useRef<any>(null);
-  const onCopy = useCallback<MouseEventHandler<HTMLButtonElement>>(
-    event => copyToClipboard(event, publicAddress),
-    [publicAddress]
-  );
 
   const onRevealSecret = useCallback<MouseEventHandler<HTMLDivElement>>(
     () => setIsRevealed(!is_revealed),
@@ -187,6 +183,8 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 
                 <div>
                   <TextInput
+                    name="phrase"
+                    type="text"
                     value={phrase}
                     handler={setPhrase}
                     autoComplete="off"
@@ -213,4 +211,4 @@ const AccountCreateInfo = connect(
   mapDispatchToProps
 )(withRouter(AccountCreateInfoUnconnected));
 
-export { AccountCreateInfo };
+export { AccountCreateInfo, AccountCreateInfoUnconnected };
