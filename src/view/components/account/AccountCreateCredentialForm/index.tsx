@@ -42,7 +42,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
   const onNextPressed = useCallback(() => {
     const validation_errors = {
       name: name.length < 3,
-      unique: !!list && Object.values(list).some(el => el.name === name),
+      unique: !!list && name.length > 0 && Object.values(list).some(el => el.name && el.name === name),
       passwords_match: !!password && password !== password_again,
       password: !password.match(/[A-Z]+/) || !password.match(/[0-9]+/) || password.length < 8,
       icon: !selected_icon,
@@ -69,7 +69,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
         <Container>
           <Row>
             <Col>
-              <Form id={styles.form} autoComplete="off">
+              <Form className={styles.form} autoComplete="off">
                 <FormGroup>
                   <TextInput
                     placeholder="Enter Name"
@@ -77,11 +77,20 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                     value={name}
                     icon={user}
                     autoComplete="off"
+                    name="name"
                   />
 
-                  {errors.name && <p className={styles.error}>Account Name is required</p>}
+                  {errors.name && (
+                    <p className={styles.error} id="error_name_required">
+                      Account Name is required
+                    </p>
+                  )}
 
-                  {errors.unique && <p className={styles.error}>Account Name already exists</p>}
+                  {errors.unique && (
+                    <p className={styles.error} id="error_name_exists">
+                      Account Name already exists
+                    </p>
+                  )}
                 </FormGroup>
 
                 <Row>
@@ -94,10 +103,13 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                         handler={setPassword}
                         icon={lock}
                         autoComplete="off"
+                        name="password"
                       />
 
                       {!!errors.password && (
-                        <p className={styles.error}>Valid password is required</p>
+                        <p className={styles.error} id="error_password_required">
+                          Valid password is required
+                        </p>
                       )}
                     </FormGroup>
 
@@ -109,10 +121,13 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                         handler={setPasswordAgain}
                         icon={lock}
                         autoComplete="new-password"
+                        name="password_again"
                       />
 
                       {!!errors.passwords_match && (
-                        <p className={styles.error}>Passwords do not match</p>
+                        <p className={styles.error} id="error_password_mismatch">
+                          Passwords do not match
+                        </p>
                       )}
                     </FormGroup>
                   </Col>
