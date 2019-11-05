@@ -17,8 +17,8 @@ import image_password from '~/images/password.svg';
 import image_from from '~/images/withdraw.svg';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
-import { FaIcon } from '~/view/components/inputs/FaIcon';
 import { useCloseOnEscape } from '~/utility/hooks';
+import { LoadingOverlay } from '../LoadingOverlay';
 
 const mapStateToProps = state => ({
   modal: selectModal(state),
@@ -75,8 +75,13 @@ const TransferModalUnconnected: FC<IProps> = ({
   }, [to, from, amount, password, message]);
 
   useEffect(() => {
-    if (from && list.hasOwnProperty(from)) accountGetBalance(from);
+    if (from && Object.hasOwnProperty.call(list, from)) accountGetBalance(from);
   }, [from]);
+
+  const onRefresh = useCallback(() => {
+    if (!from || !list[from]) return;
+    accountGetBalance(from);
+  }, [accountGetBalance, from, list]);
 
   const balance = useMemo(() => {
     const account = from && list[from];
@@ -85,17 +90,21 @@ const TransferModalUnconnected: FC<IProps> = ({
     if (account.is_loading_balance) return null;
 
     return `${list[from].balance} FTM`;
-  }, [from]);
+  }, [from, list]);
 
   useCloseOnEscape(onClose);
 
   return (
     <form className={styles.wrap} onSubmit={onSubmit} autoComplete="off">
+      {is_processing && <LoadingOverlay />}
+
       <h2>Transfer</h2>
 
       <PanelTitle
         title="Send Funds"
-        right={<PanelButton icon="fa-sync-alt" spin={is_processing} type="button" />}
+        right={
+          <PanelButton icon="fa-sync-alt" spin={is_processing} type="button" onClick={onRefresh} />
+        }
       />
 
       <div className={styles.form}>

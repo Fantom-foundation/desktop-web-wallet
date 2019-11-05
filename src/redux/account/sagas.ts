@@ -19,7 +19,7 @@ import bip from 'bip39';
 import { selectAccountCreate, selectAccount } from './selectors';
 import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
-import { Fantom } from '~/utility/web3'; 
+import { Fantom } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
 
@@ -47,7 +47,7 @@ function* createSetRestoreCredentials({
     })
   );
 }
- 
+
 function* createSetInfo() {
   yield put(accountSetCreateStage(ACCOUNT_CREATION_STAGES.CONFIRM));
 }
@@ -89,15 +89,15 @@ function* createRestoreMnemonics({ mnemonic }: ReturnType<typeof accountCreateRe
 
 function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
   try {
+    const { list } = yield select(selectAccount);
+
+    if (!id || !list[id]) return;
+
     yield put(
       accountSetAccount(id, {
         is_loading_balance: true,
       })
     );
-
-    const { list } = yield select(selectAccount);
-
-    if (!id || !list[id]) return;
 
     const result = yield call(Fantom.getBalance.bind(Fantom), id);
 
@@ -107,9 +107,10 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
     yield put(
       accountSetAccount(id, {
         balance,
+        is_loading_balance: false,
       })
     );
-  } finally {
+  } catch (e) {
     yield put(
       accountSetAccount(id, {
         is_loading_balance: false,
@@ -123,7 +124,7 @@ function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof a
 
   const { list }: IAccountState = yield select(selectAccount);
 
-  if (!list.hasOwnProperty(from))
+  if (!Object.prototype.hasOwnProperty.call(list, from))
     return yield put(accountSetTransferErrors({ from: 'Not a correct sender' }));
 
   yield call(getBalance, accountGetBalance(from));
