@@ -43,6 +43,9 @@ describe('', () => {
     wrapper.update();
 
     expect(wrapper.find(`.${styles.overlay}`).length).toBe(0);
+    
+    next.simulate('click');
+    expect(accountCreateSetInfo.mock.calls).toEqual([]); 
 
     act(() => {
       wrapper.find('input[name="phrase"]').prop('onChange')({
