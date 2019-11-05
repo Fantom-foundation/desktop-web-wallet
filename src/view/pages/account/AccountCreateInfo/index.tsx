@@ -15,7 +15,7 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
 import { ACCOUNT_CREATION_STAGES } from '~/redux/account';
-import Identicons from '~/view/general/identicons/identicons';
+import Identicon from '~/view/general/Identicon';
 import QRCodeIcon from '~/view/general/QRCodeIcon';
 import { copyToClipboard } from '~/utility/clipboard';
 import ReactToPrint from 'react-to-print';
@@ -97,7 +97,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
           <Row className={styles.account}>
             <Col className={styles.info}>
               <div className={styles.name}>
-                <Identicons id={icon} width={50} size={3} />
+                <Identicon id={icon} width={50} size={3} />
                 <h2>{name}</h2>
               </div>
 

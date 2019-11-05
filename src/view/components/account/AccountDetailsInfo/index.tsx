@@ -4,7 +4,7 @@ import { IAccount } from '~/redux/account/types';
 import * as styles from './styles.module.scss';
 import { Button } from 'reactstrap';
 import { PanelButton } from '~/view/components/panels/PanelButton';
-import Identicons from '~/view/general/identicons/identicons';
+import Identicon from '~/view/general/Identicon';
 import { Address } from '~/view/components/account/Address';
 import QRCodeIcon from '~/view/general/QRCodeIcon';
 import { connect } from 'react-redux';
@@ -42,7 +42,7 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({ account, accountGetBalance,
 
       <div className={styles.content}>
         <div className={styles.icon}>
-          <Identicons id={account.icon} width={40} key={0} size={3} />
+          <Identicon id={account.icon} width={40} key={0} size={3} />
         </div>
 
         <div className={styles.name}>{account.name}</div>

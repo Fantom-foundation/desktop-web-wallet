@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import Identicons from '~/view/general/identicons/identicons';
+import Identicon from '~/view/general/Identicon';
 import { Address } from '~/view/components/account/Address';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
@@ -51,13 +51,13 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
                   <div className={styles.card}>
                     <div className="avatar">
                       <span className="avatar-icon">
-                        <Identicons id={account.icon} width={40} key={0} size={3} />
+                        <Identicon id={account.icon} width={40} key={0} size={3} />
                       </span>
                     </div>
 
                     <h2 className="title ">
                       <span>{account.name}</span>
-                    </h2>
+                    </h2> 
 
                     <Address
                       address={account.publicAddress}

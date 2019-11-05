@@ -1,18 +1,20 @@
-import React from 'react';
+import React, { FC, ReactSVGElement } from 'react';
 import identicons from 'identicons';
-import PropTypes from 'prop-types';
 
-/**
- * Identicons()  : Function for creating Identicons.
- */
+interface IProps {
+  width: number;
+  size: number;
+  id: string;
+}
 
-export default function Identicons(props) {
+const Identicons: FC<IProps> = (props) => {
   const { width, size, id } = props;
   const newWidth = width;
   const newsize = size;
   const side = newWidth / (newsize * 2 - 1);
   let color;
-  const rects = [];
+  const rects: ReactSVGElement[] = [];
+  
   identicons.generate(id, props, {
     start(value) {
       color = `#${Math.abs(value)
@@ -40,8 +42,4 @@ export default function Identicons(props) {
   );
 }
 
-Identicons.propTypes = {
-  width: PropTypes.number.isRequired,
-  size: PropTypes.number.isRequired,
-  id: PropTypes.string.isRequired,
-};
+export default Identicons;

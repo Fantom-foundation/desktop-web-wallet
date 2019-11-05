@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Row, Col } from 'reactstrap';
 import _ from 'lodash';
-import Identicons from '~/view/general/identicons/identicons';
+import Identicon from '~/view/general/Identicon';
 import refreshIcon from '~/images/icons/refresh-icon.svg';
 import classNames from 'classnames';
 import * as styles from './styles.module.scss';
@@ -27,7 +27,7 @@ const CreateAccountIcons: FC<IProps> = ({ date, selected, onSelect, onRefresh })
                 })}
               />
 
-              <Identicons id={String(el) + String(date)} width={40} key={el} size={3} />
+              <Identicon id={String(el) + String(date)} width={40} key={el} size={3} />
             </div>
           </div>
         ))}
