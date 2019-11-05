@@ -1,6 +1,6 @@
 import React, { FC, useCallback } from 'react';
 import { FaIcon } from '../../inputs/FaIcon';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { copyToClipboard } from '~/utility/clipboard';
 
 interface IProps {

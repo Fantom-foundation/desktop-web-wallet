@@ -23,7 +23,7 @@ import AccountDetailPrint from '~/view/components/print/AccountDetailPrint';
 import classNames from 'classnames';
 import noView from '~/images/icons/no-view.png';
 import { CONFIRMATION_PHRASE } from '~/redux/account/constants';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { PanelTitle } from '~/view/components/panels/PanelTitle';
 import { PanelButton } from '~/view/components/panels/PanelButton';
 import { Address } from '~/view/components/account/Address';

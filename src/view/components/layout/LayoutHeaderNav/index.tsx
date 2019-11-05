@@ -1,6 +1,6 @@
 import React, { useMemo, FC, useState, useCallback } from 'react';
 import { Link, RouteComponentProps, withRouter } from 'react-router-dom';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 
 import { Container, Row, Col } from 'reactstrap';
 import logo from '~/images/logo/FantomWallet.svg';

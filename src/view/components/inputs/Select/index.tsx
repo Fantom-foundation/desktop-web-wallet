@@ -1,5 +1,5 @@
 import React, { FC, SelectHTMLAttributes, useCallback, ChangeEventHandler, ReactElement } from 'react';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { FaIcon } from '../FaIcon';
 import classNames from 'classnames';
 

@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Row, Col } from 'reactstrap';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import BrandLogo from '~/images/logo/FantomWallet.svg';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface IProps {
   mnemonic: string;

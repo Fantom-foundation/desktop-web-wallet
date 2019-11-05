@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Button } from 'reactstrap';
 import classNames from 'classnames';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { FaIcon } from '../../inputs/FaIcon';
 
 interface IProps {

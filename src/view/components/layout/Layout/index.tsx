@@ -3,7 +3,7 @@ import { LayoutHeader } from '~/view/components/layout/LayoutHeader';
 import { LayoutFooter } from '~/view/components/layout/LayoutFooter';
 import { connect } from 'react-redux';
 import classNames from 'classnames';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { selectModal } from '~/redux/modal/selectors';
 
 const mapStateToProps = selectModal;

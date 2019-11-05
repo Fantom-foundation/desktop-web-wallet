@@ -1,6 +1,6 @@
 import React, { FC, InputHTMLAttributes, useCallback, ChangeEventHandler } from 'react';
 import { Input } from 'reactstrap';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { FaIcon } from '../FaIcon';
 import classNames from 'classnames';
 

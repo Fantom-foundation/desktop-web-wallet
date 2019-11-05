@@ -1,5 +1,5 @@
 import React, { FC, ReactElement } from 'react';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface IProps {
   title: string;

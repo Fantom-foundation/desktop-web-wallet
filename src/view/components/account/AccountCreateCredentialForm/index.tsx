@@ -8,7 +8,7 @@ import { CreateAccountButtons } from '~/view/components/account/CreateAccountBut
 import { CreateAccountIcons } from '~/view/components/account/CreateAccountIcons';
 import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { TextInput } from '../../inputs/TextInput';
 
 type IProps = {

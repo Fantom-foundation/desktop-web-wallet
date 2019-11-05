@@ -1,6 +1,6 @@
 import React, { FC, MouseEventHandler, ButtonHTMLAttributes } from 'react';
 import { Button } from 'reactstrap';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { FaIcon } from '~/view/components/inputs/FaIcon';
 
 type IProps = ButtonHTMLAttributes<HTMLButtonElement> & {

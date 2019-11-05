@@ -1,7 +1,7 @@
 import React, { FC, useCallback, useEffect } from 'react';
 import { PanelTitle } from '~/view/components/panels/PanelTitle';
 import { IAccount } from '~/redux/account/types';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { Button } from 'reactstrap';
 import { PanelButton } from '~/view/components/panels/PanelButton';
 import Identicon from '~/view/general/Identicon';

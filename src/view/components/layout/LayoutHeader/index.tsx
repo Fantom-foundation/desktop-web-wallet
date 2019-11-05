@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { LayoutHeaderNav } from '~/view/components/layout/LayoutHeaderNav';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { createPortal } from 'react-dom';
 
 interface IProps {

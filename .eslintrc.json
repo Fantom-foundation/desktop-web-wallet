@@ -44,6 +44,12 @@
     "react/sort-comp": 0,
     "react/state-in-constructor": 0,
     "consistent-return": 0,
+    "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
+    "standard": {
+      "commonjs": true,
+      "node": true,
+      "mocha": true
+    },
     "react/jsx-wrap-multilines":[
       "warn",
       {

@@ -2,7 +2,7 @@ import React, { useCallback, FC } from 'react';
 import { Button } from 'reactstrap';
 import Particles from 'react-particles-js';
 import { PARTICLES_PARAMS } from '~/constants/particles';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
 import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';

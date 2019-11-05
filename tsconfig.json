@@ -33,6 +33,7 @@
     "./custom.d.ts"
   ],
   "exclude": [
-    "./__tests__/**/*"
+    "./__tests__/**/*",
+    "**/*.spec.ts"
   ]
 }

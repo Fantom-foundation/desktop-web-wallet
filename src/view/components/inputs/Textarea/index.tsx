@@ -1,5 +1,5 @@
 import React, { FC, TextareaHTMLAttributes, useCallback, ChangeEventHandler } from 'react';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 
 type IProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   handler?: (val: string) => void;

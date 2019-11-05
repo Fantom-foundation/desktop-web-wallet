@@ -2,7 +2,7 @@ import React, { FC } from 'react';
 import { Row, Col, Container } from 'reactstrap';
 import { IAccount } from '~/redux/account/types';
 import { AccountDetailsInfo } from '~/view/components/account/AccountDetailsInfo';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 
 interface IProps {

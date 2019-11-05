@@ -4,7 +4,7 @@ import _ from 'lodash';
 import Identicon from '~/view/general/Identicon';
 import refreshIcon from '~/images/icons/refresh-icon.svg';
 import classNames from 'classnames';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 
 interface IProps {
   date: number;

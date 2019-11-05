@@ -8,7 +8,7 @@ import { AccountRestoreProcess } from '~/view/components/account/AccountRestoreP
 import { Container, Row, Col, FormGroup, Label, Button } from 'reactstrap';
 import { PanelTitle } from '~/view/components/panels/PanelTitle';
 import { Textarea } from '~/view/components/inputs/Textarea';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 

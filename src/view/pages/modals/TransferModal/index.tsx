@@ -1,7 +1,7 @@
 import React, { FC, useMemo, useState, useCallback, useEffect } from 'react';
 import { IModalChildProps } from '~/redux/modal/constants';
 import { PanelTitle } from '~/view/components/panels/PanelTitle';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { PanelButton } from '~/view/components/panels/PanelButton';
 import { TextInput } from '~/view/components/inputs/TextInput';
 import { Textarea } from '~/view/components/inputs/Textarea';

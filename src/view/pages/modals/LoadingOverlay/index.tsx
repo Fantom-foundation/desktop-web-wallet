@@ -1,6 +1,6 @@
 import React, { FC } from 'react';
 import { FaIcon } from '~/view/components/inputs/FaIcon';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 
 const LoadingOverlay: FC<{}> = () => (
   <div className={styles.loader}>

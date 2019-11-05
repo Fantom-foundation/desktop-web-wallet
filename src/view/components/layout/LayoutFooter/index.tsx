@@ -1,6 +1,6 @@
 import React from 'react';
 import { Container, Row, Col } from 'reactstrap';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 
 export const LayoutFooter = () => (
   <footer className={styles.footer}>  

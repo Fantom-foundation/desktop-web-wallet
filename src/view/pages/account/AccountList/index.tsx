@@ -6,9 +6,12 @@ import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
 import { push as historyPush } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
+import { pick } from 'ramda';
+import { IState } from '~/redux';
+import { IAccountState } from '~/redux/account';
 
-const mapStateToProps = selectAccount;
+const mapStateToProps = (state: IState): Pick<IAccountState, 'list'> => pick(['list'])(selectAccount(state));
 const mapDispatchToProps = {
   push: historyPush,
 };
@@ -39,7 +42,7 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
 
       <section className={styles.content}>
         <Container>
-          <Row className={styles.grid}>
+          <Row className={styles.grid} id="account-list-grid">
             {Object.values(list).length > 0 &&
               Object.values(list).map(account => (
                 <Col                  
@@ -77,4 +80,4 @@ const AccountList = connect(
   mapDispatchToProps
 )(AccountListUnconnected);
 
-export { AccountList };
+export { AccountList, AccountListUnconnected };

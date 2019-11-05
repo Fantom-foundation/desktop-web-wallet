@@ -1,5 +1,5 @@
 import React, { FC, createElement, useEffect, useRef } from 'react';
-import * as styles from './styles.module.scss';
+import styles from './styles.module.scss';
 import { createPortal } from 'react-dom';
 import { connect } from 'react-redux';
 import { selectModal } from '~/redux/modal/selectors';
