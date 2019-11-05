@@ -21,7 +21,7 @@ const ModalUnconnected: FC<IProps> = ({ isOpened, modalHide, current }) => {
   const is_visible = isOpened && current && MODAL_CONTENT[current];
 
   useEffect(() => {
-    if (is_visible) disableBodyScroll(ref);
+    if (is_visible) disableBodyScroll(ref, { reserveScrollBarGap: true });
     return () => {
       if (is_visible) {
         enableBodyScroll(ref);
