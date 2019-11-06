@@ -1,10 +1,8 @@
-import React, { useCallback, FC } from 'react';
-import { Button } from 'reactstrap';
+import React, { FC } from 'react';
 import Particles from 'react-particles-js';
 import { PARTICLES_PARAMS } from '~/constants/particles';
 import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
-import { RouteComponentProps } from 'react-router';
 import { Link } from 'react-router-dom';
 
 const Home: FC<{}> = () => {
@@ -30,9 +28,5 @@ const Home: FC<{}> = () => {
     </Layout>
   );
 };
-
-// Home.propTypes = {
-//   history: PropTypes.oneOfType([PropTypes.object]).isRequired,
-// };
 
 export default Home;
