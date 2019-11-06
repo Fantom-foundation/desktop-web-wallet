@@ -31,7 +31,6 @@ export interface IState {
 
   // accounts: any;
   // getBalance: any;
-
   // accountInfo: any;
   // accountKeys: any;
   // getTransactions: any;
@@ -43,25 +42,7 @@ const rootReducer = combineReducers<IState>({
   account: persistReducer(accountPersistConfig, account),
   router: connectRouter(history),
   modal, 
-  // accounts: persistReducer(accountsPersistConfig, accounts),
-  // getBalance,
-
-  // accountInfo,
-  // accountKeys,
-  // getTransactions, 
-  // sendTransactions,
 });
-
-// const axiosClient = axios.create({
-//   baseURL: config.apiUrl,
-//   responseType: 'json',
-// });
-
-// const persistConfig = { 
-//   key: 'root',
-//   storage,
-//   blacklist: ['getBalance', 'router'], // TODO: persist only selected reducers
-// };
 
 const composeEnhancers =
   typeof window === 'object' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -69,15 +50,12 @@ const composeEnhancers =
     : compose;
 
 const sagaMiddleware = createSagaMiddleware();
-// const persistedReducer = persistReducer(persistConfig, rootReducer);
 const store = createStore(
   rootReducer,
   composeEnhancers(
     applyMiddleware(
       routerMiddleware(history),
       sagaMiddleware
-      // reduxThunk,
-      // axiosMiddleware(axiosClient)
     )
   )
 );

@@ -1,12 +1,11 @@
 import React, { ChangeEvent } from 'react';
 import { AccountCreateInfoUnconnected } from '.';
 import { mount } from 'enzyme';
-import { EMPTY_ACCOUNT, CONFIRMATION_PHRASE } from '~/redux/account/constants';
+import { CONFIRMATION_PHRASE } from '~/redux/account/constants';
 import styles from './styles.module.scss';
-import { URLS } from '~/constants/urls';
 import { act } from 'react-dom/test-utils';
 
-describe('', () => {
+describe('AccountCreateInfo', () => {
   const accountCreateSetInfo = jest.fn();
   const accountSetCreateStage = jest.fn();
   const mnemonic = 'One Two Three Four';
