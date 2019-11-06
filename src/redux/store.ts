@@ -37,12 +37,19 @@ export interface IState {
   // sendTransactions: any;
 }
 
-const rootReducer = combineReducers<IState>({
+export const rootReducer = combineReducers<IState>({
   toastr,
   account: persistReducer(accountPersistConfig, account),
   router: connectRouter(history),
   modal, 
 });
+
+export const rootTestReducer = combineReducers<IState>({
+  toastr,
+  account,
+  router: connectRouter(history),
+  modal,
+})
 
 const composeEnhancers =
   typeof window === 'object' && (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__
@@ -50,6 +57,7 @@ const composeEnhancers =
     : compose;
 
 const sagaMiddleware = createSagaMiddleware();
+
 const store = createStore(
   rootReducer,
   composeEnhancers(
@@ -59,6 +67,17 @@ const store = createStore(
     )
   )
 );
+
+export const test_store = createStore(
+  rootTestReducer,
+  composeEnhancers(
+    applyMiddleware(
+      routerMiddleware(history),
+      sagaMiddleware
+    )
+  )
+);
+
 const persistor = persistStore(store);
 
 export const configureStore = () => {

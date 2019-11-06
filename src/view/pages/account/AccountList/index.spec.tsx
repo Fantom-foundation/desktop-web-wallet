@@ -5,7 +5,7 @@ import { EMPTY_ACCOUNT } from '~/redux/account/constants';
 import styles from './styles.module.scss';
 import { URLS } from '~/constants/urls';
 
-describe('', () => {
+describe('AccountList', () => {
   const push = jest.fn();
   const accounts = {
     ACCOUNT: { ...EMPTY_ACCOUNT, id: 'ACCOUNT', publicAddress: 'ADDRESS' },

@@ -1,6 +1,6 @@
 import React from 'react';
 import Home from '.';
-import { mount, shallow } from 'enzyme';
+import { shallow } from 'enzyme';
 import styles from './styles.module.scss';
 
 describe('Home', () => {

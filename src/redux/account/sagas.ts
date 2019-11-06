@@ -23,7 +23,7 @@ import { Fantom } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
 
-function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
+export function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 

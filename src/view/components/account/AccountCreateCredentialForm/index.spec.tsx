@@ -6,7 +6,7 @@ import styles from './styles.module.scss';
 import { URLS } from '~/constants/urls';
 import { act } from 'react-dom/test-utils';
 
-describe('', () => {
+describe('AccountCreateCredential', () => {
   const push = jest.fn();
   const onSubmit = jest.fn();
   const list = {
