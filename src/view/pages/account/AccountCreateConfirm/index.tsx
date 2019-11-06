@@ -5,22 +5,24 @@ import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
-import { ACCOUNT_CREATION_STAGES } from '~/redux/account';
+import { ACCOUNT_CREATION_STAGES, IAccountState } from '~/redux/account';
 import shuffle from 'lodash/shuffle';
 import styles from './styles.module.scss';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
+import { pick } from 'ramda';
+import { IState } from '~/redux/store';
 
-const mapStateToProps = selectAccountCreate;
+const mapStateToProps = (state: IState): Pick<IAccountState['create'], 'mnemonic'> =>
+  pick(['mnemonic'], selectAccountCreate(state));
+
 const mapDispatchToProps = {
   accountCreateSetConfirm: ACCOUNT_ACTIONS.accountCreateSetConfirm,
   accountSetCreateStage: ACCOUNT_ACTIONS.accountSetCreateStage,
   accountCreateCancel: ACCOUNT_ACTIONS.accountCreateCancel,
 };
 
-type IProps = ReturnType<typeof mapStateToProps> &
-  typeof mapDispatchToProps &
-  RouteComponentProps & {};
+type IProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
 
 const AccountCreateConfirmUnconnected: FC<IProps> = memo(
   ({ accountSetCreateStage, accountCreateCancel, accountCreateSetConfirm, mnemonic }) => {
@@ -145,6 +147,6 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
 const AccountCreateConfirm = connect(
   mapStateToProps,
   mapDispatchToProps
-)(withRouter(AccountCreateConfirmUnconnected));
+)(AccountCreateConfirmUnconnected);
 
-export { AccountCreateConfirm };
+export { AccountCreateConfirm, AccountCreateConfirmUnconnected };
