@@ -120,7 +120,7 @@ const TransferModalUnconnected: FC<IProps> = ({
             type="text"
           />
 
-          {errors.to && <div className={styles.error}>{errors.to}</div>}
+          {errors.to && <div id="error_to" className={styles.error}>{errors.to}</div>}
         </div>
 
         <div className={styles.item}>
@@ -135,7 +135,7 @@ const TransferModalUnconnected: FC<IProps> = ({
             right={balance}
           />
 
-          {errors.from && <div className={styles.error}>{errors.from}</div>}
+          {errors.from && <div id="error_from" className={styles.error}>{errors.from}</div>}
         </div>
 
         <div className={styles.item}>
@@ -151,8 +151,8 @@ const TransferModalUnconnected: FC<IProps> = ({
             autoComplete="nope"
           />
 
-          {errors.balance && <div className={styles.error}>{errors.balance}</div>}
-          {errors.amount && <div className={styles.error}>{errors.amount}</div>}
+          {errors.balance && <div id="error_balance" className={styles.error}>{errors.balance}</div>}
+          {errors.amount && <div id="error_amount" className={styles.error}>{errors.amount}</div>}
         </div>
 
         <div className={styles.item}>
@@ -168,7 +168,7 @@ const TransferModalUnconnected: FC<IProps> = ({
             autoComplete="new-password"
           />
 
-          {errors.password && <div className={styles.error}>{errors.password}</div>}
+          {errors.password && <div id="error_password" className={styles.error}>{errors.password}</div>}
         </div>
 
         <div className={styles.item}>
@@ -215,4 +215,4 @@ const TransferModal = connect(
   mapDispatchToProps
 )(TransferModalUnconnected);
 
-export { TransferModal };
+export { TransferModal, TransferModalUnconnected };

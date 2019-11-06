@@ -27,7 +27,7 @@ describe('AccountCreateConfirm', () => {
     expect(wrapper.find(`.${styles.mnemonic_selector}`).children().length).toBe(12);
   });
 
-  fit('not proceeds until mnemonics filled', () => {
+  it('not proceeds until mnemonics filled', () => {
     expect(accountSetCreateStage.mock.calls.length).toBe(0);
     expect(accountCreateCancel.mock.calls.length).toBe(0);
     expect(accountCreateSetConfirm.mock.calls.length).toBe(0);
@@ -37,7 +37,7 @@ describe('AccountCreateConfirm', () => {
     expect(accountCreateSetConfirm.mock.calls.length).toBe(0);
   });
 
-  fit('click adds mnemonics', () => {
+  it('click adds mnemonics', () => {
     const buttons = wrapper.find(`.${styles.mnemonic_selector}`).find('button');
 
     expect(buttons.length).toBe(12);
@@ -51,7 +51,7 @@ describe('AccountCreateConfirm', () => {
     }
   });
 
-  fit('click removes mnemonics', () => {
+  it('click removes mnemonics', () => {
     const buttons = wrapper.find(`.${styles.mnemonic_container}`).find('button');
 
     expect(buttons.length).toBe(12);
@@ -65,7 +65,7 @@ describe('AccountCreateConfirm', () => {
     }
   });
 
-  fit('calling account creation', () => {
+  it('calling account creation', () => {
     const words = mnemonic.split(' ');
 
     expect(wrapper.find(`.${styles.mnemonic_container}`).children().length).toBe(0);
@@ -75,7 +75,7 @@ describe('AccountCreateConfirm', () => {
         .find(`.${styles.mnemonic_selector}`)
         .children()
         .findWhere(el => el.type() === 'button' && el.text() === words[i]);
-      
+
       item.simulate('click');
       wrapper.update();
     }
@@ -84,6 +84,6 @@ describe('AccountCreateConfirm', () => {
 
     wrapper.find('button.btn-primary.bordered').simulate('click');
 
-    expect(accountCreateSetConfirm.mock.calls[0]).toEqual([]); 
+    expect(accountCreateSetConfirm.mock.calls[0]).toEqual([]);
   });
 });
