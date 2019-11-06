@@ -18,7 +18,7 @@ describe('account sagas', () => {
       icon: '123',
     };
 
-    const result = await expectSaga(createSetCredentials, accountCreateSetCredentials(create))
+    await expectSaga(createSetCredentials, accountCreateSetCredentials(create))
       .put(
         accountSetCreate({
           ...create,
