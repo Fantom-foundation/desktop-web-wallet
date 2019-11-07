@@ -7,12 +7,6 @@ import { createBrowserHistory } from 'history';
 import { routerMiddleware, RouterState, connectRouter } from 'connected-react-router';
 import { reducer as toastr } from 'react-redux-toastr';
 
-// import accountInfo from '~/redux/__accountInfo/reducers';
-// import accountKeys from '~/redux/__accountKeys/reducers';
-// import getBalance from '~/redux/getBalance/reducers';
-// import getTransactions from '~/redux/getTransactions/reducers';
-// import sendTransactions from '~/redux/sendTransactions/reducers';
-
 import { account, IAccountState } from '~/redux/account';
 import { modal, IModalState } from '~/redux/modal';
 
@@ -28,13 +22,6 @@ export interface IState {
   router: RouterState;
   modal: IModalState;  
   toastr: any;
-
-  // accounts: any;
-  // getBalance: any;
-  // accountInfo: any;
-  // accountKeys: any;
-  // getTransactions: any;
-  // sendTransactions: any;
 }
 
 export const rootReducer = combineReducers<IState>({
@@ -60,16 +47,6 @@ const sagaMiddleware = createSagaMiddleware();
 
 const store = createStore(
   rootReducer,
-  composeEnhancers(
-    applyMiddleware(
-      routerMiddleware(history),
-      sagaMiddleware
-    )
-  )
-);
-
-export const test_store = createStore(
-  rootTestReducer,
   composeEnhancers(
     applyMiddleware(
       routerMiddleware(history),

@@ -1,6 +1,6 @@
 import React from 'react';
 import { AccountListUnconnected } from '.';
-import { shallow, mount } from 'enzyme';
+import { mount } from 'enzyme';
 import { EMPTY_ACCOUNT } from '~/redux/account/constants';
 import styles from './styles.module.scss';
 import { URLS } from '~/constants/urls';

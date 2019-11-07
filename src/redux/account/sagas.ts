@@ -22,8 +22,9 @@ import { URLS } from '~/constants/urls';
 import { Fantom } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
+import { modalHide } from '../modal/actions';
 
-export function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
+function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 
@@ -91,7 +92,9 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
   try {
     const { list } = yield select(selectAccount);
 
-    if (!id || !list[id]) return;
+    if (!id || !list[id]) {
+      return;
+    }
 
     yield put(
       accountSetAccount(id, {
@@ -102,6 +105,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
     const result = yield call(Fantom.getBalance.bind(Fantom), id);
 
     if (!result) return;
+
     const balance = parseFloat(parseFloat(fromWei(result)).toFixed(4));
 
     yield put(
@@ -173,3 +177,13 @@ export function* accountSaga() {
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
 }
+
+// This export is used for testing
+export const ACCOUNT_SAGAS = {
+  createSetCredentials,
+  createSetConfirm,
+  createCancel,
+  createRestoreMnemonics,
+  getBalance,
+  sendFunds,
+};

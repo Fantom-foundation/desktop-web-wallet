@@ -16,6 +16,7 @@ import image_amount from '~/images/amount.svg';
 import image_password from '~/images/password.svg';
 import image_from from '~/images/withdraw.svg';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
+import * as MODAL_ACTIONS from '~/redux/modal/actions';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 import { useCloseOnEscape } from '~/utility/hooks';
 import { LoadingOverlay } from '../LoadingOverlay';
@@ -30,6 +31,7 @@ const mapDispatchToProps = {
   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
   accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
+  modalHide: MODAL_ACTIONS.modalHide,
 };
 
 type IProps = IModalChildProps &
@@ -46,6 +48,7 @@ const TransferModalUnconnected: FC<IProps> = ({
   accountTransferClear,
   accountSetTransferErrors,
   accountGetBalance,
+  modalHide,
 }) => {
   const [to, setTo] = useState('');
   const [from, setFrom] = useState('');
@@ -92,6 +95,11 @@ const TransferModalUnconnected: FC<IProps> = ({
     return `${list[from].balance} FTM`;
   }, [from, list]);
 
+  const onSuccessClose = useCallback(() => {
+    accountTransferClear();
+    modalHide();
+  }, [accountTransferClear, modalHide]);
+
   useCloseOnEscape(onClose);
 
   return (
@@ -120,7 +128,11 @@ const TransferModalUnconnected: FC<IProps> = ({
             type="text"
           />
 
-          {errors.to && <div id="error_to" className={styles.error}>{errors.to}</div>}
+          {errors.to && (
+            <div id="error_to" className={styles.error}>
+              {errors.to}
+            </div>
+          )}
         </div>
 
         <div className={styles.item}>
@@ -135,7 +147,11 @@ const TransferModalUnconnected: FC<IProps> = ({
             right={balance}
           />
 
-          {errors.from && <div id="error_from" className={styles.error}>{errors.from}</div>}
+          {errors.from && (
+            <div id="error_from" className={styles.error}>
+              {errors.from}
+            </div>
+          )}
         </div>
 
         <div className={styles.item}>
@@ -151,8 +167,16 @@ const TransferModalUnconnected: FC<IProps> = ({
             autoComplete="nope"
           />
 
-          {errors.balance && <div id="error_balance" className={styles.error}>{errors.balance}</div>}
-          {errors.amount && <div id="error_amount" className={styles.error}>{errors.amount}</div>}
+          {errors.balance && (
+            <div id="error_balance" className={styles.error}>
+              {errors.balance}
+            </div>
+          )}
+          {errors.amount && (
+            <div id="error_amount" className={styles.error}>
+              {errors.amount}
+            </div>
+          )}
         </div>
 
         <div className={styles.item}>
@@ -168,7 +192,11 @@ const TransferModalUnconnected: FC<IProps> = ({
             autoComplete="new-password"
           />
 
-          {errors.password && <div id="error_password" className={styles.error}>{errors.password}</div>}
+          {errors.password && (
+            <div id="error_password" className={styles.error}>
+              {errors.password}
+            </div>
+          )}
         </div>
 
         <div className={styles.item}>
@@ -195,7 +223,7 @@ const TransferModalUnconnected: FC<IProps> = ({
         <DialogInfo
           title="Success!"
           body="Transfer complete"
-          onClose={accountTransferClear}
+          onClose={onSuccessClose}
           isOpened={is_sent}
         />
 
