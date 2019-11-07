@@ -174,7 +174,6 @@ describe('account sagas', () => {
   describe('sendFunds', () => {
     Web3.utils.isAddress = jest.fn().mockImplementation(addr => addr === '0xFF');
     Fantom.transfer = jest.fn().mockImplementation(() => {
-      console.log('CALLED!');
       return true;
     });
 
@@ -210,7 +209,7 @@ describe('account sagas', () => {
       done();
     });
 
-    fit('sendFunds validation works', async done => {
+    it('sendFunds validation works', async done => {
       await expectSaga(
         ACCOUNT_SAGAS.sendFunds,
         accountSendFunds({
