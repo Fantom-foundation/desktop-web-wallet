@@ -7,6 +7,7 @@ import {
   accountCreateRestoreMnemonics,
   accountGetBalance,
   accountSendFunds,
+  accountSetTransferErrors,
 } from '../actions';
 import { ACCOUNT_CREATION_STAGES, ACCOUNT_INITIAL_STATE } from '..';
 import bip from 'bip39';
@@ -14,6 +15,7 @@ import { Fantom } from '~/utility/web3';
 import { assocPath } from 'ramda';
 import { ACCOUNT_ACTIONS } from '../constants';
 import { CALL_HISTORY_METHOD } from 'connected-react-router';
+import Web3 from 'web3';
 
 describe('account sagas', () => {
   bip.generateMnemonic = jest.fn().mockImplementation(() => 'MNEMONIC');
@@ -22,7 +24,9 @@ describe('account sagas', () => {
     .mockImplementation((mnemonic: string) => ({ publicAddress: `${mnemonic}-0xFF` }));
   Fantom.getKeystore = jest.fn().mockImplementation(() => ({}));
   Fantom.getBalance = jest.fn().mockImplementation(() => '100000000000000000');
-  Fantom.getPrivateKey = jest.fn().mockImplementation((keystore, password) => `PRIVATE-${password}`);
+  Fantom.getPrivateKey = jest
+    .fn()
+    .mockImplementation((keystore, password) => `PRIVATE-${password}`);
 
   describe('createSetCredentials', () => {
     it('createSetCredentials', async done => {
@@ -151,14 +155,14 @@ describe('account sagas', () => {
           action: {
             type: ACCOUNT_ACTIONS.SET_ACCOUNT,
             id: 'ACCOUNT',
-            data: { is_loading_balance: true }
+            data: { is_loading_balance: true },
           },
         })
         .put.like({
           action: {
             type: ACCOUNT_ACTIONS.SET_ACCOUNT,
             id: 'ACCOUNT',
-            data: { is_loading_balance: false, balance: 0.1 }
+            data: { is_loading_balance: false, balance: 0.1 },
           },
         })
         .run();
@@ -168,30 +172,60 @@ describe('account sagas', () => {
   });
 
   describe('sendFunds', () => {
+    Web3.utils.isAddress = jest.fn().mockImplementation(addr => addr === '0xFF');
+    Fantom.transfer = jest.fn().mockImplementation(() => {
+      console.log('CALLED!');
+      return true;
+    });
+
     const initial = {
       account: {
         list: {
-          ACCOUNT: {},
+          '0xFF': {},
         },
       },
     };
 
     const data = {
-      from: 'ACCOUNT', 
-      to: '0x00', 
-      amount: 0.1, 
-      password: 'PASSWORD', 
+      from: '0xFF',
+      to: '0xFF',
+      amount: 0.1,
+      password: 'PASSWORD',
       message: 'MESSAGE',
     };
 
-    fit('sendFunds sending funds', async done => {
+    it('sendFunds sending funds', async done => {
       await expectSaga(ACCOUNT_SAGAS.sendFunds, accountSendFunds(data))
         .withState(initial)
+        .call.like({ fn: Fantom.getPrivateKey })
+        .call.like({ fn: Fantom.transfer })
         .put.like({
           action: {
-            type: ACCOUNT_ACTIONS.SET_ACCOUNT,
-            id: 'ACCOUNTZ',
-            data: { is_loading_balance: false, balance: 0.1 }
+            type: ACCOUNT_ACTIONS.SET_TRANSFER,
+            transfer: { is_sent: true },
+          },
+        })
+        .run();
+
+      done();
+    });
+
+    fit('sendFunds validation works', async done => {
+      await expectSaga(
+        ACCOUNT_SAGAS.sendFunds,
+        accountSendFunds({
+          from: '0xFF',
+          to: '',
+          amount: 0,
+          password: '',
+          message: '',
+        })
+      )
+        .withState(initial)
+        .not.put.like({
+          action: {
+            type: ACCOUNT_ACTIONS.SET_TRANSFER,
+            transfer: { is_sent: true },
           },
         })
         .run();

@@ -134,9 +134,9 @@ function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof a
   yield call(getBalance, accountGetBalance(from));
 
   const { keystore, balance } = list[from];
-
+  
   const privateKey = yield call(Fantom.getPrivateKey, keystore, password);
-
+  
   const validation_errors = validateAccountTransaction({
     from,
     to,
@@ -146,11 +146,11 @@ function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof a
   });
 
   if (Object.keys(validation_errors).length)
-    return yield put(accountSetTransferErrors(validation_errors));
-
+  return yield put(accountSetTransferErrors(validation_errors));
+  
   try {
     yield put(accountSetTransfer({ is_processing: true }));
-    yield Fantom.transfer({
+    yield call(Fantom.transfer, {
       from,
       to,
       value: amount.toString(),
