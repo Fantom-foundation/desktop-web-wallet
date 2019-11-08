@@ -44,9 +44,9 @@ export interface IAccountState {
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
   create: {
     stage: ACCOUNT_CREATION_STAGES.CREDENTIALS,
-    name: 'name',
-    password: 'Puzzword12345',
-    icon: '11572238206314',
+    name: '',
+    password: '',
+    icon: '',
     publicAddress: '',
     mnemonic: '',
     errors: {},
