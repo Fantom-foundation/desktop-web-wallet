@@ -2,6 +2,7 @@
   "name": "web_wallet1",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/main.js",
   "dependencies": {
     "@craco/craco": "^5.5.0",
     "@types/jest": "^24.0.21",
@@ -53,7 +54,11 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "electron-connect": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-pack": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js --publish never",
+    "preelectron-pack": "npm run build && copyfiles ./electron/**/* ./build/"
   },
   "husky": {
     "hooks": {
@@ -87,6 +92,10 @@
     "@types/react-router-dom": "^5.1.0",
     "@typescript-eslint/parser": "^2.5.0",
     "babel-jest": "^24.9.0",
+    "concurrently": "^5.0.0",
+    "electron": "^6.1.4",
+    "electron-builder": "^22.0.0",
+    "electron-is-dev": "^1.1.0",
     "enzyme": "^3.10.0",
     "enzyme-adapter-react-16": "^1.15.1",
     "enzyme-to-json": "^3.4.3",
@@ -103,6 +112,7 @@
     "prettier": "^1.18.2",
     "redux-saga-mock": "^1.2.0",
     "sass": "^1.23.1",
-    "ts-jest": "^24.1.0"
+    "ts-jest": "^24.1.0",
+    "wait-on": "^3.3.0"
   }
 }
