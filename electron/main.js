@@ -4,38 +4,60 @@ const url = require('url');
 
 let mainWindow;
 
-function createWindow () {
-  const startUrl = process.env.ELECTRON_START_URL || url.format({
-    pathname: path.join(__dirname, '../index.html'),
-    protocol: 'file:',
-    slashes: true,
-  });
+function createWindow() {
+  const startUrl =
+    process.env.ELECTRON_START_URL ||
+    url.format({
+      pathname: path.join(__dirname, '../index.html'),
+      protocol: 'file:',
+      slashes: true,
+    });
 
   mainWindow = new BrowserWindow({
     width: 800,
     height: 600,
     webPreferences: {
+      nodeIntegration: true,
       preload: path.join(__dirname, 'preload.js'),
     },
   });
 
-  mainWindow.webContents.openDevTools()
+  mainWindow.webContents.openDevTools();
   mainWindow.loadURL(startUrl);
 
-  mainWindow.on('closed', function () {
+  mainWindow.once('ready-to-show', () => {
+    electron.protocol.interceptFileProtocol(
+      'file',
+      (request, callback) => {
+        const filePath = request.url.replace('file://', '');
+        const url = request.url.includes('./static/media/')
+          ? path.normalize(`${__dirname}/${filePath}`)
+          : filePath;
+
+        console.log({ filePath, url, __dirname });
+
+        callback({ path: url });
+      },
+      err => {
+        if (err) console.error('Failed to register protocol');
+      }
+    );
+  });
+
+  mainWindow.on('closed', function() {
     mainWindow = null;
   });
 }
 
 app.on('ready', createWindow);
 
-app.on('window-all-closed', function () {
+app.on('window-all-closed', function() {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on('activate', function () {
+app.on('activate', function() {
   if (mainWindow === null) {
     createWindow();
   }

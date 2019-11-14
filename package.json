@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "electron/main.js",
+  "homepage": ".",
   "dependencies": {
     "@craco/craco": "^5.5.0",
     "@types/jest": "^24.0.21",
@@ -114,5 +115,25 @@
     "sass": "^1.23.1",
     "ts-jest": "^24.1.0",
     "wait-on": "^3.3.0"
+  },
+  "build": {
+    "directories": {
+			"buildResources": "build",
+			"output": "dist"
+    },
+    "files": [
+      "build/static",
+      "build",
+      {
+        "from": "build/static",
+        "to": "static"      
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "build/static",
+        "to": "static" 
+      }
+    ]
   }
 }

@@ -11,6 +11,8 @@ import { URLS } from '~/constants/urls';
 import classNames from 'classnames';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
+import path from 'path';
+import { getURL } from '~/utility/dom';
 
 const mapStateToProps = selectAccount;
 
@@ -47,7 +49,7 @@ const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlur
         <Row>
           <Col className={styles.content}>
             <Link to={URLS.ROOT}>
-              <img src={logo} alt="Logo" className={styles.logo} />
+              <img src={getURL(logo)} alt="Logo" className={styles.logo} />
             </Link>
 
             <div className={styles.links}>
