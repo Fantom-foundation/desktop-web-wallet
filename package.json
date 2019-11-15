@@ -56,9 +56,11 @@
     "build": "craco build",
     "test": "craco test",
     "eject": "react-scripts eject",
-    "electron-connect": "export ELECTRON_START_URL=http://localhost:3000 && electron .",
-    "electron-dev": "concurrently \"BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
+    "electron-connect": "cross-env ELECTRON_START_URL=http://localhost:3000 && electron .",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && electron .\"",
     "electron-pack": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js --publish never",
+    "electron-build": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
+    "electron-build-win": "electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
     "preelectron-pack": "npm run build && copyfiles ./electron/**/* ./build/"
   },
   "husky": {
@@ -94,6 +96,7 @@
     "@typescript-eslint/parser": "^2.5.0",
     "babel-jest": "^24.9.0",
     "concurrently": "^5.0.0",
+    "cross-env": "^6.0.3",
     "electron": "^6.1.4",
     "electron-builder": "^22.0.0",
     "electron-is-dev": "^1.1.0",
@@ -118,21 +121,21 @@
   },
   "build": {
     "directories": {
-			"buildResources": "build",
-			"output": "dist"
+      "buildResources": "build",
+      "output": "dist"
     },
     "files": [
       "build/static",
       "build",
       {
         "from": "build/static",
-        "to": "static"      
+        "to": "static"
       }
     ],
     "extraResources": [
       {
         "from": "build/static",
-        "to": "static" 
+        "to": "static"
       }
     ]
   }
