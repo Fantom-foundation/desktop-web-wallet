@@ -3,6 +3,7 @@ import { Row, Col } from 'reactstrap';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import BrandLogo from '~/images/logo/FantomWallet.svg';
 import styles from './styles.module.scss';
+import { getURL } from '~/utility/dom';
 
 interface IProps {
   mnemonic: string;
@@ -24,7 +25,7 @@ const AccountDetailPrint: FC<IProps> = ({ mnemonic, address }) => (
       
       <Col className="brand">
         <div className="brand-holder">
-          <img src={BrandLogo} alt="logo" />
+          <img src={getURL(BrandLogo)} alt="logo" />
           <p>https://fantom.foundation/</p>
         </div>
       </Col>

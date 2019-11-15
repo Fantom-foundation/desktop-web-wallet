@@ -10,6 +10,7 @@ import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
 import styles from './styles.module.scss';
 import { TextInput } from '../../inputs/TextInput';
+import { getURL } from '~/utility/dom';
 
 type IProps = {
   push: Push;
@@ -135,15 +136,15 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                   <Col md={4} lg={3}>
                     <div className={styles.validator}>
                       <div>
-                        <img src={is_long_enough ? check : cross} alt="correct" className="ico" />
+                        <img src={is_long_enough ? getURL(check) : getURL(cross)} alt="correct" className="ico" />
                         8+ Characters
                       </div>
                       <div>
-                        <img src={has_capital ? check : cross} alt="correct" className="ico" />
+                        <img src={has_capital ? getURL(check) : getURL(cross)} alt="correct" className="ico" />
                         1+ Upper Case Letter
                       </div>
                       <div>
-                        <img src={has_number ? check : cross} alt="correct" className="ico" />
+                        <img src={has_number ? getURL(check) : getURL(cross)} alt="correct" className="ico" />
                         1+ Number
                       </div>
                     </div>

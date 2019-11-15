@@ -77,7 +77,7 @@ const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlur
             </div>
 
             <div className={styles.burger} onClick={toggleMenu}>
-              <img src={hamburgerBtn} alt="menu" />
+              <img src={getURL(hamburgerBtn)} alt="menu" />
             </div>
           </Col>
         </Row>
@@ -85,7 +85,7 @@ const LayoutHeaderNavUnconnected: FC<IProps> = ({ location: { pathname }, isBlur
 
       <div className={classNames(styles.menu, { [styles.active]: is_menu_active })}>
         <div className={styles.close} onClick={toggleMenu}>
-          <img src={closeBtn} alt="close" />
+          <img src={getURL(closeBtn)} alt="close" />
         </div>
 
         <div className={styles.menu_content}>

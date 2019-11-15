@@ -28,6 +28,7 @@ import { PanelTitle } from '~/view/components/panels/PanelTitle';
 import { PanelButton } from '~/view/components/panels/PanelButton';
 import { Address } from '~/view/components/account/Address';
 import { TextInput } from '~/view/components/inputs/TextInput';
+import { getURL } from '~/utility/dom';
 
 const mapStateToProps = selectAccountCreate;
 const mapDispatchToProps = {
@@ -147,7 +148,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
               </Row>
               <Row>
                 <Col className={styles.notice}>
-                  <img src={noView} alt="no-view" />
+                  <img src={getURL(noView)} alt="no-view" />
 
                   <h2>Screenshots are not secure</h2>
 

@@ -5,6 +5,7 @@ import Identicon from '~/view/general/Identicon';
 import refreshIcon from '~/images/icons/refresh-icon.svg';
 import classNames from 'classnames';
 import styles from './styles.module.scss';
+import { getURL } from '~/utility/dom';
 
 interface IProps {
   date: number;
@@ -34,7 +35,7 @@ const CreateAccountIcons: FC<IProps> = ({ date, selected, onSelect, onRefresh })
       </Col>
 
       <Col className={styles.refresh} md={4} lg={3}>
-        <img aria-hidden src={refreshIcon} alt="Refresh" onClick={onRefresh} />
+        <img aria-hidden src={getURL(refreshIcon)} alt="Refresh" onClick={onRefresh} />
       </Col>
     </Row>
   </div>

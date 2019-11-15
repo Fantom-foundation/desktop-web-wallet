@@ -8,6 +8,7 @@ import classNames from 'classnames';
 import close from '~/images/icons/close.svg';
 import { disableBodyScroll, enableBodyScroll } from 'body-scroll-lock';
 import * as MODAL_ACTIONS from '~/redux/modal/actions';
+import { getURL } from '~/utility/dom';
 
 const mapStateToProps = selectModal;
 const mapDispatchToProps = {
@@ -36,7 +37,7 @@ const ModalUnconnected: FC<IProps> = ({ isOpened, modalHide, current }) => {
       <div className={classNames(styles.modal, { [styles.active]: is_visible })} ref={ref}>
         <div className={styles.header}>
           <div onClick={modalHide} className={styles.close}>
-            <img src={close} alt="close" />
+            <img src={getURL(close)} alt="close" />
           </div>
         </div>
 
