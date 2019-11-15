@@ -10,6 +10,8 @@ import styles from './styles.module.scss';
 import { pick } from 'ramda';
 import { IState } from '~/redux';
 import { IAccountState } from '~/redux/account';
+import fileSaver from 'file-saver';
+import { IAccount } from '~/redux/account/types';
 
 const mapStateToProps = (state: IState): Pick<IAccountState, 'list'> => pick(['list'])(selectAccount(state));
 const mapDispatchToProps = {
@@ -25,6 +27,14 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
     },
     [push]
   );
+
+  const save = useCallback((event, account: IAccount) => {
+    event.preventDefault();
+    event.stopPropagation();
+
+    const blob = new Blob([JSON.stringify(account.keystore)], { type: "application/json;charset=utf-8" });
+    fileSaver(blob, 'keystore.json');
+  }, []);
 
   return (
     <div>
@@ -65,6 +75,10 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
                     <Address
                       address={account.publicAddress}
                     />
+
+                    <div onClick={event => save(event, account)}>
+                      Save
+                    </div>
                   </div>
                 </Col>
               ))}
