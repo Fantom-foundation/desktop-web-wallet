@@ -1,4 +1,4 @@
-import { assocPath } from 'ramda';
+import { assocPath } from "ramda";
 import {
   accountSetCreate,
   accountSetCreateStage,
@@ -7,38 +7,60 @@ import {
   accountSetAccount,
   accountSetTransfer,
   accountSetTransferErrors,
-} from '~/redux/account/actions';
-import { IAccountState, ACCOUNT_INITIAL_STATE } from '.';
-import { ACCOUNT_ACTIONS } from './constants';
+} from "~/redux/account/actions";
+import { IAccountState, ACCOUNT_INITIAL_STATE } from ".";
+import { ACCOUNT_ACTIONS } from "./constants";
 
-const setCreate = (state: IAccountState, { create }: ReturnType<typeof accountSetCreate>) =>
-  assocPath(['create'], { ...state.create, ...create }, state);
+const setCreate = (
+  state: IAccountState,
+  { create }: ReturnType<typeof accountSetCreate>
+) => assocPath(["create"], { ...state.create, ...create }, state);
 
 const createClear = (state: IAccountState) =>
-  assocPath(['create'], ACCOUNT_INITIAL_STATE.create, state);
+  assocPath(["create"], ACCOUNT_INITIAL_STATE.create, state);
 
 const setCreateStage = (
   state: IAccountState,
   { stage }: ReturnType<typeof accountSetCreateStage>
-) => assocPath(['create', 'stage'], stage, state);
+) => assocPath(["create", "stage"], stage, state);
 
-const setList = (state: IAccountState, { list }: ReturnType<typeof accountSetList>) =>
-  assocPath(['list'], list, state);
+const setList = (
+  state: IAccountState,
+  { list }: ReturnType<typeof accountSetList>
+) => assocPath(["list"], list, state);
 
-const addAccount = (state: IAccountState, { account }: ReturnType<typeof accountAddAccount>) =>
-  assocPath(['list'], { ...state.list, [account.publicAddress]: account }, state);
+const addAccount = (
+  state: IAccountState,
+  { account }: ReturnType<typeof accountAddAccount>
+) =>
+  assocPath(
+    ["list"],
+    { ...state.list, [account.publicAddress]: account },
+    state
+  );
 
-const setAccount = (state: IAccountState, { id, data }: ReturnType<typeof accountSetAccount>) =>
-  assocPath(['list'], { ...state.list, [id]: { ...(state.list[id] || {}), ...data } }, state);
+const setAccount = (
+  state: IAccountState,
+  { id, data }: ReturnType<typeof accountSetAccount>
+) =>
+  assocPath(
+    ["list"],
+    { ...state.list, [id]: { ...(state.list[id] || {}), ...data } },
+    state
+  );
 
 const transferClear = (state: IAccountState) =>
-  assocPath(['transfer'], ACCOUNT_INITIAL_STATE.transfer, state);
+  assocPath(["transfer"], ACCOUNT_INITIAL_STATE.transfer, state);
 
-const setTransfer = (state: IAccountState, { transfer }: ReturnType<typeof accountSetTransfer>) =>
-  assocPath(['transfer'], { ...state.transfer, ...transfer }, state);
+const setTransfer = (
+  state: IAccountState,
+  { transfer }: ReturnType<typeof accountSetTransfer>
+) => assocPath(["transfer"], { ...state.transfer, ...transfer }, state);
 
-const setTransferErrors = (state: IAccountState, { errors }: ReturnType<typeof accountSetTransferErrors>) =>
-  assocPath(['transfer'], { ...state.transfer, errors }, state);
+const setTransferErrors = (
+  state: IAccountState,
+  { errors }: ReturnType<typeof accountSetTransferErrors>
+) => assocPath(["transfer"], { ...state.transfer, errors }, state);
 
 export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_CREATE]: setCreate,

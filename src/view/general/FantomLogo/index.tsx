@@ -1,4 +1,4 @@
-import React, { PureComponent } from 'react';
+import React, { PureComponent } from "react";
 
 interface IProps {
   width?: number;
@@ -9,7 +9,7 @@ interface IProps {
 class FantomLogo extends PureComponent<IProps> {
   render() {
     const style = {
-      fill: 'white',
+      fill: "white",
     };
     const { width = 90, height = 21.16, logoType = 2 } = this.props;
 

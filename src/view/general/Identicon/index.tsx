@@ -7,7 +7,7 @@ interface IProps {
   id: string;
 }
 
-const Identicons: FC<IProps> = (props) => {
+const Identicons: FC<IProps> = props => {
   const { width, size, id } = props;
   const newWidth = width;
   const newsize = size;
@@ -32,7 +32,9 @@ const Identicons: FC<IProps> = (props) => {
       });
       rects.push(rect);
     },
-    end() {},
+    end() {
+      //
+    },
   });
 
   return (

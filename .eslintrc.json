@@ -75,7 +75,8 @@
     "template-curly-spacing":"off",
     "indent":"off",
     "import/order":"off",
-    "arrow-parens":["warn","as-needed"]
+    "arrow-parens":["warn","as-needed"],
+    "no-await-in-loop": ["warn"]
   },
   "globals":{
     "document":false,
@@ -85,6 +86,11 @@
     "FormData":false,
     "FileReader":false,
     "Audio":false,
-    "CustomEvent":false
+    "CustomEvent":false,
+    "Blob": false,
+    "it": false,
+    "expect": false,
+    "jest": false,
+    "describe": false
   }
 }

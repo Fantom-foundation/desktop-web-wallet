@@ -1,8 +1,12 @@
-import React, { FC, InputHTMLAttributes, useCallback, ChangeEventHandler } from 'react';
-import { Input } from 'reactstrap';
-import styles from './styles.module.scss';
-import { FaIcon } from '../FaIcon';
-import classNames from 'classnames';
+import React, {
+  FC,
+  InputHTMLAttributes,
+  useCallback,
+  ChangeEventHandler,
+} from "react";
+import styles from "./styles.module.scss";
+import { FaIcon } from "../FaIcon";
+import classNames from "classnames";
 
 type IProps = InputHTMLAttributes<HTMLInputElement> & {
   icon?: string;
@@ -10,11 +14,11 @@ type IProps = InputHTMLAttributes<HTMLInputElement> & {
   fa_icon?: string;
   handler?: (val: string) => void;
   error?: string;
-  appearance?: 'seamless' | 'usual';
+  appearance?: "seamless" | "usual";
 };
 
 const TextInput: FC<IProps> = ({
-  appearance = 'usual',
+  appearance = "usual",
   label,
   icon,
   fa_icon,
@@ -35,7 +39,7 @@ const TextInput: FC<IProps> = ({
         [styles.has_icon]: icon || fa_icon,
       })}
     >
-      {label && <div className={styles.label}>{label}:</div>}
+      {label && <div className={styles.label}>{`${label}:`}</div>}
 
       {fa_icon && <FaIcon icon={fa_icon} />}
       {icon && <img src={icon} alt="icon" />}

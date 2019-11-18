@@ -3,11 +3,9 @@ import { expectSaga } from 'redux-saga-test-plan';
 import {
   accountCreateSetCredentials,
   accountSetCreate,
-  accountAddAccount,
   accountCreateRestoreMnemonics,
   accountGetBalance,
   accountSendFunds,
-  accountSetTransferErrors,
 } from '../actions';
 import { ACCOUNT_CREATION_STAGES, ACCOUNT_INITIAL_STATE } from '..';
 import bip from 'bip39';

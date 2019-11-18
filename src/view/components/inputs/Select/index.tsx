@@ -1,7 +1,13 @@
-import React, { FC, SelectHTMLAttributes, useCallback, ChangeEventHandler, ReactElement } from 'react';
-import styles from './styles.module.scss';
-import { FaIcon } from '../FaIcon';
-import classNames from 'classnames';
+import React, {
+  FC,
+  SelectHTMLAttributes,
+  useCallback,
+  ChangeEventHandler,
+  ReactElement,
+} from "react";
+import styles from "./styles.module.scss";
+import { FaIcon } from "../FaIcon";
+import classNames from "classnames";
 
 type IProps = SelectHTMLAttributes<HTMLSelectElement> & {
   handler?: (val: string) => void;
@@ -12,7 +18,16 @@ type IProps = SelectHTMLAttributes<HTMLSelectElement> & {
   right?: string | ReactElement | JSX.Element | null;
 };
 
-const Select: FC<IProps> = ({ handler, label, options, icon, fa_icon, placeholder, right, ...props }) => {
+const Select: FC<IProps> = ({
+  handler,
+  label,
+  options,
+  icon,
+  fa_icon,
+  placeholder,
+  right,
+  ...props
+}) => {
   const onChange = useCallback<ChangeEventHandler<HTMLSelectElement>>(
     event => {
       if (handler) handler(event.target.value);
@@ -26,8 +41,8 @@ const Select: FC<IProps> = ({ handler, label, options, icon, fa_icon, placeholde
         [styles.has_icon]: icon || fa_icon,
       })}
     >
-      {' '}
-      {label && <div className={styles.label}>{label}:</div>}
+      {" "}
+      {label && <div className={styles.label}>{`${label}:`}</div>}
       {right && <div className={styles.right}>{right}</div>}
       {fa_icon && <FaIcon icon={fa_icon} />}
       {icon && <img src={icon} alt="icon" />}

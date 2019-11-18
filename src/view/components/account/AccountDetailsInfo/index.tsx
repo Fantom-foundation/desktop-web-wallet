@@ -1,17 +1,17 @@
-import React, { FC, useCallback, useEffect } from 'react';
-import { PanelTitle } from '~/view/components/panels/PanelTitle';
-import { IAccount } from '~/redux/account/types';
-import styles from './styles.module.scss';
-import { Button } from 'reactstrap';
-import { PanelButton } from '~/view/components/panels/PanelButton';
-import Identicon from '~/view/general/Identicon';
-import { Address } from '~/view/components/account/Address';
-import QRCodeIcon from '~/view/general/QRCodeIcon';
-import { connect } from 'react-redux';
+import React, { FC, useCallback, useEffect } from "react";
+import { PanelTitle } from "~/view/components/panels/PanelTitle";
+import { IAccount } from "~/redux/account/types";
+import styles from "./styles.module.scss";
+import { Button } from "reactstrap";
+import { PanelButton } from "~/view/components/panels/PanelButton";
+import Identicon from "~/view/general/Identicon";
+import { Address } from "~/view/components/account/Address";
+import QRCodeIcon from "~/view/general/QRCodeIcon";
+import { connect } from "react-redux";
 
-import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
-import * as MODAL_ACTIONS from '~/redux/modal/actions';
-import { MODALS } from '~/redux/modal/constants';
+import * as ACCOUNT_ACTIONS from "~/redux/account/actions";
+import * as MODAL_ACTIONS from "~/redux/modal/actions";
+import { MODALS } from "~/redux/modal/constants";
 
 const mapStateToProps = () => ({});
 
@@ -25,8 +25,15 @@ type IProps = ReturnType<typeof mapStateToProps> &
     account: IAccount;
   };
 
-const AccountDetailsInfoUnconnected: FC<IProps> = ({ account, accountGetBalance, modalShow }) => {
-  const getBalance = useCallback(() => accountGetBalance(account.publicAddress), [account.publicAddress, accountGetBalance]);
+const AccountDetailsInfoUnconnected: FC<IProps> = ({
+  account,
+  accountGetBalance,
+  modalShow,
+}) => {
+  const getBalance = useCallback(
+    () => accountGetBalance(account.publicAddress),
+    [account.publicAddress, accountGetBalance]
+  );
   const sendFunds = useCallback(() => modalShow(MODALS.TRANSFERS), [modalShow]);
 
   useEffect(() => {
@@ -37,7 +44,13 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({ account, accountGetBalance,
     <div className={styles.wrap}>
       <PanelTitle
         title="Account management"
-        right={<PanelButton onClick={getBalance} icon="fa-sync-alt" spin={account.is_loading_balance} />}
+        right={
+          <PanelButton
+            onClick={getBalance}
+            icon="fa-sync-alt"
+            spin={account.is_loading_balance}
+          />
+        }
       />
 
       <div className={styles.content}>
@@ -52,16 +65,22 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({ account, accountGetBalance,
         </div>
 
         <div className={styles.qr}>
-          <QRCodeIcon bgColor="white" fgColor="black" address={account.publicAddress} />
-        </div> 
+          <QRCodeIcon
+            bgColor="white"
+            fgColor="black"
+            address={account.publicAddress}
+          />
+        </div>
 
         <div className={styles.balance}>
-          <b>{account.balance || '0'}</b>
+          <b>{account.balance || "0"}</b>
           {' '}
 FTM
         </div>
 
-        <Button color="primary bordered" onClick={sendFunds}>Transfer</Button>
+        <Button color="primary bordered" onClick={sendFunds}>
+          Transfer
+        </Button>
       </div>
     </div>
   );
