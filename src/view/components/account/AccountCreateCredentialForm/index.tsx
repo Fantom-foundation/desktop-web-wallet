@@ -14,8 +14,8 @@ import { getURL } from '~/utility/dom';
 
 type IProps = {
   push: Push;
-  list: IAccountState['list'];
-  onSubmit: (create: Partial<IAccountState['create']>) => void;
+  list: IAccountState["list"];
+  onSubmit: (create: Partial<IAccountState["create"]>) => void;
 };
 
 const INITIAL_ERRORS = {
@@ -27,9 +27,9 @@ const INITIAL_ERRORS = {
 };
 
 const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
-  const [password_again, setPasswordAgain] = useState('');
+  const [name, setName] = useState("");
+  const [password, setPassword] = useState("");
+  const [password_again, setPasswordAgain] = useState("");
   const [date, setDate] = useState(new Date().getTime());
   const [errors, setErrors] = useState<Record<string, boolean>>(INITIAL_ERRORS);
   const [selected_icon, setSelectedIcon] = useState(`0${String(date)}`);
@@ -43,13 +43,20 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
   const onNextPressed = useCallback(() => {
     const validation_errors = {
       name: name.length < 3,
-      unique: !!list && name.length > 0 && Object.values(list).some(el => el.name && el.name === name),
+      unique:
+        !!list &&
+        name.length > 0 &&
+        Object.values(list).some(el => el.name && el.name === name),
       passwords_match: !!password && password !== password_again,
-      password: !password.match(/[A-Z]+/) || !password.match(/[0-9]+/) || password.length < 8,
+      password:
+        !password.match(/[A-Z]+/) ||
+        !password.match(/[0-9]+/) ||
+        password.length < 8,
       icon: !selected_icon,
     };
 
-    if (Object.values(validation_errors).includes(true)) return setErrors(validation_errors);
+    if (Object.values(validation_errors).includes(true))
+      return setErrors(validation_errors);
 
     onSubmit({
       name,
@@ -58,7 +65,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
     });
   }, [onSubmit, name, password, password_again, selected_icon, list]);
 
-  const onBackPressed = useCallback(() => push('/'), [push]);
+  const onBackPressed = useCallback(() => push("/"), [push]);
 
   const is_long_enough = password.length > 8;
   const has_capital = password.match(/[A-Z]+/);
@@ -108,7 +115,10 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                       />
 
                       {!!errors.password && (
-                        <p className={styles.error} id="error_password_required">
+                        <p
+                          className={styles.error}
+                          id="error_password_required"
+                        >
                           Valid password is required
                         </p>
                       )}
@@ -126,7 +136,10 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                       />
 
                       {!!errors.passwords_match && (
-                        <p className={styles.error} id="error_password_mismatch">
+                        <p
+                          className={styles.error}
+                          id="error_password_mismatch"
+                        >
                           Passwords do not match
                         </p>
                       )}
@@ -158,14 +171,19 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
                   selected={selected_icon}
                 />
 
-                {!!errors.icon && <p className={styles.error}>Please select an icon</p>}
+                {!!errors.icon && (
+                  <p className={styles.error}>Please select an icon</p>
+                )}
               </Form>
             </Col>
           </Row>
         </Container>
       </section>
 
-      <CreateAccountButtons onNextPressed={onNextPressed} onBackPressed={onBackPressed} />
+      <CreateAccountButtons
+        onNextPressed={onNextPressed}
+        onBackPressed={onBackPressed}
+      />
     </>
   );
 };

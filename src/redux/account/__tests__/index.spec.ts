@@ -1,4 +1,4 @@
-import { ACCOUNT_INITIAL_STATE, account, ACCOUNT_CREATION_STAGES } from '..';
+import { ACCOUNT_INITIAL_STATE, account, ACCOUNT_CREATION_STAGES } from "..";
 import {
   accountSetCreate,
   accountSetCreateStage,
@@ -6,22 +6,22 @@ import {
   accountCreateClear,
   accountAddAccount,
   accountSetAccount,
-} from '../actions';
-import { EMPTY_ACCOUNT } from '../constants';
+} from "../actions";
+import { EMPTY_ACCOUNT } from "../constants";
 
-describe('account reducer', () => {
+describe("account reducer", () => {
   const state = ACCOUNT_INITIAL_STATE;
   const changed_create = {
     stage: ACCOUNT_CREATION_STAGES.INFO,
-    name: 'NAME',
-    password: 'PASSWORD',
-    icon: 'ICON',
-    publicAddress: 'ADDRESS',
-    mnemonic: 'MNEMONIC',
-    errors: { FIELD: 'ERROR' },
+    name: "NAME",
+    password: "PASSWORD",
+    icon: "ICON",
+    publicAddress: "ADDRESS",
+    mnemonic: "MNEMONIC",
+    errors: { FIELD: "ERROR" },
   };
 
-  it('setCreate', () => {
+  it("setCreate", () => {
     expect(account(state, accountSetCreate(changed_create))).toEqual({
       ...state,
       create: {
@@ -30,8 +30,10 @@ describe('account reducer', () => {
     });
   });
 
-  it('setCreateStage', () => {
-    expect(account(state, accountSetCreateStage(ACCOUNT_CREATION_STAGES.INFO))).toEqual({
+  it("setCreateStage", () => {
+    expect(
+      account(state, accountSetCreateStage(ACCOUNT_CREATION_STAGES.INFO))
+    ).toEqual({
       ...state,
       create: {
         ...state.create,
@@ -40,42 +42,51 @@ describe('account reducer', () => {
     });
   });
 
-  it('setList', () => {
+  it("setList", () => {
     expect(account(state, accountSetList(null))).toEqual({
       ...state,
       list: null,
     });
   });
 
-  it('accountCreateClear', () => {
-    expect(account(account(state, accountSetCreate(changed_create)), accountCreateClear())).toEqual(
-      {
-        ...state,
-      }
-    );
-  });
-
-  it('addAccount', () => {
+  it("accountCreateClear", () => {
     expect(
-      account(state, accountAddAccount({ ...EMPTY_ACCOUNT, publicAddress: 'ACCOUNT' }))
+      account(
+        account(state, accountSetCreate(changed_create)),
+        accountCreateClear()
+      )
     ).toEqual({
       ...state,
-      list: {
-        ACCOUNT: { ...EMPTY_ACCOUNT, publicAddress: 'ACCOUNT' },
-      },
     });
   });
 
-  it('setAccount', () => {
+  it("addAccount", () => {
     expect(
       account(
-        account(state, accountAddAccount({ ...EMPTY_ACCOUNT, publicAddress: 'ACCOUNT' })),
-        accountSetAccount('ACCOUNT', { name: 'NAME' })
+        state,
+        accountAddAccount({ ...EMPTY_ACCOUNT, publicAddress: "ACCOUNT" })
       )
     ).toEqual({
       ...state,
       list: {
-        ACCOUNT: { ...EMPTY_ACCOUNT, publicAddress: 'ACCOUNT', name: 'NAME' },
+        ACCOUNT: { ...EMPTY_ACCOUNT, publicAddress: "ACCOUNT" },
+      },
+    });
+  });
+
+  it("setAccount", () => {
+    expect(
+      account(
+        account(
+          state,
+          accountAddAccount({ ...EMPTY_ACCOUNT, publicAddress: "ACCOUNT" })
+        ),
+        accountSetAccount("ACCOUNT", { name: "NAME" })
+      )
+    ).toEqual({
+      ...state,
+      list: {
+        ACCOUNT: { ...EMPTY_ACCOUNT, publicAddress: "ACCOUNT", name: "NAME" },
       },
     });
   });

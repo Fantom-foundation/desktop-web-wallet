@@ -15,7 +15,7 @@ interface IProps {
 };
 
 const AccountRestoreProcess: FC<IProps> = ({
-  stepNo
+  stepNo,
 }) => (  
   <PanelProgress current={stepNo} stages={STAGES} />
 )

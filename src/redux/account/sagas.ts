@@ -22,7 +22,6 @@ import { URLS } from '~/constants/urls';
 import { Fantom } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
-import { modalHide } from '../modal/actions';
 
 function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();

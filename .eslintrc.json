@@ -45,11 +45,6 @@
     "react/state-in-constructor": 0,
     "consistent-return": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
-    "standard": {
-      "commonjs": true,
-      "node": true,
-      "mocha": true
-    },
     "react/jsx-wrap-multilines":[
       "warn",
       {
@@ -80,7 +75,8 @@
     "template-curly-spacing":"off",
     "indent":"off",
     "import/order":"off",
-    "arrow-parens":["warn","as-needed"]
+    "arrow-parens":["warn","as-needed"],
+    "no-await-in-loop": ["warn"]
   },
   "globals":{
     "document":false,
@@ -90,6 +86,11 @@
     "FormData":false,
     "FileReader":false,
     "Audio":false,
-    "CustomEvent":false
+    "CustomEvent":false,
+    "Blob": false,
+    "it": false,
+    "expect": false,
+    "jest": false,
+    "describe": false
   }
 }

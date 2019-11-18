@@ -17,7 +17,7 @@ interface IProps {
 };
 
 const AccountCreateProcess: FC<IProps> = ({
-  stepNo
+  stepNo,
 }) => (  
   <PanelProgress current={stepNo} stages={STAGES} />
 )

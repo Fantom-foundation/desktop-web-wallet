@@ -17,7 +17,6 @@ import { selectAccountCreate } from '~/redux/account/selectors';
 import { ACCOUNT_CREATION_STAGES } from '~/redux/account';
 import Identicon from '~/view/general/Identicon';
 import QRCodeIcon from '~/view/general/QRCodeIcon';
-import { copyToClipboard } from '~/utility/clipboard';
 import ReactToPrint from 'react-to-print';
 import AccountDetailPrint from '~/view/components/print/AccountDetailPrint';
 import classNames from 'classnames';
@@ -70,7 +69,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 
   useEffect(() => {
     if (!mnemonic || !password || !name || !publicAddress) onBackPressed();
-  }, []);
+  }, [mnemonic, name, onBackPressed, password, publicAddress]);
 
   const printer = useRef<any>(null);
 

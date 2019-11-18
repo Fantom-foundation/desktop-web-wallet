@@ -34,6 +34,7 @@ module.exports = {
         '^.+\\.jsx?$': 'babel-jest',
       },
       preset: 'ts-jest/presets/js-with-ts',
+      // preset: 'js-with-babel',
       testEnvironment: 'node',
       // transformIgnorePatterns: ['<rootDir>/node_modules/'],
       // globals: {

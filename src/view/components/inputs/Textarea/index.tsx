@@ -1,5 +1,10 @@
-import React, { FC, TextareaHTMLAttributes, useCallback, ChangeEventHandler } from 'react';
-import styles from './styles.module.scss';
+import React, {
+  FC,
+  TextareaHTMLAttributes,
+  useCallback,
+  ChangeEventHandler,
+} from "react";
+import styles from "./styles.module.scss";
 
 type IProps = TextareaHTMLAttributes<HTMLTextAreaElement> & {
   handler?: (val: string) => void;
@@ -18,7 +23,7 @@ const Textarea: FC<IProps> = ({ label, handler, ...props }) => {
 
   return (
     <div className={styles.textarea}>
-      {label && <div className={styles.label}>{label}:</div>}
+      {label && <div className={styles.label}>{`${label}:`}</div>}
       <textarea {...props} onChange={onChange} />
     </div>
   );

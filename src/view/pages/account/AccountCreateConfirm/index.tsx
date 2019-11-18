@@ -2,7 +2,6 @@ import React, { FC, useState, useCallback, useEffect, useMemo, memo } from 'reac
 import { Col, Row, Container, Button } from 'reactstrap';
 import { AccountCreateProcess } from '~/view/components/account/AccountCreateProccess';
 import { connect } from 'react-redux';
-import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
 import { ACCOUNT_CREATION_STAGES, IAccountState } from '~/redux/account';

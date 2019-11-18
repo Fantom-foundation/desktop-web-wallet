@@ -22,7 +22,6 @@ describe('AccountCreateInfo', () => {
     />
   );
 
-  const prev = wrapper.find(`button#account_prev_button`);
   const next = wrapper.find(`button#account_next_button`);
 
   it('displays mnemonic words', () => {

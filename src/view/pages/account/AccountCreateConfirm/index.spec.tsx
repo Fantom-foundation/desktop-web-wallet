@@ -19,7 +19,6 @@ describe('AccountCreateConfirm', () => {
   );
 
   const create_button = wrapper.find('button.btn-primary.bordered');
-  const cancel_button = wrapper.find('button.secondary.bordered');
 
   it('actually mounts', () => {
     expect(wrapper.find(`.${styles.content}`).length).toBe(1);

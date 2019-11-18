@@ -56,6 +56,26 @@ class Web3Agent {
     return this.web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
   }
 
+  async estimageFee({ from, to, value, memo }: ITransfer) {
+    const nonce = await this.web3.eth.getTransactionCount(from);
+    const gasPrice = await this.web3.eth.getGasPrice();
+
+    const rawTx = {
+      from,
+      to,
+      value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
+      // gasLimit: Web3.utils.toHex(44000),
+      gasPrice: Web3.utils.toHex(gasPrice),
+      nonce: Web3.utils.toHex(nonce),
+      data: memo,
+    };
+    
+    const tx = new Transaction(rawTx);
+    const gasLimit = await this.web3.eth.estimateGas(tx);
+
+    return parseInt(gasPrice, 10) * gasLimit;
+  }
+
   mnemonicToKeys = (mnemonic: string): { publicAddress; privateKey } => {
     const seed = Bip39.mnemonicToSeed(mnemonic);
     const root = Hdkey.fromMasterSeed(seed);

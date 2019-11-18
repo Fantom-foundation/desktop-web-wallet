@@ -1,10 +1,9 @@
-import React, { useCallback, useState } from 'react';
+import React from 'react';
 import { mount } from 'enzyme';
 import { TransferModalUnconnected } from '.';
 import styles from './styles.scss';
 import { ACCOUNT_INITIAL_STATE } from '~/redux/account';
 import { MODAL_INITIAL_STATE } from '~/redux/modal';
-import { accountGetBalance } from '~/redux/account/actions';
 
 describe('TransferModal', () => {
   const account = {
