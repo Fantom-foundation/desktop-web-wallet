@@ -33,6 +33,5 @@
     "./custom.d.ts",
     "./src/**/*.spec.ts"
   ],
-  "exclude": [
-  ]
+  "exclude": []
 }
