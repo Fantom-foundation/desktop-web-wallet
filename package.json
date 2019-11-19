@@ -62,6 +62,7 @@
     "electron-pack": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js --publish never",
     "electron-build": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
     "electron-build-win": "electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
+    "electron-build-mac": "electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
     "preelectron-pack": "npm run build && copyfiles ./electron/**/* ./build/"
   },
   "husky": {
