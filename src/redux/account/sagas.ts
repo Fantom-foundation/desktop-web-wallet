@@ -146,7 +146,6 @@ function* sendFunds({
   yield put(accountSetTransferErrors({}));
 
   yield call(getBalance, accountGetBalance(from));
-  // const fee = yield call([Fantom, ])
 
   const { list }: IAccountState = yield select(selectAccount);
 
@@ -222,7 +221,7 @@ function* getFee({
   amount,
   message
 }: ReturnType<typeof accountGetTransferFee>) {
-  yield delay(500);
+  yield delay(300);
 
   try {
     const fee: string = yield call([Fantom, Fantom.estimateFee], {

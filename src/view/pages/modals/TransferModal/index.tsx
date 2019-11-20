@@ -20,6 +20,7 @@ import * as MODAL_ACTIONS from "~/redux/modal/actions";
 import { DialogInfo } from "~/view/components/dialogs/DialogInfo";
 import { useCloseOnEscape } from "~/utility/hooks";
 import { LoadingOverlay } from "../LoadingOverlay";
+import Web3 from "web3";
 
 const mapStateToProps = state => ({
   modal: selectModal(state),
@@ -92,7 +93,13 @@ const TransferModalUnconnected: FC<IProps> = ({
     if (Object.keys(errors).length) accountSetTransferErrors({});
 
     // estimate fee
-    if (to && from && amount) {
+    if (
+      to &&
+      from &&
+      amount &&
+      Web3.utils.isAddress(from) &&
+      Web3.utils.isAddress(to)
+    ) {
       accountGetTransferFee({
         from,
         to,
@@ -100,7 +107,7 @@ const TransferModalUnconnected: FC<IProps> = ({
         message
       });
     } else if (parseFloat(fee) && parseFloat(fee) > 0) {
-      accountSetTransfer({ fee: '' });
+      accountSetTransfer({ fee: "" });
     }
   }, [to, from, amount, password, message]);
 
@@ -176,7 +183,10 @@ const TransferModalUnconnected: FC<IProps> = ({
             value={from}
             icon={image_from}
             disabled={is_processing}
-            right={balance}
+            right={
+              balance &&
+              parseFloat(parseFloat(balance || "").toFixed(6)).toString()
+            }
           />
 
           {errors.from && (
