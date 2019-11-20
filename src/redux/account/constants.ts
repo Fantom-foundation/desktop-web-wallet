@@ -24,12 +24,14 @@ export const ACCOUNT_ACTIONS = {
   TRANSFER_CLEAR: `${prefix}TRANSFER_CLEAR`,
   SET_TRANSFER: `${prefix}SET_TRANSFER`,
   SET_TRANSFER_ERRORS: `${prefix}SET_TRANSFER_ERRORS`,
+  GET_TRANSFER_FEE: `${prefix}GET_TRANSFER_FEE`,
+  SET_TRANSFER_FEE: `${prefix}SET_TRANSFER_FEE`,
 }
 
 export const EMPTY_ACCOUNT: IAccount = {
   name: '',
   publicAddress: '',
-  balance: 0,
+  balance: '0', 
   icon: '', 
   keystore: null,
 

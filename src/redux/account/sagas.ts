@@ -1,5 +1,5 @@
-import { takeLatest, put, select, call } from 'redux-saga/effects';
-import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from './constants';
+import { takeLatest, put, select, call, delay } from "redux-saga/effects";
+import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from "./constants";
 import {
   accountCreateSetCredentials,
   accountSetCreate,
@@ -13,17 +13,25 @@ import {
   accountSendFunds,
   accountSetTransferErrors,
   accountSetTransfer,
-} from './actions';
-import { ACCOUNT_CREATION_STAGES, IAccountState, ACCOUNT_INITIAL_STATE } from '.';
-import bip from 'bip39';
-import { selectAccountCreate, selectAccount } from './selectors';
-import { push } from 'connected-react-router';
-import { URLS } from '~/constants/urls';
-import { Fantom } from '~/utility/web3';
-import { fromWei } from 'web3-utils';
-import { validateAccountTransaction } from './validators';
+  accountGetTransferFee,
+  accountSetTransferFee
+} from "./actions";
+import {
+  ACCOUNT_CREATION_STAGES,
+  IAccountState,
+  ACCOUNT_INITIAL_STATE
+} from ".";
+import bip from "bip39";
+import { selectAccountCreate, selectAccount } from "./selectors";
+import { push } from "connected-react-router";
+import { URLS } from "~/constants/urls";
+import { Fantom } from "~/utility/web3";
+import { fromWei } from "web3-utils";
+import { validateAccountTransaction } from "./validators";
 
-function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCredentials>) {
+function* createSetCredentials({
+  create
+}: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 
@@ -32,18 +40,18 @@ function* createSetCredentials({ create }: ReturnType<typeof accountCreateSetCre
       ...create,
       stage: ACCOUNT_CREATION_STAGES.INFO,
       publicAddress,
-      mnemonic,
+      mnemonic
     })
   );
 }
 
 function* createSetRestoreCredentials({
-  create,
+  create
 }: ReturnType<typeof accountCreateSetRestoreCredentials>) {
   yield put(
     accountSetCreate({
       ...create,
-      stage: ACCOUNT_CREATION_STAGES.INFO,
+      stage: ACCOUNT_CREATION_STAGES.INFO
     })
   );
 }
@@ -53,9 +61,13 @@ function* createSetInfo() {
 }
 
 function* createSetConfirm() {
-  const { mnemonic, password, name, icon, publicAddress }: IAccountState['create'] = yield select(
-    selectAccountCreate
-  );
+  const {
+    mnemonic,
+    password,
+    name,
+    icon,
+    publicAddress
+  }: IAccountState["create"] = yield select(selectAccountCreate);
 
   if (!name || !password || !icon || !publicAddress || !mnemonic)
     return yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));
@@ -69,7 +81,7 @@ function* createSetConfirm() {
       name,
       icon,
       keystore,
-      publicAddress,
+      publicAddress
     })
   );
   yield put(push(URLS.ACCOUNT_LIST));
@@ -77,10 +89,12 @@ function* createSetConfirm() {
 
 function* createCancel() {
   yield put(accountCreateClear());
-  yield put(push('/'));
+  yield put(push("/"));
 }
 
-function* createRestoreMnemonics({ mnemonic }: ReturnType<typeof accountCreateRestoreMnemonics>) {
+function* createRestoreMnemonics({
+  mnemonic
+}: ReturnType<typeof accountCreateRestoreMnemonics>) {
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 
   yield put(accountSetCreate({ mnemonic, publicAddress }));
@@ -97,7 +111,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 
     yield put(
       accountSetAccount(id, {
-        is_loading_balance: true,
+        is_loading_balance: true
       })
     );
 
@@ -105,76 +119,90 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 
     if (!result) return;
 
-    const balance = parseFloat(parseFloat(fromWei(result)).toFixed(4));
+    const balance = fromWei(result);
 
     yield put(
       accountSetAccount(id, {
         balance,
-        is_loading_balance: false,
+        is_loading_balance: false
       })
     );
   } catch (e) {
     yield put(
       accountSetAccount(id, {
-        is_loading_balance: false,
+        is_loading_balance: false
       })
     );
   }
 }
 
-function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof accountSendFunds>) {
+function* sendFunds({
+  from,
+  to,
+  amount,
+  password,
+  message
+}: ReturnType<typeof accountSendFunds>) {
   yield put(accountSetTransferErrors({}));
+
+  yield call(getBalance, accountGetBalance(from));
 
   const { list }: IAccountState = yield select(selectAccount);
 
   if (!Object.prototype.hasOwnProperty.call(list, from))
-    return yield put(accountSetTransferErrors({ from: 'Not a correct sender' }));
-
-  yield call(getBalance, accountGetBalance(from));
+    return yield put(
+      accountSetTransferErrors({ from: "Not a correct sender" })
+    );
 
   const { keystore, balance } = list[from];
-  
-  const privateKey = yield call(Fantom.getPrivateKey, keystore, password);
-  
+
+  const privateKey = yield call(
+    [Fantom, Fantom.getPrivateKey],
+    keystore, 
+    password
+  );
+
+  const fee: string = yield call([Fantom, Fantom.estimateFee], {
+    from,
+    to,
+    value: amount.toString(),
+    memo: message
+  });
+
   const validation_errors = validateAccountTransaction({
     from,
     to,
     privateKey,
     balance,
-    amount,
+    fee,
+    amount
   });
 
   if (Object.keys(validation_errors).length)
-  return yield put(accountSetTransferErrors(validation_errors));
-  
+    return yield put(accountSetTransferErrors(validation_errors));
+
   try {
     yield put(accountSetTransfer({ is_processing: true }));
-    yield call(Fantom.transfer, {
+    yield call(Fantom.transfer.bind(Fantom), {
       from,
       to,
       value: amount.toString(),
       memo: message,
-      privateKey,
+      privateKey
     });
 
-    yield put(accountSetTransfer({ ...ACCOUNT_INITIAL_STATE.transfer, is_sent: true }));
+    yield put(
+      accountSetTransfer({ ...ACCOUNT_INITIAL_STATE.transfer, is_sent: true })
+    );
     yield call(getBalance, accountGetBalance(from));
   } catch (e) {
-    yield put(accountSetTransfer({ is_processing: false, errors: { send: e.toString() } }));
+    yield put(
+      accountSetTransfer({
+        is_processing: false,
+        errors: { send: e.toString() }
+      })
+    );
   }
-}
-
-export function* accountSaga() {
-  yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS, createSetCredentials);
-  yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_RESTORE_CREDENTIALS, createSetRestoreCredentials);
-  yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_INFO, createSetInfo);
-  yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_CONFIRM, createSetConfirm);
-  yield takeLatest(ACCOUNT_ACTIONS.CREATE_CANCEL, createCancel);
-  yield takeLatest(ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS, createRestoreMnemonics);
-
-  yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
-
-  yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
 }
 
 // This export is used for testing
@@ -184,5 +212,49 @@ export const ACCOUNT_SAGAS = {
   createCancel,
   createRestoreMnemonics,
   getBalance,
-  sendFunds,
+  sendFunds
 };
+
+function* getFee({
+  from,
+  to,
+  amount,
+  message
+}: ReturnType<typeof accountGetTransferFee>) {
+  yield delay(300);
+
+  try {
+    const fee: string = yield call([Fantom, Fantom.estimateFee], {
+      from,
+      to,
+      value: amount.toString(),
+      memo: message
+    });
+
+    yield put(accountSetTransfer({ fee }));
+  } finally {
+  }
+}
+
+export function* accountSaga() {
+  yield takeLatest(
+    ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS,
+    createSetCredentials
+  );
+  yield takeLatest(
+    ACCOUNT_ACTIONS.CREATE_SET_RESTORE_CREDENTIALS,
+    createSetRestoreCredentials
+  );
+  yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_INFO, createSetInfo);
+  yield takeLatest(ACCOUNT_ACTIONS.CREATE_SET_CONFIRM, createSetConfirm);
+  yield takeLatest(ACCOUNT_ACTIONS.CREATE_CANCEL, createCancel);
+  yield takeLatest(
+    ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS,
+    createRestoreMnemonics
+  );
+
+  yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
+
+  yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
+  yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
+}

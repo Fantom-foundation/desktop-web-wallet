@@ -1,69 +1,78 @@
-import { IAccountState } from '.';
-import { ACCOUNT_ACTIONS } from './constants';
-import { IAccount } from './types';
+import { IAccountState } from ".";
+import { ACCOUNT_ACTIONS } from "./constants";
+import { IAccount } from "./types";
 
-export const accountSetCreate = (create: Partial<IAccountState['create']>) => ({
+export const accountSetCreate = (create: Partial<IAccountState["create"]>) => ({
   type: ACCOUNT_ACTIONS.SET_CREATE,
-  create,
+  create
 });
 
-export const accountSetCreateStage = (stage: Partial<IAccountState['create']['stage']>) => ({
+export const accountSetCreateStage = (
+  stage: Partial<IAccountState["create"]["stage"]>
+) => ({
   type: ACCOUNT_ACTIONS.SET_CREATE_STAGE,
-  stage,
+  stage
 });
 
-export const accountCreateSetCredentials = (create: Partial<IAccountState['create']>) => ({
+export const accountCreateSetCredentials = (
+  create: Partial<IAccountState["create"]>
+) => ({
   type: ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS,
-  create,
+  create
 });
 
-export const accountCreateSetRestoreCredentials = (create: Partial<IAccountState['create']>) => ({
+export const accountCreateSetRestoreCredentials = (
+  create: Partial<IAccountState["create"]>
+) => ({
   type: ACCOUNT_ACTIONS.CREATE_SET_RESTORE_CREDENTIALS,
-  create,
+  create
 });
 
 export const accountCreateSetInfo = () => ({
-  type: ACCOUNT_ACTIONS.CREATE_SET_INFO,
+  type: ACCOUNT_ACTIONS.CREATE_SET_INFO
 });
 
 export const accountCreateSetConfirm = () => ({
-  type: ACCOUNT_ACTIONS.CREATE_SET_CONFIRM,
+  type: ACCOUNT_ACTIONS.CREATE_SET_CONFIRM
 });
 
 export const accountCreateRestoreMnemonics = ({
-  mnemonic,
-}: Pick<IAccountState['create'], 'mnemonic'>) => ({
+  mnemonic
+}: Pick<IAccountState["create"], "mnemonic">) => ({
   type: ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS,
-  mnemonic,
+  mnemonic
 });
 
 export const accountCreateCancel = () => ({
-  type: ACCOUNT_ACTIONS.CREATE_CANCEL,
+  type: ACCOUNT_ACTIONS.CREATE_CANCEL
 });
 
 export const accountCreateClear = () => ({
-  type: ACCOUNT_ACTIONS.CREATE_CLEAR,
+  type: ACCOUNT_ACTIONS.CREATE_CLEAR
 });
 
-export const accountSetList = (list: IAccountState['list']) => ({
+export const accountSetList = (list: IAccountState["list"]) => ({
   type: ACCOUNT_ACTIONS.SET_LIST,
-  list,
+  list
 });
 
 export const accountAddAccount = (account: IAccount) => ({
   type: ACCOUNT_ACTIONS.ADD_ACCOUNT,
-  account,
+  account
 });
 
-export const accountGetBalance = (id: IAccount['publicAddress']) => ({
+export const accountGetBalance = (id: IAccount["publicAddress"]) => ({
   type: ACCOUNT_ACTIONS.GET_BALANCE,
-  id,
+  id
 });
 
-export const accountSetAccount = (id: IAccount['publicAddress'], data: Partial<IAccount>) => ({
+export const accountSetAccount = (
+  id: IAccount["publicAddress"],
+  data: Partial<IAccount>
+) => ({
   type: ACCOUNT_ACTIONS.SET_ACCOUNT,
   id,
-  data,
+  data
 });
 
 export const accountSendFunds = ({
@@ -71,12 +80,12 @@ export const accountSendFunds = ({
   to,
   password,
   amount,
-  message,
+  message
 }: {
-  from: IAccount['publicAddress'];
-  to: IAccount['publicAddress'];
+  from: IAccount["publicAddress"];
+  to: IAccount["publicAddress"];
   password: string;
-  amount: number;
+  amount: string;
   message: string;
 }) => ({
   type: ACCOUNT_ACTIONS.SEND_FUNDS,
@@ -84,19 +93,48 @@ export const accountSendFunds = ({
   to,
   password,
   amount,
-  message,
+  message
 });
 
 export const accountTransferClear = () => ({
-  type: ACCOUNT_ACTIONS.TRANSFER_CLEAR,
+  type: ACCOUNT_ACTIONS.TRANSFER_CLEAR
 });
 
-export const accountSetTransferErrors = (errors: IAccountState['transfer']['errors']) => ({
+export const accountSetTransferErrors = (
+  errors: IAccountState["transfer"]["errors"]
+) => ({
   type: ACCOUNT_ACTIONS.SET_TRANSFER_ERRORS,
-  errors,
+  errors
 });
 
-export const accountSetTransfer = (transfer: Partial<IAccountState['transfer']>) => ({
+export const accountSetTransfer = (
+  transfer: Partial<IAccountState["transfer"]>
+) => ({
   type: ACCOUNT_ACTIONS.SET_TRANSFER,
-  transfer,
+  transfer
+});
+
+export const accountGetTransferFee = ({
+  from,
+  to,
+  amount,
+  message
+}: {
+  from: IAccount["publicAddress"];
+  to: IAccount["publicAddress"];
+  amount: string;
+  message: string;
+}) => ({
+  type: ACCOUNT_ACTIONS.GET_TRANSFER_FEE,
+  from,
+  to,
+  amount,
+  message
+});
+
+export const accountSetTransferFee = (
+  fee: IAccountState["transfer"]["fee"]
+) => ({
+  type: ACCOUNT_ACTIONS.SET_TRANSFER_FEE,
+  fee
 });
