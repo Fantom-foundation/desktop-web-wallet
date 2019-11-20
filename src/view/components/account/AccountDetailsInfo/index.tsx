@@ -73,7 +73,7 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
         </div>
 
         <div className={styles.balance}>
-          <b>{account.balance || "0"}</b>
+          <b>{account.balance && parseFloat(parseFloat(account.balance).toFixed(4)) || "0"}</b>
           {' '}
 FTM
         </div>
