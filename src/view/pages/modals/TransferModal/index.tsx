@@ -88,7 +88,10 @@ const TransferModalUnconnected: FC<IProps> = ({
   }, [accountSetTransferErrors]);
 
   useEffect(() => {
+    // reset errors on input
     if (Object.keys(errors).length) accountSetTransferErrors({});
+
+    // estimate fee
     if (to && from && amount) {
       accountGetTransferFee({
         from,
