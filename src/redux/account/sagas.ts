@@ -119,7 +119,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 
     if (!result) return;
 
-    const balance = parseFloat(parseFloat(fromWei(result)).toFixed(4));
+    const balance = fromWei(result);
 
     yield put(
       accountSetAccount(id, {
@@ -145,6 +145,9 @@ function* sendFunds({
 }: ReturnType<typeof accountSendFunds>) {
   yield put(accountSetTransferErrors({}));
 
+  yield call(getBalance, accountGetBalance(from));
+  // const fee = yield call([Fantom, ])
+
   const { list }: IAccountState = yield select(selectAccount);
 
   if (!Object.prototype.hasOwnProperty.call(list, from))
@@ -152,17 +155,27 @@ function* sendFunds({
       accountSetTransferErrors({ from: "Not a correct sender" })
     );
 
-  yield call(getBalance, accountGetBalance(from));
-
   const { keystore, balance } = list[from];
 
-  const privateKey = yield call(Fantom.getPrivateKey, keystore, password);
+  const privateKey = yield call(
+    [Fantom, Fantom.getPrivateKey],
+    keystore, 
+    password
+  );
+
+  const fee: string = yield call([Fantom, Fantom.estimateFee], {
+    from,
+    to,
+    value: amount.toString(),
+    memo: message
+  });
 
   const validation_errors = validateAccountTransaction({
     from,
     to,
     privateKey,
     balance,
+    fee,
     amount
   });
 
@@ -212,15 +225,16 @@ function* getFee({
   yield delay(500);
 
   try {
-    const fee: number = yield call([Fantom, Fantom.estimateFee], {
+    const fee: string = yield call([Fantom, Fantom.estimateFee], {
       from,
       to,
       value: amount.toString(),
       memo: message
     });
-  
+
     yield put(accountSetTransfer({ fee }));
-  } finally {}
+  } finally {
+  }
 }
 
 export function* accountSaga() {

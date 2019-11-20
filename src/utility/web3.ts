@@ -68,7 +68,7 @@ class Web3Agent {
     to,
     value,
     memo
-  }: Pick<ITransfer, "from" | "to" | "value" | "memo">): Promise<number> {
+  }: Pick<ITransfer, "from" | "to" | "value" | "memo">): Promise<string> {
     const gasPrice = await this.web3.eth.getGasPrice();
     const gasLimit = await this.web3.eth.estimateGas({
       from,
@@ -77,9 +77,7 @@ class Web3Agent {
       data: Web3.utils.asciiToHex(memo)
     });
 
-    const a = BigInt(gasPrice);
-    const b = BigInt(gasLimit);
-    const fee = parseFloat(parseFloat(Web3.utils.fromWei(a.multiply(b).toString())).toFixed(8));
+    const fee = Web3.utils.fromWei(BigInt(gasPrice).multiply(BigInt(gasLimit)).toString());
 
     return fee;
   }

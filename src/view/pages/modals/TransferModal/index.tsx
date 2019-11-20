@@ -75,7 +75,7 @@ const TransferModalUnconnected: FC<IProps> = ({
       accountSendFunds({
         to,
         from,
-        amount: parseFloat(amount),
+        amount,
         message,
         password
       });
@@ -96,11 +96,11 @@ const TransferModalUnconnected: FC<IProps> = ({
       accountGetTransferFee({
         from,
         to,
-        amount: parseInt(amount, 10),
+        amount,
         message
       });
-    } else if (fee > 0) {
-      accountSetTransfer({ fee: 0 });
+    } else if (parseFloat(fee) && parseFloat(fee) > 0) {
+      accountSetTransfer({ fee: '' });
     }
   }, [to, from, amount, password, message]);
 

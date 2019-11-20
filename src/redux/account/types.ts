@@ -4,7 +4,7 @@ export interface IAccount {
   name: string;
   icon: string;
   publicAddress: string;
-  balance: number;
+  balance: string;
   keystore: EncryptedKeystoreV3Json | null, 
 
   is_loading_balance: boolean; 

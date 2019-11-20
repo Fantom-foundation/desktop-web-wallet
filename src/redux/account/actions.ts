@@ -85,7 +85,7 @@ export const accountSendFunds = ({
   from: IAccount["publicAddress"];
   to: IAccount["publicAddress"];
   password: string;
-  amount: number;
+  amount: string;
   message: string;
 }) => ({
   type: ACCOUNT_ACTIONS.SEND_FUNDS,
@@ -122,7 +122,7 @@ export const accountGetTransferFee = ({
 }: {
   from: IAccount["publicAddress"];
   to: IAccount["publicAddress"];
-  amount: number;
+  amount: string;
   message: string;
 }) => ({
   type: ACCOUNT_ACTIONS.GET_TRANSFER_FEE,
