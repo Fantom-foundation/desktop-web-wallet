@@ -1,29 +1,29 @@
-import React, { FC, useMemo, useState, useCallback, useEffect } from 'react';
-import { IModalChildProps } from '~/redux/modal/constants';
-import { PanelTitle } from '~/view/components/panels/PanelTitle';
-import styles from './styles.module.scss';
-import { PanelButton } from '~/view/components/panels/PanelButton';
-import { TextInput } from '~/view/components/inputs/TextInput';
-import { Textarea } from '~/view/components/inputs/Textarea';
-import { Select } from '~/view/components/inputs/Select';
-import { selectModal } from '~/redux/modal/selectors';
-import { selectAccount } from '~/redux/account/selectors';
-import { connect } from 'react-redux';
-import { Button } from 'reactstrap';
+import React, { FC, useMemo, useState, useCallback, useEffect } from "react";
+import { IModalChildProps } from "~/redux/modal/constants";
+import { PanelTitle } from "~/view/components/panels/PanelTitle";
+import styles from "./styles.module.scss";
+import { PanelButton } from "~/view/components/panels/PanelButton";
+import { TextInput } from "~/view/components/inputs/TextInput";
+import { Textarea } from "~/view/components/inputs/Textarea";
+import { Select } from "~/view/components/inputs/Select";
+import { selectModal } from "~/redux/modal/selectors";
+import { selectAccount } from "~/redux/account/selectors";
+import { connect } from "react-redux";
+import { Button } from "reactstrap";
 
-import image_address from '~/images/address.svg';
-import image_amount from '~/images/amount.svg';
-import image_password from '~/images/password.svg';
-import image_from from '~/images/withdraw.svg';
-import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
-import * as MODAL_ACTIONS from '~/redux/modal/actions';
-import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
-import { useCloseOnEscape } from '~/utility/hooks';
-import { LoadingOverlay } from '../LoadingOverlay';
+import image_address from "~/images/address.svg";
+import image_amount from "~/images/amount.svg";
+import image_password from "~/images/password.svg";
+import image_from from "~/images/withdraw.svg";
+import * as ACCOUNT_ACTIONS from "~/redux/account/actions";
+import * as MODAL_ACTIONS from "~/redux/modal/actions";
+import { DialogInfo } from "~/view/components/dialogs/DialogInfo";
+import { useCloseOnEscape } from "~/utility/hooks";
+import { LoadingOverlay } from "../LoadingOverlay";
 
 const mapStateToProps = state => ({
   modal: selectModal(state),
-  account: selectAccount(state),
+  account: selectAccount(state)
 });
 
 const mapDispatchToProps = {
@@ -31,7 +31,7 @@ const mapDispatchToProps = {
   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
   accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
-  modalHide: MODAL_ACTIONS.modalHide,
+  modalHide: MODAL_ACTIONS.modalHide
 };
 
 type IProps = IModalChildProps &
@@ -41,30 +41,40 @@ type IProps = IModalChildProps &
 const TransferModalUnconnected: FC<IProps> = ({
   account: {
     list,
-    transfer: { errors, is_sent, is_processing },
+    transfer: { errors, is_sent, is_processing, fee }
   },
   onClose,
   accountSendFunds,
   accountTransferClear,
   accountSetTransferErrors,
   accountGetBalance,
-  modalHide,
+  modalHide
 }) => {
-  const [to, setTo] = useState('');
-  const [from, setFrom] = useState('');
-  const [amount, setAmount] = useState('0');
-  const [password, setPassword] = useState('');
-  const [message, setMessage] = useState('');
+  const [to, setTo] = useState("");
+  const [from, setFrom] = useState("");
+  const [amount, setAmount] = useState("0");
+  const [password, setPassword] = useState("");
+  const [message, setMessage] = useState("");
 
   const senders = useMemo(
-    () => Object.entries(list).reduce((obj, [id, account]) => ({ ...obj, [id]: account.name }), {}),
+    () =>
+      Object.entries(list).reduce(
+        (obj, [id, account]) => ({ ...obj, [id]: account.name }),
+        {}
+      ),
     [list]
   );
 
   const onSubmit = useCallback(
     event => {
       event.preventDefault();
-      accountSendFunds({ to, from, amount: parseFloat(amount), message, password });
+      accountSendFunds({
+        to,
+        from,
+        amount: parseFloat(amount),
+        message,
+        password
+      });
     },
     [accountSendFunds, to, from, amount, password, message]
   );
@@ -111,7 +121,12 @@ const TransferModalUnconnected: FC<IProps> = ({
       <PanelTitle
         title="Send Funds"
         right={
-          <PanelButton icon="fa-sync-alt" spin={is_processing} type="button" onClick={onRefresh} />
+          <PanelButton
+            icon="fa-sync-alt"
+            spin={is_processing}
+            type="button"
+            onClick={onRefresh}
+          />
         }
       />
 
@@ -167,11 +182,14 @@ const TransferModalUnconnected: FC<IProps> = ({
             autoComplete="nope"
           />
 
+          {fee && <div className={styles.fee}>{`Fee will be ${fee} FTM`}</div>}
+
           {errors.balance && (
             <div id="error_balance" className={styles.error}>
               {errors.balance}
             </div>
           )}
+
           {errors.amount && (
             <div id="error_amount" className={styles.error}>
               {errors.amount}
@@ -211,7 +229,11 @@ const TransferModalUnconnected: FC<IProps> = ({
         </div>
 
         <div className={styles.button}>
-          <Button color="primary bordered" type="submit" disabled={is_processing}>
+          <Button
+            color="primary bordered"
+            type="submit"
+            disabled={is_processing}
+          >
             Continue
           </Button>
 

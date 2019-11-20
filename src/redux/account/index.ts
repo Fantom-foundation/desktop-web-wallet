@@ -35,6 +35,7 @@ export interface IAccountState {
   };
   transfer: {
     errors: Record<string, string>;
+    fee: number,
     is_processing: boolean;
     is_sent: boolean;
   };
@@ -53,6 +54,7 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
   },
   transfer: {
     errors: {},
+    fee: 0,
     is_processing: false,
     is_sent: false,
   },

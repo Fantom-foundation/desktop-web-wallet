@@ -149,7 +149,7 @@ function* sendFunds({ from, to, amount, password, message }: ReturnType<typeof a
   
   try {
     yield put(accountSetTransfer({ is_processing: true }));
-    yield call(Fantom.transfer, {
+    yield call(Fantom.transfer.bind(Fantom), {
       from,
       to,
       value: amount.toString(),
