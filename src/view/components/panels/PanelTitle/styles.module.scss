@@ -2,7 +2,7 @@
 
 .panel {
   background: $color_primary;
-  height: $panel_height; 
+  height: $panel_height;
   font-size: 20px;
   display: flex;
   align-items: center;
@@ -11,10 +11,13 @@
   width: 100%;
 }
 
-.title { 
+.title {
   flex: 1;
   padding: 12px 30px;
   text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .right {
