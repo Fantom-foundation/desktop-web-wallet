@@ -79,7 +79,7 @@ const TransferModalUnconnected: FC<IProps> = ({
 
   useEffect(() => {
     if (from && Object.hasOwnProperty.call(list, from)) accountGetBalance(from);
-  }, [accountGetBalance, from, list]);
+  }, [from]);
 
   const onRefresh = useCallback(() => {
     if (!from || !list[from]) return;
