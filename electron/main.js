@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron');
+const { app, BrowserWindow, shell } = require('electron');
 const path = require('path');
 const url = require('url');
 
@@ -61,4 +61,17 @@ app.on('activate', function() {
   if (mainWindow === null) {
     createWindow();
   }
+});
+
+app.on('web-contents-created', (e, contents) => {
+  // Prevent creating more than one window
+  contents.on('new-window', (e, url) => {
+    e.preventDefault();
+    shell.openExternal(url);
+  });
+  
+  // Prevent loading something else than the UI
+  contents.on('will-navigate', (e, url) => {
+    if (url !== contents.getURL()) e.preventDefault();
+  });
 });
