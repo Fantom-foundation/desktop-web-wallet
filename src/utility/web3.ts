@@ -1,13 +1,18 @@
-import Web3 from 'web3';
-import Transaction from 'ethereumjs-tx';
-import * as EthUtil from 'ethereumjs-util';
-import Bip39 from 'bip39';
-import Hdkey from 'hdkey';
-import { EncryptedKeystoreV3Json } from 'web3-core';
-import { IAccount } from '~/redux/account/types';
-import keythereum from 'keythereum';
+import Web3 from "web3";
+import Transaction from "ethereumjs-tx";
+import * as EthUtil from "ethereumjs-util";
+import Bip39 from "bip39";
+import Hdkey from "hdkey";
+import { EncryptedKeystoreV3Json } from "web3-core";
+import { IAccount } from "~/redux/account/types";
+import keythereum from "keythereum";
+import BigInt from 'big-integer';
 
-const { REACT_APP_API_URL_FANTOM, REACT_APP_KEY_INFURA, REACT_APP_EXAMPLE_ADDRESS } = process.env;
+const {
+  REACT_APP_API_URL_FANTOM,
+  REACT_APP_KEY_INFURA,
+  REACT_APP_EXAMPLE_ADDRESS
+} = process.env;
 
 const URL_FANTOM = REACT_APP_API_URL_FANTOM;
 const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${REACT_APP_KEY_INFURA}`;
@@ -39,11 +44,11 @@ class Web3Agent {
     const rawTx = {
       from,
       to,
-      value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
-      gasLimit: Web3.utils.toHex(22000),
+      value: Web3.utils.toHex(Web3.utils.toWei(value, "ether")),
+      gasLimit: Web3.utils.toHex(44000),
       gasPrice: Web3.utils.toHex(gasPrice),
       nonce: Web3.utils.toHex(nonce),
-      data: memo,
+      data: memo
     };
 
     const privateKeyBuffer = EthUtil.toBuffer(privateKey);
@@ -53,27 +58,30 @@ class Web3Agent {
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
 
-    return this.web3.eth.sendSignedTransaction(`0x${serializedTx.toString('hex')}`);
+    return this.web3.eth.sendSignedTransaction(
+      `0x${serializedTx.toString("hex")}`
+    );
   }
 
-  async estimageFee({ from, to, value, memo }: ITransfer) {
-    const nonce = await this.web3.eth.getTransactionCount(from);
+  async estimateFee({
+    from,
+    to,
+    value,
+    memo
+  }: Pick<ITransfer, "from" | "to" | "value" | "memo">): Promise<number> {
     const gasPrice = await this.web3.eth.getGasPrice();
-
-    const rawTx = {
+    const gasLimit = await this.web3.eth.estimateGas({
       from,
       to,
-      value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
-      // gasLimit: Web3.utils.toHex(44000),
-      gasPrice: Web3.utils.toHex(gasPrice),
-      nonce: Web3.utils.toHex(nonce),
-      data: memo,
-    };
-    
-    const tx = new Transaction(rawTx);
-    const gasLimit = await this.web3.eth.estimateGas(tx);
+      value: Web3.utils.toHex(Web3.utils.toWei(value, "ether")),
+      data: Web3.utils.asciiToHex(memo)
+    });
 
-    return parseInt(gasPrice, 10) * gasLimit;
+    const a = BigInt(gasPrice);
+    const b = BigInt(gasLimit);
+    const fee = parseFloat(parseFloat(Web3.utils.fromWei(a.multiply(b).toString())).toFixed(8));
+
+    return fee;
   }
 
   mnemonicToKeys = (mnemonic: string): { publicAddress; privateKey } => {
@@ -82,20 +90,28 @@ class Web3Agent {
 
     const addrNode = root.derive("m/44'/60'/0'/0/0");
     const pubKey = EthUtil.privateToPublic(addrNode._privateKey);
-    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+    const addr = EthUtil.publicToAddress(pubKey).toString("hex");
     const publicAddress = EthUtil.toChecksumAddress(addr);
     const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
 
     return { publicAddress, privateKey };
   };
 
-  getKeystore = (privateKey: string, password: string): EncryptedKeystoreV3Json =>
+  getKeystore = (
+    privateKey: string,
+    password: string
+  ): EncryptedKeystoreV3Json =>
     this.web3.eth.accounts.encrypt(privateKey, password);
 
-  getPrivateKey = (keystore: IAccount['keystore'], password: string): Promise<string | null> =>
+  getPrivateKey = (
+    keystore: IAccount["keystore"],
+    password: string
+  ): Promise<string | null> =>
     new Promise(resolve =>
       keythereum.recover(password, keystore, dataRes => {
-        resolve(dataRes instanceof Buffer ? EthUtil.bufferToHex(dataRes) : null);
+        resolve(
+          dataRes instanceof Buffer ? EthUtil.bufferToHex(dataRes) : null
+        );
       })
     );
 }

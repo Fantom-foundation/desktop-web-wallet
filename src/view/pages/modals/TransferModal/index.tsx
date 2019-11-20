@@ -31,6 +31,8 @@ const mapDispatchToProps = {
   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
   accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
+  accountGetTransferFee: ACCOUNT_ACTIONS.accountGetTransferFee,
+  accountSetTransfer: ACCOUNT_ACTIONS.accountSetTransfer,
   modalHide: MODAL_ACTIONS.modalHide
 };
 
@@ -48,6 +50,8 @@ const TransferModalUnconnected: FC<IProps> = ({
   accountTransferClear,
   accountSetTransferErrors,
   accountGetBalance,
+  accountGetTransferFee,
+  accountSetTransfer,
   modalHide
 }) => {
   const [to, setTo] = useState("");
@@ -85,6 +89,16 @@ const TransferModalUnconnected: FC<IProps> = ({
 
   useEffect(() => {
     if (Object.keys(errors).length) accountSetTransferErrors({});
+    if (to && from && amount) {
+      accountGetTransferFee({
+        from,
+        to,
+        amount: parseInt(amount, 10),
+        message
+      });
+    } else if (fee > 0) {
+      accountSetTransfer({ fee: 0 });
+    }
   }, [to, from, amount, password, message]);
 
   useEffect(() => {
@@ -182,7 +196,9 @@ const TransferModalUnconnected: FC<IProps> = ({
             autoComplete="nope"
           />
 
-          {fee && <div className={styles.fee}>{`Fee will be ${fee} FTM`}</div>}
+          {!!fee && (
+            <div className={styles.fee}>{`Fee will be ${fee} FTM`}</div>
+          )}
 
           {errors.balance && (
             <div id="error_balance" className={styles.error}>

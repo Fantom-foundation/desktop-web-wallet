@@ -1,4 +1,4 @@
-import { takeLatest, put, select, call } from "redux-saga/effects";
+import { takeLatest, put, select, call, delay } from "redux-saga/effects";
 import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from "./constants";
 import {
   accountCreateSetCredentials,
@@ -12,7 +12,9 @@ import {
   accountSetAccount,
   accountSendFunds,
   accountSetTransferErrors,
-  accountSetTransfer
+  accountSetTransfer,
+  accountGetTransferFee,
+  accountSetTransferFee
 } from "./actions";
 import {
   ACCOUNT_CREATION_STAGES,
@@ -191,6 +193,36 @@ function* sendFunds({
   }
 }
 
+// This export is used for testing
+export const ACCOUNT_SAGAS = {
+  createSetCredentials,
+  createSetConfirm,
+  createCancel,
+  createRestoreMnemonics,
+  getBalance,
+  sendFunds
+};
+
+function* getFee({
+  from,
+  to,
+  amount,
+  message
+}: ReturnType<typeof accountGetTransferFee>) {
+  yield delay(500);
+
+  try {
+    const fee: number = yield call([Fantom, Fantom.estimateFee], {
+      from,
+      to,
+      value: amount.toString(),
+      memo: message
+    });
+  
+    yield put(accountSetTransfer({ fee }));
+  } finally {}
+}
+
 export function* accountSaga() {
   yield takeLatest(
     ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS,
@@ -211,14 +243,5 @@ export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
+  yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
 }
-
-// This export is used for testing
-export const ACCOUNT_SAGAS = {
-  createSetCredentials,
-  createSetConfirm,
-  createCancel,
-  createRestoreMnemonics,
-  getBalance,
-  sendFunds
-};
