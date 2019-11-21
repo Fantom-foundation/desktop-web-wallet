@@ -1,17 +1,17 @@
-import Web3 from "web3";
-import Transaction from "ethereumjs-tx";
-import * as EthUtil from "ethereumjs-util";
-import Bip39 from "bip39";
-import Hdkey from "hdkey";
-import { EncryptedKeystoreV3Json } from "web3-core";
-import { IAccount } from "~/redux/account/types";
-import keythereum from "keythereum";
+import Web3 from 'web3';
+import Transaction from 'ethereumjs-tx';
+import * as EthUtil from 'ethereumjs-util';
+import Bip39 from 'bip39';
+import Hdkey from 'hdkey';
+import { EncryptedKeystoreV3Json } from 'web3-core';
+import { IAccount } from '~/redux/account/types';
+import keythereum from 'keythereum';
 import BigInt from 'big-integer';
 
 const {
   REACT_APP_API_URL_FANTOM,
   REACT_APP_KEY_INFURA,
-  REACT_APP_EXAMPLE_ADDRESS
+  REACT_APP_EXAMPLE_ADDRESS,
 } = process.env;
 
 const URL_FANTOM = REACT_APP_API_URL_FANTOM;
@@ -44,11 +44,11 @@ class Web3Agent {
     const rawTx = {
       from,
       to,
-      value: Web3.utils.toHex(Web3.utils.toWei(value, "ether")),
+      value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
       gasLimit: Web3.utils.toHex(44000),
       gasPrice: Web3.utils.toHex(gasPrice),
       nonce: Web3.utils.toHex(nonce),
-      data: memo
+      data: memo,
     };
 
     const privateKeyBuffer = EthUtil.toBuffer(privateKey);
@@ -59,7 +59,7 @@ class Web3Agent {
     const serializedTx = tx.serialize();
 
     return this.web3.eth.sendSignedTransaction(
-      `0x${serializedTx.toString("hex")}`
+      `0x${serializedTx.toString('hex')}`
     );
   }
 
@@ -67,17 +67,21 @@ class Web3Agent {
     from,
     to,
     value,
-    memo
-  }: Pick<ITransfer, "from" | "to" | "value" | "memo">): Promise<string> {
+    memo,
+  }: Pick<ITransfer, 'from' | 'to' | 'value' | 'memo'>): Promise<string> {
     const gasPrice = await this.web3.eth.getGasPrice();
     const gasLimit = await this.web3.eth.estimateGas({
       from,
       to,
-      value: Web3.utils.toHex(Web3.utils.toWei(value, "ether")),
-      data: Web3.utils.asciiToHex(memo)
+      value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
+      data: Web3.utils.asciiToHex(memo),
     });
 
-    const fee = Web3.utils.fromWei(BigInt(gasPrice).multiply(BigInt(gasLimit)).toString());
+    const fee = Web3.utils.fromWei(
+      BigInt(gasPrice)
+        .multiply(BigInt(gasLimit))
+        .toString()
+    );
 
     return fee;
   }
@@ -88,7 +92,7 @@ class Web3Agent {
 
     const addrNode = root.derive("m/44'/60'/0'/0/0");
     const pubKey = EthUtil.privateToPublic(addrNode._privateKey);
-    const addr = EthUtil.publicToAddress(pubKey).toString("hex");
+    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
     const publicAddress = EthUtil.toChecksumAddress(addr);
     const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
 
@@ -101,8 +105,11 @@ class Web3Agent {
   ): EncryptedKeystoreV3Json =>
     this.web3.eth.accounts.encrypt(privateKey, password);
 
+  validateKeystore = (keystore: EncryptedKeystoreV3Json, password: string) =>
+    this.web3.eth.accounts.decrypt(keystore, password);
+
   getPrivateKey = (
-    keystore: IAccount["keystore"],
+    keystore: IAccount['keystore'],
     password: string
   ): Promise<string | null> =>
     new Promise(resolve =>

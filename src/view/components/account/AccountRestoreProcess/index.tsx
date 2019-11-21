@@ -6,8 +6,8 @@ import account_confirm from '~/images/icons/account_confirm.svg';
 import { getURL } from '~/utility/dom';
 
 const STAGES = [
-  { icon: getURL(create_account), title: "Create Account" },
-  { icon: getURL(account_confirm), title: "Confirm" },
+  { icon: getURL(create_account), title: "Restore Account" },
+  { icon: getURL(account_confirm), title: "Enter mnemonics" },
 ];
 
 interface IProps {

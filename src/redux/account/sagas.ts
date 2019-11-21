@@ -1,5 +1,5 @@
-import { takeLatest, put, select, call, delay } from "redux-saga/effects";
-import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from "./constants";
+import { takeLatest, put, select, call, delay } from 'redux-saga/effects';
+import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from './constants';
 import {
   accountCreateSetCredentials,
   accountSetCreate,
@@ -14,23 +14,25 @@ import {
   accountSetTransferErrors,
   accountSetTransfer,
   accountGetTransferFee,
-  accountSetTransferFee
-} from "./actions";
+  accountUploadKeystore,
+} from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
   IAccountState,
-  ACCOUNT_INITIAL_STATE
-} from ".";
-import bip from "bip39";
-import { selectAccountCreate, selectAccount } from "./selectors";
-import { push } from "connected-react-router";
-import { URLS } from "~/constants/urls";
-import { Fantom } from "~/utility/web3";
-import { fromWei } from "web3-utils";
-import { validateAccountTransaction } from "./validators";
+  ACCOUNT_INITIAL_STATE,
+} from '.';
+import bip from 'bip39';
+import { selectAccountCreate, selectAccount } from './selectors';
+import { push } from 'connected-react-router';
+import { URLS } from '~/constants/urls';
+import { Fantom } from '~/utility/web3';
+import { fromWei } from 'web3-utils';
+import { validateAccountTransaction } from './validators';
+import { readFileAsJSON } from '~/utility/filereader';
+import { EncryptedKeystoreV3Json } from 'web3-core';
 
 function* createSetCredentials({
-  create
+  create,
 }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
@@ -40,18 +42,18 @@ function* createSetCredentials({
       ...create,
       stage: ACCOUNT_CREATION_STAGES.INFO,
       publicAddress,
-      mnemonic
+      mnemonic,
     })
   );
 }
 
 function* createSetRestoreCredentials({
-  create
+  create,
 }: ReturnType<typeof accountCreateSetRestoreCredentials>) {
   yield put(
     accountSetCreate({
       ...create,
-      stage: ACCOUNT_CREATION_STAGES.INFO
+      stage: ACCOUNT_CREATION_STAGES.INFO,
     })
   );
 }
@@ -66,8 +68,8 @@ function* createSetConfirm() {
     password,
     name,
     icon,
-    publicAddress
-  }: IAccountState["create"] = yield select(selectAccountCreate);
+    publicAddress,
+  }: IAccountState['create'] = yield select(selectAccountCreate);
 
   if (!name || !password || !icon || !publicAddress || !mnemonic)
     return yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));
@@ -81,7 +83,7 @@ function* createSetConfirm() {
       name,
       icon,
       keystore,
-      publicAddress
+      publicAddress,
     })
   );
   yield put(push(URLS.ACCOUNT_LIST));
@@ -89,11 +91,11 @@ function* createSetConfirm() {
 
 function* createCancel() {
   yield put(accountCreateClear());
-  yield put(push("/"));
+  yield put(push('/'));
 }
 
 function* createRestoreMnemonics({
-  mnemonic
+  mnemonic,
 }: ReturnType<typeof accountCreateRestoreMnemonics>) {
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 
@@ -111,7 +113,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 
     yield put(
       accountSetAccount(id, {
-        is_loading_balance: true
+        is_loading_balance: true,
       })
     );
 
@@ -124,13 +126,13 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
     yield put(
       accountSetAccount(id, {
         balance,
-        is_loading_balance: false
+        is_loading_balance: false,
       })
     );
   } catch (e) {
     yield put(
       accountSetAccount(id, {
-        is_loading_balance: false
+        is_loading_balance: false,
       })
     );
   }
@@ -141,7 +143,7 @@ function* sendFunds({
   to,
   amount,
   password,
-  message
+  message,
 }: ReturnType<typeof accountSendFunds>) {
   yield put(accountSetTransferErrors({}));
 
@@ -151,14 +153,14 @@ function* sendFunds({
 
   if (!Object.prototype.hasOwnProperty.call(list, from))
     return yield put(
-      accountSetTransferErrors({ from: "Not a correct sender" })
+      accountSetTransferErrors({ from: 'Not a correct sender' })
     );
 
   const { keystore, balance } = list[from];
 
   const privateKey = yield call(
     [Fantom, Fantom.getPrivateKey],
-    keystore, 
+    keystore,
     password
   );
 
@@ -166,7 +168,7 @@ function* sendFunds({
     from,
     to,
     value: amount.toString(),
-    memo: message
+    memo: message,
   });
 
   const validation_errors = validateAccountTransaction({
@@ -175,7 +177,7 @@ function* sendFunds({
     privateKey,
     balance,
     fee,
-    amount
+    amount,
   });
 
   if (Object.keys(validation_errors).length)
@@ -188,7 +190,7 @@ function* sendFunds({
       to,
       value: amount.toString(),
       memo: message,
-      privateKey
+      privateKey,
     });
 
     yield put(
@@ -199,7 +201,7 @@ function* sendFunds({
     yield put(
       accountSetTransfer({
         is_processing: false,
-        errors: { send: e.toString() }
+        errors: { send: e.toString() },
       })
     );
   }
@@ -212,14 +214,14 @@ export const ACCOUNT_SAGAS = {
   createCancel,
   createRestoreMnemonics,
   getBalance,
-  sendFunds
+  sendFunds,
 };
 
 function* getFee({
   from,
   to,
   amount,
-  message
+  message,
 }: ReturnType<typeof accountGetTransferFee>) {
   yield delay(300);
 
@@ -228,11 +230,70 @@ function* getFee({
       from,
       to,
       value: amount.toString(),
-      memo: message
+      memo: message,
     });
 
     yield put(accountSetTransfer({ fee }));
   } finally {
+  }
+}
+
+function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
+  try {
+    yield put(accountSetCreate({ errors: {} }));
+
+    const { password, name, icon } = yield select(selectAccountCreate);
+    const { list }: IAccountState = yield select(selectAccount);
+    const keystore: EncryptedKeystoreV3Json = yield call(readFileAsJSON, file);
+
+    if (!keystore)
+      return put(
+        accountSetCreate({ errors: { keystore: 'Not a valid keystore file' } })
+      );
+
+    const result = Fantom.validateKeystore(keystore, password);
+
+    if (!result)
+      return yield put(
+        accountSetCreate({
+          errors: { keystore: "Password doesn't match keystore file" },
+        })
+      );
+
+    console.log(
+      Object.keys(list),
+      `0x${keystore.address}`,
+      Object.keys(list).includes(`0x${keystore.address}`)
+    );
+
+    if (Object.keys(list).includes(`0x${keystore.address}`))
+      return yield put(
+        accountSetCreate({
+          errors: {
+            keystore: "There's already account matching this keystore",
+          },
+        })
+      );
+
+    yield put(
+      accountAddAccount({
+        ...EMPTY_ACCOUNT,
+        name,
+        icon,
+        keystore,
+        publicAddress: `0x${keystore.address}`,
+      })
+    );
+
+    yield put(push(URLS.ACCOUNT_LIST));
+  } catch (e) {
+    console.log('ERRROR', e);
+
+    yield put(
+      accountSetCreate({
+        errors: { keystore: 'Invalid keystore file or password.' },
+      })
+    );
   }
 }
 
@@ -257,4 +318,5 @@ export function* accountSaga() {
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
+  yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
 }

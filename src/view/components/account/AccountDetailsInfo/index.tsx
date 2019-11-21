@@ -1,17 +1,18 @@
-import React, { FC, useCallback, useEffect } from "react";
-import { PanelTitle } from "~/view/components/panels/PanelTitle";
-import { IAccount } from "~/redux/account/types";
-import styles from "./styles.module.scss";
-import { Button } from "reactstrap";
-import { PanelButton } from "~/view/components/panels/PanelButton";
-import Identicon from "~/view/general/Identicon";
-import { Address } from "~/view/components/account/Address";
-import QRCodeIcon from "~/view/general/QRCodeIcon";
-import { connect } from "react-redux";
+import React, { FC, useCallback, useEffect } from 'react';
+import { PanelTitle } from '~/view/components/panels/PanelTitle';
+import { IAccount } from '~/redux/account/types';
+import styles from './styles.module.scss';
+import { Button } from 'reactstrap';
+import { PanelButton } from '~/view/components/panels/PanelButton';
+import Identicon from '~/view/general/Identicon';
+import { Address } from '~/view/components/account/Address';
+import QRCodeIcon from '~/view/general/QRCodeIcon';
+import { connect } from 'react-redux';
 
-import * as ACCOUNT_ACTIONS from "~/redux/account/actions";
-import * as MODAL_ACTIONS from "~/redux/modal/actions";
-import { MODALS } from "~/redux/modal/constants";
+import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
+import * as MODAL_ACTIONS from '~/redux/modal/actions';
+import { MODALS } from '~/redux/modal/constants';
+import { AccountListMenu } from '~/view/pages/account/AccountListMenu';
 
 const mapStateToProps = () => ({});
 
@@ -42,18 +43,9 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
 
   return (
     <div className={styles.wrap}>
-      <PanelTitle
-        title="Account management"
-        right={
-          <PanelButton
-            onClick={getBalance}
-            icon="fa-sync-alt"
-            spin={account.is_loading_balance}
-          />
-        }
-      />
-
       <div className={styles.content}>
+        <AccountListMenu account={account} />
+
         <div className={styles.icon}>
           <Identicon id={account.icon} width={40} key={0} size={3} />
         </div>
@@ -73,9 +65,12 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
         </div>
 
         <div className={styles.balance}>
-          <b>{account.balance && parseFloat(parseFloat(account.balance).toFixed(6)) || "0"}</b>
-          {' '}
-FTM
+          <b>
+            {(account.balance &&
+              parseFloat(parseFloat(account.balance).toFixed(6))) ||
+              '0'}
+          </b>{' '}
+          FTM
         </div>
 
         <Button color="primary bordered" onClick={sendFunds}>
@@ -92,3 +87,16 @@ const AccountDetailsInfo = connect(
 )(AccountDetailsInfoUnconnected);
 
 export { AccountDetailsInfo };
+
+/*
+  <PanelTitle
+    title="Account management"
+    right={
+      <PanelButton
+        onClick={getBalance}
+        icon="fa-sync-alt"
+        spin={account.is_loading_balance}
+      />
+    }
+  />
+*/
