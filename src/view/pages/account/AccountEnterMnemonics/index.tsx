@@ -119,9 +119,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                       <input type="file" onChange={onUpload} />
                     </div>
 
-                    {errors.keystore && (
-                      <div className={styles.error}>{errors.keystore}</div>
-                    )}
+                    <div className={styles.error}>{errors.keystore}</div>
                   </FormGroup>
                 </div>
               </div>
