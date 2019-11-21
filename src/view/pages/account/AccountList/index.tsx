@@ -32,13 +32,6 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
     [push]
   );
 
-  const save = useCallback((account: IAccount) => {
-    const blob = new Blob([JSON.stringify(account.keystore)], {
-      type: 'application/json;charset=utf-8',
-    });
-    fileSaver(blob, 'keystore.json');
-  }, []);
-
   return (
     <div>
       <section>
@@ -61,7 +54,6 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
                 <AccountListItem
                   account={account}
                   onSelect={onAccountSelect}
-                  onExport={save}
                   key={account.publicAddress}
                 />
               ))}

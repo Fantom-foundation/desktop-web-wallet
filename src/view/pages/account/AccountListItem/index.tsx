@@ -3,36 +3,22 @@ import styles from './styles.module.scss';
 import { IAccount } from '~/redux/account/types';
 import Identicons from '~/view/general/Identicon';
 import { Address } from '~/view/components/account/Address';
+import { AccountListMenu } from '../AccountListMenu';
 
 interface IProps {
   account: IAccount;
   onSelect: (address: IAccount['publicAddress']) => void;
-  onExport: (account: IAccount) => void;
 }
 
-const AccountListItem: FC<IProps> = ({ account, onSelect, onExport }) => {
+const AccountListItem: FC<IProps> = ({ account, onSelect }) => {
   const onClick = useCallback(() => {
     onSelect(account.publicAddress);
   }, [onSelect, account]);
 
-  const onExportClick = useCallback(
-    event => {
-      event.preventDefault();
-      event.stopPropagation();
-      onExport(account);
-    },
-    [onExport, account]
-  );
 
   return (
     <div className={styles.card} onClick={onClick}>
-      <div className={styles.menu_icon} tabIndex={-1}>
-        <span />
-
-        <div className={styles.menu}>
-          <div onClick={onExportClick}>Export keystore</div>
-        </div>
-      </div>
+      <AccountListMenu account={account} />
 
       <div className="avatar">
         <span className="avatar-icon">
