@@ -138,3 +138,10 @@ export const accountSetTransferFee = (
   type: ACCOUNT_ACTIONS.SET_TRANSFER_FEE,
   fee
 });
+
+export const accountUploadKeystore = (
+  file: File
+) => ({
+  type: ACCOUNT_ACTIONS.UPLOAD_KEYSTORE,
+  file
+});

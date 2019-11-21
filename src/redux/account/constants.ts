@@ -26,6 +26,8 @@ export const ACCOUNT_ACTIONS = {
   SET_TRANSFER_ERRORS: `${prefix}SET_TRANSFER_ERRORS`,
   GET_TRANSFER_FEE: `${prefix}GET_TRANSFER_FEE`,
   SET_TRANSFER_FEE: `${prefix}SET_TRANSFER_FEE`,
+
+  UPLOAD_KEYSTORE: `${prefix}UPLOAD_KEYSTORE`,
 }
 
 export const EMPTY_ACCOUNT: IAccount = {

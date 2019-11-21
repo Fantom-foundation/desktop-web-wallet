@@ -6,6 +6,7 @@ import { AccountCreateConfirm } from '~/view/pages/account/AccountCreateConfirm'
 import { IAccount } from './types';
 import { AccountRestoreCredentials } from '~/view/pages/account/AccountRestoreCredentials';
 import { AccountEnterMnemonics } from '~/view/pages/account/AccountEnterMnemonics';
+import { AccountRestoreKeystore } from '~/view/components/account/AccountRestoreKeystore';
 
 export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,

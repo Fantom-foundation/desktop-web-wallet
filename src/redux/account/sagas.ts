@@ -14,7 +14,7 @@ import {
   accountSetTransferErrors,
   accountSetTransfer,
   accountGetTransferFee,
-  accountSetTransferFee,
+  accountUploadKeystore,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -28,6 +28,8 @@ import { URLS } from '~/constants/urls';
 import { Fantom } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
+import { readFileAsJSON } from '~/utility/filereader';
+import { EncryptedKeystoreV3Json } from 'web3-core';
 
 function* createSetCredentials({
   create,
@@ -236,6 +238,65 @@ function* getFee({
   }
 }
 
+function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
+  try {
+    yield put(accountSetCreate({ errors: {} }));
+
+    const { password, name, icon } = yield select(selectAccountCreate);
+    const { list }: IAccountState = yield select(selectAccount);
+    const keystore: EncryptedKeystoreV3Json = yield call(readFileAsJSON, file);
+
+    if (!keystore)
+      return put(
+        accountSetCreate({ errors: { keystore: 'Not a valid keystore file' } })
+      );
+
+    const result = Fantom.validateKeystore(keystore, password);
+
+    if (!result)
+      return yield put(
+        accountSetCreate({
+          errors: { keystore: "Password doesn't match keystore file" },
+        })
+      );
+
+    console.log(
+      Object.keys(list),
+      `0x${keystore.address}`,
+      Object.keys(list).includes(`0x${keystore.address}`)
+    );
+
+    if (Object.keys(list).includes(`0x${keystore.address}`))
+      return yield put(
+        accountSetCreate({
+          errors: {
+            keystore: "There's already account matching this keystore",
+          },
+        })
+      );
+
+    yield put(
+      accountAddAccount({
+        ...EMPTY_ACCOUNT,
+        name,
+        icon,
+        keystore,
+        publicAddress: `0x${keystore.address}`,
+      })
+    );
+
+    yield put(push(URLS.ACCOUNT_LIST));
+  } catch (e) {
+    console.log('ERRROR', e);
+
+    yield put(
+      accountSetCreate({
+        errors: { keystore: 'Invalid keystore file or password.' },
+      })
+    );
+  }
+}
+
 export function* accountSaga() {
   yield takeLatest(
     ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS,
@@ -257,4 +318,5 @@ export function* accountSaga() {
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
+  yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
 }
