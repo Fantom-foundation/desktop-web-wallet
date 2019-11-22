@@ -35,12 +35,18 @@ export interface ITransfer {
 class Web3Agent {
   web3: Web3 | null = null;
 
+  async isConnected() {
+    if (!this.web3) return false;
+    return !!(await this.web3.eth.getNodeInfo());
+  }
+
   async init(url: string) {
     this.web3 = new Web3(url);
   }
 
   async getBalance(address: string = REACT_APP_EXAMPLE_ADDRESS) {
-    if (!this.web3) throw new Error('Not connected');
+    if (!this.web3 || !(await this.isConnected()))
+      throw new Error('Not connected');
 
     const res = await this.web3.eth.getBalance(address);
     return res;
@@ -61,7 +67,8 @@ class Web3Agent {
   }
 
   async transfer({ from, to, value, memo, privateKey }: ITransfer) {
-    if (!this.web3) throw new Error('Not connected');
+    if (!this.web3 || !(await this.isConnected()))
+      throw new Error('Not connected');
 
     const nonce = await this.web3.eth.getTransactionCount(from);
     const gasPrice = await this.web3.eth.getGasPrice();
@@ -94,7 +101,8 @@ class Web3Agent {
     value,
     memo,
   }: Pick<ITransfer, 'from' | 'to' | 'value' | 'memo'>): Promise<string> {
-    if (!this.web3) throw new Error('Not connected');
+    if (!this.web3 || !(await this.isConnected()))
+      throw new Error('Not connected');
 
     const gasPrice = await this.web3.eth.getGasPrice();
     const gasLimit = await this.web3.eth.estimateGas({

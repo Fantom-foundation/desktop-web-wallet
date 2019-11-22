@@ -134,7 +134,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
       })
     );
 
-    const result = yield call(Fantom.getBalance.bind(Fantom), id);
+    const result = yield call([Fantom, Fantom.getBalance], id);
 
     if (!result) return;
 
@@ -143,9 +143,10 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
     yield put(
       accountSetAccount(id, {
         balance,
+        is_loading_balance: false,
       })
     );
-  } finally {
+  } catch (e) {
     yield put(
       accountSetAccount(id, {
         is_loading_balance: false,
@@ -250,7 +251,8 @@ function* getFee({
     });
 
     yield put(accountSetTransfer({ fee }));
-  } finally {
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -332,13 +334,15 @@ function* connectToNewProvider(current_node: number) {
     );
   }
 
+  console.log({ timeout, connected });
+
   yield put(accountSetConnection({ is_node_connected: true, error: null }));
   yield put(accountProviderConnected());
 }
 
 function* connectToNode({ key, payload }: RehydrateAction) {
   if (key !== 'account') return;
-  
+
   const current_node = path(['connection', 'current_node'], payload) || 0;
 
   yield call(connectToNewProvider, current_node);

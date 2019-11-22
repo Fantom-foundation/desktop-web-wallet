@@ -53,7 +53,7 @@ const AccountDetailsProviderUnconnected: FC<IProps> = ({
           {nodes.map((item, index) => (
             <div
               className={styles.item}
-              key={item.name}
+              key={`${index}-${item.name}`}
               onMouseDown={() => accountChangeProvider(index)}
             >
               <div>{item.name}</div>
@@ -67,7 +67,11 @@ const AccountDetailsProviderUnconnected: FC<IProps> = ({
         </div>
       )}
 
-      <DialogAddNode isOpened={is_modal_opened} onClose={hideModal} onAdd={accountAddProvider} />
+      <DialogAddNode
+        isOpened={is_modal_opened}
+        onClose={hideModal}
+        onAdd={accountAddProvider}
+      />
     </div>
   );
 };
