@@ -56,8 +56,14 @@ const AccountDetailsProviderUnconnected: FC<IProps> = ({
               key={`${index}-${item.name}`}
               onMouseDown={() => accountChangeProvider(index)}
             >
-              <div>{item.name}</div>
-              <small>{item.address}</small>
+              <div className={styles.info}>
+                <div>{item.name}</div>
+                <small>{item.address}</small>
+              </div>
+
+              <div className={styles.icon}>
+                {current_node === index && <FaIcon icon="fa-check" />}
+              </div>
             </div>
           ))}
 

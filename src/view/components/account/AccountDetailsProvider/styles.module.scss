@@ -35,7 +35,10 @@ $bg: darken($color_gray, 4%);
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.25s;
-  
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
   div {
     font-weight: bold;
   }
@@ -52,4 +55,16 @@ $bg: darken($color_gray, 4%);
 .custom_item {
   font-weight: bold;
   color: $color_primary;
+}
+
+.info {
+  flex: 1;
+}
+
+.icon {
+  padding-right: 10px;
+
+  :global(.fa-check) {
+    color: darkcyan;
+  }
 }
