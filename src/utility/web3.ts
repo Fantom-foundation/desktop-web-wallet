@@ -4,7 +4,7 @@ import * as EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
 import { EncryptedKeystoreV3Json } from 'web3-core';
-import { IAccount } from '~/redux/account/types';
+import { IAccount, INodeRecord } from '~/redux/account/types';
 import keythereum from 'keythereum';
 import BigInt from 'big-integer';
 
@@ -14,12 +14,12 @@ const {
   REACT_APP_EXAMPLE_ADDRESS,
 } = process.env;
 
-export const DEFAULT_PROVIDERS = {
-  DEFAULT_1: 'ws://3.15.138.107:4500',
-  DEFAULT_2: 'ws://18.189.195.64:4501',
-  DEFAULT_3: 'ws://18.191.96.173:4502',
-  DEFAULT_4: 'ws://18.222.120.223:4503',
-};
+export const DEFAULT_PROVIDERS: INodeRecord[] = [
+  { name: 'Default 1', address: 'ws://3.15.138.107:4500' },
+  { name: 'Default 2', address: 'ws://18.189.195.64:4501' },
+  { name: 'Default 3', address: 'ws://18.191.96.173:4502' },
+  { name: 'Default 4', address: 'ws://18.222.120.223:4503' },
+];
 
 const URL_FANTOM = REACT_APP_API_URL_FANTOM;
 const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${REACT_APP_KEY_INFURA}`;
@@ -35,7 +35,7 @@ export interface ITransfer {
 class Web3Agent {
   web3: Web3 | null = null;
 
-  init(url: string) {
+  async init(url: string) {
     this.web3 = new Web3(url);
   }
 
@@ -54,9 +54,8 @@ class Web3Agent {
     }
 
     try {
-      await this.web3.eth.net.isListening();
-      return true;
-    } catch(e) {
+      return !!(await this.web3.eth.getNodeInfo());
+    } catch (e) {
       return false;
     }
   }

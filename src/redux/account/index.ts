@@ -3,10 +3,9 @@ import { ACCOUNT_HANDLERS } from './handlers';
 import { AccountCreateCredentials } from '~/view/pages/account/AccountCreateCredentials';
 import { AccountCreateInfo } from '~/view/pages/account/AccountCreateInfo';
 import { AccountCreateConfirm } from '~/view/pages/account/AccountCreateConfirm';
-import { IAccount } from './types';
+import { IAccount, INodeRecord } from './types';
 import { AccountRestoreCredentials } from '~/view/pages/account/AccountRestoreCredentials';
 import { AccountEnterMnemonics } from '~/view/pages/account/AccountEnterMnemonics';
-import { DEFAULT_PROVIDERS } from '~/utility/web3';
 
 export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,
@@ -42,8 +41,9 @@ export interface IAccountState {
   };
   list: Record<string, IAccount>;
   connection: {
-    current_node: string;
+    current_node: number;
     is_node_connected: boolean;
+    custom_nodes: INodeRecord[],
     error: string | null;
   };
 }
@@ -65,7 +65,8 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
     is_sent: false,
   },
   connection: {
-    current_node: DEFAULT_PROVIDERS.DEFAULT_1,
+    current_node: 0,
+    custom_nodes: [],
     is_node_connected: false,
     error: null,
   },

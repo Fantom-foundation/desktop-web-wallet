@@ -9,3 +9,8 @@ export interface IAccount {
 
   is_loading_balance: boolean; 
 }
+
+export interface INodeRecord {
+  name: string,
+  address: string,
+}

@@ -113,3 +113,9 @@ $navlink-textTransform: uppercase;
     border: 1px solid #999999;
   }
 }
+
+:global() {
+  .modal-footer {
+    background: red;
+  }
+}

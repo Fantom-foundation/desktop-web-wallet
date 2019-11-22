@@ -4,5 +4,18 @@ body {
   background: #000000;
 }
 
-@import "./styles/global";
+@import "./styles/_global";
  
+
+.modal-footer {
+  background: transparentize(white, 0.9);
+  border-top: none;
+}
+
+.modal-content {
+  color: white;
+  background: black;
+}
+.modal-header {
+  border-bottom: none;
+}

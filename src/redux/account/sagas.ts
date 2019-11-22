@@ -23,8 +23,9 @@ import {
   accountSetTransfer,
   accountGetTransferFee,
   accountUploadKeystore,
-  accountSet,
   accountSetConnection,
+  accountChangeProvider,
+  accountProviderConnected,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -32,7 +33,11 @@ import {
   ACCOUNT_INITIAL_STATE,
 } from '.';
 import bip from 'bip39';
-import { selectAccountCreate, selectAccount } from './selectors';
+import {
+  selectAccountCreate,
+  selectAccount,
+  selectAccountConnection,
+} from './selectors';
 import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
 import { Fantom, DEFAULT_PROVIDERS } from '~/utility/web3';
@@ -41,6 +46,7 @@ import { validateAccountTransaction } from './validators';
 import { readFileAsJSON } from '~/utility/filereader';
 import { EncryptedKeystoreV3Json } from 'web3-core';
 import { REHYDRATE, RehydrateAction } from 'redux-persist';
+import { path } from 'ramda';
 
 function* createSetCredentials({
   create,
@@ -137,10 +143,9 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
     yield put(
       accountSetAccount(id, {
         balance,
-        is_loading_balance: false,
       })
     );
-  } catch (e) {
+  } finally {
     yield put(
       accountSetAccount(id, {
         is_loading_balance: false,
@@ -292,8 +297,6 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
 
     yield put(push(URLS.ACCOUNT_LIST));
   } catch (e) {
-    console.log('ERRROR', e);
-
     yield put(
       accountSetCreate({
         errors: { keystore: 'Invalid keystore file or password.' },
@@ -302,11 +305,7 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
   }
 }
 
-function* connectToNode({ key }: RehydrateAction) {
-  if (key !== 'account') return;
-
-  const current_node = DEFAULT_PROVIDERS.DEFAULT_1;
-
+function* connectToNewProvider(current_node: number) {
   yield put(
     accountSetConnection({
       is_node_connected: false,
@@ -315,27 +314,41 @@ function* connectToNode({ key }: RehydrateAction) {
     })
   );
 
+  const { custom_nodes } = yield select(selectAccountConnection);
+  const nodes = [...DEFAULT_PROVIDERS, ...custom_nodes];
+  const current = nodes[current_node] || nodes[0];
+
   const { connected, timeout } = yield race({
-    connected: call([Fantom, Fantom.init], DEFAULT_PROVIDERS[0]),
-    timeout: delay(1000),
+    connected: call([Fantom, Fantom.setProvider], current.address),
+    timeout: delay(10000),
   });
 
   if (timeout || !connected) {
-    yield put(
+    return yield put(
       accountSetConnection({
         is_node_connected: false,
         error: 'Could not connect to node',
       })
     );
-    return;
   }
 
   yield put(accountSetConnection({ is_node_connected: true, error: null }));
+  yield put(accountProviderConnected());
 }
 
-// function* setProvider() {
+function* connectToNode({ key, payload }: RehydrateAction) {
+  if (key !== 'account') return;
+  
+  const current_node = path(['connection', 'current_node'], payload) || 0;
 
-// }
+  yield call(connectToNewProvider, current_node);
+}
+
+function* changeProvider({
+  provider,
+}: ReturnType<typeof accountChangeProvider>) {
+  yield call(connectToNewProvider, provider);
+}
 
 export function* accountSaga() {
   yield takeEvery(REHYDRATE, connectToNode);
@@ -356,9 +369,14 @@ export function* accountSaga() {
     createRestoreMnemonics
   );
 
-  yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
+  yield takeLatest(
+    [ACCOUNT_ACTIONS.GET_BALANCE, ACCOUNT_ACTIONS.PROVIDER_CONNECTED],
+    getBalance
+  );
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
   yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
+
+  yield takeLatest(ACCOUNT_ACTIONS.CHANGE_PROVIDER, changeProvider);
 }

@@ -9,6 +9,7 @@ import {
   accountSetTransferErrors,
   accountSet,
   accountSetConnection,
+  accountAddProvider,
 } from '~/redux/account/actions';
 import { IAccountState, ACCOUNT_INITIAL_STATE } from '.';
 import { ACCOUNT_ACTIONS } from './constants';
@@ -74,6 +75,16 @@ const setConnection = (
   { connection }: ReturnType<typeof accountSetConnection>
 ) => assocPath(['connection'], { ...state.connection, ...connection }, state);
 
+const addProvider = (
+  state: IAccountState,
+  { name, address }: ReturnType<typeof accountAddProvider>
+) =>
+  assocPath(
+    ['connection', 'custom_nodes'],
+    [...state.connection.custom_nodes, { name, address }],
+    state
+  );
+
 export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_CREATE]: setCreate,
   [ACCOUNT_ACTIONS.SET_CREATE_STAGE]: setCreateStage,
@@ -86,4 +97,5 @@ export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_TRANSFER]: setTransfer,
   [ACCOUNT_ACTIONS.SET]: setData,
   [ACCOUNT_ACTIONS.SET_CONNECTION]: setConnection,
+  [ACCOUNT_ACTIONS.ADD_PROVIDER]: addProvider,
 };

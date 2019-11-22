@@ -14,8 +14,12 @@ import * as MODAL_ACTIONS from '~/redux/modal/actions';
 import { MODALS } from '~/redux/modal/constants';
 import { AccountListMenu } from '~/view/pages/account/AccountListMenu';
 import { FaIcon } from '../../inputs/FaIcon';
+import { selectAccountConnection } from '~/redux/account/selectors';
+import { AccountDetailsProvider } from '../AccountDetailsProvider';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  connection: selectAccountConnection(state),
+});
 
 const mapDispatchToProps = {
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
@@ -28,6 +32,7 @@ type IProps = ReturnType<typeof mapStateToProps> &
   };
 
 const AccountDetailsInfoUnconnected: FC<IProps> = ({
+  connection: { is_node_connected, error },
   account,
   accountGetBalance,
   modalShow,
@@ -49,6 +54,19 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
   return (
     <div className={styles.wrap}>
       <div className={styles.content}>
+        {!is_node_connected && !error && (
+          <div className={styles.connection_overlay}>
+            <FaIcon icon="fa-sync-alt" spin />
+            Connecting to node...
+          </div>
+        )}
+        {!is_node_connected && error && (
+          <div className={styles.error_overlay}>
+            <FaIcon icon="fa-exclamation-triangle" />
+            <span>{error}</span>
+          </div>
+        )}
+
         <AccountListMenu account={account} />
 
         <div className={styles.icon}>
@@ -81,6 +99,8 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
           Transfer
         </Button>
       </div>
+
+      <AccountDetailsProvider />
     </div>
   );
 };

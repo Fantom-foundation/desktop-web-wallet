@@ -1,12 +1,13 @@
 @import '~/styles/variables.scss';
 
 .wrap {
-  background: $color_gray;
   display: flex;
   flex-direction: column;
+  position: relative;
 }
 
 .content {
+  background: $color_gray;
   flex: 1;
   padding: 20px;
   display: flex;
@@ -14,6 +15,7 @@
   align-items: center;
   justify-content: center;
   position: relative;
+  margin-bottom: 10px;
 }
 
 .icon {
@@ -67,4 +69,31 @@
   background: $color_gray;
   border-radius: 100%;
   cursor: pointer;
+}
+
+.error_overlay, .connection_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparentize($color: $color_gray, $amount: 0.01);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  flex-direction: column;
+
+  i {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+}
+
+.error_overlay {
+  i {
+    color: orange;    
+  }
 }
