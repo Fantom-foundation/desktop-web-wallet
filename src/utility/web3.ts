@@ -9,20 +9,19 @@ import keythereum from 'keythereum';
 import BigInt from 'big-integer';
 
 const {
-  REACT_APP_API_URL_FANTOM,
-  REACT_APP_KEY_INFURA,
+  // REACT_APP_API_URL_FANTOM,
+  // REACT_APP_KEY_INFURA,
   REACT_APP_EXAMPLE_ADDRESS,
 } = process.env;
 
 export const DEFAULT_PROVIDERS: INodeRecord[] = [
-  { name: 'Default 1', address: 'ws://3.15.138.107:4500' },
-  { name: 'Default 2', address: 'ws://18.189.195.64:4501' },
-  { name: 'Default 3', address: 'ws://18.191.96.173:4502' },
-  { name: 'Default 4', address: 'ws://18.222.120.223:4503' },
+  { name: 'Primary', address: 'ws://18.189.195.64:4501' },
+  { name: 'Secondary', address: 'ws://18.191.96.173:4502' },
+  { name: 'Not working', address: 'ws://3.15.138.107:4500' },
 ];
 
-const URL_FANTOM = REACT_APP_API_URL_FANTOM;
-const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${REACT_APP_KEY_INFURA}`;
+// const URL_FANTOM = REACT_APP_API_URL_FANTOM;
+// const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${REACT_APP_KEY_INFURA}`;
 
 export interface ITransfer {
   from: string;

@@ -9,5 +9,7 @@
 
   &.blurred {
     filter: blur(10px);
+    touch-action: none;
+    pointer-events: none;
   }
 }
