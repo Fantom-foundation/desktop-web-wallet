@@ -14,6 +14,13 @@ const {
   REACT_APP_EXAMPLE_ADDRESS,
 } = process.env;
 
+export const DEFAULT_PROVIDERS = [
+  'ws://3.15.138.107:4500',
+  'ws://18.189.195.64:4501',
+  'ws://18.191.96.173:4502',
+  'ws://18.222.120.223:4503',
+];
+
 const URL_FANTOM = REACT_APP_API_URL_FANTOM;
 const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${REACT_APP_KEY_INFURA}`;
 

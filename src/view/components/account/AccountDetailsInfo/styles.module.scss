@@ -47,7 +47,7 @@
 }
 
 .balance {
-  margin: 20px 10%;
+  margin: 20px 10% 30px;
   text-align: center;
   color: #fff;
   border: 2px solid lighten($color_lightgray, 8%);
@@ -56,4 +56,15 @@
   border-radius: 8px;
   font-size: 22px;
   align-self: stretch;
+  position: relative;
+}
+
+.get_balance {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: $color_gray;
+  border-radius: 100%;
+  cursor: pointer;
 }

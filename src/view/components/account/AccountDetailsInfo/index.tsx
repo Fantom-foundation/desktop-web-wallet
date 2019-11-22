@@ -13,6 +13,7 @@ import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import * as MODAL_ACTIONS from '~/redux/modal/actions';
 import { MODALS } from '~/redux/modal/constants';
 import { AccountListMenu } from '~/view/pages/account/AccountListMenu';
+import { FaIcon } from '../../inputs/FaIcon';
 
 const mapStateToProps = () => ({});
 
@@ -41,6 +42,10 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
     getBalance();
   }, [getBalance]);
 
+  const balance =
+    (account.balance && parseFloat(parseFloat(account.balance).toFixed(6))) ||
+    0;
+
   return (
     <div className={styles.wrap}>
       <div className={styles.content}>
@@ -65,11 +70,10 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
         </div>
 
         <div className={styles.balance}>
-          <b>
-            {(account.balance &&
-              parseFloat(parseFloat(account.balance).toFixed(6))) ||
-              '0'}
-          </b>{' '}
+          <div className={styles.get_balance} onClick={getBalance}>
+            <FaIcon icon="fa-sync-alt" spin={account.is_loading_balance} />
+          </div>
+          <b>{`${balance} `}</b>
           FTM
         </div>
 

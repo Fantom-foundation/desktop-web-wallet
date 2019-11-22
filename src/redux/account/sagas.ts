@@ -260,12 +260,6 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
         })
       );
 
-    console.log(
-      Object.keys(list),
-      `0x${keystore.address}`,
-      Object.keys(list).includes(`0x${keystore.address}`)
-    );
-
     if (Object.keys(list).includes(`0x${keystore.address}`))
       return yield put(
         accountSetCreate({
