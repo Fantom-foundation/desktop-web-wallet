@@ -44,8 +44,8 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
   const sendFunds = useCallback(() => modalShow(MODALS.TRANSFERS), [modalShow]);
 
   useEffect(() => {
-    getBalance();
-  }, [getBalance]);
+    if (is_node_connected) getBalance();
+  }, [getBalance, is_node_connected]);
 
   const balance =
     (account.balance && parseFloat(parseFloat(account.balance).toFixed(6))) ||

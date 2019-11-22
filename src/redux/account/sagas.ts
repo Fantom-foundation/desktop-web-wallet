@@ -136,7 +136,10 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 
     const result = yield call([Fantom, Fantom.getBalance], id);
 
-    if (!result) return;
+    if (!result)
+      return accountSetAccount(id, {
+        is_loading_balance: false,
+      });
 
     const balance = fromWei(result);
 
@@ -373,10 +376,7 @@ export function* accountSaga() {
     createRestoreMnemonics
   );
 
-  yield takeLatest(
-    [ACCOUNT_ACTIONS.GET_BALANCE, ACCOUNT_ACTIONS.PROVIDER_CONNECTED],
-    getBalance
-  );
+  yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
