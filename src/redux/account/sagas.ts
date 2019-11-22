@@ -1,4 +1,12 @@
-import { takeLatest, put, select, call, delay } from 'redux-saga/effects';
+import {
+  takeLatest,
+  put,
+  select,
+  call,
+  delay,
+  takeEvery,
+  race,
+} from 'redux-saga/effects';
 import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from './constants';
 import {
   accountCreateSetCredentials,
@@ -15,6 +23,8 @@ import {
   accountSetTransfer,
   accountGetTransferFee,
   accountUploadKeystore,
+  accountSet,
+  accountSetConnection,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -25,11 +35,12 @@ import bip from 'bip39';
 import { selectAccountCreate, selectAccount } from './selectors';
 import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
-import { Fantom } from '~/utility/web3';
+import { Fantom, DEFAULT_PROVIDERS } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
 import { readFileAsJSON } from '~/utility/filereader';
 import { EncryptedKeystoreV3Json } from 'web3-core';
+import { REHYDRATE, RehydrateAction } from 'redux-persist';
 
 function* createSetCredentials({
   create,
@@ -291,7 +302,44 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
   }
 }
 
+function* connectToNode({ key }: RehydrateAction) {
+  if (key !== 'account') return;
+
+  const current_node = DEFAULT_PROVIDERS.DEFAULT_1;
+
+  yield put(
+    accountSetConnection({
+      is_node_connected: false,
+      error: null,
+      current_node,
+    })
+  );
+
+  const { connected, timeout } = yield race({
+    connected: call([Fantom, Fantom.init], DEFAULT_PROVIDERS[0]),
+    timeout: delay(1000),
+  });
+
+  if (timeout || !connected) {
+    yield put(
+      accountSetConnection({
+        is_node_connected: false,
+        error: 'Could not connect to node',
+      })
+    );
+    return;
+  }
+
+  yield put(accountSetConnection({ is_node_connected: true, error: null }));
+}
+
+// function* setProvider() {
+
+// }
+
 export function* accountSaga() {
+  yield takeEvery(REHYDRATE, connectToNode);
+
   yield takeLatest(
     ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS,
     createSetCredentials

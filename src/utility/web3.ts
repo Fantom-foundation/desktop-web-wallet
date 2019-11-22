@@ -14,12 +14,12 @@ const {
   REACT_APP_EXAMPLE_ADDRESS,
 } = process.env;
 
-export const DEFAULT_PROVIDERS = [
-  'ws://3.15.138.107:4500',
-  'ws://18.189.195.64:4501',
-  'ws://18.191.96.173:4502',
-  'ws://18.222.120.223:4503',
-];
+export const DEFAULT_PROVIDERS = {
+  DEFAULT_1: 'ws://3.15.138.107:4500',
+  DEFAULT_2: 'ws://18.189.195.64:4501',
+  DEFAULT_3: 'ws://18.191.96.173:4502',
+  DEFAULT_4: 'ws://18.222.120.223:4503',
+};
 
 const URL_FANTOM = REACT_APP_API_URL_FANTOM;
 const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${REACT_APP_KEY_INFURA}`;
@@ -33,18 +33,37 @@ export interface ITransfer {
 }
 
 class Web3Agent {
-  constructor(url: string) {
-    this.web3 = new Web3(new Web3.providers.HttpProvider(url));
+  web3: Web3 | null = null;
+
+  init(url: string) {
+    this.web3 = new Web3(url);
   }
 
-  web3: Web3;
-
   async getBalance(address: string = REACT_APP_EXAMPLE_ADDRESS) {
+    if (!this.web3) throw new Error('Not connected');
+
     const res = await this.web3.eth.getBalance(address);
     return res;
   }
 
+  async setProvider(url: string) {
+    if (!this.web3) {
+      this.web3 = new Web3(url);
+    } else {
+      this.web3.setProvider(url);
+    }
+
+    try {
+      await this.web3.eth.net.isListening();
+      return true;
+    } catch(e) {
+      return false;
+    }
+  }
+
   async transfer({ from, to, value, memo, privateKey }: ITransfer) {
+    if (!this.web3) throw new Error('Not connected');
+
     const nonce = await this.web3.eth.getTransactionCount(from);
     const gasPrice = await this.web3.eth.getGasPrice();
 
@@ -76,6 +95,8 @@ class Web3Agent {
     value,
     memo,
   }: Pick<ITransfer, 'from' | 'to' | 'value' | 'memo'>): Promise<string> {
+    if (!this.web3) throw new Error('Not connected');
+
     const gasPrice = await this.web3.eth.getGasPrice();
     const gasLimit = await this.web3.eth.estimateGas({
       from,
@@ -109,11 +130,17 @@ class Web3Agent {
   getKeystore = (
     privateKey: string,
     password: string
-  ): EncryptedKeystoreV3Json =>
-    this.web3.eth.accounts.encrypt(privateKey, password);
+  ): EncryptedKeystoreV3Json => {
+    if (!this.web3) throw new Error('not inialized');
 
-  validateKeystore = (keystore: EncryptedKeystoreV3Json, password: string) =>
-    this.web3.eth.accounts.decrypt(keystore, password);
+    return this.web3.eth.accounts.encrypt(privateKey, password);
+  };
+
+  validateKeystore = (keystore: EncryptedKeystoreV3Json, password: string) => {
+    if (!this.web3) throw new Error('not inialized');
+
+    return this.web3.eth.accounts.decrypt(keystore, password);
+  };
 
   getPrivateKey = (
     keystore: IAccount['keystore'],
@@ -129,7 +156,8 @@ class Web3Agent {
 }
 
 // const Fantom = new Web3Agent(URL_FANTOM);
-const Fantom = new Web3Agent(URL_ETHEREUM);
-const Ethereum = new Web3Agent(URL_ETHEREUM);
+// const Fantom = new Web3Agent(URL_ETHEREUM);
+const Fantom = new Web3Agent();
+// const Ethereum = new Web3Agent(URL_ETHEREUM);
 
-export { Fantom, Ethereum };
+export { Fantom };

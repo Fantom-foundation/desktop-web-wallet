@@ -145,3 +145,12 @@ export const accountUploadKeystore = (
   type: ACCOUNT_ACTIONS.UPLOAD_KEYSTORE,
   file
 });
+
+export const accountSet = (account: Partial<IAccountState>) => ({
+  type: ACCOUNT_ACTIONS.SET,
+  account,
+})
+export const accountSetConnection = (connection: Partial<IAccountState['connection']>) => ({
+  type: ACCOUNT_ACTIONS.SET_CONNECTION,
+  connection,
+})

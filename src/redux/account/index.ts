@@ -6,7 +6,7 @@ import { AccountCreateConfirm } from '~/view/pages/account/AccountCreateConfirm'
 import { IAccount } from './types';
 import { AccountRestoreCredentials } from '~/view/pages/account/AccountRestoreCredentials';
 import { AccountEnterMnemonics } from '~/view/pages/account/AccountEnterMnemonics';
-import { AccountRestoreKeystore } from '~/view/components/account/AccountRestoreKeystore';
+import { DEFAULT_PROVIDERS } from '~/utility/web3';
 
 export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,
@@ -36,11 +36,16 @@ export interface IAccountState {
   };
   transfer: {
     errors: Record<string, string>;
-    fee: string,
+    fee: string;
     is_processing: boolean;
     is_sent: boolean;
   };
   list: Record<string, IAccount>;
+  connection: {
+    current_node: string;
+    is_node_connected: boolean;
+    error: string | null;
+  };
 }
 
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
@@ -58,6 +63,11 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
     fee: '',
     is_processing: false,
     is_sent: false,
+  },
+  connection: {
+    current_node: DEFAULT_PROVIDERS.DEFAULT_1,
+    is_node_connected: false,
+    error: null,
   },
   list: {},
 };
