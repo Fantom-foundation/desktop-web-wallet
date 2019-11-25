@@ -62,9 +62,9 @@
     "electron-connect": "cross-env ELECTRON_START_URL=http://localhost:3000 && cross-env ELECTRON_ENABLE_LOGGING=1 && electron ./electron/main.js",
     "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env ELECTRON_START_URL=http://localhost:3000 electron ./electron/main.js\"",
     "electron-pack": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js --publish never",
-    "electron-build": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
-    "electron-build-win": "electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
-    "electron-build-mac": "electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
+    "electron-build": "npm run preelectron-pack && electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
+    "electron-build-win": "npm run preelectron-pack && electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
+    "electron-build-mac": "npm run preelectron-pack && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
     "preelectron-pack": "npm run build && copyfiles ./electron/**/* ./build/"
   },
   "husky": {
