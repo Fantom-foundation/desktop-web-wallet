@@ -1,0 +1,70 @@
+@import '~/styles/variables.scss';
+
+$bg: darken($color_gray, 4%);
+
+.select {
+  height: 40px;
+  display: flex; 
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0 15px;
+  background: $bg;
+  flex-direction: row;
+  box-shadow: transparentize($color: white, $amount: 0.9) 0 0 0 1px;
+  cursor: pointer;
+  
+  span {
+    flex: 1;
+  }
+}
+
+.list {
+  position: absolute;
+  bottom: 40px;
+  left: 0;
+  background: $bg;
+  width: 100%;
+  z-index: 5;
+  box-shadow: transparentize($color: white, $amount: 0.9) 0 0 0 1px;
+  overflow: auto;
+  max-height: 100%;
+  max-height: calc(100% - 40px);
+}
+
+.item, .custom_item {
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.25s;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+  div {
+    font-weight: bold;
+  }
+
+  small {
+    opacity: 0.5;
+  }
+
+  &:hover {
+    background: lighten($bg, 6%);
+  }
+}
+
+.custom_item {
+  font-weight: bold;
+  color: $color_primary;
+}
+
+.info {
+  flex: 1;
+}
+
+.icon {
+  padding-right: 10px;
+
+  :global(.fa-check) {
+    color: darkcyan;
+  }
+}

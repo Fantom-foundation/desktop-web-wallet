@@ -18,6 +18,7 @@ export const history = createBrowserHistory();
 
 const accountPersistConfig = {
   key: "account",
+  whitelist: ['list', 'connection'],
   storage,
 };
 

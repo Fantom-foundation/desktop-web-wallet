@@ -1,4 +1,12 @@
-import { takeLatest, put, select, call, delay } from 'redux-saga/effects';
+import {
+  takeLatest,
+  put,
+  select,
+  call,
+  delay,
+  takeEvery,
+  race,
+} from 'redux-saga/effects';
 import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from './constants';
 import {
   accountCreateSetCredentials,
@@ -15,6 +23,9 @@ import {
   accountSetTransfer,
   accountGetTransferFee,
   accountUploadKeystore,
+  accountSetConnection,
+  accountChangeProvider,
+  accountProviderConnected,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -22,14 +33,20 @@ import {
   ACCOUNT_INITIAL_STATE,
 } from '.';
 import bip from 'bip39';
-import { selectAccountCreate, selectAccount } from './selectors';
+import {
+  selectAccountCreate,
+  selectAccount,
+  selectAccountConnection,
+} from './selectors';
 import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
-import { Fantom } from '~/utility/web3';
+import { Fantom, DEFAULT_PROVIDERS } from '~/utility/web3';
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
 import { readFileAsJSON } from '~/utility/filereader';
 import { EncryptedKeystoreV3Json } from 'web3-core';
+import { REHYDRATE, RehydrateAction } from 'redux-persist';
+import { path } from 'ramda';
 
 function* createSetCredentials({
   create,
@@ -117,9 +134,12 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
       })
     );
 
-    const result = yield call(Fantom.getBalance.bind(Fantom), id);
+    const result = yield call([Fantom, Fantom.getBalance], id);
 
-    if (!result) return;
+    if (!result)
+      return accountSetAccount(id, {
+        is_loading_balance: false,
+      });
 
     const balance = fromWei(result);
 
@@ -234,7 +254,8 @@ function* getFee({
     });
 
     yield put(accountSetTransfer({ fee }));
-  } finally {
+  } catch (e) {
+    console.log(e);
   }
 }
 
@@ -260,12 +281,6 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
         })
       );
 
-    console.log(
-      Object.keys(list),
-      `0x${keystore.address}`,
-      Object.keys(list).includes(`0x${keystore.address}`)
-    );
-
     if (Object.keys(list).includes(`0x${keystore.address}`))
       return yield put(
         accountSetCreate({
@@ -287,8 +302,6 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
 
     yield put(push(URLS.ACCOUNT_LIST));
   } catch (e) {
-    console.log('ERRROR', e);
-
     yield put(
       accountSetCreate({
         errors: { keystore: 'Invalid keystore file or password.' },
@@ -297,7 +310,56 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
   }
 }
 
+function* connectToNewProvider(current_node: number) {
+  yield put(
+    accountSetConnection({
+      is_node_connected: false,
+      error: null,
+      current_node,
+    })
+  );
+
+  const { custom_nodes } = yield select(selectAccountConnection);
+  const nodes = [...DEFAULT_PROVIDERS, ...custom_nodes];
+  const current = nodes[current_node] || nodes[0];
+
+  const { connected, timeout } = yield race({
+    connected: call([Fantom, Fantom.setProvider], current.address),
+    timeout: delay(10000),
+  });
+
+  if (timeout || !connected) {
+    return yield put(
+      accountSetConnection({
+        is_node_connected: false,
+        error: 'Could not connect to node',
+      })
+    );
+  }
+
+  console.log({ timeout, connected });
+
+  yield put(accountSetConnection({ is_node_connected: true, error: null }));
+  yield put(accountProviderConnected());
+}
+
+function* connectToNode({ key, payload }: RehydrateAction) {
+  if (key !== 'account') return;
+
+  const current_node = path(['connection', 'current_node'], payload) || 0;
+
+  yield call(connectToNewProvider, current_node);
+}
+
+function* changeProvider({
+  provider,
+}: ReturnType<typeof accountChangeProvider>) {
+  yield call(connectToNewProvider, provider);
+}
+
 export function* accountSaga() {
+  yield takeEvery(REHYDRATE, connectToNode);
+
   yield takeLatest(
     ACCOUNT_ACTIONS.CREATE_SET_CREDENTIALS,
     createSetCredentials
@@ -319,4 +381,6 @@ export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
   yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
+
+  yield takeLatest(ACCOUNT_ACTIONS.CHANGE_PROVIDER, changeProvider);
 }

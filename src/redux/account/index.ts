@@ -3,10 +3,9 @@ import { ACCOUNT_HANDLERS } from './handlers';
 import { AccountCreateCredentials } from '~/view/pages/account/AccountCreateCredentials';
 import { AccountCreateInfo } from '~/view/pages/account/AccountCreateInfo';
 import { AccountCreateConfirm } from '~/view/pages/account/AccountCreateConfirm';
-import { IAccount } from './types';
+import { IAccount, INodeRecord } from './types';
 import { AccountRestoreCredentials } from '~/view/pages/account/AccountRestoreCredentials';
 import { AccountEnterMnemonics } from '~/view/pages/account/AccountEnterMnemonics';
-import { AccountRestoreKeystore } from '~/view/components/account/AccountRestoreKeystore';
 
 export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,
@@ -36,11 +35,17 @@ export interface IAccountState {
   };
   transfer: {
     errors: Record<string, string>;
-    fee: string,
+    fee: string;
     is_processing: boolean;
     is_sent: boolean;
   };
   list: Record<string, IAccount>;
+  connection: {
+    current_node: number;
+    is_node_connected: boolean;
+    custom_nodes: INodeRecord[],
+    error: string | null;
+  };
 }
 
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
@@ -58,6 +63,12 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
     fee: '',
     is_processing: false,
     is_sent: false,
+  },
+  connection: {
+    current_node: 0,
+    custom_nodes: [],
+    is_node_connected: false,
+    error: null,
   },
   list: {},
 };

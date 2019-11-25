@@ -13,8 +13,13 @@ import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import * as MODAL_ACTIONS from '~/redux/modal/actions';
 import { MODALS } from '~/redux/modal/constants';
 import { AccountListMenu } from '~/view/pages/account/AccountListMenu';
+import { FaIcon } from '../../inputs/FaIcon';
+import { selectAccountConnection } from '~/redux/account/selectors';
+import { AccountDetailsProvider } from '../AccountDetailsProvider';
 
-const mapStateToProps = () => ({});
+const mapStateToProps = state => ({
+  connection: selectAccountConnection(state),
+});
 
 const mapDispatchToProps = {
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
@@ -27,6 +32,7 @@ type IProps = ReturnType<typeof mapStateToProps> &
   };
 
 const AccountDetailsInfoUnconnected: FC<IProps> = ({
+  connection: { is_node_connected, error },
   account,
   accountGetBalance,
   modalShow,
@@ -38,12 +44,29 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
   const sendFunds = useCallback(() => modalShow(MODALS.TRANSFERS), [modalShow]);
 
   useEffect(() => {
-    getBalance();
-  }, [getBalance]);
+    if (is_node_connected) getBalance();
+  }, [getBalance, is_node_connected]);
+
+  const balance =
+    (account.balance && parseFloat(parseFloat(account.balance).toFixed(6))) ||
+    0;
 
   return (
     <div className={styles.wrap}>
       <div className={styles.content}>
+        {!is_node_connected && !error && (
+          <div className={styles.connection_overlay}>
+            <FaIcon icon="fa-sync-alt" spin />
+            Connecting to node...
+          </div>
+        )}
+        {!is_node_connected && error && (
+          <div className={styles.error_overlay}>
+            <FaIcon icon="fa-exclamation-triangle" />
+            <span>{error}</span>
+          </div>
+        )}
+
         <AccountListMenu account={account} />
 
         <div className={styles.icon}>
@@ -65,11 +88,10 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
         </div>
 
         <div className={styles.balance}>
-          <b>
-            {(account.balance &&
-              parseFloat(parseFloat(account.balance).toFixed(6))) ||
-              '0'}
-          </b>{' '}
+          <div className={styles.get_balance} onClick={getBalance}>
+            <FaIcon icon="fa-sync-alt" spin={account.is_loading_balance} />
+          </div>
+          <b>{`${balance} `}</b>
           FTM
         </div>
 
@@ -77,6 +99,8 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
           Transfer
         </Button>
       </div>
+
+      <AccountDetailsProvider />
     </div>
   );
 };
