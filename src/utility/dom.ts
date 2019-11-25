@@ -2,6 +2,7 @@ import path from 'path';
 
 export const getURL = (url: string): string => {
   const remote =
+    !url.match(/^data:/) &&
     window &&
     window.require &&
     window.require('electron') &&
@@ -9,5 +10,5 @@ export const getURL = (url: string): string => {
     window.require('electron').remote.app &&
     window.require('electron').remote.app.getAppPath();
 
-  return path.join(remote || '', url);
+    return remote ? path.join(remote, url) : url;
 };

@@ -52,7 +52,9 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   const [phrase, setPhrase] = useState('');
 
   const is_next_disabled = useMemo(
-    () => phrase.toLowerCase().trim() !== CONFIRMATION_PHRASE.toLowerCase().trim() || !is_revealed,
+    () =>
+      phrase.toLowerCase().trim() !==
+        CONFIRMATION_PHRASE.toLowerCase().trim() || !is_revealed,
     [is_revealed, phrase]
   );
 
@@ -105,7 +107,11 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
             </Col>
 
             <Col className={styles.qr}>
-              <QRCodeIcon bgColor="white" fgColor="black" address={publicAddress} />
+              <QRCodeIcon
+                bgColor="white"
+                fgColor="black"
+                address={publicAddress}
+              />
             </Col>
           </Row>
         </Container>
@@ -128,7 +134,11 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
               <Row>
                 <Col className={styles.mnemonics_content}>
                   <div className={styles.mnemonics_collector}>
-                    <div className={classNames(styles.words, { [styles.blur]: !is_revealed })}>
+                    <div
+                      className={classNames(styles.words, {
+                        [styles.blur]: !is_revealed,
+                      })}
+                    >
                       {mnemonic &&
                         mnemonic.split(' ').map(word => (
                           <div className={styles.word} key={word}>
@@ -137,7 +147,10 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
                         ))}
 
                       {!is_revealed && (
-                        <div className={styles.overlay} onClick={onRevealSecret}>
+                        <div
+                          className={styles.overlay}
+                          onClick={onRevealSecret}
+                        >
                           <h2>Click Here To Reveal Secret Words</h2>
                         </div>
                       )}
@@ -152,8 +165,9 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
                   <h2>Screenshots are not secure</h2>
 
                   <p>
-                    If you take a screenshot, your backup may be viewed by other apps. You can make
-                    a safe backup by writing it down on a physical paper or by printing a copy.
+                    If you take a screenshot, your backup may be viewed by other
+                    apps. You can make a safe backup by writing it down on a
+                    physical paper or by printing a copy.
                   </p>
                 </Col>
               </Row>
@@ -165,20 +179,17 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
           <Row>
             <Col>
               <p className={styles.backup}>
-                Please back up the recovery phrase now. Make sure to keep it private and secure. It
-                allows full and unlimited access to your account, and can be used to restore your
-                wallet.
+                Please back up the recovery phrase now. Make sure to keep it
+                private and secure. It allows full and unlimited access to your
+                account, and can be used to restore your wallet.
               </p>
 
               <FormGroup>
                 <Label for="msg" className={styles.label}>
-                  Type&nbsp;
-                  <span>
-                    &quot;
-                    {CONFIRMATION_PHRASE}
-                    &quot;
-                  </span>
-                  &nbsp; below to confirm it is backed up.
+                  {!is_revealed ? 'Reveal secret words and type' : 'Type'}
+                  &nbsp;&quot;
+                  <span>{CONFIRMATION_PHRASE}</span>
+                  &quot;&nbsp; below to confirm it is backed up.
                 </Label>
 
                 <div>
