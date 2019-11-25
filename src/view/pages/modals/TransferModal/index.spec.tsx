@@ -48,7 +48,7 @@ describe('TransferModal', () => {
 
     expect(accountSendFunds.mock.calls.length).toBe(1);
     expect(accountSendFunds.mock.calls[0][0]).toEqual({
-      amount: 0,
+      amount: '0',
       from: '',
       message: '',
       password: '',

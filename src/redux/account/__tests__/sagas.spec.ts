@@ -25,6 +25,7 @@ describe('account sagas', () => {
   Fantom.getPrivateKey = jest
     .fn()
     .mockImplementation((keystore, password) => `PRIVATE-${password}`);
+  Fantom.isConnected = jest.fn().mockImplementation(() => Promise.resolve(true));
 
   describe('createSetCredentials', () => {
     it('createSetCredentials', async done => {
@@ -160,7 +161,7 @@ describe('account sagas', () => {
           action: {
             type: ACCOUNT_ACTIONS.SET_ACCOUNT,
             id: 'ACCOUNT',
-            data: { is_loading_balance: false, balance: 0.1 },
+            data: { is_loading_balance: false, balance: '0.1' },
           },
         })
         .run();
