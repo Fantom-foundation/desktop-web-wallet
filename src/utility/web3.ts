@@ -114,8 +114,8 @@ class Web3Agent {
     // console.log({ gasPrice, gasLimit });
 
     const fee = Web3.utils.fromWei(
-      BigInt(gasPrice)
-        .multiply(BigInt(gasLimit))
+      BigInt(gasPrice.toString())
+        .multiply(BigInt(gasLimit.toString()))
         .toString()
     );
 
