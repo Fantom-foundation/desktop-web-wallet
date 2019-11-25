@@ -12498,6 +12498,11 @@ web3-eth@1.2.2:
     web3-net "1.2.2"
     web3-utils "1.2.2"
 
+web3-fake-provider@^0.1.0:
+  version "0.1.0"
+  resolved "https://registry.yarnpkg.com/web3-fake-provider/-/web3-fake-provider-0.1.0.tgz#25aaee7524864c54b26929b5db725d29257af832"
+  integrity sha1-JarudSSGTFSyaSm123JdKSV6+DI=
+
 web3-net@1.2.2:
   version "1.2.2"
   resolved "https://registry.yarnpkg.com/web3-net/-/web3-net-1.2.2.tgz#5c3226ca72df7c591422440ce6f1203fd42ddad9"

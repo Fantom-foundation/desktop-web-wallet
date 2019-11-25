@@ -104,6 +104,7 @@
     "prettier": "^1.18.2",
     "redux-saga-mock": "^1.2.0",
     "sass": "^1.23.1",
-    "ts-jest": "^24.1.0"
+    "ts-jest": "^24.1.0",
+    "web3-fake-provider": "^0.1.0"
   }
 }

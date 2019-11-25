@@ -14,6 +14,7 @@ import { assocPath } from 'ramda';
 import { ACCOUNT_ACTIONS } from '../constants';
 import { CALL_HISTORY_METHOD } from 'connected-react-router';
 import Web3 from 'web3';
+import FakeProvider from 'web3-fake-provider';
 
 describe('account sagas', () => {
   bip.generateMnemonic = jest.fn().mockImplementation(() => 'MNEMONIC');
@@ -26,6 +27,8 @@ describe('account sagas', () => {
     .fn()
     .mockImplementation((keystore, password) => `PRIVATE-${password}`);
   Fantom.isConnected = jest.fn().mockImplementation(() => Promise.resolve(true));
+
+  Fantom.setProvider(new FakeProvider());
 
   describe('createSetCredentials', () => {
     it('createSetCredentials', async done => {
@@ -175,6 +178,13 @@ describe('account sagas', () => {
     Fantom.transfer = jest.fn().mockImplementation(() => {
       return true;
     });
+    
+    if (!Fantom.web3) {
+      throw new Error('web3 undefined');
+    }
+
+    Fantom.web3.eth.getGasPrice = jest.fn().mockImplementation(() => '40000');
+    Fantom.web3.eth.estimateGas = jest.fn().mockImplementation(() => '40000');
 
     const initial = {
       account: {
@@ -187,7 +197,7 @@ describe('account sagas', () => {
     const data = {
       from: '0xFF',
       to: '0xFF',
-      amount: 0.1,
+      amount: '0.1',
       password: 'PASSWORD',
       message: 'MESSAGE',
     };
@@ -214,7 +224,7 @@ describe('account sagas', () => {
         accountSendFunds({
           from: '0xFF',
           to: '',
-          amount: 0,
+          amount: '0',
           password: '',
           message: '',
         })
