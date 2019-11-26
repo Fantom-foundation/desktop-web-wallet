@@ -1,0 +1,99 @@
+@import '~/styles/variables.scss';
+
+.wrap {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.content {
+  background: $color_gray;
+  flex: 1;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-bottom: 10px;
+}
+
+.icon {
+  background: white;
+  width: 75px;
+  height: 75px;
+  flex: 0 0 75px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  border-radius: 100%;
+}
+
+.name {
+  margin: 10px;
+  text-align: center;
+  margin-bottom: 12px;
+  font-size: 22px;
+  color: $color_primary;
+}
+
+.address {
+  min-width: 0;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.qr {
+  margin: 10px 0;
+}
+
+.balance {
+  margin: 20px 10% 30px;
+  text-align: center;
+  color: #fff;
+  border: 2px solid lighten($color_lightgray, 8%);
+  background: lighten($color_lightgray, 2%);
+  padding: 2rem 2rem;
+  border-radius: 8px;
+  font-size: 22px;
+  align-self: stretch;
+  position: relative;
+}
+
+.get_balance {
+  position: absolute;
+  bottom: -20px;
+  left: 50%;
+  transform: translate(-50%, 0);
+  background: $color_gray;
+  border-radius: 100%;
+  cursor: pointer;
+}
+
+.error_overlay, .connection_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparentize($color: $color_gray, $amount: 0.01);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  flex-direction: column;
+
+  i {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+}
+
+.error_overlay {
+  i {
+    color: orange;    
+  }
+}

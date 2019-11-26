@@ -1,0 +1,19 @@
+@import '~/styles/variables.scss';
+
+.content {
+  background: $color_darkgray;
+  padding: 20px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat( auto-fill, minmax(20%, 1fr) );;
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.title {
+  padding: 20px;
+  text-transform: uppercase;
+  text-align: center;
+}

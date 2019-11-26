@@ -1,0 +1,69 @@
+@import '~/styles/variables.scss';
+
+.content {
+  padding-top: 40px;
+
+  background: $color_darkgray;
+}
+
+.mnemonics {
+  text-align: center;
+
+  h2 {
+    margin-bottom: 40px;
+  }
+}
+
+.mnemonic_container {
+  max-width: 80%;
+  border: 2px dashed #fff;
+  min-height: 146px;
+  border-radius: 8px;
+  padding: 40px 20px;
+  margin-bottom: 70px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  margin: 40px auto 0;
+
+  .item {
+    margin: 10px;
+  }
+}
+
+.mnemonic_selector {
+  max-width: 804px;
+  min-height: 146px;
+  border-radius: 8px;
+  padding: 54px 64px;
+  margin-bottom: 70px;
+  margin: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+
+  .item {
+    margin: 10px;
+  }
+}
+
+.selectors {
+  background: $color_lightgray;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin: 20px 0;
+  
+  & > * {
+    margin: 10px 0;
+  }
+}

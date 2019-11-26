@@ -1,20 +1,21 @@
 @import "../node_modules/react-redux-toastr/src/styles/index";
 
-@import "./styles/gloable_variables";
-@import "./styles/typography";
-@import "./styles/mixin";
-@import "./styles/container";
-@import "./styles/button";
-@import "./styles/style";
-@import "./styles/modal";
-@import "./styles/landing_page";
-@import "./styles/header_footer";
-@import "./styles/accounts";
-@import "./styles/account-process";
-@import "./styles/wallet";
-@import "./styles/mnemonic";
-@import "./styles/form";
-@import "styles/print";
-@import "./styles/sidebar";
+body {
+  background: #000000;
+}
 
-@import "./styles/loader";
+@import "./styles/_global";
+ 
+
+.modal-footer {
+  background: transparentize(white, 0.9);
+  border-top: none;
+}
+
+.modal-content {
+  color: white;
+  background: black;
+}
+.modal-header {
+  border-bottom: none;
+}

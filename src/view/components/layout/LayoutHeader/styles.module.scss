@@ -1,0 +1,9 @@
+@import "~/styles/variables.scss";
+
+.placeholder {
+  height: 100px;
+
+  @include tablet {
+    height: 64px;
+  }
+}

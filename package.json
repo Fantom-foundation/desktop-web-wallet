@@ -2,46 +2,82 @@
   "name": "web_wallet1",
   "version": "0.1.0",
   "private": true,
+  "main": "electron/main.js",
+  "homepage": ".",
   "dependencies": {
+    "@craco/craco": "^5.5.0",
+    "@types/jest": "^24.0.21",
+    "@types/node": "^12.11.7",
+    "@types/react": "^16.9.10",
+    "@types/react-dom": "^16.9.2",
     "axios": "^0.18.0",
     "big-integer": "^1.6.40",
     "bip39": "^2.5.0",
+    "body-scroll-lock": "^2.6.4",
+    "classnames": "^2.2.6",
+    "connected-react-router": "^6.5.2",
     "copy-to-clipboard": "^3.0.8",
+    "copyfiles": "^2.1.1",
+    "eslint-plugin-react-hooks": "^2.2.0",
     "ethereumjs-tx": "^1.3.7",
     "ethereumjs-util": "^6.0.0",
-    "hdkey": "^1.1.0",
+    "file-saver": "^2.0.2",
+    "hdkey": "^1.1.1",
+    "history": "^4.10.1",
     "identicons": "^0.1.0",
     "keythereum": "^1.0.4",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.15",
     "moment": "^2.22.2",
     "prop-types": "^15.6.2",
-    "qrcode.react": "^0.8.0",
-    "react": "^16.6.3",
-    "react-dom": "^16.6.3",
-    "react-redux": "^5.1.1",
-    "react-redux-toastr": "^7.4.4",
-    "react-router": "^4.3.1",
-    "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.1",
-    "react-spinners": "^0.4.7",
+    "qrcode.react": "^0.9.3",
+    "ramda": "^0.26.1",
+    "react": "^16.11.0",
+    "react-dom": "^16.11.0",
+    "react-particles-js": "^2.7.0",
+    "react-redux": "^7.1.1",
+    "react-redux-toastr": "^7.6.1",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "3.2.0",
     "react-to-print": "^2.0.0-alpha-4",
-    "react-toasts": "^2.0.14",
-    "reactstrap": "^6.5.0",
-    "redux": "^4.0.1",
+    "react-toasts": "^3.0.6",
+    "reactstrap": "^8.1.1",
+    "redux": "^4.0.4",
     "redux-axios-middleware": "^4.0.0",
-    "redux-persist": "^5.10.0",
+    "redux-persist": "^6.0.0",
+    "redux-saga": "^1.1.1",
+    "redux-saga-test-plan": "^4.0.0-rc.3",
     "redux-thunk": "^2.3.0",
-    "web3": "^1.0.0-beta.36"
+    "signale": "^1.4.0",
+    "typescript": "^3.6.4",
+    "web3": "^1.2.2",
+    "web3-core": "^1.2.2",
+    "web3-utils": "^1.2.2"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
-    "precommit": "lint-staged"
+    "electron-connect": "cross-env ELECTRON_START_URL=http://localhost:3000 && cross-env ELECTRON_ENABLE_LOGGING=1 && electron ./electron/main.js",
+    "electron-dev": "concurrently \"cross-env BROWSER=none yarn start\" \"wait-on http://localhost:3000 && cross-env ELECTRON_START_URL=http://localhost:3000 electron ./electron/main.js\"",
+    "electron-pack": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js --publish never",
+    "electron-build": "npm run preelectron-pack && electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
+    "electron-build-win": "npm run preelectron-pack && electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
+    "electron-build-mac": "npm run preelectron-pack && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
+    "preelectron-pack": "npm run build && copyfiles ./electron/**/* ./build/"
+  },
+  "husky": {
+    "hooks": {
+      "pre-push": "lint-staged"
+    }
   },
   "lint-staged": {
-    "*.{js,jsx}": [
+    "*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "git add"
+    ],
+    "*.{ts,tsx,ts,tsx}": [
       "eslint --fix",
       "git add"
     ]
@@ -56,16 +92,56 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "eslint-config-airbnb": "^17.1.0",
-    "eslint-config-prettier": "^3.3.0",
-    "eslint-plugin-import": "^2.14.0",
-    "eslint-plugin-jsx-a11y": "^6.1.2",
-    "eslint-plugin-prettier": "^3.0.0",
-    "eslint-plugin-react": "^7.11.1",
-    "husky": "0.14.3",
-    "lint-staged": "^8.1.0",
-    "node-sass": "^4.10.0",
-    "prettier": "^1.15.2",
-    "sass-loader": "^7.1.0"
+    "@babel/core": "^7.6.4",
+    "@babel/preset-env": "^7.6.3",
+    "@babel/preset-typescript": "^7.6.0",
+    "@types/enzyme": "^3.10.3",
+    "@types/react-router-dom": "^5.1.0",
+    "@typescript-eslint/parser": "^2.5.0",
+    "babel-jest": "^24.9.0",
+    "concurrently": "^5.0.0",
+    "cross-env": "^6.0.3",
+    "electron": "^6.1.4",
+    "electron-builder": "^22.0.0",
+    "electron-is-dev": "^1.1.0",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.15.1",
+    "enzyme-to-json": "^3.4.3",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-config-prettier": "^6.4.0",
+    "eslint-plugin-import": "^2.18.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-prettier": "^3.1.1",
+    "eslint-plugin-react": "^7.16.0",
+    "husky": "^3.0.9",
+    "identity-obj-proxy": "^3.0.0",
+    "jest-css-modules": "^2.1.0",
+    "lint-staged": "^9.4.2",
+    "prettier": "^1.18.2",
+    "redux-saga-mock": "^1.2.0",
+    "sass": "^1.23.1",
+    "ts-jest": "^24.1.0",
+    "wait-on": "^3.3.0",
+    "web3-fake-provider": "^0.1.0"
+  },
+  "build": {
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "files": [
+      "build/static",
+      "build",
+      {
+        "from": "build/static",
+        "to": "static"
+      }
+    ],
+    "extraResources": [
+      {
+        "from": "build/static",
+        "to": "static"
+      }
+    ]
   }
 }

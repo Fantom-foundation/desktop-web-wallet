@@ -1,0 +1,16 @@
+$panel_height: 48px;
+
+$color_primary: #00b1ff;
+$color_gray: #232323;
+$color_darkgray: #171717;
+$color_lightgray: #222222;
+$color_red: red;
+
+$color_input_bg: #333333;
+$modal_shadow: transparentize(black, 0.3) -30px 0 60px, inset transparentize(white, 0.9) 1px 0;
+
+@mixin tablet {
+  @media (max-width: 768px) {
+    @content
+  }
+}
