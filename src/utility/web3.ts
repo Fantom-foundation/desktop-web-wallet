@@ -3,7 +3,7 @@ import Transaction from 'ethereumjs-tx';
 import * as EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
-import { EncryptedKeystoreV3Json } from 'web3-core';
+import { EncryptedKeystoreV3Json, provider } from 'web3-core';
 import { IAccount, INodeRecord } from '~/redux/account/types';
 import keythereum from 'keythereum';
 import BigInt from 'big-integer';
@@ -51,7 +51,7 @@ class Web3Agent {
     return res;
   }
 
-  async setProvider(url: string) {
+  async setProvider(url: string | provider) {
     if (!this.web3) {
       this.web3 = new Web3(url);
     } else {
@@ -111,9 +111,11 @@ class Web3Agent {
       data: Web3.utils.asciiToHex(memo),
     });
 
+    // console.log({ gasPrice, gasLimit });
+
     const fee = Web3.utils.fromWei(
-      BigInt(gasPrice)
-        .multiply(BigInt(gasLimit))
+      BigInt(gasPrice.toString())
+        .multiply(BigInt(gasLimit.toString()))
         .toString()
     );
 

@@ -27,10 +27,10 @@ export const validateAccountTransaction = ({
         : null,
     password: !privateKey ? 'Password is incorrect' : null,
     balance:
-      amount &&
-      BigNum(Web3.utils.toWei(balance))
-        .minus(Web3.utils.toWei(fee))
-        .compare(Web3.utils.toWei(amount)) < 0
+      amount && balance && fee &&
+      BigNum(Web3.utils.toWei(balance.toString()))
+        .minus(Web3.utils.toWei(fee.toString()))
+        .compare(Web3.utils.toWei(amount.toString())) < 0
         ? `Not enough funds, your balance is only ${balance} FTM`
         : null,
   });

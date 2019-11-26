@@ -121,7 +121,8 @@
     "redux-saga-mock": "^1.2.0",
     "sass": "^1.23.1",
     "ts-jest": "^24.1.0",
-    "wait-on": "^3.3.0"
+    "wait-on": "^3.3.0",
+    "web3-fake-provider": "^0.1.0"
   },
   "build": {
     "directories": {

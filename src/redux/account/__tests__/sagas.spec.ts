@@ -14,18 +14,25 @@ import { assocPath } from 'ramda';
 import { ACCOUNT_ACTIONS } from '../constants';
 import { CALL_HISTORY_METHOD } from 'connected-react-router';
 import Web3 from 'web3';
+import FakeProvider from 'web3-fake-provider';
 
 describe('account sagas', () => {
   bip.generateMnemonic = jest.fn().mockImplementation(() => 'MNEMONIC');
   Fantom.mnemonicToKeys = jest
     .fn()
-    .mockImplementation((mnemonic: string) => ({ publicAddress: `${mnemonic}-0xFF` }));
+    .mockImplementation((mnemonic: string) => ({
+      publicAddress: `${mnemonic}-0xFF`,
+    }));
   Fantom.getKeystore = jest.fn().mockImplementation(() => ({}));
   Fantom.getBalance = jest.fn().mockImplementation(() => '100000000000000000');
   Fantom.getPrivateKey = jest
     .fn()
     .mockImplementation((keystore, password) => `PRIVATE-${password}`);
-  Fantom.isConnected = jest.fn().mockImplementation(() => Promise.resolve(true));
+  Fantom.isConnected = jest
+    .fn()
+    .mockImplementation(() => Promise.resolve(true));
+
+  Fantom.setProvider(new FakeProvider());
 
   describe('createSetCredentials', () => {
     it('createSetCredentials', async done => {
@@ -35,7 +42,10 @@ describe('account sagas', () => {
         icon: '123',
       };
 
-      await expectSaga(ACCOUNT_SAGAS.createSetCredentials, accountCreateSetCredentials(create))
+      await expectSaga(
+        ACCOUNT_SAGAS.createSetCredentials,
+        accountCreateSetCredentials(create)
+      )
         .put(
           accountSetCreate({
             ...create,
@@ -140,7 +150,10 @@ describe('account sagas', () => {
     };
 
     it('getBalance stops on inexist account', async done => {
-      await expectSaga(ACCOUNT_SAGAS.getBalance, accountGetBalance('ANOTHER_ACCOUNT'))
+      await expectSaga(
+        ACCOUNT_SAGAS.getBalance,
+        accountGetBalance('ANOTHER_ACCOUNT')
+      )
         .withState(initial)
         .not.put.actionType(ACCOUNT_ACTIONS.SET_ACCOUNT);
 
@@ -171,10 +184,22 @@ describe('account sagas', () => {
   });
 
   describe('sendFunds', () => {
-    Web3.utils.isAddress = jest.fn().mockImplementation(addr => addr === '0xFF');
+    Web3.utils.isAddress = jest
+      .fn()
+      .mockImplementation(addr => addr === '0xFF');
     Fantom.transfer = jest.fn().mockImplementation(() => {
       return true;
     });
+
+    if (!Fantom.web3) {
+      throw new Error('web3 undefined');
+    }
+
+    Fantom.web3.eth.getGasPrice = jest
+      .fn()
+      .mockImplementation(() => '1');
+
+    Fantom.web3.eth.estimateGas = jest.fn().mockImplementation(() => 1);
 
     const initial = {
       account: {
@@ -187,7 +212,7 @@ describe('account sagas', () => {
     const data = {
       from: '0xFF',
       to: '0xFF',
-      amount: 0.1,
+      amount: '0.1',
       password: 'PASSWORD',
       message: 'MESSAGE',
     };
@@ -214,7 +239,7 @@ describe('account sagas', () => {
         accountSendFunds({
           from: '0xFF',
           to: '',
-          amount: 0,
+          amount: '0',
           password: '',
           message: '',
         })

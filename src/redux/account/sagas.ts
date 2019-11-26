@@ -205,7 +205,7 @@ function* sendFunds({
 
   try {
     yield put(accountSetTransfer({ is_processing: true }));
-    yield call(Fantom.transfer.bind(Fantom), {
+    yield call([Fantom, Fantom.transfer], {
       from,
       to,
       value: amount.toString(),
