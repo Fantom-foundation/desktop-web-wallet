@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "electron/main.js",
-  "homepage": ".",
+  "homepage": "/",
   "dependencies": {
     "@craco/craco": "^5.5.0",
     "@types/jest": "^24.0.21",
@@ -49,6 +49,7 @@
     "redux-saga-test-plan": "^4.0.0-rc.3",
     "redux-thunk": "^2.3.0",
     "signale": "^1.4.0",
+    "source-map-explorer": "^2.1.1",
     "typescript": "^3.6.4",
     "web3": "^1.2.2",
     "web3-core": "^1.2.2",
@@ -65,7 +66,8 @@
     "electron-build": "npm run preelectron-pack && electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
     "electron-build-win": "npm run preelectron-pack && electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
     "electron-build-mac": "npm run preelectron-pack && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
-    "preelectron-pack": "npm run build && copyfiles ./electron/**/* ./build/"
+    "preelectron-pack": "cross-env PUBLIC_URL=./ npm run build && copyfiles ./electron/**/* ./build/",
+    "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "husky": {
     "hooks": {
@@ -122,7 +124,8 @@
     "sass": "^1.23.1",
     "ts-jest": "^24.1.0",
     "wait-on": "^3.3.0",
-    "web3-fake-provider": "^0.1.0"
+    "web3-fake-provider": "^0.1.0",
+    "webpack-cli": "^3.3.10"
   },
   "build": {
     "directories": {
