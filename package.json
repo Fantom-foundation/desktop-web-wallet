@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "main": "electron/main.js",
-  "homepage": ".",
+  "homepage": "/",
   "dependencies": {
     "@craco/craco": "^5.5.0",
     "@types/jest": "^24.0.21",
@@ -66,7 +66,7 @@
     "electron-build": "npm run preelectron-pack && electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
     "electron-build-win": "npm run preelectron-pack && electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
     "electron-build-mac": "npm run preelectron-pack && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
-    "preelectron-pack": "npm run build && copyfiles ./electron/**/* ./build/",
+    "preelectron-pack": "cross-env PUBLIC_URL=./ npm run build && copyfiles ./electron/**/* ./build/",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "husky": {

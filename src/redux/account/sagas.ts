@@ -337,8 +337,6 @@ function* connectToNewProvider(current_node: number) {
     );
   }
 
-  console.log({ timeout, connected });
-
   yield put(accountSetConnection({ is_node_connected: true, error: null }));
   yield put(accountProviderConnected());
 }
