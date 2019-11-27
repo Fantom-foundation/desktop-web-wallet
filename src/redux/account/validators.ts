@@ -27,7 +27,9 @@ export const validateAccountTransaction = ({
         : null,
     password: !privateKey ? 'Password is incorrect' : null,
     balance:
-      amount && balance && fee &&
+      amount &&
+      balance &&
+      fee &&
       BigNum(Web3.utils.toWei(balance.toString()))
         .minus(Web3.utils.toWei(fee.toString()))
         .compare(Web3.utils.toWei(amount.toString())) < 0
@@ -38,5 +40,5 @@ export const validateAccountTransaction = ({
 export const isNodeAddress = (address: string): boolean =>
   !!address &&
   !!address.match(
-    /^(wss?:\/\/)([0-9]{1,3}(?:\.[0-9]{1,3}){3}|(?=[^\/]{1,254}:[0-9]{1,5}$)(?:(?=[a-zA-Z0-9-]{1,63}\.)(?:xn--+)?[a-zA-Z0-9]+(?:-[a-zA-Z0-9]+)*\.)+[a-zA-Z]{2,63}):([0-9]{1,5})$/
+    /^(?:(wss?|https?):\/\/)?[\w.-]+(?:\.[\w\.-]+)+[\w\-\._~:/?#[\]@!\$&'\(\)\*\+,;=.]+$/
   );
