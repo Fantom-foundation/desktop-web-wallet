@@ -10,8 +10,8 @@ export const mockGetTransactions = async (
         resolve({
           balance: Web3.utils.toWei('0.1'),
           nonce: 1,
-          transactions: [...new Array(12)].map(() => ({
-            hash: '0xrAnDoMHaSh',
+          transactions: [...new Array(12)].map((el, index) => ({
+            hash: `0xrAnDoMHaSh${index}`,
             nonce: Math.floor(Math.random() * 10),
             timestamp: new Date().getTime(),
             ...(Math.random() * 2 > 1

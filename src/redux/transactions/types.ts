@@ -1,4 +1,4 @@
-interface IAccountTransaction {
+export interface IAccountTransaction {
   hash: string;
   nonce: number;
   from: string;
