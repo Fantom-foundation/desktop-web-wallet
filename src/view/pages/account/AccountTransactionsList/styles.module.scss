@@ -1,0 +1,56 @@
+@import '~/styles/variables.scss';
+
+.error_overlay,
+.connection_overlay,
+.empty_overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: transparentize($color: $color_gray, $amount: 0.01);
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  box-sizing: border-box;
+  flex-direction: column;
+  color: transparentize(white, 0.8);
+
+  i {
+    font-size: 40px;
+    margin-bottom: 20px;
+  }
+}
+
+.list {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 100px;
+  grid-auto-flow: row;
+  
+  & > div {
+    padding: 15px 8px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border-bottom: 1px solid transparentize(white, 0.8);
+  }
+}
+
+.center {
+  text-align: center;
+}
+
+.th {
+  background: transparentize(white, 0.9);
+}
+
+.heading {
+  padding-bottom: 10px;
+  background: transparentize(white, 0.9);
+
+  h2 {
+    margin: 0;
+    font-size: 20px;
+  }
+}

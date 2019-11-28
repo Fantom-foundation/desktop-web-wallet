@@ -4,6 +4,7 @@ export interface IAccountTransaction {
   from: string;
   to: string;
   timestamp: number;
+  value: string;
 }
 
 export interface IAccountResponse {
