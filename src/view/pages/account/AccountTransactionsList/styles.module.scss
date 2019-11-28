@@ -28,7 +28,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 100px;
   grid-auto-flow: row;
-  
+
   & > div {
     padding: 15px 8px;
     overflow: hidden;
@@ -42,15 +42,35 @@
 }
 
 .th {
-  background: transparentize(white, 0.9);
+  // background: transparentize(white, 0.9);
+  font-weight: bold;
+  border-bottom: 2px solid transparentize(white, 0) !important;
+  text-transform: uppercase;
 }
 
 .heading {
   padding-bottom: 10px;
-  background: transparentize(white, 0.9);
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  column-gap: 20px;
 
   h2 {
     margin: 0;
     font-size: 20px;
+    text-transform: uppercase;
   }
+
+  div {
+    cursor: pointer;
+    
+    i {
+      margin: 0 10px;
+    }
+  }
+}
+
+.is_disabled {
+  pointer-events: none;
+  touch-action: none;
+  opacity: 0.3;
 }

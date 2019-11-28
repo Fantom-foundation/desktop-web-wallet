@@ -36,6 +36,12 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
     transactionsGetList(account.publicAddress);
   }, [account.publicAddress, page, transactionsGetList]);
 
+  const onPrev = useCallback(() => {
+    if (page === 0) return;
+    
+    transactionsSetPage(page - 1);
+  }, [transactionsSetPage, page]);
+
   const onNext = useCallback(() => {
     transactionsSetPage(page + 1);
   }, [transactionsSetPage, page]);
@@ -65,8 +71,21 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
 
       {!error && !is_loading && list.length && (
         <>
-          <div>
-            <div onClick={onNext}>Next</div>
+          <div className={styles.heading}>
+            <h2>Transaction history</h2>
+
+            <div
+              onClick={onPrev}
+              className={classNames({ [styles.is_disabled]: page === 0 })}
+            >
+              <FaIcon icon="fa-chevron-left" />
+              Prev
+            </div>
+
+            <div onClick={onNext}>
+              Next
+              <FaIcon icon="fa-chevron-right" />
+            </div>
           </div>
 
           <div className={styles.list}>
