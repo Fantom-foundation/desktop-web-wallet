@@ -5,14 +5,17 @@ import { copyToClipboard } from '~/utility/clipboard';
 
 interface IProps {
   address: string;
+  noIcon?: boolean;
 }
 
-const Address: FC<IProps> = ({ address }) => {
-  const onClick = useCallback(event => copyToClipboard(event, address), [address]);
+const Address: FC<IProps> = ({ address, noIcon }) => {
+  const onClick = useCallback(event => copyToClipboard(event, address), [
+    address,
+  ]);
 
   return (
     <div className={styles.address} onClick={onClick}>
-      <FaIcon icon="fa-clone" />
+      {!noIcon && <FaIcon icon="fa-clone" />}
       <p>{address}</p>
     </div>
   );

@@ -1,5 +1,16 @@
 @import '~/styles/variables.scss';
 
+.wrapper {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+@keyframes appear {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
 .error_overlay,
 .connection_overlay,
 .empty_overlay {
@@ -8,7 +19,7 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: transparentize($color: $color_gray, $amount: 0.01);
+  background: transparentize($color: $color_darkgray, $amount: 0.01);
   z-index: 4;
   display: flex;
   align-items: center;
@@ -17,11 +28,17 @@
   box-sizing: border-box;
   flex-direction: column;
   color: transparentize(white, 0.8);
+  animation: appear 0.25s forwards;
 
   i {
     font-size: 40px;
     margin-bottom: 20px;
   }
+}
+
+.list_wrapper {
+  position: relative;
+  flex:1;
 }
 
 .list {
@@ -34,6 +51,10 @@
     overflow: hidden;
     text-overflow: ellipsis;
     border-bottom: 1px solid transparentize(white, 0.8);
+  }
+
+  i {
+    color: transparentize(white, 0.7);
   }
 }
 
@@ -51,7 +72,7 @@
 .heading {
   padding-bottom: 10px;
   display: grid;
-  grid-template-columns: 1fr auto auto;
+  grid-template-columns: 20px 1fr auto auto;
   column-gap: 20px;
 
   h2 {

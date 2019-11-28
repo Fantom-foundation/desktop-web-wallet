@@ -49,55 +49,65 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
     transactionsSetPage(page + 1);
   }, [transactionsSetPage, page]);
 
-  const sorted = useMemo(() =>
-    list.sort((a, b) => b.timestamp - a.timestamp), [list]
-  );
+  const onRefresh = useCallback(() => {
+    transactionsGetList(account.publicAddress);
+  }, [transactionsGetList, account.publicAddress]);
+
+  const sorted = useMemo(() => list.sort((a, b) => b.timestamp - a.timestamp), [
+    list,
+  ]);
 
   return (
-    <div>
-      {is_loading && !error && (
-        <div className={styles.connection_overlay}>
-          <FaIcon icon="fa-sync-alt" spin />
-          Getting transaction list
+    <div className={styles.wrapper}>
+      <div className={styles.heading}>
+        <div onClick={onRefresh}>
+          <FaIcon icon="fa-sync-alt" />
         </div>
-      )}
 
-      {error && (
-        <div className={styles.error_overlay}>
-          <FaIcon icon="fa-exclamation-triangle" />
-          <span>{error}</span>
+        <h2>Transaction history</h2>
+
+        <div
+          onClick={onPrev}
+          className={classNames({ [styles.is_disabled]: page === 0 })}
+        >
+          <FaIcon icon="fa-chevron-left" />
+          Prev
         </div>
-      )}
 
-      {!error && !is_loading && !sorted.length && (
-        <div className={styles.empty_overlay}>
-          <FaIcon icon="fa-stream" />
-          <span>Transactions will appear here</span>
+        <div
+          onClick={onNext}
+          className={classNames({
+            [styles.is_disabled]: sorted.length < 10,
+          })}
+        >
+          Next
+          <FaIcon icon="fa-chevron-right" />
         </div>
-      )}
+      </div>
 
-      {!error && !is_loading && sorted.length && (
-        <>
-          <div className={styles.heading}>
-            <h2>Transaction history</h2>
-
-            <div
-              onClick={onPrev}
-              className={classNames({ [styles.is_disabled]: page === 0 })}
-            >
-              <FaIcon icon="fa-chevron-left" />
-              Prev
-            </div>
-
-            <div
-              onClick={onNext}
-              className={classNames({ [styles.is_disabled]: sorted.length < 10 })}
-            >
-              Next
-              <FaIcon icon="fa-chevron-right" />
-            </div>
+      <div className={styles.list_wrapper}>
+        {is_loading && !error && (
+          <div className={styles.connection_overlay}>
+            <FaIcon icon="fa-sync-alt" spin />
+            Getting transaction list
           </div>
+        )}
 
+        {error && (
+          <div className={styles.error_overlay}>
+            <FaIcon icon="fa-exclamation-triangle" />
+            <span>{error}</span>
+          </div>
+        )}
+
+        {!error && !is_loading && !sorted.length && (
+          <div className={styles.empty_overlay}>
+            <FaIcon icon="fa-stream" />
+            <span>Transactions will appear here</span>
+          </div>
+        )}
+
+        {!error && !is_loading && sorted.length && (
           <div className={styles.list}>
             <div className={styles.th}>From</div>
             <div className={styles.th}>To</div>
@@ -107,13 +117,13 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
             {sorted.map(({ hash, from, to, value }) => (
               <Fragment key={hash}>
                 <div>
-                  <Address address={from} />
+                  <Address address={from} noIcon />
                 </div>
                 <div>
-                  <Address address={to} />
+                  <Address address={to} noIcon />
                 </div>
                 <div>
-                  <Address address={hash} />
+                  <Address address={hash} noIcon />
                 </div>
                 <div className={styles.center}>
                   {value && parseFloat(Web3.utils.fromWei(value)).toFixed(5)}
@@ -121,8 +131,8 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
               </Fragment>
             ))}
           </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 };

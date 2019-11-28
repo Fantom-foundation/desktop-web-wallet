@@ -17,7 +17,7 @@ const AccountDetails: FC<IProps> = ({ account }) => (
         <AccountDetailsInfo account={account} />
       </Col>
 
-      <Col md={12} lg={8}>
+      <Col md={12} lg={8} className={styles.transactions}>
         <AccountTransactionsList account={account} />
 
         <DialogInfo
