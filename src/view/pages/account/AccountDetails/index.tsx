@@ -4,6 +4,7 @@ import { IAccount } from '~/redux/account/types';
 import { AccountDetailsInfo } from '~/view/components/account/AccountDetailsInfo';
 import styles from './styles.module.scss';
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
+import { AccountTransactionsList } from '../AccountTransactionsList';
 
 interface IProps {
   account: IAccount;
@@ -16,8 +17,8 @@ const AccountDetails: FC<IProps> = ({ account }) => (
         <AccountDetailsInfo account={account} />
       </Col>
 
-      <Col md={12} lg={8}>
-        Transactions will appear here
+      <Col md={12} lg={8} className={styles.transactions}>
+        <AccountTransactionsList account={account} />
 
         <DialogInfo
           isOpened={false}

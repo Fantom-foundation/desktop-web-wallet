@@ -60,6 +60,7 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
             Connecting to node...
           </div>
         )}
+        
         {!is_node_connected && error && (
           <div className={styles.error_overlay}>
             <FaIcon icon="fa-exclamation-triangle" />
