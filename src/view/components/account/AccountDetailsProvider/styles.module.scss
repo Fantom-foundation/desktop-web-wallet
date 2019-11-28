@@ -4,7 +4,7 @@ $bg: darken($color_gray, 4%);
 
 .select {
   height: 40px;
-  display: flex; 
+  display: flex;
   align-items: center;
   justify-content: flex-start;
   padding: 0 15px;
@@ -12,7 +12,7 @@ $bg: darken($color_gray, 4%);
   flex-direction: row;
   box-shadow: transparentize($color: white, $amount: 0.9) 0 0 0 1px;
   cursor: pointer;
-  
+
   span {
     flex: 1;
   }
@@ -31,13 +31,15 @@ $bg: darken($color_gray, 4%);
   max-height: calc(100% - 40px);
 }
 
-.item, .custom_item {
+.item,
+.custom_item {
   padding: 10px;
   cursor: pointer;
   transition: background-color 0.25s;
   display: flex;
   flex-direction: row;
   align-items: center;
+  min-width: 0;
 
   div {
     font-weight: bold;
@@ -59,6 +61,14 @@ $bg: darken($color_gray, 4%);
 
 .info {
   flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+
+  & > * {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
 }
 
 .icon {
