@@ -1,4 +1,4 @@
-import React, { FC, useEffect, Fragment, useCallback } from 'react';
+import React, { FC, useEffect, Fragment, useCallback, useMemo } from 'react';
 import { IAccount } from '~/redux/account/types';
 import { connect } from 'react-redux';
 import { selectTransactions } from '~/redux/transactions/selectors';
@@ -7,6 +7,7 @@ import { FaIcon } from '~/view/components/inputs/FaIcon';
 import styles from './styles.module.scss';
 import Web3 from 'web3';
 import classNames from 'classnames';
+import { Address } from '~/view/components/account/Address';
 
 const mapStateToProps = state => ({
   transactions: selectTransactions(state),
@@ -38,13 +39,19 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
 
   const onPrev = useCallback(() => {
     if (page === 0) return;
-    
+
     transactionsSetPage(page - 1);
   }, [transactionsSetPage, page]);
 
   const onNext = useCallback(() => {
+    if (list.length < 10) return;
+
     transactionsSetPage(page + 1);
   }, [transactionsSetPage, page]);
+
+  const sorted = useMemo(() =>
+    list.sort((a, b) => b.timestamp - a.timestamp), [list]
+  );
 
   return (
     <div>
@@ -62,14 +69,14 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
         </div>
       )}
 
-      {!error && !is_loading && !list.length && (
+      {!error && !is_loading && !sorted.length && (
         <div className={styles.empty_overlay}>
           <FaIcon icon="fa-stream" />
           <span>Transactions will appear here</span>
         </div>
       )}
 
-      {!error && !is_loading && list.length && (
+      {!error && !is_loading && sorted.length && (
         <>
           <div className={styles.heading}>
             <h2>Transaction history</h2>
@@ -82,7 +89,10 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
               Prev
             </div>
 
-            <div onClick={onNext}>
+            <div
+              onClick={onNext}
+              className={classNames({ [styles.is_disabled]: sorted.length < 10 })}
+            >
               Next
               <FaIcon icon="fa-chevron-right" />
             </div>
@@ -94,11 +104,17 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
             <div className={styles.th}>Hash</div>
             <div className={classNames(styles.th, styles.center)}>Amount</div>
 
-            {list.map(({ hash, from, to, value }) => (
+            {sorted.map(({ hash, from, to, value }) => (
               <Fragment key={hash}>
-                <div>{from}</div>
-                <div>{to}</div>
-                <div>{hash}</div>
+                <div>
+                  <Address address={from} />
+                </div>
+                <div>
+                  <Address address={to} />
+                </div>
+                <div>
+                  <Address address={hash} />
+                </div>
                 <div className={styles.center}>
                   {value && parseFloat(Web3.utils.fromWei(value)).toFixed(5)}
                 </div>
