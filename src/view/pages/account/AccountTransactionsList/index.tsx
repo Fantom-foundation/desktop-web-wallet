@@ -47,7 +47,7 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
     if (list.length < 10) return;
 
     transactionsSetPage(page + 1);
-  }, [transactionsSetPage, page]);
+  }, [transactionsSetPage, page, list]);
 
   const onRefresh = useCallback(() => {
     transactionsGetList(account.publicAddress);
