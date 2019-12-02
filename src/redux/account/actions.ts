@@ -163,13 +163,14 @@ export const accountChangeProvider = (
   provider,
 });
 
-export const accountAddProvider = (
-  name: string,
-  address: string,
-) => ({
+export const accountAddProvider = (name: string, address: string) => ({
   type: ACCOUNT_ACTIONS.ADD_PROVIDER,
   name,
   address,
+});
+
+export const accountReconnectProvider = () => ({
+  type: ACCOUNT_ACTIONS.RECONNECT_PROVIDER,
 });
 
 export const accountProviderConnected = () => ({
