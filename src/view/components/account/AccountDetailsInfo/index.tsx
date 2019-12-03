@@ -1,9 +1,7 @@
 import React, { FC, useCallback, useEffect } from 'react';
-import { PanelTitle } from '~/view/components/panels/PanelTitle';
 import { IAccount } from '~/redux/account/types';
 import styles from './styles.module.scss';
 import { Button } from 'reactstrap';
-import { PanelButton } from '~/view/components/panels/PanelButton';
 import Identicon from '~/view/general/Identicon';
 import { Address } from '~/view/components/account/Address';
 import QRCodeIcon from '~/view/general/QRCodeIcon';
@@ -16,6 +14,7 @@ import { AccountListMenu } from '~/view/pages/account/AccountListMenu';
 import { FaIcon } from '../../inputs/FaIcon';
 import { selectAccountConnection } from '~/redux/account/selectors';
 import { AccountDetailsProvider } from '../AccountDetailsProvider';
+import { Link } from 'react-router-dom';
 
 const mapStateToProps = state => ({
   connection: selectAccountConnection(state),
@@ -53,6 +52,11 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
 
   return (
     <div className={styles.wrap}>
+      <Link className={styles.arrow} to="/accounts">
+        <FaIcon icon="fa-chevron-left" />
+        <div>Accounts</div>
+      </Link>
+
       <div className={styles.content}>
         {!is_node_connected && !error && (
           <div className={styles.connection_overlay}>
