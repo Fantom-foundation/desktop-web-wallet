@@ -113,9 +113,10 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
             <div className={styles.th}>To</div>
             <div className={styles.th}>Hash</div>
             <div className={classNames(styles.th, styles.center)}>Amount</div>
+            <div className={classNames(styles.th, styles.center)}>Fee</div>
 
-            {sorted.map(({ hash, from, to, value }) => (
-              <Fragment key={hash}>
+            {sorted.map(({ hash, from, to, value, _id: id, fee }) => (
+              <Fragment key={id}>
                 <div>
                   <Address address={from} noIcon />
                 </div>
@@ -127,6 +128,9 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
                 </div>
                 <div className={styles.center}>
                   {value && parseFloat(Web3.utils.fromWei(value)).toFixed(5)}
+                </div>
+                <div className={styles.center}>
+                  {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)}
                 </div>
               </Fragment>
             ))}
