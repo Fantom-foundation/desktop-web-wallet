@@ -6,6 +6,7 @@ import {
   delay,
   takeEvery,
   race,
+  fork,
 } from 'redux-saga/effects';
 import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from './constants';
 import {
@@ -26,6 +27,7 @@ import {
   accountSetConnection,
   accountChangeProvider,
   accountProviderConnected,
+  accountReconnectProvider,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -355,7 +357,35 @@ function* changeProvider({
   yield call(connectToNewProvider, provider);
 }
 
+function* reconnectProvider() {
+  yield delay(3000);
+  const { current_node } = yield select(selectAccountConnection);
+  yield call(connectToNewProvider, current_node);
+}
+
+function* testConnectionSaga() {
+  try {
+    const { is_node_connected } = yield select(selectAccountConnection);
+  
+    if (!is_node_connected) return;
+    
+    const { connected } = yield race({
+      connected: call([Fantom, Fantom.isConnected]),
+      timeout: delay(10000),
+    });
+
+    if (connected) return;
+
+    yield put(accountSetConnection({ is_node_connected: false }));
+    yield put(accountReconnectProvider());
+  } finally {
+    yield delay(10000);
+    yield call(testConnectionSaga);
+  }
+}
+
 export function* accountSaga() {
+  yield fork(testConnectionSaga);
   yield takeEvery(REHYDRATE, connectToNode);
 
   yield takeLatest(
@@ -381,4 +411,5 @@ export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
 
   yield takeLatest(ACCOUNT_ACTIONS.CHANGE_PROVIDER, changeProvider);
+  yield takeLatest(ACCOUNT_ACTIONS.RECONNECT_PROVIDER, reconnectProvider);
 }

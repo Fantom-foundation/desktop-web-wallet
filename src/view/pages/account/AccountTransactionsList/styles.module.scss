@@ -43,11 +43,12 @@
 
 .list {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr 100px;
+  grid-template-columns: 1fr 1fr 1fr 100px 100px;
   grid-auto-flow: row;
+  font-size: 14px;
 
   & > div {
-    padding: 15px 8px;
+    padding: 12px 5px;
     overflow: hidden;
     text-overflow: ellipsis;
     border-bottom: 1px solid transparentize(white, 0.8);

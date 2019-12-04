@@ -5,6 +5,8 @@ export interface IAccountTransaction {
   to: string;
   timestamp: number;
   value: string;
+  _id: string;
+  fee: string;
 }
 
 export interface IAccountResponse {

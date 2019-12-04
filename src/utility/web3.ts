@@ -3,10 +3,11 @@ import Transaction from 'ethereumjs-tx';
 import * as EthUtil from 'ethereumjs-util';
 import Bip39 from 'bip39';
 import Hdkey from 'hdkey';
-import { EncryptedKeystoreV3Json, provider } from 'web3-core';
+import { EncryptedKeystoreV3Json } from 'web3-core';
 import { IAccount, INodeRecord } from '~/redux/account/types';
 import keythereum from 'keythereum';
 import BigInt from 'big-integer';
+import { accountReconnectProvider } from '~/redux/account/actions';
 
 const {
   // REACT_APP_API_URL_FANTOM,
@@ -51,12 +52,22 @@ class Web3Agent {
     return res;
   }
 
-  async setProvider(url: string | provider) {
+  async setProvider(url: string) {
+    const prov = new Web3.providers.WebsocketProvider(url);
+
     if (!this.web3) {
-      this.web3 = new Web3(url);
+      this.web3 = new Web3(prov);
     } else {
-      this.web3.setProvider(url);
+      this.web3.setProvider(prov);
     }
+
+    prov.on('error', () => {
+      window.dispatchEvent(new Event('reconnect_node'));
+    });
+
+    prov.on('end', () => {
+      window.dispatchEvent(new Event('reconnect_node'));
+    });
 
     try {
       return !!(await this.web3.eth.getNodeInfo());

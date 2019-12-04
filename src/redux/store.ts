@@ -15,6 +15,7 @@ import { reducer as toastr } from 'react-redux-toastr';
 import { account, IAccountState } from '~/redux/account';
 import { modal, IModalState } from '~/redux/modal';
 import { transactions, ITRansactionsState } from '~/redux/transactions';
+import { accountReconnectProvider } from './account/actions';
 
 export const history = createBrowserHistory();
 
@@ -55,9 +56,14 @@ const store = createStore(
 
 const persistor = persistStore(store);
 
+sagaMiddleware.run(accountSaga);
+sagaMiddleware.run(transactionsSaga);
+
 export const configureStore = () => {
-  sagaMiddleware.run(accountSaga);
-  sagaMiddleware.run(transactionsSaga);
+  window.addEventListener('reconnect_node', () =>
+    store.dispatch(accountReconnectProvider())
+  );
+
   return { store, persistor, history };
 };
 
