@@ -11,10 +11,9 @@ function* getList({ address }: ReturnType<typeof transactionsGetList>) {
   const { page } = yield select(selectTransactions);
   const offset = page * 10;
 
-  // const { error, data } = yield call(mockGetTransactions, address, offset, 10);
   const { error, data } = yield call(getTransactions, address, offset, 10);
 
-  if (!!error || !data.data || !data.data.transactions) {
+  if (!!error || !data.data.account || !data.data.account.transactions) {
     return yield put(
       transactionsSet({
         error: `Can't get transactions list`,
@@ -27,7 +26,7 @@ function* getList({ address }: ReturnType<typeof transactionsGetList>) {
     transactionsSet({
       error: null,
       is_loading: false,
-      list: data.data.transactions,
+      list: data.data.account.transactions,
     })
   );
 }
