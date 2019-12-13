@@ -35,11 +35,11 @@ $color: (
   restore-vault-input-label: $white,
   modal-header-border-line: #cecece,
   modal-title: $theme-blue,
-  modal-footer-bg: #f7f5f4
+  modal-footer-bg: #f7f5f4,
 );
 
-$primary-font: "Roboto";
-$secondary-font: "Lato";
+$primary-font: 'Roboto';
+$secondary-font: 'Lato';
 
 $font: (
   header-menu: $primary-font,
@@ -61,11 +61,15 @@ $font: (
   modal-body-text: $secondary-font,
   modal-body-text-weight: 400,
   btn: $primary-font,
-  restore-confirm: $primary-font
+  restore-confirm: $primary-font,
 );
 
 $navlink-textTransform: uppercase;
-
+body {
+  font-family: Work Sans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
 .modal {
   height: 100vh;
   width: 100vw;
@@ -100,7 +104,8 @@ $navlink-textTransform: uppercase;
   }
 
   &.btn-secondary {
-    &:not(:disabled):not(.disabled):active:focus, &:hover {
+    &:not(:disabled):not(.disabled):active:focus,
+    &:hover {
       outline: none;
       background: none;
       box-shadow: none;
@@ -119,3 +124,5 @@ $navlink-textTransform: uppercase;
     background: red;
   }
 }
+
+@import './typography';

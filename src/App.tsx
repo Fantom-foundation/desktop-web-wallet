@@ -3,7 +3,11 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react';
 import ReduxToastr from 'react-redux-toastr';
 import { configureStore } from '~/redux/store';
-import { ToastsContainer, ToastsStore, ToastsContainerPosition } from 'react-toasts';
+import {
+  ToastsContainer,
+  ToastsStore,
+  ToastsContainerPosition,
+} from 'react-toasts';
 
 import { MainRouter } from '~/view/routers/MainRouter';
 import { Modal } from './view/pages/modals/Modal';
@@ -26,7 +30,10 @@ const App = () => (
 
       <Modal />
 
-      <ToastsContainer position={ToastsContainerPosition.TOP_CENTER} store={ToastsStore} />
+      <ToastsContainer
+        position={ToastsContainerPosition.TOP_CENTER}
+        store={ToastsStore}
+      />
     </PersistGate>
   </Provider>
 );

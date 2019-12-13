@@ -1,11 +1,10 @@
-@import "../node_modules/react-redux-toastr/src/styles/index";
+@import '../node_modules/react-redux-toastr/src/styles/index';
 
-body {
-  background: #000000;
-}
+// body {
+//   background: #000000;
+// }
 
-@import "./styles/_global";
- 
+@import './styles/_global';
 
 .modal-footer {
   background: transparentize(white, 0.9);

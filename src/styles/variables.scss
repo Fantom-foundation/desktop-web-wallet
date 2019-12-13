@@ -7,10 +7,23 @@ $color_lightgray: #222222;
 $color_red: red;
 
 $color_input_bg: #333333;
-$modal_shadow: transparentize(black, 0.3) -30px 0 60px, inset transparentize(white, 0.9) 1px 0;
+$modal_shadow: transparentize(black, 0.3) -30px 0 60px,
+  inset transparentize(white, 0.9) 1px 0;
 
 @mixin tablet {
   @media (max-width: 768px) {
-    @content
+    @content;
   }
 }
+
+$color: (
+  White: #fff,
+  Black: #000,
+  Primary-Main: #1965e9,
+  Navy-Main: #2b3954,
+  Grey-Main: #556176,
+  Error: #ee3131,
+);
+$desktop: 991.98px;
+$tablet: 767.98px;
+$phone: 575.98px;
