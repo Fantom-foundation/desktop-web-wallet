@@ -82,6 +82,9 @@ $sidebarWidth: 325px;
       border: 0;
       padding: 0;
       margin-left: 30px;
+      &:hover {
+        color: rgba(map-get($color, Navy-Main), 0.9);
+      }
     }
   }
 }

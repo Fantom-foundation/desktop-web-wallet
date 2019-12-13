@@ -20,3 +20,9 @@
     margin: 0;
   }
 }
+a {
+  color: map-get($color, Primary-Main);
+  &:hover {
+    color: darken(map-get($color, Primary-Main), 10%);
+  }
+}
