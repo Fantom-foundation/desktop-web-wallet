@@ -29,7 +29,14 @@ $sidebarWidth: 325px;
 .contentWrapper {
   flex: 0 0 calc(100% - #{$sidebarWidth});
   max-width: calc(100% - #{$sidebarWidth});
-  padding: 33px 50px 30px;
+  padding: 33px 0;
+  .main {
+    padding: 0 55px 0 30px;
+    // max-width: 1280px - $sidebarWidth;
+  }
+  .contentHeader {
+    margin-bottom: 40px;
+  }
 }
 
 .sync {
@@ -58,12 +65,18 @@ $sidebarWidth: 325px;
       weight: 600;
     }
     line-height: normal;
+    max-width: 607px;
+    width: 100%;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
     color: map-get($color, Navy-Main);
   }
   .hashHandlers {
     display: flex;
     align-items: center;
     button {
+      cursor: pointer;
       color: rgba(map-get($color, Navy-Main), 0.7);
       background: transparent;
       border: 0;
