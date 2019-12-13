@@ -1,0 +1,34 @@
+@import '~/styles/variables.scss';
+.root {
+  background: map-get($color, Primary-Main);
+  border-top-right-radius: 50px;
+  height: 100%;
+  padding-top: 40px;
+  padding-left: 67px;
+}
+.logoWrapper {
+  margin-bottom: 97px;
+}
+.menus {
+  padding: 0;
+  li {
+    list-style: none;
+    margin-bottom: 80px;
+    &:not(.active) {
+      a {
+        opacity: 0.5;
+        &:hover {
+          opacity: 1;
+        }
+      }
+    }
+  }
+  a {
+    color: #fff;
+    font-size: 24px;
+    font-weight: 600;
+    img {
+      margin-right: 20px;
+    }
+  }
+}

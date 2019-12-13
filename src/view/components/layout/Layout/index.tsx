@@ -8,9 +8,10 @@ import { selectModal } from '~/redux/modal/selectors';
 
 const mapStateToProps = selectModal;
 
-type IProps = HTMLAttributes<HTMLDivElement> & ReturnType<typeof mapStateToProps> & {
-  noFooter?: boolean;
-}
+type IProps = HTMLAttributes<HTMLDivElement> &
+  ReturnType<typeof mapStateToProps> & {
+    noFooter?: boolean;
+  };
 
 class LayoutUnconnected extends React.PureComponent<IProps> {
   constructor(props) {
@@ -22,9 +23,13 @@ class LayoutUnconnected extends React.PureComponent<IProps> {
     const { children, noFooter, className, isOpened } = this.props;
 
     return (
-      <div className={classNames(styles.layout, className, { [styles.blurred]: isOpened })}>
+      <div
+        className={classNames(styles.layout, className, {
+          [styles.blurred]: isOpened,
+        })}
+      >
         <LayoutHeader isBlurred={isOpened} />
-        
+
         {children}
 
         {!noFooter && <LayoutFooter />}

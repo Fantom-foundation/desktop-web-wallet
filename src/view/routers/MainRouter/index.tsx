@@ -9,18 +9,26 @@ import { AccountList } from '~/view/pages/account/AccountList';
 import { AccountRouter } from '../AccountRouter';
 import { AccountRestoreRouter } from '~/view/pages/account/AccountRestoreRouter';
 import { Layout } from '~/view/components/layout/Layout';
+import { DashboardLayout } from '~/view/components/layout';
+import Dashboard from 'src/view/pages/dashboard';
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
     <Switch>
       <Switch>
         <Route path="/" exact component={Home} />
+        <DashboardLayout>
+          <Route path="/dashboard" component={Dashboard} />
+        </DashboardLayout>
 
         <Layout>
           <Switch>
             <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
-            <Route path={URLS.ACCOUNT_RESTORE} component={AccountRestoreRouter} />
+            <Route
+              path={URLS.ACCOUNT_RESTORE}
+              component={AccountRestoreRouter}
+            />
             <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
 
             <Redirect to="/" />

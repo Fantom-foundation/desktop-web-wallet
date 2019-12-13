@@ -1,0 +1,22 @@
+@import '~/styles/variables.scss';
+.text {
+  &-primary {
+    color: map-get($color, Primary-Main) !important;
+  }
+  &-navy {
+    color: map-get($color, Navy-Main);
+  }
+  &-grey {
+    color: map-get($color, Grey-Main);
+  }
+  &-danger {
+    color: map-get($color, Error) !important;
+  }
+  &-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin: 0;
+  }
+}
