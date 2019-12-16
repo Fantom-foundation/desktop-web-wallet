@@ -1,6 +1,13 @@
 @import '~/styles/variables.scss';
+.checkField {
+  display: flex;
+  .checkBoxWrapper {
+    margin-right: 9px;
+  }
+}
 
 .checkBox {
+  cursor: pointer;
   outline: none !important;
   padding: 0;
   background: transparent;

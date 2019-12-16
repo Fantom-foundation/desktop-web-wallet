@@ -20,18 +20,23 @@ export default () => {
         </h3>
         <Input label="Set a new password" />
         <Input label="Re-enter password" />
-        <div>
-          <p>
+        <div className={styles.checkField}>
+          <div className={styles.checkBoxWrapper}>
             <button
               className={styles.checkBox}
               onClick={() => handleCheckBox(!checked)}
             >
               {checked ? <FormCheckedIcon /> : <FormUnCheckedIcon />}
             </button>
+          </div>
+          <p>
             I made a backup of the keystore file and saved the password in a
             safe place.
-            <br />I understand that I will need the password and the keystore
-            file to access my wallet.
+            <br />I understand that{' '}
+            <a href="#" target="_blank">
+              I will need the password and the keystore file to access my
+              wallet.
+            </a>
           </p>
         </div>
       </CreateWalletCard>
