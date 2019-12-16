@@ -1,0 +1,27 @@
+@import '~/styles/variables.scss';
+.root {
+  max-width: 620px;
+  padding: {
+    left: 25px;
+    right: 25px;
+  }
+  margin: {
+    left: auto;
+    right: auto;
+  }
+}
+.card {
+  border-radius: 22px 22px 20px !important;
+}
+.head {
+  border-radius: 20px 20px 0 0;
+  height: 90px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  background: map-get($color, dark-periwinkle);
+}
+
+.body {
+  padding: 30px 40px 40px;
+}

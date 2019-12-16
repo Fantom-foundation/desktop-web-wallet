@@ -31,12 +31,12 @@ export default ({ children }) => {
           <div className={styles.contentWrapper}>
             <main className={styles.main}>
               <div className={styles.contentHeader}>
-                <div className="d-flex justify-content-end mb-3">
+                {/* <div className="d-flex justify-content-end mb-3">
                   <p className={styles.sync}>
                     <CheckIcon />
                     Synchronized
                   </p>
-                </div>
+                </div> */}
                 <div>
                   <p className={styles.label}>Address</p>
                 </div>

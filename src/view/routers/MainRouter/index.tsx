@@ -11,18 +11,22 @@ import { AccountRestoreRouter } from '~/view/pages/account/AccountRestoreRouter'
 import { Layout } from '~/view/components/layout/Layout';
 import { DashboardLayout } from '~/view/components/layout';
 import Dashboard from 'src/view/pages/dashboard';
+import Send from '~/view/pages/dashboard/send';
+import CreateWallet from '~/view/pages/createWallet';
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
     <Switch>
       <Switch>
         <Route path="/" exact component={Home} />
-        <DashboardLayout>
-          <Route path="/dashboard" component={Dashboard} />
-        </DashboardLayout>
+        {/* <DashboardLayout>
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard/send" component={Send} />
+        </DashboardLayout> */}
 
-        {/* <Layout>
+        <Layout>
           <Switch>
+            <Route path="/create-wallet" component={CreateWallet} />
             <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
             <Route
@@ -33,7 +37,7 @@ const MainRouter = () => (
 
             <Redirect to="/" />
           </Switch>
-        </Layout> */}
+        </Layout>
       </Switch>
     </Switch>
   </ConnectedRouter>

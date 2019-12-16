@@ -79,3 +79,34 @@ export const ReceiveIcon = () => (
     </g>
   </svg>
 );
+
+export const FormCheckedIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 14 14"
+    width="14px"
+    height="14px"
+  >
+    <path
+      d="M12.5,0H1.5A1.5,1.5,0,0,0,0,1.5v11A1.5,1.5,0,0,0,1.5,14h11A1.5,1.5,0,0,0,14,12.5V1.5A1.5,1.5,0,0,0,12.5,0Zm0,12.5H1.5V1.5h11Z"
+      fill="#2b3954"
+    />
+    <path
+      d="M11.38,5,6,10.3a.38.38,0,0,1-.53,0L2.62,7.43a.37.37,0,0,1,0-.53l.71-.7a.38.38,0,0,1,.53,0L5.73,8.08,10.15,3.7a.38.38,0,0,1,.53,0l.7.71a.37.37,0,0,1,0,.53Z"
+      fill="#2b3954"
+    />
+  </svg>
+);
+export const FormUnCheckedIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    viewBox="0 0 14 14"
+    width="14px"
+    height="14px"
+  >
+    <path
+      d="M12.5,0H1.5A1.5,1.5,0,0,0,0,1.5v11A1.5,1.5,0,0,0,1.5,14h11A1.5,1.5,0,0,0,14,12.5V1.5A1.5,1.5,0,0,0,12.5,0Zm0,12.5H1.5V1.5h11Z"
+      fill="#2b3954"
+    />
+  </svg>
+);

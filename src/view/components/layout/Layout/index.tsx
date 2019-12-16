@@ -30,7 +30,7 @@ class LayoutUnconnected extends React.PureComponent<IProps> {
       >
         <LayoutHeader isBlurred={isOpened} />
 
-        {children}
+        <main>{children}</main>
 
         {!noFooter && <LayoutFooter />}
       </div>
