@@ -72,29 +72,29 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-.modal {
-  height: 100vh;
-  width: 100vw;
-  box-sizing: border-box;
-  display: flex !important;
-  align-items: center;
-  justify-content: stretch;
-}
+// .modal {
+//   height: 100vh;
+//   width: 100vw;
+//   box-sizing: border-box;
+//   display: flex !important;
+//   align-items: center;
+//   justify-content: stretch;
+// }
 
-.modal-dialog {
-  width: 100%;
-}
+// .modal-dialog {
+//   width: 100%;
+// }
 
-.modal-header {
-  color: white;
-  background: $theme-blue;
-}
+// .modal-header {
+//   color: white;
+//   background: $theme-blue;
+// }
 
-.modal-footer {
-  .btn {
-    min-width: 100px;
-  }
-}
+// .modal-footer {
+//   .btn {
+//     min-width: 100px;
+//   }
+// }
 
 .btn {
   outline: none !important;
