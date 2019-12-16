@@ -76,6 +76,7 @@ $sidebarWidth: 325px;
     display: flex;
     align-items: center;
     button {
+      outline: none !important;
       cursor: pointer;
       color: rgba(map-get($color, dark-grey-blue), 0.7);
       background: transparent;
