@@ -1,19 +1,21 @@
 @import '~/styles/variables.scss';
 
 .activities {
+  &:not(:first-child) {
+    border-top: 1px solid rgba(map-get($color, dark-grey-blue), 0.1);
+  }
+  padding: 14px 17px 15px 18px;
   .activitiesRow {
     cursor: pointer;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    &:not(:last-child) {
-      margin-bottom: 21px;
-    }
+
     .status,
     .time,
     .ftm {
       margin: 0;
-      color: map-get($color, Navy-Main);
+      color: map-get($color, dark-grey-blue);
     }
     .status {
       width: 210px;
@@ -32,7 +34,7 @@
     .time {
       font-size: 16px;
       font-weight: 500;
-      color: rgba(map-get($color, Navy-Main), 0.8);
+      color: rgba(map-get($color, dark-grey-blue), 0.8);
     }
     .ftm {
       font-size: 16px;
@@ -48,13 +50,16 @@
   align-items: center;
   padding-left: 40px;
   margin-bottom: 30px;
+  &:first-child {
+    margin-top: 37px;
+  }
   &:last-child {
-    margin-bottom: 40px;
+    margin-bottom: 13px;
   }
   .subViewTitle,
   .subViewValue {
     margin: 0;
-    color: map-get($color, Navy-Main);
+    color: map-get($color, dark-grey-blue);
     font-size: 16px;
   }
   .subViewTitle {
@@ -77,9 +82,9 @@
       border: 0;
       padding: 0;
       margin-left: 20px;
-      color: rgba(map-get($color, Navy-Main), 0.5);
+      color: rgba(map-get($color, dark-grey-blue), 0.5);
       &:hover {
-        color: rgba(map-get($color, Navy-Main), 0.7);
+        color: rgba(map-get($color, dark-grey-blue), 0.7);
       }
       svg {
         width: 18px;

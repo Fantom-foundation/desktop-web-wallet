@@ -4,7 +4,8 @@ import styles from './styles.module.scss';
 import activityMockData from './activityMockData';
 import { SendIcon, ReceiveIcon, CopyIcon } from 'src/view/components/svgIcons';
 import { Link } from 'react-router-dom';
-const SubView = props => {
+import { any } from 'prop-types';
+const SubView = (props: any) => {
   const { hash = false, title, value } = props;
   return (
     <div className={styles.subView}>
@@ -24,7 +25,7 @@ const SubView = props => {
     </div>
   );
 };
-const Activities = props => {
+const Activities = (props: any) => {
   const { status, time, ftm, subView = [] } = props,
     [isOpen, setIsOpen] = useState(false);
   return (
@@ -42,7 +43,7 @@ const Activities = props => {
         </div>
       </div>
       <Collapse isOpen={isOpen}>
-        {subView.map((data, index) => (
+        {subView.map((data: object, index: number) => (
           <SubView key={index} {...data} />
         ))}
       </Collapse>
@@ -52,8 +53,10 @@ const Activities = props => {
 export default () => (
   <Card>
     <p className="card-label">Activity</p>
-    {activityMockData.map((data, index) => (
-      <Activities key={index} {...data} />
-    ))}
+    <div>
+      {activityMockData.map((data: object, index: number) => (
+        <Activities key={index} {...data} />
+      ))}
+    </div>
   </Card>
 );
