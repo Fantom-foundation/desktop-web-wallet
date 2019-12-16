@@ -40,7 +40,7 @@ $sidebarWidth: 325px;
 }
 
 .sync {
-  color: map-get($color, Navy-Main);
+  color: map-get($color, dark-grey-blue);
   font-size: 16px;
   margin: 0;
   svg {
@@ -51,7 +51,7 @@ $sidebarWidth: 325px;
 .label {
   font-size: 18px;
   font-weight: 600;
-  color: rgba(map-get($color, Navy-Main), 0.5);
+  color: rgba(map-get($color, dark-grey-blue), 0.5);
   margin-bottom: 21px;
 }
 .hashWrapper {
@@ -70,18 +70,21 @@ $sidebarWidth: 325px;
     overflow: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    color: map-get($color, Navy-Main);
+    color: map-get($color, dark-grey-blue);
   }
   .hashHandlers {
     display: flex;
     align-items: center;
     button {
       cursor: pointer;
-      color: rgba(map-get($color, Navy-Main), 0.7);
+      color: rgba(map-get($color, dark-grey-blue), 0.7);
       background: transparent;
       border: 0;
       padding: 0;
       margin-left: 30px;
+      &:hover {
+        color: rgba(map-get($color, dark-grey-blue), 0.9);
+      }
     }
   }
 }

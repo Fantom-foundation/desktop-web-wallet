@@ -10,10 +10,12 @@
   margin-bottom: 97px;
 }
 .menus {
-  padding: 0;
+  padding: 0 0 0 7px;
   li {
     list-style: none;
-    margin-bottom: 80px;
+    &:not(:last-child) {
+      margin-bottom: 80px;
+    }
     &:not(.active) {
       a {
         opacity: 0.5;

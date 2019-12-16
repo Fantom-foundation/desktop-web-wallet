@@ -1,0 +1,95 @@
+@import '~/styles/variables.scss';
+
+.activities {
+  &:not(:first-child) {
+    border-top: 1px solid rgba(map-get($color, dark-grey-blue), 0.1);
+  }
+  padding: 14px 17px 15px 18px;
+  .activitiesRow {
+    cursor: pointer;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+
+    .status,
+    .time,
+    .ftm {
+      margin: 0;
+      color: map-get($color, dark-grey-blue);
+    }
+    .status {
+      width: 210px;
+      font-size: 16px;
+      font-weight: 500;
+      flex: 0 0 210px;
+      max-width: 210px;
+      svg {
+        margin-right: 10px;
+      }
+    }
+    .timeFtmWrapper {
+      flex: 0 0 calc(100% - 210px);
+      max-width: calc(100% - 210px);
+    }
+    .time {
+      font-size: 16px;
+      font-weight: 500;
+      color: rgba(map-get($color, dark-grey-blue), 0.8);
+    }
+    .ftm {
+      font-size: 16px;
+      font-weight: bold;
+      line-height: 1.31;
+    }
+  }
+}
+
+.subView {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  padding-left: 40px;
+  margin-bottom: 30px;
+  &:first-child {
+    margin-top: 37px;
+  }
+  &:last-child {
+    margin-bottom: 13px;
+  }
+  .subViewTitle,
+  .subViewValue {
+    margin: 0;
+    color: map-get($color, dark-grey-blue);
+    font-size: 16px;
+  }
+  .subViewTitle {
+    font-weight: 500;
+    flex: 0 0 112px;
+    max-width: 112px;
+  }
+  .subViewValue {
+    flex: 0 0 calc(100% - 112px);
+    max-width: calc(100% - 112px);
+    font-weight: 600;
+    display: flex;
+    word-break: break-all;
+    align-items: baseline;
+    padding-left: 8px;
+    button {
+      cursor: pointer;
+      outline: none !important;
+      background: transparent;
+      border: 0;
+      padding: 0;
+      margin-left: 20px;
+      color: rgba(map-get($color, dark-grey-blue), 0.5);
+      &:hover {
+        color: rgba(map-get($color, dark-grey-blue), 0.7);
+      }
+      svg {
+        width: 18px;
+        height: 20px;
+      }
+    }
+  }
+}

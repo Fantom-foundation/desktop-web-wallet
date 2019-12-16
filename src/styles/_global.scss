@@ -66,6 +66,7 @@ $font: (
 
 $navlink-textTransform: uppercase;
 body {
+  color: map-get($color, dark-grey-blue);
   font-family: Work Sans;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -128,6 +129,17 @@ body {
 
 @import './typography';
 @import './variables.scss';
+.mb-6,
+.my-6 {
+  margin-bottom: 3.75rem !important;
+}
+.mt-6,
+.my-6 {
+  margin-top: 3.75rem !important;
+}
+.opacity-7 {
+  opacity: 0.7;
+}
 .card {
   border: 0;
   padding: 20px;
@@ -137,6 +149,6 @@ body {
   .card-label {
     font-size: 18px;
     font-weight: 600;
-    color: rgba(map-get($color, Navy-Main), 0.5);
+    color: rgba(map-get($color, dark-grey-blue), 0.5);
   }
 }

@@ -21,7 +21,7 @@ const MainRouter = () => (
           <Route path="/dashboard" component={Dashboard} />
         </DashboardLayout>
 
-        <Layout>
+        {/* <Layout>
           <Switch>
             <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
@@ -33,7 +33,7 @@ const MainRouter = () => (
 
             <Redirect to="/" />
           </Switch>
-        </Layout>
+        </Layout> */}
       </Switch>
     </Switch>
   </ConnectedRouter>

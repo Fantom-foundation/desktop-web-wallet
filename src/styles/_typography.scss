@@ -3,8 +3,8 @@
   &-primary {
     color: map-get($color, Primary-Main) !important;
   }
-  &-navy {
-    color: map-get($color, Navy-Main);
+  &-dark-grey-blue {
+    color: map-get($color, dark-grey-blue);
   }
   &-grey {
     color: map-get($color, Grey-Main);
@@ -18,5 +18,44 @@
     text-overflow: ellipsis;
     max-width: 100%;
     margin: 0;
+  }
+  &-usd {
+    font-size: 24px;
+    font-weight: 300;
+    color: rgba(map-get($color, dark-grey-blue), 0.5);
+  }
+}
+a {
+  color: map-get($color, Primary-Main);
+  &:hover {
+    color: darken(map-get($color, Primary-Main), 10%);
+  }
+}
+.font-weight-semi-bold {
+  font-weight: 600;
+}
+h1 {
+  font: {
+    size: 36px;
+    weight: 600;
+  }
+}
+h2 {
+  font: {
+    size: 24px;
+    weight: 600;
+  }
+}
+h3 {
+  font: {
+    size: 18px;
+    weight: 500;
+  }
+}
+
+h4 {
+  font: {
+    size: 16px;
+    weight: 500;
   }
 }
