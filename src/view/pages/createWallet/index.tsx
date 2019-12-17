@@ -14,10 +14,19 @@ export default () => {
   return (
     <div>
       <CreateWalletCard>
-        <h3 className="font-weight-semi-bold">
-          1<span className="opacity-3 mr-3">/2</span> Create a keystore file and
-          password
-        </h3>
+        <div className={styles.title}>
+          <h3 className="font-weight-semi-bold">
+            1<span className="opacity-3 mr-3">/2</span> Create a keystore file
+            and password{' '}
+            <span>
+              <i className="fas fa-info-circle"></i>
+            </span>
+          </h3>
+          {/* <p>
+            The keystore file will contain your encrypted private key. You’ll
+            need the password to decrypt it. Don’t lose them!
+          </p> */}
+        </div>
         <Input label="Set a new password" />
         <Input label="Re-enter password" />
         <div className={styles.checkField}>
@@ -38,6 +47,11 @@ export default () => {
               wallet.
             </a>
           </p>
+        </div>
+        <div className={styles.downloadBtnWrapper}>
+          <button className={`${styles.downloadBtn} ${styles.disable}`}>
+            Download keystore file
+          </button>
         </div>
       </CreateWalletCard>
     </div>

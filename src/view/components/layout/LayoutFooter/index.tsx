@@ -3,10 +3,22 @@ import { Container, Row, Col } from 'reactstrap';
 import styles from './styles.module.scss';
 
 export const LayoutFooter = () => (
-  <footer className={styles.footer}>  
+  <footer className={styles.footer}>
     <Container>
       <Row>
-        <Col sm={6} md={3}>
+        <Col lg={12}>
+          <div className={styles.footerContent}>
+            <h6 className="mb-0">
+              ©2019 Fantom Foundation. All rights reserved
+            </h6>
+            <div className={styles.socialIcon}>
+              <i className="fab fa-telegram-plane"></i>
+              <i className="fab fa-twitter"></i>
+              <i className="fab fa-github"></i>
+            </div>
+          </div>
+        </Col>
+        {/* <Col sm={6} md={3}>
           <h2 className="menu-title">English Channel</h2>
           <ul className="menu">
             <li className="menu-item">
@@ -164,7 +176,7 @@ export const LayoutFooter = () => (
               </a>
             </li>
           </ul>
-        </Col>
+        </Col> */}
       </Row>
     </Container>
   </footer>
