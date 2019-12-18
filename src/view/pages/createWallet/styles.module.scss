@@ -14,17 +14,15 @@
   background: transparent;
   border: 0;
 }
-.title {
-  p {
-    border-radius: 19px;
-    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.1);
-    font-size: 12px;
-    font-weight: 400;
-    line-height: 16px;
-    padding: 20px;
-    margin: 0;
-    width: 270px;
-  }
+.tooltip {
+  border-radius: 19px;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.1);
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 16px;
+  padding: 20px;
+  margin: 0;
+  width: 270px;
 }
 
 .downloadBtnWrapper {
@@ -45,6 +43,12 @@
     }
   }
 }
+.warning {
+  font-size: 16px;
+  color: #d0021b;
+  font-weight: 500;
+  line-height: 21px;
+}
 p {
   font-size: 14px;
   color: rgba(map-get($color, dark-grey-blue), 0.9);
@@ -58,5 +62,18 @@ h3 {
   i {
     font-size: 14px;
     color: rgba(map-get($color, dark-grey-blue), 0.4);
+  }
+}
+.phrase {
+  font-weight: 500;
+  font-size: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d8d8d8;
+  color: map-get($color, dark-grey-blue);
+}
+.phraseContent {
+  .view {
+    color: #416ed5;
+    text-align: right;
   }
 }
