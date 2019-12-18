@@ -1,3 +1,4 @@
+/* eslint-disable react/button-has-type */
 import React, { FC, useState, useCallback } from 'react';
 import { CreateWalletCard } from '../../components/cards';
 import { Input } from '../../components/forms';
@@ -8,6 +9,9 @@ import {
 import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
 import styles from './styles.module.scss';
+
+import classnames from 'classnames';
+
 type IProps = {
   push: Push;
   list: IAccountState['list'];
@@ -38,11 +42,11 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
 
   const onNextPressed = useCallback(() => {
     const validation_errors = {
-      name: name.length < 3,
-      unique:
-        !!list &&
-        name.length > 0 &&
-        Object.values(list).some(el => el.name && el.name === name),
+      //name: name.length < 3,
+      // unique:
+      //   !!list &&
+      //   name.length > 0 &&
+      //   Object.values(list).some(el => el.name && el.name === name),
       passwords_match: !!password && password !== password_again,
       password:
         !password.match(/[A-Z]+/) ||
@@ -90,11 +94,13 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
           </h3>
         </div>
         <Input
+          type="password"
           label="Set a new password"
           value={password}
           handler={setPassword}
         />
         <Input
+          type="password"
           label="Re-enter password"
           value={password_again}
           handler={setPasswordAgain}
@@ -119,7 +125,12 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
           </p>
         </div>
         <div className={styles.downloadBtnWrapper}>
-          <button className={`${styles.downloadBtn} ${styles.disable}`}>
+          <button
+            className={classnames(styles.downloadBtn, {
+              [styles.disable]: !checked,
+            })}
+            onClick={onNextPressed}
+          >
             Download keystore file
           </button>
         </div>
