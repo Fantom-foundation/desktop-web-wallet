@@ -1,6 +1,8 @@
 import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 import styles from './styles.module.scss';
+import PasswordShow from '../../../../images/icons/password-show.svg';
+import PasswordHide from '../../../../images/icons/password-hide.svg';
 
 const setValue = (e, handler) => {
   e.preventDefault();
@@ -18,7 +20,8 @@ export default ({ label = '', value = '', handler }) => (
             onChange={e => setValue(e, handler)}
           />
           <button className={styles.eyeIcon}>
-            <i className="fas fa-eye"></i>
+            {/* <i className="fas fa-eye"></i> */}
+            <img src={PasswordShow} />
           </button>
         </div>
 

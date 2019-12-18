@@ -46,6 +46,9 @@
     right: 10px;
     transform: translateY(-50%);
     outline: 0 !important;
+    img {
+      width: 18px;
+    }
     i {
       color: rgba(map-get($color, dark-grey-blue), 0.7);
     }

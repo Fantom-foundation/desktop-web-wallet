@@ -71,20 +71,23 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
     setChecked(toggle);
   }
   return (
-    <div>
+    <div className={styles.createWalletWrap}>
       <CreateWalletCard>
         <div className={styles.title}>
           <h3 className="font-weight-semi-bold">
             1<span className="opacity-3 mr-3">/2</span> Create a keystore file
             and password{' '}
-            <span>
+            <span className={styles.infoIcon}>
               <i className="fas fa-info-circle"></i>
+              <div className={styles.tooltipWrapper}>
+                <p className={styles.tooltip}>
+                  The keystore file will contain your encrypted private key.
+                  <br />
+                  You’ll need the password to decrypt it. Don’t lose them!
+                </p>
+              </div>
             </span>
           </h3>
-          {/* <p className={styles.tooltip}>
-            The keystore file will contain your encrypted private key. You’ll
-            need the password to decrypt it. Don’t lose them!
-          </p> */}
         </div>
         <Input
           label="Set a new password"
