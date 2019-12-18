@@ -9,7 +9,7 @@ import {
 import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
 import styles from './styles.module.scss';
-
+import MnemonicPhrase from './mnemonicPhrase';
 import classnames from 'classnames';
 
 type IProps = {
