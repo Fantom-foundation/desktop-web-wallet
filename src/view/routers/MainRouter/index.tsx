@@ -13,6 +13,7 @@ import { DashboardLayout } from '~/view/components/layout';
 import Dashboard from 'src/view/pages/dashboard';
 import Send from '~/view/pages/dashboard/send';
 import CreateWallet from '~/view/pages/createWallet';
+import Verification from '~/view/pages/verification';
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
@@ -27,6 +28,7 @@ const MainRouter = () => (
         <Layout>
           <Switch>
             <Route path="/create-wallet" component={CreateWallet} />
+            <Route path="/verification" component={Verification} />
             <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
             <Route

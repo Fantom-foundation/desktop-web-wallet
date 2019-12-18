@@ -6,6 +6,7 @@ import {
   FormUnCheckedIcon,
 } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
+import MnemonicPhrase from './mnemonicPhrase';
 export default () => {
   const [checked, setChecked] = useState(false);
   function handleCheckBox(toggle) {
@@ -22,7 +23,7 @@ export default () => {
               <i className="fas fa-info-circle"></i>
             </span>
           </h3>
-          {/* <p>
+          {/* <p className={styles.tooltip}>
             The keystore file will contain your encrypted private key. You’ll
             need the password to decrypt it. Don’t lose them!
           </p> */}
@@ -54,6 +55,7 @@ export default () => {
           </button>
         </div>
       </CreateWalletCard>
+      {/* <MnemonicPhrase /> */}
     </div>
   );
 };
