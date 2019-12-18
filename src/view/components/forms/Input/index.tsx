@@ -9,7 +9,13 @@ const setValue = (e, handler) => {
   handler(e.target.value);
 };
 
-export default ({ label = '', type = '', value = '', handler }) => {
+export default ({
+  label = '',
+  type = '',
+  placeholder = '',
+  value = '',
+  handler,
+}) => {
   const [showPassword, setPasswordChange] = useState(false);
   function handleButton(toggle) {
     setPasswordChange(toggle);
@@ -24,6 +30,7 @@ export default ({ label = '', type = '', value = '', handler }) => {
               className={styles.inputBox}
               value={value}
               type={showPassword ? 'text' : type}
+              placeholder={placeholder}
               onChange={e => setValue(e, handler)}
             />
             {type === 'password' && (

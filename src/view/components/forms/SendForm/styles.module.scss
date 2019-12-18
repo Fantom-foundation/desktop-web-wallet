@@ -1,0 +1,16 @@
+@import '~/styles/variables.scss';
+.card {
+  padding: {
+    left: 30px !important;
+    right: 30px !important;
+  }
+}
+.inputsWrapper {
+  padding: {
+    left: 10px;
+    right: 10px;
+  }
+}
+.title {
+  font-weight: 800;
+}

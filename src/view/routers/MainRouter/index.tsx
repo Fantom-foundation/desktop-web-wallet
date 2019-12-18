@@ -20,20 +20,20 @@ const MainRouter = () => (
     <Switch>
       <Switch>
         <Route path="/" exact component={Home} />
-        {/* <DashboardLayout>
+        <DashboardLayout>
           <Route exact path="/dashboard" component={Dashboard} />
           <Route path="/dashboard/send" component={Send} />
-        </DashboardLayout> */}
+        </DashboardLayout>
 
-        <Layout>
+        {/* <Layout>
           <Switch>
             <Route
               path="/create-wallet"
               component={AccountCreateCredentialForm}
             />
-            <Route path="/create-wallet-mnemonic" component={MnemonicPhrase} />
-            {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
-            <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
+            <Route path="/create-wallet-mnemonic" component={MnemonicPhrase} /> */}
+        {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
+        {/* <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
             <Route
               path={URLS.ACCOUNT_RESTORE}
@@ -43,7 +43,7 @@ const MainRouter = () => (
 
             <Redirect to="/" />
           </Switch>
-        </Layout>
+        </Layout> */}
       </Switch>
     </Switch>
   </ConnectedRouter>
