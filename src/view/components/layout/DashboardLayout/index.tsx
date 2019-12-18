@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Sidebar from './DashboardSidebar';
 import styles from './styles.module.scss';
 import { CheckIcon, CopyIcon, QrIcon } from 'src/view/components/svgIcons';
-import Modal from '../../Modal';
+import { DashboardModal } from '../../Modal';
 import QrImage from 'src/images/qr/Qr.png';
 export default ({ children }) => {
   const [modal, setModal] = useState(false);
@@ -10,7 +10,7 @@ export default ({ children }) => {
   const toggleModal = () => setModal(!modal);
   return (
     <>
-      <Modal
+      <DashboardModal
         title="Address"
         isOpen={modal}
         toggle={toggleModal}
@@ -22,7 +22,7 @@ export default ({ children }) => {
             0xD94Cfae08391a7dBbCCF6B98c5115Be854c09006
           </h4>
         </div>
-      </Modal>
+      </DashboardModal>
       <div className={styles.root}>
         <div className={styles.wrapper}>
           <div className={styles.sidebarWrapper}>
