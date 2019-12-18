@@ -1,12 +1,71 @@
-import React, { useState } from 'react';
+import React, { FC, useState, useCallback } from 'react';
 import { CreateWalletCard } from '../../components/cards';
 import { Input } from '../../components/forms';
 import {
   FormCheckedIcon,
   FormUnCheckedIcon,
 } from 'src/view/components/svgIcons';
+import { IAccountState } from '~/redux/account';
+import { Push } from 'connected-react-router';
 import styles from './styles.module.scss';
-export default () => {
+type IProps = {
+  push: Push;
+  list: IAccountState['list'];
+  onSubmit: (create: Partial<IAccountState['create']>) => void;
+};
+
+const INITIAL_ERRORS = {
+  name: false,
+  password: false,
+  passwords_match: false,
+  icon: false,
+  unique: false,
+};
+
+const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
+  const [name, setName] = useState('');
+  const [password, setPassword] = useState('');
+  const [password_again, setPasswordAgain] = useState('');
+  const [date, setDate] = useState(new Date().getTime());
+  const [errors, setErrors] = useState<Record<string, boolean>>(INITIAL_ERRORS);
+  const [selected_icon, setSelectedIcon] = useState(`0${String(date)}`);
+
+  const onDateChange = useCallback(() => {
+    const new_date = new Date().getTime();
+    setDate(new_date);
+    setSelectedIcon(`0${new_date}`);
+  }, [setDate]);
+
+  const onNextPressed = useCallback(() => {
+    const validation_errors = {
+      name: name.length < 3,
+      unique:
+        !!list &&
+        name.length > 0 &&
+        Object.values(list).some(el => el.name && el.name === name),
+      passwords_match: !!password && password !== password_again,
+      password:
+        !password.match(/[A-Z]+/) ||
+        !password.match(/[0-9]+/) ||
+        password.length < 8,
+      icon: !selected_icon,
+    };
+
+    if (Object.values(validation_errors).includes(true))
+      return setErrors(validation_errors);
+
+    onSubmit({
+      name,
+      password,
+      icon: selected_icon,
+    });
+  }, [onSubmit, name, password, password_again, selected_icon, list]);
+
+  const onBackPressed = useCallback(() => push('/'), [push]);
+
+  const is_long_enough = password.length > 8;
+  const has_capital = password.match(/[A-Z]+/);
+  const has_number = password.match(/[0-9]+/);
   const [checked, setChecked] = useState(false);
   function handleCheckBox(toggle) {
     setChecked(toggle);
@@ -27,8 +86,16 @@ export default () => {
             need the password to decrypt it. Don’t lose them!
           </p> */}
         </div>
-        <Input label="Set a new password" />
-        <Input label="Re-enter password" />
+        <Input
+          label="Set a new password"
+          value={password}
+          handler={setPassword}
+        />
+        <Input
+          label="Re-enter password"
+          value={password_again}
+          handler={setPasswordAgain}
+        />
         <div className={styles.checkField}>
           <div className={styles.checkBoxWrapper}>
             <button
@@ -57,3 +124,4 @@ export default () => {
     </div>
   );
 };
+export { AccountCreateCredentialForm };

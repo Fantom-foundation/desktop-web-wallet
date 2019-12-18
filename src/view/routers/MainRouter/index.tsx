@@ -12,7 +12,7 @@ import { Layout } from '~/view/components/layout/Layout';
 import { DashboardLayout } from '~/view/components/layout';
 import Dashboard from 'src/view/pages/dashboard';
 import Send from '~/view/pages/dashboard/send';
-import CreateWallet from '~/view/pages/createWallet';
+import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
@@ -26,7 +26,11 @@ const MainRouter = () => (
 
         <Layout>
           <Switch>
-            <Route path="/create-wallet" component={CreateWallet} />
+            <Route
+              path="/create-wallet"
+              component={AccountCreateCredentialForm}
+            />
+            {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
             <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
             <Route
