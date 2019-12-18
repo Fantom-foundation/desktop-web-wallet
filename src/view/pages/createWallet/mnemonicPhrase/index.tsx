@@ -1,5 +1,13 @@
 import React from 'react';
 import { Row, Col } from 'reactstrap';
+
+import {
+  MnemonicPhrase,
+  MnemonicPhraseEmpty,
+  MnemonicButtons,
+  MnemonicPhraseWithCross,
+} from 'src/view/components/mnemonic';
+
 import { CreateWalletCard } from '../../../components/cards';
 
 // import { Input } from '../../components/forms';
@@ -22,30 +30,10 @@ export default () => {
           </p>
         </div>
         <div className={styles.phraseContent}>
-          <Row>
-            <Col lg={4} className="mt-4">
-              <div className={styles.phrase}>
-                <span className="opacity-5 mr-2">1.</span>ancient
-              </div>
-            </Col>
-            <Col lg={4} className="mt-4">
-              <div className={styles.phrase}>
-                <span className="opacity-5 mr-2">2.</span>ancient
-              </div>
-            </Col>
-            <Col lg={4} className="mt-4">
-              <div className={styles.phrase}>
-                <span className="opacity-5 mr-2">3.</span>ancient
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col lg={12} className="mt-4">
-              <p className={styles.view}>
-                <i className="fas fa-info-circle mr-2"></i>View your Private Key
-              </p>
-            </Col>
-          </Row>
+          <MnemonicPhrase />
+          <MnemonicPhraseEmpty />
+          <MnemonicPhraseWithCross />
+          <MnemonicButtons />
         </div>
         <div className={styles.downloadBtnWrapper}>
           <button className={`${styles.downloadBtn}`}>
