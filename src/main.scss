@@ -1,16 +1,21 @@
-@import '../node_modules/react-redux-toastr/src/styles/index';
+@import "../node_modules/react-redux-toastr/src/styles/index";
 
-@import './styles/_global';
+body {
+  background: #000000;
+}
 
-// .modal-footer {
-//   background: transparentize(white, 0.9);
-//   border-top: none;
-// }
+@import "./styles/_global";
+ 
 
-// .modal-content {
-//   color: white;
-//   background: black;
-// }
-// .modal-header {
-//   border-bottom: none;
-// }
+.modal-footer {
+  background: transparentize(white, 0.9);
+  border-top: none;
+}
+
+.modal-content {
+  color: white;
+  background: black;
+}
+.modal-header {
+  border-bottom: none;
+}
