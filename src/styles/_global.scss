@@ -35,11 +35,11 @@ $color: (
   restore-vault-input-label: $white,
   modal-header-border-line: #cecece,
   modal-title: $theme-blue,
-  modal-footer-bg: #f7f5f4,
+  modal-footer-bg: #f7f5f4
 );
 
-$primary-font: 'Roboto';
-$secondary-font: 'Lato';
+$primary-font: "Roboto";
+$secondary-font: "Lato";
 
 $font: (
   header-menu: $primary-font,
@@ -61,40 +61,34 @@ $font: (
   modal-body-text: $secondary-font,
   modal-body-text-weight: 400,
   btn: $primary-font,
-  restore-confirm: $primary-font,
+  restore-confirm: $primary-font
 );
 
 $navlink-textTransform: uppercase;
-body {
-  color: map-get($color, dark-grey-blue);
-  font-family: Work Sans;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+
+.modal {
+  height: 100vh;
+  width: 100vw;
+  box-sizing: border-box;
+  display: flex !important;
+  align-items: center;
+  justify-content: stretch;
 }
 
-// .modal {
-//   height: 100vh;
-//   width: 100vw;
-//   box-sizing: border-box;
-//   display: flex !important;
-//   align-items: center;
-//   justify-content: stretch;
-// }
+.modal-dialog {
+  width: 100%;
+}
 
-// .modal-dialog {
-//   width: 100%;
-// }
+.modal-header {
+  color: white;
+  background: $theme-blue;
+}
 
-// .modal-header {
-//   color: white;
-//   background: $theme-blue;
-// }
-
-// .modal-footer {
-//   .btn {
-//     min-width: 100px;
-//   }
-// }
+.modal-footer {
+  .btn {
+    min-width: 100px;
+  }
+}
 
 .btn {
   outline: none !important;
@@ -105,14 +99,13 @@ body {
     border: 1px solid $theme-blue;
   }
 
-  // &.btn-secondary {
-  //   &:not(:disabled):not(.disabled):active:focus,
-  //   &:hover {
-  //     outline: none;
-  //     background: none;
-  //     box-shadow: none;
-  //   }
-  // }
+  &.btn-secondary {
+    &:not(:disabled):not(.disabled):active:focus, &:hover {
+      outline: none;
+      background: none;
+      box-shadow: none;
+    }
+  }
 
   &.btn-secondary.bordered {
     background: none !important;
@@ -124,39 +117,5 @@ body {
 :global() {
   .modal-footer {
     background: red;
-  }
-}
-
-@import './variables.scss';
-@import './typography';
-@import './button';
-.mb-6,
-.my-6 {
-  margin-bottom: 3.75rem !important;
-}
-.mt-6,
-.my-6 {
-  margin-top: 3.75rem !important;
-}
-
-.opacity-3 {
-  opacity: 0.3;
-}
-.opacity-5 {
-  opacity: 0.5;
-}
-.opacity-7 {
-  opacity: 0.7;
-}
-.card {
-  border: 0;
-  padding: 20px;
-  border-radius: 20px;
-  box-shadow: 0 0 40px 0 rgba(#000, 0.06);
-  background-color: #ffffff;
-  .card-label {
-    font-size: 18px;
-    font-weight: 600;
-    color: rgba(map-get($color, dark-grey-blue), 0.5);
   }
 }
