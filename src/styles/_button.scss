@@ -10,7 +10,13 @@
   font-weight: 600;
 
   color: #fff;
-
+  &-icon {
+    outline: none !important;
+    cursor: pointer;
+    background: transparent;
+    padding: 0;
+    border: 0;
+  }
   &-secondary {
     color: #fff;
     background: #d5d5d5;
