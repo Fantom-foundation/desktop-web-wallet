@@ -1,0 +1,33 @@
+@import '~/styles/variables.scss';
+.card {
+  padding: {
+    left: 30px !important;
+    right: 30px !important;
+  }
+}
+.inputsWrapper {
+  padding: {
+    left: 10px;
+    right: 10px;
+  }
+}
+.title {
+  font-weight: 800;
+}
+.btnWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.btn {
+  width: 200px;
+  &.send {
+    margin-bottom: 10px;
+    font-size: 21px;
+  }
+  &.clear {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}

@@ -1,0 +1,69 @@
+@import '~/styles/variables.scss';
+
+.btn {
+  border: 2px solid;
+  border-color: currentColor;
+  border-radius: 50px;
+  min-width: 156px;
+  height: 50px;
+  font-size: 18px;
+  font-weight: 600;
+
+  color: #fff;
+
+  &-secondary {
+    color: #fff;
+    background: #d5d5d5;
+    border-color: #d5d5d5;
+    &:hover,
+    &:active {
+      background: darken(#d5d5d5, 10%);
+      border-color: darken(#d5d5d5, 10%);
+    }
+  }
+  &-primary {
+    background-color: map-get($color, Primary-Main);
+    &:hover,
+    &:active {
+      background-color: darken(map-get($color, Primary-Main), 10%);
+    }
+  }
+  &-darkish-pink {
+    background-color: map-get($color, darkish-pink);
+    &:hover,
+    &:active {
+      background-color: darken(map-get($color, darkish-pink), 10%);
+    }
+  }
+  &-topaz {
+    background-color: map-get($color, topaz);
+    &:hover,
+    &:active {
+      background-color: darken(map-get($color, topaz), 10%);
+    }
+  }
+  &.outlined {
+    background: transparent;
+    &.btn-primary {
+      color: map-get($color, Primary-Main);
+      &:hover,
+      &:active {
+        color: darken(map-get($color, Primary-Main), 10%);
+      }
+    }
+    &.btn-darkish-pink {
+      color: map-get($color, darkish-pink);
+      &:hover,
+      &:active {
+        color: darken(map-get($color, darkish-pink), 10%);
+      }
+    }
+    &.btn-topaz {
+      color: map-get($color, topaz);
+      &:hover,
+      &:active {
+        color: darken(map-get($color, topaz), 10%);
+      }
+    }
+  }
+}

@@ -29,13 +29,13 @@ $sidebarWidth: 325px;
 .contentWrapper {
   flex: 0 0 calc(100% - #{$sidebarWidth});
   max-width: calc(100% - #{$sidebarWidth});
-  padding: 33px 0;
+  padding: 70px 0 33px;
   .main {
     padding: 0 55px 0 30px;
     // max-width: 1280px - $sidebarWidth;
   }
   .contentHeader {
-    margin-bottom: 40px;
+    margin-bottom: 39px;
   }
 }
 
