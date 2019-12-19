@@ -14,3 +14,20 @@
 .title {
   font-weight: 800;
 }
+.btnWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+.btn {
+  width: 200px;
+  &.send {
+    margin-bottom: 10px;
+    font-size: 21px;
+  }
+  &.clear {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}

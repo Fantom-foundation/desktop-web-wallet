@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
 import DashboardInput from '../DashboardInput';
@@ -29,9 +30,14 @@ export default () => (
       />
       <DashboardInput label="Memo (optional)" placeholder="Enter memo" />
     </div>
-    <div>
-      <button type="button">Send</button>
-      <button type="button">Clear All</button>
+    <div className={styles.btnWrapper}>
+      <Button className={classnames(styles.btn, styles.send)}>Send</Button>
+      <Button
+        color="topaz"
+        className={classnames(styles.btn, styles.clear, 'border-0')}
+      >
+        Clear All
+      </Button>
     </div>
   </div>
 );

@@ -105,14 +105,14 @@ body {
     border: 1px solid $theme-blue;
   }
 
-  &.btn-secondary {
-    &:not(:disabled):not(.disabled):active:focus,
-    &:hover {
-      outline: none;
-      background: none;
-      box-shadow: none;
-    }
-  }
+  // &.btn-secondary {
+  //   &:not(:disabled):not(.disabled):active:focus,
+  //   &:hover {
+  //     outline: none;
+  //     background: none;
+  //     box-shadow: none;
+  //   }
+  // }
 
   &.btn-secondary.bordered {
     background: none !important;
@@ -127,8 +127,9 @@ body {
   }
 }
 
-@import './typography';
 @import './variables.scss';
+@import './typography';
+@import './button';
 .mb-6,
 .my-6 {
   margin-bottom: 3.75rem !important;
