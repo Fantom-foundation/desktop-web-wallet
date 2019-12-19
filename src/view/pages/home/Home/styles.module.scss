@@ -11,6 +11,9 @@
     left: 0;
   }
 }
+.container {
+  max-width: 770px;
+}
 
 .slogan {
   letter-spacing: 3px;
@@ -90,6 +93,9 @@
   }
   .cardBody {
     padding: 10px;
+  }
+  .marginBottom {
+    margin-bottom: 30px;
   }
 }
 .cardContent {

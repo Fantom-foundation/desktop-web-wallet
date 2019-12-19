@@ -20,6 +20,7 @@ import { Layout } from '~/view/components/layout/Layout';
 import { Link } from 'react-router-dom';
 import KeyIcon from '../../../../images/icons/key.png';
 import WalletIcon from '../../../../images/icons/wallet.png';
+import { AddressBalanceCard } from '../../../components/cards';
 
 const Home: FC<{}> = () => {
   return (
@@ -52,7 +53,7 @@ const Home: FC<{}> = () => {
       </div>
       <div className={styles.homeWrapper}>
         <Container>
-          {/* <Row>
+          <Row>
             <Col xl={6} lg={12}>
               <Card className="bg-dark-periwinkle text-white h-100">
                 <CardBody className={styles.cardBody}>
@@ -106,42 +107,29 @@ const Home: FC<{}> = () => {
                 </CardBody>
               </Card>
             </Col>
-          </Row> */}
-          <Row>
-            <Col xl={6}>
-              <Card className="h-100">
-                <CardBody className="p-0">
-                  <Row>
-                    <Col lg={12}>
-                      <h3>Address</h3>
-                      <h2>0xD94Cfae08391a7dBbCfae08391a7dB</h2>
-                    </Col>
-                    <Col lg={12}>
-                      <h3>Balance</h3>
-                      <h2>200,756,680.84 FTM </h2>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </Col>
-            <Col xl={6}>
-              <Card className="h-100">
-                <CardBody className="p-0">
-                  <Row>
-                    <Col lg={12}>
-                      <h3>Address</h3>
-                      <h2>0xD94Cfae08391a7dBbCfae08391a7dBb…</h2>
-                    </Col>
-                    <Col lg={12}>
-                      <h3>Balance</h3>
-                      <h2>200,756,680.84 FTM </h2>
-                    </Col>
-                  </Row>
-                </CardBody>
-              </Card>
-            </Col>
           </Row>
         </Container>
+
+        {/* 
+            <Container className={styles.container}>
+          
+          <Row>
+            <Col xl={6} className={styles.marginBottom}>
+              <AddressBalanceCard
+                address="0xaeaeCfae08391a7dBbCfae08391a7dafsgdfghfhgfjfgjgasfszfe565757hngchvbfgdhnfg3534dfxgfxhgfg"
+                balance="200,756,680.84 FTM"
+              />
+            </Col>
+            <Col xl={6} className={styles.marginBottom}>
+              <AddressBalanceCard
+                address="0xaeaeCfae08391a7dBbCfae08391a7d"
+                balance="200,756,680.84 FTM"
+              />
+            </Col>
+            <Col xl={6} className={styles.marginBottom}>
+              <AddressBalanceCard addNew />
+            </Col>
+          </Row></Container> */}
       </div>
 
       <Particles params={PARTICLES_PARAMS} className={styles.particles} />

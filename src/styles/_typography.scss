@@ -12,6 +12,9 @@
   &-danger {
     color: map-get($color, Error) !important;
   }
+  &-topaz {
+    color: map-get($color, topaz);
+  }
   &-ellipsis {
     white-space: nowrap;
     overflow: hidden;
