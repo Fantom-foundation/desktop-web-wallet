@@ -129,6 +129,14 @@ body {
 
 @import './typography';
 @import './variables.scss';
+.bg {
+  &-dark-periwinkle {
+    background: map-get($color, dark-periwinkle) !important;
+  }
+  &-topaz {
+    background: map-get($color, topaz) !important;
+  }
+}
 .mb-6,
 .my-6 {
   margin-bottom: 3.75rem !important;

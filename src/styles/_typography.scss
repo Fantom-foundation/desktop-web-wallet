@@ -25,6 +25,7 @@
     color: rgba(map-get($color, dark-grey-blue), 0.5);
   }
 }
+
 a {
   color: map-get($color, Primary-Main);
   &:hover {

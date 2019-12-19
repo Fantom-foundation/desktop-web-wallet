@@ -1,6 +1,4 @@
 import React, { useState } from 'react';
-import { Row, Col } from 'reactstrap';
-
 import {
   MnemonicPhrase,
   MnemonicPhraseEmpty,
@@ -14,6 +12,7 @@ import { CreateWalletCard } from '../../../components/cards';
 // import { Input } from '../../components/forms';
 
 import styles from '../styles.module.scss';
+
 export default () => {
   const [modal, setModal] = useState(false);
 
@@ -24,9 +23,10 @@ export default () => {
         <CreateWalletCard>
           <div className={styles.title}>
             <h3 className="font-weight-semi-bold">
-              2<span className="opacity-3 mr-3">/2</span> Your mnemonic phrase
+              2<span className="opacity-3 mr-3">/2</span>
+              Your mnemonic phrase
               <span className={`${styles.infoIcon} ml-2`}>
-                <i className="fas fa-info-circle"></i>
+                <i className="fas fa-info-circle" />
                 <div className={styles.tooltipWrapper}>
                   <p className={styles.tooltip}>
                     The keystore file will contain your encrypted private key.
@@ -48,12 +48,13 @@ export default () => {
             <MnemonicButtons />
             <div className={styles.viewKey}>
               <span onClick={toggleModal}>
-                <i className="fas fa-info-circle mr-2"></i>View your private key
+                <i className="fas fa-info-circle mr-2" />
+                View your private key
               </span>
             </div>
           </div>
           <div className={styles.downloadBtnWrapper}>
-            <button className={`${styles.downloadBtn}`}>
+            <button type="button" className={`${styles.downloadBtn}`}>
               I wrote down my recovery key
             </button>
           </div>
@@ -70,7 +71,11 @@ export default () => {
             63f3b91ad31jhgjc19c99aa85e32aee50639348ee7084b4726d16a62b70e56beb0f7
           </h3>
           <div className={styles.downloadBtnWrapper}>
-            <button className={styles.downloadBtn} onClick={toggleModal}>
+            <button
+              type="button"
+              className={styles.downloadBtn}
+              onClick={toggleModal}
+            >
               Close
             </button>
           </div>
