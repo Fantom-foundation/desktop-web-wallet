@@ -1,9 +1,24 @@
-@import "~/styles/variables.scss";
+@import '~/styles/variables.scss';
 
 .placeholder {
   height: 100px;
 
   @include tablet {
     height: 64px;
+  }
+}
+.header {
+  display: flex;
+  align-items: center;
+  height: 121px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: map-get($color, Primary-Main);
+  padding: 20px 55px;
+}
+.logo {
+  img {
+    height: 41px;
   }
 }

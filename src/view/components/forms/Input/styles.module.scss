@@ -1,0 +1,56 @@
+@import '~/styles/variables.scss';
+
+.input {
+  margin: 35px 0;
+  position: relative;
+  .label {
+    font-size: 16px;
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+  }
+  .inputWrapper {
+    position: relative;
+  }
+  .inputBox {
+    background: #f8f9fa;
+    border-color: #f8f9fa;
+    position: relative;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+    &.error {
+      border-color: #d0021b;
+    }
+  }
+  .warning {
+    font-size: 12px;
+    color: #416ed5;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    line-height: normal;
+    i {
+      margin-top: 5px;
+    }
+  }
+  .error {
+    color: #d0021b;
+  }
+
+  .eyeIcon {
+    background: transparent;
+    border: 0;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    outline: 0 !important;
+    img {
+      width: 18px;
+    }
+    i {
+      color: rgba(map-get($color, dark-grey-blue), 0.7);
+    }
+  }
+}

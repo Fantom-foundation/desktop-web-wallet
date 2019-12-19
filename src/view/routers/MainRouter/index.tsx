@@ -9,23 +9,43 @@ import { AccountList } from '~/view/pages/account/AccountList';
 import { AccountRouter } from '../AccountRouter';
 import { AccountRestoreRouter } from '~/view/pages/account/AccountRestoreRouter';
 import { Layout } from '~/view/components/layout/Layout';
+import { DashboardLayout } from '~/view/components/layout';
+import Dashboard from 'src/view/pages/dashboard';
+import Send from '~/view/pages/dashboard/send';
+import Receive from '~/view/pages/dashboard/receive';
+import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
+import MnemonicPhrase from '~/view/pages/createWallet/mnemonicPhrase';
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
     <Switch>
       <Switch>
         <Route path="/" exact component={Home} />
+        <DashboardLayout>
+          <Route exact path="/dashboard" component={Dashboard} />
+          <Route path="/dashboard/send" component={Send} />
+          <Route path="/dashboard/receive" component={Receive} />
+        </DashboardLayout>
 
-        <Layout>
+        {/* <Layout>
           <Switch>
-            <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
+            <Route
+              path="/create-wallet"
+              component={AccountCreateCredentialForm}
+            />
+            <Route path="/create-wallet-mnemonic" component={MnemonicPhrase} /> */}
+        {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
+        {/* <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
-            <Route path={URLS.ACCOUNT_RESTORE} component={AccountRestoreRouter} />
+            <Route
+              path={URLS.ACCOUNT_RESTORE}
+              component={AccountRestoreRouter}
+            />
             <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
 
             <Redirect to="/" />
           </Switch>
-        </Layout>
+        </Layout> */}
       </Switch>
     </Switch>
   </ConnectedRouter>

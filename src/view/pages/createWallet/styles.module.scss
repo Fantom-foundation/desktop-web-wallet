@@ -1,0 +1,106 @@
+@import '~/styles/variables.scss';
+
+.createWalletWrap {
+  .checkField {
+    display: flex;
+    .checkBoxWrapper {
+      margin-right: 9px;
+    }
+  }
+
+  .checkBox {
+    cursor: pointer;
+    outline: none !important;
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+
+  .downloadBtnWrapper {
+    text-align: center;
+    margin-top: 30px;
+    .downloadBtn {
+      border-radius: 25px;
+      font-size: 16px;
+      font-weight: 600;
+      color: map-get($color, dark-grey-blue);
+      background: transparent;
+      border: 2px solid #0ebec2;
+      padding: 13px 30px;
+      &.disable {
+        color: #fff;
+        background: #d5d5d5;
+        border: 2px solid #d5d5d5;
+      }
+    }
+  }
+  .warning {
+    font-size: 16px;
+    color: #d0021b;
+    font-weight: 500;
+    line-height: 21px;
+  }
+  p {
+    font-size: 14px;
+    color: rgba(map-get($color, dark-grey-blue), 0.9);
+    font-weight: 500;
+    a {
+      text-decoration: underline;
+      color: rgba(map-get($color, dark-grey-blue), 0.9);
+    }
+  }
+
+  .title {
+    position: relative;
+    h3 {
+      i {
+        font-size: 14px;
+        color: rgba(map-get($color, dark-grey-blue), 0.4);
+      }
+    }
+
+    .infoIcon {
+      .tooltipWrapper {
+        display: none;
+      }
+      &:hover {
+        .tooltipWrapper {
+          display: block;
+        }
+      }
+    }
+  }
+  .tooltipWrapper {
+    position: absolute;
+    bottom: 100%;
+    z-index: 999999999;
+    right: -75px;
+    padding-bottom: 5px;
+    .tooltip {
+      border-radius: 19px;
+      box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.1);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      padding: 20px;
+      margin: 0;
+      width: 270px;
+      background: #fff;
+      color: map-get($color, dark-grey-blue);
+    }
+  }
+
+  .phrase {
+    font-weight: 500;
+    font-size: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d8d8d8;
+    color: map-get($color, dark-grey-blue);
+  }
+  .phraseContent {
+    .view {
+      color: #416ed5;
+      text-align: right;
+    }
+  }
+}
