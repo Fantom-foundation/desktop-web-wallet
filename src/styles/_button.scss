@@ -8,7 +8,9 @@
   height: 50px;
   font-size: 18px;
   font-weight: 600;
-  background: transparent;
+
+  color: #fff;
+
   &-secondary {
     color: #fff;
     background: #d5d5d5;
@@ -20,24 +22,48 @@
     }
   }
   &-primary {
-    color: map-get($color, Primary-Main);
+    background-color: map-get($color, Primary-Main);
     &:hover,
     &:active {
-      color: darken(map-get($color, Primary-Main), 10%);
+      background-color: darken(map-get($color, Primary-Main), 10%);
     }
   }
   &-darkish-pink {
-    color: map-get($color, darkish-pink);
+    background-color: map-get($color, darkish-pink);
     &:hover,
     &:active {
-      color: darken(map-get($color, darkish-pink), 10%);
+      background-color: darken(map-get($color, darkish-pink), 10%);
     }
   }
   &-topaz {
-    color: map-get($color, topaz);
+    background-color: map-get($color, topaz);
     &:hover,
     &:active {
-      color: darken(map-get($color, topaz), 10%);
+      background-color: darken(map-get($color, topaz), 10%);
+    }
+  }
+  &.outlined {
+    background: transparent;
+    &.btn-primary {
+      color: map-get($color, Primary-Main);
+      &:hover,
+      &:active {
+        color: darken(map-get($color, Primary-Main), 10%);
+      }
+    }
+    &.btn-darkish-pink {
+      color: map-get($color, darkish-pink);
+      &:hover,
+      &:active {
+        color: darken(map-get($color, darkish-pink), 10%);
+      }
+    }
+    &.btn-topaz {
+      color: map-get($color, topaz);
+      &:hover,
+      &:active {
+        color: darken(map-get($color, topaz), 10%);
+      }
     }
   }
 }

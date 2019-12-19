@@ -34,7 +34,7 @@ export default () => (
       <Button className={classnames(styles.btn, styles.send)}>Send</Button>
       <Button
         color="topaz"
-        className={classnames(styles.btn, styles.clear, 'border-0')}
+        className={classnames(styles.btn, styles.clear, 'border-0 outlined')}
       >
         Clear All
       </Button>
