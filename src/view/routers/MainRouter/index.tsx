@@ -13,6 +13,7 @@ import { DashboardLayout } from '~/view/components/layout';
 import Dashboard from 'src/view/pages/dashboard';
 import Send from '~/view/pages/dashboard/send';
 import Receive from '~/view/pages/dashboard/receive';
+import Stake from '~/view/pages/dashboard/stake';
 import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
 import MnemonicPhrase from '~/view/pages/createWallet/mnemonicPhrase';
 
@@ -25,6 +26,7 @@ const MainRouter = () => (
           <Route exact path="/dashboard" component={Dashboard} />
           <Route path="/dashboard/send" component={Send} />
           <Route path="/dashboard/receive" component={Receive} />
+          <Route path="/dashboard/stake" component={Stake} />
         </DashboardLayout>
 
         {/* <Layout>
