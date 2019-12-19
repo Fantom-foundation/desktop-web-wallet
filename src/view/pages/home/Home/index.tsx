@@ -52,21 +52,23 @@ const Home: FC<{}> = () => {
       </div>
       <div className={styles.homeWrapper}>
         <Container>
-          <Row>
+          {/* <Row>
             <Col xl={6} lg={12}>
               <Card className="bg-dark-periwinkle text-white h-100">
-                <CardBody>
+                <CardBody className={styles.cardBody}>
                   <div className={styles.cardContent}>
                     <div className={styles.cardIcon}>
                       <img src={WalletIcon} alt="wallet" />
                     </div>
                     <div className={styles.homecontent}>
-                      <h2>Create a new wallet</h2>
-                      <p>
-                        Generate your unique Fantom wallet. Receive your own
-                        unique public address, and create access and recovery
-                        credentials.
-                      </p>
+                      <div className={styles.text}>
+                        <h2>Create a new wallet</h2>
+                        <p>
+                          Generate your unique Fantom wallet. Receive your own
+                          unique public address, and create access and recovery
+                          credentials.
+                        </p>
+                      </div>
                       <button type="button" className={styles.walletBtn}>
                         Get started
                         <i className="fas fa-chevron-right" />
@@ -78,27 +80,63 @@ const Home: FC<{}> = () => {
             </Col>
             <Col xl={6} lg={12} md={12}>
               <Card className="bg-topaz text-white h-100">
-                <CardBody>
+                <CardBody className={styles.cardBody}>
                   <div className={styles.cardContent}>
                     <div className={styles.cardIcon}>
                       <img src={KeyIcon} alt="key" />
                     </div>
                     <div className={styles.homecontent}>
-                      <h2>Access your wallet</h2>
-                      <p>
-                        Connect to the Fantom network and:
-                        <ul>
-                          <li>Send and receive FTM</li>
-                          <li>Stake your FTM</li>
-                          <li>Collect your rewards</li>
-                        </ul>
-                      </p>
+                      <div className={styles.text}>
+                        <h2>Access your wallet</h2>
+                        <p>
+                          Connect to the Fantom network and:
+                          <ul>
+                            <li>Send and receive FTM</li>
+                            <li>Stake your FTM</li>
+                            <li>Collect your rewards</li>
+                          </ul>
+                        </p>
+                      </div>
                       <button type="button" className={styles.walletBtn}>
                         Access now
                         <i className="fas fa-chevron-right" />
                       </button>
                     </div>
                   </div>
+                </CardBody>
+              </Card>
+            </Col>
+          </Row> */}
+          <Row>
+            <Col xl={6}>
+              <Card className="h-100">
+                <CardBody className="p-0">
+                  <Row>
+                    <Col lg={12}>
+                      <h3>Address</h3>
+                      <h2>0xD94Cfae08391a7dBbCfae08391a7dB</h2>
+                    </Col>
+                    <Col lg={12}>
+                      <h3>Balance</h3>
+                      <h2>200,756,680.84 FTM </h2>
+                    </Col>
+                  </Row>
+                </CardBody>
+              </Card>
+            </Col>
+            <Col xl={6}>
+              <Card className="h-100">
+                <CardBody className="p-0">
+                  <Row>
+                    <Col lg={12}>
+                      <h3>Address</h3>
+                      <h2>0xD94Cfae08391a7dBbCfae08391a7dBb…</h2>
+                    </Col>
+                    <Col lg={12}>
+                      <h3>Balance</h3>
+                      <h2>200,756,680.84 FTM </h2>
+                    </Col>
+                  </Row>
                 </CardBody>
               </Card>
             </Col>

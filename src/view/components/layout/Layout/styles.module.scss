@@ -22,6 +22,8 @@
   main {
     flex-grow: 1;
     padding: 9px 0;
+    position: relative;
+    z-index: 1;
   }
   &.blurred {
     filter: blur(10px);
