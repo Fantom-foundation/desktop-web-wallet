@@ -1,7 +1,6 @@
 import { EncryptedKeystoreV3Json } from "web3-core";
 
 export interface IAccount {
-  name: string;
   icon: string;
   publicAddress: string;
   balance: string;
@@ -11,6 +10,5 @@ export interface IAccount {
 }
 
 export interface INodeRecord {
-  name: string,
   address: string,
 }

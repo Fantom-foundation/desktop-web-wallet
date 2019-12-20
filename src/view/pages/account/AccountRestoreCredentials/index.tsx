@@ -23,7 +23,7 @@ const AccountRestoreCredentialsUnconnected: FC<IProps> = ({
   accountCreateSetRestoreCredentials,
 }) => (
   <div id="account-information" className="account-information">
-    <AccountRestoreProcess stepNo={1} />
+    {/* <AccountRestoreProcess stepNo={1} /> */}
     <AccountCreateCredentialForm
       push={push}
       onSubmit={accountCreateSetRestoreCredentials}

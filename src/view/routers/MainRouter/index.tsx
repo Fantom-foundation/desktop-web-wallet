@@ -13,7 +13,8 @@ import { DashboardLayout } from '~/view/components/layout';
 import Dashboard from 'src/view/pages/dashboard';
 import Send from '~/view/pages/dashboard/send';
 import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
-import MnemonicPhrase from '~/view/pages/createWallet/mnemonicPhrase';
+import { AccountCreateInfo } from '~/view/pages/createWallet/mnemonicPhrase';
+
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
@@ -31,7 +32,7 @@ const MainRouter = () => (
               path="/create-wallet"
               component={AccountCreateCredentialForm}
             />
-            <Route path="/create-wallet-mnemonic" component={MnemonicPhrase} />
+            <Route path="/create-wallet-mnemonic" component={AccountCreateInfo} />
             {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
             <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />

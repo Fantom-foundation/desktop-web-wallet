@@ -9,7 +9,7 @@ import {
 import { IAccountState } from '~/redux/account';
 import { Push } from 'connected-react-router';
 import styles from './styles.module.scss';
-import MnemonicPhrase from './mnemonicPhrase';
+// import MnemonicPhrase from './mnemonicPhrase';
 import classnames from 'classnames';
 
 type IProps = {
@@ -27,7 +27,7 @@ const INITIAL_ERRORS = {
 };
 
 const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
-  const [name, setName] = useState('');
+  // const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [password_again, setPasswordAgain] = useState('');
   const [date, setDate] = useState(new Date().getTime());
@@ -42,7 +42,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
 
   const onNextPressed = useCallback(() => {
     const validation_errors = {
-      //name: name.length < 3,
+      // name: name.length < 3,
       // unique:
       //   !!list &&
       //   name.length > 0 &&
@@ -59,11 +59,10 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
       return setErrors(validation_errors);
 
     onSubmit({
-      name,
       password,
       icon: selected_icon,
     });
-  }, [onSubmit, name, password, password_again, selected_icon, list]);
+  }, [onSubmit,  password, password_again, selected_icon]);
 
   const onBackPressed = useCallback(() => push('/'), [push]);
 
@@ -74,15 +73,20 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
   function handleCheckBox(toggle) {
     setChecked(toggle);
   }
+  console.log('****sdss', password)
   return (
     <div className={styles.createWalletWrap}>
       <CreateWalletCard>
         <div className={styles.title}>
           <h3 className="font-weight-semi-bold">
-            1<span className="opacity-3 mr-3">/2</span> Create a keystore file
-            and password{' '}
+            1
+            <span className="opacity-3 mr-3">/2</span>
+            {' '}
+Create a keystore file
+            and password
+            {' '}
             <span className={styles.infoIcon}>
-              <i className="fas fa-info-circle"></i>
+              <i className="fas fa-info-circle" />
               <div className={styles.tooltipWrapper}>
                 <p className={styles.tooltip}>
                   The keystore file will contain your encrypted private key.
@@ -117,7 +121,9 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
           <p>
             I made a backup of the keystore file and saved the password in a
             safe place.
-            <br />I understand that{' '}
+            <br />
+I understand that
+            {' '}
             <a href="#" target="_blank">
               I will need the password and the keystore file to access my
               wallet.

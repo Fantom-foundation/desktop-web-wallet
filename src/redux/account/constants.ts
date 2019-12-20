@@ -38,7 +38,6 @@ export const ACCOUNT_ACTIONS = {
 }
 
 export const EMPTY_ACCOUNT: IAccount = {
-  name: '',
   publicAddress: '',
   balance: '0', 
   icon: '', 

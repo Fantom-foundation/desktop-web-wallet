@@ -64,7 +64,7 @@ const TransferModalUnconnected: FC<IProps> = ({
   const senders = useMemo(
     () =>
       Object.entries(list).reduce(
-        (obj, [id, account]) => ({ ...obj, [id]: account.name }),
+        obj => ({ ...obj }),
         {}
       ),
     [list]
@@ -91,7 +91,7 @@ const TransferModalUnconnected: FC<IProps> = ({
   useEffect(() => {
     // reset errors on input
     if (Object.keys(errors).length) accountSetTransferErrors({});
-  }, [to, from, amount, password, message]);
+  }, [to, from, amount, password, message, errors, accountSetTransferErrors]);
 
   useEffect(() => {
     // estimate fee
@@ -111,11 +111,11 @@ const TransferModalUnconnected: FC<IProps> = ({
     } else if (parseFloat(fee) && parseFloat(fee) > 0) {
       accountSetTransfer({ fee: '' });
     }
-  }, [amount]);
+  }, [accountGetTransferFee, accountSetTransfer, amount, fee, from, message, to]);
 
   useEffect(() => {
     if (from && Object.hasOwnProperty.call(list, from)) accountGetBalance(from);
-  }, [from]);
+  }, [accountGetBalance, from, list]);
 
   const onRefresh = useCallback(() => {
     if (!from || !list[from]) return;

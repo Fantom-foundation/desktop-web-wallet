@@ -44,7 +44,6 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   accountCreateSetInfo,
   mnemonic,
   password,
-  name,
   publicAddress,
   icon,
 }) => {
@@ -70,8 +69,8 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   );
 
   useEffect(() => {
-    if (!mnemonic || !password || !name || !publicAddress) onBackPressed();
-  }, [mnemonic, name, onBackPressed, password, publicAddress]);
+    if (!mnemonic || !password  || !publicAddress) onBackPressed();
+  }, [mnemonic, onBackPressed, password, publicAddress]);
 
   const printer = useRef<any>(null);
 
@@ -82,7 +81,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 
   return (
     <div id="account-information" className="account-information">
-      <AccountCreateProcess stepNo={2} />
+      {/* <AccountCreateProcess stepNo={2} /> */}
 
       <section className={styles.content}>
         <div className={styles.printer}>
@@ -96,7 +95,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
             <Col className={styles.info}>
               <div className={styles.name}>
                 <Identicon id={icon} width={50} size={3} />
-                <h2>{name}</h2>
+                {/* <h2>{name}</h2> */}
               </div>
 
               <h3>Your Address</h3>

@@ -27,7 +27,7 @@ const AccountListItem: FC<IProps> = ({ account, onSelect }) => {
       </div>
 
       <h2 className={styles.title}>
-        <span>{account.name}</span>
+        {/* <span>{account.name}</span> */}
       </h2>
 
       <Address address={account.publicAddress} />
