@@ -8,7 +8,11 @@ export default () => (
   <div className={classnames('card', styles.card)}>
     <h2 className={styles.title}>Send FTM</h2>
     <div className={styles.inputsWrapper}>
-      <DashboardInput label="Amount" placeholder="Enter amount" />
+      <DashboardInput
+        label="Amount"
+        rightLabel="Entire balance"
+        placeholder="Enter amount"
+      />
       <DashboardInput label="To address" placeholder="Enter address" />
       <DashboardInput label="Memo (optional)" placeholder="Enter memo" />
       <DashboardInput
@@ -22,6 +26,7 @@ export default () => (
       />
       <DashboardInput
         label="To address"
+        rightLabel="Entire balance"
         error={{
           isError: true,
           errorText: 'Enter a valid FTM address',

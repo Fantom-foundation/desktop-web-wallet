@@ -10,6 +10,9 @@
   font-weight: 600;
 
   color: #fff;
+  &.lg {
+    font-size: 21px;
+  }
   &-icon {
     outline: none !important;
     cursor: pointer;
