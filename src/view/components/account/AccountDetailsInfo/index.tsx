@@ -78,7 +78,7 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
           <Identicon id={account.icon} width={40} key={0} size={3} />
         </div>
 
-        <div className={styles.name}>{account.name}</div>
+        {/* <div className={styles.name}>{account.name}</div> */}
 
         <div className={styles.address}>
           <Address address={account.publicAddress} />

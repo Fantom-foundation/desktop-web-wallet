@@ -1,3 +1,4 @@
+@import '~/styles/variables.scss';
 .particles {
   height: 100%;
   flex: 1;
@@ -9,6 +10,9 @@
     top: 0;
     left: 0;
   }
+}
+.container {
+  max-width: 770px;
 }
 
 .slogan {
@@ -43,26 +47,13 @@
 }
 
 .banner {
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-  align-items: center;
-  justify-content: center;
-  display: flex;
-  flex-direction: column;
-  z-index: 1;
-  text-align: center;
-  padding: 40px;
-  box-sizing: border-box;
-
-  & > * {
-    margin: 30px 0;
+  padding: 70px 0 120px;
+  .heading {
+    font-size: 48px;
+    color: #fff;
   }
-
   h3 {
-    font-weight: 200;
+    color: rgba(#fff, 0.8);
   }
 }
 
@@ -75,5 +66,57 @@
 
   & > * {
     margin: 0 10px;
+  }
+}
+.homeWrapper {
+  p {
+    font-size: 14px;
+  }
+  .walletBtn {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-weight: 600;
+    padding: 0;
+    position: relative;
+    width: 130px;
+    text-align: left;
+    cursor: pointer;
+    outline: 0 !important;
+    i {
+      font-size: 20px;
+      position: absolute;
+      top: 3px;
+      right: 0;
+      margin-left: 20px;
+    }
+  }
+  .cardBody {
+    padding: 10px;
+  }
+  .marginBottom {
+    margin-bottom: 30px;
+  }
+  .card {
+    padding: 30px;
+    max-width: 525px;
+    margin: 0 auto;
+  }
+}
+.cardContent {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  .cardIcon {
+    flex: 0 0 30%;
+    max-width: 30%;
+    text-align: center;
+  }
+  .homecontent {
+    flex: 0 0 calc(100% - 30%);
+    max-width: calc(100% - 30%);
+  }
+  .text {
+    min-height: 140px;
   }
 }

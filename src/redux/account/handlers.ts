@@ -77,11 +77,11 @@ const setConnection = (
 
 const addProvider = (
   state: IAccountState,
-  { name, address }: ReturnType<typeof accountAddProvider>
+  { address }: ReturnType<typeof accountAddProvider>
 ) =>
   assocPath(
     ['connection', 'custom_nodes'],
-    [...state.connection.custom_nodes, { name, address }],
+    [...state.connection.custom_nodes, {  address }],
     state
   );
 

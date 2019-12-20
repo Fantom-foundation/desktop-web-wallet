@@ -163,9 +163,8 @@ export const accountChangeProvider = (
   provider,
 });
 
-export const accountAddProvider = (name: string, address: string) => ({
+export const accountAddProvider = (address: string) => ({
   type: ACCOUNT_ACTIONS.ADD_PROVIDER,
-  name,
   address,
 });
 

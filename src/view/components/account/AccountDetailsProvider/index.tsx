@@ -44,7 +44,7 @@ const AccountDetailsProviderUnconnected: FC<IProps> = ({
         onFocus={onFocus}
         onBlur={onBlur}
       >
-        <span>{`Node: ${node.name}`}</span>
+        {/* <span>{`Node: ${node.name}`}</span> */}
         <FaIcon icon="fa-caret-down" />
       </div>
 
@@ -53,11 +53,11 @@ const AccountDetailsProviderUnconnected: FC<IProps> = ({
           {nodes.map((item, index) => (
             <div
               className={styles.item}
-              key={`${index}-${item.name}`}
+              // key={`${index}`}
               onMouseDown={() => accountChangeProvider(index)}
             >
               <div className={styles.info}>
-                <div>{item.name}</div>
+                {/* <div>{item.name}</div> */}
                 <small>{item.address}</small>
               </div>
 

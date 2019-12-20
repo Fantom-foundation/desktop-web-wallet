@@ -3,8 +3,7 @@ $white: #fff;
 $theme-blue: #00b1ff;
 
 $theme-blue-hover: #4b89ca;
-$color: (
-  white: $white,
+$color: (white: $white,
   black: #000,
   nav-link: $white,
   nav-link-hover: #8e8e8e,
@@ -41,8 +40,7 @@ $color: (
 $primary-font: 'Roboto';
 $secondary-font: 'Lato';
 
-$font: (
-  header-menu: $primary-font,
+$font: (header-menu: $primary-font,
   header-menu-size: 16px,
   footer-menu-title: $primary-font,
   footer-menu-title-size: 20px,
@@ -65,6 +63,7 @@ $font: (
 );
 
 $navlink-textTransform: uppercase;
+
 body {
   color: map-get($color, dark-grey-blue);
   font-family: Work Sans;
@@ -130,10 +129,22 @@ body {
 @import './variables.scss';
 @import './typography';
 @import './button';
+
+.bg {
+  &-dark-periwinkle {
+    background: map-get($color, dark-periwinkle) !important;
+  }
+
+  &-topaz {
+    background: map-get($color, topaz) !important;
+  }
+}
+
 .mb-6,
 .my-6 {
   margin-bottom: 3.75rem !important;
 }
+
 .mt-6,
 .my-6 {
   margin-top: 3.75rem !important;
@@ -143,6 +154,7 @@ body {
 .py-6 {
   padding-bottom: 3.75rem !important;
 }
+
 .pt-6,
 .py-6 {
   padding-top: 3.75rem !important;
@@ -151,18 +163,22 @@ body {
 .opacity-3 {
   opacity: 0.3;
 }
+
 .opacity-5 {
   opacity: 0.5;
 }
+
 .opacity-7 {
   opacity: 0.7;
 }
+
 .card {
   border: 0;
   padding: 20px;
   border-radius: 20px;
   box-shadow: 0 0 40px 0 rgba(#000, 0.06);
   background-color: #ffffff;
+
   .card-label {
     font-size: 18px;
     font-weight: 600;

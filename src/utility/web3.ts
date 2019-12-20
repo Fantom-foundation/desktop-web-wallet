@@ -16,9 +16,9 @@ const {
 } = process.env;
 
 export const DEFAULT_PROVIDERS: INodeRecord[] = [
-  { name: 'Primary', address: 'ws://18.189.195.64:4501' },
-  { name: 'Secondary', address: 'ws://18.191.96.173:4502' },
-  { name: 'Not working', address: 'ws://3.15.138.107:4500' },
+  { address: 'ws://18.189.195.64:4501' },
+  { address: 'ws://18.191.96.173:4502' },
+  { address: 'ws://3.15.138.107:4500' },
 ];
 
 // const URL_FANTOM = REACT_APP_API_URL_FANTOM;

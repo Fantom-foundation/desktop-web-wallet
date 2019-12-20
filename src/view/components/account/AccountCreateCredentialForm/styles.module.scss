@@ -1,19 +1,146 @@
-@import "~/styles/variables.scss";
+@import '~/styles/variables.scss';
 
-.validator {
-  margin-top: 10px;
+.createWalletWrap {
+  .checkField {
+    display: flex;
 
-  img {
-    width: 16px;
-    margin-right: 10px;
+    .checkBoxWrapper {
+      margin-right: 9px;
+    }
+  }
+
+  .checkBox {
+    cursor: pointer;
+    outline: none !important;
+    padding: 0;
+    background: transparent;
+    border: 0;
+  }
+
+  p {
+    font-size: 14px;
+    color: rgba(map-get($color, dark-grey-blue), 0.9);
+    font-weight: 500;
+
+    a {
+      text-decoration: underline;
+      color: rgba(map-get($color, dark-grey-blue), 0.9);
+    }
+  }
+
+  .tooltipWrapper {
+    position: absolute;
+    bottom: 100%;
+    z-index: 999999999;
+    left: 0;
+    padding-bottom: 5px;
+
+    .tooltip {
+      border-radius: 19px;
+      box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.1);
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 16px;
+      padding: 20px;
+      margin: 0;
+      width: 270px;
+      background: #fff;
+      color: map-get($color, dark-grey-blue);
+    }
   }
 }
 
-.error {
-  color: red;
+.title {
+  position: relative;
+
+  h3 {
+    color: map-get($color, dark-grey-blue);
+
+    i {
+      font-size: 14px;
+      color: rgba(map-get($color, dark-grey-blue), 0.4);
+    }
+  }
+
+  .infoIcon {
+    position: relative;
+
+    .tooltipWrapper {
+      display: none;
+    }
+
+    &:hover {
+      .tooltipWrapper {
+        display: block;
+      }
+    }
+  }
 }
 
-.wrap {
-  padding: 70px 0 50px;
-  background: $color_darkgray;
+.phraseContent {
+  .viewKey {
+    font-size: 14px;
+    font-weight: 500;
+    color: #416ed5;
+    text-align: right;
+    margin-top: 20px;
+    margin-bottom: 50px;
+
+    span {
+      cursor: pointer;
+    }
+  }
+}
+
+.downloadBtnWrapper {
+  text-align: center;
+  margin-top: 30px;
+
+  .downloadBtn {
+    cursor: pointer;
+    border-radius: 25px;
+    font-size: 16px;
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+    background: transparent;
+    outline: 0 !important;
+    border: 2px solid #0ebec2;
+    padding: 13px 30px;
+
+    &.disable {
+      color: #fff;
+      background: #d5d5d5;
+      border: 2px solid #d5d5d5;
+    }
+  }
+}
+
+.warning {
+  font-size: 16px;
+  color: #d0021b;
+  font-weight: 500;
+  line-height: 21px;
+}
+
+.privateKeyModal {
+  h2 {
+    color: map-get($color, dark-grey-blue);
+  }
+
+  .privateKey {
+    word-break: break-all;
+    color: map-get($color, dark-grey-blue);
+  }
+
+  p {
+    margin: 40px 0px;
+  }
+
+  .downloadBtnWrapper {
+    margin-top: 70px;
+
+    .downloadBtn {
+      width: 200px;
+    }
+  }
 }

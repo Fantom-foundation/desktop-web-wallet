@@ -8,15 +8,18 @@
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
 }
+
 .addTitle {
   color: map-get($color, topaz);
 }
+
 .addCard {
   min-height: 210px;
   display: flex;
   justify-content: center;
-  align-items: center; 
+  align-items: center;
 }
+
 .addBtn {
   width: 80px;
   background: transparent;

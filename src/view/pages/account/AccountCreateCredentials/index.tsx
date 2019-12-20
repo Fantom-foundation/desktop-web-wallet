@@ -23,7 +23,7 @@ const AccountCreateCredentialsUnconnected: FC<IProps> = ({
   accountCreateSetCredentials,
 }) => (
   <div id="account-information" className="account-information">
-    <AccountCreateProcess stepNo={1} />
+    {/* <AccountCreateProcess stepNo={1} /> */}
     <AccountCreateCredentialForm push={push} onSubmit={accountCreateSetCredentials} list={list} />
   </div>
 );

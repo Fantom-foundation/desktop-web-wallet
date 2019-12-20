@@ -26,7 +26,6 @@ export const ACCOUNT_RESTORE_STAGES_COMPONENTS = {
 export interface IAccountState {
   create: {
     stage: typeof ACCOUNT_CREATION_STAGES[keyof typeof ACCOUNT_CREATION_STAGES];
-    name: string;
     password: string;
     icon: string;
     mnemonic: string;
@@ -51,7 +50,6 @@ export interface IAccountState {
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
   create: {
     stage: ACCOUNT_CREATION_STAGES.CREDENTIALS,
-    name: '',
     password: '',
     icon: '',
     publicAddress: '',

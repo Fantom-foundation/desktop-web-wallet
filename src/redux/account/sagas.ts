@@ -85,12 +85,11 @@ function* createSetConfirm() {
   const {
     mnemonic,
     password,
-    name,
     icon,
     publicAddress,
   }: IAccountState['create'] = yield select(selectAccountCreate);
 
-  if (!name || !password || !icon || !publicAddress || !mnemonic)
+  if (!password || !icon || !publicAddress || !mnemonic)
     return yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));
 
   const { privateKey } = Fantom.mnemonicToKeys(mnemonic);
@@ -99,7 +98,6 @@ function* createSetConfirm() {
   yield put(
     accountAddAccount({
       ...EMPTY_ACCOUNT,
-      name,
       icon,
       keystore,
       publicAddress,
@@ -265,7 +263,7 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
   try {
     yield put(accountSetCreate({ errors: {} }));
 
-    const { password, name, icon } = yield select(selectAccountCreate);
+    const { password,  icon } = yield select(selectAccountCreate);
     const { list }: IAccountState = yield select(selectAccount);
     const keystore: EncryptedKeystoreV3Json = yield call(readFileAsJSON, file);
 
@@ -295,7 +293,6 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
     yield put(
       accountAddAccount({
         ...EMPTY_ACCOUNT,
-        name,
         icon,
         keystore,
         publicAddress: `0x${keystore.address}`,

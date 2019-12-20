@@ -43,13 +43,13 @@ export default ({
             )}
           </div>
 
-          {/* <p className={styles.warning || styles.error}>
-            <i className="fas fa-info-circle mr-2"></i>
+          <p className={styles.warning || styles.error}>
+            <i className="fas fa-info-circle mr-2" />
             <span>
               Make sure to enter at least 8 characters, including one upper-case
               letter, a symbol and a number.
             </span>
-          </p> */}
+          </p>
         </FormGroup>
       </div>
     </div>

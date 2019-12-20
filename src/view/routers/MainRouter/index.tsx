@@ -15,29 +15,33 @@ import Send from '~/view/pages/dashboard/send';
 import Receive from '~/view/pages/dashboard/receive';
 import Stake from '~/view/pages/dashboard/stake';
 import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
-import MnemonicPhrase from '~/view/pages/createWallet/mnemonicPhrase';
+import { AccountCreateInfo } from '~/view/pages/createWallet/mnemonicPhrase';
+
 
 const MainRouter = () => (
   <ConnectedRouter history={history}>
     <Switch>
       <Switch>
         <Route path="/" exact component={Home} />
-        <DashboardLayout>
+        {/* <DashboardLayout>
           <Route exact path="/dashboard" component={Dashboard} />
           <Route path="/dashboard/send" component={Send} />
           <Route path="/dashboard/receive" component={Receive} />
           <Route path="/dashboard/stake" component={Stake} />
-        </DashboardLayout>
+        </DashboardLayout> */}
 
-        {/* <Layout>
+        <Layout>
           <Switch>
             <Route
               path="/create-wallet"
               component={AccountCreateCredentialForm}
             />
-            <Route path="/create-wallet-mnemonic" component={MnemonicPhrase} /> */}
-        {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
-        {/* <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
+            {/* <Route path="/create-wallet-mnemonic" component={MnemonicPhrase} /> */}
+            {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
+            {/* <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
+            <Route path="/create-wallet-mnemonic" component={AccountCreateInfo} />
+            {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
+            <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
             <Route
               path={URLS.ACCOUNT_RESTORE}
@@ -47,7 +51,7 @@ const MainRouter = () => (
 
             <Redirect to="/" />
           </Switch>
-        </Layout> */}
+        </Layout>
       </Switch>
     </Switch>
   </ConnectedRouter>

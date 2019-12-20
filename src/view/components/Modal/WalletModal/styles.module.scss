@@ -1,0 +1,19 @@
+@import '~/styles/variables.scss';
+
+.modal {
+  @media (min-width: $tablet) {
+    max-width: 570px;
+  }
+  > div {
+    border-radius: 20px;
+    border: 0;
+    overflow: hidden;
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+    @media (min-width: $tablet) {
+      min-height: 375px;
+    }
+  }
+  .body {
+    padding: 40px 50px;
+  }
+}
