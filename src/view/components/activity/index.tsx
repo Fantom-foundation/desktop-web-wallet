@@ -19,7 +19,7 @@ const SubView = (props: any) => {
             </button>
           </>
         ) : (
-          title
+          value
         )}
       </p>
     </div>

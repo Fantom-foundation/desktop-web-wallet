@@ -5,8 +5,10 @@ import classnames from 'classnames';
 
 export default ({
   label = '',
+  lg = false,
   placeholder = '',
   value = '',
+  rightLabel = '',
   error = { isError: false, errorText: '' },
 }) => {
   return (
@@ -24,14 +26,14 @@ export default ({
                 {error.errorText}
               </p>
             )}
-            {label === 'Amount' && (
+            {rightLabel !== '' && (
               <p className={styles.entireBalance}>Entire balance</p>
             )}
           </div>
         </div>
         <div className={styles.inputWrapper}>
           <Input
-            className={classnames(styles.input, {
+            className={classnames(styles.input,{[styles.lg]:lg}, {
               [styles.error]: error.isError,
             })}
             value={value}
