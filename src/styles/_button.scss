@@ -44,6 +44,13 @@
       background-color: darken(map-get($color, darkish-pink), 10%);
     }
   }
+  &-dark-periwinkle {
+    background-color: map-get($color, dark-periwinkle);
+    &:hover,
+    &:active {
+      background-color: darken(map-get($color, dark-periwinkle), 10%);
+    }
+  }
   &-topaz {
     background-color: map-get($color, topaz);
     &:hover,
@@ -65,6 +72,13 @@
       &:hover,
       &:active {
         color: darken(map-get($color, darkish-pink), 10%);
+      }
+    }
+    &.btn-dark-periwinkle {
+      color: map-get($color, dark-periwinkle);
+      &:hover,
+      &:active {
+        color: darken(map-get($color, dark-periwinkle), 10%);
       }
     }
     &.btn-topaz {
