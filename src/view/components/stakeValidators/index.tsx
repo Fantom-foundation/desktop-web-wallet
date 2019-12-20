@@ -8,12 +8,16 @@ import classnames from 'classnames';
 const SubView = props => {
   const { title, value } = props;
   return (
-    <div className={styles.subView}>
-      <p className={styles.txDetails}>{title}</p>
-      <p className={styles.txDetails}>
-        <b>{value}</b>
-      </p>
-    </div>
+    <tr>
+      <td className="px-3">
+        <p className={styles.txDetails}>{title}:</p>
+      </td>
+      <td className="px-3">
+        <p className={styles.txDetails}>
+          <b>{value}</b>
+        </p>
+      </td>
+    </tr>
   );
 };
 const DataRow = props => {
@@ -53,22 +57,26 @@ const DataRow = props => {
         <td colSpan={5} className="p-0">
           <Collapse isOpen={isOpen}>
             <div className={styles.subViewContainer}>
-              {subView.map((data: object) => (
-                <SubView key={name + 1} {...data} />
-              ))}
-              {nodeFull ? (
-                <p className={styles.txDetails}>
-                  <b>
-                    This node is full at the moment.
-                    <br />
-                    Please select a different node.
-                  </b>
-                </p>
-              ) : (
-                <Button color="topaz" className="lg outlined">
-                  Select
-                </Button>
-              )}
+              <table>
+                {subView.map((data: object) => (
+                  <SubView key={name + 1} {...data} />
+                ))}
+              </table>
+              <div className="text-center pt-2">
+                {nodeFull ? (
+                  <p className={styles.txDetails}>
+                    <b>
+                      This node is full at the moment.
+                      <br />
+                      Please select a different node.
+                    </b>
+                  </p>
+                ) : (
+                  <Button color="topaz" className="lg outlined">
+                    Select
+                  </Button>
+                )}
+              </div>
             </div>
           </Collapse>
         </td>
