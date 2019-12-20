@@ -97,6 +97,11 @@
   .marginBottom {
     margin-bottom: 30px;
   }
+  .card {
+    padding: 30px;
+    max-width: 525px;
+    margin: 0 auto;
+  }
 }
 .cardContent {
   display: flex;
@@ -112,6 +117,6 @@
     max-width: calc(100% - 30%);
   }
   .text {
-    min-height: 180px;
+    min-height: 140px;
   }
 }
