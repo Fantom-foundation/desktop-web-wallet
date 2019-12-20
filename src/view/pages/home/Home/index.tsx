@@ -21,6 +21,7 @@ import { Link } from 'react-router-dom';
 import KeyIcon from '../../../../images/icons/key.png';
 import WalletIcon from '../../../../images/icons/wallet.png';
 import { AddressBalanceCard } from '../../../components/cards';
+import classnames from 'classnames';
 
 const Home: FC<{}> = () => {
   return (
@@ -54,57 +55,60 @@ const Home: FC<{}> = () => {
       <div className={styles.homeWrapper}>
         <Container>
           <Row>
-            <Col xl={6} lg={12}>
-              <Card className="bg-dark-periwinkle text-white h-100">
-                <CardBody className={styles.cardBody}>
-                  <div className={styles.cardContent}>
-                    <div className={styles.cardIcon}>
-                      <img src={WalletIcon} alt="wallet" />
-                    </div>
-                    <div className={styles.homecontent}>
-                      <div className={styles.text}>
-                        <h2>Create a new wallet</h2>
-                        <p>
-                          Generate your unique Fantom wallet. Receive your own
-                          unique public address, and create access and recovery
-                          credentials.
-                        </p>
-                      </div>
-                      <button type="button" className={styles.walletBtn}>
-                        Get started
-                        <i className="fas fa-chevron-right" />
-                      </button>
-                    </div>
+            <Col xl={6} lg={12} className={styles.marginBottom}>
+              <Card
+                className={classnames(
+                  'bg-dark-periwinkle text-white h-100',
+                  styles.card
+                )}
+              >
+                <div className={styles.cardContent}>
+                  <div className={styles.cardIcon}>
+                    <img src={WalletIcon} alt="wallet" />
                   </div>
-                </CardBody>
+                  <div className={styles.homecontent}>
+                    <div className={styles.text}>
+                      <h2>Create a new wallet</h2>
+                      <p>
+                        Generate your unique Fantom wallet. Receive your own
+                        unique public address, and create access and recovery
+                        credentials.
+                      </p>
+                    </div>
+                    <button type="button" className={styles.walletBtn}>
+                      Get started
+                      <i className="fas fa-chevron-right" />
+                    </button>
+                  </div>
+                </div>
               </Card>
             </Col>
-            <Col xl={6} lg={12} md={12}>
-              <Card className="bg-topaz text-white h-100">
-                <CardBody className={styles.cardBody}>
-                  <div className={styles.cardContent}>
-                    <div className={styles.cardIcon}>
-                      <img src={KeyIcon} alt="key" />
-                    </div>
-                    <div className={styles.homecontent}>
-                      <div className={styles.text}>
-                        <h2>Access your wallet</h2>
-                        <p>
-                          Connect to the Fantom network and:
-                          <ul>
-                            <li>Send and receive FTM</li>
-                            <li>Stake your FTM</li>
-                            <li>Collect your rewards</li>
-                          </ul>
-                        </p>
-                      </div>
-                      <button type="button" className={styles.walletBtn}>
-                        Access now
-                        <i className="fas fa-chevron-right" />
-                      </button>
-                    </div>
+            <Col xl={6} lg={12} md={12} className={styles.marginBottom}>
+              <Card
+                className={classnames('bg-topaz text-white h-100', styles.card)}
+              >
+                <div className={styles.cardContent}>
+                  <div className={styles.cardIcon}>
+                    <img src={KeyIcon} alt="key" />
                   </div>
-                </CardBody>
+                  <div className={styles.homecontent}>
+                    <div className={styles.text}>
+                      <h2>Access your wallet</h2>
+                      <p>
+                        Connect to the Fantom network and:
+                        <ul>
+                          <li>Send and receive FTM</li>
+                          <li>Stake your FTM</li>
+                          <li>Collect your rewards</li>
+                        </ul>
+                      </p>
+                    </div>
+                    <button type="button" className={styles.walletBtn}>
+                      Access now
+                      <i className="fas fa-chevron-right" />
+                    </button>
+                  </div>
+                </div>
               </Card>
             </Col>
           </Row>

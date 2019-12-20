@@ -1,6 +1,10 @@
 @import '~/styles/variables.scss';
 
 .createWalletWrap {
+  @media (min-width: $tablet) and (max-width: $mediaTablet) {
+    padding: 50px 0;
+  }
+
   .checkField {
     display: flex;
     .checkBoxWrapper {
