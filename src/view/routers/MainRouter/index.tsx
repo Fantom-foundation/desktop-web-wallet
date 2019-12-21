@@ -16,6 +16,7 @@ import Receive from '~/view/pages/dashboard/receive';
 import Stake from '~/view/pages/dashboard/stake';
 import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
 import { AccountCreateInfo } from '~/view/pages/createWallet/mnemonicPhrase';
+import {AccountCreateCredentials} from '~/view/pages/account/AccountCreateCredentials'
 
 
 const MainRouter = () => (
@@ -37,11 +38,11 @@ const MainRouter = () => (
               component={AccountCreateCredentialForm}
             />
             {/* <Route path="/create-wallet-mnemonic" component={MnemonicPhrase} /> */}
-            {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
+            <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateCredentials} />
             {/* <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path="/create-wallet-mnemonic" component={AccountCreateInfo} />
             {/* <Route path={URLS.ACCOUNT_CREATE} component={CreateWallet} /> */}
-            <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
+            {/* <Route path={URLS.ACCOUNT_LIST} component={AccountList} />
             <Route path={URLS.ACCOUNT_CREATE} component={AccountCreateRouter} />
             <Route
               path={URLS.ACCOUNT_RESTORE}
@@ -49,7 +50,7 @@ const MainRouter = () => (
             />
             <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
 
-            <Redirect to="/" />
+            <Redirect to="/" /> */}
           </Switch>
         </Layout>
       </Switch>

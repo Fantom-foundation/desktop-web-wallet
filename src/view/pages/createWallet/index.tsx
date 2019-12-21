@@ -102,12 +102,16 @@ Create a keystore file
           label="Set a new password"
           value={password}
           handler={setPassword}
+          isError
+          errorMsg=""
         />
         <Input
           type="password"
           label="Re-enter password"
           value={password_again}
           handler={setPasswordAgain}
+          isError
+          errorMsg=""
         />
         <div className={styles.checkField}>
           <div className={styles.checkBoxWrapper}>

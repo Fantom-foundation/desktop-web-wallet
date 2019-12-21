@@ -130,7 +130,6 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 }) => {
   const [is_revealed, setIsRevealed] = useState(false);
   const [phrase, setPhrase] = useState('');
-  console.log('dsfdsfdsfsf', mnemonic, is_revealed);
   const is_next_disabled = useMemo(
     () =>
       phrase.toLowerCase().trim() !==
@@ -173,10 +172,10 @@ Your mnemonic phrase
           </p>
         </div>
         <div className={styles.phraseContent}>
-          <MnemonicPhrase />
-          <MnemonicPhraseEmpty />
+          <MnemonicPhrase mnemonic={mnemonic.split(" ")} />
+          {/* <MnemonicPhraseEmpty /> */}
           <MnemonicPhraseWithCross />
-          <MnemonicButtons />
+          {/* <MnemonicButtons /> */}
         </div>
         <div className={styles.downloadBtnWrapper}>
           <button className={`${styles.downloadBtn}`}>

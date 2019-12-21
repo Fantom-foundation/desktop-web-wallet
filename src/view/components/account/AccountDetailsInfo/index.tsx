@@ -100,7 +100,7 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
           FTM
         </div>
 
-        <Button color="primary bordered" onClick={sendFunds}>
+        <Button color="primary" onClick={sendFunds}>
           Transfer
         </Button>
       </div>

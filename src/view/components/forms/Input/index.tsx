@@ -15,11 +15,14 @@ export default ({
   placeholder = '',
   value = '',
   handler,
+  isError,
+  errorMsg,
 }) => {
   const [showPassword, setPasswordChange] = useState(false);
   function handleButton(toggle) {
     setPasswordChange(toggle);
   }
+  console.log(isError, '*****isError')
   return (
     <div>
       <div className={styles.input}>
@@ -43,11 +46,10 @@ export default ({
             )}
           </div>
 
-          <p className={styles.warning || styles.error}>
-            <i className="fas fa-info-circle mr-2" />
+          <p className={!isError ? styles.warning : styles.error}>
+            { isError !== undefined && errorMsg !== "" && <i className="fas fa-info-circle mr-2" />}
             <span>
-              Make sure to enter at least 8 characters, including one upper-case
-              letter, a symbol and a number.
+              {errorMsg}
             </span>
           </p>
         </FormGroup>
