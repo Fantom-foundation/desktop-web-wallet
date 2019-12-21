@@ -22,29 +22,20 @@ import KeyIcon from '../../../../images/icons/key.png';
 import WalletIcon from '../../../../images/icons/wallet.png';
 import { AddressBalanceCard } from '../../../components/cards';
 import classnames from 'classnames';
+import { push } from 'connected-react-router';
 
-const Home: FC<{}> = () => {
+function goToRoute(props) {
+  debugger;
+  console.log('***sdjs', props);
+  props.history.push('/account/create');
+}
+const Home: FC<{}> = props => {
+  debugger;
+  console.log('******props', props);
+  // const { history } = props;
   return (
     <Layout noFooter>
       <div className={styles.banner}>
-        {/* <h2 className={styles.slogan}>Operachain Powered Wallet</h2>
-
-        <h3 className={styles.subtitle}>Send and Receive FTM</h3>
-
-        <div className={styles.buttons}>
-          <Link className={styles.rounded} to="/account/create">
-            Create Wallet
-          </Link>
-
-          <a
-            className={styles.rounded}
-            href="http://fantom.foundation/"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn More
-          </a>
-        </div> */}
         <Container>
           <h1 className={styles.homeTitle}>Welcome to FantomWallet</h1>
           <h3 className="font-weight-semi-bold">
@@ -76,7 +67,11 @@ const Home: FC<{}> = () => {
                           credentials.
                         </p>
                       </div>
-                      <button type="button" className={styles.walletBtn}>
+                      <button
+                        type="button"
+                        className={styles.walletBtn}
+                        onClick={() => goToRoute(props)}
+                      >
                         Get started
                         <i className="fas fa-chevron-right" />
                       </button>
@@ -139,9 +134,7 @@ const Home: FC<{}> = () => {
           </div>
         </Container>
 
-        {/* 
-            <Container className={styles.container}>
-          
+        {/* <Container className={styles.container}>
           <Row>
             <Col xl={6} className={styles.marginBottom}>
               <AddressBalanceCard
@@ -158,7 +151,8 @@ const Home: FC<{}> = () => {
             <Col xl={6} className={styles.marginBottom}>
               <AddressBalanceCard addNew />
             </Col>
-          </Row></Container> */}
+          </Row>
+        </Container> */}
       </div>
 
       <Particles params={PARTICLES_PARAMS} className={styles.particles} />

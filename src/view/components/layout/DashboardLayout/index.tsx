@@ -4,7 +4,8 @@ import styles from './styles.module.scss';
 import { CheckIcon, CopyIcon, QrIcon } from 'src/view/components/svgIcons';
 import { DashboardModal } from '../../Modal';
 import QrImage from 'src/images/qr/Qr.png';
-export default ({ children }) => {
+export default props => {
+  console.log('*****sdfsdf', props);
   const [modal, setModal] = useState(false);
 
   const toggleModal = () => setModal(!modal);
@@ -18,15 +19,16 @@ export default ({ children }) => {
       >
         <div className="text-center">
           <img src={QrImage} className="mb-4" />
-          <h4 className="opacity-7">
-            0xD94Cfae08391a7dBbCCF6B98c5115Be854c09006
-          </h4>
+          <h4 className="opacity-7">{props.account.publicAddress}</h4>
         </div>
       </DashboardModal>
       <div className={styles.root}>
         <div className={styles.wrapper}>
           <div className={styles.sidebarWrapper}>
-            <Sidebar />
+            <Sidebar
+              address={props.account.publicAddress}
+              history={props.history}
+            />
           </div>
           <div className={styles.contentWrapper}>
             <main className={styles.main}>
@@ -41,9 +43,7 @@ export default ({ children }) => {
                   <p className={styles.label}>Address</p>
                 </div>
                 <div className={styles.hashWrapper}>
-                  <p className={styles.hash}>
-                    0xD94Cfae08391a7dBbCCF6B98c5115Be854c09006
-                  </p>
+                  <p className={styles.hash}>{props.account.publicAddress}</p>
                   <div className={styles.hashHandlers}>
                     <button>
                       <CopyIcon />
@@ -54,7 +54,7 @@ export default ({ children }) => {
                   </div>
                 </div>
               </div>
-              {children}
+              {props.children}
             </main>
           </div>
         </div>

@@ -4,9 +4,9 @@ import ReceiveIcon from 'src/images/icons/sidebar/receive.svg';
 import StakeIcon from 'src/images/icons/sidebar/stake.svg';
 import LogoutIcon from 'src/images/icons/sidebar/logout.svg';
 export default [
-  { name: 'Dashboard', link: '/', icon: DashboardIcon },
-  { name: 'Send', link: '/', icon: SendIcon },
-  { name: 'Receive', link: '/', icon: ReceiveIcon },
-  { name: 'Stake', link: '/', icon: StakeIcon },
-  { name: 'Logout', link: '/', icon: LogoutIcon },
+  { name: 'Dashboard', icon: DashboardIcon },
+  { name: 'Send', icon: SendIcon },
+  { name: 'Receive', icon: ReceiveIcon },
+  { name: 'Stake', icon: StakeIcon },
+  { name: 'Logout', icon: LogoutIcon },
 ];

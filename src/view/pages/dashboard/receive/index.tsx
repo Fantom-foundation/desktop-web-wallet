@@ -14,14 +14,14 @@ import {
 import styles from './styles.module.scss';
 import QrImage from 'src/images/qr/Qr.png';
 
-export default () => {
+export default ({ account }) => {
   const [amount, setAmount] = useState(false);
   const [copy, setCopy] = useState(false);
   const [download, setDownload] = useState(false);
   return (
     <div>
       <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
-      <h2 className="mb-5">200,756,680.84 FTM</h2>
+      <h2 className="mb-5">${account.balance} FTM</h2>
 
       <Card>
         <h2 className="mb-5 font-weight-extra-bold">Receive FTM</h2>

@@ -9,17 +9,18 @@ import {
   ErrorCircleIcon,
 } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
+import { DashboardLayout } from '~/view/components/layout';
 
-export default () => (
+export default ({ account }) => (
   <div>
     <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
-    <h2 className="mb-5">200,756,680.84 FTM</h2>
+    <h2 className="mb-5">${account.balance} FTM</h2>
     <SendForm />
     <div>
       <Card className={classname(styles.card, 'mb-5 mt-5')}>
         <h2>Transaction sent!</h2>
         <div className={classname(styles.iconGap, styles.hash)}>
-          <a href="#">219105220504b7b9a489438b3a504b7b9a4</a>
+          <a href="#">{account.publicAddress}</a>
           <button className={styles.copyBtn} type="button">
             <CopyIcon />
           </button>
