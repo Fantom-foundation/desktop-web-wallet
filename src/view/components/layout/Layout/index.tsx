@@ -32,7 +32,7 @@ class LayoutUnconnected extends React.PureComponent<IProps> {
 
         <main>{children}</main>
 
-        {!noFooter && <LayoutFooter />}
+        <LayoutFooter />
       </div>
     );
   }

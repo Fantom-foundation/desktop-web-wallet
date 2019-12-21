@@ -1,1 +1,62 @@
 @import '~/styles/variables.scss';
+
+.table {
+  th,
+  td {
+    padding: {
+      left: 10px;
+      right: 10px;
+    }
+    border-color: rgba(map-get($color, dark-grey-blue), 0.1);
+  }
+  th {
+    border: 0 !important;
+    font-size: 12px;
+    font-weight: 600;
+    color: rgba(map-get($color, dark-grey-blue), 0.5);
+  }
+}
+
+.txDetails {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1.31;
+  color: rgba(map-get($color, dark-grey-blue), 0.8);
+  b {
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+  }
+  &.index {
+    line-height: 1.5;
+    color: rgba(map-get($color, dark-grey-blue), 0.9);
+  }
+}
+.indexBox {
+  width: 31px;
+}
+.contentRow {
+  cursor: pointer;
+  &:first-child {
+    td {
+      border-top: 0;
+    }
+  }
+  td {
+    vertical-align: middle;
+    height: 59px;
+    border-bottom: 0;
+  }
+}
+.subViewRow {
+  td {
+    border-top: 0;
+    td {
+      height: 59px;
+      vertical-align: middle;
+    }
+  }
+}
+.subViewContainer {
+  padding: 12px 50px 40px;
+}
