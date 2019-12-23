@@ -5,6 +5,11 @@ import { DashboardInput } from 'src/view/components/forms';
 import classnames from 'classnames';
 import { StakeSummaryCard } from 'src/view/components/cards';
 import StakeValidators from 'src/view/components/stakeValidators';
+import {
+  CopyIcon,
+  CheckCircleIcon,
+  ErrorCircleIcon,
+} from 'src/view/components/svgIcons';
 
 const overViewMock = [
   { title: 'Available to stake', value: '200,756,680.84 FTM' },
@@ -111,6 +116,82 @@ export default () => (
         <div className="mx-auto" style={{ maxWidth: 670 }}>
           <StakeSummaryCard />
         </div>
+      </Col>
+    </Row>
+    <Row className="mt-6">
+      <Col>
+        <Card className={classnames(styles.card, 'mb-5 mt-5')}>
+          <h2 className={styles.iconGap}>
+            Congratulations!
+            <br /> FTM successfully staked.
+          </h2>
+
+          <div>
+            <CheckCircleIcon />
+          </div>
+        </Card>
+      </Col>
+    </Row>
+    <Row className="mt-6">
+      <Col>
+        <Card className={classnames(styles.card, 'mb-5')}>
+          <h2 className={styles.iconGap}>
+            Something went wrong.
+            <br />
+            Please try again.
+          </h2>
+          <div>
+            <ErrorCircleIcon />
+          </div>
+        </Card>
+      </Col>
+    </Row>
+    <Row className="mt-6">
+      <Col>
+        <Card
+          className="mx-auto text-center pt-5 pb-6"
+          style={{ maxWidth: 670 }}
+        >
+          <h2 className="mb-5">What would you like to do?</h2>
+          <div
+            className="mx-auto mt-4 w-100 d-flex justify-content-between"
+            style={{ maxWidth: 480 }}
+          >
+            <Button
+              color="darkish-pink"
+              className={classnames('lg outlined mx-4')}
+            >
+              Maybe later
+            </Button>
+            <Button color="topaz" className={classnames('lg outlined mx-4')}>
+              Ok, unstake
+            </Button>
+          </div>
+        </Card>
+      </Col>
+    </Row>
+    <Row className="mt-6">
+      <Col>
+        <Card className="mx-auto text-center pt-5 pb-6">
+          <h2 className="mb-5">What would you like to do?</h2>
+          <div
+            className="mx-auto mt-4 w-100 d-flex justify-content-between"
+            style={{ maxWidth: 640 }}
+          >
+            <Button
+              color="darkish-pink"
+              className={classnames('lg outlined mx-4')}
+            >
+              Unstake
+            </Button>
+            <Button color="topaz" className={classnames('lg outlined mx-4')}>
+              Stake
+            </Button>
+            <Button color="primary" className={classnames('lg outlined mx-4')}>
+              Claim rewards
+            </Button>
+          </div>
+        </Card>
       </Col>
     </Row>
   </div>

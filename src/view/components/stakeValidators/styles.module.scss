@@ -14,6 +14,12 @@
     font-size: 12px;
     font-weight: 600;
     color: rgba(map-get($color, dark-grey-blue), 0.5);
+
+    span {
+      display: inline-flex;
+      flex-direction: column;
+      margin-left: 10px;
+    }
   }
 }
 

@@ -23,39 +23,40 @@ const INITIAL_ERRORS = {
   unique: false,
 };
 
-const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
-  // const [name, setName] = useState("");
+const AccountCreateCredentialForm: FC<IProps> = ({ onSubmit }) => {
   const [password, setPassword] = useState("");
   const [password_again, setPasswordAgain] = useState("");
+  const [checked, setChecked] = useState(false);
   const [errors, setErrors] = useState<Record<string, boolean>>(INITIAL_ERRORS);
 
 
   const onNextPressed = useCallback(() => {
     const validation_errors = {
-      // name: name.length < 3,
-      // unique:
-      //   !!list ,
-      passwords_match: !!password && password !== password_again,
+      password_match: !!password && password !== password_again,
       password:
         !password.match(/[A-Z]+/) ||
         !password.match(/[0-9]+/) ||
         password.length < 8,
     };
+    debugger
+
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
+      if(!checked)
+      return
+
 
     onSubmit({
       password,
     });
-  }, [onSubmit, password, password_again]);
+  }, [onSubmit, password, password_again, checked]);
 
-  const [checked, setChecked] = useState(false);
   function handleCheckBox(toggle) {
     setChecked(toggle);
   }
 
-  console.log('****errors', errors)
+  console.log('*****errors', errors)
 
 
   return (<>
@@ -85,13 +86,26 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
           type="password"
           label="Set a new password"
           value={password}
-          handler={setPassword}
+          handler={value => {
+            setPassword(value);
+            setErrors({...errors, password: false})
+
+          }}
+          isError={errors.password || false}
+          errorMsg='Make sure to enter at least 8 characters, including one upper-case letter, a symbol and a number.'
         />
+
         <Input
           type="password"
           label="Re-enter password"
           value={password_again}
-          handler={setPasswordAgain}
+          handler={value => {
+            setPasswordAgain(value);
+            setErrors({...errors, password_match: false})
+}}
+          isError={errors.password_match}
+          errorMsg={errors.password_match ? 'The entered password does not match': ''}
+
         />
         <div className={styles.checkField}>
           <div className={styles.checkBoxWrapper}>
@@ -129,123 +143,9 @@ I understand that
       </CreateWalletCard>
       {/* <MnemonicPhrase /> */}
     </div>
-          </>)
+  </>)
 
-  // return (
-  //   <>
-  //     <section className={styles.wrap}>
-  //       <Container>
-  //         <Row>
-  //           <Col>
-  //             <Form className={styles.form} autoComplete="off">
-  //               <FormGroup>
-  //                 {/* <TextInput
-  //                   placeholder="Enter Name"
-  //                   handler={setName}
-  //                   value={name}
-  //                   icon={user}
-  //                   autoComplete="off"
-  //                   name="name"
-  //                 /> */}
-
-  //                 {errors.name && (
-  //                   <p className={styles.error} id="error_name_required">
-  //                     Account Name is required
-  //                   </p>
-  //                 )}
-
-  //                 {errors.unique && (
-  //                   <p className={styles.error} id="error_name_exists">
-  //                     Account Name already exists
-  //                   </p>
-  //                 )}
-  //               </FormGroup>
-
-  //               <Row>
-  //                 <Col>
-  //                   <FormGroup>
-  //                     <TextInput
-  //                       type="password"
-  //                       placeholder="Enter Password"
-  //                       value={password}
-  //                       handler={setPassword}
-  //                       icon={lock}
-  //                       autoComplete="off"
-  //                       name="password"
-  //                     />
-
-  //                     {!!errors.password && (
-  //                       <p
-  //                         className={styles.error}
-  //                         id="error_password_required"
-  //                       >
-  //                         Valid password is required
-  //                       </p>
-  //                     )}
-  //                   </FormGroup>
-
-  //                   <FormGroup>
-  //                     <TextInput
-  //                       type="password"
-  //                       placeholder="Enter Password Again"
-  //                       value={password_again}
-  //                       handler={setPasswordAgain}
-  //                       icon={lock}
-  //                       autoComplete="new-password"
-  //                       name="password_again"
-  //                     />
-
-  //                     {!!errors.passwords_match && (
-  //                       <p
-  //                         className={styles.error}
-  //                         id="error_password_mismatch"
-  //                       >
-  //                         Passwords do not match
-  //                       </p>
-  //                     )}
-  //                   </FormGroup>
-  //                 </Col>
-
-  //                 <Col md={4} lg={3}>
-  //                   <div className={styles.validator}>
-  //                     <div>
-  //                       <img src={is_long_enough ? getURL(check) : getURL(cross)} alt="correct" className="ico" />
-  //                       8+ Characters
-  //                     </div>
-  //                     <div>
-  //                       <img src={has_capital ? getURL(check) : getURL(cross)} alt="correct" className="ico" />
-  //                       1+ Upper Case Letter
-  //                     </div>
-  //                     <div>
-  //                       <img src={has_number ? getURL(check) : getURL(cross)} alt="correct" className="ico" />
-  //                       1+ Number
-  //                     </div>
-  //                   </div>
-  //                 </Col>
-  //               </Row>
-
-  //               <CreateAccountIcons
-  //                 date={date}
-  //                 onSelect={setSelectedIcon}
-  //                 onRefresh={onDateChange}
-  //                 selected={selected_icon}
-  //               />
-
-  //               {!!errors.icon && (
-  //                 <p className={styles.error}>Please select an icon</p>
-  //               )}
-  //             </Form>
-  //           </Col>
-  //         </Row>
-  //       </Container>
-  //     </section>
-
-  //     <CreateAccountButtons
-  //       onNextPressed={onNextPressed}
-  //       onBackPressed={onBackPressed}
-  //     />
-  //   </>
-  // );
+  
 };
 
 export { AccountCreateCredentialForm };

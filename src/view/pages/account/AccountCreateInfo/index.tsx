@@ -7,6 +7,7 @@ import React, {
   useRef,
   useMemo,
 } from 'react';
+import { WalletModal } from '~/view/components/Modal';
 import { Col, Row, Container, Label, FormGroup } from 'reactstrap';
 import { AccountCreateProcess } from '~/view/components/account/AccountCreateProccess';
 import { CreateAccountButtons } from '~/view/components/account/CreateAccountButtons';
@@ -29,6 +30,15 @@ import { Address } from '~/view/components/account/Address';
 import { TextInput } from '~/view/components/inputs/TextInput';
 import { getURL } from '~/utility/dom';
 
+import {
+  MnemonicPhrase,
+  MnemonicPhraseEmpty,
+  MnemonicButtons,
+  MnemonicPhraseWithCross,
+} from 'src/view/components/mnemonic';
+import { CreateWalletCard } from '../../../components/cards';
+// import { Input } from '../../components/forms';
+
 const mapStateToProps = selectAccountCreate;
 const mapDispatchToProps = {
   accountCreateSetInfo: ACCOUNT_ACTIONS.accountCreateSetInfo,
@@ -48,7 +58,11 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   icon,
 }) => {
   const [is_revealed, setIsRevealed] = useState(false);
-  const [phrase, setPhrase] = useState('');
+    const [modal, setModal] = useState(false);
+    const [phrase, setPhrase] = useState('');
+
+
+  const toggleModal = () => setModal(!modal);
 
   const is_next_disabled = useMemo(
     () =>
@@ -56,12 +70,12 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
         CONFIRMATION_PHRASE.toLowerCase().trim() || !is_revealed,
     [is_revealed, phrase]
   );
+  console.log('******is_next_disabled')
 
   const onNextPressed = useCallback(() => {
-    if (is_next_disabled) return;
 
     accountCreateSetInfo();
-  }, [accountCreateSetInfo, is_next_disabled]);
+  }, [accountCreateSetInfo]);
 
   const onBackPressed = useCallback(
     () => accountSetCreateStage(ACCOUNT_CREATION_STAGES.CREDENTIALS),
@@ -78,141 +92,202 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     () => setIsRevealed(!is_revealed),
     [setIsRevealed, is_revealed]
   );
+  console.log('*****mnemonic', mnemonic)
 
   return (
-    <div id="account-information" className="account-information">
-      {/* <AccountCreateProcess stepNo={2} /> */}
+    <div>
+    <CreateWalletCard>
+      <div className={styles.title}>
+        <h3 className="font-weight-semi-bold">
+          2
+          <span className="opacity-3 mr-3">/2</span>
+          {' '}
+Your mnemonic phrase
+          <span className="ml-2">
+            <i className="fas fa-info-circle" />
+          </span>
+        </h3>
+        <p className={`${styles.warning} py-3`}>
+          Please backup the text below on paper and keep it somewhere secret
+          and safe.
+        </p>
+      </div>
+      <div className={styles.phraseContent}>
+        <MnemonicPhrase mnemonic={mnemonic.split(" ")} />
+        {/* <MnemonicPhraseEmpty /> */}
+        {/* <MnemonicPhraseWithCross /> */}
+        {/* <MnemonicButtons /> */}
+        <div className={styles.viewKey}>
+               <span onClick={toggleModal}>
+                 <i className="fas fa-info-circle mr-2" />
+                View your private key
+               </span>
+             </div>
+      </div>
 
-      <section className={styles.content}>
-        <div className={styles.printer}>
-          <div ref={printer}>
-            <AccountDetailPrint mnemonic={mnemonic} address={publicAddress} />
+             <WalletModal isOpen={modal} toggle={toggleModal} bodyClassName="">
+         <div className={styles.privateKeyModal}>
+           <h2 className="text-center">Your Private Key</h2>
+           <p className={styles.warning}>
+             Please backup the text below on paper and keep it somewhere secret
+             and safe.
+           </p>
+           <h3 className={`${styles.privateKey} font-weight-semi-bold`}>
+             63f3b91ad31jhgjc19c99aa85e32aee50639348ee7084b4726d16a62b70e56beb0f7
+           </h3>
+           <div className={styles.downloadBtnWrapper}>
+             <button
+               type="button"
+               className={styles.downloadBtn}
+               onClick={toggleModal}
+             >
+               Close
+            </button>
           </div>
-        </div>
+         </div>
+       </WalletModal>
 
-        <Container>
-          <Row className={styles.account}>
-            <Col className={styles.info}>
-              <div className={styles.name}>
-                <Identicon id={icon} width={50} size={3} />
-                {/* <h2>{name}</h2> */}
-              </div>
 
-              <h3>Your Address</h3>
+      <div className={styles.downloadBtnWrapper}>
+        <button type="button" className={`${styles.downloadBtn}`} onClick={onNextPressed}>
+          I wrote down my recovery key
+        </button>
+      </div>
+    </CreateWalletCard>
+  </div>
+    // <div id="account-information" className="account-information">
+    //   {/* <AccountCreateProcess stepNo={2} /> */}
 
-              <div>
-                <Address address={publicAddress} />
-              </div>
-            </Col>
+    //   <section className={styles.content}>
+    //     <div className={styles.printer}>
+    //       <div ref={printer}>
+    //         <AccountDetailPrint mnemonic={mnemonic} address={publicAddress} />
+    //       </div>
+    //     </div>
 
-            <Col className={styles.qr}>
-              <QRCodeIcon
-                bgColor="white"
-                fgColor="black"
-                address={publicAddress}
-              />
-            </Col>
-          </Row>
-        </Container>
+    //     <Container>
+    //       <Row className={styles.account}>
+    //         <Col className={styles.info}>
+    //           <div className={styles.name}>
+    //             <Identicon id={icon} width={50} size={3} />
+    //             {/* <h2>{name}</h2> */}
+    //           </div>
 
-        <Container className={styles.word_container}>
-          <Row>
-            <PanelTitle
-              title="Owner Recovery Phrase"
-              right={
-                <ReactToPrint
-                  trigger={() => <PanelButton icon="fa-print" />}
-                  content={() => printer.current}
-                />
-              }
-            />
-          </Row>
+    //           <h3>Your Address</h3>
 
-          <Row className={styles.mnemonics}>
-            <Col>
-              <Row>
-                <Col className={styles.mnemonics_content}>
-                  <div className={styles.mnemonics_collector}>
-                    <div
-                      className={classNames(styles.words, {
-                        [styles.blur]: !is_revealed,
-                      })}
-                    >
-                      {mnemonic &&
-                        mnemonic.split(' ').map(word => (
-                          <div className={styles.word} key={word}>
-                            {word}
-                          </div>
-                        ))}
+    //           <div>
+    //             <Address address={publicAddress} />
+    //           </div>
+    //         </Col>
 
-                      {!is_revealed && (
-                        <div
-                          className={styles.overlay}
-                          onClick={onRevealSecret}
-                        >
-                          <h2>Click Here To Reveal Secret Words</h2>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                </Col>
-              </Row>
-              <Row>
-                <Col className={styles.notice}>
-                  <img src={getURL(noView)} alt="no-view" />
+    //         <Col className={styles.qr}>
+    //           <QRCodeIcon
+    //             bgColor="white"
+    //             fgColor="black"
+    //             address={publicAddress}
+    //           />
+    //         </Col>
+    //       </Row>
+    //     </Container>
 
-                  <h2>Screenshots are not secure</h2>
+    //     <Container className={styles.word_container}>
+    //       <Row>
+    //         <PanelTitle
+    //           title="Owner Recovery Phrase"
+    //           right={
+    //             <ReactToPrint
+    //               trigger={() => <PanelButton icon="fa-print" />}
+    //               content={() => printer.current}
+    //             />
+    //           }
+    //         />
+    //       </Row>
 
-                  <p>
-                    If you take a screenshot, your backup may be viewed by other
-                    apps. You can make a safe backup by writing it down on a
-                    physical paper or by printing a copy.
-                  </p>
-                </Col>
-              </Row>
-            </Col>
-          </Row>
-        </Container>
+    //       <Row className={styles.mnemonics}>
+    //         <Col>
+    //           <Row>
+    //             <Col className={styles.mnemonics_content}>
+    //               <div className={styles.mnemonics_collector}>
+    //                 <div
+    //                   className={classNames(styles.words, {
+    //                     [styles.blur]: !is_revealed,
+    //                   })}
+    //                 >
+    //                   {mnemonic &&
+    //                     mnemonic.split(' ').map(word => (
+    //                       <div className={styles.word} key={word}>
+    //                         {word}
+    //                       </div>
+    //                     ))}
 
-        <Container>
-          <Row>
-            <Col>
-              <p className={styles.backup}>
-                Please back up the recovery phrase now. Make sure to keep it
-                private and secure. It allows full and unlimited access to your
-                account, and can be used to restore your wallet.
-              </p>
+    //                   {!is_revealed && (
+    //                     <div
+    //                       className={styles.overlay}
+    //                       onClick={onRevealSecret}
+    //                     >
+    //                       <h2>Click Here To Reveal Secret Words</h2>
+    //                     </div>
+    //                   )}
+    //                 </div>
+    //               </div>
+    //             </Col>
+    //           </Row>
+    //           <Row>
+    //             <Col className={styles.notice}>
+    //               <img src={getURL(noView)} alt="no-view" />
 
-              <FormGroup>
-                <Label for="msg" className={styles.label}>
-                  {!is_revealed ? 'Reveal secret words and type' : 'Type'}
-                  &nbsp;&quot;
-                  <span>{CONFIRMATION_PHRASE}</span>
-                  &quot;&nbsp; below to confirm it is backed up.
-                </Label>
+    //               <h2>Screenshots are not secure</h2>
 
-                <div>
-                  <TextInput
-                    name="phrase"
-                    type="text"
-                    value={phrase}
-                    handler={setPhrase}
-                    autoComplete="off"
-                    fa_icon="fa-pencil-alt"
-                  />
-                </div>
-              </FormGroup>
-            </Col>
-          </Row>
-        </Container>
-      </section>
+    //               <p>
+    //                 If you take a screenshot, your backup may be viewed by other
+    //                 apps. You can make a safe backup by writing it down on a
+    //                 physical paper or by printing a copy.
+    //               </p>
+    //             </Col>
+    //           </Row>
+    //         </Col>
+    //       </Row>
+    //     </Container>
 
-      <CreateAccountButtons
-        onNextPressed={onNextPressed}
-        onBackPressed={onBackPressed}
-        is_next_disabled={is_next_disabled}
-      />
-    </div>
+    //     <Container>
+    //       <Row>
+    //         <Col>
+    //           <p className={styles.backup}>
+    //             Please back up the recovery phrase now. Make sure to keep it
+    //             private and secure. It allows full and unlimited access to your
+    //             account, and can be used to restore your wallet.
+    //           </p>
+
+    //           <FormGroup>
+    //             <Label for="msg" className={styles.label}>
+    //               {!is_revealed ? 'Reveal secret words and type' : 'Type'}
+    //               &nbsp;&quot;
+    //               <span>{CONFIRMATION_PHRASE}</span>
+    //               &quot;&nbsp; below to confirm it is backed up.
+    //             </Label>
+
+    //             <div>
+    //               <TextInput
+    //                 name="phrase"
+    //                 type="text"
+    //                 value={phrase}
+    //                 handler={setPhrase}
+    //                 autoComplete="off"
+    //                 fa_icon="fa-pencil-alt"
+    //               />
+    //             </div>
+    //           </FormGroup>
+    //         </Col>
+    //       </Row>
+    //     </Container>
+    //   </section>
+
+    //   <CreateAccountButtons
+    //     onNextPressed={onNextPressed}
+    //     onBackPressed={onBackPressed}
+    //     is_next_disabled={is_next_disabled}
+    //   />
+    // </div>
   );
 };
 

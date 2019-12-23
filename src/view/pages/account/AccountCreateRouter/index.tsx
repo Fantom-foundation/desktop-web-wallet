@@ -1,6 +1,9 @@
 import { FC, createElement, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { ACCOUNT_CREATION_STAGES_COMPONENTS, ACCOUNT_CREATION_STAGES } from '~/redux/account';
+import {
+  ACCOUNT_CREATION_STAGES_COMPONENTS,
+  ACCOUNT_CREATION_STAGES,
+} from '~/redux/account';
 import { selectAccountCreate } from '~/redux/account/selectors';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 
@@ -9,9 +12,14 @@ const mapDispatchToProps = {
   accountCreateClear: ACCOUNT_ACTIONS.accountCreateClear,
 };
 
-type IProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
+type IProps = ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps & {};
 
-const AccountCreateRouterUnconnected: FC<IProps> = ({ stage, accountCreateClear }) => {
+const AccountCreateRouterUnconnected: FC<IProps> = ({
+  stage,
+  accountCreateClear,
+}) => {
+  debugger;
   useEffect(
     () => () => {
       accountCreateClear();
