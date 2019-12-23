@@ -38,7 +38,6 @@ const AccountCreateCredentialForm: FC<IProps> = ({ onSubmit }) => {
         !password.match(/[0-9]+/) ||
         password.length < 8,
     };
-    debugger
 
 
     if (Object.values(validation_errors).includes(true))

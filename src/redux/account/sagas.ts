@@ -88,8 +88,6 @@ function* createSetConfirm() {
     icon,
     publicAddress,
   }: IAccountState['create'] = yield select(selectAccountCreate);
-  console.log('*****kksfnsdf', !password , !icon , !publicAddress , !mnemonic)
-  debugger
 
   if (!password || !publicAddress || !mnemonic)
     return yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));

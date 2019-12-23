@@ -29,6 +29,8 @@ import { PanelButton } from '~/view/components/panels/PanelButton';
 import { Address } from '~/view/components/account/Address';
 import { TextInput } from '~/view/components/inputs/TextInput';
 import { getURL } from '~/utility/dom';
+import { Layout } from '~/view/components/layout/Layout';
+
 
 import {
   MnemonicPhrase,
@@ -95,6 +97,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   console.log('*****mnemonic', mnemonic)
 
   return (
+    <Layout>
     <div>
     <CreateWalletCard>
       <div className={styles.title}>
@@ -155,6 +158,7 @@ Your mnemonic phrase
       </div>
     </CreateWalletCard>
   </div>
+  </Layout>
     // <div id="account-information" className="account-information">
     //   {/* <AccountCreateProcess stepNo={2} /> */}
 
