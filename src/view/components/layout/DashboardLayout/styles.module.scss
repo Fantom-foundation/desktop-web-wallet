@@ -1,5 +1,5 @@
 @import '~/styles/variables.scss';
-$sidebarWidth: 325px;
+
 .root {
   background: #ecf0f8;
   position: relative;
@@ -23,13 +23,27 @@ $sidebarWidth: 325px;
   z-index: 2;
 }
 .sidebarWrapper {
-  flex: 0 0 $sidebarWidth;
-  max-width: $sidebarWidth;
+  flex: 0 0 $dashboardSidebarWidth;
+  max-width: $dashboardSidebarWidth;
+  @media (max-width: $largeDesktop) {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100vh;
+    z-index: 999;
+  }
 }
 .contentWrapper {
-  flex: 0 0 calc(100% - #{$sidebarWidth});
-  max-width: calc(100% - #{$sidebarWidth});
+  flex: 0 0 calc(100% - #{$dashboardSidebarWidth});
+  max-width: calc(100% - #{$dashboardSidebarWidth});
   padding: 70px 0 33px;
+
+  @media (max-width: $largeDesktop) {
+    flex: 0 0 100%;
+    max-width: 100%;
+    padding-top: 9px;
+  }
   .main {
     padding: 0 55px 0 30px;
     // max-width: 1280px - $sidebarWidth;

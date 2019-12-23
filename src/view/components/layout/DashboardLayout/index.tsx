@@ -1,14 +1,15 @@
 import React, { useState } from 'react';
 import Sidebar from './DashboardSidebar';
 import styles from './styles.module.scss';
+import classnames from 'classnames';
 import { CheckIcon, CopyIcon, QrIcon } from 'src/view/components/svgIcons';
 import { DashboardModal } from '../../Modal';
 import QrImage from 'src/images/qr/Qr.png';
 export default props => {
   console.log('*****sdfsdf', props);
   const [modal, setModal] = useState(false);
-
   const toggleModal = () => setModal(!modal);
+
   return (
     <>
       <DashboardModal
@@ -24,12 +25,11 @@ export default props => {
       </DashboardModal>
       <div className={styles.root}>
         <div className={styles.wrapper}>
-          <div className={styles.sidebarWrapper}>
-            <Sidebar
-              address={props.account.publicAddress}
-              history={props.history}
-            />
-          </div>
+          <Sidebar
+            address={props.account.publicAddress}
+            history={props.history}
+          />
+
           <div className={styles.contentWrapper}>
             <main className={styles.main}>
               <div className={styles.contentHeader}>
