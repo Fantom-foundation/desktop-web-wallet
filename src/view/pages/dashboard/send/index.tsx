@@ -10,7 +10,6 @@ import {
 } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
 import { copyToClipboard } from '~/utility/clipboard';
-import { DashboardLayout } from '~/view/components/layout';
 
 export default ({ account }) => {
   const onClick = useCallback(
@@ -21,8 +20,13 @@ export default ({ account }) => {
   return (
     <div>
       <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
-      <h2 className="mb-5">${account.balance} FTM</h2>
-      <SendForm />
+      <h2 className="mb-5">
+$
+        {account.balance}
+        {' '}
+FTM
+      </h2>
+      <SendForm data={account} />
       <div>
         <Card className={classname(styles.card, 'mb-5 mt-5')}>
           <h2>Transaction sent!</h2>

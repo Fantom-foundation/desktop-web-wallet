@@ -103,7 +103,7 @@ function* createSetConfirm() {
       publicAddress,
     })
   );
-  yield put(push(URLS.ACCOUNT_LIST));
+  yield put(push(URLS.ACCOUNT_SUCCESS));
 }
 
 function* createCancel() {

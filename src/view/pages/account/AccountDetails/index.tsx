@@ -48,7 +48,8 @@ const AccountDetails: FC<IProps> = ({ account }) => {
               <h2 className="mb-0">&nbsp;FTM</h2>
             </div>
             <p className="text-right text-usd">
-              2,700,177.35<span>USD</span>
+              2,700,177.35
+              <span>USD</span>
             </p>
           </Card>
         </Col>
@@ -57,7 +58,10 @@ const AccountDetails: FC<IProps> = ({ account }) => {
             <p className="card-label ">Overview</p>
             {overViewMock.map(({ title, value }) => (
               <div className="d-flex justify-content-between">
-                <h4 className="opacity-7">{title}:</h4>
+                <h4 className="opacity-7">
+                  {title}
+:
+                </h4>
                 <p className="font-weight-semi-bold">{value}</p>
               </div>
             ))}
