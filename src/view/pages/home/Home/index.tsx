@@ -28,7 +28,6 @@ function goToRoute(props) {
   props.history.push('/account/create');
 }
 const Home: FC<{}> = props => {
-  // const { history } = props;
   return (
     <Layout noFooter>
       <div className={styles.banner}>

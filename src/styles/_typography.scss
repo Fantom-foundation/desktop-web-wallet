@@ -4,16 +4,16 @@
     color: map-get($color, Primary-Main) !important;
   }
   &-dark-grey-blue {
-    color: map-get($color, dark-grey-blue);
+    color: map-get($color, dark-grey-blue) !important;
   }
   &-grey {
-    color: map-get($color, Grey-Main);
+    color: map-get($color, Grey-Main) !important;
   }
   &-danger {
     color: map-get($color, Error) !important;
   }
   &-topaz {
-    color: map-get($color, topaz);
+    color: map-get($color, topaz) !important;
   }
   &-ellipsis {
     white-space: nowrap;

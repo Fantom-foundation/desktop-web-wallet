@@ -17,7 +17,6 @@ interface IProps {
 }
 
 const AccountDetails: FC<IProps> = ({ account }) => {
-  console.log('****account', account);
   // return (
   //   <Container className={styles.wrap}>
   //     <Row className={styles.row}>

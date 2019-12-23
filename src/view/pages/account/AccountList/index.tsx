@@ -62,7 +62,6 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
           <Row>
             {Object.values(list).length > 0 &&
               Object.values(list).map(account => {
-                console.log('*****account', account);
                 return (
                   <Col
                     xl={6}

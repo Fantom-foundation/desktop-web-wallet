@@ -12,10 +12,10 @@ const getLinkPath = (name, address) => {
       return `/account/${address}`;
     case 'Send':
       return `/account/${address}/send`;
-    case 'Receive':
+    case 'Recieve':
       return `/account/${address}/recieve`;
     case 'Stake':
-      return ``;
+      return `/account/${address}/stake`;
     case 'Logout':
       return `/`;
     default:
@@ -23,24 +23,35 @@ const getLinkPath = (name, address) => {
   }
 };
 export default props => {
-  console.log('*****propswd ', props);
+  let selectedIndex = menus.findIndex(e => {
+    return props.pathname.includes(e.name.toLowerCase());
+  });
+  if (selectedIndex === -1) {
+    selectedIndex = 0;
+  }
   return (
     <div className={styles.root}>
-      <div className={styles.logoWrapper}>
-        <img src={logo} />
-      </div>
+      <Link to="/">
+        <div className={styles.logoWrapper}>
+          <img src={logo} />
+        </div>
+      </Link>
       <ul className={styles.menus}>
-        {menus.map(({ name, icon }, index) => (
-          <li
-            key={index}
-            className={classnames({ [styles.active]: index === 0 })}
-          >
-            <Link to={getLinkPath(name, props.address)}>
-              <img src={icon} />
-              {name}
-            </Link>
-          </li>
-        ))}
+        {menus.map(({ name, icon }, index) => {
+          return (
+            <li
+              key={index}
+              className={classnames({
+                [styles.active]: index === selectedIndex,
+              })}
+            >
+              <Link to={getLinkPath(name, props.address)}>
+                <img src={icon} />
+                {name}
+              </Link>
+            </li>
+          );
+        })}
       </ul>
     </div>
   );
