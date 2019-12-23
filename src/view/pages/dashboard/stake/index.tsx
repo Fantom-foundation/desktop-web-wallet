@@ -196,5 +196,5 @@ export default () => {
         </Card>
       </Col>
     </Row>
-  </div>
-);
+  </div>)
+};
