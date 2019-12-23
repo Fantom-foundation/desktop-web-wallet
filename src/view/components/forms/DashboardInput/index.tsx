@@ -8,7 +8,9 @@ export default ({
   lg = false,
   placeholder = '',
   value = '',
+  type = 'text',
   rightLabel = '',
+  handleChange,
   error = { isError: false, errorText: '' },
 }) => {
   return (
@@ -37,8 +39,9 @@ export default ({
               [styles.error]: error.isError,
             })}
             value={value}
-            type="text"
+            type={type}
             placeholder={placeholder}
+            onChange={e => handleChange(e.target.value)}
           />
         </div>
       </FormGroup>

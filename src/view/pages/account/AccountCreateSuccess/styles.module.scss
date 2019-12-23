@@ -1,0 +1,38 @@
+.successModal {
+  text-align: center;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+  width: 470px;
+  height: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+  z-index: 999999;
+  background: #fff;
+  border-radius: 25px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  p {
+    font-weight: 500;
+  }
+
+  button {
+    width: 220px;
+    color: #000;
+    border-color: #0ebec2;
+    font-size: 16px;
+  }
+}

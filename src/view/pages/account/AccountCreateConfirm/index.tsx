@@ -63,7 +63,6 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
     }, [setIsIncorrectModalVisible]);
 
     const onSubmit = useCallback(() => {
-      debugger
       if (is_next_disabled) return setIsIncorrectModalVisible(true);
       
       accountCreateSetConfirm();

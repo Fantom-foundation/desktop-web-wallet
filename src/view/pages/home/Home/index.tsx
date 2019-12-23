@@ -25,13 +25,9 @@ import classnames from 'classnames';
 import { push } from 'connected-react-router';
 
 function goToRoute(props) {
-  debugger;
-  console.log('***sdjs', props);
   props.history.push('/account/create');
 }
 const Home: FC<{}> = props => {
-  debugger;
-  console.log('******props', props);
   // const { history } = props;
   return (
     <Layout noFooter>
@@ -133,26 +129,6 @@ const Home: FC<{}> = props => {
             </Row>
           </div>
         </Container>
-
-        {/* <Container className={styles.container}>
-          <Row>
-            <Col xl={6} className={styles.marginBottom}>
-              <AddressBalanceCard
-                address="0xaeaeCfae08391a7dBbCfae08391a7dafsgdfghfhgfjfgjgasfszfe565757hngchvbfgdhnfg3534dfxgfxhgfg"
-                balance="200,756,680.84 FTM"
-              />
-            </Col>
-            <Col xl={6} className={styles.marginBottom}>
-              <AddressBalanceCard
-                address="0xaeaeCfae08391a7dBbCfae08391a7d"
-                balance="200,756,680.84 FTM"
-              />
-            </Col>
-            <Col xl={6} className={styles.marginBottom}>
-              <AddressBalanceCard addNew />
-            </Col>
-          </Row>
-        </Container> */}
       </div>
 
       <Particles params={PARTICLES_PARAMS} className={styles.particles} />
