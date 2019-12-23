@@ -38,6 +38,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ onSubmit }) => {
         password.length < 8,
     };
 
+
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
     if (!checked) return;

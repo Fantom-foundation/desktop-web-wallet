@@ -29,6 +29,9 @@ import { PanelButton } from '~/view/components/panels/PanelButton';
 import { Address } from '~/view/components/account/Address';
 import { TextInput } from '~/view/components/inputs/TextInput';
 import { getURL } from '~/utility/dom';
+import { Layout } from '~/view/components/layout/Layout';
+
+// import { Input } from '../../components/forms';
 
 import {
   MnemonicPhrase,
@@ -58,9 +61,8 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   icon,
 }) => {
   const [is_revealed, setIsRevealed] = useState(false);
-    const [modal, setModal] = useState(false);
-    const [phrase, setPhrase] = useState('');
-
+  const [modal, setModal] = useState(false);
+  const [phrase, setPhrase] = useState('');
 
   const toggleModal = () => setModal(!modal);
 
@@ -70,10 +72,9 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
         CONFIRMATION_PHRASE.toLowerCase().trim() || !is_revealed,
     [is_revealed, phrase]
   );
-  console.log('******is_next_disabled')
+  console.log('******is_next_disabled');
 
   const onNextPressed = useCallback(() => {
-
     accountCreateSetInfo();
   }, [accountCreateSetInfo]);
 
@@ -83,7 +84,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   );
 
   useEffect(() => {
-    if (!mnemonic || !password  || !publicAddress) onBackPressed();
+    if (!mnemonic || !password || !publicAddress) onBackPressed();
   }, [mnemonic, onBackPressed, password, publicAddress]);
 
   const printer = useRef<any>(null);
@@ -92,69 +93,71 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     () => setIsRevealed(!is_revealed),
     [setIsRevealed, is_revealed]
   );
-  console.log('*****mnemonic', mnemonic)
+  console.log('*****mnemonic', mnemonic);
 
   return (
-    <div>
-    <CreateWalletCard>
-      <div className={styles.title}>
-        <h3 className="font-weight-semi-bold">
-          2
-          <span className="opacity-3 mr-3">/2</span>
-          {' '}
-Your mnemonic phrase
-          <span className="ml-2">
-            <i className="fas fa-info-circle" />
-          </span>
-        </h3>
-        <p className={`${styles.warning} py-3`}>
-          Please backup the text below on paper and keep it somewhere secret
-          and safe.
-        </p>
-      </div>
-      <div className={styles.phraseContent}>
-        <MnemonicPhrase mnemonic={mnemonic.split(" ")} />
-        {/* <MnemonicPhraseEmpty /> */}
-        {/* <MnemonicPhraseWithCross /> */}
-        {/* <MnemonicButtons /> */}
-        <div className={styles.viewKey}>
-               <span onClick={toggleModal}>
-                 <i className="fas fa-info-circle mr-2" />
+    <Layout>
+      <div>
+        <CreateWalletCard>
+          <div className={styles.title}>
+            <h3 className="font-weight-semi-bold">
+              2<span className="opacity-3 mr-3">/2</span> Your mnemonic phrase
+              <span className="ml-2">
+                <i className="fas fa-info-circle" />
+              </span>
+            </h3>
+            <p className={`${styles.warning} py-3`}>
+              Please backup the text below on paper and keep it somewhere secret
+              and safe.
+            </p>
+          </div>
+          <div className={styles.phraseContent}>
+            <MnemonicPhrase mnemonic={mnemonic.split(' ')} />
+            {/* <MnemonicPhraseEmpty /> */}
+            {/* <MnemonicPhraseWithCross /> */}
+            {/* <MnemonicButtons /> */}
+            <div className={styles.viewKey}>
+              <span onClick={toggleModal}>
+                <i className="fas fa-info-circle mr-2" />
                 View your private key
-               </span>
-             </div>
-      </div>
+              </span>
+            </div>
+          </div>
 
-             <WalletModal isOpen={modal} toggle={toggleModal} bodyClassName="">
-         <div className={styles.privateKeyModal}>
-           <h2 className="text-center">Your Private Key</h2>
-           <p className={styles.warning}>
-             Please backup the text below on paper and keep it somewhere secret
-             and safe.
-           </p>
-           <h3 className={`${styles.privateKey} font-weight-semi-bold`}>
-             63f3b91ad31jhgjc19c99aa85e32aee50639348ee7084b4726d16a62b70e56beb0f7
-           </h3>
-           <div className={styles.downloadBtnWrapper}>
-             <button
-               type="button"
-               className={styles.downloadBtn}
-               onClick={toggleModal}
-             >
-               Close
+          <WalletModal isOpen={modal} toggle={toggleModal} bodyClassName="">
+            <div className={styles.privateKeyModal}>
+              <h2 className="text-center">Your Private Key</h2>
+              <p className={styles.warning}>
+                Please backup the text below on paper and keep it somewhere
+                secret and safe.
+              </p>
+              <h3 className={`${styles.privateKey} font-weight-semi-bold`}>
+                63f3b91ad31jhgjc19c99aa85e32aee50639348ee7084b4726d16a62b70e56beb0f7
+              </h3>
+              <div className={styles.downloadBtnWrapper}>
+                <button
+                  type="button"
+                  className={styles.downloadBtn}
+                  onClick={toggleModal}
+                >
+                  Close
+                </button>
+              </div>
+            </div>
+          </WalletModal>
+
+          <div className={styles.downloadBtnWrapper}>
+            <button
+              type="button"
+              className={`${styles.downloadBtn}`}
+              onClick={onNextPressed}
+            >
+              I wrote down my recovery key
             </button>
           </div>
-         </div>
-       </WalletModal>
-
-
-      <div className={styles.downloadBtnWrapper}>
-        <button type="button" className={`${styles.downloadBtn}`} onClick={onNextPressed}>
-          I wrote down my recovery key
-        </button>
+        </CreateWalletCard>
       </div>
-    </CreateWalletCard>
-  </div>
+    </Layout>
     // <div id="account-information" className="account-information">
     //   {/* <AccountCreateProcess stepNo={2} /> */}
 

@@ -17,6 +17,7 @@ import { IState } from '~/redux/store';
 import Verification from '../../verification';
 
 import { WalletModal } from '~/view/components/Modal';
+import { Layout } from '~/view/components/layout/Layout';
 
 import {
   MnemonicPhrase,
@@ -111,6 +112,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
     console.log(is_incorrect_modal_visible, '****is_incorrect_modal_visible');
 
     return (
+      <Layout>
       <div>
         <CreateWalletCard>
           <Verification />
@@ -146,6 +148,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
           </div>
         </CreateWalletCard>
       </div>
+      </Layout>
       // <div>
       //   <AccountCreateProcess stepNo={3} />
 

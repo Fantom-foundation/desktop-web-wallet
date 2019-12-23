@@ -12,9 +12,27 @@ export const LayoutFooter = () => (
               ©2019 Fantom Foundation. All rights reserved
             </h6>
             <div className={styles.socialIcon}>
-              <i className="fab fa-telegram-plane"></i>
-              <i className="fab fa-twitter"></i>
-              <i className="fab fa-github"></i>
+              <a
+                href="https://t.me/Fantom_English%20"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-telegram-plane" />
+              </a>
+              <a
+                href="https://twitter.com/FantomFDN"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-twitter" />
+              </a>
+              <a
+                href="https://github.com/Fantom-Foundation"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <i className="fab fa-github" />
+              </a>
             </div>
           </div>
         </Col>

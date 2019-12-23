@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 import mockData from './mockData';
 import { Card, Collapse, Table, Button } from 'reactstrap';
 import classnames from 'classnames';
+import { ArrowUpIcon, ArrowDownIcon } from 'src/view/components/svgIcons';
 
 const SubView = props => {
   const { title, value } = props;
@@ -93,10 +94,34 @@ export default () => (
       <Table className={styles.table}>
         <thead>
           <th />
-          <th>Name</th>
-          <th>PoI</th>
-          <th>Validating power</th>
-          <th>Uptime</th>
+          <th>
+            Name
+            <span>
+              <ArrowUpIcon />
+              <ArrowDownIcon />
+            </span>
+          </th>
+          <th>
+            PoI
+            <span>
+              <ArrowUpIcon />
+              <ArrowDownIcon />
+            </span>
+          </th>
+          <th>
+            Validating power
+            <span>
+              <ArrowUpIcon />
+              <ArrowDownIcon />
+            </span>
+          </th>
+          <th>
+            Uptime
+            <span>
+              <ArrowUpIcon />
+              <ArrowDownIcon />
+            </span>
+          </th>
         </thead>
         <tbody>
           {mockData.map((data, index) => (
