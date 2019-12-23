@@ -16,6 +16,7 @@
   left: 0;
   background: map-get($color, Primary-Main);
   padding: 20px 55px;
+  z-index: 999;
 }
 .logo {
   img {
