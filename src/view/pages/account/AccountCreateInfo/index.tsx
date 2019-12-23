@@ -31,8 +31,6 @@ import { TextInput } from '~/view/components/inputs/TextInput';
 import { getURL } from '~/utility/dom';
 import { Layout } from '~/view/components/layout/Layout';
 
-import { MnemonicPhrase } from 'src/view/components/mnemonic';
-import { CreateWalletCard } from '../../../components/cards';
 // import { Input } from '../../components/forms';
 
 import {
