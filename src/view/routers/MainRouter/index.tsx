@@ -15,7 +15,6 @@ import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
 import { AccountCreateInfo } from '~/view/pages/createWallet/mnemonicPhrase';
 
 const MainRouter = () => {
-  debugger;
   console.log('*****123');
   return (
     <ConnectedRouter history={history}>

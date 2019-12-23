@@ -17,7 +17,6 @@ interface IProps {
 }
 
 const AccountDetails: FC<IProps> = ({ account }) => {
-  debugger;
   console.log('****account', account);
   // return (
   //   <Container className={styles.wrap}>

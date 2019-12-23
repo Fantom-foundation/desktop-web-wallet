@@ -1,4 +1,11 @@
-import React, { FC, useState, useCallback, useEffect, useMemo, memo } from 'react';
+import React, {
+  FC,
+  useState,
+  useCallback,
+  useEffect,
+  useMemo,
+  memo,
+} from 'react';
 import { connect } from 'react-redux';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
@@ -7,7 +14,7 @@ import shuffle from 'lodash/shuffle';
 import styles from './styles.module.scss';
 import { pick } from 'ramda';
 import { IState } from '~/redux/store';
-import Verification from '../../verification'
+import Verification from '../../verification';
 
 import { WalletModal } from '~/view/components/Modal';
 
@@ -23,7 +30,9 @@ import { AccountCreateProcess } from '~/view/components/account/AccountCreatePro
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 
-const mapStateToProps = (state: IState): Pick<IAccountState['create'], 'mnemonic'> =>
+const mapStateToProps = (
+  state: IState
+): Pick<IAccountState['create'], 'mnemonic'> =>
   pick(['mnemonic'], selectAccountCreate(state));
 
 const mapDispatchToProps = {
@@ -32,17 +41,31 @@ const mapDispatchToProps = {
   accountCreateCancel: ACCOUNT_ACTIONS.accountCreateCancel,
 };
 
-type IProps = ReturnType<typeof mapStateToProps> & typeof mapDispatchToProps & {};
+type IProps = ReturnType<typeof mapStateToProps> &
+  typeof mapDispatchToProps & {};
 
 const AccountCreateConfirmUnconnected: FC<IProps> = memo(
-  ({ accountSetCreateStage, accountCreateCancel, accountCreateSetConfirm, mnemonic }) => {
+  ({
+    accountSetCreateStage,
+    accountCreateCancel,
+    accountCreateSetConfirm,
+    mnemonic,
+  }) => {
     const [selected, setSelected] = useState<string[]>([]);
     const [is_cancel_modal_opened, setIsCancelModalOpened] = useState(false);
-    const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(false);
-    const shuffled_mnemonics = useMemo(() => shuffle(mnemonic && mnemonic.split(' ')), [mnemonic]);
-    console.log('*****shuffled_mnemonics', shuffled_mnemonics)
+    const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
+      false
+    );
+    const shuffled_mnemonics = useMemo(
+      () => shuffle(mnemonic && mnemonic.split(' ')),
+      [mnemonic]
+    );
+    console.log('*****shuffled_mnemonics', shuffled_mnemonics);
 
-    const is_next_disabled = useMemo(() => mnemonic !== selected.join(' '), [mnemonic, selected]);
+    const is_next_disabled = useMemo(() => mnemonic !== selected.join(' '), [
+      mnemonic,
+      selected,
+    ]);
 
     const onBackPressed = useCallback(
       () => accountSetCreateStage(ACCOUNT_CREATION_STAGES.CREDENTIALS),
@@ -62,9 +85,8 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
     }, [setIsIncorrectModalVisible]);
 
     const onSubmit = useCallback(() => {
-      debugger
       if (is_next_disabled) return setIsIncorrectModalVisible(true);
-      
+
       accountCreateSetConfirm();
     }, [is_next_disabled, accountCreateSetConfirm]);
 
@@ -85,31 +107,41 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
     useEffect(() => {
       if (!mnemonic) onBackPressed();
     });
-    console.log('*****selected', selected)
-    console.log(is_incorrect_modal_visible, '****is_incorrect_modal_visible')
+    console.log('*****selected', selected);
+    console.log(is_incorrect_modal_visible, '****is_incorrect_modal_visible');
 
     return (
       <div>
         <CreateWalletCard>
           <Verification />
-          { is_incorrect_modal_visible && <p className={styles.incorrect_mnemonic}>Incorrect mnemonic phrase order. Please try again.</p>}
+          {is_incorrect_modal_visible && (
+            <p className={styles.incorrect_mnemonic}>
+              Incorrect mnemonic phrase order. Please try again.
+            </p>
+          )}
           <div className={styles.phraseContent}>
             {/* <MnemonicPhrase mnemonic={mnemonic.split(" ")} /> */}
-            <MnemonicPhraseEmpty selected={selected} onMnemonicRemove={onMnemonicRemove} />
+            <MnemonicPhraseEmpty
+              selected={selected}
+              onMnemonicRemove={onMnemonicRemove}
+            />
             {/* <MnemonicPhraseWithCross /> */}
-            <MnemonicButtons 
-              mnemonic={shuffled_mnemonics} 
-              selected={selected} 
+            <MnemonicButtons
+              mnemonic={shuffled_mnemonics}
+              selected={selected}
               onMnemonicSelect={onMnemonicSelect}
             />
-         
           </div>
           <div className={styles.downloadBtnWrapper}>
             <button type="button" className={`${styles.downloadBtn}`}>
-            Back
+              Back
             </button>
-            <button type="button" className={`${styles.downloadBtn}`} onClick={onSubmit}>
-            Verify
+            <button
+              type="button"
+              className={`${styles.downloadBtn}`}
+              onClick={onSubmit}
+            >
+              Verify
             </button>
           </div>
         </CreateWalletCard>

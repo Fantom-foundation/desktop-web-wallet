@@ -88,8 +88,7 @@ function* createSetConfirm() {
     icon,
     publicAddress,
   }: IAccountState['create'] = yield select(selectAccountCreate);
-  console.log('*****kksfnsdf', !password , !icon , !publicAddress , !mnemonic)
-  debugger
+  console.log('*****kksfnsdf', !password, !icon, !publicAddress, !mnemonic);
 
   if (!password || !publicAddress || !mnemonic)
     return yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));
@@ -265,7 +264,7 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
   try {
     yield put(accountSetCreate({ errors: {} }));
 
-    const { password,  icon } = yield select(selectAccountCreate);
+    const { password, icon } = yield select(selectAccountCreate);
     const { list }: IAccountState = yield select(selectAccount);
     const keystore: EncryptedKeystoreV3Json = yield call(readFileAsJSON, file);
 
@@ -365,9 +364,9 @@ function* reconnectProvider() {
 function* testConnectionSaga() {
   try {
     const { is_node_connected } = yield select(selectAccountConnection);
-  
+
     if (!is_node_connected) return;
-    
+
     const { connected } = yield race({
       connected: call([Fantom, Fantom.isConnected]),
       timeout: delay(10000),

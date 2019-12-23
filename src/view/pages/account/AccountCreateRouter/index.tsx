@@ -19,7 +19,6 @@ const AccountCreateRouterUnconnected: FC<IProps> = ({
   stage,
   accountCreateClear,
 }) => {
-  debugger;
   useEffect(
     () => () => {
       accountCreateClear();

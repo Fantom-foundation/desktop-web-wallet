@@ -25,7 +25,6 @@ const AccountRouterUnconnected: FC<IProps> = ({
   },
 }) => {
   const account = useMemo(() => list && id && list[id], [list, id]);
-  debugger;
 
   useEffect(() => {
     if (!account) push(URLS.ACCOUNT_LIST);

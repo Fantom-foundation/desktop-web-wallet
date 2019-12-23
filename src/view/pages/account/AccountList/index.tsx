@@ -36,7 +36,6 @@ type IProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {};
 
 const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
-  debugger;
   const onAccountSelect = useCallback(
     (address: string) => {
       push(URLS.ACCOUNT.BASE(address));
