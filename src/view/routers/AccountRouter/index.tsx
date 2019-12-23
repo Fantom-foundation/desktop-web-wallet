@@ -32,7 +32,6 @@ const AccountRouterUnconnected: FC<IProps> = ({
   }, [account]);
 
   if (!account) return null;
-  console.log(account, '*****acoo');
 
   return (
     <>

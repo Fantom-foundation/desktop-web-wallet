@@ -38,7 +38,6 @@ const AccountCreateCredentialForm: FC<IProps> = ({ onSubmit }) => {
         password.length < 8,
     };
 
-
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
     if (!checked) return;
@@ -51,8 +50,6 @@ const AccountCreateCredentialForm: FC<IProps> = ({ onSubmit }) => {
   function handleCheckBox(toggle) {
     setChecked(toggle);
   }
-
-  console.log('*****errors', errors);
 
   return (
     <>
@@ -126,6 +123,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ onSubmit }) => {
                 [styles.disable]: !checked,
               })}
               onClick={onNextPressed}
+              disabled={!checked}
             >
               Download keystore file
             </button>

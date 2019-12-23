@@ -15,7 +15,7 @@ const getLinkPath = (name, address) => {
       return `/account/${address}`;
     case 'Send':
       return `/account/${address}/send`;
-    case 'Receive':
+    case 'Recieve':
       return `/account/${address}/recieve`;
     case 'Stake':
       return `/account/${address}/stake`;
@@ -27,6 +27,12 @@ const getLinkPath = (name, address) => {
 };
 export default props => {
   const [sidebarActive, setSidebarActive] = useState(false);
+  let selectedIndex = menus.findIndex(e => {
+    return props.pathname.includes(e.name.toLowerCase());
+  });
+  if (selectedIndex === -1) {
+    selectedIndex = 0;
+  }
   return (
     <>
       <div className={classnames('d-xl-none', styles.header)}>
@@ -46,22 +52,27 @@ export default props => {
         })}
       >
         <div className={styles.root}>
-          <div className={styles.logoWrapper}>
-            <img src={logoWhite} alt="Fantom" />
-            <button
-              className={classnames('btn-icon', styles.close)}
-              type="button"
-              onClick={() => setSidebarActive(false)}
-            >
-              ×
-            </button>
-          </div>
+          <button
+            className={classnames('btn-icon', styles.close)}
+            type="button"
+            onClick={() => setSidebarActive(false)}
+          >
+            ×
+          </button>
+          <Link to="/">
+            <div className={styles.logoWrapper}>
+              <img src={logoWhite} alt="Fantom" />
+            </div>
+          </Link>
+
           <ul className={styles.menus}>
             {menus.map(({ name, icon }, index) => (
               <li
                 // eslint-disable-next-line react/no-array-index-key
                 key={index}
-                className={classnames({ [styles.active]: index === 0 })}
+                className={classnames({
+                  [styles.active]: index === selectedIndex,
+                })}
               >
                 <Link to={getLinkPath(name, props.address)}>
                   <img src={icon} alt={name} />

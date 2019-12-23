@@ -122,8 +122,6 @@ class Web3Agent {
       data: Web3.utils.asciiToHex(memo),
     });
 
-    // console.log({ gasPrice, gasLimit });
-
     const fee = Web3.utils.fromWei(
       BigInt(gasPrice.toString())
         .multiply(BigInt(gasLimit.toString()))

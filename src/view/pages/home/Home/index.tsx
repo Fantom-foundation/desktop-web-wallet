@@ -25,12 +25,9 @@ import classnames from 'classnames';
 import { push } from 'connected-react-router';
 
 function goToRoute(props) {
-  console.log('***sdjs', props);
   props.history.push('/account/create');
 }
 const Home: FC<{}> = props => {
-  console.log('******props', props);
-  // const { history } = props;
   return (
     <Layout noFooter>
       <div className={styles.banner}>

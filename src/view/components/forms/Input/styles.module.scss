@@ -22,10 +22,9 @@
     font-size: 18px;
     font-weight: 600;
     color: map-get($color, dark-grey-blue);
-
-    &.error {
-      border-color: #d0021b;
-    }
+  }
+  .errorInput {
+    border-color: #d0021b;
   }
 
   .warning {
@@ -58,6 +57,7 @@
     right: 10px;
     transform: translateY(-50%);
     outline: 0 !important;
+    cursor: pointer;
 
     img {
       width: 18px;

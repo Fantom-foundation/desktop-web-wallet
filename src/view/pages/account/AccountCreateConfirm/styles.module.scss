@@ -154,3 +154,23 @@
   font-weight: 500;
   color: #d0021b;
 }
+.verifyBtnWrapper {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  button {
+    width: 220px;
+    height: 50px;
+    border-radius: 25px;
+    &.btn-topaz {
+      color: #000;
+    }
+    &.btn-secondary {
+      &:disabled {
+        background: #d5d5d5 !important;
+        border-color: #d5d5d5 !important;
+      }
+    }
+  }
+}
