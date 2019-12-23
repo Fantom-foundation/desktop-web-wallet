@@ -15,7 +15,7 @@ const getLinkPath = (name, address) => {
     case 'Receive':
       return `/account/${address}/recieve`;
     case 'Stake':
-      return ``;
+      return `/account/${address}/stake`;
     case 'Logout':
       return `/`;
     default:

@@ -5,6 +5,7 @@ import { DashboardInput } from 'src/view/components/forms';
 import classnames from 'classnames';
 import { StakeSummaryCard } from 'src/view/components/cards';
 import StakeValidators from 'src/view/components/stakeValidators';
+
 import {
   CopyIcon,
   CheckCircleIcon,

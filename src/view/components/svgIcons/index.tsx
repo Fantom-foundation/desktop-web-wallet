@@ -283,3 +283,20 @@ export const ArrowDownIcon = () => (
     />
   </svg>
 );
+export const ArrowUpDownIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="6px"
+    height="12px"
+    viewBox="0 0 6 12"
+  >
+    <polygon
+      fill="currentColor"
+      points="5.06 4 3 1.75 0.95 4 0 3.37 3 0 6 3.37 5.06 4"
+    />
+    <polygon
+      fill="currentColor"
+      points="5.06 8 3 10.25 0.95 8 0 8.63 3 12 6 8.63 5.06 8"
+    />
+  </svg>
+);
