@@ -15,7 +15,7 @@ import styles from './styles.module.scss';
 import { pick } from 'ramda';
 import { IState } from '~/redux/store';
 import Verification from '../../verification';
-
+import classnames from 'classnames';
 import { WalletModal } from '~/view/components/Modal';
 import { Layout } from '~/view/components/layout/Layout';
 
@@ -61,7 +61,6 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
       () => shuffle(mnemonic && mnemonic.split(' ')),
       [mnemonic]
     );
-    console.log('*****shuffled_mnemonics', shuffled_mnemonics);
 
     const is_next_disabled = useMemo(() => mnemonic !== selected.join(' '), [
       mnemonic,
@@ -108,46 +107,53 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
     useEffect(() => {
       if (!mnemonic) onBackPressed();
     });
-    console.log('*****selected', selected);
-    console.log(is_incorrect_modal_visible, '****is_incorrect_modal_visible');
 
     return (
       <Layout>
-      <div>
-        <CreateWalletCard>
-          <Verification />
-          {is_incorrect_modal_visible && (
-            <p className={styles.incorrect_mnemonic}>
-              Incorrect mnemonic phrase order. Please try again.
-            </p>
-          )}
-          <div className={styles.phraseContent}>
-            {/* <MnemonicPhrase mnemonic={mnemonic.split(" ")} /> */}
-            <MnemonicPhraseEmpty
-              selected={selected}
-              onMnemonicRemove={onMnemonicRemove}
-            />
-            {/* <MnemonicPhraseWithCross /> */}
-            <MnemonicButtons
-              mnemonic={shuffled_mnemonics}
-              selected={selected}
-              onMnemonicSelect={onMnemonicSelect}
-            />
-          </div>
-          <div className={styles.downloadBtnWrapper}>
-            <button type="button" className={`${styles.downloadBtn}`}>
-              Back
-            </button>
-            <button
-              type="button"
-              className={`${styles.downloadBtn}`}
-              onClick={onSubmit}
-            >
-              Verify
-            </button>
-          </div>
-        </CreateWalletCard>
-      </div>
+        <div>
+          <CreateWalletCard>
+            <Verification />
+            {is_incorrect_modal_visible && (
+              <p className={styles.incorrect_mnemonic}>
+                Incorrect mnemonic phrase order. Please try again.
+              </p>
+            )}
+            <div className={styles.phraseContent}>
+              {/* <MnemonicPhrase mnemonic={mnemonic.split(" ")} /> */}
+              <MnemonicPhraseEmpty
+                selected={selected}
+                onMnemonicRemove={onMnemonicRemove}
+              />
+              {/* <MnemonicPhraseWithCross /> */}
+              <MnemonicButtons
+                mnemonic={shuffled_mnemonics}
+                selected={selected}
+                onMnemonicSelect={onMnemonicSelect}
+              />
+            </div>
+            <div className={styles.verifyBtnWrapper}>
+              <button
+                type="button"
+                className="btn-primary"
+                onClick={onBackPressed}
+              >
+                Back
+              </button>
+
+              <Button
+                color={is_next_disabled ? 'secondary' : 'topaz'}
+                className={classnames({
+                  outlined: !is_next_disabled,
+                  'text-dark-grey-blue': !is_next_disabled,
+                })}
+                onClick={onSubmit}
+                // disabled={is_next_disabled}
+              >
+                Verify
+              </Button>
+            </div>
+          </CreateWalletCard>
+        </div>
       </Layout>
       // <div>
       //   <AccountCreateProcess stepNo={3} />

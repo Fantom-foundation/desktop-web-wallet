@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Card, Collapse } from 'reactstrap';
 import styles from './styles.module.scss';
 import activityMockData from './activityMockData';
 import { SendIcon, ReceiveIcon, CopyIcon } from 'src/view/components/svgIcons';
 import { Link } from 'react-router-dom';
 import { any } from 'prop-types';
+import { copyToClipboard } from '~/utility/clipboard';
+
 const SubView = (props: any) => {
   const { hash = false, title, value } = props;
+  const onClick = useCallback(event => copyToClipboard(event, value), [value]);
+
   return (
     <div className={styles.subView}>
       <p className={styles.subViewTitle}>{title}</p>
@@ -14,7 +18,7 @@ const SubView = (props: any) => {
         {hash ? (
           <>
             <Link to="/">{value}</Link>
-            <button>
+            <button onClick={onClick}>
               <CopyIcon />
             </button>
           </>

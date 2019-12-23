@@ -1,12 +1,18 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Sidebar from './DashboardSidebar';
 import styles from './styles.module.scss';
 import { CheckIcon, CopyIcon, QrIcon } from 'src/view/components/svgIcons';
 import { DashboardModal } from '../../Modal';
-import QrImage from 'src/images/qr/Qr.png';
+//import QrImage from 'src/images/qr/Qr.png';
+import QRCodeIcon from '~/view/general/QRCodeIcon/index';
+import { copyToClipboard } from '~/utility/clipboard';
+
 export default props => {
-  console.log('*****sdfsdf', props);
   const [modal, setModal] = useState(false);
+  const onClick = useCallback(
+    event => copyToClipboard(event, props.account.publicAddress),
+    [props.account.publicAddress]
+  );
 
   const toggleModal = () => setModal(!modal);
   return (
@@ -18,7 +24,12 @@ export default props => {
         bodyClassName="d-flex align-items-center justify-content-center"
       >
         <div className="text-center">
-          <img src={QrImage} className="mb-4" />
+          <QRCodeIcon
+            address={props.account.publicAddress}
+            bgColor="white"
+            fgColor="black"
+          />
+          {/* <img src={QrImage} className="mb-4" /> */}
           <h4 className="opacity-7">{props.account.publicAddress}</h4>
         </div>
       </DashboardModal>
@@ -28,6 +39,7 @@ export default props => {
             <Sidebar
               address={props.account.publicAddress}
               history={props.history}
+              pathname={props.location.pathname}
             />
           </div>
           <div className={styles.contentWrapper}>
@@ -45,7 +57,7 @@ export default props => {
                 <div className={styles.hashWrapper}>
                   <p className={styles.hash}>{props.account.publicAddress}</p>
                   <div className={styles.hashHandlers}>
-                    <button>
+                    <button onClick={onClick}>
                       <CopyIcon />
                     </button>
                     <button onClick={toggleModal}>

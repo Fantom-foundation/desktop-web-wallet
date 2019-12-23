@@ -22,7 +22,7 @@ export default ({
   function handleButton(toggle) {
     setPasswordChange(toggle);
   }
-  console.log(isError, '*****isError')
+
   return (
     <div>
       <div className={styles.input}>
@@ -30,7 +30,8 @@ export default ({
           {label !== '' && <Label className={styles.label}>{label}</Label>}
           <div className={styles.inputWrapper}>
             <Input
-              className={styles.inputBox}
+              className={!isError ? styles.inputBox : styles.errorInput}
+              //className={}
               value={value}
               type={showPassword ? 'text' : type}
               placeholder={placeholder}
@@ -41,16 +42,16 @@ export default ({
                 className={styles.eyeIcon}
                 onClick={() => handleButton(!showPassword)}
               >
-                <img src={PasswordShow} />
+                <img src={showPassword ? PasswordShow : PasswordHide} />
               </button>
             )}
           </div>
 
           <p className={!isError ? styles.warning : styles.error}>
-            { isError !== undefined && errorMsg !== "" && <i className="fas fa-info-circle mr-2" />}
-            <span>
-              {errorMsg}
-            </span>
+            {isError !== undefined && errorMsg !== '' && (
+              <i className="fas fa-info-circle mr-2" />
+            )}
+            <span>{errorMsg}</span>
           </p>
         </FormGroup>
       </div>
