@@ -15,7 +15,7 @@ const getLinkPath = (name, address) => {
       return `/account/${address}`;
     case 'Send':
       return `/account/${address}/send`;
-    case 'Recieve':
+    case 'Receive':
       return `/account/${address}/receive`;
     case 'Stake':
       return `/account/${address}/stake`;
@@ -52,7 +52,7 @@ export default props => {
       >
         <div className={styles.root}>
           <button
-            className={classnames('btn-icon', styles.close)}
+            className={classnames('btn-icon d-xl-none', styles.close)}
             type="button"
             onClick={() => setSidebarActive(false)}
           >
@@ -73,7 +73,10 @@ export default props => {
                   [styles.active]: index === selectedIndex,
                 })}
               >
-                <Link to={getLinkPath(name, props.address)}>
+                <Link
+                  to={getLinkPath(name, props.address)}
+                  onClick={() => setSidebarActive(false)}
+                >
                   <img src={icon} alt={name} />
                   {name}
                 </Link>

@@ -5,6 +5,11 @@
   justify-content: space-between;
   width: 100%;
   padding: 30px;
+  position: sticky;
+  background: #fff;
+  z-index: 999;
+  top: 0;
+  left: 0;
 }
 .sidebarWrapper {
   flex: 0 0 $dashboardSidebarWidth;
@@ -28,7 +33,7 @@
   background: map-get($color, Primary-Main);
   height: 100%;
   padding-top: 40px;
-  padding-left: 67px;
+
   @media (min-width: $largeDesktop) {
     border-top-right-radius: 50px;
   }
@@ -38,7 +43,7 @@
 }
 .logoWrapper {
   margin-bottom: 97px;
-
+  text-align: center;
   img {
     @media (max-width: $largeDesktop) {
       display: none;
@@ -46,15 +51,18 @@
   }
 }
 .close {
+  line-height: 1;
   color: #fff;
   font-size: 46px;
   font-weight: 700;
   position: absolute;
   right: 37px;
-  top: 16px;
+  top: 27px;
 }
 .menus {
-  padding: 0 0 0 7px;
+  padding: 0 15px;
+  width: fit-content;
+  margin: auto;
   li {
     list-style: none;
     &:not(:last-child) {
