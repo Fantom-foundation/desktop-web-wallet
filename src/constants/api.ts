@@ -38,7 +38,6 @@ export const resultMiddleware = <T extends {}>({
   status: number;
   data: T;
 }): { status: number; data: T } => {
-  debugger
   console.log('******status,', status, data)
   return { status, data }
 };
