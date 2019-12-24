@@ -41,7 +41,7 @@ const AccountRouterUnconnected: FC<IProps> = ({
       accountGetBalance(account.publicAddress)
     };
   }, [account, accountGetBalance]);
-  console.log(list, '*****account')
+  console.log(id, '*****idid')
 
   // useEffect(() => {
   //   transactionsSetPage(0);
@@ -64,12 +64,12 @@ const AccountRouterUnconnected: FC<IProps> = ({
           <Route
             exact
             path={URLS.ACCOUNT.BASE(':id')}
-            component={() => <AccountDetails account={account} />}
+            component={() => <AccountDetails id={id} />}
           />
           <Route
             exact
             path={URLS.ACCOUNT.BASE(':id/send')}
-            component={() => <Send account={account} />}
+            component={Send}
           />
           <Route
             exact

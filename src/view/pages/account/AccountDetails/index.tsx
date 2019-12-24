@@ -1,4 +1,4 @@
-import React, { FC, useEffect } from 'react';
+import React, { FC, useEffect,useMemo, useState, useLayoutEffect } from 'react';
 import { Row, Col, Container, Card } from 'reactstrap';
 import { Switch, Route, RouteComponentProps } from 'react-router';
 
@@ -12,6 +12,8 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import { selectTransactions } from '~/redux/transactions/selectors';
 import * as ACTIONS from '~/redux/transactions/actions';
+import { selectAccount } from '~/redux/account/selectors';
+import * as ACCACTIONS from '~/redux/account/actions';
 
 
 
@@ -23,63 +25,61 @@ const overViewMock = [
 type IProps = ReturnType<typeof mapStateToProps> &
   RouteComponentProps<{ id: string }> &
   typeof mapDispatchToProps & {
-    account: IAccount
+    account: IAccount,
+    list: {},
+    id: string
   };
 
 const mapStateToProps = state => ({
   transactions: selectTransactions(state),
+  accountData: selectAccount(state),
 });
 
 const mapDispatchToProps = {
   transactionsGetList: ACTIONS.transactionsGetList,
   transactionsSetPage: ACTIONS.transactionsSetPage,
+  accountGetBalance: ACCACTIONS.accountGetBalance,
 };
 
 const AccountDetailsRouter: FC<IProps> = ({ 
-  account,
+  accountData:{list},
   transactions,
   transactionsGetList,
   transactionsSetPage,
-
+  accountGetBalance,
+id,
 }) => {
-  useEffect(() => {
-    transactionsSetPage(0);
-  }, [account.publicAddress, transactionsSetPage]);
+  console.log(id, '****listidid')
+  const [localId, setLocalId] = useState("");
+  const account = useMemo(() => list && id && list[id], [list, id]);
+  // useEffect(() => {
+  //   transactionsSetPage(0);
+  // }, [transactionsSetPage]);
 
-  useEffect(() => {
-    transactionsGetList(account.publicAddress);
-  }, [account.publicAddress, transactionsGetList]);
+  // useLayoutEffect(() => {
+  //   transactionsGetList(id);
+  // }, [transactionsGetList, id])
+
+  // useEffect(() => {
+  //   transactionsGetList(id);
+  // }, [id, transactionsGetList]);
+  debugger;
+  if (localId !== id) {
+    setLocalId(id);
+    setTimeout(() => {
+
+      transactionsGetList(id);
+      accountGetBalance(id);
+    }, 1000)
+  }
+
 
   if (!account) return null;
   console.log('****accountasds', account)
   // const trans = transactionsGetList(account.publicAddress)
   console.log('*****trans',transactions)
   console.log('*******accountaccount', account)
-  // return (
-  //   <Container className={styles.wrap}>
-  //     <Row className={styles.row}>
-  //       <Col md={12} lg={4}>
-  //         <AccountDetailsInfo account={account} />
-  //       </Col>
-
-  //       <Col md={12} lg={8} className={styles.transactions}>
-  //         <AccountTransactionsList account={account} />
-
-  //         <DialogInfo
-  //           isOpened={false}
-  //           onClose={console.log}
-  //           title="Transfer Status"
-  //           body="Status text body"
-  //         />
-  //       </Col>
-  //     </Row>
-  //   </Container>
-  // );
-
-  // useEffect(() => {
-  //   // Update the document title using the browser API
-  //   document.title = `You clicked ${count} times`;
-  // });
+  
   return (
     <div>
       <Row>

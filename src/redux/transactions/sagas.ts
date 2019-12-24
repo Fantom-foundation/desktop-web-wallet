@@ -13,12 +13,15 @@ function* getList({ address }: ReturnType<typeof transactionsGetList>) {
 
   const { error, data } = yield call(getTransactions, address, offset, 10);
   console.log('********getFTMPrice', error, data)
+  // yield call(getBalance, accountGetBalance(from));
 
-  if (!!error || !data.data.account || !data.data.account.transactions) {
+
+  if (!!error || !data.data.account) {
     return yield put(
       transactionsSet({
         error: `Can't get transactions list`,
         is_loading: false,
+        list:[],
       })
     );
   }

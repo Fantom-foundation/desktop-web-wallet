@@ -168,7 +168,7 @@ function* sendFunds({
 }: ReturnType<typeof accountSendFunds>) {
   yield put(accountSetTransferErrors({}));
 
-  yield call(getBalance, accountGetBalance(from));
+  // yield call(getBalance, accountGetBalance(from));
 
   const { list }: IAccountState = yield select(selectAccount);
 
