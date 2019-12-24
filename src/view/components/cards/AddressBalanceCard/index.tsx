@@ -1,4 +1,4 @@
-import React,{ useState, FC } from 'react';
+import React,{ useState, FC, useCallback, useEffect } from 'react';
 import { Card } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
@@ -62,7 +62,9 @@ type IProps = ReturnType<typeof mapStateToProps> &
   RouteComponentProps & {
     address: string,
     addNew: boolean,
-    balance: string
+    balance: string,
+    accountGetBalance: (address:string)=>{}
+
   };
 
 const AddressCardCreateWallet: FC<IProps> = ({
@@ -70,10 +72,16 @@ const AddressCardCreateWallet: FC<IProps> = ({
   address = '', 
   balance = '', 
   addNew = false,
-  list,
-  
+  accountGetBalance,
 }) => {
     const [addNewWallet, setAddNewWallet] = useState(false)
+    const getBalance = useCallback(
+      () => accountGetBalance(address),
+      [address, accountGetBalance]
+    );
+    useEffect(() => {
+      getBalance()
+    }, [getBalance]);
 
   return (<>
     <Card className={classnames({ [styles.addCard]: addNew }, 'h-100')}>

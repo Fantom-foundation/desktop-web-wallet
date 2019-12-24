@@ -23,19 +23,22 @@ import KeyIcon from '../../../../images/icons/key.png';
 import WalletIcon from '../../../../images/icons/wallet.png';
 import { AddressBalanceCard } from '../../../components/cards';
 import classnames from 'classnames';
+import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 
-import { accountUploadKeystore } from '~/redux/account/actions';
+
 
 const mapStateToProps = (state: IState): Pick<IAccountState, 'list'> =>
   pick(['list'])(selectAccount(state));
 const mapDispatchToProps = {
   push: historyPush,
+  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
+
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {};
 
-const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
+const AccountListUnconnected: FC<IProps> = ({ list, push, accountGetBalance }) => {
   const onAccountSelect = useCallback(
     (address: string) => {
       push(URLS.ACCOUNT.BASE(address));
@@ -45,7 +48,7 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
   const goToRoute = () => {
     push('/account/create');
   }
- 
+ console.log("accountGetBalance",accountGetBalance)
 
   return (
     <Layout>
@@ -61,7 +64,7 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
         <Container className={styles.container}>
           <Row>
             {Object.values(list).length > 0 &&
-              Object.values(list).map(account => {
+              Object.values(list).map((account) => {
                 return (
                   <Col
                     xl={6}
@@ -69,6 +72,7 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
                     onClick={() => onAccountSelect(account.publicAddress)}
                   >
                     <AddressBalanceCard
+                      accountGetBalance={accountGetBalance}
                       address={account.publicAddress}
                       balance={account.balance}
                     />
@@ -76,7 +80,7 @@ const AccountListUnconnected: FC<IProps> = ({ list, push }) => {
                 );
               })}
             <Col xl={6} className={styles.marginBottom}>
-              <AddressBalanceCard addNew />
+              <AddressBalanceCard addNew  accountGetBalance={accountGetBalance} />
             </Col>
           </Row>
         </Container>

@@ -27,32 +27,19 @@ $
 FTM
       </h2>
       <SendForm data={account} />
-      <div>
-        <Card className={classname(styles.card, 'mb-5 mt-5')}>
-          <h2>Transaction sent!</h2>
-          <div className={classname(styles.iconGap, styles.hash)}>
-            <a href="#">{account.publicAddress}</a>
-            <button className={styles.copyBtn} type="button" onClick={onClick}>
-              <CopyIcon />
-            </button>
-          </div>
-          <div>
-            <CheckCircleIcon />
-          </div>
-        </Card>
-      </div>
-      <div>
-        <Card className={classname(styles.card, 'mb-5')}>
-          <h2 className={styles.iconGap}>
-            Something went wrong.
-            <br />
-            Please try again.
-          </h2>
-          <div>
-            <ErrorCircleIcon />
-          </div>
-        </Card>
-      </div>
+      
+      {/* // <div>
+      //   <Card className={classname(styles.card, 'mb-5')}>
+      //     <h2 className={styles.iconGap}>
+      //       Something went wrong.
+      //       <br />
+      //       Please try again.
+      //     </h2>
+      //     <div>
+      //       <ErrorCircleIcon />
+      //     </div>
+      //   </Card>
+      // </div> */}
     </div>
   );
 };

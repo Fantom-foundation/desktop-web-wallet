@@ -9,29 +9,54 @@ import { DashboardLayout } from '~/view/components/layout';
 import Send from '~/view/pages/dashboard/send';
 import Recieve from '~/view/pages/dashboard/receive';
 import Stake from '~/view/pages/dashboard/stake';
+import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
+import * as ACTIONS from '~/redux/transactions/actions';
 
-const mapStateToProps = selectAccount;
+
+const mapStateToProps = () => selectAccount
 const mapDispatchToProps = {
   push: historyPush,
+  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
   RouteComponentProps<{ id: string }> &
-  typeof mapDispatchToProps & {};
+  typeof mapDispatchToProps & {
+    list: {},
+  };
 
 const AccountRouterUnconnected: FC<IProps> = ({
   list,
-  match: {
+    match: {
     params: { id },
   },
+  accountGetBalance,
 }) => {
+
+
   const account = useMemo(() => list && id && list[id], [list, id]);
 
   useEffect(() => {
-    if (!account) push(URLS.ACCOUNT_LIST);
-  }, [account]);
+    debugger
+    if (!account) {push(URLS.ACCOUNT_LIST)
+      accountGetBalance(account.publicAddress)
+    };
+  }, [account, accountGetBalance]);
+  console.log(list, '*****account')
 
-  if (!account) return null;
+  // useEffect(() => {
+  //   transactionsSetPage(0);
+  // }, [account.publicAddress, transactionsSetPage]);
+
+  // useEffect(() => {
+  //   transactionsGetList(account.publicAddress);
+  // }, [account.publicAddress,  transactionsGetList]);
+
+
+  // if (!account) return null;
+  // console.log('****accountasds', account)
+  // const trans = transactionsGetList(account.publicAddress)
+  // console.log('*****trans',trans)
 
   return (
     <>
@@ -49,7 +74,7 @@ const AccountRouterUnconnected: FC<IProps> = ({
           />
           <Route
             exact
-            path={URLS.ACCOUNT.BASE(':id/recieve')}
+            path={URLS.ACCOUNT.BASE(':id/receive')}
             component={() => <Recieve account={account} />}
           />
           <Route

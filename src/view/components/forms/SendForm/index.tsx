@@ -1,5 +1,5 @@
 import React, {FC, useState, useCallback} from 'react';
-import { Button } from 'reactstrap';
+import { Button, Modal, ModalBody} from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
 import DashboardInput from '../DashboardInput';
@@ -7,6 +7,7 @@ import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
 import { IModalChildProps } from '~/redux/modal/constants';
+import Input from '../Input'
 
 
 const mapStateToProps = state => ({
@@ -49,6 +50,10 @@ const TransferFunds: FC<IProps> = ({
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
   const [sendingErrors, setErrors] = useState({ amount: false, to: false})
+  const [isSending, setIsSending] = useState(false)
+  const [password, setPassword] = useState('')
+
+
 
   const handleClearAll = useCallback(() => {
     setTo('')
@@ -58,7 +63,7 @@ const TransferFunds: FC<IProps> = ({
 
   }, [setTo, setAmount, setMemo]);
 
-  const handleSubmit = useCallback(() => {
+  const handlePassword = useCallback(() => {
     const validation_errors = {
       amount: amount === '' || ((amount || 0) > data.balance),
       to: to.length !== 42,
@@ -67,62 +72,108 @@ const TransferFunds: FC<IProps> = ({
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
+      setIsSending(true)
      
-      // accountSendFunds({
-      //   to,
-      //   from: '929293923dsfnjdsfjdsf',
-      //   amount,
-      //   message:memo,
-      //   password: 'Sunil@123',
-      // });
+  }, [ data,to, amount]);
 
-  }, [ data, to, amount]);
-    return (<div className={classnames('card', styles.card)}>
-      <h2 className={styles.title}>Send FTM</h2>
-      <div className={styles.inputsWrapper}>
-        <DashboardInput
-          label="Amount"
-          placeholder="Enter amount"
-          rightLabel="Entire balance"
-          value={amount}
-          type="number"
-          handleChange={val => { setAmount(val); setErrors({...sendingErrors, amount: false})}}
-          error={{
+  const handleSubmit = useCallback(() => {
+    const validation_errors = {
+      ...sendingErrors,
+      password: password === '' ,
+    };
+
+
+    if (Object.values(validation_errors).includes(true))
+      return setErrors(validation_errors);
+   
+      accountSendFunds({
+        to,
+        from: data.publicAddress,
+        amount,
+        message:memo,
+        password,
+      });
+
+  }, [password, sendingErrors, accountSendFunds, to, data.publicAddress, amount, memo]);
+
+    return (
+      <>
+        <Modal
+          isOpen={isSending}
+          className={classnames('modal-dialog-centered', styles.passwordModal)}
+        >
+          <ModalBody className={styles.body}>
+            <Input
+              type="password"
+              label="Please enter your wallet password to send the transaction"
+              value={password}
+              placeholder="Enter password"
+              handler={value => {
+              setPassword(value);
+            }}
+          // errorClass="justify-content-center"
+              isError={false}
+              errorMsg="Incorrect password. Please try again"
+            />
+            <div className="text-center">
+              <button
+                type="button"
+                onClick={handleSubmit}
+                className={classnames('btn btn-secondary', styles.sendBtn)}
+              >
+              Send
+              </button>
+            </div>
+          </ModalBody>
+        </Modal>
+    
+        <div className={classnames('card', styles.card)}>
+          <h2 className={styles.title}>Send FTM</h2>
+          <div className={styles.inputsWrapper}>
+            <DashboardInput
+              label="Amount"
+              placeholder="Enter amount"
+              rightLabel="Entire balance"
+              value={amount}
+              type="number"
+              handleChange={val => { setAmount(val); setErrors({...sendingErrors, amount: false})}}
+              error={{
           isError: sendingErrors.amount,
           errorText:
             'This amount exceeds your balance. Please enter a lower amount',
         }}
-        />
-        <DashboardInput
-          label="To address"
-          value={to}
-          type="text"
-          handleChange={val => { setTo(val); setErrors({...sendingErrors, to: false})}}
-          error={{
+            />
+            <DashboardInput
+              label="To address"
+              value={to}
+              type="text"
+              handleChange={val => { setTo(val); setErrors({...sendingErrors, to: false})}}
+              error={{
           isError: sendingErrors.to,
           errorText: 'Enter a valid FTM address',
         }}
-          placeholder="Enter address"
-        />
-        <DashboardInput 
-          label="Memo (optional)" 
-          value={memo}
-          type="text"
-          placeholder="Enter memo"
-          handleChange={setMemo} 
-        />
-      </div>
-      <div className={styles.btnWrapper}>
-        <Button className={classnames(styles.btn, styles.send)} onClick={handleSubmit}>Send</Button>
-        <Button
-          color="topaz"
-          className={classnames(styles.btn, styles.clear, 'border-0 outlined')}
-          onClick={handleClearAll}
-        >
+              placeholder="Enter address"
+            />
+            <DashboardInput 
+              label="Memo (optional)" 
+              value={memo}
+              type="text"
+              placeholder="Enter memo"
+              handleChange={setMemo}
+            />
+          </div>
+          <div className={styles.btnWrapper}>
+            <Button className={classnames(styles.btn, styles.send)} onClick={handlePassword}>Send</Button>
+            <Button
+              color="topaz"
+              className={classnames(styles.btn, styles.clear, 'border-0 outlined')}
+              onClick={handleClearAll}
+            >
         Clear All
-        </Button>
-      </div>
-</div>)
+            </Button>
+          </div>
+        </div>
+      </>)
 };
 
 const Transfer = connect(

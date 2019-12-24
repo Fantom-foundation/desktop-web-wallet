@@ -27,7 +27,7 @@
     "identicons": "^0.1.0",
     "keythereum": "^1.0.4",
     "lodash": "^4.17.15",
-    "moment": "^2.22.2",
+    "moment": "^2.24.0",
     "prop-types": "^15.6.2",
     "qrcode.react": "^0.9.3",
     "ramda": "^0.26.1",

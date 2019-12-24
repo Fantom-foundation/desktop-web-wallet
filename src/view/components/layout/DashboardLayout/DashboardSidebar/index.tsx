@@ -16,11 +16,10 @@ const getLinkPath = (name, address) => {
     case 'Send':
       return `/account/${address}/send`;
     case 'Recieve':
-      return `/account/${address}/recieve`;
+      return `/account/${address}/receive`;
     case 'Stake':
       return `/account/${address}/stake`;
-    case 'Logout':
-      return `/`;
+    
     default:
       return '';
   }

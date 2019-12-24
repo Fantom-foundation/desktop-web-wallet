@@ -122,6 +122,7 @@ function* createRestoreMnemonics({
 
 function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
   try {
+    
     const { list } = yield select(selectAccount);
 
     if (!id || !list[id]) {
@@ -135,7 +136,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
     );
 
     const result = yield call([Fantom, Fantom.getBalance], id);
-
+console.log(id,result)
     if (!result)
       return accountSetAccount(id, {
         is_loading_balance: false,
@@ -401,7 +402,7 @@ export function* accountSaga() {
     createRestoreMnemonics
   );
 
-  yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
+  yield takeEvery(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);

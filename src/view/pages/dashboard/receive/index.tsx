@@ -13,16 +13,22 @@ import {
 } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
-//import QrImage from 'src/images/qr/Qr.png';
+// import QrImage from 'src/images/qr/Qr.png';
 
 export default ({ account }) => {
+  debugger
   const [amount, setAmount] = useState(false);
   const [copy, setCopy] = useState(false);
   const [download, setDownload] = useState(false);
   return (
     <div>
       <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
-      <h2 className="mb-5">${account.balance} FTM</h2>
+      <h2 className="mb-5">
+$
+        {account.balance}
+        {' '}
+FTM
+      </h2>
 
       <Card>
         <h2 className="mb-5 font-weight-extra-bold">Receive FTM</h2>
