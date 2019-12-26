@@ -3,36 +3,44 @@
 .inputContainer {
   margin: 40px 0;
   position: relative;
+
   .labelWrapper {
     display: flex;
     align-items: center;
     margin-bottom: 12px;
   }
+
   .label {
     font-size: 18px;
     font-weight: 600;
     color: map-get($color, dark-grey-blue);
+
     margin: {
       right: 18px;
       bottom: 0;
     }
   }
+
   .labelSubText {
     display: flex;
     align-items: center;
     flex-grow: 1;
   }
+
   .entireBalance {
     margin: 0;
     font-size: 14px;
     font-weight: 500;
     flex-grow: 1;
     text-align: right;
+    cursor: pointer;
     color: map-get($color, topaz);
   }
+
   .inputWrapper {
     position: relative;
   }
+
   .input {
     background: #f8f9fa;
     border-color: #f8f9fa;
@@ -43,6 +51,7 @@
     color: map-get($color, dark-grey-blue);
     height: 40px;
     box-shadow: none;
+
     &::-webkit-input-placeholder {
       color: rgba(map-get($color, dark-grey-blue), 0.3);
       font-weight: 400;
@@ -62,11 +71,13 @@
       color: rgba(map-get($color, dark-grey-blue), 0.3);
       font-weight: 400;
     }
+
     &.lg {
       font: {
         size: 24px;
         weight: 600;
       }
+
       &::-webkit-input-placeholder {
         font-weight: 600;
       }
@@ -88,12 +99,14 @@
       border-color: rgba(map-get($color, darkish-pink), 0.9);
     }
   }
+
   .errorText {
     color: map-get($color, darkish-pink);
     font-size: 14px;
     font-weight: 500;
     margin: 0;
   }
+
   .warning {
     font-size: 12px;
     color: #416ed5;
@@ -101,6 +114,7 @@
     display: flex;
     flex-direction: row;
     line-height: normal;
+
     i {
       margin-top: 5px;
     }

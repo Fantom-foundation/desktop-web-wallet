@@ -1,6 +1,7 @@
 import React, {
   FC,
   useEffect,
+  useCallback,
   useMemo,
   useState,
   useLayoutEffect,
@@ -15,99 +16,81 @@ import * as ACTIONS from '~/redux/transactions/actions';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
-import { selectAccount } from '~/redux/account/selectors';
+import { selectAccount , selectAccountConnection, selectFtmToUsdPrice } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
 import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
 import styles from './styles.module.scss';
+import { convertFTMValue } from "~/view/general/utilities"
+
 import classnames from 'classnames';
 
 const overViewMock = [
-  { title: 'Price', value: '$0.01025000' },
-  { title: 'Market cap', value: '$18,595,766 USD' },
+  { title: 'Price', value: '$0.01078000' },
+  { title: 'Market cap', value: '$19,620,860 USD' },
 ];
 
-// const AccountDetails: FC<IProps> = ({ account }) => {
-//   console.log('****account', account);
-//   // return (
-//   //   <Container className={styles.wrap}>
-//   //     <Row className={styles.row}>
-//   //       <Col md={12} lg={4}>
-//   //         <AccountDetailsInfo account={account} />
-//   //       </Col>
+const mapStateToProps = state => ({
+  transactions: selectTransactions(state),
+  accountData: selectAccount(state),
+  connection: selectAccountConnection(state),
+  ftmToUsdPrice: selectFtmToUsdPrice(state),
 
-//   //       <Col md={12} lg={8} className={styles.transactions}>
-//   //         <AccountTransactionsList account={account} />
-
-//   //         <DialogInfo
-//   //           isOpened={false}
-//   //           onClose={console.log}
-//   //           title="Transfer Status"
-//   //           body="Status text body"
-//   //         />
-//   //       </Col>
-//   //     </Row>
-//   //   </Container>
-//   // );
-//   return (
-//     <div>
-//       <Row>
-//         <Col xl={7} className="mb-6">
-//           <Card className="h-100">
-//             <p className="card-label">Balance</p>
-//             <div className="d-flex align-items-center justify-content-end mb-3">
-//               <h1 className="mb-0">{account.balance}</h1>
-//               <h2 className="mb-0">&nbsp;FTM</h2>
-//             </div>
-//             <p className="text-right text-usd">
-//               2,700,177.35<span>USD</span>
-//             </p>
-//           </Card>
-//         </Col>
-//         <Col xl={5} className="mb-6">
-//           <Card className="h-100">
-//             <p className="card-label ">Overview</p>
-//             {overViewMock.map(({ title, value }) => (
-//               <div className="d-flex justify-content-between">
-//                 <h4 className="opacity-7">{title}:</h4>
-//                 <p className="font-weight-semi-bold">{value}</p>
-//               </div>
-//             ))}
-//           </Card>
-//         </Col>
-//       </Row>
-//       <Row>
-//         <Col>
-//           <Activity />
-//         </Col>
-//       </Row>
-//     </div>
-//   );
-//   // return <p>asdasd</p>;
-// };
-
-const mapStateToProps = selectAccount;
+});
 const mapDispatchToProps = {
   accountCreateSetRestoreCredentials:
     ACCOUNT_ACTIONS.accountCreateSetRestoreCredentials,
+  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
+  accountFTMtoUSD: ACCOUNT_ACTIONS.accountFTMtoUSD,
   push: historyPush,
+  transactionsGetList: ACTIONS.transactionsGetList,
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps &
   RouteComponentProps & {
     account: IAccount;
+    id: string;
   };
-
+  // ftmToUsd
 const AccountDetailsDashboard: FC<IProps> = ({
-  account,
   push,
-  list,
+  connection: { is_node_connected, error },
+  accountData,
+  accountGetBalance,
+  accountFTMtoUSD,
+  transactions,
   accountCreateSetRestoreCredentials,
-}) => {
-  console.log(account, 'accountaccountaccount');
+  transactionsGetList,
+  ftmToUsdPrice,
+  id,
+ }) => {
+//   const getBalance = useCallback(
+//     () => accountGetBalance(id),
+//     [id, accountGetBalance]
+//   );
+
+//   useEffect(() => {
+//     if (is_node_connected) getBalance();
+//   }, [getBalance, is_node_connected]);
+console.log(ftmToUsdPrice, '****ftmToUsdPrice')
+
+
+
+  useEffect(() => {
+    transactionsGetList(id);
+    accountGetBalance(id);
+    accountFTMtoUSD()
+  }, [accountFTMtoUSD, accountGetBalance, id, transactionsGetList]);
+  const account = accountData && accountData.list && id && accountData.list[id];
+
+  console.log(account, '**accountaccountaccount');
+  // useEffect(() => {
+  //   accountGetBalance(id);
+
+  // }, [accountGetBalance, id]);
   return (
     <div>
-      <Modal
+      {/* <Modal
         isOpen={false}
         className={classnames(
           'modal-dialog-centered',
@@ -120,18 +103,19 @@ const AccountDetailsDashboard: FC<IProps> = ({
           onSubmit={accountCreateSetRestoreCredentials}
           list={list}
         />
-      </Modal>
+      </Modal> */}
       <div>
         <Row>
           <Col xl={7} className="mb-6">
             <Card className="h-100">
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
-                <h1 className="mb-0">{account && account.balance}</h1>
+                <h1 className="mb-0">{ account && convertFTMValue(parseFloat(account.balance))}</h1>
                 <h2 className="mb-0">&nbsp;FTM</h2>
               </div>
               <p className="text-right text-usd">
-                2,700,177.35<span>USD</span>
+                {account && convertFTMValue(parseFloat(account.balance) * parseFloat(ftmToUsdPrice)) }
+                <span> USD</span>
               </p>
             </Card>
           </Col>
@@ -140,8 +124,11 @@ const AccountDetailsDashboard: FC<IProps> = ({
               <p className="card-label ">Overview</p>
               {overViewMock.map(({ title, value }) => (
                 <div className="d-flex justify-content-between">
-                  <h4 className="opacity-7">{title}:</h4>
-                  <p className="font-weight-semi-bold">{value}</p>
+                  <h4 className="opacity-7">
+                    {title}
+:
+                  </h4>
+                  <p className="font-weight-semi-bold">{title === 'Price' ? ftmToUsdPrice : value}</p>
                 </div>
               ))}
             </Card>
@@ -149,7 +136,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
         </Row>
         <Row>
           <Col>
-            <Activity />
+            <Activity transactions={transactions} address={id} />
           </Col>
         </Row>
       </div>

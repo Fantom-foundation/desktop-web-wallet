@@ -2,6 +2,7 @@ import {
   takeLatest,
   put,
   select,
+  apply,
   call,
   delay,
   takeEvery,
@@ -23,6 +24,7 @@ import {
   accountSetTransferErrors,
   accountSetTransfer,
   accountGetTransferFee,
+  accountSetFTMtoUSD,
   accountUploadKeystore,
   accountSetConnection,
   accountChangeProvider,
@@ -49,6 +51,9 @@ import { readFileAsJSON } from '~/utility/filereader';
 import { EncryptedKeystoreV3Json } from 'web3-core';
 import { REHYDRATE, RehydrateAction } from 'redux-persist';
 import { path } from 'ramda';
+import axios from 'axios'
+import { getTransactions } from '../transactions/api';
+
 
 function* createSetCredentials({
   create,
@@ -122,8 +127,11 @@ function* createRestoreMnemonics({
 
 function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
   try {
+    debugger
     
     const { list } = yield select(selectAccount);
+    console.log(id, list, '*****listws')
+
 
     if (!id || !list[id]) {
       return;
@@ -135,29 +143,54 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
       })
     );
 
-    const result = yield call([Fantom, Fantom.getBalance], id);
-console.log(id,result)
-    if (!result)
+    // const result = yield call([Fantom, Fantom.getBalance], id);
+    const { error, data } = yield call(getTransactions, id, 0, 10);
+    if (!error && data.data && data.data.account) {
+      const balanceStr = data.data.account.balance.toString()
+      const balance = balanceStr;
+      yield put(
+        accountSetAccount(id, {
+          balance,
+          is_loading_balance: false,
+        })
+      );
+    } else {
       return accountSetAccount(id, {
+        balance: "0",
         is_loading_balance: false,
       });
+  
+    }
+    
 
-    const balance = fromWei(result);
 
-    yield put(
-      accountSetAccount(id, {
-        balance,
-        is_loading_balance: false,
-      })
-    );
+      
+
+
   } catch (e) {
+    console.log("exception", e)
     yield put(
       accountSetAccount(id, {
+        balance: "0",
         is_loading_balance: false,
       })
     );
   }
 }
+function* getFTMtoUSD() {
+  const res = yield call(fetch, 'http://ec2-18-216-196-200.us-east-2.compute.amazonaws.com:3000/api/get-price')
+  const data = yield call([res, 'json']) // or yield call([res, res.json])
+
+  console.log(data, "***data");
+  const {price} = JSON.parse(data.body)
+  yield put(
+    accountSetFTMtoUSD(price)
+  );
+  
+  // const price = res && res.data && res.data.body && JSON.parse(res.data.body.price)
+}
+
+
 
 function* sendFunds({
   from,
@@ -168,7 +201,7 @@ function* sendFunds({
 }: ReturnType<typeof accountSendFunds>) {
   yield put(accountSetTransferErrors({}));
 
-  // yield call(getBalance, accountGetBalance(from));
+  yield call(getBalance, accountGetBalance(from));
 
   const { list }: IAccountState = yield select(selectAccount);
 
@@ -403,6 +436,8 @@ export function* accountSaga() {
   );
 
   yield takeEvery(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
+  yield takeEvery(ACCOUNT_ACTIONS.GET_FTM_TO_USD, getFTMtoUSD);
+
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);

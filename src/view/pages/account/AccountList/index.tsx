@@ -29,7 +29,6 @@ const mapStateToProps = (state: IState): Pick<IAccountState, 'list'> =>
   pick(['list'])(selectAccount(state));
 const mapDispatchToProps = {
   push: historyPush,
-  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
@@ -38,7 +37,6 @@ type IProps = ReturnType<typeof mapStateToProps> &
 const AccountListUnconnected: FC<IProps> = ({
   list,
   push,
-  accountGetBalance,
 }) => {
   const onAccountSelect = useCallback(
     (address: string) => {
@@ -73,9 +71,7 @@ const AccountListUnconnected: FC<IProps> = ({
                       onClick={() => onAccountSelect(account.publicAddress)}
                     >
                       <AddressBalanceCard
-                        accountGetBalance={accountGetBalance}
                         address={account.publicAddress}
-                        balance={account.balance}
                       />
                     </Col>
                   );
@@ -83,7 +79,6 @@ const AccountListUnconnected: FC<IProps> = ({
               <Col xl={6} className={styles.marginBottom}>
                 <AddressBalanceCard
                   addNew
-                  accountGetBalance={accountGetBalance}
                 />
               </Col>
             </Row>

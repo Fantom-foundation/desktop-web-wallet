@@ -8,7 +8,9 @@ import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
 import { IModalChildProps } from '~/redux/modal/constants';
 import { copyToClipboard } from '~/utility/clipboard';
-
+import { IAccount } from '~/redux/account/types';
+import { RouteComponentProps } from 'react-router';
+import {estimationMaxFantomBalance} from '../../../general/utilities'
 import Input from '../Input';
 import {
   CopyIcon,
@@ -24,33 +26,26 @@ const mapDispatchToProps = {
   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
   accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
+
   accountGetTransferFee: ACCOUNT_ACTIONS.accountGetTransferFee,
   accountSetTransfer: ACCOUNT_ACTIONS.accountSetTransfer,
 };
 
-type IProps = IModalChildProps &
-  ReturnType<typeof mapStateToProps> &
+
+type IProps = ReturnType<typeof mapStateToProps> &
+  RouteComponentProps<{ id: string }> &
   typeof mapDispatchToProps & {
-    data: {
-      publicAddress: string;
-      balance: number;
-    };
+    address: string;
+    data: { publicAddress: string, balance: string}
   };
 
 const TransferFunds: FC<IProps> = ({
-  account: {
-    list,
-    transfer: { errors, is_sent, is_processing, fee },
-  },
   data,
-  onClose,
-  accountSendFunds,
-  accountTransferClear,
-  accountSetTransferErrors,
   accountGetBalance,
-  accountGetTransferFee,
-  accountSetTransfer,
+  accountSendFunds,
 }) => {
+  // const data =  accountData.list && address && accountData.list[address];
+
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
@@ -65,10 +60,12 @@ const TransferFunds: FC<IProps> = ({
     setMemo('');
     setErrors({ amount: false, to: false });
   }, [setTo, setAmount, setMemo]);
+  console.log(typeof data.balance, '***data.balance')
+  // const balance = parseFloat(data.balance)
 
   const handlePassword = useCallback(() => {
     const validation_errors = {
-      amount: amount === '' || (amount || 0) > data.balance,
+      amount: amount === '' || (amount || 0) > parseFloat(data.balance),
       to: to.length !== 42,
     };
 
@@ -82,7 +79,7 @@ const TransferFunds: FC<IProps> = ({
     setModal(false);
   }, [setIsSending, setModal]);
 
-  // useEffect(()=>{},[isSending])
+  
 
   const handleSubmit = useCallback(() => {
     const validation_errors = {
@@ -94,29 +91,26 @@ const TransferFunds: FC<IProps> = ({
       return setErrors(validation_errors);
 
     setTimeout(() => {
-      accountSendFunds({
-        to,
-        from: data.publicAddress,
-        amount,
-        message: memo,
-        password,
-      });
-    }, 2000);
+      
+      accountGetBalance(data.publicAddress)
+
+    }, 4000);
+    accountSendFunds({
+      to,
+      from: data.publicAddress,
+      amount,
+      message: memo,
+      password,
+    });
     setIsSending(true);
-  }, [
-    sendingErrors,
-    password,
-    accountSendFunds,
-    to,
-    data.publicAddress,
-    amount,
-    memo,
-  ]);
+  }, [sendingErrors, password, accountSendFunds, to, data.publicAddress, amount, memo, accountGetBalance]);
 
   const onClick = useCallback(
     event => copyToClipboard(event, data.publicAddress),
     [data.publicAddress]
   );
+
+
 
   return (
     <>
@@ -181,8 +175,15 @@ const TransferFunds: FC<IProps> = ({
                 placeholder="Enter amount"
                 rightLabel="Entire balance"
                 value={amount}
+                handleRightButton={() =>{ 
+                  estimationMaxFantomBalance(data.balance).then(value => {
+                    setAmount(value)
+                  })
+                  
+                }}
                 type="number"
                 handleChange={val => {
+                  console.log('****typeof', val)
                   setAmount(val);
                   setErrors({ ...sendingErrors, amount: false });
                 }}

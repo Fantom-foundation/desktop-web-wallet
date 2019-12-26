@@ -2,6 +2,7 @@
 import { SendForm } from '../../../components/forms';
 import { Card } from 'reactstrap';
 import { copyToClipboard } from '~/utility/clipboard';
+import { convertFTMValue } from "~/view/general/utilities"
 import React, {
   FC,
   useEffect,
@@ -22,6 +23,7 @@ import { selectTransactions } from '~/redux/transactions/selectors';
 import * as ACTIONS from '~/redux/transactions/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import styles from './styles.module.scss';
+import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 
 const mapStateToProps = state => ({
   transactions: selectTransactions(state),
@@ -31,6 +33,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = {
   transactionsGetList: ACTIONS.transactionsGetList,
   transactionsSetPage: ACTIONS.transactionsSetPage,
+  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
@@ -45,18 +48,28 @@ const SendDetails = ({
   match: {
     params: { id },
   },
-  accountData: { list },
+  accountGetBalance,
+  accountData,
 }) => {
   // const onClick = useCallback(
   //   event => copyToClipboard(event, account.publicAddress),
   //   [account.publicAddress]
   // );
-  const account = useMemo(() => list && id && list[id], [list, id]);
+  const account =  accountData.list && id && accountData.list[id];
+  // console.log(accountData, '****acc')
+  useEffect(()=>{
+    accountGetBalance(id)
+  },[accountGetBalance, id])
 
   return (
     <div>
       <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
-      <h2 className="mb-5">${account.balance} FTM</h2>
+      <h2 className="mb-5">
+$
+        {convertFTMValue(parseFloat(account.balance))}
+        {' '}
+FTM
+      </h2>
       <SendForm data={account} />
       {/* <div>
         <Card className={classname(styles.card, 'mb-5 mt-5')}>

@@ -12,6 +12,7 @@ export default ({
   rightLabel = '',
   handleChange,
   error = { isError: false, errorText: '' },
+  handleRightButton = ()=>{},
 }) => {
   return (
     <div
@@ -29,7 +30,7 @@ export default ({
               </p>
             )}
             {rightLabel !== '' && (
-              <p className={styles.entireBalance}>Entire balance</p>
+              <p onClick={handleRightButton} className={styles.entireBalance}>Entire balance</p>
             )}
           </div>
         </div>
