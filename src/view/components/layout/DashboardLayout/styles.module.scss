@@ -13,14 +13,23 @@
     height: 269px;
     z-index: 1;
   }
+  &.withoutCard {
+    &::before {
+      @media (max-width: $largeDesktop) {
+        height: 338px;
+      }
+    }
+  }
 }
 .wrapper {
-  display: flex;
-  flex-wrap: wrap;
   min-height: 100vh;
   position: relative;
   position: relative;
   z-index: 2;
+  @media (min-width: $largeDesktop) {
+    display: flex;
+    flex-wrap: wrap;
+  }
 }
 .sidebarWrapper {
   flex: 0 0 $dashboardSidebarWidth;
@@ -47,9 +56,22 @@
   .main {
     padding: 0 55px 0 30px;
     // max-width: 1280px - $sidebarWidth;
+    @media (max-width: $largeDesktop) {
+      padding: 0 30px;
+    }
   }
   .contentHeader {
-    margin-bottom: 39px;
+    margin-bottom: 40px;
+    // &.withoutCard {
+    //   @media (min-width: $desktop) and (max-width: $largeDesktop) {
+    //     margin-bottom: 64px;
+    //   }
+    // }
+    &:not(.withoutCard) {
+      @media (max-width: $largeDesktop) {
+        margin-bottom: 20px;
+      }
+    }
   }
 }
 
@@ -70,7 +92,6 @@
 }
 .hashWrapper {
   display: flex;
-  align-items: center;
   justify-content: space-between;
   .hash {
     margin: 0;
@@ -81,14 +102,22 @@
     line-height: normal;
     max-width: 607px;
     width: 100%;
-    overflow: hidden;
-    white-space: nowrap;
-    text-overflow: ellipsis;
+    word-break: break-all;
+    // overflow: hidden;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
     color: map-get($color, dark-grey-blue);
+    @media (max-width: $largeDesktop) {
+      max-width: 470px;
+    }
+    // @media (max-width: $desktop) {
+    //   max-width: 470px;
+    // }
   }
   .hashHandlers {
     display: flex;
     align-items: center;
+    height: fit-content;
     button {
       outline: none !important;
       cursor: pointer;

@@ -4,17 +4,20 @@ import styles from './styles.module.scss';
 import classnames from 'classnames';
 import { CheckIcon, CopyIcon, QrIcon } from 'src/view/components/svgIcons';
 import { DashboardModal } from '../../Modal';
-//import QrImage from 'src/images/qr/Qr.png';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import { copyToClipboard } from '~/utility/clipboard';
 
 export default props => {
   const [modal, setModal] = useState(false);
+  const { account, history, location, children } = props;
+  console.log(location);
   const onClick = useCallback(
-    event => copyToClipboard(event, props.account.publicAddress),
-    [props.account.publicAddress]
+    event => copyToClipboard(event, account.publicAddress),
+    [account.publicAddress]
   );
-
+  const cardShow =
+    location.pathname.includes('send') || location.pathname.includes('receive');
+  console.log(cardShow, 'cardShowcardShow');
   const toggleModal = () => setModal(!modal);
 
   return (
@@ -27,25 +30,31 @@ export default props => {
       >
         <div className="text-center">
           <QRCodeIcon
-            address={props.account.publicAddress}
+            address={account.publicAddress}
             bgColor="white"
             fgColor="black"
           />
           {/* <img src={QrImage} className="mb-4" /> */}
-          <h4 className="opacity-7">{props.account.publicAddress}</h4>
+          <h4 className="opacity-7">{account.publicAddress}</h4>
         </div>
       </DashboardModal>
-      <div className={styles.root}>
+      <div
+        className={classnames(styles.root, { [styles.withoutCard]: cardShow })}
+      >
         <div className={styles.wrapper}>
           <Sidebar
-            address={props.account.publicAddress}
-            history={props.history}
-            pathname={props.location.pathname}
+            address={account.publicAddress}
+            history={history}
+            pathname={location.pathname}
           />
 
           <div className={styles.contentWrapper}>
             <main className={styles.main}>
-              <div className={styles.contentHeader}>
+              <div
+                className={classnames(styles.contentHeader, {
+                  [styles.withoutCard]: cardShow,
+                })}
+              >
                 {/* <div className="d-flex justify-content-end mb-3">
                   <p className={styles.sync}>
                     <CheckIcon />
@@ -56,18 +65,20 @@ export default props => {
                   <p className={styles.label}>Address</p>
                 </div>
                 <div className={styles.hashWrapper}>
-                  <p className={styles.hash}>{props.account.publicAddress}</p>
+                  <div>
+                    <p className={styles.hash}>{account.publicAddress}</p>
+                  </div>
                   <div className={styles.hashHandlers}>
-                    <button onClick={onClick}>
+                    <button type="button" onClick={onClick}>
                       <CopyIcon />
                     </button>
-                    <button onClick={toggleModal}>
+                    <button type="button" onClick={toggleModal}>
                       <QrIcon />
                     </button>
                   </div>
                 </div>
               </div>
-              {props.children}
+              {children}
             </main>
           </div>
         </div>

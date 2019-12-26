@@ -14,4 +14,7 @@
 }
 .createWalletModal {
   max-width: 570px;
+  > div {
+    border-radius: 25px !important;
+  }
 }

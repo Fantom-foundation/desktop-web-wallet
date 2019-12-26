@@ -1,7 +1,7 @@
 import React from 'react';
 import QRCode from 'qrcode.react';
-import FantomLogo from '~/view/general/FantomLogo/';
-
+// import FantomLogo from '~/view/general/FantomLogo/';
+import fantomLogo from 'src/images/logo/fantom-logo-white.svg';
 type IProps = {
   bgColor?: string;
   fgColor?: string;
@@ -17,8 +17,9 @@ class QRCodeIcon extends React.PureComponent<IProps> {
     if (address !== undefined && address !== '') {
       return (
         <p
+          className="m-0"
           style={{
-            padding: '1px 5px',
+            padding: '1px 4px',
             alignSelf: 'center',
             justifyContent: 'center',
             backgroundColor: 'black',
@@ -26,10 +27,9 @@ class QRCodeIcon extends React.PureComponent<IProps> {
             top: '50%',
             left: '50%',
             transform: 'translate(-50%, -50%)',
-            width: '128px',
           }}
         >
-          <FantomLogo logoType={2} />
+          <img src={fantomLogo} style={{ height: 22 }} alt="Fantom" />
         </p>
       );
     }
@@ -53,7 +53,7 @@ class QRCodeIcon extends React.PureComponent<IProps> {
           value={`${address}`}
           renderAs="canvas"
           level="H"
-          size={158}
+          size={240}
           id={`${id}`}
         />
       </div>
