@@ -2,14 +2,13 @@
 
 .btn {
   border: 2px solid;
-
   border-radius: 50px;
   min-width: 156px;
   height: 50px;
   font-size: 18px;
   font-weight: 600;
-
   color: #fff;
+  box-shadow: none !important;
   &.lg {
     font-size: 21px;
   }
