@@ -62,7 +62,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
       password,
       icon: selected_icon,
     });
-  }, [onSubmit,  password, password_again, selected_icon]);
+  }, [onSubmit, password, password_again, selected_icon]);
 
   const onBackPressed = useCallback(() => push('/'), [push]);
 
@@ -73,18 +73,14 @@ const AccountCreateCredentialForm: FC<IProps> = ({ push, onSubmit, list }) => {
   function handleCheckBox(toggle) {
     setChecked(toggle);
   }
-  console.log('****sdss', password)
+
   return (
     <div className={styles.createWalletWrap}>
       <CreateWalletCard>
         <div className={styles.title}>
           <h3 className="font-weight-semi-bold">
-            1
-            <span className="opacity-3 mr-3">/2</span>
-            {' '}
-Create a keystore file
-            and password
-            {' '}
+            1<span className="opacity-3 mr-3">/2</span> Create a keystore file
+            and password{' '}
             <span className={styles.infoIcon}>
               <i className="fas fa-info-circle" />
               <div className={styles.tooltipWrapper}>
@@ -125,9 +121,7 @@ Create a keystore file
           <p>
             I made a backup of the keystore file and saved the password in a
             safe place.
-            <br />
-I understand that
-            {' '}
+            <br />I understand that{' '}
             <a href="#" target="_blank">
               I will need the password and the keystore file to access my
               wallet.
@@ -140,6 +134,7 @@ I understand that
               [styles.disable]: !checked,
             })}
             onClick={onNextPressed}
+            disabled={!checked}
           >
             Download keystore file
           </button>

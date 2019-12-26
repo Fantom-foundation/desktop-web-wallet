@@ -85,7 +85,6 @@
 //   );
 // };
 
-
 import React, {
   FC,
   useState,
@@ -138,7 +137,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   );
   const onNextPressed = useCallback(() => {
     if (is_next_disabled) return;
-    console.log('accountCreateSetInfoaccountCreateSetInfo');
+
     accountCreateSetInfo();
   }, [accountCreateSetInfo, is_next_disabled]);
   const onBackPressed = useCallback(
@@ -158,10 +157,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
       <CreateWalletCard>
         <div className={styles.title}>
           <h3 className="font-weight-semi-bold">
-            2
-            <span className="opacity-3 mr-3">/2</span>
-            {' '}
-Your mnemonic phrase
+            2<span className="opacity-3 mr-3">/2</span> Your mnemonic phrase
             <span className="ml-2">
               <i className="fas fa-info-circle" />
             </span>
@@ -172,7 +168,7 @@ Your mnemonic phrase
           </p>
         </div>
         <div className={styles.phraseContent}>
-          <MnemonicPhrase mnemonic={mnemonic.split(" ")} />
+          <MnemonicPhrase mnemonic={mnemonic.split(' ')} />
           {/* <MnemonicPhraseEmpty /> */}
           <MnemonicPhraseWithCross />
           {/* <MnemonicButtons /> */}

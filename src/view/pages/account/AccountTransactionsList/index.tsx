@@ -31,7 +31,7 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
 }) => {
   useEffect(() => {
     transactionsSetPage(0);
-  }, [account.publicAddress]);
+  }, [account.publicAddress, transactionsSetPage]);
 
   useEffect(() => {
     transactionsGetList(account.publicAddress);

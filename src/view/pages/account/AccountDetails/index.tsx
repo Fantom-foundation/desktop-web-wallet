@@ -1,7 +1,21 @@
-import React, { FC } from 'react';
+import React, {
+  FC,
+  useEffect,
+  useMemo,
+  useState,
+  useLayoutEffect,
+} from 'react';
 import { Row, Col, Container, Card, Modal } from 'reactstrap';
+import { Switch, Route, RouteComponentProps } from 'react-router';
+
 import { IAccount } from '~/redux/account/types';
 import Activity from 'src/view/components/activity';
+import axios from 'axios';
+import { connect } from 'react-redux';
+import { selectTransactions } from '~/redux/transactions/selectors';
+import * as ACTIONS from '~/redux/transactions/actions';
+import { selectAccount } from '~/redux/account/selectors';
+import * as ACCACTIONS from '~/redux/account/actions';
 
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
@@ -13,8 +27,8 @@ import styles from './styles.module.scss';
 import classnames from 'classnames';
 
 const overViewMock = [
-  { title: 'Price', value: '$0.01125923' },
-  { title: 'Market cap', value: '$23,680,784.07' },
+  { title: 'Price', value: '$0.01025000' },
+  { title: 'Market cap', value: '$18,595,766 USD' },
 ];
 
 // const AccountDetails: FC<IProps> = ({ account }) => {

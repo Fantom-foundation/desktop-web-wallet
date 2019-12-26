@@ -3,7 +3,7 @@ import { transactionsGetList, transactionsSet } from './actions';
 import { TRANSACTIONS_ACTIONS } from './constants';
 import { mockGetTransactions } from '~/utility/mocks/tranactions';
 import { selectTransactions } from './selectors';
-import { getTransactions } from './api';
+import { getTransactions, getFTMPrice } from './api';
 
 function* getList({ address }: ReturnType<typeof transactionsGetList>) {
   yield put(transactionsSet({ error: null, is_loading: true }));
@@ -12,12 +12,16 @@ function* getList({ address }: ReturnType<typeof transactionsGetList>) {
   const offset = page * 10;
 
   const { error, data } = yield call(getTransactions, address, offset, 10);
+  console.log('********getFTMPrice', error, data)
+  // yield call(getBalance, accountGetBalance(from));
 
-  if (!!error || !data.data.account || !data.data.account.transactions) {
+
+  if (!!error || !data.data.account) {
     return yield put(
       transactionsSet({
         error: `Can't get transactions list`,
         is_loading: false,
+        list:[],
       })
     );
   }
@@ -31,6 +35,8 @@ function* getList({ address }: ReturnType<typeof transactionsGetList>) {
   );
 }
 
+
 export function* transactionsSaga() {
+  console.log('*****sdjsjdsd')
   yield takeLatest(TRANSACTIONS_ACTIONS.GET_LIST, getList);
 }

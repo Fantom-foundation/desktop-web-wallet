@@ -1,5 +1,5 @@
-import React, {FC, useState, useCallback} from 'react';
-import { Button } from 'reactstrap';
+import React, { FC, useState, useCallback, useEffect } from 'react';
+import { Button, Modal, ModalBody, Card } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
 import DashboardInput from '../DashboardInput';
@@ -7,7 +7,14 @@ import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
 import { IModalChildProps } from '~/redux/modal/constants';
+import { copyToClipboard } from '~/utility/clipboard';
 
+import Input from '../Input';
+import {
+  CopyIcon,
+  CheckCircleIcon,
+  ErrorCircleIcon,
+} from 'src/view/components/svgIcons';
 
 const mapStateToProps = state => ({
   account: selectAccount(state),
@@ -21,108 +28,216 @@ const mapDispatchToProps = {
   accountSetTransfer: ACCOUNT_ACTIONS.accountSetTransfer,
 };
 
-
 type IProps = IModalChildProps &
   ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {
-    data:{
-      publicAddress: string,
-      balance: number
-    }
+    data: {
+      publicAddress: string;
+      balance: number;
+    };
   };
 
 const TransferFunds: FC<IProps> = ({
-    account: {
-      list,
-      transfer: { errors, is_sent, is_processing, fee },
-    },
-    data,
-    onClose,
-    accountSendFunds,
-    accountTransferClear,
-    accountSetTransferErrors,
-    accountGetBalance,
-    accountGetTransferFee,
-    accountSetTransfer,
-  }) => {
+  account: {
+    list,
+    transfer: { errors, is_sent, is_processing, fee },
+  },
+  data,
+  onClose,
+  accountSendFunds,
+  accountTransferClear,
+  accountSetTransferErrors,
+  accountGetBalance,
+  accountGetTransferFee,
+  accountSetTransfer,
+}) => {
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
-  const [sendingErrors, setErrors] = useState({ amount: false, to: false})
+  const [sendingErrors, setErrors] = useState({ amount: false, to: false });
+  const [isSending, setIsSending] = useState(false);
+  const [modal, setModal] = useState(false);
+  const [password, setPassword] = useState('');
 
   const handleClearAll = useCallback(() => {
-    setTo('')
-    setAmount('')
-    setMemo('')
-    setErrors({ amount: false, to: false})
-
+    setTo('');
+    setAmount('');
+    setMemo('');
+    setErrors({ amount: false, to: false });
   }, [setTo, setAmount, setMemo]);
 
-  const handleSubmit = useCallback(() => {
+  const handlePassword = useCallback(() => {
     const validation_errors = {
-      amount: amount === '' || ((amount || 0) > data.balance),
+      amount: amount === '' || (amount || 0) > data.balance,
       to: to.length !== 42,
     };
 
+    if (Object.values(validation_errors).includes(true))
+      return setErrors(validation_errors);
+    setModal(true);
+  }, [data, to, amount]);
+
+  const sendSuccess = useCallback(() => {
+    setIsSending(true);
+    setModal(false);
+  }, [setIsSending, setModal]);
+
+  // useEffect(()=>{},[isSending])
+
+  const handleSubmit = useCallback(() => {
+    const validation_errors = {
+      ...sendingErrors,
+      password: password === '',
+    };
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
-     
-      // accountSendFunds({
-      //   to,
-      //   from: '929293923dsfnjdsfjdsf',
-      //   amount,
-      //   message:memo,
-      //   password: 'Sunil@123',
-      // });
 
-  }, [ data, to, amount]);
-    return (<div className={classnames('card', styles.card)}>
-      <h2 className={styles.title}>Send FTM</h2>
-      <div className={styles.inputsWrapper}>
-        <DashboardInput
-          label="Amount"
-          placeholder="Enter amount"
-          rightLabel="Entire balance"
-          value={amount}
-          type="number"
-          handleChange={val => { setAmount(val); setErrors({...sendingErrors, amount: false})}}
-          error={{
-          isError: sendingErrors.amount,
-          errorText:
-            'This amount exceeds your balance. Please enter a lower amount',
-        }}
-        />
-        <DashboardInput
-          label="To address"
-          value={to}
-          type="text"
-          handleChange={val => { setTo(val); setErrors({...sendingErrors, to: false})}}
-          error={{
-          isError: sendingErrors.to,
-          errorText: 'Enter a valid FTM address',
-        }}
-          placeholder="Enter address"
-        />
-        <DashboardInput 
-          label="Memo (optional)" 
-          value={memo}
-          type="text"
-          placeholder="Enter memo"
-          handleChange={setMemo} 
-        />
-      </div>
-      <div className={styles.btnWrapper}>
-        <Button className={classnames(styles.btn, styles.send)} onClick={handleSubmit}>Send</Button>
-        <Button
-          color="topaz"
-          className={classnames(styles.btn, styles.clear, 'border-0 outlined')}
-          onClick={handleClearAll}
-        >
-        Clear All
-        </Button>
-      </div>
-</div>)
+    setTimeout(() => {
+      accountSendFunds({
+        to,
+        from: data.publicAddress,
+        amount,
+        message: memo,
+        password,
+      });
+    }, 2000);
+    setIsSending(true);
+  }, [
+    sendingErrors,
+    password,
+    accountSendFunds,
+    to,
+    data.publicAddress,
+    amount,
+    memo,
+  ]);
+
+  const onClick = useCallback(
+    event => copyToClipboard(event, data.publicAddress),
+    [data.publicAddress]
+  );
+
+  return (
+    <>
+      {isSending ? (
+        <div>
+          <Card className={classnames(styles.transCard, 'mb-5 mt-5')}>
+            <h2>Transaction sent!</h2>
+            <div className={classnames(styles.iconGap, styles.hash)}>
+              <a href="#">{data.publicAddress}</a>
+              <button
+                className={styles.copyBtn}
+                type="button"
+                onClick={onClick}
+              >
+                <CopyIcon />
+              </button>
+            </div>
+            <div>
+              <CheckCircleIcon />
+            </div>
+          </Card>
+        </div>
+      ) : (
+        <>
+          <Modal
+            isOpen={modal}
+            className={classnames(
+              'modal-dialog-centered',
+              styles.passwordModal
+            )}
+          >
+            <ModalBody className={styles.body}>
+              <Input
+                type="password"
+                label="Please enter your wallet password to send the transaction"
+                value={password}
+                placeholder="Enter password"
+                handler={value => {
+                  setPassword(value);
+                }}
+                // errorClass="justify-content-center"
+                isError={false}
+                errorMsg=""
+              />
+              <div className="text-center">
+                <button
+                  type="button"
+                  onClick={handleSubmit}
+                  className={classnames('btn btn-secondary', styles.sendBtn)}
+                >
+                  Send
+                </button>
+              </div>
+            </ModalBody>
+          </Modal>
+
+          <div className={classnames('card', styles.card)}>
+            <h2 className={styles.title}>Send FTM</h2>
+            <div className={styles.inputsWrapper}>
+              <DashboardInput
+                label="Amount"
+                placeholder="Enter amount"
+                rightLabel="Entire balance"
+                value={amount}
+                type="number"
+                handleChange={val => {
+                  setAmount(val);
+                  setErrors({ ...sendingErrors, amount: false });
+                }}
+                error={{
+                  isError: sendingErrors.amount,
+                  errorText:
+                    'This amount exceeds your balance. Please enter a lower amount',
+                }}
+              />
+              <DashboardInput
+                label="To address"
+                value={to}
+                type="text"
+                handleChange={val => {
+                  setTo(val);
+                  setErrors({ ...sendingErrors, to: false });
+                }}
+                error={{
+                  isError: sendingErrors.to,
+                  errorText: 'Enter a valid FTM address',
+                }}
+                placeholder="Enter address"
+              />
+              <DashboardInput
+                label="Memo (optional)"
+                value={memo}
+                type="text"
+                placeholder="Enter memo"
+                handleChange={setMemo}
+              />
+            </div>
+            <div className={styles.btnWrapper}>
+              <Button
+                className={classnames(styles.btn, styles.send)}
+                onClick={handlePassword}
+              >
+                Send
+              </Button>
+              <Button
+                color="topaz"
+                className={classnames(
+                  styles.btn,
+                  styles.clear,
+                  'border-0 outlined'
+                )}
+                onClick={handleClearAll}
+              >
+                Clear All
+              </Button>
+            </div>
+          </div>
+        </>
+      )}
+    </>
+  );
 };
 
 const Transfer = connect(
@@ -131,307 +246,3 @@ const Transfer = connect(
 )(TransferFunds);
 
 export default Transfer;
-
-
-
-
-// import React, { FC, useMemo, useState, useCallback, useEffect } from 'react';
-// import { IModalChildProps } from '~/redux/modal/constants';
-// import { PanelTitle } from '~/view/components/panels/PanelTitle';
-// import styles from './styles.module.scss';
-// import { PanelButton } from '~/view/components/panels/PanelButton';
-// import { TextInput } from '~/view/components/inputs/TextInput';
-// import { Textarea } from '~/view/components/inputs/Textarea';
-// import { Select } from '~/view/components/inputs/Select';
-// import { selectModal } from '~/redux/modal/selectors';
-// import { selectAccount } from '~/redux/account/selectors';
-// import { connect } from 'react-redux';
-// import { Button } from 'reactstrap';
-
-// import image_address from '~/images/address.svg';
-// import image_amount from '~/images/amount.svg';
-// import image_password from '~/images/password.svg';
-// import image_from from '~/images/withdraw.svg';
-// import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
-// import * as MODAL_ACTIONS from '~/redux/modal/actions';
-// import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
-// import { useCloseOnEscape } from '~/utility/hooks';
-// import { LoadingOverlay } from '../LoadingOverlay';
-// import Web3 from 'web3';
-
-// const mapStateToProps = state => ({
-//   modal: selectModal(state),
-//   account: selectAccount(state),
-// });
-
-// const mapDispatchToProps = {
-//   accountSendFunds: ACCOUNT_ACTIONS.accountSendFunds,
-//   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
-//   accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
-//   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
-//   accountGetTransferFee: ACCOUNT_ACTIONS.accountGetTransferFee,
-//   accountSetTransfer: ACCOUNT_ACTIONS.accountSetTransfer,
-//   modalHide: MODAL_ACTIONS.modalHide,
-// };
-
-// type IProps = IModalChildProps &
-//   ReturnType<typeof mapStateToProps> &
-//   typeof mapDispatchToProps & {};
-
-// const TransferModalUnconnected: FC<IProps> = ({
-//   account: {
-//     list,
-//     transfer: { errors, is_sent, is_processing, fee },
-//   },
-//   onClose,
-//   accountSendFunds,
-//   accountTransferClear,
-//   accountSetTransferErrors,
-//   accountGetBalance,
-//   accountGetTransferFee,
-//   accountSetTransfer,
-//   modalHide,
-// }) => {
-//   const [to, setTo] = useState('');
-//   const [from, setFrom] = useState('');
-//   const [amount, setAmount] = useState('0');
-//   const [password, setPassword] = useState('');
-//   const [message, setMessage] = useState('');
-
-//   const senders = useMemo(
-//     () =>
-//       Object.entries(list).reduce(
-//         obj => ({ ...obj }),
-//         {}
-//       ),
-//     [list]
-//   );
-
-//   const onSubmit = useCallback(
-//     event => {
-//       event.preventDefault();
-//       accountSendFunds({
-//         to,
-//         from,
-//         amount,
-//         message,
-//         password,
-//       });
-//     },
-//     [accountSendFunds, to, from, amount, password, message]
-//   );
-
-//   const onSendErrorReveal = useCallback(() => {
-//     accountSetTransferErrors({});
-//   }, [accountSetTransferErrors]);
-
-//   useEffect(() => {
-//     // reset errors on input
-//     if (Object.keys(errors).length) accountSetTransferErrors({});
-//   }, [to, from, amount, password, message, errors, accountSetTransferErrors]);
-
-//   useEffect(() => {
-//     // estimate fee
-//     if (
-//       to &&
-//       from &&
-//       amount &&
-//       Web3.utils.isAddress(from) &&
-//       Web3.utils.isAddress(to)
-//     ) {
-//       accountGetTransferFee({
-//         from,
-//         to,
-//         amount,
-//         message,
-//       });
-//     } else if (parseFloat(fee) && parseFloat(fee) > 0) {
-//       accountSetTransfer({ fee: '' });
-//     }
-//   }, [accountGetTransferFee, accountSetTransfer, amount, fee, from, message, to]);
-
-//   useEffect(() => {
-//     if (from && Object.hasOwnProperty.call(list, from)) accountGetBalance(from);
-//   }, [accountGetBalance, from, list]);
-
-//   const onRefresh = useCallback(() => {
-//     if (!from || !list[from]) return;
-//     accountGetBalance(from);
-//   }, [accountGetBalance, from, list]);
-
-//   const balance = useMemo(() => {
-//     const account = from && list[from];
-
-//     if (!account) return null;
-//     if (account.is_loading_balance) return null;
-
-//     return `${list[from].balance} FTM`;
-//   }, [from, list]);
-
-//   const onSuccessClose = useCallback(() => {
-//     accountTransferClear();
-//     modalHide();
-//   }, [accountTransferClear, modalHide]);
-
-//   useCloseOnEscape(onClose);
-
-//   return (
-//     <form className={styles.wrap} onSubmit={onSubmit} autoComplete="off">
-//       {is_processing && <LoadingOverlay />}
-
-//       <h2>Transfer</h2>
-
-//       <PanelTitle
-//         title="Send Funds"
-//         right={
-//           <PanelButton
-//             icon="fa-sync-alt"
-//             spin={is_processing}
-//             type="button"
-//             onClick={onRefresh}
-//           />
-//         }
-//       />
-
-//       <div className={styles.form}>
-//         <div className={styles.item}>
-//           <TextInput
-//             name="to"
-//             placeholder="Enter address"
-//             label="To address"
-//             value={to}
-//             handler={setTo}
-//             icon={image_address}
-//             disabled={is_processing}
-//             type="text"
-//           />
-
-//           {errors.to && (
-//             <div id="error_to" className={styles.error}>
-//               {errors.to}
-//             </div>
-//           )}
-//         </div>
-
-//         <div className={styles.item}>
-//           <Select
-//             label="Withdraw from"
-//             options={senders}
-//             handler={setFrom}
-//             placeholder="Select account"
-//             value={from}
-//             icon={image_from}
-//             disabled={is_processing}
-//             right={
-//               balance &&
-//               parseFloat(parseFloat(balance || '').toFixed(6)).toString()
-//             }
-//           />
-
-//           {errors.from && (
-//             <div id="error_from" className={styles.error}>
-//               {errors.from}
-//             </div>
-//           )}
-//         </div>
-
-//         <div className={styles.item}>
-//           <TextInput
-//             name="data-amount"
-//             placeholder=""
-//             label="Amount"
-//             value={amount}
-//             handler={setAmount}
-//             icon={image_amount}
-//             disabled={is_processing}
-//             type="number"
-//             autoComplete="nope"
-//           />
-
-//           {!!fee && (
-//             <div className={styles.fee}>{`Fee will be ${fee} FTM`}</div>
-//           )}
-
-//           {errors.balance && (
-//             <div id="error_balance" className={styles.error}>
-//               {errors.balance}
-//             </div>
-//           )}
-
-//           {errors.amount && (
-//             <div id="error_amount" className={styles.error}>
-//               {errors.amount}
-//             </div>
-//           )}
-//         </div>
-
-//         <div className={styles.item}>
-//           <TextInput
-//             name="password"
-//             placeholder="Password for account"
-//             label="Enter password"
-//             value={password}
-//             handler={setPassword}
-//             type="password"
-//             icon={image_password}
-//             disabled={is_processing}
-//             autoComplete="new-password"
-//           />
-
-//           {errors.password && (
-//             <div id="error_password" className={styles.error}>
-//               {errors.password}
-//             </div>
-//           )}
-//         </div>
-
-//         <div className={styles.item}>
-//           <Textarea
-//             name="note"
-//             placeholder="Optional message"
-//             label="Note"
-//             value={message}
-//             handler={setMessage}
-//             disabled={is_processing}
-//           />
-//         </div>
-
-//         <div className={styles.button}>
-//           <Button
-//             color="primary bordered"
-//             type="submit"
-//             disabled={is_processing}
-//           >
-//             Continue
-//           </Button>
-
-//           <Button color="secondary bordered" type="button" onClick={onClose}>
-//             Cancel
-//           </Button>
-//         </div>
-
-//         <DialogInfo
-//           title="Success!"
-//           body="Transfer complete"
-//           onClose={onSuccessClose}
-//           isOpened={is_sent}
-//         />
-
-//         <DialogInfo
-//           title="Error"
-//           body={errors.send}
-//           onClose={onSendErrorReveal}
-//           isOpened={!!errors.send}
-//         />
-//       </div>
-//     </form>
-//   );
-// };
-
-// const TransferModal = connect(
-//   mapStateToProps,
-//   mapDispatchToProps
-// )(TransferModalUnconnected);
-
-// export { TransferModal, TransferModalUnconnected };
-

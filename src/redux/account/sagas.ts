@@ -88,7 +88,6 @@ function* createSetConfirm() {
     icon,
     publicAddress,
   }: IAccountState['create'] = yield select(selectAccountCreate);
-  console.log('*****kksfnsdf', !password, !icon, !publicAddress, !mnemonic);
 
   if (!password || !publicAddress || !mnemonic)
     return yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));
@@ -104,7 +103,7 @@ function* createSetConfirm() {
       publicAddress,
     })
   );
-  yield put(push(URLS.ACCOUNT_LIST));
+  yield put(push(URLS.ACCOUNT_SUCCESS));
 }
 
 function* createCancel() {
@@ -123,6 +122,7 @@ function* createRestoreMnemonics({
 
 function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
   try {
+    
     const { list } = yield select(selectAccount);
 
     if (!id || !list[id]) {
@@ -136,7 +136,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
     );
 
     const result = yield call([Fantom, Fantom.getBalance], id);
-
+console.log(id,result)
     if (!result)
       return accountSetAccount(id, {
         is_loading_balance: false,
@@ -168,7 +168,7 @@ function* sendFunds({
 }: ReturnType<typeof accountSendFunds>) {
   yield put(accountSetTransferErrors({}));
 
-  yield call(getBalance, accountGetBalance(from));
+  // yield call(getBalance, accountGetBalance(from));
 
   const { list }: IAccountState = yield select(selectAccount);
 
@@ -402,7 +402,7 @@ export function* accountSaga() {
     createRestoreMnemonics
   );
 
-  yield takeLatest(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
+  yield takeEvery(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);

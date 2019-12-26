@@ -44,20 +44,20 @@ function createWindow() {
     );
   });
 
-  mainWindow.on('closed', function() {
+  mainWindow.on('closed', function () {
     mainWindow = null;
   });
 }
 
 app.on('ready', createWindow);
 
-app.on('window-all-closed', function() {
+app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
 
-app.on('activate', function() {
+app.on('activate', function () {
   if (mainWindow === null) {
     createWindow();
   }
@@ -69,7 +69,7 @@ app.on('web-contents-created', (e, contents) => {
     e.preventDefault();
     shell.openExternal(url);
   });
-  
+
   // Prevent loading something else than the UI
   contents.on('will-navigate', (e, url) => {
     if (url !== contents.getURL()) e.preventDefault();

@@ -72,7 +72,6 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
         CONFIRMATION_PHRASE.toLowerCase().trim() || !is_revealed,
     [is_revealed, phrase]
   );
-  console.log('******is_next_disabled');
 
   const onNextPressed = useCallback(() => {
     accountCreateSetInfo();
@@ -93,7 +92,6 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     () => setIsRevealed(!is_revealed),
     [setIsRevealed, is_revealed]
   );
-  console.log('*****mnemonic', mnemonic);
 
   return (
     <Layout>
@@ -132,7 +130,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
                 secret and safe.
               </p>
               <h3 className={`${styles.privateKey} font-weight-semi-bold`}>
-                63f3b91ad31jhgjc19c99aa85e32aee50639348ee7084b4726d16a62b70e56beb0f7
+                {publicAddress}
               </h3>
               <div className={styles.downloadBtnWrapper}>
                 <button

@@ -36,6 +36,7 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
   accountGetBalance,
   modalShow,
 }) => {
+  console.log()
   const getBalance = useCallback(
     () => accountGetBalance(account.publicAddress),
     [account.publicAddress, accountGetBalance]

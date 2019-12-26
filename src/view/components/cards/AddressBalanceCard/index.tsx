@@ -1,4 +1,4 @@
-import React,{ useState, FC } from 'react';
+import React, { useState, FC, useCallback, useEffect } from 'react';
 import { Card } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
@@ -10,23 +10,22 @@ import { selectAccount } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
 import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
 
-
 // export default ({ address = '', balance = '', addNew = false }) => {
 //   const [addNewWallet, setAddNewWallet] = useState(false)
 //   console.log('*****addNewWallet', addNewWallet)
 //   return (
 //     <>
-//       {addNewWallet && 
+//       {addNewWallet &&
 //       <AccountCreateCredentialForm
 //         push={push}
 //         onSubmit={accountCreateSetCredentials}
 //         list={list}
 //       />}
-  
+
 //       <Card className={classnames({ [styles.addCard]: addNew }, 'h-100')}>
 //         {addNew ? (
 //           <div className="text-center">
-        
+
 //             <>
 //               <div className={styles.addCardBtn}>
 //                 <button type="button" className="btn btn-dark-periwinkle mb-4 px-5" onClick={() => setAddNewWallet(!addNewWallet)}>
@@ -50,7 +49,6 @@ import { AccountCreateCredentialForm } from '~/view/components/account/AccountCr
 //     </>)
 // };
 
-
 const mapStateToProps = selectAccount;
 const mapDispatchToProps = {
   accountCreateSetCredentials: ACCOUNT_ACTIONS.accountCreateSetCredentials,
@@ -60,46 +58,59 @@ const mapDispatchToProps = {
 type IProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps &
   RouteComponentProps & {
-    address: string,
-    addNew: boolean,
-    balance: string
+    address: string;
+    addNew: boolean;
+    balance: string;
+    accountGetBalance: (address: string) => {};
   };
 
 const AddressCardCreateWallet: FC<IProps> = ({
   push,
-  address = '', 
-  balance = '', 
+  address = '',
+  balance = '',
   addNew = false,
-  list,
-  
+  accountGetBalance,
 }) => {
-    const [addNewWallet, setAddNewWallet] = useState(false)
+  const [addNewWallet, setAddNewWallet] = useState(false);
+  const getBalance = useCallback(() => accountGetBalance(address), [
+    address,
+    accountGetBalance,
+  ]);
+  useEffect(() => {
+    getBalance();
+  }, [getBalance]);
 
-  return (<>
-    <Card className={classnames({ [styles.addCard]: addNew }, 'h-100')}>
-      {addNew ? (
-        <div className="text-center">
+  return (
+    <>
+      <Card className={classnames({ [styles.addCard]: addNew }, 'h-100')}>
+        {addNew ? (
+          <div className="text-center">
+            <>
+              <div className={styles.addCardBtn}>
+                <button
+                  type="button"
+                  className="btn btn-dark-periwinkle mb-4 px-5"
+                  onClick={() => push('/account/create')}
+                >
+                  Create a new wallet
+                </button>
+                <button type="button" className="btn btn-topaz px-5">
+                  Access your wallet
+                </button>
+              </div>
+            </>
+          </div>
+        ) : (
           <>
-            <div className={styles.addCardBtn}>
-              <button type="button" className="btn btn-dark-periwinkle mb-4 px-5" onClick={() => push('/account/create')}>
-          Create a new wallet
-              </button>
-              <button type="button" className="btn btn-topaz px-5">
-          Access your wallet
-              </button>
-            </div>
+            <p className="card-label mb-0">Address</p>
+            <h2 className={classnames(styles.value, 'mb-4')}>{address}</h2>
+            <p className="card-label mb-0">Balance</p>
+            <h2 className={styles.value}>{balance}</h2>
           </>
-        </div>
-    ) : (
-      <>
-        <p className="card-label mb-0">Address</p>
-        <h2 className={classnames(styles.value, 'mb-4')}>{address}</h2>
-        <p className="card-label mb-0">Balance</p>
-        <h2 className={styles.value}>{balance}</h2>
-      </>
-    )}
-    </Card>
-  </>)
+        )}
+      </Card>
+    </>
+  );
 };
 
 const AccountCreateAddNew = connect(
@@ -107,4 +118,4 @@ const AccountCreateAddNew = connect(
   mapDispatchToProps
 )(withRouter(AddressCardCreateWallet));
 
-export default AccountCreateAddNew ;
+export default AccountCreateAddNew;

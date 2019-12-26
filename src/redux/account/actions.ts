@@ -61,10 +61,11 @@ export const accountAddAccount = (account: IAccount) => ({
   account,
 });
 
-export const accountGetBalance = (id: IAccount['publicAddress']) => ({
+export const accountGetBalance = (id: IAccount['publicAddress']) => {debugger 
+  return{
   type: ACCOUNT_ACTIONS.GET_BALANCE,
   id,
-});
+}};
 
 export const accountSetAccount = (
   id: IAccount['publicAddress'],

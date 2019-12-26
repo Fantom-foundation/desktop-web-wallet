@@ -7,7 +7,8 @@ type IProps = {
   fgColor?: string;
   address: string;
   text?: string;
-}
+  id?: string;
+};
 
 class QRCodeIcon extends React.PureComponent<IProps> {
   renderLogo() {
@@ -28,7 +29,7 @@ class QRCodeIcon extends React.PureComponent<IProps> {
             width: '128px',
           }}
         >
-          <FantomLogo logoType={2} /> 
+          <FantomLogo logoType={2} />
         </p>
       );
     }
@@ -36,17 +37,24 @@ class QRCodeIcon extends React.PureComponent<IProps> {
   }
 
   render() {
-    const { address, bgColor, fgColor } = this.props;
+    const { address, bgColor, fgColor, id } = this.props;
     return (
-      <div style={{ position: 'relative', display: 'inline-block', border: '6px solid #fff' }}>
+      <div
+        style={{
+          position: 'relative',
+          display: 'inline-block',
+          border: '6px solid #fff',
+        }}
+      >
         {this.renderLogo()}
         <QRCode
           bgColor={bgColor}
           fgColor={fgColor}
           value={`${address}`}
-          renderAs="svg"
+          renderAs="canvas"
           level="H"
           size={158}
+          id={`${id}`}
         />
       </div>
     );

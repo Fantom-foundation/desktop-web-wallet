@@ -37,7 +37,10 @@ export const resultMiddleware = <T extends {}>({
 }: {
   status: number;
   data: T;
-}): { status: number; data: T } => ({ status, data });
+}): { status: number; data: T } => {
+  console.log('******status,', status, data)
+  return { status, data }
+};
 
 export const errorMiddleware = <T extends any>(debug): IResultWithStatus<T> =>
   debug && debug.response
