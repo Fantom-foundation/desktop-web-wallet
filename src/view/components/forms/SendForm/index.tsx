@@ -217,9 +217,9 @@ const TransferFunds: FC<IProps> = ({
             </div>
             <div className={styles.btnWrapper}>
               <Button
-                color={!hasError ? 'secondary' : 'topaz'}
+                color='topaz'
                 className={classnames({
-                  outlined: hasError,
+                  outlined: true,
                   // 'text-dark-grey-blue': !is_next_disabled,
                 })}
                 onClick={handlePassword}
