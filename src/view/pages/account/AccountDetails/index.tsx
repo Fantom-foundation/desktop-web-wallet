@@ -20,6 +20,7 @@ import { push as historyPush } from 'connected-react-router';
 import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
+import { RefreshIcon } from 'src/view/components/svgIcons';
 
 const overViewMock = [
   { title: 'Price', value: '$0.01025000' },
@@ -126,6 +127,17 @@ const AccountDetailsDashboard: FC<IProps> = ({
         <Row>
           <Col xl={7} className="mb-6">
             <Card className="h-100">
+              <div className={styles.refreshBtnWrapper}>
+                <button
+                  type="button"
+                  className={classnames('btn-icon', styles.refreshBtn, {
+                    spin: false,
+                  })}
+                >
+                  <RefreshIcon />
+                </button>
+              </div>
+
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
                 <h1 className="mb-0">{account.balance}</h1>
