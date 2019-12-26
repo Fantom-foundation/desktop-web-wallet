@@ -17,13 +17,18 @@ export default () => (
         </div>
       </div>
       <div>
-        <h4 className="opacity-7">
+        <h4 className={classnames('opacity-7', styles.inputLabel)}>
           Please type in your 12-word mnemonic phrase
         </h4>
-        <Input
-          type="textarea"
-          className={classnames(styles.input, styles.textarea)}
-        />
+        <div className={styles.inputWrapper}>
+          <Input
+            type="textarea"
+            className={classnames(styles.input, styles.textarea, {
+              [styles.isError]: true,
+            })}
+          />
+          <p className={styles.errorText}>Invalid recovery phrase</p>
+        </div>
       </div>
       <div className="text-center">
         <Button color="primary" className={styles.btn}>

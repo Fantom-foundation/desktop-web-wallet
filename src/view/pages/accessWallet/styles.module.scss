@@ -36,7 +36,21 @@ $gap: 15px;
     }
   }
 }
-
+.inputWrapper {
+  position: relative;
+  .errorText {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    color: map-get($color, scarlet);
+  }
+}
+.inputLabel {
+  margin-bottom: 10px;
+}
 .input {
   font-size: 16px;
   font-weight: 500;
@@ -48,6 +62,9 @@ $gap: 15px;
   background-color: #f8f9fa !important;
   width: 100%;
   padding: 15px 16px;
+  &.isError {
+    border: solid 1px map-get($color, scarlet);
+  }
   &.textarea {
     width: 100% !important;
     min-height: 130px;
