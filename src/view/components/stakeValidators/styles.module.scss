@@ -64,12 +64,40 @@
 .subViewRow {
   td {
     border-top: 0;
-    td {
-      height: 59px;
-      vertical-align: middle;
+  }
+  .subViewTable {
+    tr {
+      @media (max-width: $tablet) {
+        display: flex;
+        flex-direction: column;
+      }
+      td {
+        vertical-align: middle;
+        @media (min-width: $tablet) {
+          height: 59px;
+        }
+        @media (max-width: $tablet) {
+          padding: 0;
+        }
+        .txDetails {
+          @media (max-width: $tablet) {
+            &.label {
+              font-weight: 600;
+              font-size: 10px;
+              color: rgba(map-get($color, dark-grey-blue), 0.5);
+            }
+            &.value {
+              font-size: 12px;
+              font-weight: 700;
+            }
+          }
+        }
+      }
     }
   }
 }
 .subViewContainer {
-  padding: 12px 50px 40px;
+  @media (min-width: $tablet) {
+    padding: 12px 50px 40px;
+  }
 }
