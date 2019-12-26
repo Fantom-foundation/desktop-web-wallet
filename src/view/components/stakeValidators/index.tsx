@@ -4,7 +4,7 @@ import styles from './styles.module.scss';
 import mockData from './mockData';
 import { Card, Collapse, Table, Button } from 'reactstrap';
 import classnames from 'classnames';
-import { ArrowUpIcon, ArrowDownIcon } from 'src/view/components/svgIcons';
+import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 
 const SubView = props => {
   const { title, value } = props;
@@ -94,33 +94,29 @@ export default () => (
       <Table className={styles.table}>
         <thead>
           <th />
-          <th>
+          <th
+            className={classnames({ [styles.up]: false, [styles.down]: false })}
+          >
             Name
-            <span>
-              <ArrowUpIcon />
-              <ArrowDownIcon />
-            </span>
+            <ArrowUpDownIcon />
           </th>
-          <th>
+          <th
+            className={classnames({ [styles.up]: false, [styles.down]: true })}
+          >
             PoI
-            <span>
-              <ArrowUpIcon />
-              <ArrowDownIcon />
-            </span>
+            <ArrowUpDownIcon />
           </th>
-          <th>
+          <th
+            className={classnames({ [styles.up]: false, [styles.down]: false })}
+          >
             Validating power
-            <span>
-              <ArrowUpIcon />
-              <ArrowDownIcon />
-            </span>
+            <ArrowUpDownIcon />
           </th>
-          <th>
+          <th
+            className={classnames({ [styles.up]: false, [styles.down]: false })}
+          >
             Uptime
-            <span>
-              <ArrowUpIcon />
-              <ArrowDownIcon />
-            </span>
+            <ArrowUpDownIcon />
           </th>
         </thead>
         <tbody>

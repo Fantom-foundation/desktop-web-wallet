@@ -28,13 +28,22 @@
     align-items: center;
     color: map-get($color, Primary-Main);
     padding: 15px 0;
+    @media (max-width: $tablet) {
+      flex-direction: column;
+    }
   }
   h6 {
     color: rgba(map-get($color, Primary-Main), 0.8);
+    @media (max-width: $tablet) {
+      order: 2;
+    }
   }
   .socialIcon {
+    @media (max-width: $tablet) {
+      order: 1;
+    }
     i {
-      margin-left: 50px;
+      margin: 15px 35px;
       font-size: 25px;
     }
   }

@@ -11,26 +11,20 @@ import {
   CardSubtitle,
   CardBody,
 } from 'reactstrap';
-
 import Particles from 'react-particles-js';
 import { PARTICLES_PARAMS } from '~/constants/particles';
 import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
-
 import { Link } from 'react-router-dom';
 import KeyIcon from '../../../../images/icons/key.png';
 import WalletIcon from '../../../../images/icons/wallet.png';
 import { AddressBalanceCard } from '../../../components/cards';
 import classnames from 'classnames';
 import { push } from 'connected-react-router';
-
 function goToRoute(props) {
-  console.log('***sdjs', props);
   props.history.push('/account/create');
 }
 const Home: FC<{}> = props => {
-  console.log('******props', props);
-  // const { history } = props;
   return (
     <Layout noFooter>
       <div className={styles.banner}>
@@ -131,31 +125,9 @@ const Home: FC<{}> = props => {
             </Row>
           </div>
         </Container>
-
-        {/* <Container className={styles.container}>
-          <Row>
-            <Col xl={6} className={styles.marginBottom}>
-              <AddressBalanceCard
-                address="0xaeaeCfae08391a7dBbCfae08391a7dafsgdfghfhgfjfgjgasfszfe565757hngchvbfgdhnfg3534dfxgfxhgfg"
-                balance="200,756,680.84 FTM"
-              />
-            </Col>
-            <Col xl={6} className={styles.marginBottom}>
-              <AddressBalanceCard
-                address="0xaeaeCfae08391a7dBbCfae08391a7d"
-                balance="200,756,680.84 FTM"
-              />
-            </Col>
-            <Col xl={6} className={styles.marginBottom}>
-              <AddressBalanceCard addNew />
-            </Col>
-          </Row>
-        </Container> */}
       </div>
-
       <Particles params={PARTICLES_PARAMS} className={styles.particles} />
     </Layout>
   );
 };
-
 export default Home;

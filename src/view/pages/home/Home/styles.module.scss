@@ -12,7 +12,9 @@
   }
 }
 .container {
-  max-width: 770px;
+  @media (min-width: $mediaTablet) {
+    max-width: 1000px;
+  }
 }
 
 .slogan {
@@ -148,4 +150,32 @@
   color: #fff;
   font-weight: 600;
   font-size: 18px;
+}
+
+.passwordModal {
+  @media (min-width: $tablet) {
+    max-width: 870px;
+  }
+  > div {
+    border-radius: 20px;
+    border: 0;
+    overflow: hidden;
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+    @media (min-width: $tablet) {
+      min-height: 301px;
+    }
+  }
+  .body {
+    padding: 20px 40px 40px;
+  }
+  .sendBtn {
+    margin-top: 35px;
+    width: 200px;
+  }
+  label {
+    font-size: 18px !important;
+  }
+  p {
+    margin-top: 20px !important;
+  }
 }

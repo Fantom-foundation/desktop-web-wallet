@@ -2,7 +2,7 @@
 
 .btn {
   border: 2px solid;
-  border-color: currentColor;
+
   border-radius: 50px;
   min-width: 156px;
   height: 50px;
@@ -32,36 +32,45 @@
   }
   &-primary {
     background-color: map-get($color, Primary-Main);
+    border-color: map-get($color, Primary-Main);
     &:hover,
     &:active {
       background-color: darken(map-get($color, Primary-Main), 10%);
+      border-color: darken(map-get($color, Primary-Main), 10%);
     }
   }
   &-darkish-pink {
     background-color: map-get($color, darkish-pink);
+    border-color: map-get($color, Primary-Main);
     &:hover,
     &:active {
       background-color: darken(map-get($color, darkish-pink), 10%);
+      border-color: darken(map-get($color, darkish-pink), 10%);
     }
   }
   &-dark-periwinkle {
     background-color: map-get($color, dark-periwinkle);
+    border-color: map-get($color, dark-periwinkle);
     &:hover,
     &:active {
       background-color: darken(map-get($color, dark-periwinkle), 10%);
+      border-color: darken(map-get($color, dark-periwinkle), 10%);
     }
   }
   &-topaz {
     background-color: map-get($color, topaz);
+    border-color: map-get($color, topaz);
     &:hover,
     &:active {
       background-color: darken(map-get($color, topaz), 10%);
+      border-color: darken(map-get($color, topaz), 10%);
     }
   }
   &.outlined {
     background: transparent;
     &.btn-primary {
       color: map-get($color, Primary-Main);
+
       &:hover,
       &:active {
         color: darken(map-get($color, Primary-Main), 10%);

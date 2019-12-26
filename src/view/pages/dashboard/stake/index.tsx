@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import { Row, Col, Card, Button } from 'reactstrap';
 import { DashboardInput } from 'src/view/components/forms';
 import classnames from 'classnames';
 import { StakeSummaryCard } from 'src/view/components/cards';
 import StakeValidators from 'src/view/components/stakeValidators';
+
 import {
   CopyIcon,
   CheckCircleIcon,
@@ -19,8 +20,9 @@ const rewardMock = [
   { title: 'Claimed rewards', value: '0 FTM' },
   { title: 'Available to claim', value: '0 FTM' },
 ];
-export default () => (
-  <div>
+export default () => {
+  const [to, setTo] = useState('')
+  return (<div>
     <Row>
       <Col md={6} className="mb-6">
         <Card className="h-100">
@@ -82,7 +84,7 @@ export default () => (
         >
           <h2>How much FTM would you like to stake?</h2>
           <div className="mx-auto w-100" style={{ maxWidth: 480 }}>
-            <DashboardInput lg placeholder="0" rightLabel="Max" />
+            <DashboardInput lg placeholder="0" rightLabel="Max" handleChange={setTo} />
             <Button className={styles.validatorBtn}>
               Select a validator
               <i className="fas fa-chevron-right" />
@@ -99,7 +101,7 @@ export default () => (
         >
           <h2>How much FTM would you like to stake?</h2>
           <div className="mx-auto w-100" style={{ maxWidth: 480 }}>
-            <DashboardInput lg placeholder="0" rightLabel="Max" />
+            <DashboardInput lg placeholder="0" rightLabel="Max" handleChange={setTo} />
             <Button
               color="topaz"
               className={classnames(styles.validatorBtn, 'outlined lg')}
@@ -194,5 +196,5 @@ export default () => (
         </Card>
       </Col>
     </Row>
-  </div>
-);
+  </div>)
+};

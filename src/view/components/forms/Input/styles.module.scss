@@ -8,6 +8,10 @@
     font-size: 16px;
     font-weight: 600;
     color: map-get($color, dark-grey-blue);
+    @media (max-width: $tablet) {
+      font-size: 12px;
+      font-weight: bold;
+    }
   }
 
   .inputWrapper {
@@ -22,10 +26,9 @@
     font-size: 18px;
     font-weight: 600;
     color: map-get($color, dark-grey-blue);
-
-    &.error {
-      border-color: #d0021b;
-    }
+  }
+  .errorInput {
+    border-color: #d0021b;
   }
 
   .warning {
@@ -34,6 +37,7 @@
     margin-top: 10px;
     display: flex;
     flex-direction: row;
+    align-items: center;
     line-height: normal;
 
     i {
@@ -47,6 +51,7 @@
     margin-top: 10px;
     display: flex;
     flex-direction: row;
+    align-items: center;
     line-height: normal;
   }
 
@@ -58,6 +63,7 @@
     right: 10px;
     transform: translateY(-50%);
     outline: 0 !important;
+    cursor: pointer;
 
     img {
       width: 18px;
@@ -67,4 +73,22 @@
       color: rgba(map-get($color, dark-grey-blue), 0.7);
     }
   }
+}
+
+::-webkit-input-placeholder {
+  color: rgba(#2b3954, 0.3) !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}
+
+:-ms-input-placeholder {
+  color: rgba(#2b3954, 0.3) !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
+}
+
+::placeholder {
+  color: rgba(#2b3954, 0.3) !important;
+  font-weight: 400 !important;
+  font-size: 18px !important;
 }

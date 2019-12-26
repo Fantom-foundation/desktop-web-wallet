@@ -283,3 +283,48 @@ export const ArrowDownIcon = () => (
     />
   </svg>
 );
+export const ArrowUpDownIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="6px"
+    height="12px"
+    viewBox="0 0 6 12"
+  >
+    <polygon
+      fill="currentColor"
+      points="5.06 4 3 1.75 0.95 4 0 3.37 3 0 6 3.37 5.06 4"
+    />
+    <polygon
+      fill="currentColor"
+      points="5.06 8 3 10.25 0.95 8 0 8.63 3 12 6 8.63 5.06 8"
+    />
+  </svg>
+);
+export const MenuIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="MenuIcon"
+    width="25.86px"
+    height="19.94px"
+    viewBox="0 0 25.86 19.94"
+  >
+    <path
+      d="M25.86,19.94H0v-3H25.86Zm0-8.47H0v-3H25.86Zm0-8.47H0V0H25.86Z"
+      fill="currentColor"
+    />
+  </svg>
+);
+export const MenuCrossIcon = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className="CrossIcon"
+    width="20.24px"
+    height="20.24px"
+    viewBox="0 0 20.24 20.24"
+  >
+    <polygon
+      points="18.12 20.24 10.12 12.24 2.12 20.24 0 18.12 8 10.12 0 2.12 2.12 0 10.12 8 18.12 0 20.24 2.12 12.24 10.12 20.24 18.12 18.12 20.24"
+      fill="currentColor"
+    />
+  </svg>
+);

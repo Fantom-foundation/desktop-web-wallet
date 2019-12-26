@@ -1,0 +1,46 @@
+@import '~/styles/variables.scss';
+.successModal {
+  text-align: center;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+  width: 470px;
+  height: 300px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+  z-index: 999999;
+  background: #fff;
+  border-radius: 25px;
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+
+  svg {
+    width: 60px;
+    height: 60px;
+  }
+
+  p {
+    font-weight: 500;
+  }
+
+  button {
+    width: 220px;
+    color: #000 !important;
+    border-color: map-get($color, topaz) !important;
+    font-size: 16px;
+    &:hover,
+    &:active,
+    &:focus {
+      border-color: darken(map-get($color, topaz), 10%);
+      color: #000;
+      background: transparent !important;
+    }
+  }
+}

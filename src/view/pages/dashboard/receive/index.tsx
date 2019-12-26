@@ -12,7 +12,8 @@ import {
   DownloadCircleSolidIcon,
 } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
-import QrImage from 'src/images/qr/Qr.png';
+import QRCodeIcon from '~/view/general/QRCodeIcon/index';
+//import QrImage from 'src/images/qr/Qr.png';
 
 export default ({ account }) => {
   const [amount, setAmount] = useState(false);
@@ -26,7 +27,12 @@ export default ({ account }) => {
       <Card>
         <h2 className="mb-5 font-weight-extra-bold">Receive FTM</h2>
         <div className={classname(styles.qrWrapper, 'text-center')}>
-          <img src={QrImage} alt="" />
+          <QRCodeIcon
+            address={account.publicAddress}
+            bgColor="white"
+            fgColor="black"
+          />
+          {/* <img src={QrImage} alt="" /> */}
         </div>
         <div className={styles.btnWrapper}>
           <button

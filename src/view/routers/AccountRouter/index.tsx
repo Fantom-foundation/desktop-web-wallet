@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { DashboardLayout } from '~/view/components/layout';
 import Send from '~/view/pages/dashboard/send';
 import Recieve from '~/view/pages/dashboard/receive';
+import Stake from '~/view/pages/dashboard/stake';
 
 const mapStateToProps = selectAccount;
 const mapDispatchToProps = {
@@ -31,7 +32,6 @@ const AccountRouterUnconnected: FC<IProps> = ({
   }, [account]);
 
   if (!account) return null;
-  console.log(account, '*****acoo');
 
   return (
     <>
@@ -51,6 +51,11 @@ const AccountRouterUnconnected: FC<IProps> = ({
             exact
             path={URLS.ACCOUNT.BASE(':id/recieve')}
             component={() => <Recieve account={account} />}
+          />
+          <Route
+            exact
+            path={URLS.ACCOUNT.BASE(':id/stake')}
+            component={() => <Stake />}
           />
         </DashboardLayout>
         {/* <Route path={URLS.ACCOUNT.BASE(':id')} component={() => null} /> */}
