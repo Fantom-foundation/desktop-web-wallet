@@ -9,6 +9,7 @@
   font-weight: 600;
   color: #fff;
   box-shadow: none !important;
+  outline: none !important;
   &.lg {
     font-size: 21px;
   }
@@ -40,7 +41,7 @@
   }
   &-darkish-pink {
     background-color: map-get($color, darkish-pink);
-    border-color: map-get($color, Primary-Main);
+    border-color: map-get($color, darkish-pink);
     &:hover,
     &:active {
       background-color: darken(map-get($color, darkish-pink), 10%);
@@ -66,7 +67,7 @@
     }
   }
   &.outlined {
-    background: transparent;
+    background: transparent !important;
     &.btn-primary {
       color: map-get($color, Primary-Main);
 

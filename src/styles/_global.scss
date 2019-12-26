@@ -3,7 +3,8 @@ $white: #fff;
 $theme-blue: #00b1ff;
 
 $theme-blue-hover: #4b89ca;
-$color: (white: $white,
+$color: (
+  white: $white,
   black: #000,
   nav-link: $white,
   nav-link-hover: #8e8e8e,
@@ -40,7 +41,8 @@ $color: (white: $white,
 $primary-font: 'Roboto';
 $secondary-font: 'Lato';
 
-$font: (header-menu: $primary-font,
+$font: (
+  header-menu: $primary-font,
   header-menu-size: 16px,
   footer-menu-title: $primary-font,
   footer-menu-title-size: 20px,
@@ -71,65 +73,27 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-// .modal {
-//   height: 100vh;
-//   width: 100vw;
-//   box-sizing: border-box;
-//   display: flex !important;
-//   align-items: center;
-//   justify-content: stretch;
-// }
-
-// .modal-dialog {
-//   width: 100%;
-// }
-
-// .modal-header {
-//   color: white;
-//   background: $theme-blue;
-// }
-
-// .modal-footer {
-//   .btn {
-//     min-width: 100px;
-//   }
-// }
-
-.btn {
-  outline: none !important;
-
-  &.btn-primary.bordered {
-    background: none !important;
-    color: $theme-blue;
-    border: 1px solid $theme-blue;
-  }
-
-  // &.btn-secondary {
-  //   &:not(:disabled):not(.disabled):active:focus,
-  //   &:hover {
-  //     outline: none;
-  //     background: none;
-  //     box-shadow: none;
-  //   }
-  // }
-
-  &.btn-secondary.bordered {
-    background: none !important;
-    color: #999999;
-    border: 1px solid #999999;
-  }
-}
-
-:global() {
-  .modal-footer {
-    background: red;
-  }
-}
-
 @import './variables.scss';
 @import './typography';
 @import './button';
 
+.row {
+  @media (max-width: $largeDesktop) {
+    margin: {
+      right: -11px;
+      left: -11px;
+    }
+  }
+}
+.col,
+[class*='col-'] {
+  @media (max-width: $largeDesktop) {
+    padding: {
+      right: 11px;
+      left: 11px;
+    }
+  }
+}
 .bg {
   &-dark-periwinkle {
     background: map-get($color, dark-periwinkle) !important;

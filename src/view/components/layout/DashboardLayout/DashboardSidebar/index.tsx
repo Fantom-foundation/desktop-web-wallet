@@ -25,7 +25,7 @@ const getLinkPath = (name, address) => {
   }
 };
 export default props => {
-  const [sidebarActive, setSidebarActive] = useState(true);
+  const [sidebarActive, setSidebarActive] = useState(false);
   let selectedIndex = menus.findIndex(e => {
     return props.pathname.includes(e.name.toLowerCase());
   });
