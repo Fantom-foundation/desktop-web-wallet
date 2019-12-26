@@ -116,6 +116,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
       >
         <AccountCreateCredentialForm
           // isModal={true}
+          walletCardClassName="px-0"
           push={push}
           onSubmit={accountCreateSetRestoreCredentials}
           list={list}
@@ -127,7 +128,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
             <Card className="h-100">
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
-                <h1 className="mb-0">{account && account.balance}</h1>
+                <h1 className="mb-0">{account.balance}</h1>
                 <h2 className="mb-0">&nbsp;FTM</h2>
               </div>
               <p className="text-right text-usd">

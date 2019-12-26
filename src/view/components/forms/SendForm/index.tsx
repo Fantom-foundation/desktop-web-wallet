@@ -112,7 +112,9 @@ const TransferFunds: FC<IProps> = ({
     amount,
     memo,
   ]);
-
+  const hasError =
+    sendingErrors !== { amount: false, to: false } &&
+    (amount !== '' && to !== '');
   const onClick = useCallback(
     event => copyToClipboard(event, data.publicAddress),
     [data.publicAddress]
@@ -216,7 +218,11 @@ const TransferFunds: FC<IProps> = ({
             </div>
             <div className={styles.btnWrapper}>
               <Button
-                className={classnames(styles.btn, styles.send)}
+                color={!hasError ? 'secondary' : 'topaz'}
+                className={classnames({
+                  outlined: hasError,
+                  //'text-dark-grey-blue': !is_next_disabled,
+                })}
                 onClick={handlePassword}
               >
                 Send

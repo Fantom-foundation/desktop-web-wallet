@@ -44,7 +44,7 @@
     max-width: 870px;
   }
 
-  >div {
+  > div {
     border-radius: 20px;
     border: 0;
     overflow: hidden;
@@ -71,8 +71,25 @@
   p {
     margin-top: 20px !important;
   }
-}
 
+  ::-webkit-input-placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+
+  :-ms-input-placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+
+  ::placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+}
 
 .iconGap {
   margin-bottom: 40px;
@@ -94,8 +111,6 @@
     right: auto;
   }
 }
-
-
 
 .hash {
   display: flex;

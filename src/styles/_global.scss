@@ -149,3 +149,11 @@ body {
     color: rgba(map-get($color, dark-grey-blue), 0.5);
   }
 }
+
+.modal-dialog {
+  @media (max-width: $tablet) {
+    width: calc(100% - 50px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}

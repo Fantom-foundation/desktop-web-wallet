@@ -82,33 +82,35 @@ const AddressCardCreateWallet: FC<IProps> = ({
 
   return (
     <>
-      <Card className={classnames({ [styles.addCard]: addNew }, 'h-100')}>
-        {addNew ? (
-          <div className="text-center">
+      <div className={styles.addCardWrapper}>
+        <Card className={classnames({ [styles.addCard]: addNew }, 'h-100')}>
+          {addNew ? (
+            <div className="text-center">
+              <>
+                <div className={styles.addCardBtn}>
+                  <button
+                    type="button"
+                    className="btn btn-dark-periwinkle mb-4 px-5"
+                    onClick={() => push('/account/create')}
+                  >
+                    Create a new wallet
+                  </button>
+                  <button type="button" className="btn btn-topaz px-5">
+                    Access your wallet
+                  </button>
+                </div>
+              </>
+            </div>
+          ) : (
             <>
-              <div className={styles.addCardBtn}>
-                <button
-                  type="button"
-                  className="btn btn-dark-periwinkle mb-4 px-5"
-                  onClick={() => push('/account/create')}
-                >
-                  Create a new wallet
-                </button>
-                <button type="button" className="btn btn-topaz px-5">
-                  Access your wallet
-                </button>
-              </div>
+              <p className="card-label mb-0">Address</p>
+              <h2 className={classnames(styles.value, 'mb-4')}>{address}</h2>
+              <p className="card-label mb-0">Balance</p>
+              <h2 className={styles.value}>{balance}</h2>
             </>
-          </div>
-        ) : (
-          <>
-            <p className="card-label mb-0">Address</p>
-            <h2 className={classnames(styles.value, 'mb-4')}>{address}</h2>
-            <p className="card-label mb-0">Balance</p>
-            <h2 className={styles.value}>{balance}</h2>
-          </>
-        )}
-      </Card>
+          )}
+        </Card>
+      </div>
     </>
   );
 };
