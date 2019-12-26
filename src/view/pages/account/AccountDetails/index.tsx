@@ -23,6 +23,7 @@ import styles from './styles.module.scss';
 import { convertFTMValue } from "~/view/general/utilities"
 
 import classnames from 'classnames';
+import { RefreshIcon } from 'src/view/components/svgIcons';
 
 const overViewMock = [
   { title: 'Price', value: '$0.01078000' },
@@ -99,6 +100,7 @@ console.log(ftmToUsdPrice, '****ftmToUsdPrice')
       >
         <AccountCreateCredentialForm
           // isModal={true}
+          walletCardClassName="px-0"
           push={push}
           onSubmit={accountCreateSetRestoreCredentials}
           list={list}
@@ -108,6 +110,17 @@ console.log(ftmToUsdPrice, '****ftmToUsdPrice')
         <Row>
           <Col xl={7} className="mb-6">
             <Card className="h-100">
+              <div className={styles.refreshBtnWrapper}>
+                <button
+                  type="button"
+                  className={classnames('btn-icon', styles.refreshBtn, {
+                    spin: false,
+                  })}
+                >
+                  <RefreshIcon />
+                </button>
+              </div>
+
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
                 <h1 className="mb-0">{ account && convertFTMValue(parseFloat(account.balance))}</h1>

@@ -1,6 +1,6 @@
 @import '~/styles/variables.scss';
 .root {
-  max-width: 620px;
+  max-width: 770px;
   padding: {
     left: 25px;
     right: 25px;
@@ -19,11 +19,11 @@
   display: flex;
   align-items: center;
   text-align: center;
-  background: map-get($color, dark-periwinkle);
+  background: map-get($color, topaz);
 }
 
 .body {
-  padding: 30px 40px 40px;
+  padding: 60px 40px 40px;
   @media (max-width: $phone) {
     padding: 30px 25px;
   }

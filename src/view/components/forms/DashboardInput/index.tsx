@@ -36,13 +36,18 @@ export default ({
         </div>
         <div className={styles.inputWrapper}>
           <Input
-            className={classnames(styles.input,{[styles.lg]:lg}, {
-              [styles.error]: error.isError,
-            })}
+            className={classnames(
+              styles.input,
+              { [styles.lg]: lg },
+              {
+                [styles.error]: error.isError,
+              }
+            )}
             value={value}
             type={type}
             placeholder={placeholder}
             onChange={e => handleChange(e.target.value)}
+            min="0"
           />
         </div>
       </FormGroup>

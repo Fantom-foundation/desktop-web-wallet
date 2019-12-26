@@ -1,18 +1,6 @@
 import React, { FC } from 'react';
-import {
-  Container,
-  Row,
-  Col,
-  Card,
-  Button,
-  CardImg,
-  CardTitle,
-  CardText,
-  CardSubtitle,
-  CardBody,
-} from 'reactstrap';
-import Particles from 'react-particles-js';
-import { PARTICLES_PARAMS } from '~/constants/particles';
+import { Container, Row, Col, Card } from 'reactstrap';
+
 import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
 import { Link } from 'react-router-dom';
@@ -126,7 +114,6 @@ const Home: FC<{}> = props => {
           </div>
         </Container>
       </div>
-      <Particles params={PARTICLES_PARAMS} className={styles.particles} />
     </Layout>
   );
 };

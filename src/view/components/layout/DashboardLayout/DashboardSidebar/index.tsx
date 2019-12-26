@@ -25,7 +25,7 @@ const getLinkPath = (name, address) => {
   }
 };
 export default props => {
-  const [sidebarActive, setSidebarActive] = useState(true);
+  const [sidebarActive, setSidebarActive] = useState(false);
   let selectedIndex = menus.findIndex(e => {
     return props.pathname.includes(e.name.toLowerCase());
   });
@@ -35,7 +35,7 @@ export default props => {
   return (
     <>
       <div className={classnames('d-xl-none', styles.header)}>
-        <img src={logo} alt="Fantom" />
+        <img src={logo} className={styles.logo} alt="Fantom" />
         <button
           className={classnames('btn-icon')}
           type="button"

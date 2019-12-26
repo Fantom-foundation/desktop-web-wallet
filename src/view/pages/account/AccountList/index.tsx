@@ -14,8 +14,6 @@ import fileSaver from 'file-saver';
 import { IAccount } from '~/redux/account/types';
 import { AccountListItem } from '../AccountListItem';
 
-import Particles from 'react-particles-js';
-import { PARTICLES_PARAMS } from '~/constants/particles';
 import { Layout } from '~/view/components/layout/Layout';
 
 import { Link } from 'react-router-dom';
@@ -66,7 +64,8 @@ const AccountListUnconnected: FC<IProps> = ({
                 Object.values(list).map(account => {
                   return (
                     <Col
-                      xl={6}
+                      lg={6}
+                      md={6}
                       className={styles.marginBottom}
                       onClick={() => onAccountSelect(account.publicAddress)}
                     >
@@ -76,7 +75,7 @@ const AccountListUnconnected: FC<IProps> = ({
                     </Col>
                   );
                 })}
-              <Col xl={6} className={styles.marginBottom}>
+              <Col lg={6} md={6} className={styles.marginBottom}>
                 <AddressBalanceCard
                   addNew
                 />
@@ -180,8 +179,6 @@ const AccountListUnconnected: FC<IProps> = ({
           </Container>
         </div>
       )}
-
-      <Particles params={PARTICLES_PARAMS} className={styles.particles} />
     </Layout>
     // </Layout>
     // <div>

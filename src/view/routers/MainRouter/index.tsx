@@ -13,13 +13,15 @@ import Send from '~/view/pages/dashboard/send';
 import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
 import { AccountCreateInfo } from '~/view/pages/createWallet/mnemonicPhrase';
 import { AccountCreateSuccess } from '~/view/pages/account/AccountCreateSuccess';
-
+import AccessWallet from '~/view/pages/accessWallet';
 const MainRouter = () => {
   return (
     <ConnectedRouter history={history}>
       <Switch>
         <Switch>
           <Route exact path="/" component={AccountList} />
+          <Route exact path="/access-wallet" component={AccessWallet} />
+
           <Route
             exact
             path={URLS.ACCOUNT_CREATE}

@@ -7,7 +7,7 @@ export default ({ children, className = '' }) => (
   <div className={classnames(styles.root, className)}>
     <Card className={classnames('p-0', styles.card)}>
       <div className={styles.head}>
-        <h2 className="text-white w-100 m-0">Create a new wallet</h2>
+        <h2 className="text-white w-100 m-0">Access your wallet</h2>
       </div>
       <div className={styles.body}>{children}</div>
     </Card>

@@ -217,7 +217,11 @@ const TransferFunds: FC<IProps> = ({
             </div>
             <div className={styles.btnWrapper}>
               <Button
-                className={classnames(styles.btn, styles.send)}
+                color={!hasError ? 'secondary' : 'topaz'}
+                className={classnames({
+                  outlined: hasError,
+                  // 'text-dark-grey-blue': !is_next_disabled,
+                })}
                 onClick={handlePassword}
               >
                 Send

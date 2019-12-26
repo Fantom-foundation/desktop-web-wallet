@@ -1,16 +1,5 @@
 @import '~/styles/variables.scss';
-.particles {
-  height: 100%;
-  flex: 1;
-  position: relative;
-  z-index: 0;
 
-  canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-  }
-}
 .container {
   @media (min-width: $mediaTablet) {
     max-width: 1000px;

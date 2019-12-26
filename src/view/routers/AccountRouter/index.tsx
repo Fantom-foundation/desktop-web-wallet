@@ -55,7 +55,7 @@ const AccountRouterUnconnected: FC<IProps> = ({
           <Route
             exact
             path={URLS.ACCOUNT.BASE(':id')}
-            component={() => <AccountDetails id={id} />}
+            component={() => <AccountDetails id={id} account={account} />}
           />
           <Route exact path={URLS.ACCOUNT.BASE(':id/send')} component={Send} />
           <Route
