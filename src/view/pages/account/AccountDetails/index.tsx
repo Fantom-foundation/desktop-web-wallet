@@ -6,16 +6,11 @@ import React, {
   useLayoutEffect,
 } from 'react';
 import { Row, Col, Container, Card, Modal } from 'reactstrap';
-import { Switch, Route, RouteComponentProps } from 'react-router';
-
 import { IAccount } from '~/redux/account/types';
 import Activity from 'src/view/components/activity';
 import axios from 'axios';
-import { connect } from 'react-redux';
 import { selectTransactions } from '~/redux/transactions/selectors';
 import * as ACTIONS from '~/redux/transactions/actions';
-import { selectAccount } from '~/redux/account/selectors';
-import * as ACCACTIONS from '~/redux/account/actions';
 
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
@@ -109,6 +104,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
   list,
   accountCreateSetRestoreCredentials,
 }) => {
+  console.log(account, 'accountaccountaccount');
   return (
     <div>
       <Modal
@@ -131,7 +127,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
             <Card className="h-100">
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
-                <h1 className="mb-0">{account.balance}</h1>
+                <h1 className="mb-0">{account && account.balance}</h1>
                 <h2 className="mb-0">&nbsp;FTM</h2>
               </div>
               <p className="text-right text-usd">
