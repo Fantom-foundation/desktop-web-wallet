@@ -183,9 +183,12 @@ const TransferFunds: FC<IProps> = ({
                 placeholder="Enter amount"
                 rightLabel="Entire balance"
                 value={amount}
-                type="number"
+                type="text"
                 handleChange={val => {
-                  setAmount(val);
+                  const re = /^[0-9\b]+$/;
+                  if (val === '' || re.test(val)) {
+                    setAmount(val);
+                  }
                   setErrors({ ...sendingErrors, amount: false });
                 }}
                 error={{
