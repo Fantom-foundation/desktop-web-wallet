@@ -13,7 +13,9 @@
 }
 .sidebarWrapper {
   flex: 0 0 $dashboardSidebarWidth;
-  max-width: $dashboardSidebarWidth;
+  @media (min-width: 360.98px) {
+    max-width: $dashboardSidebarWidth;
+  }
   @media (max-width: $largeDesktop) {
     position: fixed;
     top: 0;
@@ -25,6 +27,9 @@
     &.active {
       right: 0;
     }
+  }
+  @media (max-width: 360.98px) {
+    right: -100vw;
   }
 }
 

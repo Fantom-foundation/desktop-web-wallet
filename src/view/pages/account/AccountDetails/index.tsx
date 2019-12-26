@@ -108,7 +108,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
   return (
     <div>
       <Modal
-        isOpen="true"
+        isOpen={false}
         className={classnames(
           'modal-dialog-centered',
           styles.createWalletModal
