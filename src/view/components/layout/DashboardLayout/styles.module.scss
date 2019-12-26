@@ -56,11 +56,21 @@
   .main {
     padding: 0 55px 0 30px;
     // max-width: 1280px - $sidebarWidth;
+    @media (max-width: $largeDesktop) {
+      padding: 0 30px;
+    }
   }
   .contentHeader {
-    margin-bottom: 39px;
-    @media (max-width: $largeDesktop) {
-      margin-bottom: 20px;
+    margin-bottom: 40px;
+    // &.withoutCard {
+    //   @media (min-width: $desktop) and (max-width: $largeDesktop) {
+    //     margin-bottom: 64px;
+    //   }
+    // }
+    &:not(.withoutCard) {
+      @media (max-width: $largeDesktop) {
+        margin-bottom: 20px;
+      }
     }
   }
 }
@@ -97,9 +107,12 @@
     // white-space: nowrap;
     // text-overflow: ellipsis;
     color: map-get($color, dark-grey-blue);
-    @media (max-width: $desktop) {
+    @media (max-width: $largeDesktop) {
       max-width: 470px;
     }
+    // @media (max-width: $desktop) {
+    //   max-width: 470px;
+    // }
   }
   .hashHandlers {
     display: flex;

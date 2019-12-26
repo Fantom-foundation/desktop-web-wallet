@@ -50,7 +50,11 @@ export default props => {
 
           <div className={styles.contentWrapper}>
             <main className={styles.main}>
-              <div className={styles.contentHeader}>
+              <div
+                className={classnames(styles.contentHeader, {
+                  [styles.withoutCard]: cardShow,
+                })}
+              >
                 {/* <div className="d-flex justify-content-end mb-3">
                   <p className={styles.sync}>
                     <CheckIcon />

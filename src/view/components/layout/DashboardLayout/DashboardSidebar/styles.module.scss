@@ -76,6 +76,8 @@
     &:not(.active) {
       a {
         opacity: 0.5;
+        display: flex;
+        align-items: center;
         &:hover {
           opacity: 1;
         }
