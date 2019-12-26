@@ -116,6 +116,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
       >
         <AccountCreateCredentialForm
           // isModal={true}
+          walletCardClassName="px-0"
           push={push}
           onSubmit={accountCreateSetRestoreCredentials}
           list={list}

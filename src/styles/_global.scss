@@ -3,7 +3,8 @@ $white: #fff;
 $theme-blue: #00b1ff;
 
 $theme-blue-hover: #4b89ca;
-$color: (white: $white,
+$color: (
+  white: $white,
   black: #000,
   nav-link: $white,
   nav-link-hover: #8e8e8e,
@@ -40,7 +41,8 @@ $color: (white: $white,
 $primary-font: 'Roboto';
 $secondary-font: 'Lato';
 
-$font: (header-menu: $primary-font,
+$font: (
+  header-menu: $primary-font,
   header-menu-size: 16px,
   footer-menu-title: $primary-font,
   footer-menu-title-size: 20px,
@@ -183,5 +185,13 @@ body {
     font-size: 18px;
     font-weight: 600;
     color: rgba(map-get($color, dark-grey-blue), 0.5);
+  }
+}
+
+.modal-dialog {
+  @media (max-width: $tablet) {
+    width: calc(100% - 50px);
+    margin-left: auto;
+    margin-right: auto;
   }
 }

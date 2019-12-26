@@ -24,4 +24,7 @@
 
 .body {
   padding: 30px 40px 40px;
+  @media (max-width: $phone) {
+    padding: 30px 25px;
+  }
 }

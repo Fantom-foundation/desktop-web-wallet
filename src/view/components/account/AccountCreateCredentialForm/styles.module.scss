@@ -54,6 +54,7 @@ p {
 
   h3 {
     color: map-get($color, dark-grey-blue);
+    display: flex;
     @media (max-width: $tablet) {
       font-size: 16px;
     }
@@ -66,6 +67,7 @@ p {
 
   .infoIcon {
     position: relative;
+    margin-left: 5px;
 
     .tooltipWrapper {
       display: none;
