@@ -53,7 +53,7 @@ class QRCodeIcon extends React.PureComponent<IProps> {
           value={`${address}`}
           renderAs="canvas"
           level="H"
-          size={158}
+          size={240}
           id={`${id}`}
         />
       </div>

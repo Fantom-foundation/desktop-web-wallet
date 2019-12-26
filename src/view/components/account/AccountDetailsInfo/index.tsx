@@ -36,7 +36,6 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
   accountGetBalance,
   modalShow,
 }) => {
-  console.log()
   const getBalance = useCallback(
     () => accountGetBalance(account.publicAddress),
     [account.publicAddress, accountGetBalance]
@@ -65,7 +64,7 @@ const AccountDetailsInfoUnconnected: FC<IProps> = ({
             Connecting to node...
           </div>
         )}
-        
+
         {!is_node_connected && error && (
           <div className={styles.error_overlay}>
             <FaIcon icon="fa-exclamation-triangle" />
