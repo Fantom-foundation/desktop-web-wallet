@@ -25,7 +25,7 @@ const getLinkPath = (name, address) => {
   }
 };
 export default props => {
-  const [sidebarActive, setSidebarActive] = useState(false);
+  const [sidebarActive, setSidebarActive] = useState(true);
   let selectedIndex = menus.findIndex(e => {
     return props.pathname.includes(e.name.toLowerCase());
   });
@@ -51,38 +51,41 @@ export default props => {
         })}
       >
         <div className={styles.root}>
-          <button
-            className={classnames('btn-icon d-xl-none', styles.close)}
-            type="button"
-            onClick={() => setSidebarActive(false)}
-          >
-            ×
-          </button>
-          <Link to="/">
-            <div className={styles.logoWrapper}>
-              <img src={logoWhite} alt="Fantom" />
-            </div>
-          </Link>
-
-          <ul className={styles.menus}>
-            {menus.map(({ name, icon }, index) => (
-              <li
-                // eslint-disable-next-line react/no-array-index-key
-                key={index}
-                className={classnames({
-                  [styles.active]: index === selectedIndex,
-                })}
-              >
-                <Link
-                  to={getLinkPath(name, props.address)}
-                  onClick={() => setSidebarActive(false)}
+          <div className={styles.head}>
+            <Link to="/">
+              <div className={styles.logoWrapper}>
+                <img src={logoWhite} alt="Fantom" />
+              </div>
+            </Link>
+            <button
+              className={classnames('btn-icon d-xl-none', styles.close)}
+              type="button"
+              onClick={() => setSidebarActive(false)}
+            >
+              ×
+            </button>
+          </div>
+          <div className={styles.menusWrapper}>
+            <ul className={styles.menus}>
+              {menus.map(({ name, icon }, index) => (
+                <li
+                  // eslint-disable-next-line react/no-array-index-key
+                  key={index}
+                  className={classnames({
+                    [styles.active]: index === selectedIndex,
+                  })}
                 >
-                  <img src={icon} alt={name} />
-                  {name}
-                </Link>
-              </li>
-            ))}
-          </ul>
+                  <Link
+                    to={getLinkPath(name, props.address)}
+                    onClick={() => setSidebarActive(false)}
+                  >
+                    <img src={icon} alt={name} />
+                    {name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       </div>
     </>

@@ -37,21 +37,41 @@
   position: relative;
   background: map-get($color, Primary-Main);
   height: 100%;
-  padding-top: 40px;
 
   @media (min-width: $largeDesktop) {
+    padding-top: 40px;
     border-top-right-radius: 50px;
   }
   @media (max-width: $largeDesktop) {
     border-top-left-radius: 50px;
   }
+  .head {
+    @media (max-width: $largeDesktop) {
+      position: absolute;
+      width: 100%;
+      height: 84px;
+      left: 0;
+      top: 0;
+      border-top-left-radius: 50px;
+      background: map-get($color, Primary-Main);
+      z-index: 1;
+      display: flex;
+      align-items: center;
+      padding: 0 25px;
+    }
+  }
 }
 .logoWrapper {
-  margin-bottom: 97px;
   text-align: center;
+  @media (min-width: $tablet) and (max-width: $largeDesktop) {
+    display: none;
+  }
+  @media (min-width: $largeDesktop) {
+    margin-bottom: 97px;
+  }
   img {
-    @media (max-width: $largeDesktop) {
-      display: none;
+    @media (max-width: $tablet) {
+      height: 31px;
     }
   }
 }
@@ -63,33 +83,55 @@
   position: absolute;
   right: 37px;
   top: 27px;
+  @media (max-width: $tablet) {
+    top: 16px;
+    right: 25px;
+  }
 }
-.menus {
-  padding: 0 15px;
-  width: fit-content;
-  margin: auto;
-  li {
-    list-style: none;
-    &:not(:last-child) {
-      margin-bottom: 80px;
+.menusWrapper {
+  @media (max-width: $largeDesktop) {
+    padding-top: 178px;
+    padding: {
+      top: 178px;
+      bottom: 50px;
     }
-    &:not(.active) {
-      a {
-        opacity: 0.5;
-        display: flex;
-        align-items: center;
-        &:hover {
-          opacity: 1;
+    height: 100vh;
+    overflow: auto;
+    &::-webkit-scrollbar {
+      width: 0px;
+      height: 0px;
+    }
+  }
+  @media (max-width: $tablet) {
+    padding-top: 162px;
+  }
+  .menus {
+    padding: 0 15px;
+    width: fit-content;
+    margin: auto;
+    li {
+      list-style: none;
+      &:not(:last-child) {
+        margin-bottom: 80px;
+      }
+      &:not(.active) {
+        a {
+          opacity: 0.5;
+          display: flex;
+          align-items: center;
+          &:hover {
+            opacity: 1;
+          }
         }
       }
     }
-  }
-  a {
-    color: #fff !important;
-    font-size: 24px;
-    font-weight: 600;
-    img {
-      margin-right: 20px;
+    a {
+      color: #fff !important;
+      font-size: 24px;
+      font-weight: 600;
+      img {
+        margin-right: 20px;
+      }
     }
   }
 }
