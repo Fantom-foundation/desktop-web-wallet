@@ -94,10 +94,15 @@ export default ({ account }) => {
         {amount && (
           <div className={styles.amountInput}>
             <Input
-              type="number"
+              type="text"
               placeholder="Enter amount"
               value={receiveValue}
-              onChange={e => setReceiveAmount(e.target.value)}
+              onChange={e => {
+                const re = /^[0-9\b]+$/;
+                if (e.target.value === '' || re.test(e.target.value)) {
+                  setReceiveAmount(e.target.value);
+                }
+              }}
               min="0"
             />
             <button type="button">
