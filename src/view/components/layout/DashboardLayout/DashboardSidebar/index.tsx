@@ -35,7 +35,7 @@ export default props => {
   return (
     <>
       <div className={classnames('d-xl-none', styles.header)}>
-        <img src={logo} alt="Fantom" />
+        <img src={logo} className={styles.logo} alt="Fantom" />
         <button
           className={classnames('btn-icon')}
           type="button"
