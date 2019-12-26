@@ -14,8 +14,6 @@ import fileSaver from 'file-saver';
 import { IAccount } from '~/redux/account/types';
 import { AccountListItem } from '../AccountListItem';
 
-import Particles from 'react-particles-js';
-import { PARTICLES_PARAMS } from '~/constants/particles';
 import { Layout } from '~/view/components/layout/Layout';
 
 import { Link } from 'react-router-dom';
@@ -186,8 +184,6 @@ const AccountListUnconnected: FC<IProps> = ({
           </Container>
         </div>
       )}
-
-      <Particles params={PARTICLES_PARAMS} className={styles.particles} />
     </Layout>
     // </Layout>
     // <div>
