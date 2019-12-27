@@ -90,9 +90,9 @@ export default () => {
             style={{ maxWidth: 670 }}
           >
             <h2 className="mb-5">What would you like to do?</h2>
-            <div className={styles.stakeBtnsWrap} style={{ maxWidth: 480 }}>
-              <Button className={classnames('lg mx-4')}>Unstake</Button>
-              <Button color="topaz" className={classnames('lg outlined mx-4')}>
+            <div className={styles.stakeBtnsWrap}>
+              <Button>Unstake</Button>
+              <Button color="topaz" className={classnames('outlined')}>
                 Stake
               </Button>
             </div>
