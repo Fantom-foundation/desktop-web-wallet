@@ -12,9 +12,16 @@
   @media (min-width: $tablet) {
     min-width: 156px;
   }
+  @media (max-width: $tablet) {
+    font-size: 16px;
+  }
   &.lg {
     font-size: 21px;
+    @media (max-width: $tablet) {
+      font-size: 16px;
+    }
   }
+
   &-icon {
     outline: none !important;
     cursor: pointer;

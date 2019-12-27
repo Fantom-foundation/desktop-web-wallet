@@ -4,8 +4,8 @@ import classnames from 'classnames';
 import styles from './styles.module.scss';
 
 export default () => (
-  <Card className="pb-6">
-    <p className="card-label mb-6">Summary</p>
+  <Card>
+    <p className="card-label mb-4 mb-md-6">Summary</p>
     <div className={styles.contentWrapper}>
       <div className={classnames(styles.fields)}>
         <h3 className={classnames('opacity-7', styles.label)}>
@@ -37,7 +37,7 @@ export default () => (
       </div>
     </div>
     <div className={classnames('text-center', styles.btnWrapper)}>
-      <Button color="topaz" className={classnames('outlined lg')}>
+      <Button color="topaz" className={classnames('outlined lg w-100')}>
         Stake
       </Button>
     </div>

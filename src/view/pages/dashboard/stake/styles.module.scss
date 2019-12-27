@@ -7,6 +7,11 @@
     left: 35px;
     right: 35px;
   }
+
+  @media (max-width: $tablet) {
+    font-size: 18px !important;
+    width: 100%;
+  }
   i {
     position: absolute;
     top: 50%;
@@ -104,38 +109,95 @@
 //     width: 100%;
 //   }
 // }
-.stakeBtnWrap {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  margin: 0 auto;
-  button {
+// .stakeBtnWrap {
+//   display: flex;
+//   flex-wrap: wrap;
+//   align-items: center;
+//   margin: 0 auto;
+//   button {
+//     @media (max-width: $tablet) {
+//       width: 100%;
+//     }
+//   }
+
+//   .m50 {
+//     flex: 0 0 33.3%;
+//     max-width: 33.3%;
+//     padding: 40px;
+//     @media (max-width: $tablet) {
+//       flex: 0 0 50%;
+//       max-width: 50%;
+//       order: 2;
+//       padding: 15px;
+//     }
+//   }
+//   .m100 {
+//     flex: 0 0 33.3%;
+//     max-width: 33.3%;
+//     padding: 40px;
+//     @media (max-width: $tablet) {
+//       flex: 0 0 100%;
+//       max-width: 100%;
+//       order: 1;
+//       margin-bottom: 50px;
+//       padding: 15px;
+//     }
+//   }
+// }
+.stakeButtonsWrap {
+  max-width: 628px;
+  margin: 30px auto 0;
+  .row {
+    margin-right: -40px;
+    margin-left: -40px;
+    @media (max-width: $largeDesktop) {
+      margin-right: -35px;
+      margin-left: -35px;
+    }
     @media (max-width: $tablet) {
-      width: 100%;
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+    .col {
+      padding-right: 40px;
+      padding-left: 40px;
+      @media (max-width: $largeDesktop) {
+        padding-right: 35px;
+        padding-left: 35px;
+      }
+      @media (max-width: $tablet) {
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+      button {
+        @media (max-width: $tablet) {
+          font-size: 16px;
+        }
+      }
     }
   }
 
-  .m50 {
-    flex: 0 0 33.3%;
-    max-width: 33.3%;
-    padding: 40px;
+  .rewardBtn {
     @media (max-width: $tablet) {
-      flex: 0 0 50%;
-      max-width: 50%;
-      order: 2;
-      padding: 15px;
-    }
-  }
-  .m100 {
-    flex: 0 0 33.3%;
-    max-width: 33.3%;
-    padding: 40px;
-    @media (max-width: $tablet) {
-      flex: 0 0 100%;
-      max-width: 100%;
       order: 1;
       margin-bottom: 50px;
-      padding: 15px;
+    }
+  }
+  .unstakeBtn {
+    @media (max-width: $tablet) {
+      order: 2;
+    }
+  }
+  .stakeBtn {
+    @media (max-width: $tablet) {
+      order: 3;
+    }
+  }
+}
+.stakeCard {
+  h2 {
+    @media (max-width: $tablet) {
+      font-size: 18px;
     }
   }
 }

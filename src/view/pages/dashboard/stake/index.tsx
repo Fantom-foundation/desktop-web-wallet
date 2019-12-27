@@ -65,10 +65,7 @@ export default () => {
             style={{ maxWidth: 670 }}
           >
             <h2 className="mb-5">What would you like to do?</h2>
-            <div
-              className="mx-auto mt-4 w-100 d-flex justify-content-between"
-              style={{ maxWidth: 480 }}
-            >
+            <div className={styles.stakeBtnsWrap} style={{ maxWidth: 480 }}>
               <Button className={classnames('lg mx-4')}>Unstake</Button>
               <Button color="topaz" className={classnames('lg outlined mx-4')}>
                 Stake
@@ -138,7 +135,6 @@ export default () => {
               Congratulations!
               <br /> FTM successfully staked.
             </h2>
-
             <div>
               <CheckCircleIcon />
             </div>
@@ -166,7 +162,27 @@ export default () => {
             style={{ maxWidth: 670 }}
           >
             <h2 className="mb-5">What would you like to do?</h2>
-            <div
+            <div className={styles.stakeButtonsWrap}>
+              <Row className={styles.row}>
+                <Col xs={6} md={6} className={classnames(styles.col)}>
+                  <Button
+                    color="darkish-pink"
+                    className={classnames('lg outlined w-100')}
+                  >
+                    Maybe later
+                  </Button>
+                </Col>
+                <Col xs={6} md={6} className={classnames(styles.col)}>
+                  <Button
+                    color="topaz"
+                    className={classnames('lg outlined w-100')}
+                  >
+                    Ok, unstake
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+            {/* <div
               className="mx-auto mt-4 w-100 d-flex justify-content-between"
               style={{ maxWidth: 480 }}
             >
@@ -179,7 +195,7 @@ export default () => {
               <Button color="topaz" className={classnames('lg outlined mx-4')}>
                 Ok, unstake
               </Button>
-            </div>
+            </div> */}
           </Card>
         </Col>
       </Row>
@@ -187,7 +203,49 @@ export default () => {
         <Col>
           <Card className="mx-auto text-center pt-5 pb-6">
             <h2 className="mb-5">What would you like to do?</h2>
-            <div className={styles.stakeBtnWrap} style={{ maxWidth: 640 }}>
+
+            <div className={styles.stakeButtonsWrap}>
+              <Row className={styles.row}>
+                <Col
+                  xs={6}
+                  md={4}
+                  className={classnames(styles.col, styles.unstakeBtn)}
+                >
+                  <Button
+                    color="darkish-pink"
+                    className={classnames('lg outlined w-100')}
+                  >
+                    Unstake
+                  </Button>
+                </Col>
+                <Col
+                  xs={6}
+                  md={4}
+                  className={classnames(styles.col, styles.stakeBtn)}
+                >
+                  <Button
+                    color="topaz"
+                    className={classnames('lg outlined w-100')}
+                  >
+                    Stake
+                  </Button>
+                </Col>
+                <Col
+                  xs={12}
+                  md={4}
+                  className={classnames(styles.col, styles.rewardBtn)}
+                >
+                  <Button
+                    color="primary"
+                    className={classnames('outlined w-100')}
+                  >
+                    Claim rewards
+                  </Button>
+                </Col>
+              </Row>
+            </div>
+
+            {/* <div className={styles.stakeBtnWrap}>
               <div className={styles.m50}>
                 <Button
                   color="darkish-pink"
@@ -206,7 +264,7 @@ export default () => {
                   Claim rewards
                 </Button>
               </div>
-            </div>
+            </div> */}
           </Card>
         </Col>
       </Row>
