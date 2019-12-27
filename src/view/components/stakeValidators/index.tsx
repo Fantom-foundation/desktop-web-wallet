@@ -7,11 +7,14 @@ import classnames from 'classnames';
 import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 
 const SubView = props => {
-  const { title, value } = props;
+  const { title, value, poi, uptime } = props;
   return (
     <tr>
       <td className="px-md-3">
-        <p className={classnames(styles.txDetails, styles.label)}>{title}:</p>
+        <p className={classnames(styles.txDetails, styles.label)}>
+          {title}
+          <span>:</span>
+        </p>
       </td>
       <td className="px-md-3">
         <p className={classnames(styles.txDetails, styles.value)}>
@@ -44,13 +47,16 @@ const DataRow = props => {
             <b>{name}</b>
           </p>
         </td>
-        <td>
+        <td className="no-mobile">
           <p className={styles.txDetails}>{poi}</p>
         </td>
-        <td>
+        <td className="text-right text-md-left">
+          <p className={classnames(styles.validatingPowerLable, 'd-md-none')}>
+            Validating power
+          </p>
           <p className={styles.txDetails}>{validatingPower}</p>
         </td>
-        <td>
+        <td className="no-mobile">
           <p className={styles.txDetails}>{uptime}</p>
         </td>
       </tr>
@@ -59,6 +65,28 @@ const DataRow = props => {
           <Collapse isOpen={isOpen}>
             <div className={styles.subViewContainer}>
               <table className={styles.subViewTable}>
+                <tr>
+                  <td className="d-md-none">
+                    <p className={classnames(styles.txDetails, styles.label)}>
+                      Proof of Importance
+                    </p>
+                  </td>
+                  <td className="d-md-none">
+                    <p className={classnames(styles.txDetails, styles.value)}>
+                      {poi}
+                    </p>
+                  </td>
+                  <td className="d-md-none">
+                    <p className={classnames(styles.txDetails, styles.label)}>
+                      Uptime
+                    </p>
+                  </td>
+                  <td className="d-md-none">
+                    <p className={classnames(styles.txDetails, styles.value)}>
+                      {uptime}
+                    </p>
+                  </td>
+                </tr>
                 {subView.map((data: object) => (
                   <SubView key={name + 1} {...data} />
                 ))}
@@ -73,7 +101,10 @@ const DataRow = props => {
                     </b>
                   </p>
                 ) : (
-                  <Button color="topaz" className="lg outlined">
+                  <Button
+                    color="topaz"
+                    className={classnames('lg outlined', styles.selectBtn)}
+                  >
                     Select
                   </Button>
                 )}
@@ -87,12 +118,14 @@ const DataRow = props => {
 };
 
 export default () => (
-  <Card>
-    <h2 className="font-weight-extra-bold">Validators</h2>
-    <p>Click on a validator for more info</p>
+  <Card className={styles.card}>
+    <h2 className={classnames(styles.title, 'font-weight-extra-bold')}>
+      Validators
+    </h2>
+    <p className={styles.dec}>Click on a validator for more info</p>
     <div>
       <Table className={styles.table}>
-        <thead>
+        <thead className={styles.tableHead}>
           <th />
           <th
             className={classnames({ [styles.up]: false, [styles.down]: false })}

@@ -94,6 +94,11 @@ body {
     }
   }
 }
+.no-mobile {
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
 .bg {
   &-dark-periwinkle {
     background: map-get($color, dark-periwinkle) !important;
