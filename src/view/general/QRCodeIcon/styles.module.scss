@@ -1,0 +1,13 @@
+@import '~/styles/variables.scss';
+
+.qrWrapper {
+  position: relative;
+  display: inline-block;
+  border: 6px solid #fff;
+  canvas {
+    @media (max-width: $smallPhone) {
+      width: 214px !important;
+      height: 214px !important;
+    }
+  }
+}

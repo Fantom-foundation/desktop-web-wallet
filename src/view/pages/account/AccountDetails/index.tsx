@@ -16,11 +16,15 @@ import * as ACTIONS from '~/redux/transactions/actions';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
-import { selectAccount , selectAccountConnection, selectFtmToUsdPrice } from '~/redux/account/selectors';
+import {
+  selectAccount,
+  selectAccountConnection,
+  selectFtmToUsdPrice,
+} from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
 import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
 import styles from './styles.module.scss';
-import { convertFTMValue } from "~/view/general/utilities"
+import { convertFTMValue } from '~/view/general/utilities';
 
 import classnames from 'classnames';
 import { RefreshIcon } from 'src/view/components/svgIcons';
@@ -35,7 +39,6 @@ const mapStateToProps = state => ({
   accountData: selectAccount(state),
   connection: selectAccountConnection(state),
   ftmToUsdPrice: selectFtmToUsdPrice(state),
-
 });
 const mapDispatchToProps = {
   accountCreateSetRestoreCredentials:
@@ -52,7 +55,7 @@ type IProps = ReturnType<typeof mapStateToProps> &
     account: IAccount;
     id: string;
   };
-  // ftmToUsd
+// ftmToUsd
 const AccountDetailsDashboard: FC<IProps> = ({
   push,
   connection: { is_node_connected, error },
@@ -64,23 +67,21 @@ const AccountDetailsDashboard: FC<IProps> = ({
   transactionsGetList,
   ftmToUsdPrice,
   id,
- }) => {
-//   const getBalance = useCallback(
-//     () => accountGetBalance(id),
-//     [id, accountGetBalance]
-//   );
+}) => {
+  //   const getBalance = useCallback(
+  //     () => accountGetBalance(id),
+  //     [id, accountGetBalance]
+  //   );
 
-//   useEffect(() => {
-//     if (is_node_connected) getBalance();
-//   }, [getBalance, is_node_connected]);
-console.log(ftmToUsdPrice, '****ftmToUsdPrice')
-
-
+  //   useEffect(() => {
+  //     if (is_node_connected) getBalance();
+  //   }, [getBalance, is_node_connected]);
+  console.log(ftmToUsdPrice, '****ftmToUsdPrice');
 
   useEffect(() => {
     transactionsGetList(id);
     accountGetBalance(id);
-    accountFTMtoUSD()
+    accountFTMtoUSD();
   }, [accountFTMtoUSD, accountGetBalance, id, transactionsGetList]);
   const account = accountData && accountData.list && id && accountData.list[id];
 
@@ -108,7 +109,7 @@ console.log(ftmToUsdPrice, '****ftmToUsdPrice')
       </Modal> */}
       <div>
         <Row>
-          <Col xl={7} className="mb-6">
+          <Col md={7} className="mb-6">
             <Card className="h-100">
               <div className={styles.refreshBtnWrapper}>
                 <button
@@ -123,25 +124,29 @@ console.log(ftmToUsdPrice, '****ftmToUsdPrice')
 
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
-                <h1 className="mb-0">{ account && convertFTMValue(parseFloat(account.balance))}</h1>
+                <h1 className="mb-0">
+                  {account && convertFTMValue(parseFloat(account.balance))}
+                </h1>
                 <h2 className="mb-0">&nbsp;FTM</h2>
               </div>
               <p className="text-right text-usd">
-                {account && convertFTMValue(parseFloat(account.balance) * parseFloat(ftmToUsdPrice)) }
+                {account &&
+                  convertFTMValue(
+                    parseFloat(account.balance) * parseFloat(ftmToUsdPrice)
+                  )}
                 <span> USD</span>
               </p>
             </Card>
           </Col>
-          <Col xl={5} className="mb-6">
+          <Col md={5} className="mb-6">
             <Card className="h-100">
               <p className="card-label ">Overview</p>
               {overViewMock.map(({ title, value }) => (
                 <div className="d-flex justify-content-between">
-                  <h4 className="opacity-7">
-                    {title}
-:
-                  </h4>
-                  <p className="font-weight-semi-bold">{title === 'Price' ? ftmToUsdPrice : value}</p>
+                  <h4 className="opacity-7">{title}:</h4>
+                  <p className="font-weight-semi-bold">
+                    {title === 'Price' ? ftmToUsdPrice : value}
+                  </p>
                 </div>
               ))}
             </Card>

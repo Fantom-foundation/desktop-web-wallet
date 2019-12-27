@@ -158,7 +158,8 @@ export default () => {
           <Card className={classnames(styles.card, 'mb-5 mt-5')}>
             <h2 className={styles.iconGap}>
               Congratulations!
-              <br /> FTM successfully staked.
+              <br />
+              FTM successfully staked.
             </h2>
             <div>
               <CheckCircleIcon />
