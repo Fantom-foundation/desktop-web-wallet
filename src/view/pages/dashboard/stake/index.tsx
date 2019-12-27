@@ -5,6 +5,7 @@ import { DashboardInput } from 'src/view/components/forms';
 import classnames from 'classnames';
 import { StakeSummaryCard } from 'src/view/components/cards';
 import StakeValidators from 'src/view/components/stakeValidators';
+import downloadIcon from 'src/images/icons/download-blue-icon.svg';
 
 import {
   CopyIcon,
@@ -56,6 +57,28 @@ export default () => {
       <Row>
         <Col>
           <StakeValidators />
+        </Col>
+      </Row>
+      <Row className="mt-6">
+        <Col>
+          <Card className="text-center">
+            <h3 className="mb-0">
+              Your 322,456 FTM will available in 71 hours and 59 minutes.
+            </h3>
+          </Card>
+        </Col>
+      </Row>
+      <Row className="mt-6">
+        <Col>
+          <Card className="text-center">
+            <div className={styles.availableWrapper}>
+              <h3 className="mb-0">Your 322,456 FTM are available!</h3>
+              <button type="button">
+                Withdraw to your wallet now
+                <img src={downloadIcon} alt="download" />
+              </button>
+            </div>
+          </Card>
         </Col>
       </Row>
       <Row className="mt-6">
