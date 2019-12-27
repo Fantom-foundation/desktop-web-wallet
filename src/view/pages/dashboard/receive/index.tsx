@@ -3,7 +3,7 @@ import React, { useState, useCallback, useEffect } from 'react';
 import { Card, Input } from 'reactstrap';
 import { SendForm } from '../../../components/forms';
 import classname from 'classnames';
-import { convertFTMValue } from "~/view/general/utilities"
+import { convertFTMValue } from '~/view/general/utilities';
 import {
   CopyCircleIcon,
   CopyCircleSolidIcon,
@@ -11,7 +11,6 @@ import {
   SetAmountCircleSolidIcon,
   DownloadCircleIcon,
   DownloadCircleSolidIcon,
-
   CopyIcon,
   CheckCircleIcon,
   ErrorCircleIcon,
@@ -19,13 +18,6 @@ import {
 import styles from './styles.module.scss';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import { copyToClipboard } from '~/utility/clipboard';
-
-
-
-
-
-
-
 
 import { RouteComponentProps } from 'react-router';
 
@@ -71,10 +63,9 @@ const RecieveDetails = ({
   },
   accountData,
   accountGetBalance,
-  
 }) => {
   const [amount, setAmount] = useState(false);
-  const account =  accountData.list && id && accountData.list[id];
+  const account = accountData.list && id && accountData.list[id];
 
   const [receiveValue, setReceiveAmount] = useState('');
   const [copy, setCopy] = useState(false);
@@ -83,22 +74,21 @@ const RecieveDetails = ({
     event => copyToClipboard(event, account.publicAddress),
     [account.publicAddress]
   );
-  useEffect(()=>{
-    accountGetBalance(account.publicAddress)
-  },[accountGetBalance, account.publicAddress])
+  useEffect(() => {
+    accountGetBalance(account.publicAddress);
+  }, [accountGetBalance, account.publicAddress]);
 
   return (
     <div>
       <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
       <h2 className="mb-5">
-$
-        {convertFTMValue(parseFloat(account.balance))}
-        {' '}
-FTM
+        ${convertFTMValue(parseFloat(account.balance))} FTM
       </h2>
 
       <Card>
-        <h2 className="mb-5 font-weight-extra-bold">Receive FTM</h2>
+        <h2 className={classname(styles.cardTitle, 'font-weight-extra-bold')}>
+          Receive FTM
+        </h2>
         <div className={classname(styles.qrWrapper, 'text-center')}>
           <QRCodeIcon
             address={account.publicAddress}
@@ -169,11 +159,9 @@ FTM
   );
 };
 
-
 const RecieveDetailsData = connect(
   mapStateToProps,
   mapDispatchToProps
 )(RecieveDetails);
 
 export default RecieveDetailsData;
-

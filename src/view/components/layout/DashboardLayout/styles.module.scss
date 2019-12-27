@@ -59,6 +59,9 @@
     @media (max-width: $largeDesktop) {
       padding: 0 30px;
     }
+    @media (max-width: $tablet) {
+      padding: 0 25px;
+    }
   }
   .contentHeader {
     margin-bottom: 40px;
