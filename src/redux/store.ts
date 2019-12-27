@@ -4,7 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 import { accountSaga } from './account/sagas';
 import { transactionsSaga } from './transactions/sagas';
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, createHashHistory } from 'history';
 import {
   routerMiddleware,
   RouterState,
@@ -17,7 +17,7 @@ import { modal, IModalState } from '~/redux/modal';
 import { transactions, ITRansactionsState } from '~/redux/transactions';
 import { accountReconnectProvider } from './account/actions';
 
-export const history = createBrowserHistory();
+export const history = createHashHistory();
 
 const accountPersistConfig = {
   key: 'account',

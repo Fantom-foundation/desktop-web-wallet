@@ -1,5 +1,5 @@
 import React from 'react';
-import { Route, Switch } from 'react-router-dom';
+import { Route, Switch, BrowserRouter, HashRouter } from 'react-router-dom';
 import { AccountCreateRouter } from '~/view/pages/account/AccountCreateRouter';
 import { ConnectedRouter } from 'connected-react-router';
 import { history } from '~/redux/store';
@@ -14,35 +14,32 @@ import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
 import { AccountCreateInfo } from '~/view/pages/createWallet/mnemonicPhrase';
 import { AccountCreateSuccess } from '~/view/pages/account/AccountCreateSuccess';
 import AccessWallet from '~/view/pages/accessWallet';
-const MainRouter = () => {
+const MainRouter = (props) => {
+  console.log("props: ", props);
   return (
-    <ConnectedRouter history={history}>
+    <HashRouter>
       <Switch>
-        <Switch>
-          <Route exact path="/" component={AccountList} />
-          <Route exact path="/access-wallet" component={AccessWallet} />
+        <Route exact path="/" component={AccountList} />
+        <Route exact path="/access-wallet" component={AccessWallet} />
 
-          <Route
-            exact
-            path={URLS.ACCOUNT_CREATE}
-            component={AccountCreateRouter}
-          />
-          <Route
-            exact
-            path="/account/success"
-            component={AccountCreateSuccess}
-          />
-          <Route exact path={URLS.ACCOUNT_LIST} component={AccountList} />
+        <Route
+          exact
+          path={URLS.ACCOUNT_CREATE}
+          component={AccountCreateRouter}
+        />
+        <Route exact path="/account/success" component={AccountCreateSuccess} />
+        <Route exact path={URLS.ACCOUNT_LIST} component={AccountList} />
 
-          <Route
-            exact
-            path={URLS.ACCOUNT_RESTORE}
-            component={AccountRestoreRouter}
-          />
-          <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
-        </Switch>
+        <Route
+          exact
+          path={URLS.ACCOUNT_RESTORE}
+          component={AccountRestoreRouter}
+        />
+        <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
+        <Route component={(p) => {console.log("p", p); return <h1>testt</h1>}} />
+
       </Switch>
-    </ConnectedRouter>
+    </HashRouter>
   );
 };
 
