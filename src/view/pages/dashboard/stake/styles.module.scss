@@ -77,13 +77,19 @@
   > h3,
   button {
     margin: 0 14px;
+    @media (max-width: $tablet) {
+      ont-size: 16px;
+    }
   }
   button {
+    box-shadow: none !important;
     cursor: pointer;
     display: flex;
     align-items: center;
-    font-size: 18px;
-    font-weight: 600;
+    font: {
+      size: 18px;
+      weight: 600;
+    }
     padding: 0;
     border: 0;
     background: transparent;
