@@ -18,3 +18,11 @@
     border-radius: 25px !important;
   }
 }
+.refreshBtnWrapper {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  .refreshBtn {
+    line-height: 1;
+  }
+}

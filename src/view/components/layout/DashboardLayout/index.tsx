@@ -9,11 +9,11 @@ import { copyToClipboard } from '~/utility/clipboard';
 
 export default props => {
   const [modal, setModal] = useState(false);
-  const { account, history, location, children } = props;
+  const { address, history, location, children } = props;
   console.log(location);
   const onClick = useCallback(
-    event => copyToClipboard(event, account.publicAddress),
-    [account.publicAddress]
+    event => copyToClipboard(event, address),
+    [address]
   );
   const cardShow =
     location.pathname.includes('send') || location.pathname.includes('receive');
@@ -30,12 +30,12 @@ export default props => {
       >
         <div className="text-center">
           <QRCodeIcon
-            address={account.publicAddress}
+            address={address}
             bgColor="white"
             fgColor="black"
           />
           {/* <img src={QrImage} className="mb-4" /> */}
-          <h4 className="opacity-7">{account.publicAddress}</h4>
+          <h4 className="opacity-7">{address}</h4>
         </div>
       </DashboardModal>
       <div
@@ -43,7 +43,7 @@ export default props => {
       >
         <div className={styles.wrapper}>
           <Sidebar
-            address={account.publicAddress}
+            address={address}
             history={history}
             pathname={location.pathname}
           />
@@ -66,7 +66,7 @@ export default props => {
                 </div>
                 <div className={styles.hashWrapper}>
                   <div>
-                    <p className={styles.hash}>{account.publicAddress}</p>
+                    <p className={styles.hash}>{address}</p>
                   </div>
                   <div className={styles.hashHandlers}>
                     <button type="button" onClick={onClick}>

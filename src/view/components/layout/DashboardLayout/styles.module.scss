@@ -93,6 +93,13 @@
 .hashWrapper {
   display: flex;
   justify-content: space-between;
+  flex-wrap: wrap;
+  > div {
+    @media (max-width: $tablet) {
+      flex: 0 0 100%;
+      max-width: 100%;
+    }
+  }
   .hash {
     margin: 0;
     font: {
@@ -110,9 +117,9 @@
     @media (max-width: $largeDesktop) {
       max-width: 470px;
     }
-    // @media (max-width: $desktop) {
-    //   max-width: 470px;
-    // }
+    @media (max-width: $tablet) {
+      font-size: 18px;
+    }
   }
   .hashHandlers {
     display: flex;

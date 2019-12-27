@@ -157,3 +157,17 @@ body {
     margin-right: auto;
   }
 }
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.spin {
+  animation: 1s refresh-spin infinite linear;
+  @keyframes refresh-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+}

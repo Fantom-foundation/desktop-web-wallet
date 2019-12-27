@@ -45,6 +45,7 @@ export interface IAccountState {
     custom_nodes: INodeRecord[],
     error: string | null;
   };
+  ftmToUsd: string;
 }
 
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
@@ -69,6 +70,7 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
     error: null,
   },
   list: {},
+  ftmToUsd: "0",
 };
 
 export const account = createReducer(ACCOUNT_INITIAL_STATE, ACCOUNT_HANDLERS);

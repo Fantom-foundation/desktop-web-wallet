@@ -10,11 +10,11 @@ const SubView = props => {
   const { title, value } = props;
   return (
     <tr>
-      <td className="px-3">
-        <p className={styles.txDetails}>{title}:</p>
+      <td className="px-md-3">
+        <p className={classnames(styles.txDetails, styles.label)}>{title}:</p>
       </td>
-      <td className="px-3">
-        <p className={styles.txDetails}>
+      <td className="px-md-3">
+        <p className={classnames(styles.txDetails, styles.value)}>
           <b>{value}</b>
         </p>
       </td>
@@ -58,7 +58,7 @@ const DataRow = props => {
         <td colSpan={5} className="p-0">
           <Collapse isOpen={isOpen}>
             <div className={styles.subViewContainer}>
-              <table>
+              <table className={styles.subViewTable}>
                 {subView.map((data: object) => (
                   <SubView key={name + 1} {...data} />
                 ))}
