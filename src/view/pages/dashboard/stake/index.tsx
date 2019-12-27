@@ -161,7 +161,7 @@ export default () => {
               <br />
               FTM successfully staked.
             </h2>
-            <div>
+            <div className="pb-2">
               <CheckCircleIcon />
             </div>
           </Card>
@@ -175,7 +175,7 @@ export default () => {
               <br />
               Please try again.
             </h2>
-            <div>
+            <div className="pb-2">
               <ErrorCircleIcon />
             </div>
           </Card>

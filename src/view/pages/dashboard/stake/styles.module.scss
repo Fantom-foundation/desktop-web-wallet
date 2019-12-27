@@ -39,6 +39,12 @@
     left: auto;
     right: auto;
   }
+  svg {
+    @media (max-width: $tablet) {
+      width: 79px;
+      height: 79px;
+    }
+  }
 }
 
 .hash {
