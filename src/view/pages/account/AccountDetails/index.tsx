@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-one-expression-per-line */
 import React, {
   FC,
   useEffect,
@@ -22,7 +23,7 @@ import {
   selectFtmToUsdPrice,
 } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
-import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
+// import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
 import styles from './styles.module.scss';
 import { convertFTMValue } from '~/view/general/utilities';
 
@@ -76,7 +77,6 @@ const AccountDetailsDashboard: FC<IProps> = ({
   //   useEffect(() => {
   //     if (is_node_connected) getBalance();
   //   }, [getBalance, is_node_connected]);
-  console.log(ftmToUsdPrice, '****ftmToUsdPrice');
 
   useEffect(() => {
     transactionsGetList(id);
@@ -124,10 +124,12 @@ const AccountDetailsDashboard: FC<IProps> = ({
 
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
-                <h1 className="mb-0">
+                <h1 className={classnames('mb-0', styles.ftmNumber)}>
                   {account && convertFTMValue(parseFloat(account.balance))}
                 </h1>
-                <h2 className="mb-0">&nbsp;FTM</h2>
+                <h2 className={classnames('mb-0', styles.ftmText)}>
+                  &nbsp;FTM
+                </h2>
               </div>
               <p className="text-right text-usd">
                 {account &&
@@ -140,11 +142,11 @@ const AccountDetailsDashboard: FC<IProps> = ({
           </Col>
           <Col md={5} className="mb-6">
             <Card className="h-100">
-              <p className="card-label ">Overview</p>
+              <p className="card-label">Overview</p>
               {overViewMock.map(({ title, value }) => (
-                <div className="d-flex justify-content-between">
-                  <h4 className="opacity-7">{title}:</h4>
-                  <p className="font-weight-semi-bold">
+                <div className="mb-4 d-flex justify-content-between">
+                  <h4 className="m-0 opacity-85">{title}:</h4>
+                  <p className={classnames('m-0', styles.infoValue)}>
                     {title === 'Price' ? ftmToUsdPrice : value}
                   </p>
                 </div>
