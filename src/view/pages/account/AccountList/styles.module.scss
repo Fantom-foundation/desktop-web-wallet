@@ -35,28 +35,6 @@
   text-decoration: none !important;
 }
 
-.banner {
-  padding: 70px 0 120px;
-
-  .homeTitle {
-    font-size: 48px;
-    color: #fff;
-    font-weight: 600;
-
-    @media (max-width: $tablet) {
-      font-size: 36px;
-    }
-  }
-
-  h3 {
-    color: rgba(#fff, 0.8);
-
-    @media (max-width: $tablet) {
-      font-size: 16px;
-    }
-  }
-}
-
 .buttons {
   display: flex;
   align-items: center;
@@ -197,6 +175,9 @@
 
 .banner {
   padding: 70px 0 120px;
+  @media (max-width: $tablet) {
+    padding: 51px 0 90px;
+  }
 
   .homeTitle {
     font-size: 48px;
