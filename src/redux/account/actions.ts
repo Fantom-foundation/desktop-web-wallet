@@ -7,13 +7,10 @@ export const accountSetCreate = (create: Partial<IAccountState['create']>) => ({
   create,
 });
 
-
-
 export const accountSetFTMtoUSD = (price: string) => ({
   type: ACCOUNT_ACTIONS.SET_FTM_USD,
   price,
 });
-
 
 export const accountSetCreateStage = (
   stage: Partial<IAccountState['create']['stage']>
@@ -70,7 +67,6 @@ export const accountAddAccount = (account: IAccount) => ({
 });
 
 export const accountGetBalance = (id: IAccount['publicAddress']) => {
-  debugger
   return {
     type: ACCOUNT_ACTIONS.GET_BALANCE,
     id,
@@ -130,8 +126,6 @@ export const accountSetTransfer = (
   type: ACCOUNT_ACTIONS.SET_TRANSFER,
   transfer,
 });
-
-
 
 export const accountGetTransferFee = ({
   from,

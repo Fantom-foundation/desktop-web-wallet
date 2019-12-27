@@ -36,6 +36,7 @@
     color: rgba(map-get($color, Primary-Main), 0.8);
     @media (max-width: $tablet) {
       order: 2;
+      text-align: center;
     }
   }
   .socialIcon {
@@ -45,6 +46,9 @@
     i {
       margin: 15px 35px;
       font-size: 25px;
+      @media (max-width: $smallPhone) {
+        margin: 15px;
+      }
     }
   }
 }
