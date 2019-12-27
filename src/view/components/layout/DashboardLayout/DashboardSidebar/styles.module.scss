@@ -13,6 +13,9 @@
   @media (max-width: $tablet) {
     padding: 25px;
   }
+  @media (max-width: $smallPhone) {
+    padding: 25px 15px;
+  }
   .logo {
     @media (max-width: $tablet) {
       height: 31px;
