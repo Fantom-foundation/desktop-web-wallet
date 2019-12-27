@@ -61,6 +61,36 @@
     }
   }
 }
+.availableWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  > h3,
+  button {
+    margin: 0 14px;
+  }
+  button {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 600;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: map-get($color, Primary-Main);
+    transition: 0.15s ease-in-out;
+
+    &:hover {
+      text-decoration: underline;
+      color: darken(map-get($color, Primary-Main), 10%);
+    }
+    img {
+      margin-left: 10px;
+    }
+  }
+}
 // .stakeButtons {
 //   display: flex;
 //   justify-content: space-between;
