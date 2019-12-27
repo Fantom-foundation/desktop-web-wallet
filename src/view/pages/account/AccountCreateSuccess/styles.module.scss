@@ -1,25 +1,18 @@
 @import '~/styles/variables.scss';
 .successModal {
   text-align: center;
-  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+  box-shadow: 0 0 40px 0 rgba(#000, 0.06);
   max-width: 470px;
   width: calc(100% - 50px);
   margin: 0 auto;
   padding: 40px 40px 30px;
-  transition: -webkit-transform 0.3s ease-out;
-  transition: transform 0.3s ease-out;
-  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
   z-index: 999999;
   background: #fff;
   border-radius: 25px;
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 50%;
-  transform: translateY(-50%);
-  margin-top: 50px;
+  margin-top: 240px;
   @media (max-width: $tablet) {
     padding: 25px;
+    margin-top: 150px;
   }
 
   svg {
