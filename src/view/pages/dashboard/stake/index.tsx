@@ -62,9 +62,11 @@ export default () => {
       <Row className="mt-6">
         <Col>
           <Card className="text-center">
-            <h3 className="mb-0">
-              Your 322,456 FTM will available in 71 hours and 59 minutes.
-            </h3>
+            <div className={styles.availableWrapper}>
+              <h3 className="mb-0">
+                Your 322,456 FTM will available in 71 hours and 59 minutes.
+              </h3>
+            </div>
           </Card>
         </Col>
       </Row>
