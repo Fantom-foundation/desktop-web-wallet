@@ -9,7 +9,8 @@ export const MnemonicPhrase = ({ mnemonic }) => (
   <Row className={styles.mnemonicRow}>
     {mnemonic.map((word, index) => (
       <Col
-        lg={4}
+        xs={6}
+        sm={4}
         className={classnames(styles.mnemonicCol, 'mt-4')}
         key={index + 1}
       >
@@ -24,7 +25,12 @@ export const MnemonicPhrase = ({ mnemonic }) => (
 export const MnemonicPhraseWithCross = () => (
   <Row className={styles.mnemonicRow}>
     {mnemonicMock.map(({ id, text }) => (
-      <Col lg={4} className={classnames(styles.mnemonicCol, 'mt-4')} key={id}>
+      <Col
+        xs={6}
+        sm={4}
+        className={classnames(styles.mnemonicCol, 'mt-4')}
+        key={id}
+      >
         <div className={styles.phrase}>
           <span className="opacity-5 mr-2">{id}</span>
           {text}
@@ -38,7 +44,8 @@ export const MnemonicPhraseEmpty = ({ selected, onMnemonicRemove }) => (
   <Row className={styles.mnemonicRow}>
     {mnemonicMock.map((word, index) => (
       <Col
-        lg={4}
+        xs={6}
+        sm={4}
         className={classnames(styles.mnemonicCol, 'mt-4')}
         key={index + 1}
       >
@@ -65,7 +72,8 @@ export const MnemonicButtons = ({ mnemonic, selected, onMnemonicSelect }) => (
     {mnemonic.map((word, index) => {
       return (
         <Col
-          lg={4}
+          xs={6}
+          sm={4}
           className={classnames(styles.mnemonicCol, 'mt-4')}
           key={index}
         >

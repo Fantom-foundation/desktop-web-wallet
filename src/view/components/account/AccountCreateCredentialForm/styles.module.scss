@@ -110,9 +110,12 @@ p {
     outline: 0 !important;
     border: 2px solid #0ebec2;
     padding: 13px 30px;
+    @media (max-width: $tablet) {
+      padding: 13px 24px;
+    }
     @media (max-width: $phone) {
       font-size: 14px;
-      padding: 13px 27px;
+      padding: 13px;
     }
 
     &.disable {

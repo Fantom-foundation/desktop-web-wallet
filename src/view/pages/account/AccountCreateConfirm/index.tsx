@@ -134,7 +134,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
             <div className={styles.verifyBtnWrapper}>
               <button
                 type="button"
-                className="btn-primary"
+                className="btn btn-primary mr-2"
                 onClick={onBackPressed}
               >
                 Back
@@ -142,7 +142,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
 
               <Button
                 color={is_next_disabled ? 'secondary' : 'topaz'}
-                className={classnames({
+                className={classnames('ml-2', {
                   outlined: !is_next_disabled,
                   'text-dark-grey-blue': !is_next_disabled,
                 })}

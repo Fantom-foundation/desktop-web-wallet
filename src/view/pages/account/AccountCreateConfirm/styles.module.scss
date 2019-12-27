@@ -116,6 +116,13 @@
       background: #d5d5d5;
       border: 2px solid #d5d5d5;
     }
+    @media (max-width: $tablet) {
+      padding: 13px 24px;
+    }
+    @media (max-width: $phone) {
+      font-size: 14px;
+      padding: 13px;
+    }
   }
 }
 
@@ -163,6 +170,7 @@
     width: 220px;
     height: 50px;
     border-radius: 25px;
+    min-width: 70px;
     &.btn-topaz {
       color: #000;
     }
