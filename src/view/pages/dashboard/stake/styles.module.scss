@@ -7,10 +7,12 @@
     left: 35px;
     right: 35px;
   }
-
   @media (max-width: $tablet) {
     font-size: 18px !important;
     width: 100%;
+  }
+  @media (max-width: $smallPhone) {
+    font-size: 16px !important;
   }
   i {
     position: absolute;
@@ -198,6 +200,11 @@
       @media (max-width: $tablet) {
         padding-right: 15px;
         padding-left: 15px;
+      }
+      @media (max-width: $smallPhone) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
       }
       button {
         @media (max-width: $tablet) {
