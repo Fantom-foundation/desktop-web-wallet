@@ -11,6 +11,9 @@ const StakeInputCard = ({
   errors,
   handleEntireBalance,
 }) => {
+  const errorTxt = errors.stakeValueMax
+    ? 'Not enough FTM. Please enter a lower amount'
+    : 'Invalid stake amount';
   return (
     <Card className="mx-auto text-center pt-5 pb-6" style={{ maxWidth: 670 }}>
       <h2>How much FTM would you like to stake?</h2>
@@ -23,7 +26,7 @@ const StakeInputCard = ({
           value={stakeValue}
           error={{
             isError: errors.stakeValueInvalid || errors.stakeValueMax,
-            errorText: 'Invalid stake amount',
+            errorText: errorTxt,
           }}
           handleRightButton={() => handleEntireBalance()}
           handleChange={val => {

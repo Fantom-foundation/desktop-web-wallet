@@ -10,11 +10,14 @@ import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard';
 import ClaimRewardsCard from 'src/view/components/stake/claimRewardsCard';
 import SuccessCard from '~/view/components/stake/sucessCard';
 import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
+import { setValidatorsList } from '~/redux/stake/handlers';
 import { connect } from 'react-redux';
 import {
   delegateByAddress as delegateByAddressAction,
   unstakeamount as unstakeamountAction,
 } from '~/redux/stake/actions';
+import { selectAccount } from '~/redux/account/selectors';
+import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 
 const overViewMock = [
   { title: 'Available to stake', value: '200,756,680.84 FTM' },
@@ -26,11 +29,24 @@ const rewardMock = [
 ];
 const Stake = props => {
   const [stakeValue, setStakeValue] = useState('');
+  const [validator, setValidator] = useState('');
   const [step, setStep] = useState(1);
   const [type, setType] = useState('');
   const [errors, setErrors] = useState({});
   const [withdrawalText, setWithdrawal] = useState('');
-  const { stakes, id, delegateByAddress } = props;
+  const {
+    stakes,
+    id,
+    delegateByAddress,
+    accountData,
+    accountGetBalance,
+  } = props;
+  const [isEdit, setIsEdit] = useState(false);
+  const account = accountData.list && id && accountData.list[id];
+  // console.log(accountData, '****acc')
+  useEffect(() => {
+    accountGetBalance(id);
+  }, [accountGetBalance, id]);
   const handleStep = useCallback(
     actionType => {
       setStep(step + 1);
@@ -61,19 +77,25 @@ const Stake = props => {
     const validation_errors = {
       stakeValueInvalid:
         stakeValue === '' || stakeValue === undefined || stakeValue === null,
-      stakeValueMax: parseFloat(stakeValue) > 100,
+      stakeValueMax: parseFloat(stakeValue) > account.balance,
     };
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
-    setStep(step + 1);
+    debugger;
+    if (isEdit) {
+      setStep(4);
+    } else {
+      setStep(step + 1);
+    }
   }, [stakeValue, step]);
+  console.log('******validatoradss', validator);
 
   const selectedAddress = stakes.find(stake => stake.publicKey === id);
   const getCurrentCard = () => {
     const { stakes, id } = props;
-    const selectedAddress = stakes.find(stake => stake.publicKey === id);
-    console.log(stakes, 'stakesstakesstakes');
+    const selectedAddress =
+      stakes && stakes.find(stake => stake.publicKey === id);
     switch (step) {
       case 1:
         return (
@@ -90,15 +112,33 @@ const Stake = props => {
               setStakeValue(val), setErrors({});
             }}
             errors={errors}
-            handleEntireBalance={() => setStakeValue('100')}
+            handleEntireBalance={() => setStakeValue(account.balance)}
             validatorBtn={styles.validatorBtn}
             handleStep={handleStackSubmit}
           />
         );
       case 3:
-        return <StakeValidators />;
+        return (
+          <StakeValidators
+            handleValidatorSelect={val => {
+              setValidator(val);
+              setStep(step + 1);
+            }}
+          />
+        );
       case 4:
-        return <StakeSummaryCard handleEditStep={val => setStep(val)} />;
+        return (
+          <StakeSummaryCard
+            validator={validator}
+            stakeValue={stakeValue}
+            handleEditStep={val => {
+              if (val === 2) {
+                setIsEdit(true);
+              }
+              setStep(val);
+            }}
+          />
+        );
       case 5:
         return (
           <UnstakeDecisionCard
@@ -135,12 +175,10 @@ const Stake = props => {
           <Card className="h-100">
             <p className="card-label mb-4">Overview</p>
             <div className="text-right">
-              {overViewMock.map(({ title, value }) => (
-                <>
-                  <h2 className="pt-3">{value}</h2>
-                  <h3 className="opacity-5 mb-3">{title}</h3>
-                </>
-              ))}
+              <h2 className="pt-3">{account.balance} FTM</h2>
+              <h3 className="opacity-5 mb-3">Available to stake</h3>
+              <h2 className="pt-3">0 FTM</h2>
+              <h3 className="opacity-5 mb-3">Currently staking</h3>
             </div>
           </Card>
         </Col>
@@ -279,11 +317,13 @@ const Stake = props => {
 
 const mapStateToProps = state => ({
   stakes: state.stakes.data,
+  accountData: selectAccount(state),
 });
 
 const mapDispatchToProps = () => ({
   delegateByAddress: delegateByAddressAction,
   unstakeamount: unstakeamountAction,
+  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
 });
 
 export default connect(

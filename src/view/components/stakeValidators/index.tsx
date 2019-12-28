@@ -8,34 +8,85 @@ import classnames from 'classnames';
 import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 import { getValidatorsList as getValidatorsListAction } from '../../../redux/stake/actions';
 
-const SubView = props => {
-  const { title, value } = props;
+const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
+  console.log(stackeLeftPer, '****stackeLeftPer');
   return (
-    <tr>
-      <td className="px-md-3">
-        <p className={classnames(styles.txDetails, styles.label)}>{title}:</p>
-      </td>
-      <td className="px-md-3">
-        <p className={classnames(styles.txDetails, styles.value)}>
-          <b>{value}</b>
-        </p>
-      </td>
-    </tr>
+    <>
+      <tr>
+        <td className="px-md-3">
+          <p className={classnames(styles.txDetails, styles.label)}>
+            Total staked:
+          </p>
+        </td>
+        <td className="px-md-3">
+          <p className={classnames(styles.txDetails, styles.value)}>
+            <b>
+              {totalStaked} FTM ({stackeLeftPer}% full)
+            </b>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td className="px-md-3">
+          <p className={classnames(styles.txDetails, styles.label)}>
+            Space left:
+          </p>
+        </td>
+        <td className="px-md-3">
+          <p className={classnames(styles.txDetails, styles.value)}>
+            <b>{spaceLeft} FTM</b>
+          </p>
+        </td>
+      </tr>
+      <tr>
+        <td className="px-md-3">
+          <p className={classnames(styles.txDetails, styles.label)}>
+            Commission:
+          </p>
+        </td>
+        <td className="px-md-3">
+          <p className={classnames(styles.txDetails, styles.value)}>
+            <b>{txRewardWeight}%</b>
+          </p>
+        </td>
+      </tr>
+    </>
   );
 };
 const DataRow = props => {
   // eslint-disable-next-line one-var
   const {
-      index,
-      address: name,
-      poi,
-      validationScore: validatingPower,
-      uptime = '100%',
-      subView = [],
-      totalStake,
-      delegatedMe,
-    } = props,
-    [isOpen, setIsOpen] = useState(false);
+    index,
+    address: name,
+    poi,
+    validationScore: validatingPower,
+    uptime,
+    subView = [],
+    totalStake,
+    delegatedMe,
+    txRewardWeight,
+    validators,
+    deactivatedTime,
+    createdTime,
+    handleValidatorSelect,
+  } = props;
+  const [isOpen, setIsOpen] = useState(false);
+  // const createdtime = new Date(createdTime)
+  const currDate = Math.round(new Date().getTime() / 1000);
+
+  const upTime =
+    100 - (Number(deactivatedTime) / (currDate - Number(createdTime))) * 100;
+  // Validator is full if "delegatedMe" = "stake"*15
+
+  const totalStaked = Number(totalStake) / 10 ** 18;
+  // const spaceLeft = totalStaked - Number(delegatedMe);
+  const spaceLeft = Number(
+    ((Number(totalStake) * 15 - Number(delegatedMe)) / 10 ** 18).toFixed(2)
+  );
+  const perc = (spaceLeft / totalStaked) * 100;
+  // const isFull = Number(delegatedMe) === totalStaked * 15;
+  const stackeLeftPer = (Number(delegatedMe) / (totalStaked * 15)) * 100;
+  console.log(perc, '******perc');
   const nodeFull = 15 * Number(totalStake) - Number(delegatedMe);
 
   return (
@@ -56,7 +107,7 @@ const DataRow = props => {
           <p className={styles.txDetails}>{validatingPower}</p>
         </td>
         <td>
-          <p className={styles.txDetails}>{uptime}</p>
+          <p className={styles.txDetails}>{upTime}%</p>
         </td>
       </tr>
       <tr className={styles.subViewRow}>
@@ -64,9 +115,13 @@ const DataRow = props => {
           <Collapse isOpen={isOpen}>
             <div className={styles.subViewContainer}>
               <table className={styles.subViewTable}>
-                {subView.map((data: object) => (
-                  <SubView key={name + 1} {...data} />
-                ))}
+                <SubView
+                  key={name + 1}
+                  spaceLeft={spaceLeft}
+                  stackeLeftPer={stackeLeftPer}
+                  txRewardWeight={txRewardWeight}
+                  totalStaked={totalStaked}
+                />
               </table>
               <div className="text-center pt-2">
                 {nodeFull <= 0 ? (
@@ -78,7 +133,11 @@ const DataRow = props => {
                     </b>
                   </p>
                 ) : (
-                  <Button color="topaz" className="lg outlined">
+                  <Button
+                    color="topaz"
+                    className="lg outlined"
+                    onClick={() => handleValidatorSelect(name)}
+                  >
                     Select
                   </Button>
                 )}
@@ -92,11 +151,12 @@ const DataRow = props => {
 };
 
 const validator = props => {
-  const { getValidatorsList, validators } = props;
+  const { getValidatorsList, validators, handleValidatorSelect } = props;
+  console.log(validators, '******validators');
 
   useEffect(() => {
     getValidatorsList();
-  }, []);
+  }, [getValidatorsList]);
 
   if (!validators || (validators && validators.length === 0)) return null;
 
@@ -147,7 +207,13 @@ const validator = props => {
           </thead>
           <tbody>
             {validators.map((data, index) => (
-              <DataRow key={data.id} index={index + 1} {...data} />
+              <DataRow
+                key={data.id}
+                index={index + 1}
+                {...data}
+                handleValidatorSelect={handleValidatorSelect}
+                validators={validators}
+              />
             ))}
           </tbody>
         </Table>
