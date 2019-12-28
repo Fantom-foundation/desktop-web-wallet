@@ -9,6 +9,7 @@ import FailureCard from 'src/view/components/stake/failureCard';
 import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard';
 import ClaimRewardsCard from 'src/view/components/stake/claimRewardsCard';
 import SuccessCard from '~/view/components/stake/sucessCard';
+import { setValidatorsList } from '~/redux/stake/handlers';
 
 const overViewMock = [
   { title: 'Available to stake', value: '200,756,680.84 FTM' },
@@ -20,9 +21,11 @@ const rewardMock = [
 ];
 export default () => {
   const [stakeValue, setStakeValue] = useState('');
+  const [validator, setValidator] = useState('');
   const [step, setStep] = useState(2);
   const [type, setType] = useState('');
   const [errors, setErrors] = useState({});
+  const [isEdit, setIsEdit] = useState(false);
   const handleStep = useCallback(
     actionType => {
       setStep(step + 1);
@@ -42,8 +45,14 @@ export default () => {
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
-    setStep(step + 1);
+    debugger;
+    if (isEdit) {
+      setStep(4);
+    } else {
+      setStep(step + 1);
+    }
   }, [stakeValue, step]);
+  console.log('******validatoradss', validator);
 
   const getCurrentCard = () => {
     switch (step) {
@@ -63,9 +72,27 @@ export default () => {
           />
         );
       case 3:
-        return <StakeValidators />;
+        return (
+          <StakeValidators
+            handleValidatorSelect={val => {
+              setValidator(val);
+              setStep(step + 1);
+            }}
+          />
+        );
       case 4:
-        return <StakeSummaryCard handleEditStep={val => setStep(val)} />;
+        return (
+          <StakeSummaryCard
+            validator={validator}
+            stakeValue={stakeValue}
+            handleEditStep={val => {
+              if (val === 2) {
+                setIsEdit(true);
+              }
+              setStep(val);
+            }}
+          />
+        );
       case 5:
         return <StackUnstack handleStep={handleStep} />;
       case 6:
