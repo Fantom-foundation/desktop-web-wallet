@@ -3,6 +3,7 @@ import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 import { accountSaga } from './account/sagas';
+import validators from './stake/saga/validators';
 import { transactionsSaga } from './transactions/sagas';
 import { createBrowserHistory } from 'history';
 import {
@@ -16,6 +17,7 @@ import { account, IAccountState } from '~/redux/account';
 import { modal, IModalState } from '~/redux/modal';
 import { transactions, ITRansactionsState } from '~/redux/transactions';
 import { accountReconnectProvider } from './account/actions';
+import { stakes, InitialStateType } from '~/redux/stake';
 
 export const history = createBrowserHistory();
 
@@ -31,6 +33,7 @@ export interface IState {
   modal: IModalState;
   transactions: ITRansactionsState;
   toastr: any;
+  stakes: InitialStateType;
 }
 
 export const rootReducer = combineReducers<IState>({
@@ -39,6 +42,7 @@ export const rootReducer = combineReducers<IState>({
   router: connectRouter(history),
   transactions,
   modal,
+  stakes,
 });
 
 const composeEnhancers =
@@ -58,6 +62,7 @@ const persistor = persistStore(store);
 
 sagaMiddleware.run(accountSaga);
 sagaMiddleware.run(transactionsSaga);
+sagaMiddleware.run(validators);
 
 export const configureStore = () => {
   window.addEventListener('reconnect_node', () =>

@@ -1,20 +1,19 @@
 // @flow
 
-
 export const STAKE_ACTIONS = {
-  DELEGATE_BY_ADDRESS: "staking/DELEGATE_BY_ADDRESS",
-  DELEGATE_BY_ADDRESSES: "staking/DELEGATE_BY_ADDRESSES",
-  DELEGATE_BY_STAKER_ID: "staking/DELEGATE_BY_STAKER_ID",
-  VALIDATORS_LIST: "staking/VALIDATORS_LIST",
-  DELEGATE_AMOUNT: "staking/DELEGATE_AMOUNT",
+  DELEGATE_BY_ADDRESS: 'staking/DELEGATE_BY_ADDRESS',
+  DELEGATE_BY_ADDRESSES: 'staking/DELEGATE_BY_ADDRESSES',
+  DELEGATE_BY_STAKER_ID: 'staking/DELEGATE_BY_STAKER_ID',
+  VALIDATORS_LIST: 'staking/VALIDATORS_LIST',
+  DELEGATE_AMOUNT: 'staking/DELEGATE_AMOUNT',
 };
 
 type TDelegateByStakerId = {
-  stakerId: string
+  stakerId: string;
 };
 
 type TDelegateByAddress = {
-  publicKey: string
+  publicKey: string;
 };
 
 export const delegateByAddress = ({ publicKey }: TDelegateByAddress) => ({
@@ -51,13 +50,15 @@ export const delegateByAddressesFailure = ({
   payload: { publicKey },
 });
 
-export const getValidatorsList = () => ({
-  type: STAKE_ACTIONS.VALIDATORS_LIST,
-});
+export const getValidatorsList = () => {
+  return {
+    type: STAKE_ACTIONS.VALIDATORS_LIST,
+  };
+};
 
-export const getValidatorsListSuccess = response => ({
+export const getValidatorsListSuccess = validators => ({
   type: `${STAKE_ACTIONS.VALIDATORS_LIST}_SUCCESS`,
-  payload: { response },
+  validators,
 });
 
 export const getValidatorsListFailure = () => ({

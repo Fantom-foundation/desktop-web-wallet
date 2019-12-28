@@ -1,39 +1,42 @@
 // @flow
-import { takeLatest, put, select, call } from "redux-saga/effects";
+import { takeLatest, put, select, call } from 'redux-saga/effects';
 import {
   STAKE_ACTIONS,
   delegateByAddress,
-  delegateByAddressesFailure,
   delegateByStakerId,
   delegateAmount,
-} from "./actions";
+} from './actions';
+// import { delegateByAddressesFailure } from './handlers';
 // import { setDopdownAlert } from "~/redux/notification/actions";
-import { getDataWithQueryString } from "../../api";
+import { getDataWithQueryString } from '../../api';
 import { Fantom } from '~/utility/web3';
 
 type Action = {
   payload: {
-    mnemonic: string,
-    cb: (publicKey: string) => void
-    publicKey?: string,
-    stakerId?: string,
-    amount?: string
-  }
+    mnemonic: string;
+    cb: (publicKey: string) => void;
+    publicKey?: string;
+    stakerId?: string;
+    amount?: string;
+  };
 };
 
 type TDelegate = {
   payload: {
-    publicKey: string
-  }
-}
+    publicKey: string;
+  };
+};
 
 export function* delegateByAddressSaga({
   payload: { publicKey },
 }: ReturnType<typeof delegateByAddress>) {
   try {
-    const res = yield call(fetch, `http://3.136.216.35:3100/api/v1/delegator/address/${publicKey}`)
-  const data = yield call([res, 'json'])
-  return data
+    const res = yield call(
+      fetch,
+      `http://3.136.216.35:3100/api/v1/delegator/address/${publicKey}`
+    );
+    const data = yield call([res, 'json']);
+    return data;
     // yield call(
     //   getDataWithQueryString("delegatorByAddress", publicKey)
     // );
@@ -43,7 +46,7 @@ export function* delegateByAddressSaga({
 }
 
 const delegatorByAddressApi = async publicKey => {
-  return getDataWithQueryString("delegatorByAddress", `${publicKey}`);
+  return getDataWithQueryString('delegatorByAddress', `${publicKey}`);
 };
 
 export function* delegateByAddressesSaga() {
@@ -58,25 +61,27 @@ export function* delegateByAddressesSaga() {
       if (publicKey) {
         try {
           // const response = yield call(delegatorByAddressApi, publicKey);
-          yield put(delegateByAddressesFailure({ publicKey }));
+          // yield put(delegateByAddressesFailure({ publicKey }));
         } catch (exception) {
-          yield put(delegateByAddressesFailure({ publicKey }));
+          // yield put(delegateByAddressesFailure({ publicKey }));
         }
       }
     }
   }
 }
 
-
 export function* delegateByStakerIdSaga({
   payload: { stakerId },
 }: ReturnType<typeof delegateByStakerId>) {
   try {
-    const res = yield call(fetch, `http://3.136.216.35:3100/api/v1/delegator/staker/${stakerId}`)
-    const data = yield call([res, 'json'])
-  //  yield call(
-  //     getDataWithQueryString("delegatorByStakerId", stakerId)
-  //   );
+    const res = yield call(
+      fetch,
+      `http://3.136.216.35:3100/api/v1/delegator/staker/${stakerId}`
+    );
+    const data = yield call([res, 'json']);
+    //  yield call(
+    //     getDataWithQueryString("delegatorByStakerId", stakerId)
+    //   );
   } catch (e) {
     // yield put(setDopdownAlert("error", e.message));
   }
@@ -86,7 +91,7 @@ export function* delegateAmountSaga({
   payload: { amount, publicKey },
 }: ReturnType<typeof delegateAmount>) {
   try {
-     yield Fantom.delegateStake({
+    yield Fantom.delegateStake({
       amount,
       publicKey,
     });
@@ -96,10 +101,12 @@ export function* delegateAmountSaga({
   }
 }
 
-export function* listener() {
+export function* stakeSaga() {
   yield takeLatest(STAKE_ACTIONS.DELEGATE_BY_ADDRESS, delegateByAddressSaga);
-  yield takeLatest(STAKE_ACTIONS.DELEGATE_BY_ADDRESSES, delegateByAddressesSaga);
+  yield takeLatest(
+    STAKE_ACTIONS.DELEGATE_BY_ADDRESSES,
+    delegateByAddressesSaga
+  );
   yield takeLatest(STAKE_ACTIONS.DELEGATE_BY_STAKER_ID, delegateByStakerIdSaga);
   yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga);
 }
-
