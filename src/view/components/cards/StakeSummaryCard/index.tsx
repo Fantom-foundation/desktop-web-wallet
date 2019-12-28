@@ -3,43 +3,45 @@ import { Card, Button } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
 
-export default () => (
+export default ({ handleEditStep }) => (
   <div className="mx-auto" style={{ maxWidth: 670 }}>
     <Card className="pb-6">
       <p className="card-label mb-6">Summary</p>
       <div className={styles.contentWrapper}>
         <div className={classnames(styles.fields)}>
           <h3 className={classnames('opacity-7', styles.label)}>
-          Amount to stake:
+            Amount to stake:
           </h3>
           <h2 className={classnames(styles.value)}>
-          1,746,306 FTM
+            1,746,306 FTM
             <Button
               color="topaz"
+              onClick={() => handleEditStep(2)}
               className={classnames('outlined', styles.editBtn)}
             >
-            Edit
+              Edit
             </Button>
           </h2>
         </div>
         <div className={classnames(styles.fields)}>
           <h3 className={classnames('opacity-7', styles.label)}>
-          Validator node:
+            Validator node:
           </h3>
           <h2 className={classnames(styles.value)}>
-          Fantom Foundation
+            Fantom Foundation
             <Button
               color="topaz"
+              onClick={() => handleEditStep(4)}
               className={classnames('outlined', styles.editBtn)}
             >
-            Edit
+              Edit
             </Button>
           </h2>
         </div>
       </div>
       <div className={classnames('text-center', styles.btnWrapper)}>
         <Button color="topaz" className={classnames('outlined lg')}>
-        Stake
+          Stake
         </Button>
       </div>
     </Card>
