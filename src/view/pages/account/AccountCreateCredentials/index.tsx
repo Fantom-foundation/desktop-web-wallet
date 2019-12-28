@@ -30,6 +30,7 @@ const AccountCreateCredentialsUnconnected: FC<IProps> = ({
         push={push}
         onSubmit={accountCreateSetCredentials}
         list={list}
+        title='Create a new wallet'
       />
     </div>
   </Layout>

@@ -1,16 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback} from 'react';
 import styles from './styles.module.scss';
-import { Row, Col, Card, Button } from 'reactstrap';
-import { DashboardInput } from 'src/view/components/forms';
-import classnames from 'classnames';
+import { Row, Col, Card } from 'reactstrap';
 import { StakeSummaryCard } from 'src/view/components/cards';
 import StakeValidators from 'src/view/components/stakeValidators';
-
-import {
-  CopyIcon,
-  CheckCircleIcon,
-  ErrorCircleIcon,
-} from 'src/view/components/svgIcons';
+import StackUnstack from 'src/view/components/stake/stakeUnstake'
+import StakeInput from 'src/view/components/stake/stakeInput'
+import FailureCard from 'src/view/components/stake/failureCard'
+import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard'
+import ClaimRewardsCard from 'src/view/components/stake/claimRewardsCard'
+import SuccessCard from '~/view/components/stake/sucessCard';
 
 const overViewMock = [
   { title: 'Available to stake', value: '200,756,680.84 FTM' },
@@ -21,7 +19,53 @@ const rewardMock = [
   { title: 'Available to claim', value: '0 FTM' },
 ];
 export default () => {
-  const [to, setTo] = useState('');
+  const [stakeValue, setStakeValue] = useState('');
+  const [step, setStep] = useState(1)
+  const [type, setType] = useState('')
+  const [errors, setErrors] = useState({})
+  const handleStep = useCallback(actionType => {
+    setStep(step + 1)
+    if(actionType){
+      setType(actionType)
+    }
+    
+  }, [step]);
+
+  const handleStackSubmit = useCallback(actionType => {
+    const validation_errors = {
+      stakeValueInvalid: stakeValue === '' || stakeValue === undefined || stakeValue === null,
+      stakeValueMax: parseFloat(stakeValue) > 10,
+      
+    };
+
+    if (Object.values(validation_errors).includes(true))
+      return setErrors(validation_errors);
+      setStep(step + 1)
+   
+    
+  }, [stakeValue, step]);
+
+  const getCurrentCard = () => {
+    switch(step){
+      case 1: return <StackUnstack handleStep={handleStep} />
+      case 2: return  (<StakeInput 
+        stakeValue={stakeValue} 
+        handleChange={val => {
+          setStakeValue(val), 
+          setErrors({})}}
+        errors={errors}
+        validatorBtn={styles.validatorBtn}
+        handleStep={handleStackSubmit}
+      />)
+      case 3: return   <StakeValidators />
+      case 4: return    <StakeSummaryCard />
+      case 5: return <StackUnstack handleStep={handleStep} />
+      case 6: return <StackUnstack handleStep={handleStep} />
+      default : break;
+
+    }
+    
+  }
   return (
     <div>
       <Row>
@@ -53,53 +97,35 @@ export default () => {
           </Card>
         </Col>
       </Row>
-      <Row>
+      
+      <Row className="mt-6">
+        <Col>
+          {getCurrentCard()}
+        </Col>
+      </Row> 
+      {/* <Row className="mt-6">
+        <Col>
+          <StackUnstack handleStep={handleStep} />
+        </Col>
+      </Row> */}
+      {/* <Row>
         <Col>
           <StakeValidators />
         </Col>
       </Row>
-      <Row className="mt-6">
+     */}
+      {/* <Row className="mt-6">
         <Col>
-          <Card
-            className="mx-auto text-center pt-5 pb-6"
-            style={{ maxWidth: 670 }}
-          >
-            <h2 className="mb-5">What would you like to do?</h2>
-            <div
-              className="mx-auto mt-4 w-100 d-flex justify-content-between"
-              style={{ maxWidth: 480 }}
-            >
-              <Button className={classnames('lg mx-4')}>Unstake</Button>
-              <Button color="topaz" className={classnames('lg outlined mx-4')}>
-                Stake
-              </Button>
-            </div>
-          </Card>
+          <StakeInput 
+            stakeValue={stakeValue} 
+            setStakeValue={setStakeValue}
+            validatorBtn={styles.validatorBtn}
+            handleStep={handleStep}
+
+          />
         </Col>
-      </Row>
-      <Row className="mt-6">
-        <Col>
-          <Card
-            className="mx-auto text-center pt-5 pb-6"
-            style={{ maxWidth: 670 }}
-          >
-            <h2>How much FTM would you like to stake?</h2>
-            <div className="mx-auto w-100" style={{ maxWidth: 480 }}>
-              <DashboardInput
-                lg
-                placeholder="0"
-                rightLabel="Max"
-                handleChange={setTo}
-              />
-              <Button className={styles.validatorBtn}>
-                Select a validator
-                <i className="fas fa-chevron-right" />
-              </Button>
-            </div>
-          </Card>
-        </Col>
-      </Row>
-      <Row className="mt-6">
+      </Row> */}
+      {/* <Row className="mt-6">
         <Col>
           <Card
             className="mx-auto text-center pt-5 pb-6"
@@ -123,93 +149,32 @@ export default () => {
             </div>
           </Card>
         </Col>
-      </Row>
-      <Row className="mt-6">
+      </Row> */}
+      {/* <Row className="mt-6">
         <Col>
-          <div className="mx-auto" style={{ maxWidth: 670 }}>
-            <StakeSummaryCard />
-          </div>
+          <StakeSummaryCard />
         </Col>
       </Row>
       <Row className="mt-6">
         <Col>
-          <Card className={classnames(styles.card, 'mb-5 mt-5')}>
-            <h2 className={styles.iconGap}>
-              Congratulations!
-              <br /> FTM successfully staked.
-            </h2>
-
-            <div>
-              <CheckCircleIcon />
-            </div>
-          </Card>
+          <SuccessCard cardCss={styles.card} iconGapCss={styles.iconGap} />
         </Col>
       </Row>
       <Row className="mt-6">
         <Col>
-          <Card className={classnames(styles.card, 'mb-5')}>
-            <h2 className={styles.iconGap}>
-              Something went wrong.
-              <br />
-              Please try again.
-            </h2>
-            <div>
-              <ErrorCircleIcon />
-            </div>
-          </Card>
+          <FailureCard cardCss={styles.card} iconGapCss={styles.iconGap} />
         </Col>
       </Row>
       <Row className="mt-6">
         <Col>
-          <Card
-            className="mx-auto text-center pt-5 pb-6"
-            style={{ maxWidth: 670 }}
-          >
-            <h2 className="mb-5">What would you like to do?</h2>
-            <div
-              className="mx-auto mt-4 w-100 d-flex justify-content-between"
-              style={{ maxWidth: 480 }}
-            >
-              <Button
-                color="darkish-pink"
-                className={classnames('lg outlined mx-4')}
-              >
-                Maybe later
-              </Button>
-              <Button color="topaz" className={classnames('lg outlined mx-4')}>
-                Ok, unstake
-              </Button>
-            </div>
-          </Card>
+          <UnstakeDecisionCard />
         </Col>
       </Row>
       <Row className="mt-6">
         <Col>
-          <Card className="mx-auto text-center pt-5 pb-6">
-            <h2 className="mb-5">What would you like to do?</h2>
-            <div className={styles.stakeBtnWrap} style={{ maxWidth: 640 }}>
-              <div className={styles.m50}>
-                <Button
-                  color="darkish-pink"
-                  className={classnames('lg outlined')}
-                >
-                  Unstake
-                </Button>
-              </div>
-              <div className={styles.m50}>
-                <Button color="topaz" className={classnames('lg outlined')}>
-                  Stake
-                </Button>
-              </div>
-              <div className={styles.m100}>
-                <Button color="primary" className={classnames('lg outlined')}>
-                  Claim rewards
-                </Button>
-              </div>
-            </div>
-          </Card>
+          <ClaimRewardsCard styles={styles} />
         </Col>
-      </Row>
+      </Row> */}
     </div>
   );
 };

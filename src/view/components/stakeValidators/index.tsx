@@ -11,7 +11,10 @@ const SubView = props => {
   return (
     <tr>
       <td className="px-md-3">
-        <p className={classnames(styles.txDetails, styles.label)}>{title}:</p>
+        <p className={classnames(styles.txDetails, styles.label)}>
+          {title}
+:
+        </p>
       </td>
       <td className="px-md-3">
         <p className={classnames(styles.txDetails, styles.value)}>

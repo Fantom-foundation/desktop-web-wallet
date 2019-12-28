@@ -42,8 +42,13 @@ const AccountListUnconnected: FC<IProps> = ({
     },
     [push]
   );
-  const goToRoute = () => {
-    push('/account/create');
+
+  const goToRoute = type => {
+    if(type === 'create'){
+      push('/account/create');
+    } else if(type === 'access'){
+      push('/account/restore');
+    }
   };
 
   return (
@@ -111,7 +116,7 @@ const AccountListUnconnected: FC<IProps> = ({
                         <button
                           type="button"
                           className={styles.walletBtn}
-                          onClick={() => goToRoute()}
+                          onClick={() => goToRoute('create')}
                         >
                           Get started
                           <i className="fas fa-chevron-right" />
@@ -143,7 +148,7 @@ const AccountListUnconnected: FC<IProps> = ({
                             </ul>
                           </p>
                         </div>
-                        <button type="button" className={styles.walletBtn}>
+                        <button type="button" className={styles.walletBtn} onClick={() => goToRoute('access')}>
                           Access now
                           <i className="fas fa-chevron-right" />
                         </button>
