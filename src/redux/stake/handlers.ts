@@ -10,6 +10,7 @@ import {
   delegateByAddressFailure,
   getValidatorsListSuccess,
   delegateByAddressSuccess,
+  setAmountUnstaked,
   // } from '~/redux/stake/actions';
 } from './actions';
 import { InitialStateType } from './index';
@@ -27,6 +28,29 @@ export const setValidatorsList = (
 export const getValidatorsListFailure = () => ({
   type: `${STAKE_ACTIONS.VALIDATORS_LIST}_FAILURE`,
 });
+
+export const amountUnstakedSuccess = (
+  state: InitialStateType,
+  { publicKey, isUnstake }: ReturnType<typeof setAmountUnstaked>
+) => {
+  const { data } = state;
+  let stakes = data.slice();
+  if (state && state.data.length > 0) {
+    const selectedAddressIndex = stakes.findIndex(
+      d => d.publicKey === publicKey
+    );
+    if (selectedAddressIndex > -1) {
+      stakes.splice(selectedAddressIndex, 1, {
+        ...stakes[selectedAddressIndex],
+        publicKey,
+        isDeligated: false,
+        isAmountUnstaked: isUnstake,
+      });
+    }
+  }
+
+  return { ...state, data: stakes };
+};
 
 export const setDelegatorByAddress = (
   state: InitialStateType,
@@ -52,16 +76,17 @@ export const setDelegatorByAddressFailure = (
         publicKey,
         isDeligated: false,
       });
-    } else {
-      stakes.push({
-        publicKey,
-        isDeligated: false,
-        amount: 0,
-        claimedRewards: 0,
-      });
     }
+  } else {
+    stakes.push({
+      publicKey,
+      isDeligated: false,
+      amount: 0,
+      claimedRewards: 0,
+      isAmountUnstaked: false,
+    });
   }
-  return { ...state, stakes };
+  return { ...state, data: stakes };
 };
 
 // export const setDelegatorByAddresses = ({
@@ -89,4 +114,5 @@ export const ACCOUNT_HANDLERS = {
   [`${STAKE_ACTIONS.VALIDATORS_LIST}_FAILURE`]: getValidatorsListFailure,
   [STAKE_ACTIONS.DELEGATE_BY_STAKER_ID]: delegateByStakerId,
   [STAKE_ACTIONS.DELEGATE_AMOUNT]: delegateAmount,
+  [`${STAKE_ACTIONS.UNSTAKE_AMOUNT}_SET`]: amountUnstakedSuccess,
 };

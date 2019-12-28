@@ -9,8 +9,12 @@ import FailureCard from 'src/view/components/stake/failureCard';
 import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard';
 import ClaimRewardsCard from 'src/view/components/stake/claimRewardsCard';
 import SuccessCard from '~/view/components/stake/sucessCard';
+import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { connect } from 'react-redux';
-import { delegateByAddress as delegateByAddressAction } from '~/redux/stake/actions';
+import {
+  delegateByAddress as delegateByAddressAction,
+  unstakeamount as unstakeamountAction,
+} from '~/redux/stake/actions';
 
 const overViewMock = [
   { title: 'Available to stake', value: '200,756,680.84 FTM' },
@@ -25,7 +29,8 @@ const Stake = props => {
   const [step, setStep] = useState(1);
   const [type, setType] = useState('');
   const [errors, setErrors] = useState({});
-  const { id, delegateByAddress } = props;
+  const [withdrawalText, setWithdrawal] = useState('');
+  const { stakes, id, delegateByAddress } = props;
   const handleStep = useCallback(
     actionType => {
       setStep(step + 1);
@@ -47,7 +52,10 @@ const Stake = props => {
     delegateByAddress({ publicKey: id });
   }, []);
 
-  const unStakeAmount = () => {};
+  const unStakeAmount = value => {
+    const { unstakeamount, id } = props;
+    unstakeamount({ publicKey: id, isUnstake: value });
+  };
 
   const handleStackSubmit = useCallback(() => {
     const validation_errors = {
@@ -61,9 +69,11 @@ const Stake = props => {
     setStep(step + 1);
   }, [stakeValue, step]);
 
+  const selectedAddress = stakes.find(stake => stake.publicKey === id);
   const getCurrentCard = () => {
     const { stakes, id } = props;
     const selectedAddress = stakes.find(stake => stake.publicKey === id);
+    console.log(stakes, 'stakesstakesstakes');
     switch (step) {
       case 1:
         return (
@@ -93,7 +103,7 @@ const Stake = props => {
         return (
           <UnstakeDecisionCard
             handleStep={handleStep}
-            unStakeAmount={unStakeAmount}
+            unStakeAmount={value => unStakeAmount(value)}
           />
         );
       case 6:
@@ -101,6 +111,21 @@ const Stake = props => {
       default:
         break;
     }
+  };
+
+  const withdrawalInProgress = () => {
+    let text = 'Withdrawal in progress';
+
+    setTimeout(() => {
+      text = 'Withdrawal successful! The tokens are now in your wallet';
+      setWithdrawal(text);
+    }, 1000);
+    setTimeout(() => {
+      setWithdrawal('');
+      setStep(1);
+      unStakeAmount(false);
+    }, 2000);
+    setWithdrawal(text);
   };
 
   return (
@@ -134,9 +159,47 @@ const Stake = props => {
           </Card>
         </Col>
       </Row>
-
+      {!withdrawalText && (
+        <>
+          {selectedAddress && selectedAddress.isAmountUnstaked && (
+            <Row className="mt-6">
+              <Col>
+                <Card className="text-center">
+                  <div className={styles.availableWrapper}>
+                    <h3 className="mb-0">
+                      Your 322,456 FTM will available in 71 hours and 59
+                      minutes.
+                    </h3>
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+          )}
+          {selectedAddress && selectedAddress.isAmountUnstaked && (
+            <Row className="mt-6">
+              <Col>
+                <Card className="text-center">
+                  <div className={styles.availableWrapper}>
+                    <h3 className="mb-0">Your 322,456 FTM are available!</h3>
+                    <button type="button" onClick={withdrawalInProgress}>
+                      Withdraw to your wallet now
+                      {/* <img src={downloadIcon} alt="download" /> */}
+                    </button>
+                  </div>
+                </Card>
+              </Col>
+            </Row>
+          )}
+        </>
+      )}
       <Row className="mt-6">
-        <Col>{getCurrentCard()}</Col>
+        <Col>
+          {!!withdrawalText ? (
+            <WithdrawalProgress withdrawalText={withdrawalText} />
+          ) : (
+            getCurrentCard()
+          )}
+        </Col>
       </Row>
       {/* <Row className="mt-6">
         <Col>
@@ -220,6 +283,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = () => ({
   delegateByAddress: delegateByAddressAction,
+  unstakeamount: unstakeamountAction,
 });
 
 export default connect(

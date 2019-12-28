@@ -10,6 +10,8 @@ import {
   delegateByAddressesSuccess,
   delegateByAddressesFailure,
   delegateByAddresses,
+  unstakeamount,
+  setAmountUnstaked,
 } from './actions';
 // import { delegateByAddressesFailure } from './handlers';
 // import { setDopdownAlert } from "~/redux/notification/actions";
@@ -92,14 +94,28 @@ export function* delegateByStakerIdSaga({
   }
 }
 
-export function* delegateAmountSaga({
-  payload: { amount, publicKey },
-}: ReturnType<typeof delegateAmount>) {
+// export function* delegateAmountSaga({
+//   publicKey,
+// }: ReturnType<typeof unstakeamount>) {
+//   try {
+//     // yield Fantom.delegateStake({
+//     //   amount,
+//     //   publicKey,
+//     // });
+//     yield put(setAmountUnstaked({ publicKey }));
+//     // Assign contract functions to sfc variable
+//   } catch (e) {
+//     // yield put(setDopdownAlert("error", e.message));
+//   }
+// }
+
+export function* unstakeAmountSaga({
+  publicKey,
+  isUnstake,
+}: ReturnType<typeof unstakeamount>) {
   try {
-    yield Fantom.delegateStake({
-      amount,
-      publicKey,
-    });
+    console.log('called', publicKey);
+    yield put(setAmountUnstaked({ publicKey, isUnstake }));
     // Assign contract functions to sfc variable
   } catch (e) {
     // yield put(setDopdownAlert("error", e.message));
@@ -107,16 +123,17 @@ export function* delegateAmountSaga({
 }
 
 export default function* stakeSaga() {
-  yield takeLatest(STAKE_ACTIONS.DELEGATE_BY_ADDRESS, delegateByAddressSaga);
-  // yield all([
-  //   yield takeLatest(
-  //     STAKE_ACTIONS.DELEGATE_BY_ADDRESSES,
-  //     delegateByAddressesSaga
-  //   ),
-  //   yield takeLatest(
-  //     STAKE_ACTIONS.DELEGATE_BY_STAKER_ID,
-  //     delegateByStakerIdSaga
-  //   ),
-  //   yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
-  // ]);
+  yield all([
+    yield takeLatest(STAKE_ACTIONS.DELEGATE_BY_ADDRESS, delegateByAddressSaga),
+    yield takeLatest(
+      STAKE_ACTIONS.DELEGATE_BY_ADDRESSES,
+      delegateByAddressesSaga
+    ),
+    yield takeLatest(
+      STAKE_ACTIONS.DELEGATE_BY_STAKER_ID,
+      delegateByStakerIdSaga
+    ),
+    // yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
+    yield takeLatest(STAKE_ACTIONS.UNSTAKE_AMOUNT, unstakeAmountSaga),
+  ]);
 }

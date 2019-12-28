@@ -2,7 +2,7 @@ import React from 'react';
 import { Card, Button } from 'reactstrap';
 import classnames from 'classnames';
 
-const UnstakeDecisionCard = ({ handleStep }) => {
+const UnstakeDecisionCard = ({ handleStep, unStakeAmount }) => {
   return (
     <Card className="mx-auto text-center pt-5 pb-6" style={{ maxWidth: 670 }}>
       <h2 className="mb-5">
@@ -20,7 +20,7 @@ const UnstakeDecisionCard = ({ handleStep }) => {
           Maybe later
         </Button>
         <Button
-          onClick={() => handleStep('unstake')}
+          onClick={() => unStakeAmount(true)}
           color="topaz"
           className={classnames('lg outlined mx-4')}
         >
