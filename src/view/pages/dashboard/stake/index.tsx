@@ -29,8 +29,15 @@ const Stake = props => {
   const handleStep = useCallback(
     actionType => {
       setStep(step + 1);
-      if (actionType) {
+      if (actionType === 'stake') {
         setType(actionType);
+        setStep(step + 1);
+      } else {
+        if (actionType === 'back') {
+          setStep(1);
+        } else {
+          setStep(5);
+        }
       }
     },
     [step]
@@ -39,6 +46,8 @@ const Stake = props => {
   useEffect(() => {
     delegateByAddress({ publicKey: id });
   }, []);
+
+  const unStakeAmount = () => {};
 
   const handleStackSubmit = useCallback(() => {
     const validation_errors = {
@@ -81,7 +90,12 @@ const Stake = props => {
       case 4:
         return <StakeSummaryCard handleEditStep={val => setStep(val)} />;
       case 5:
-        return <StackUnstack handleStep={handleStep} />;
+        return (
+          <UnstakeDecisionCard
+            handleStep={handleStep}
+            unStakeAmount={unStakeAmount}
+          />
+        );
       case 6:
         return <StackUnstack handleStep={handleStep} />;
       default:
