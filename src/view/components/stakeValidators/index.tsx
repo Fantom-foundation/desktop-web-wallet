@@ -32,9 +32,11 @@ const DataRow = props => {
       validationScore: validatingPower,
       uptime = '100%',
       subView = [],
-      nodeFull = false,
+      totalStake,
+      delegatedMe,
     } = props,
     [isOpen, setIsOpen] = useState(false);
+  const nodeFull = 15 * Number(totalStake) - Number(delegatedMe);
 
   return (
     <>
@@ -67,7 +69,7 @@ const DataRow = props => {
                 ))}
               </table>
               <div className="text-center pt-2">
-                {nodeFull ? (
+                {nodeFull <= 0 ? (
                   <p className={styles.txDetails}>
                     <b>
                       This node is full at the moment.
