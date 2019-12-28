@@ -12,6 +12,8 @@ import SuccessCard from '~/view/components/stake/sucessCard';
 import { setValidatorsList } from '~/redux/stake/handlers';
 import { connect } from 'react-redux';
 import { delegateByAddress as delegateByAddressAction } from '~/redux/stake/actions';
+import { selectAccount } from '~/redux/account/selectors';
+import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 
 const overViewMock = [
   { title: 'Available to stake', value: '200,756,680.84 FTM' },
@@ -24,11 +26,16 @@ const rewardMock = [
 const Stake = props => {
   const [stakeValue, setStakeValue] = useState('');
   const [validator, setValidator] = useState('');
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [type, setType] = useState('');
   const [errors, setErrors] = useState({});
   const [isEdit, setIsEdit] = useState(false);
-  const { id, delegateByAddress } = props;
+  const { id, delegateByAddress, accountData, accountGetBalance } = props;
+  const account = accountData.list && id && accountData.list[id];
+  // console.log(accountData, '****acc')
+  useEffect(() => {
+    accountGetBalance(id);
+  }, [accountGetBalance, id]);
   const handleStep = useCallback(
     actionType => {
       setStep(step + 1);
@@ -56,7 +63,7 @@ const Stake = props => {
     const validation_errors = {
       stakeValueInvalid:
         stakeValue === '' || stakeValue === undefined || stakeValue === null,
-      stakeValueMax: parseFloat(stakeValue) > 100,
+      stakeValueMax: parseFloat(stakeValue) > account.balance,
     };
 
     if (Object.values(validation_errors).includes(true))
@@ -72,7 +79,8 @@ const Stake = props => {
 
   const getCurrentCard = () => {
     const { stakes, id } = props;
-    const selectedAddress = stakes.find(stake => stake.publicKey === id);
+    const selectedAddress =
+      stakes && stakes.find(stake => stake.publicKey === id);
     switch (step) {
       case 1:
         return (
@@ -89,7 +97,7 @@ const Stake = props => {
               setStakeValue(val), setErrors({});
             }}
             errors={errors}
-            handleEntireBalance={() => setStakeValue('100')}
+            handleEntireBalance={() => setStakeValue(account.balance)}
             validatorBtn={styles.validatorBtn}
             handleStep={handleStackSubmit}
           />
@@ -137,12 +145,10 @@ const Stake = props => {
           <Card className="h-100">
             <p className="card-label mb-4">Overview</p>
             <div className="text-right">
-              {overViewMock.map(({ title, value }) => (
-                <>
-                  <h2 className="pt-3">{value}</h2>
-                  <h3 className="opacity-5 mb-3">{title}</h3>
-                </>
-              ))}
+              <h2 className="pt-3">{account.balance} FTM</h2>
+              <h3 className="opacity-5 mb-3">Available to stake</h3>
+              <h2 className="pt-3">0 FTM</h2>
+              <h3 className="opacity-5 mb-3">Currently staking</h3>
             </div>
           </Card>
         </Col>
@@ -243,10 +249,12 @@ const Stake = props => {
 
 const mapStateToProps = state => ({
   stakes: state.stakes.data,
+  accountData: selectAccount(state),
 });
 
 const mapDispatchToProps = () => ({
   delegateByAddress: delegateByAddressAction,
+  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
 });
 
 export default connect(
