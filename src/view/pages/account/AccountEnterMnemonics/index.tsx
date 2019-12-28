@@ -41,7 +41,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     false
   );
 
-  console.log(errors, '******errors')
+  console.log(errors, '******errors');
 
   const is_next_disabled = useMemo<boolean>(() => {
     if (phrase.length === 0) return true;
@@ -67,19 +67,18 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   // }, [setIsIncorrectModalVisible]);
 
   const onSubmit = useCallback(() => {
-    debugger
-    const words = phrase !== '' && phrase
-      .split(' ')
-      .map(el => el.trim())
-      .filter(el => el.match(/^[A-Za-z]+$/));
+    const words =
+      phrase !== '' &&
+      phrase
+        .split(' ')
+        .map(el => el.trim())
+        .filter(el => el.match(/^[A-Za-z]+$/));
     const validation_errors = {
-      phrase: phrase === '' ||( phrase !== '' && words && words.length !== 12),
-     
+      phrase: phrase === '' || (phrase !== '' && words && words.length !== 12),
     };
 
-    if (validation_errors.phrase)
-      return setError(validation_errors.phrase);
-    
+    if (validation_errors.phrase) return setError(validation_errors.phrase);
+
     if (is_next_disabled) return setIsIncorrectModalVisible(true);
 
     const mnemonic = phrase
@@ -101,7 +100,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   //   },
   //   [accountUploadKeystore]
   // );
-  console.log('******is_incorrect_modal_visible',is_next_disabled)
+  console.log('******is_incorrect_modal_visible', is_next_disabled);
 
   return (
     // <div>
@@ -179,45 +178,47 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     // </div>
 
     <Layout>
-    <AccessWalletCard>
-      <div className={styles.optionsWrapper}>
-        <div className={styles.optionCol}>
-          <div className={classnames(styles.option, styles.active)}>
-            <MnemonicIcon />
-            <h4 className="opacity-7">Mnemonic phrase</h4>
+      <AccessWalletCard>
+        <div className={styles.optionsWrapper}>
+          <div className={styles.optionCol}>
+            <div className={classnames(styles.option, styles.active)}>
+              <MnemonicIcon />
+              <h4 className="opacity-7">Mnemonic phrase</h4>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <h4 className={classnames('opacity-7', styles.inputLabel)}>
-          Please type in your 12-word mnemonic phrase
-        </h4>
-        <div className={styles.inputWrapper}>
-          <Input
-            type="textarea"
-            className={classnames(styles.input, styles.textarea, {
-              [styles.isError]: error,
-            })}
-            value={phrase}
-            onChange={e => {
-              setPhrase(e.target.value)
-              setError(false)
-            }}
-          />
-          {error && <p className={styles.errorText}>Invalid recovery phrase</p>}
+        <div>
+          <h4 className={classnames('opacity-7', styles.inputLabel)}>
+            Please type in your 12-word mnemonic phrase
+          </h4>
+          <div className={styles.inputWrapper}>
+            <Input
+              type="textarea"
+              className={classnames(styles.input, styles.textarea, {
+                [styles.isError]: error,
+              })}
+              value={phrase}
+              onChange={e => {
+                setPhrase(e.target.value);
+                setError(false);
+              }}
+            />
+            {error && (
+              <p className={styles.errorText}>Invalid recovery phrase</p>
+            )}
+          </div>
         </div>
-      </div>
-      <div className="text-center">
-        <Button 
-        color={!is_next_disabled ?  "primary": "secondary"} 
-        className={styles.btn}
-        onClick={onSubmit}
-        >
-          Unlock wallet
-        </Button>
-      </div>
-    </AccessWalletCard>
-  </Layout>
+        <div className="text-center">
+          <Button
+            color={!is_next_disabled ? 'primary' : 'secondary'}
+            className={styles.btn}
+            onClick={onSubmit}
+          >
+            Unlock wallet
+          </Button>
+        </div>
+      </AccessWalletCard>
+    </Layout>
   );
 };
 

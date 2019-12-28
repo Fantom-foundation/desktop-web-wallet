@@ -1,13 +1,13 @@
-import React, { useState, useCallback} from 'react';
+import React, { useState, useCallback } from 'react';
 import styles from './styles.module.scss';
 import { Row, Col, Card } from 'reactstrap';
 import { StakeSummaryCard } from 'src/view/components/cards';
 import StakeValidators from 'src/view/components/stakeValidators';
-import StackUnstack from 'src/view/components/stake/stakeUnstake'
-import StakeInput from 'src/view/components/stake/stakeInput'
-import FailureCard from 'src/view/components/stake/failureCard'
-import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard'
-import ClaimRewardsCard from 'src/view/components/stake/claimRewardsCard'
+import StackUnstack from 'src/view/components/stake/stakeUnstake';
+import StakeInput from 'src/view/components/stake/stakeInput';
+import FailureCard from 'src/view/components/stake/failureCard';
+import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard';
+import ClaimRewardsCard from 'src/view/components/stake/claimRewardsCard';
 import SuccessCard from '~/view/components/stake/sucessCard';
 
 const overViewMock = [
@@ -20,52 +20,60 @@ const rewardMock = [
 ];
 export default () => {
   const [stakeValue, setStakeValue] = useState('');
-  const [step, setStep] = useState(1)
-  const [type, setType] = useState('')
-  const [errors, setErrors] = useState({})
-  const handleStep = useCallback(actionType => {
-    setStep(step + 1)
-    if(actionType){
-      setType(actionType)
-    }
-    
-  }, [step]);
+  const [step, setStep] = useState(2);
+  const [type, setType] = useState('');
+  const [errors, setErrors] = useState({});
+  const handleStep = useCallback(
+    actionType => {
+      setStep(step + 1);
+      if (actionType) {
+        setType(actionType);
+      }
+    },
+    [step]
+  );
 
-  const handleStackSubmit = useCallback(actionType => {
+  const handleStackSubmit = useCallback(() => {
     const validation_errors = {
-      stakeValueInvalid: stakeValue === '' || stakeValue === undefined || stakeValue === null,
-      stakeValueMax: parseFloat(stakeValue) > 10,
-      
+      stakeValueInvalid:
+        stakeValue === '' || stakeValue === undefined || stakeValue === null,
+      stakeValueMax: parseFloat(stakeValue) > 100,
     };
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
-      setStep(step + 1)
-   
-    
+    setStep(step + 1);
   }, [stakeValue, step]);
 
   const getCurrentCard = () => {
-    switch(step){
-      case 1: return <StackUnstack handleStep={handleStep} />
-      case 2: return  (<StakeInput 
-        stakeValue={stakeValue} 
-        handleChange={val => {
-          setStakeValue(val), 
-          setErrors({})}}
-        errors={errors}
-        validatorBtn={styles.validatorBtn}
-        handleStep={handleStackSubmit}
-      />)
-      case 3: return   <StakeValidators />
-      case 4: return    <StakeSummaryCard />
-      case 5: return <StackUnstack handleStep={handleStep} />
-      case 6: return <StackUnstack handleStep={handleStep} />
-      default : break;
-
+    switch (step) {
+      case 1:
+        return <StackUnstack handleStep={handleStep} />;
+      case 2:
+        return (
+          <StakeInput
+            stakeValue={stakeValue}
+            handleChange={val => {
+              setStakeValue(val), setErrors({});
+            }}
+            errors={errors}
+            handleEntireBalance={() => setStakeValue('100')}
+            validatorBtn={styles.validatorBtn}
+            handleStep={handleStackSubmit}
+          />
+        );
+      case 3:
+        return <StakeValidators />;
+      case 4:
+        return <StakeSummaryCard handleEditStep={val => setStep(val)} />;
+      case 5:
+        return <StackUnstack handleStep={handleStep} />;
+      case 6:
+        return <StackUnstack handleStep={handleStep} />;
+      default:
+        break;
     }
-    
-  }
+  };
   return (
     <div>
       <Row>
@@ -97,12 +105,10 @@ export default () => {
           </Card>
         </Col>
       </Row>
-      
+
       <Row className="mt-6">
-        <Col>
-          {getCurrentCard()}
-        </Col>
-      </Row> 
+        <Col>{getCurrentCard()}</Col>
+      </Row>
       {/* <Row className="mt-6">
         <Col>
           <StackUnstack handleStep={handleStep} />
