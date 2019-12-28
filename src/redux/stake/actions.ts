@@ -1,4 +1,5 @@
 // @flow
+import dispatch from '../store';
 
 export const STAKE_ACTIONS = {
   DELEGATE_BY_ADDRESS: 'staking/DELEGATE_BY_ADDRESS',
@@ -16,20 +17,22 @@ type TDelegateByAddress = {
   publicKey: string;
 };
 
-export const delegateByAddress = ({ publicKey }: TDelegateByAddress) => ({
-  type: STAKE_ACTIONS.DELEGATE_BY_ADDRESS,
-  payload: { publicKey },
+export const delegateByAddress = ({ publicKey }) =>
+  dispatch.dispatch({
+    type: STAKE_ACTIONS.DELEGATE_BY_ADDRESS,
+    publicKey,
+  });
+
+export const delegateByAddressSuccess = response => ({
+  type: `${STAKE_ACTIONS.DELEGATE_BY_ADDRESS}_SUCCESS`,
+  response,
 });
 
-export const delegateByAddressSuccess = ({
+export const delegateByAddressFailure = ({
   publicKey,
 }: TDelegateByAddress) => ({
-  type: `${STAKE_ACTIONS.DELEGATE_BY_ADDRESS}_SUCCESS`,
-  payload: { publicKey },
-});
-
-export const delegateByAddressFailure = () => ({
   type: `${STAKE_ACTIONS.DELEGATE_BY_ADDRESS}_FAILURE`,
+  publicKey,
 });
 
 export const delegateByAddresses = () => ({

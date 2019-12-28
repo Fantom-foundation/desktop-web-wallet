@@ -8,6 +8,7 @@ export type TStakeObj = {
   publicKey: string;
   amount: number;
   claimedRewards: number;
+  isDeligated: boolean;
 };
 export type TValidatorObj = {
   publicKey: string;

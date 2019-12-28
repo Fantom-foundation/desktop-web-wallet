@@ -56,22 +56,21 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
 const DataRow = props => {
   // eslint-disable-next-line one-var
   const {
-      index,
-      address: name,
-      poi,
-      validationScore: validatingPower,
-      uptime,
-      subView = [],
-      totalStake,
-      delegatedMe,
-      nodeFull = false,
-      txRewardWeight,
-      validators,
-      deactivatedTime,
-      createdTime,
-      handleValidatorSelect,
-    } = props,
-    [isOpen, setIsOpen] = useState(false);
+    index,
+    address: name,
+    poi,
+    validationScore: validatingPower,
+    uptime,
+    subView = [],
+    totalStake,
+    delegatedMe,
+    txRewardWeight,
+    validators,
+    deactivatedTime,
+    createdTime,
+    handleValidatorSelect,
+  } = props;
+  const [isOpen, setIsOpen] = useState(false);
   // const createdtime = new Date(createdTime)
   const currDate = Math.round(new Date().getTime() / 1000);
 
@@ -88,6 +87,7 @@ const DataRow = props => {
   // const isFull = Number(delegatedMe) === totalStaked * 15;
   const stackeLeftPer = (Number(delegatedMe) / (totalStaked * 15)) * 100;
   console.log(perc, '******perc');
+  const nodeFull = 15 * Number(totalStake) - Number(delegatedMe);
 
   return (
     <>
@@ -124,7 +124,7 @@ const DataRow = props => {
                 />
               </table>
               <div className="text-center pt-2">
-                {nodeFull ? (
+                {nodeFull <= 0 ? (
                   <p className={styles.txDetails}>
                     <b>
                       This node is full at the moment.

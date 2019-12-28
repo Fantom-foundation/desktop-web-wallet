@@ -4,6 +4,7 @@ import storage from 'redux-persist/lib/storage';
 import createSagaMiddleware from 'redux-saga';
 import { accountSaga } from './account/sagas';
 import validators from './stake/saga/validators';
+import stakeSaga from './stake/sagas';
 import { transactionsSaga } from './transactions/sagas';
 import { createBrowserHistory } from 'history';
 import {
@@ -63,6 +64,7 @@ const persistor = persistStore(store);
 sagaMiddleware.run(accountSaga);
 sagaMiddleware.run(transactionsSaga);
 sagaMiddleware.run(validators);
+sagaMiddleware.run(stakeSaga);
 
 export const configureStore = () => {
   window.addEventListener('reconnect_node', () =>
