@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import styles from './styles.module.scss';
 import { Row, Col, Card } from 'reactstrap';
 import { StakeSummaryCard } from 'src/view/components/cards';
@@ -9,6 +9,8 @@ import FailureCard from 'src/view/components/stake/failureCard';
 import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard';
 import ClaimRewardsCard from 'src/view/components/stake/claimRewardsCard';
 import SuccessCard from '~/view/components/stake/sucessCard';
+import { connect } from 'react-redux';
+import { delegateByAddress as delegateByAddressAction } from '~/redux/stake/actions';
 
 const overViewMock = [
   { title: 'Available to stake', value: '200,756,680.84 FTM' },
@@ -18,11 +20,12 @@ const rewardMock = [
   { title: 'Claimed rewards', value: '0 FTM' },
   { title: 'Available to claim', value: '0 FTM' },
 ];
-export default () => {
+const Stake = props => {
   const [stakeValue, setStakeValue] = useState('');
-  const [step, setStep] = useState(2);
+  const [step, setStep] = useState(1);
   const [type, setType] = useState('');
   const [errors, setErrors] = useState({});
+  const { id, delegateByAddress } = props;
   const handleStep = useCallback(
     actionType => {
       setStep(step + 1);
@@ -32,6 +35,10 @@ export default () => {
     },
     [step]
   );
+
+  useEffect(() => {
+    delegateByAddress({ publicKey: id });
+  }, []);
 
   const handleStackSubmit = useCallback(() => {
     const validation_errors = {
@@ -46,9 +53,16 @@ export default () => {
   }, [stakeValue, step]);
 
   const getCurrentCard = () => {
+    const { stakes, id } = props;
+    const selectedAddress = stakes.find(stake => stake.publicKey === id);
     switch (step) {
       case 1:
-        return <StackUnstack handleStep={handleStep} />;
+        return (
+          <StackUnstack
+            handleStep={handleStep}
+            selectedAddress={selectedAddress}
+          />
+        );
       case 2:
         return (
           <StakeInput
@@ -74,6 +88,7 @@ export default () => {
         break;
     }
   };
+
   return (
     <div>
       <Row>
@@ -184,3 +199,16 @@ export default () => {
     </div>
   );
 };
+
+const mapStateToProps = state => ({
+  stakes: state.stakes.data,
+});
+
+const mapDispatchToProps = () => ({
+  delegateByAddress: delegateByAddressAction,
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Stake);

@@ -15,8 +15,9 @@ const SubView = (props: any) => {
   const { value, to, fee, newDate } = props;
   // const { hash = false, title, value } = props;
   const onClickTo = useCallback(event => copyToClipboard(event, to), [to]);
-  const onClickHash = useCallback(event => copyToClipboard(event, value), [value]);
-
+  const onClickHash = useCallback(event => copyToClipboard(event, value), [
+    value,
+  ]);
 
   return (
     <>
@@ -52,7 +53,6 @@ const SubView = (props: any) => {
   );
 };
 const Activities = (props: any) => {
-  console.log('****ksdjasdsd', props.data);
   const newTime = new Date(props.data.timestamp * 1000);
   const { time, ftm, subView = [] } = props;
   const [isOpen, setIsOpen] = useState(false);
@@ -73,8 +73,7 @@ const Activities = (props: any) => {
             {' '}
             {isRecieve ? '-' : '+'}
             {props.data.value &&
-              parseFloat(Web3.utils.fromWei(props.data.value)).toFixed(5)}
-            {' '}
+              parseFloat(Web3.utils.fromWei(props.data.value)).toFixed(5)}{' '}
             FTM
           </p>
         </div>

@@ -1,15 +1,27 @@
 // @flow
-import { takeLatest, put, select, call } from 'redux-saga/effects';
+import { takeLatest, put, select, call, all } from 'redux-saga/effects';
 import {
   STAKE_ACTIONS,
   delegateByAddress,
   delegateByStakerId,
   delegateAmount,
+  delegateByAddressSuccess,
+  delegateByAddressFailure,
+  delegateByAddressesSuccess,
+  delegateByAddressesFailure,
+  delegateByAddresses,
 } from './actions';
 // import { delegateByAddressesFailure } from './handlers';
 // import { setDopdownAlert } from "~/redux/notification/actions";
 import { getDataWithQueryString } from '../../api';
 import { Fantom } from '~/utility/web3';
+
+const delegatorByAddressApi = async publicKey => {
+  return getDataWithQueryString(
+    'delegatorByAddress',
+    `${publicKey}?verbosity=2`
+  );
+};
 
 type Action = {
   payload: {
@@ -27,27 +39,20 @@ type TDelegate = {
   };
 };
 
-export function* delegateByAddressSaga({
-  payload: { publicKey },
+function* delegateByAddressSaga({
+  publicKey,
 }: ReturnType<typeof delegateByAddress>) {
   try {
-    const res = yield call(
-      fetch,
-      `http://3.136.216.35:3100/api/v1/delegator/address/${publicKey}`
-    );
-    const data = yield call([res, 'json']);
-    return data;
+    const data = yield call(delegatorByAddressApi, publicKey);
+    yield put(delegateByAddressSuccess(data));
+
     // yield call(
     //   getDataWithQueryString("delegatorByAddress", publicKey)
     // );
   } catch (e) {
-    // yield put(setDopdownAlert("error", e.message));
+    yield put(delegateByAddressFailure({ publicKey }));
   }
 }
-
-const delegatorByAddressApi = async publicKey => {
-  return getDataWithQueryString('delegatorByAddress', `${publicKey}`);
-};
 
 export function* delegateByAddressesSaga() {
   const { walletsData } = yield select(({ keys, wallet }) => ({
@@ -61,9 +66,9 @@ export function* delegateByAddressesSaga() {
       if (publicKey) {
         try {
           // const response = yield call(delegatorByAddressApi, publicKey);
-          // yield put(delegateByAddressesFailure({ publicKey }));
+          yield put(delegateByAddressesFailure({ publicKey }));
         } catch (exception) {
-          // yield put(delegateByAddressesFailure({ publicKey }));
+          yield put(delegateByAddressesFailure({ publicKey }));
         }
       }
     }
@@ -101,12 +106,17 @@ export function* delegateAmountSaga({
   }
 }
 
-export function* stakeSaga() {
+export default function* stakeSaga() {
   yield takeLatest(STAKE_ACTIONS.DELEGATE_BY_ADDRESS, delegateByAddressSaga);
-  yield takeLatest(
-    STAKE_ACTIONS.DELEGATE_BY_ADDRESSES,
-    delegateByAddressesSaga
-  );
-  yield takeLatest(STAKE_ACTIONS.DELEGATE_BY_STAKER_ID, delegateByStakerIdSaga);
-  yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga);
+  // yield all([
+  //   yield takeLatest(
+  //     STAKE_ACTIONS.DELEGATE_BY_ADDRESSES,
+  //     delegateByAddressesSaga
+  //   ),
+  //   yield takeLatest(
+  //     STAKE_ACTIONS.DELEGATE_BY_STAKER_ID,
+  //     delegateByStakerIdSaga
+  //   ),
+  //   yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
+  // ]);
 }
