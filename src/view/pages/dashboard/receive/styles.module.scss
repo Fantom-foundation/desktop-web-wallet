@@ -2,7 +2,12 @@
 .qrWrapper {
   margin-bottom: 40px;
 }
-
+.cardTitle {
+  margin-bottom: 70px;
+  @media (max-width: $tablet) {
+    margin-bottom: 40px;
+  }
+}
 .btnWrapper {
   display: flex;
   display: flex;

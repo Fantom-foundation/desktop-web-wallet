@@ -13,6 +13,9 @@
   @media (max-width: $tablet) {
     padding: 25px;
   }
+  @media (max-width: $smallPhone) {
+    padding: 25px 15px;
+  }
   .logo {
     @media (max-width: $tablet) {
       height: 31px;
@@ -125,8 +128,6 @@
       &:not(.active) {
         a {
           opacity: 0.5;
-          display: flex;
-          align-items: center;
           &:hover {
             opacity: 1;
           }
@@ -134,6 +135,8 @@
       }
     }
     a {
+      display: flex;
+      align-items: center;
       color: #fff !important;
       font-size: 24px;
       font-weight: 600;

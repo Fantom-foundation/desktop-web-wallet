@@ -16,6 +16,9 @@
     right: 21px;
     outline: 0 !important;
     cursor: pointer;
+    @media (max-width: $phone) {
+      right: 0;
+    }
   }
 }
 .mnemonicRow {

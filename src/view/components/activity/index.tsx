@@ -1,3 +1,10 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useCallback } from 'react';
 import { Card, Collapse } from 'reactstrap';
 import styles from './styles.module.scss';
@@ -52,6 +59,7 @@ const SubView = (props: any) => {
     </>
   );
 };
+
 const Activities = (props: any) => {
   const newTime = new Date(props.data.timestamp * 1000);
   const { time, ftm, subView = [] } = props;
@@ -90,7 +98,6 @@ const Activities = (props: any) => {
   );
 };
 export default props => {
-  console.log('*******props', props);
   return (
     <Card>
       <p className="card-label">Activity</p>

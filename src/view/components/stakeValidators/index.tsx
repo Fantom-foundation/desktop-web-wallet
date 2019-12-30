@@ -21,7 +21,11 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
             <b>
-              {totalStaked} FTM ({stackeLeftPer}% full)
+              {totalStaked}
+              {' '}
+FTM (
+              {stackeLeftPer}
+% full)
             </b>
           </p>
         </td>
@@ -34,7 +38,11 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>{spaceLeft} FTM</b>
+            <b>
+              {spaceLeft}
+              {' '}
+FTM
+            </b>
           </p>
         </td>
       </tr>
@@ -46,7 +54,10 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>{txRewardWeight}%</b>
+            <b>
+              {txRewardWeight}
+%
+            </b>
           </p>
         </td>
       </tr>
@@ -100,14 +111,20 @@ const DataRow = props => {
             <b>{name}</b>
           </p>
         </td>
-        <td>
+        <td className="no-mobile">
           <p className={styles.txDetails}>{poi}</p>
         </td>
-        <td>
+        <td className="text-right text-md-left">
+          <p className={classnames(styles.validatingPowerLable, 'd-md-none')}>
+            Validating power
+          </p>
           <p className={styles.txDetails}>{validatingPower}</p>
         </td>
         <td>
-          <p className={styles.txDetails}>{upTime}%</p>
+          <p className={styles.txDetails}>
+            {upTime}
+%
+          </p>
         </td>
       </tr>
       <tr className={styles.subViewRow}>
@@ -115,6 +132,28 @@ const DataRow = props => {
           <Collapse isOpen={isOpen}>
             <div className={styles.subViewContainer}>
               <table className={styles.subViewTable}>
+                <tr>
+                  <td className="d-md-none">
+                    <p className={classnames(styles.txDetails, styles.label)}>
+                      Proof of Importance
+                    </p>
+                  </td>
+                  <td className="d-md-none">
+                    <p className={classnames(styles.txDetails, styles.value)}>
+                      {poi}
+                    </p>
+                  </td>
+                  <td className="d-md-none">
+                    <p className={classnames(styles.txDetails, styles.label)}>
+                      Uptime
+                    </p>
+                  </td>
+                  <td className="d-md-none">
+                    <p className={classnames(styles.txDetails, styles.value)}>
+                      {uptime}
+                    </p>
+                  </td>
+                </tr>
                 <SubView
                   key={name + 1}
                   spaceLeft={spaceLeft}
@@ -135,7 +174,7 @@ const DataRow = props => {
                 ) : (
                   <Button
                     color="topaz"
-                    className="lg outlined"
+                    className={classnames('lg outlined', styles.selectBtn)}
                     onClick={() => handleValidatorSelect(name)}
                   >
                     Select
@@ -161,12 +200,12 @@ const validator = props => {
   if (!validators || (validators && validators.length === 0)) return null;
 
   return (
-    <Card>
-      <h2 className="font-weight-extra-bold">Validators</h2>
+    <Card className={styles.card}>
+      <h2 className={classnames(styles.title, 'font-weight-extra-bold')}>Validators</h2>
       <p>Click on a validator for more info</p>
       <div>
         <Table className={styles.table}>
-          <thead>
+          <thead className={styles.tableHead}>
             <th />
             <th
               className={classnames({

@@ -94,6 +94,11 @@ body {
     }
   }
 }
+.no-mobile {
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
 .bg {
   &-dark-periwinkle {
     background: map-get($color, dark-periwinkle) !important;
@@ -113,7 +118,17 @@ body {
 .my-6 {
   margin-top: 3.75rem !important;
 }
+@media (min-width: $tablet) {
+  .mb-md-6,
+  .my-md-6 {
+    margin-bottom: 3.75rem !important;
+  }
 
+  .mt-md-6,
+  .my-md-6 {
+    margin-top: 3.75rem !important;
+  }
+}
 .pb-6,
 .py-6 {
   padding-bottom: 3.75rem !important;
@@ -136,6 +151,13 @@ body {
   opacity: 0.7;
 }
 
+.opacity-8 {
+  opacity: 0.8;
+}
+.opacity-85 {
+  opacity: 0.85;
+}
+
 .card {
   border: 0;
   padding: 20px;
@@ -147,6 +169,9 @@ body {
     font-size: 18px;
     font-weight: 600;
     color: rgba(map-get($color, dark-grey-blue), 0.5);
+    @media (max-width: $tablet) {
+      font-size: 16px;
+    }
   }
 }
 

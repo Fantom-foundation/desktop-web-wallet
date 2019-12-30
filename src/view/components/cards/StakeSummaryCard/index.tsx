@@ -9,14 +9,16 @@ export default ({ handleEditStep, stakeValue, validator }) => {
   return (
     <div className="mx-auto" style={{ maxWidth: 670 }}>
       <Card className="pb-6">
-        <p className="card-label mb-6">Summary</p>
+        <p className="card-label mb-4 mb-md-6">Summary</p>
         <div className={styles.contentWrapper}>
           <div className={classnames(styles.fields)}>
             <h3 className={classnames('opacity-7', styles.label)}>
               Amount to stake:
             </h3>
             <h2 className={classnames(styles.value)}>
-              {stakeValue} FTM
+              {stakeValue}
+              {' '}
+FTM
               <Button
                 color="topaz"
                 onClick={() => handleEditStep(2)}

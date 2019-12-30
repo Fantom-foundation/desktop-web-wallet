@@ -12,6 +12,8 @@ import SuccessCard from '~/view/components/stake/sucessCard';
 import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { setValidatorsList } from '~/redux/stake/handlers';
 import { connect } from 'react-redux';
+import downloadIcon from 'src/images/icons/download-blue-icon.svg';
+
 import {
   delegateByAddress as delegateByAddressAction,
   unstakeamount as unstakeamountAction,

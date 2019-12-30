@@ -52,6 +52,9 @@ h2 {
     size: 24px;
     weight: 600;
   }
+  @media (max-width: $tablet) {
+    font-size: 18px;
+  }
 }
 h3 {
   font: {

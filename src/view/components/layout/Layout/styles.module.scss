@@ -17,12 +17,16 @@
     background: map-get($color, Primary-Main);
     width: 100%;
     height: 512px;
+    @media (max-width: $tablet) {
+      height: 370px;
+    }
   }
   main {
     flex-grow: 1;
     padding: 9px 0;
     position: relative;
     z-index: 1;
+    min-height: 400px;
   }
   &.blurred {
     filter: blur(10px);

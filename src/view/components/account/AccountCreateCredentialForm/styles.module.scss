@@ -117,6 +117,9 @@ p {
       font-size: 14px;
       padding: 13px;
     }
+    @media (max-width: $smallPhone) {
+      font-size: 12px;
+    }
 
     &.disable {
       color: #fff;

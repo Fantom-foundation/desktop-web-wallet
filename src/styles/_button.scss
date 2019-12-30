@@ -5,16 +5,22 @@
   border-radius: 50px;
   height: 50px;
   font-size: 18px;
+  min-width: 156px;
   font-weight: 600;
   color: #fff;
   box-shadow: none !important;
   outline: none !important;
-  @media (min-width: $tablet) {
-    min-width: 156px;
+
+  @media (max-width: $tablet) {
+    font-size: 16px;
   }
   &.lg {
     font-size: 21px;
+    @media (max-width: $tablet) {
+      font-size: 16px;
+    }
   }
+
   &-icon {
     outline: none !important;
     cursor: pointer;
