@@ -84,14 +84,12 @@ const Stake = props => {
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
-    debugger;
     if (isEdit) {
       setStep(4);
     } else {
       setStep(step + 1);
     }
   }, [stakeValue, step]);
-  console.log('******validatoradss', validator);
 
   const selectedAddress = stakes.find(stake => stake.publicKey === id);
   const getCurrentCard = () => {

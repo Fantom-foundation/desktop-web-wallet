@@ -97,7 +97,6 @@ const DataRow = props => {
   const perc = (spaceLeft / totalStaked) * 100;
   // const isFull = Number(delegatedMe) === totalStaked * 15;
   const stackeLeftPer = (Number(delegatedMe) / (totalStaked * 15)) * 100;
-  console.log(perc, '******perc');
   const nodeFull = 15 * Number(totalStake) - Number(delegatedMe);
 
   return (
@@ -191,7 +190,6 @@ const DataRow = props => {
 
 const validator = props => {
   const { getValidatorsList, validators, handleValidatorSelect } = props;
-  console.log(validators, '******validators');
 
   useEffect(() => {
     getValidatorsList();

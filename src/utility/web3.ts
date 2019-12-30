@@ -44,6 +44,11 @@ class Web3Agent {
     return !!(await this.web3.eth.getNodeInfo());
   }
 
+  constructor(url) {
+    this.web3 = new Web3(url);
+
+  }
+
   async init(url: string) {
     this.web3 = new Web3(url);
   }
@@ -122,10 +127,12 @@ class Web3Agent {
       nonce: Web3.utils.toHex(nonce),
       data: memo,
     };
+    console.log('*****rawTx', rawTx)
 
     const privateKeyBuffer = EthUtil.toBuffer(privateKey);
 
     const tx = new Transaction(rawTx);
+    console.log(tx, '******tx')
 
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
@@ -204,7 +211,7 @@ class Web3Agent {
 
 // const Fantom = new Web3Agent(URL_FANTOM);
 // const Fantom = new Web3Agent(URL_ETHEREUM);
-const Fantom = new Web3Agent();
+const Fantom = new Web3Agent('http://18.189.195.64:4001/');
 // const Ethereum = new Web3Agent(URL_ETHEREUM);
 
 export { Fantom };

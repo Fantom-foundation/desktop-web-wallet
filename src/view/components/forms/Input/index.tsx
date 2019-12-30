@@ -31,7 +31,7 @@ export default ({
           <div className={styles.inputWrapper}>
             <Input
               className={!isError ? styles.inputBox : styles.errorInput}
-              //className={}
+              // className={}
               value={value}
               type={showPassword ? 'text' : type}
               placeholder={placeholder}

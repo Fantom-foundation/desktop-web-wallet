@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL,
+  baseURL: 'http://3.136.216.35:3100/api/v1/',
   timeout: 10000,
 });
 
@@ -38,7 +38,6 @@ export const resultMiddleware = <T extends {}>({
   status: number;
   data: T;
 }): { status: number; data: T } => {
-  console.log('******status,', status, data)
   return { status, data }
 };
 

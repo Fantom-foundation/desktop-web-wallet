@@ -127,7 +127,6 @@ function* createRestoreMnemonics({
 function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
   try {
     const { list } = yield select(selectAccount);
-    console.log(id, list, '*****listws');
 
     if (!id || !list[id]) {
       return;
