@@ -40,6 +40,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({
       password_match: !!password && password !== password_again,
       password:
         !password.match(/[A-Z]+/) ||
+        !password.match(/[\W]/) ||
         !password.match(/[0-9]+/) ||
         password.length < 8,
     };

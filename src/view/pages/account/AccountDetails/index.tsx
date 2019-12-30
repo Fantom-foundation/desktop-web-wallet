@@ -29,6 +29,7 @@ import { convertFTMValue } from '~/view/general/utilities';
 
 import classnames from 'classnames';
 import { RefreshIcon } from 'src/view/components/svgIcons';
+import { ServerHttp2Session } from 'http2';
 
 const overViewMock = [
   { title: 'Price', value: '$0.01078000' },
@@ -90,6 +91,16 @@ const AccountDetailsDashboard: FC<IProps> = ({
   //   accountGetBalance(id);
 
   // }, [accountGetBalance, id]);
+  const [spin, setSpin] = useState(false)
+
+  const loadLatestBalance = useCallback(() => {
+    setSpin(true)
+    setTimeout(() => {
+      setSpin(false)
+
+    }, 2000)
+    accountGetBalance(id);
+  },[accountGetBalance, id])
   return (
     <div>
       {/* <Modal
@@ -114,8 +125,9 @@ const AccountDetailsDashboard: FC<IProps> = ({
               <div className={styles.refreshBtnWrapper}>
                 <button
                   type="button"
+                  onClick={loadLatestBalance}
                   className={classnames('btn-icon', styles.refreshBtn, {
-                    spin: false,
+                    spin,
                   })}
                 >
                   <RefreshIcon />

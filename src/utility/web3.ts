@@ -11,6 +11,7 @@ import { accountReconnectProvider } from '~/redux/account/actions';
 
 const {
   API_PREVIOUS_URL_FANTOM,
+  API_URL_WEB3,
   // REACT_APP_KEY_INFURA,
   REACT_APP_EXAMPLE_ADDRESS,
 } = process.env;
@@ -45,6 +46,10 @@ class Web3Agent {
   async isConnected() {
     if (!this.web3) return false;
     return !!(await this.web3.eth.getNodeInfo());
+  }
+
+  constructor(url) {
+    this.web3 = new Web3(url);
   }
 
   async init(url: string) {
@@ -130,10 +135,12 @@ class Web3Agent {
       nonce: Web3.utils.toHex(nonce),
       data: memo,
     };
+    console.log('*****rawTx', rawTx);
 
     const privateKeyBuffer = EthUtil.toBuffer(privateKey);
 
     const tx = new Transaction(rawTx);
+    console.log(tx, '******tx');
 
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
@@ -212,7 +219,7 @@ class Web3Agent {
 
 // const Fantom = new Web3Agent(URL_FANTOM);
 // const Fantom = new Web3Agent(URL_ETHEREUM);
-const Fantom = new Web3Agent(URL_FANTOM);
+const Fantom = new Web3Agent(API_URL_WEB3);
 // const Ethereum = new Web3Agent(URL_ETHEREUM);
 
 export { Fantom };

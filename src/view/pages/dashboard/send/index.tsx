@@ -21,13 +21,15 @@ import { IAccount } from '~/redux/account/types';
 import { connect } from 'react-redux';
 import { selectTransactions } from '~/redux/transactions/selectors';
 import * as ACTIONS from '~/redux/transactions/actions';
-import { selectAccount } from '~/redux/account/selectors';
+import { selectAccount, selectAccountTransfer } from '~/redux/account/selectors';
 import styles from './styles.module.scss';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 
 const mapStateToProps = state => ({
   transactions: selectTransactions(state),
   accountData: selectAccount(state),
+
+  
 });
 
 const mapDispatchToProps = {
@@ -50,12 +52,14 @@ const SendDetails = ({
   },
   accountGetBalance,
   accountData,
+ 
 }) => {
   // const onClick = useCallback(
   //   event => copyToClipboard(event, account.publicAddress),
   //   [account.publicAddress]
   // );
-  const account = accountData.list && id && accountData.list[id];
+  const account =  accountData.list && id && accountData.list[id];
+
   // console.log(accountData, '****acc')
   useEffect(() => {
     accountGetBalance(id);
@@ -66,7 +70,9 @@ const SendDetails = ({
       <div className={styles.headWrapper}>
         <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
         <h2 className="mb-md-5">
-          {convertFTMValue(parseFloat(account.balance))} FTM
+          {convertFTMValue(parseFloat(account.balance))}
+          {' '}
+FTM
         </h2>
       </div>
       <SendForm data={account} />

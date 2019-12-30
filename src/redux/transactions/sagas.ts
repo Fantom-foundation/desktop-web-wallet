@@ -12,7 +12,6 @@ function* getList({ address }: ReturnType<typeof transactionsGetList>) {
   const offset = page * 10;
 
   const { error, data } = yield call(getTransactions, address, offset, 10);
-  console.log('********getFTMPrice', error, data)
   // yield call(getBalance, accountGetBalance(from));
 
 
@@ -37,6 +36,5 @@ function* getList({ address }: ReturnType<typeof transactionsGetList>) {
 
 
 export function* transactionsSaga() {
-  console.log('*****sdjsjdsd')
   yield takeLatest(TRANSACTIONS_ACTIONS.GET_LIST, getList);
 }

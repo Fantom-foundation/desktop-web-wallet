@@ -17,6 +17,8 @@ import { mockComponent } from 'react-dom/test-utils';
 import Web3 from 'web3';
 import moment from 'moment';
 
+const FANTOM_WEB_URL = 'http://block-explorer.fantom.foundation.s3-website.ap-south-1.amazonaws.com'
+
 const SubView = (props: any) => {
   console.log(props, '****asdasd');
   const { value, to, fee, newDate } = props;
@@ -31,16 +33,16 @@ const SubView = (props: any) => {
       <div className={styles.subView}>
         <p className={styles.subViewTitle}>Recipient</p>
         <p className={styles.subViewValue}>
-          <Link to="/">{to}</Link>
+          <a target='_blank' href={`${FANTOM_WEB_URL}/address/${to}`}>{to}</a>
           <button onClick={onClickTo}>
             <CopyIcon />
           </button>
         </p>
       </div>
       <div className={styles.subView}>
-        <p className={styles.subViewTitle}>Transaction number</p>
+        <p className={styles.subViewTitle}>Transaction hash:</p>
         <p className={styles.subViewValue}>
-          <Link to="/">{value}</Link>
+          <a target='_blank' href={`${FANTOM_WEB_URL}/transactions/${value}`}>{value}</a>
           <button onClick={onClickHash}>
             <CopyIcon />
           </button>
@@ -53,7 +55,7 @@ const SubView = (props: any) => {
       <div className={styles.subView}>
         <p className={styles.subViewTitle}>Fee</p>
         <p className={styles.subViewValue}>
-          {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)}
+          {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)} FTM
         </p>
       </div>
     </>
