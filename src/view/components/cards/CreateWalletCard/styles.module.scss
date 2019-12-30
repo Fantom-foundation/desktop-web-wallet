@@ -20,6 +20,9 @@
   align-items: center;
   text-align: center;
   background: map-get($color, dark-periwinkle);
+  @media (max-width: $tablet) {
+    height: 83px;
+  }
 }
 
 .body {

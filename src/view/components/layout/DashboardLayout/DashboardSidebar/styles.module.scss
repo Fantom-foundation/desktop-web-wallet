@@ -35,8 +35,10 @@
     height: 100vh;
     z-index: 999;
     transition: 0.3s;
+    opacity: 0;
     &.active {
       right: 0;
+      opacity: 1;
     }
   }
   @media (max-width: 360.98px) {
