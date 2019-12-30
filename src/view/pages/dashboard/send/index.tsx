@@ -2,7 +2,7 @@
 import { SendForm } from '../../../components/forms';
 import { Card } from 'reactstrap';
 import { copyToClipboard } from '~/utility/clipboard';
-import { convertFTMValue } from "~/view/general/utilities"
+import { convertFTMValue } from '~/view/general/utilities';
 import React, {
   FC,
   useEffect,
@@ -61,18 +61,20 @@ const SendDetails = ({
   const account =  accountData.list && id && accountData.list[id];
 
   // console.log(accountData, '****acc')
-  useEffect(()=>{
-    accountGetBalance(id)
-  },[accountGetBalance, id])
+  useEffect(() => {
+    accountGetBalance(id);
+  }, [accountGetBalance, id]);
 
   return (
     <div>
-      <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
-      <h2 className="mb-5">
-        {convertFTMValue(parseFloat(account.balance))}
-        {' '}
+      <div className={styles.headWrapper}>
+        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
+        <h2 className="mb-md-5">
+          {convertFTMValue(parseFloat(account.balance))}
+          {' '}
 FTM
-      </h2>
+        </h2>
+      </div>
       <SendForm data={account} />
       {/* <div>
         <Card className={classname(styles.card, 'mb-5 mt-5')}>
