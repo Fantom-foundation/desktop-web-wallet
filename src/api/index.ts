@@ -3,11 +3,11 @@ import axios from 'axios';
 const getAPIPath = apiName => {
   switch (apiName) {
     case 'delegatorByAddress':
-      return 'api/v1/delegator/address';
+      return 'delegator/address';
     case 'delegatorByStakerId':
-      return 'api/v1/delegator/staker';
+      return 'delegator/staker';
     case 'validatorList':
-      return 'api/v1/staker';
+      return 'staker';
     default:
       return '';
   }

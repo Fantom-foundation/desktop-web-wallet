@@ -4,11 +4,12 @@ export const getTransactions = (
   address: string,
   offset: number,
   count: number
-) =>
- { 
-   return API.get(URLS.GET_ACCOUNT, { params: { address, offset, count } })
+) => {
+  console.log(URLS.GET_ACCOUNT, 'called');
+  return API.get(URLS.GET_ACCOUNT, { params: { address, offset, count } })
     .then(resultMiddleware)
-    .catch(errorMiddleware);}
+    .catch(errorMiddleware);
+};
 
 export const getFTMPrice = () => {
   API.get(
