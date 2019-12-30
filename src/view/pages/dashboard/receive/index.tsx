@@ -82,7 +82,9 @@ const RecieveDetails = ({
     <div>
       <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
       <h2 className="mb-5">
-        ${convertFTMValue(parseFloat(account.balance))} FTM
+        {convertFTMValue(parseFloat(account.balance))}
+        {' '}
+FTM
       </h2>
 
       <Card>
@@ -100,7 +102,7 @@ const RecieveDetails = ({
           {/* <img src={QrImage} alt="" /> */}
         </div>
         <div className={styles.btnWrapper}>
-          <button
+          {/* <button
             type="button"
             className={classname(styles.optionBtn, 'btn-icon')}
             onClick={() => {
@@ -110,7 +112,7 @@ const RecieveDetails = ({
           >
             {amount ? <SetAmountCircleSolidIcon /> : <SetAmountCircleIcon />}
             Set amount
-          </button>
+          </button> */}
           <button
             type="button"
             className={classname(styles.optionBtn, 'btn-icon')}
@@ -135,7 +137,7 @@ const RecieveDetails = ({
             Download
           </button>
         </div>
-        {amount && (
+        {/* {amount && (
           <div className={styles.amountInput}>
             <Input
               type="text"
@@ -153,7 +155,7 @@ const RecieveDetails = ({
               <i className="fas fa-check" />
             </button>
           </div>
-        )}
+        )} */}
       </Card>
     </div>
   );

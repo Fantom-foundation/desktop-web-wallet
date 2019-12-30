@@ -91,7 +91,7 @@ const AddressCardCreateWallet: FC<IProps> = ({
   return (
     <>
       <div className={styles.addCardWrapper}>
-        <Card className={classnames({ [styles.addCard]: addNew }, 'h-100')}>
+        <Card className={classnames({ [styles.addCard]: addNew, pointer: !addNew }, 'h-100')}>
           {addNew ? (
             <div className="text-center">
               <>
@@ -101,14 +101,14 @@ const AddressCardCreateWallet: FC<IProps> = ({
                     className="btn btn-dark-periwinkle mb-4"
                     onClick={() => push('/account/create')}
                   >
-                    Create a new wallet
+                    Create a wallet
                   </button>
                   <button 
                     type="button"
                     className="btn btn-topaz px-5"
                     onClick={() => push('/account/restore')}
                   >
-                    Access your wallet
+                    Restore Wallet
                   </button>
                 </div>
               </>
@@ -120,6 +120,8 @@ const AddressCardCreateWallet: FC<IProps> = ({
               <p className="card-label mb-0">Balance</p>
               <h2 className={styles.value}>
                 {convertFTMValue(parseFloat(balance))}
+                {' '}
+FTM
               </h2>
             </>
           )}

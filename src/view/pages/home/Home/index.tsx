@@ -9,6 +9,7 @@ import WalletIcon from '../../../../images/icons/wallet.png';
 import { AddressBalanceCard } from '../../../components/cards';
 import classnames from 'classnames';
 import { push } from 'connected-react-router';
+
 function goToRoute(props) {
   props.history.push('/account/create');
 }
@@ -41,7 +42,7 @@ const Home: FC<{}> = props => {
                     <div className={styles.homecontent}>
                       <div className={styles.text}>
                         <h2>Create a new wallet</h2>
-                        <p>
+                        <p className="text-white">
                           Generate your unique Fantom wallet. Receive your own
                           unique public address, and create access and recovery
                           credentials.
@@ -73,7 +74,7 @@ const Home: FC<{}> = props => {
                     <div className={styles.homecontent}>
                       <div className={styles.text}>
                         <h2>Access your wallet</h2>
-                        <p>
+                        <p className="text-white">
                           Connect to the Fantom network and:
                           <ul>
                             <li>Send and receive FTM</li>

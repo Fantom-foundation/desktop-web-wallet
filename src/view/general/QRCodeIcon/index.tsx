@@ -4,6 +4,7 @@ import styles from './styles.module.scss';
 
 // import FantomLogo from '~/view/general/FantomLogo/';
 import fantomLogo from 'src/images/logo/fantom-logo-white.svg';
+
 type IProps = {
   bgColor?: string;
   fgColor?: string;
@@ -42,7 +43,7 @@ class QRCodeIcon extends React.PureComponent<IProps> {
     const { address, bgColor, fgColor, id } = this.props;
     return (
       <div className={styles.qrWrapper}>
-        {this.renderLogo()}
+        {/* {this.renderLogo()} */}
         <QRCode
           bgColor={bgColor}
           fgColor={fgColor}

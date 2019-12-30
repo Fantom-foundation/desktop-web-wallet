@@ -65,7 +65,6 @@ const SendDetails = ({
     <div>
       <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
       <h2 className="mb-5">
-$
         {convertFTMValue(parseFloat(account.balance))}
         {' '}
 FTM

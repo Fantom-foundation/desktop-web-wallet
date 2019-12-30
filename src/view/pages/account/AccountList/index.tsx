@@ -107,7 +107,7 @@ const AccountListUnconnected: FC<IProps> = ({
                       <div className={styles.homecontent}>
                         <div className={styles.text}>
                           <h2>Create a new wallet</h2>
-                          <p>
+                          <p className="text-white">
                             Generate your unique Fantom wallet. Receive your own
                             unique public address, and create access and
                             recovery credentials.
@@ -139,7 +139,7 @@ const AccountListUnconnected: FC<IProps> = ({
                       <div className={styles.homecontent}>
                         <div className={styles.text}>
                           <h2>Access your wallet</h2>
-                          <p>
+                          <p className="text-white">
                             Connect to the Fantom network and:
                             <ul>
                               <li>Send and receive FTM</li>
