@@ -211,7 +211,7 @@ class Web3Agent {
 
 // const Fantom = new Web3Agent(URL_FANTOM);
 // const Fantom = new Web3Agent(URL_ETHEREUM);
-const Fantom = new Web3Agent('http://18.189.195.64:4001/');
+const Fantom = new Web3Agent(process.env.API_URL_WEB3);
 // const Ethereum = new Web3Agent(URL_ETHEREUM);
 
 export { Fantom };

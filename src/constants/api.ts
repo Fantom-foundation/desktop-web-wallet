@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API = axios.create({
-  baseURL: 'http://3.136.216.35:3100/api/v1/',
+  baseURL: process.env.API_URL_FANTOM,
   timeout: 10000,
 });
 

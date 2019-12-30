@@ -13,7 +13,7 @@ import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { setValidatorsList } from '~/redux/stake/handlers';
 import { connect } from 'react-redux';
 import downloadIcon from 'src/images/icons/download-blue-icon.svg';
-
+import { convertFTMValue } from '~/view/general/utilities'
 import {
   delegateByAddress as delegateByAddressAction,
   unstakeamount as unstakeamountAction,
@@ -91,7 +91,7 @@ const Stake = props => {
     }
   }, [stakeValue, step]);
 
-  const selectedAddress = stakes.find(stake => stake.publicKey === id);
+  const selectedAddress = stakes && stakes.find(stake => stake.publicKey === id);
   const getCurrentCard = () => {
     const { stakes, id } = props;
     const selectedAddress =
@@ -175,7 +175,7 @@ const Stake = props => {
           <Card className="h-100">
             <p className="card-label mb-4">Overview</p>
             <div className="text-right">
-              <h2 className="pt-3">{account.balance} FTM</h2>
+              <h2 className="pt-3">{convertFTMValue(parseFloat(account.balance))} FTM</h2>
               <h3 className="opacity-5 mb-3">Available to stake</h3>
               <h2 className="pt-3">0 FTM</h2>
               <h3 className="opacity-5 mb-3">Currently staking</h3>
