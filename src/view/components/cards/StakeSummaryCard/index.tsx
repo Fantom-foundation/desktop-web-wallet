@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import styles from './styles.module.scss';
 import SpinnerSVG from '../../../../images/icons/spinner.svg';
 
-export default ({ handleEditStep, stakeValue, validator }) => {
+export default ({ handleEditStep, stakeValue, validator, stakeAmount }) => {
   const [isSubmit, setIsSubmit] = useState(false);
   return (
     <div className="mx-auto" style={{ maxWidth: 670 }}>
@@ -16,9 +16,7 @@ export default ({ handleEditStep, stakeValue, validator }) => {
               Amount to stake:
             </h3>
             <h2 className={classnames(styles.value)}>
-              {stakeValue}
-              {' '}
-FTM
+              {stakeValue} FTM
               <Button
                 color="topaz"
                 onClick={() => handleEditStep(2)}
@@ -48,7 +46,10 @@ FTM
           {!isSubmit ? (
             <Button
               color="topaz"
-              onClick={() => setIsSubmit(true)}
+              onClick={() => {
+                stakeAmount();
+                setIsSubmit(true);
+              }}
               className={classnames('outlined lg')}
             >
               Stake

@@ -5,12 +5,12 @@ import {
   delegateByAddresses,
   getValidatorsList,
   delegateByStakerId,
-  delegateAmount,
   STAKE_ACTIONS,
   delegateByAddressFailure,
   getValidatorsListSuccess,
   delegateByAddressSuccess,
   setAmountUnstaked,
+  delegateAmountSuccess,
   // } from '~/redux/stake/actions';
 } from './actions';
 import { InitialStateType } from './index';
@@ -50,6 +50,14 @@ export const amountUnstakedSuccess = (
   }
 
   return { ...state, data: stakes };
+};
+
+export const delegateAmountSuccessHandler = (
+  state: InitialStateType,
+  { response }: ReturnType<typeof delegateAmountSuccess>
+) => {
+  console.log(state, response, 'delegateAmountSuccessHandler');
+  return { ...state };
 };
 
 export const setDelegatorByAddress = (
@@ -113,6 +121,6 @@ export const ACCOUNT_HANDLERS = {
   [`${STAKE_ACTIONS.VALIDATORS_LIST}_SUCCESS`]: setValidatorsList,
   [`${STAKE_ACTIONS.VALIDATORS_LIST}_FAILURE`]: getValidatorsListFailure,
   [STAKE_ACTIONS.DELEGATE_BY_STAKER_ID]: delegateByStakerId,
-  [STAKE_ACTIONS.DELEGATE_AMOUNT]: delegateAmount,
+  [`${STAKE_ACTIONS.DELEGATE_AMOUNT}_SUCCESS`]: delegateAmountSuccessHandler,
   [`${STAKE_ACTIONS.UNSTAKE_AMOUNT}_SET`]: amountUnstakedSuccess,
 };

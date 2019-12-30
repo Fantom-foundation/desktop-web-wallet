@@ -25,6 +25,20 @@ export const unstakeamount = ({ publicKey, isUnstake }) =>
     isUnstake,
   });
 
+export const delagateUnstakeAmount = ({
+  publicKey,
+  isUnstake,
+  amount,
+  validatorId,
+}) =>
+  dispatch.dispatch({
+    type: STAKE_ACTIONS.UNSTAKE_AMOUNT,
+    publicKey,
+    isUnstake,
+    amount,
+    validatorId,
+  });
+
 export const setAmountUnstaked = ({ publicKey, isUnstake }) => ({
   type: `${STAKE_ACTIONS.UNSTAKE_AMOUNT}_SET`,
   publicKey,
@@ -87,7 +101,15 @@ export const delegateByStakerId = ({ stakerId }: TDelegateByStakerId) => ({
   payload: { stakerId },
 });
 
-export const delegateAmount = ({ amount, publicKey }) => ({
-  type: STAKE_ACTIONS.DELEGATE_AMOUNT,
-  payload: { amount, publicKey },
+export const delegateAmount = ({ amount, publicKey, validatorId }) =>
+  dispatch.dispatch({
+    type: STAKE_ACTIONS.DELEGATE_AMOUNT,
+    amount,
+    publicKey,
+    validatorId,
+  });
+
+export const delegateAmountSuccess = response => ({
+  type: `${STAKE_ACTIONS.DELEGATE_AMOUNT}_SUCCESS`,
+  response,
 });

@@ -12,8 +12,12 @@ import {
   delegateByAddresses,
   unstakeamount,
   setAmountUnstaked,
+  delegateAmountSuccess,
+  delagateUnstakeAmount,
 } from './actions';
-// import { delegateByAddressesFailure } from './handlers';
+import { selectAccount } from '../account/selectors';
+import {} from './handlers';
+import { IAccountState } from '../account';
 // import { setDopdownAlert } from "~/redux/notification/actions";
 import { getDataWithQueryString } from '../../api';
 import { Fantom } from '~/utility/web3';
@@ -83,7 +87,7 @@ export function* delegateByStakerIdSaga({
   try {
     const res = yield call(
       fetch,
-      `http://3.136.216.35:3100/api/v1/delegator/staker/${stakerId}`
+      `${process.env.REACT_APP_API_URL_FANTOM}api/v1/delegator/staker/${stakerId}`
     );
     const data = yield call([res, 'json']);
     //  yield call(
@@ -94,20 +98,34 @@ export function* delegateByStakerIdSaga({
   }
 }
 
-// export function* delegateAmountSaga({
-//   publicKey,
-// }: ReturnType<typeof unstakeamount>) {
-//   try {
-//     // yield Fantom.delegateStake({
-//     //   amount,
-//     //   publicKey,
-//     // });
-//     yield put(setAmountUnstaked({ publicKey }));
-//     // Assign contract functions to sfc variable
-//   } catch (e) {
-//     // yield put(setDopdownAlert("error", e.message));
-//   }
-// }
+export function* delegateAmountSaga({
+  publicKey,
+  amount,
+  validatorId,
+}: ReturnType<typeof delegateAmount>) {
+  try {
+    const { list }: IAccountState = yield select(selectAccount);
+
+    const { keystore } = list[publicKey];
+    const password = '12345678Aa';
+    const privateKey = yield call(
+      [Fantom, Fantom.getPrivateKey],
+      keystore,
+      password
+    );
+    yield Fantom.delegateStake({
+      amount,
+      publicKey,
+      privateKey,
+      validatorId,
+    });
+    yield put(delegateAmountSuccess({ response: {} }));
+    // Assign contract functions to sfc variable
+  } catch (e) {
+    console.log('called catch', e);
+    // yield put(setDopdownAlert("error", e.message));
+  }
+}
 
 export function* unstakeAmountSaga({
   publicKey,
@@ -133,7 +151,7 @@ export default function* stakeSaga() {
       STAKE_ACTIONS.DELEGATE_BY_STAKER_ID,
       delegateByStakerIdSaga
     ),
-    // yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
+    yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
     yield takeLatest(STAKE_ACTIONS.UNSTAKE_AMOUNT, unstakeAmountSaga),
   ]);
 }

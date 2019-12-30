@@ -13,10 +13,10 @@ import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { setValidatorsList } from '~/redux/stake/handlers';
 import { connect } from 'react-redux';
 import downloadIcon from 'src/images/icons/download-blue-icon.svg';
-
 import {
   delegateByAddress as delegateByAddressAction,
   unstakeamount as unstakeamountAction,
+  delegateAmount as delegateAmountAction,
 } from '~/redux/stake/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
@@ -31,7 +31,10 @@ const rewardMock = [
 ];
 const Stake = props => {
   const [stakeValue, setStakeValue] = useState('');
-  const [validator, setValidator] = useState('');
+  const [validator, setValidator] = useState({
+    name: '',
+    id: '',
+  });
   const [step, setStep] = useState(1);
   const [type, setType] = useState('');
   const [errors, setErrors] = useState({});
@@ -75,6 +78,15 @@ const Stake = props => {
     unstakeamount({ publicKey: id, isUnstake: value });
   };
 
+  const stakeAmount = () => {
+    const { delegateAmount } = props;
+    delegateAmount({
+      publicKey: id,
+      amount: stakeValue,
+      validatorId: validator.id,
+    });
+  };
+
   const handleStackSubmit = useCallback(() => {
     const validation_errors = {
       stakeValueInvalid:
@@ -84,7 +96,6 @@ const Stake = props => {
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
-    debugger;
     if (isEdit) {
       setStep(4);
     } else {
@@ -93,7 +104,10 @@ const Stake = props => {
   }, [stakeValue, step]);
   console.log('******validatoradss', validator);
 
-  const selectedAddress = stakes.find(stake => stake.publicKey === id);
+  const selectedAddress =
+    stakes && stakes.length > 0
+      ? stakes.find(stake => stake.publicKey === id)
+      : [];
   const getCurrentCard = () => {
     const { stakes, id } = props;
     const selectedAddress =
@@ -131,8 +145,9 @@ const Stake = props => {
       case 4:
         return (
           <StakeSummaryCard
-            validator={validator}
+            validator={validator.name}
             stakeValue={stakeValue}
+            stakeAmount={stakeAmount}
             handleEditStep={val => {
               if (val === 2) {
                 setIsEdit(true);
@@ -177,7 +192,7 @@ const Stake = props => {
           <Card className="h-100">
             <p className="card-label mb-4">Overview</p>
             <div className="text-right">
-              <h2 className="pt-3">{account.balance} FTM</h2>
+              <h2 className="pt-3">{account && account.balance} FTM</h2>
               <h3 className="opacity-5 mb-3">Available to stake</h3>
               <h2 className="pt-3">0 FTM</h2>
               <h3 className="opacity-5 mb-3">Currently staking</h3>
@@ -326,6 +341,7 @@ const mapDispatchToProps = () => ({
   delegateByAddress: delegateByAddressAction,
   unstakeamount: unstakeamountAction,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
+  delegateAmount: delegateAmountAction,
 });
 
 export default connect(

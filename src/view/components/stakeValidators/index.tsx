@@ -21,11 +21,7 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
             <b>
-              {totalStaked}
-              {' '}
-FTM (
-              {stackeLeftPer}
-% full)
+              {totalStaked} FTM ({stackeLeftPer}% full)
             </b>
           </p>
         </td>
@@ -38,11 +34,7 @@ FTM (
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>
-              {spaceLeft}
-              {' '}
-FTM
-            </b>
+            <b>{spaceLeft} FTM</b>
           </p>
         </td>
       </tr>
@@ -54,10 +46,7 @@ FTM
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>
-              {txRewardWeight}
-%
-            </b>
+            <b>{txRewardWeight}%</b>
           </p>
         </td>
       </tr>
@@ -67,6 +56,7 @@ FTM
 const DataRow = props => {
   // eslint-disable-next-line one-var
   const {
+    id,
     index,
     address: name,
     poi,
@@ -121,10 +111,7 @@ const DataRow = props => {
           <p className={styles.txDetails}>{validatingPower}</p>
         </td>
         <td>
-          <p className={styles.txDetails}>
-            {upTime}
-%
-          </p>
+          <p className={styles.txDetails}>{upTime}%</p>
         </td>
       </tr>
       <tr className={styles.subViewRow}>
@@ -175,7 +162,7 @@ const DataRow = props => {
                   <Button
                     color="topaz"
                     className={classnames('lg outlined', styles.selectBtn)}
-                    onClick={() => handleValidatorSelect(name)}
+                    onClick={() => handleValidatorSelect({ name, id })}
                   >
                     Select
                   </Button>
@@ -201,7 +188,9 @@ const validator = props => {
 
   return (
     <Card className={styles.card}>
-      <h2 className={classnames(styles.title, 'font-weight-extra-bold')}>Validators</h2>
+      <h2 className={classnames(styles.title, 'font-weight-extra-bold')}>
+        Validators
+      </h2>
       <p>Click on a validator for more info</p>
       <div>
         <Table className={styles.table}>
