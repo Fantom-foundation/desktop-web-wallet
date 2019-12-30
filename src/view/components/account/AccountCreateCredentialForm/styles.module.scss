@@ -32,8 +32,21 @@ p {
   position: absolute;
   bottom: 100%;
   z-index: 999999999;
-  left: 0;
   padding-bottom: 5px;
+  @media (min-width: $tablet) {
+    left: -87px;
+  }
+  @media (min-width: $phone) and (max-width: $tablet) {
+    left: -50%;
+    transform: translateX(-50%);
+  }
+  @media (max-width: $phone) {
+    right: 0;
+
+    p {
+      max-width: calc(100vw - 100px);
+    }
+  }
 
   .tooltip {
     border-radius: 19px;
