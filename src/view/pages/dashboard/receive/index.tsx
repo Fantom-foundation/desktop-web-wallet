@@ -80,13 +80,12 @@ const RecieveDetails = ({
 
   return (
     <div>
-      <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
-      <h2 className="mb-5">
-        {convertFTMValue(parseFloat(account.balance))}
-        {' '}
-FTM
-      </h2>
-
+      <div className={styles.headWrapper}>
+        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
+        <h2 className="mb-md-5">
+          {convertFTMValue(parseFloat(account.balance))} FTM
+        </h2>
+      </div>
       <Card>
         <h2 className={classname(styles.cardTitle, 'font-weight-extra-bold')}>
           Receive FTM

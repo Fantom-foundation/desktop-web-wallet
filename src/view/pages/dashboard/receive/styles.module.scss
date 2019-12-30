@@ -71,3 +71,20 @@
     color: map-get($color, topaz);
   }
 }
+.headWrapper {
+  @media (max-width: $tablet) {
+    background: #fff;
+    margin: 0 -25px 20px;
+    padding: 0px 25px 20px;
+  }
+  @media (max-width: $smallPhone) {
+    margin: {
+      left: -15px;
+      right: -15px;
+    }
+    padding: {
+      left: 15px;
+      right: 15px;
+    }
+  }
+}
