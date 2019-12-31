@@ -302,3 +302,152 @@
     }
   }
 }
+
+@import '~/styles/variables.scss';
+
+.card {
+  padding: {
+    left: 30px !important;
+    right: 30px !important;
+  }
+
+  @media (max-width: $tablet) {
+    padding: {
+      left: 25px !important;
+      right: 25px !important;
+    }
+  }
+}
+
+.inputsWrapper {
+  @media (min-width: $tablet) {
+    padding: {
+      left: 10px;
+      right: 10px;
+    }
+  }
+}
+
+.title {
+  font-weight: 800;
+}
+
+.btnWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.btn {
+  width: 200px;
+
+  &.send {
+    margin-bottom: 10px;
+    font-size: 21px;
+  }
+
+  &.clear {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.passwordModal {
+  @media (min-width: $tablet) {
+    max-width: 870px;
+  }
+
+  >div {
+    border-radius: 20px;
+    border: 0;
+    overflow: hidden;
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+
+    @media (min-width: $tablet) {
+      min-height: 301px;
+    }
+  }
+
+  .body {
+    padding: 20px 40px 40px;
+  }
+
+  .sendBtn {
+    margin-top: 35px;
+    width: 200px;
+  }
+
+  label {
+    font-size: 18px !important;
+  }
+
+  p {
+    margin-top: 20px !important;
+  }
+
+  ::-webkit-input-placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+
+  :-ms-input-placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+
+  ::placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+}
+
+.iconGap {
+  margin-bottom: 40px;
+}
+
+.copyBtn {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.transCard {
+  text-align: center;
+  max-width: 470px;
+
+  margin: {
+    left: auto;
+    right: auto;
+  }
+}
+
+.hash {
+  display: flex;
+  flex-wrap: wrap;
+
+  a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 24px;
+    font-weight: 600;
+    flex: 0 0 calc(100% - 18px);
+    max-width: calc(100% - 18px);
+  }
+
+  .copyBtn {
+    flex: 0 0 18px;
+    max-width: 18px;
+
+    svg {
+      width: 18px;
+      height: 20px;
+      color: rgba(map-get($color, dark-grey-blue), 0.5);
+    }
+  }
+}

@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import styles from './styles.module.scss';
-import { Row, Col, Card } from 'reactstrap';
+import { Row, Col, Card, Modal, ModalBody } from 'reactstrap';
 import { StakeSummaryCard } from 'src/view/components/cards';
 import StakeValidators from 'src/view/components/stakeValidators';
 import StackUnstack from 'src/view/components/stake/stakeUnstake';
@@ -13,6 +13,8 @@ import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { setValidatorsList } from '~/redux/stake/handlers';
 import { connect } from 'react-redux';
 import downloadIcon from 'src/images/icons/download-blue-icon.svg';
+import Input from '../../../components/forms/Input';
+
 import { convertFTMValue } from '~/view/general/utilities';
 import {
   delegateByAddress as delegateByAddressAction,
@@ -21,6 +23,7 @@ import {
 } from '~/redux/stake/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
+import classnames from 'classnames'
 
 const overViewMock = [
   { title: 'Available to stake', value: '200,756,680.84 FTM' },
@@ -37,19 +40,21 @@ const Stake = props => {
     id: '',
   });
   const [step, setStep] = useState(1);
+  const [modal, setModal] = useState(false);
+  const [password, setPassword] = useState('');
   const [type, setType] = useState('');
   const [errors, setErrors] = useState({});
   const [withdrawalText, setWithdrawal] = useState('');
   const {
     stakes,
     id,
+    error,
     delegateByAddress,
     accountData,
     accountGetBalance,
   } = props;
   const [isEdit, setIsEdit] = useState(false);
   const account = accountData.list && id && accountData.list[id];
-  // console.log(accountData, '****acc')
   useEffect(() => {
     accountGetBalance(id);
   }, [accountGetBalance, id]);
@@ -84,8 +89,13 @@ const Stake = props => {
     delegateAmount({
       publicKey: id,
       amount: stakeValue,
-      validatorId: validator.id,
+      validatorId: validator.name,
+      password,
     });
+
+    setTimeout(() => {
+      setModal(false)
+    }, 2000);
   };
 
   const handleStackSubmit = useCallback(() => {
@@ -140,6 +150,7 @@ const Stake = props => {
               setValidator(val);
               setStep(step + 1);
             }}
+            balance={account.balance}
           />
         );
       case 4:
@@ -147,7 +158,7 @@ const Stake = props => {
           <StakeSummaryCard
             validator={validator.name}
             stakeValue={stakeValue}
-            stakeAmount={stakeAmount}
+            stakeAmount={() => setModal(true)}
             handleEditStep={val => {
               if (val === 2) {
                 setIsEdit(true);
@@ -330,12 +341,46 @@ const Stake = props => {
           <ClaimRewardsCard styles={styles} />
         </Col>
       </Row> */}
+      <Modal
+        isOpen={modal || error}
+        className={classnames('modal-dialog-centered', styles.passwordModal)}
+        toggle={() => setModal(false)}
+      >
+        <ModalBody className={styles.body}>
+          <Input
+            type="password"
+            label="Please enter your wallet password to send the transaction"
+            value={password}
+            placeholder="Enter password"
+            handler={value => {
+              setPassword(value);
+            }}
+            // errorClass="justify-content-center"
+            isError={error}
+            errorMsg={
+              error
+                ? 'Invalid password'
+                : ''
+            }
+          />
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={stakeAmount}
+              className={classnames('btn btn-secondary', styles.sendBtn)}
+            >
+              Send
+            </button>
+          </div>
+        </ModalBody>
+      </Modal>
     </div>
   );
 };
 
 const mapStateToProps = state => ({
   stakes: state.stakes.data,
+  error: state.stakes.errors,
   accountData: selectAccount(state),
 });
 

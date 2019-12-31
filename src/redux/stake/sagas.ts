@@ -14,6 +14,7 @@ import {
   setAmountUnstaked,
   delegateAmountSuccess,
   delagateUnstakeAmount,
+  delegateAmountError,
 } from './actions';
 import { selectAccount } from '../account/selectors';
 import {} from './handlers';
@@ -102,17 +103,21 @@ export function* delegateAmountSaga({
   publicKey,
   amount,
   validatorId,
+  password,
 }: ReturnType<typeof delegateAmount>) {
   try {
     const { list }: IAccountState = yield select(selectAccount);
 
     const { keystore } = list[publicKey];
-    const password = '12345678Aa';
     const privateKey = yield call(
       [Fantom, Fantom.getPrivateKey],
       keystore,
       password
     );
+    if(!privateKey){
+      yield put(delegateAmountError());
+      return
+    }
     yield Fantom.delegateStake({
       amount,
       publicKey,
@@ -123,7 +128,6 @@ export function* delegateAmountSaga({
     // Assign contract functions to sfc variable
   } catch (e) {
     console.log('called catch', e);
-    // yield put(setDopdownAlert("error", e.message));
   }
 }
 
@@ -132,7 +136,6 @@ export function* unstakeAmountSaga({
   isUnstake,
 }: ReturnType<typeof unstakeamount>) {
   try {
-    console.log('called', publicKey);
     yield put(setAmountUnstaked({ publicKey, isUnstake }));
     // Assign contract functions to sfc variable
   } catch (e) {

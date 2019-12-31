@@ -101,15 +101,22 @@ export const delegateByStakerId = ({ stakerId }: TDelegateByStakerId) => ({
   payload: { stakerId },
 });
 
-export const delegateAmount = ({ amount, publicKey, validatorId }) =>
+export const delegateAmount = ({ amount, publicKey, validatorId, password }) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.DELEGATE_AMOUNT,
     amount,
     publicKey,
     validatorId,
+    password,
   });
 
 export const delegateAmountSuccess = response => ({
   type: `${STAKE_ACTIONS.DELEGATE_AMOUNT}_SUCCESS`,
   response,
 });
+
+export const delegateAmountError = () => ({
+  type: `${STAKE_ACTIONS.DELEGATE_AMOUNT}_FAILURE`,
+});
+
+

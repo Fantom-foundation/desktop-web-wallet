@@ -21,16 +21,16 @@ const stackUnstack = ({
         }
         style={{ maxWidth: 480 }}
       >
-        {isDeligated ? (
-          <Button
-            className={classnames('lg mx-4')}
-            onClick={() => handleStep('unstake')}
-          >
-            Unstake
-          </Button>
+        {/* {isDeligated ? (
+          // <Button
+          //   className={classnames('lg mx-4')}
+          //   onClick={() => handleStep('unstake')}
+          // >
+          //   Unstake
+          // </Button>
         ) : (
           <div className={classnames('lg mx-4')}></div>
-        )}
+        )} */}
         <Button
           color="topaz"
           onClick={() => handleStep('stake')}

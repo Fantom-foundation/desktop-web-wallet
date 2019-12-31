@@ -107,6 +107,12 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
     useEffect(() => {
       if (!mnemonic) onBackPressed();
     });
+    const filteredMnemonics = shuffled_mnemonics.filter((item, index) => {
+      return {
+        name: item,
+        id: `${item}_ ${index}`,
+      }
+    })
 
     return (
       <Layout>

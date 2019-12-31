@@ -21,7 +21,11 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
             <b>
-              {totalStaked} FTM ({stackeLeftPer}% full)
+              {totalStaked}
+              {' '}
+FTM (
+              {stackeLeftPer}
+% full)
             </b>
           </p>
         </td>
@@ -34,7 +38,11 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>{spaceLeft} FTM</b>
+            <b>
+              {spaceLeft}
+              {' '}
+FTM
+            </b>
           </p>
         </td>
       </tr>
@@ -46,7 +54,10 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>{txRewardWeight}%</b>
+            <b>
+              {txRewardWeight}
+%
+            </b>
           </p>
         </td>
       </tr>
@@ -80,11 +91,14 @@ const DataRow = props => {
   // Validator is full if "delegatedMe" = "stake"*15
 
   const totalStaked = Number(totalStake) / 10 ** 18;
+  console.log(props.balance, totalStaked, '******sdsdsd')
+
   // const spaceLeft = totalStaked - Number(delegatedMe);
   const spaceLeft = Number(
-    ((Number(totalStake) * 15 - Number(delegatedMe)) / 10 ** 18).toFixed(2)
+    ((Number(props.balance) * 15 - Number(delegatedMe)) / 10 ** 18).toFixed(2)
   );
   const perc = (spaceLeft / totalStaked) * 100;
+  console.log('*****perc,', perc)
   // const isFull = Number(delegatedMe) === totalStaked * 15;
   const stackeLeftPer = (Number(delegatedMe) / (totalStaked * 15)) * 100;
   const nodeFull = 15 * Number(totalStake) - Number(delegatedMe);
@@ -110,7 +124,10 @@ const DataRow = props => {
           <p className={styles.txDetails}>{validatingPower}</p>
         </td>
         <td>
-          <p className={styles.txDetails}>{upTime}%</p>
+          <p className={styles.txDetails}>
+            {upTime}
+%
+          </p>
         </td>
       </tr>
       <tr className={styles.subViewRow}>
@@ -237,6 +254,7 @@ const validator = props => {
                 key={data.id}
                 index={index + 1}
                 {...data}
+                balance={props.balance}
                 handleValidatorSelect={handleValidatorSelect}
                 validators={validators}
               />

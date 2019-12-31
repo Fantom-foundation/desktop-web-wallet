@@ -20,11 +20,13 @@ export type TValidatorObj = {
 export interface InitialStateType {
   data: Array<TStakeObj>;
   validators: Array<TValidatorObj>;
+  errors: boolean
 }
 
 export const MODAL_INITIAL_STATE: InitialStateType = {
   data: [],
   validators: [],
+  errors: false,
 };
 
 export const stakes = createReducer(MODAL_INITIAL_STATE, ACCOUNT_HANDLERS);

@@ -1,4 +1,4 @@
-//@ flow
+// @ flow
 import { assocPath } from 'ramda';
 import {
   delegateByAddress,
@@ -34,7 +34,7 @@ export const amountUnstakedSuccess = (
   { publicKey, isUnstake }: ReturnType<typeof setAmountUnstaked>
 ) => {
   const { data } = state;
-  let stakes = data.slice();
+  const stakes = data.slice();
   if (state && state.data.length > 0) {
     const selectedAddressIndex = stakes.findIndex(
       d => d.publicKey === publicKey
@@ -56,8 +56,13 @@ export const delegateAmountSuccessHandler = (
   state: InitialStateType,
   { response }: ReturnType<typeof delegateAmountSuccess>
 ) => {
-  console.log(state, response, 'delegateAmountSuccessHandler');
-  return { ...state };
+  return { ...state, errors: false };
+};
+
+export const delegateAmountFailureHandler = (
+  state: InitialStateType
+) => {
+  return { ...state, errors: true };
 };
 
 export const setDelegatorByAddress = (
@@ -73,7 +78,7 @@ export const setDelegatorByAddressFailure = (
   { publicKey }: ReturnType<typeof delegateByAddressFailure>
 ) => {
   const { data } = state;
-  let stakes = data.slice();
+  const stakes = data.slice();
   if (state && state.data.length > 0) {
     const selectedAddressIndex = stakes.findIndex(
       d => d.publicKey === publicKey
@@ -122,5 +127,7 @@ export const ACCOUNT_HANDLERS = {
   [`${STAKE_ACTIONS.VALIDATORS_LIST}_FAILURE`]: getValidatorsListFailure,
   [STAKE_ACTIONS.DELEGATE_BY_STAKER_ID]: delegateByStakerId,
   [`${STAKE_ACTIONS.DELEGATE_AMOUNT}_SUCCESS`]: delegateAmountSuccessHandler,
+  [`${STAKE_ACTIONS.DELEGATE_AMOUNT}_FAILURE`]: delegateAmountFailureHandler,
+
   [`${STAKE_ACTIONS.UNSTAKE_AMOUNT}_SET`]: amountUnstakedSuccess,
 };

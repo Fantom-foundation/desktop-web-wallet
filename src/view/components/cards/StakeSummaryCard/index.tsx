@@ -16,7 +16,9 @@ export default ({ handleEditStep, stakeValue, validator, stakeAmount }) => {
               Amount to stake:
             </h3>
             <h2 className={classnames(styles.value)}>
-              {stakeValue} FTM
+              {stakeValue}
+              {' '}
+FTM
               <Button
                 color="topaz"
                 onClick={() => handleEditStep(2)}
