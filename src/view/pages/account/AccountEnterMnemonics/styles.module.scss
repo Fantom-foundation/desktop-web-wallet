@@ -20,7 +20,7 @@
   padding: 40px 0;
   flex-direction: column;
 
-  & > button {
+  &>button {
     margin: 10px 0;
   }
 }
@@ -90,4 +90,100 @@
 .error {
   color: red;
   margin-top: 10px;
+}
+
+
+@import '~/styles/variables.scss';
+$gap: 15px;
+
+.optionsWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+
+  margin: {
+    left: -$gap;
+    right: -$gap;
+    bottom: 51px;
+  }
+
+  .optionCol {
+    padding: {
+      left: $gap;
+      right: $gap;
+    }
+
+    flex: 0 0 #{170px + $gap * 2};
+    max-width: 170px+$gap * 2;
+
+    .option {
+      width: 100%;
+      border-radius: 20px;
+      padding: 20px 12px;
+      text-align: center;
+
+      h4 {
+        margin-bottom: 2px;
+      }
+
+      &:not(.active) {
+        background-color: #f8f9fa;
+      }
+
+      &.active {
+        border: solid 3px map-get($color, topaz);
+      }
+
+      svg {
+        margin-bottom: 17px;
+      }
+    }
+  }
+}
+
+.inputWrapper {
+  position: relative;
+
+  .errorText {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+    color: map-get($color, scarlet);
+  }
+}
+
+.inputLabel {
+  margin-bottom: 10px;
+}
+
+.input {
+  font-size: 16px;
+  font-weight: 500;
+  border: 0;
+  color: #2b3954;
+  border-radius: 12px;
+  outline: none !important;
+  box-shadow: none !important;
+  background-color: #f8f9fa !important;
+  width: 100%;
+  padding: 15px 16px;
+
+  &.isError {
+    border: solid 1px map-get($color, scarlet);
+  }
+
+  &.textarea {
+    width: 100% !important;
+    min-height: 130px;
+    height: 130px;
+    max-height: 200px;
+    margin-bottom: 80px;
+  }
+}
+
+.btn {
+  width: 240px;
 }

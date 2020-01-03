@@ -10,14 +10,11 @@ import { copyToClipboard } from '~/utility/clipboard';
 export default props => {
   const [modal, setModal] = useState(false);
   const { address, history, location, children } = props;
-  console.log(location);
-  const onClick = useCallback(
-    event => copyToClipboard(event, address),
-    [address]
-  );
+  const onClick = useCallback(event => copyToClipboard(event, address), [
+    address,
+  ]);
   const cardShow =
     location.pathname.includes('send') || location.pathname.includes('receive');
-  console.log(cardShow, 'cardShowcardShow');
   const toggleModal = () => setModal(!modal);
 
   return (
@@ -29,13 +26,11 @@ export default props => {
         bodyClassName="d-flex align-items-center justify-content-center"
       >
         <div className="text-center">
-          <QRCodeIcon
-            address={address}
-            bgColor="white"
-            fgColor="black"
-          />
+          <QRCodeIcon address={address} bgColor="white" fgColor="black" />
           {/* <img src={QrImage} className="mb-4" /> */}
-          <h4 className="opacity-7">{address}</h4>
+          <h4 className={classnames(styles.qrHashAddress, 'opacity-7')}>
+            {address}
+          </h4>
         </div>
       </DashboardModal>
       <div

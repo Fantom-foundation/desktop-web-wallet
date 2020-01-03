@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const API = axios.create({
-  baseURL: process.env.REACT_APP_BACKEND_URL,
+  baseURL: process.env.REACT_APP_API_URL_FANTOM,
   timeout: 10000,
 });
 
@@ -38,8 +38,7 @@ export const resultMiddleware = <T extends {}>({
   status: number;
   data: T;
 }): { status: number; data: T } => {
-  console.log('******status,', status, data)
-  return { status, data }
+  return { status, data };
 };
 
 export const errorMiddleware = <T extends any>(debug): IResultWithStatus<T> =>

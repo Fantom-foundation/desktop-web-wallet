@@ -23,6 +23,17 @@
 .addCardBtn {
   button {
     height: 58px;
+    padding-right: 3rem;
+    padding-left: 3rem;
+    @media (max-width: $tablet) {
+      padding-right: 2rem;
+      padding-left: 2rem;
+    }
+    @media (max-width: $smallPhone) {
+      font-size: 14px;
+      padding-right: 1.5rem;
+      padding-left: 1.5rem;
+    }
   }
 }
 

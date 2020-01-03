@@ -5,6 +5,8 @@ import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
 import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
+import { Layout } from '~/view/components/layout/Layout';
+
 
 const mapStateToProps = selectAccount;
 const mapDispatchToProps = {
@@ -21,13 +23,16 @@ const AccountRestoreCredentialsUnconnected: FC<IProps> = ({
   list,
   accountCreateSetRestoreCredentials,
 }) => (
-  <div id="account-information" className="account-information">
-    <AccountCreateCredentialForm
-      push={push}
-      onSubmit={accountCreateSetRestoreCredentials}
-      list={list}
-    />
-  </div>
+  <Layout>
+    <div id="account-information" className="account-information">
+      <AccountCreateCredentialForm
+        push={push}
+        onSubmit={accountCreateSetRestoreCredentials}
+        list={list}
+        title='Access your wallet'
+      />
+    </div>
+  </Layout>
 );
 
 const AccountRestoreCredentials = connect(

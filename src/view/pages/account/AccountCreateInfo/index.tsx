@@ -46,6 +46,7 @@ const mapStateToProps = selectAccountCreate;
 const mapDispatchToProps = {
   accountCreateSetInfo: ACCOUNT_ACTIONS.accountCreateSetInfo,
   accountSetCreateStage: ACCOUNT_ACTIONS.accountSetCreateStage,
+  accountGetPrivateKey: ACCOUNT_ACTIONS.accountGetPrivateKey,
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
@@ -58,13 +59,25 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   mnemonic,
   password,
   publicAddress,
+  accountGetPrivateKey,
   icon,
 }) => {
   const [is_revealed, setIsRevealed] = useState(false);
   const [modal, setModal] = useState(false);
   const [phrase, setPhrase] = useState('');
+  const [privateKey, setPrivateKey] = useState('');
 
-  const toggleModal = () => setModal(!modal);
+  const toggleModal = () => {
+    setModal(!modal)
+    if(!modal){
+      accountGetPrivateKey(mnemonic, key => {
+        setPrivateKey(key)
+  
+      })
+
+    }
+   
+  };
 
   const is_next_disabled = useMemo(
     () =>
@@ -84,6 +97,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 
   useEffect(() => {
     if (!mnemonic || !password || !publicAddress) onBackPressed();
+   
   }, [mnemonic, onBackPressed, password, publicAddress]);
 
   const printer = useRef<any>(null);
@@ -92,6 +106,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     () => setIsRevealed(!is_revealed),
     [setIsRevealed, is_revealed]
   );
+  console.log('*******mnemonic', mnemonic)
 
   return (
     <Layout>
@@ -131,7 +146,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
                 secret and safe.
               </p>
               <h3 className={`${styles.privateKey} font-weight-semi-bold`}>
-                {publicAddress}
+                {privateKey}
               </h3>
               <div className={styles.downloadBtnWrapper}>
                 <button

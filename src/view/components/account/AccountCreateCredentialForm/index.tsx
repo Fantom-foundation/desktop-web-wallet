@@ -15,6 +15,7 @@ type IProps = {
   list: IAccountState['list'];
   onSubmit: (create: Partial<IAccountState['create']>) => void;
   walletCardClassName?: string;
+  title: string
 };
 
 const INITIAL_ERRORS = {
@@ -27,6 +28,7 @@ const INITIAL_ERRORS = {
 const AccountCreateCredentialForm: FC<IProps> = ({
   onSubmit,
   walletCardClassName = '',
+  title,
 }) => {
   const [password, setPassword] = useState('');
   const [password_again, setPasswordAgain] = useState('');
@@ -38,6 +40,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({
       password_match: !!password && password !== password_again,
       password:
         !password.match(/[A-Z]+/) ||
+        !password.match(/[\W]/) ||
         !password.match(/[0-9]+/) ||
         password.length < 8,
     };
@@ -56,11 +59,15 @@ const AccountCreateCredentialForm: FC<IProps> = ({
   }
 
   return (
-    <CreateWalletCard className={walletCardClassName}>
+    <CreateWalletCard className={walletCardClassName} title={title}>
       <div className={styles.title}>
         <h3 className="font-weight-semi-bold">
-          1<span className="opacity-3 mr-2 mr-md-3">/2</span> Create a keystore
-          file and password{' '}
+          1
+          <span className="opacity-3 mr-2 mr-md-3">/2</span>
+          {' '}
+Create a keystore
+          file and password
+          {' '}
           <span className={styles.infoIcon}>
             <i className="fas fa-info-circle" />
             <div className={styles.tooltipWrapper}>
@@ -111,10 +118,10 @@ const AccountCreateCredentialForm: FC<IProps> = ({
         <p>
           I made a backup of the keystore file and saved the password in a safe
           place.
-          <br />I understand that{' '}
-          <a href="#" target="_blank">
+          <br />
+I understand that
+          {' '}
             I will need the password and the keystore file to access my wallet.
-          </a>
         </p>
       </div>
       <div className={styles.downloadBtnWrapper}>

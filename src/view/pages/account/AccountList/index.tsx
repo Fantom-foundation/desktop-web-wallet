@@ -42,8 +42,13 @@ const AccountListUnconnected: FC<IProps> = ({
     },
     [push]
   );
-  const goToRoute = () => {
-    push('/account/create');
+
+  const goToRoute = type => {
+    if(type === 'create'){
+      push('/account/create');
+    } else if(type === 'access'){
+      push('/account/restore');
+    }
   };
 
   return (
@@ -102,7 +107,7 @@ const AccountListUnconnected: FC<IProps> = ({
                       <div className={styles.homecontent}>
                         <div className={styles.text}>
                           <h2>Create a new wallet</h2>
-                          <p>
+                          <p className="text-white">
                             Generate your unique Fantom wallet. Receive your own
                             unique public address, and create access and
                             recovery credentials.
@@ -111,7 +116,7 @@ const AccountListUnconnected: FC<IProps> = ({
                         <button
                           type="button"
                           className={styles.walletBtn}
-                          onClick={() => goToRoute()}
+                          onClick={() => goToRoute('create')}
                         >
                           Get started
                           <i className="fas fa-chevron-right" />
@@ -134,7 +139,7 @@ const AccountListUnconnected: FC<IProps> = ({
                       <div className={styles.homecontent}>
                         <div className={styles.text}>
                           <h2>Access your wallet</h2>
-                          <p>
+                          <p className="text-white">
                             Connect to the Fantom network and:
                             <ul>
                               <li>Send and receive FTM</li>
@@ -143,7 +148,7 @@ const AccountListUnconnected: FC<IProps> = ({
                             </ul>
                           </p>
                         </div>
-                        <button type="button" className={styles.walletBtn}>
+                        <button type="button" className={styles.walletBtn} onClick={() => goToRoute('access')}>
                           Access now
                           <i className="fas fa-chevron-right" />
                         </button>

@@ -2,7 +2,7 @@
 import { SendForm } from '../../../components/forms';
 import { Card } from 'reactstrap';
 import { copyToClipboard } from '~/utility/clipboard';
-import { convertFTMValue } from "~/view/general/utilities"
+import { convertFTMValue } from '~/view/general/utilities';
 import React, {
   FC,
   useEffect,
@@ -21,7 +21,10 @@ import { IAccount } from '~/redux/account/types';
 import { connect } from 'react-redux';
 import { selectTransactions } from '~/redux/transactions/selectors';
 import * as ACTIONS from '~/redux/transactions/actions';
-import { selectAccount } from '~/redux/account/selectors';
+import {
+  selectAccount,
+  selectAccountTransfer,
+} from '~/redux/account/selectors';
 import styles from './styles.module.scss';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 
@@ -50,27 +53,36 @@ const SendDetails = ({
   },
   accountGetBalance,
   accountData,
+  transactionsGetList,
+  transactions,
 }) => {
   // const onClick = useCallback(
   //   event => copyToClipboard(event, account.publicAddress),
   //   [account.publicAddress]
   // );
-  const account =  accountData.list && id && accountData.list[id];
+  const account = accountData.list && id && accountData.list[id];
+
   // console.log(accountData, '****acc')
-  useEffect(()=>{
-    accountGetBalance(id)
-  },[accountGetBalance, id])
+  console.log(transactions, '*****transactions');
+  let hash = '';
+  if (transactions && transactions.list && transactions.list.length > 0) {
+    hash = transactions.list[0].hash;
+  }
+  console.log(hash, '****hash');
+  useEffect(() => {
+    accountGetBalance(id);
+    transactionsGetList(id);
+  }, [accountGetBalance, id]);
 
   return (
     <div>
-      <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
-      <h2 className="mb-5">
-$
-        {convertFTMValue(parseFloat(account.balance))}
-        {' '}
-FTM
-      </h2>
-      <SendForm data={account} />
+      <div className={styles.headWrapper}>
+        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
+        <h2 className="mb-md-5">
+          {convertFTMValue(parseFloat(account.balance))} FTM
+        </h2>
+      </div>
+      <SendForm data={account} transactionHash={hash || ''} />
       {/* <div>
         <Card className={classname(styles.card, 'mb-5 mt-5')}>
           <h2>Transaction sent!</h2>

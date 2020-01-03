@@ -1,3 +1,10 @@
+/* eslint-disable react/no-array-index-key */
+/* eslint-disable react/jsx-one-expression-per-line */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
+/* eslint-disable react/no-multi-comp */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useCallback } from 'react';
 import { Card, Collapse } from 'reactstrap';
 import styles from './styles.module.scss';
@@ -10,29 +17,32 @@ import { mockComponent } from 'react-dom/test-utils';
 import Web3 from 'web3';
 import moment from 'moment';
 
+const FANTOM_WEB_URL = 'http://block-explorer.fantom.foundation.s3-website.ap-south-1.amazonaws.com'
+
 const SubView = (props: any) => {
   console.log(props, '****asdasd');
   const { value, to, fee, newDate } = props;
   // const { hash = false, title, value } = props;
   const onClickTo = useCallback(event => copyToClipboard(event, to), [to]);
-  const onClickHash = useCallback(event => copyToClipboard(event, value), [value]);
-
+  const onClickHash = useCallback(event => copyToClipboard(event, value), [
+    value,
+  ]);
 
   return (
     <>
       <div className={styles.subView}>
         <p className={styles.subViewTitle}>Recipient</p>
         <p className={styles.subViewValue}>
-          <Link to="/">{to}</Link>
+          <a target='_blank' href={`${FANTOM_WEB_URL}/address/${to}`}>{to}</a>
           <button onClick={onClickTo}>
             <CopyIcon />
           </button>
         </p>
       </div>
       <div className={styles.subView}>
-        <p className={styles.subViewTitle}>Transaction number</p>
+        <p className={styles.subViewTitle}>Transaction hash:</p>
         <p className={styles.subViewValue}>
-          <Link to="/">{value}</Link>
+          <a target='_blank' href={`${FANTOM_WEB_URL}/transactions/${value}`}>{value}</a>
           <button onClick={onClickHash}>
             <CopyIcon />
           </button>
@@ -45,14 +55,14 @@ const SubView = (props: any) => {
       <div className={styles.subView}>
         <p className={styles.subViewTitle}>Fee</p>
         <p className={styles.subViewValue}>
-          {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)}
+          {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)} FTM
         </p>
       </div>
     </>
   );
 };
+
 const Activities = (props: any) => {
-  console.log('****ksdjasdsd', props.data);
   const newTime = new Date(props.data.timestamp * 1000);
   const { time, ftm, subView = [] } = props;
   const [isOpen, setIsOpen] = useState(false);
@@ -73,8 +83,7 @@ const Activities = (props: any) => {
             {' '}
             {isRecieve ? '-' : '+'}
             {props.data.value &&
-              parseFloat(Web3.utils.fromWei(props.data.value)).toFixed(5)}
-            {' '}
+              parseFloat(Web3.utils.fromWei(props.data.value)).toFixed(5)}{' '}
             FTM
           </p>
         </div>
@@ -91,7 +100,6 @@ const Activities = (props: any) => {
   );
 };
 export default props => {
-  console.log('*******props', props);
   return (
     <Card>
       <p className="card-label">Activity</p>

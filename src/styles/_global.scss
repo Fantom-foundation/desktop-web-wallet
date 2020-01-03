@@ -3,8 +3,7 @@ $white: #fff;
 $theme-blue: #00b1ff;
 
 $theme-blue-hover: #4b89ca;
-$color: (
-  white: $white,
+$color: (white: $white,
   black: #000,
   nav-link: $white,
   nav-link-hover: #8e8e8e,
@@ -41,8 +40,7 @@ $color: (
 $primary-font: 'Roboto';
 $secondary-font: 'Lato';
 
-$font: (
-  header-menu: $primary-font,
+$font: (header-menu: $primary-font,
   header-menu-size: 16px,
   footer-menu-title: $primary-font,
   footer-menu-title-size: 20px,
@@ -85,6 +83,7 @@ body {
     }
   }
 }
+
 .col,
 [class*='col-'] {
   @media (max-width: $largeDesktop) {
@@ -94,6 +93,13 @@ body {
     }
   }
 }
+
+.no-mobile {
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
+
 .bg {
   &-dark-periwinkle {
     background: map-get($color, dark-periwinkle) !important;
@@ -112,6 +118,19 @@ body {
 .mt-6,
 .my-6 {
   margin-top: 3.75rem !important;
+}
+
+@media (min-width: $tablet) {
+
+  .mb-md-6,
+  .my-md-6 {
+    margin-bottom: 3.75rem !important;
+  }
+
+  .mt-md-6,
+  .my-md-6 {
+    margin-top: 3.75rem !important;
+  }
 }
 
 .pb-6,
@@ -136,6 +155,14 @@ body {
   opacity: 0.7;
 }
 
+.opacity-8 {
+  opacity: 0.8;
+}
+
+.opacity-85 {
+  opacity: 0.85;
+}
+
 .card {
   border: 0;
   padding: 20px;
@@ -147,6 +174,10 @@ body {
     font-size: 18px;
     font-weight: 600;
     color: rgba(map-get($color, dark-grey-blue), 0.5);
+
+    @media (max-width: $tablet) {
+      font-size: 16px;
+    }
   }
 }
 
@@ -163,11 +194,17 @@ input::-webkit-inner-spin-button {
   -webkit-appearance: none;
   margin: 0;
 }
+
 .spin {
   animation: 1s refresh-spin infinite linear;
+
   @keyframes refresh-spin {
     to {
       transform: rotate(1turn);
     }
   }
+}
+
+.pointer {
+  cursor: pointer;
 }

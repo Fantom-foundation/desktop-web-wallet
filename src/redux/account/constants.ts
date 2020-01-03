@@ -23,6 +23,7 @@ export const ACCOUNT_ACTIONS = {
   ADD_ACCOUNT: `${prefix}ADD_ACCOUNT`,
 
   GET_BALANCE: `${prefix}GET_BALANCE`,
+  GET_PRIVATE_KEY: `${prefix}GET_PRIVATE_KEY`,
   
   SEND_FUNDS: `${prefix}SEND_FUNDS`,
   TRANSFER_CLEAR: `${prefix}TRANSFER_CLEAR`,
