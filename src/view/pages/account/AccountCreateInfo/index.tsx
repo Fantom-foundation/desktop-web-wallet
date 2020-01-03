@@ -92,6 +92,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     () => setIsRevealed(!is_revealed),
     [setIsRevealed, is_revealed]
   );
+  console.log('*******mnemonic', mnemonic)
 
   return (
     <Layout>

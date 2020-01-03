@@ -121,9 +121,7 @@ Create a keystore
           <br />
 I understand that
           {' '}
-          <a href="#" target="_blank">
             I will need the password and the keystore file to access my wallet.
-          </a>
         </p>
       </div>
       <div className={styles.downloadBtnWrapper}>

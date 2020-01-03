@@ -2,7 +2,6 @@
 
 import { createReducer } from '~/utility/createReducer';
 import { ACCOUNT_HANDLERS } from './handlers';
-import { STAKE_ACTIONS } from './actions';
 
 export type TStakeObj = {
   publicKey: string;

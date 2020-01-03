@@ -1,5 +1,5 @@
 // @flow
-import { takeLatest, put, select, call, all } from 'redux-saga/effects';
+import { takeLatest, takeEvery, put, select, call, all } from 'redux-saga/effects';
 import {
   STAKE_ACTIONS,
   delegateByAddress,
@@ -7,13 +7,10 @@ import {
   delegateAmount,
   delegateByAddressSuccess,
   delegateByAddressFailure,
-  delegateByAddressesSuccess,
   delegateByAddressesFailure,
-  delegateByAddresses,
   unstakeamount,
   setAmountUnstaked,
   delegateAmountSuccess,
-  delagateUnstakeAmount,
   delegateAmountError,
 } from './actions';
 import { selectAccount } from '../account/selectors';
@@ -51,7 +48,14 @@ function* delegateByAddressSaga({
 }: ReturnType<typeof delegateByAddress>) {
   try {
     const data = yield call(delegatorByAddressApi, publicKey);
+    const pendingRewards = yield Fantom.getDelegationPendingRewards(
+      publicKey,
+      publicKey
+    );
+
     yield put(delegateByAddressSuccess(data));
+   
+    console.log('****dsdspendingRewards', publicKey, pendingRewards)
 
     // yield call(
     //   getDataWithQueryString("delegatorByAddress", publicKey)
@@ -136,6 +140,10 @@ export function* unstakeAmountSaga({
   isUnstake,
 }: ReturnType<typeof unstakeamount>) {
   try {
+   const res =  yield Fantom.deligateUnstake({
+      publicKey,
+    });
+    console.log(res, '******8res')
     yield put(setAmountUnstaked({ publicKey, isUnstake }));
     // Assign contract functions to sfc variable
   } catch (e) {
@@ -145,7 +153,7 @@ export function* unstakeAmountSaga({
 
 export default function* stakeSaga() {
   yield all([
-    yield takeLatest(STAKE_ACTIONS.DELEGATE_BY_ADDRESS, delegateByAddressSaga),
+    yield takeEvery(STAKE_ACTIONS.DELEGATE_BY_ADDRESS, delegateByAddressSaga),
     yield takeLatest(
       STAKE_ACTIONS.DELEGATE_BY_ADDRESSES,
       delegateByAddressesSaga

@@ -1,7 +1,5 @@
 // @ flow
-import { assocPath } from 'ramda';
 import {
-  delegateByAddress,
   delegateByAddresses,
   getValidatorsList,
   delegateByStakerId,
@@ -11,7 +9,6 @@ import {
   delegateByAddressSuccess,
   setAmountUnstaked,
   delegateAmountSuccess,
-  // } from '~/redux/stake/actions';
 } from './actions';
 import { InitialStateType } from './index';
 
@@ -56,7 +53,7 @@ export const delegateAmountSuccessHandler = (
   state: InitialStateType,
   { response }: ReturnType<typeof delegateAmountSuccess>
 ) => {
-  return { ...state, errors: false };
+  return { ...state, errors: false  };
 };
 
 export const delegateAmountFailureHandler = (
@@ -93,7 +90,7 @@ export const setDelegatorByAddressFailure = (
   } else {
     stakes.push({
       publicKey,
-      isDeligated: false,
+      isDeligated: true,
       amount: 0,
       claimedRewards: 0,
       isAmountUnstaked: false,

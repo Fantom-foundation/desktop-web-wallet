@@ -4,6 +4,7 @@ import { Card, Button } from 'reactstrap';
 
 const stackUnstack = ({
   handleStep,
+  isStaked = false,
   selectedAddress = {
     isDeligated: false,
   },
@@ -15,22 +16,22 @@ const stackUnstack = ({
       <h2 className="mb-5">What would you like to do?</h2>
       <div
         className={
-          isDeligated
+          true
             ? 'mx-auto mt-4 w-100 d-flex justify-content-between'
             : 'mx-auto mt-4 w-100'
         }
         style={{ maxWidth: 480 }}
       >
-        {/* {isDeligated ? (
-          // <Button
-          //   className={classnames('lg mx-4')}
-          //   onClick={() => handleStep('unstake')}
-          // >
-          //   Unstake
-          // </Button>
+        {true ? (
+          <Button
+            className={classnames('lg mx-4')}
+            onClick={() => handleStep('unstake')}
+          >
+            Unstake
+          </Button>
         ) : (
-          <div className={classnames('lg mx-4')}></div>
-        )} */}
+          <div className={classnames('lg mx-4')} />
+        )}
         <Button
           color="topaz"
           onClick={() => handleStep('stake')}
