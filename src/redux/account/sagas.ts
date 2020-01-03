@@ -30,6 +30,7 @@ import {
   accountChangeProvider,
   accountProviderConnected,
   accountReconnectProvider,
+  accountGetPrivateKey,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -53,12 +54,21 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist';
 import { path } from 'ramda';
 import axios from 'axios';
 import { getTransactions } from '../transactions/api';
+import fileDownload from 'react-file-download'
 
 function* createSetCredentials({
   create,
 }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
+  const { privateKey } = Fantom.mnemonicToKeys(mnemonic);
+  console.log('(*****create', create)
+  const pass = create.password || ''
+
+  const keystore = Fantom.getKeystore(privateKey, pass);
+  fileDownload(JSON.stringify(keystore), 'filename.txt');
+
+
 
   yield put(
     accountSetCreate({
@@ -122,6 +132,12 @@ function* createRestoreMnemonics({
 
   yield put(accountSetCreate({ mnemonic, publicAddress }));
   yield call(createSetConfirm);
+}
+
+function* getPrivateKey({mnemonic,cb}: ReturnType<typeof accountGetPrivateKey>) {
+  const { privateKey } = yield Fantom.mnemonicToKeys(mnemonic);
+  cb(privateKey)
+  // return privateKey
 }
 
 function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
@@ -430,5 +446,8 @@ export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
 
   yield takeLatest(ACCOUNT_ACTIONS.CHANGE_PROVIDER, changeProvider);
+  yield takeLatest(ACCOUNT_ACTIONS.GET_PRIVATE_KEY, getPrivateKey);
+
+
   yield takeLatest(ACCOUNT_ACTIONS.RECONNECT_PROVIDER, reconnectProvider);
 }

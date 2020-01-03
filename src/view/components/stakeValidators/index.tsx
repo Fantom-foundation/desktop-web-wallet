@@ -64,6 +64,13 @@ FTM
     </>
   );
 };
+
+export const formatNumber = num => {
+  if (num && num.toString().indexOf(".") !== -1) {
+    return num.toString().replace(/\d(?=(\d{3})+\.)/g, "$&,");
+  }
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+};
 const DataRow = props => {
   // eslint-disable-next-line one-var
   const {
@@ -81,6 +88,7 @@ const DataRow = props => {
     deactivatedTime,
     createdTime,
     handleValidatorSelect,
+    balance,
   } = props;
   const [isOpen, setIsOpen] = useState(false);
   // const createdtime = new Date(createdTime)
@@ -91,17 +99,29 @@ const DataRow = props => {
   // Validator is full if "delegatedMe" = "stake"*15
 
   const totalStaked = Number(totalStake) / 10 ** 18;
-  console.log(props.balance, totalStaked, '******sdsdsd')
 
   // const spaceLeft = totalStaked - Number(delegatedMe);
   const spaceLeft = Number(
-    ((Number(props.balance) * 15 - Number(delegatedMe)) / 10 ** 18).toFixed(2)
+    ((Number(balance) * 15 - Number(delegatedMe)) / 10 ** 18).toFixed(2)
   );
-  const perc = (spaceLeft / totalStaked) * 100;
-  console.log('*****perc,', perc)
   // const isFull = Number(delegatedMe) === totalStaked * 15;
   const stackeLeftPer = (Number(delegatedMe) / (totalStaked * 15)) * 100;
   const nodeFull = 15 * Number(totalStake) - Number(delegatedMe);
+
+
+  const stakingSpace = 15 * totalStake - delegatedMe;
+  const dividend = 10 ** 18;
+  const stakingSpaceLeft = formatNumber(
+    Number((stakingSpace / dividend).toFixed(2))
+  );
+  const stakeSpace = Number(stakingSpace) / dividend
+  const totalStakes = Number(totalStake) / dividend
+
+  const perc = Number((totalStakes / stakeSpace) * 100);
+  console.log(perc, '*****asdasds')
+
+  // const availableSpace =
+  //  balance && formatNumber(Number(balance.toFixed(2)));
 
   return (
     <>
@@ -159,8 +179,8 @@ const DataRow = props => {
                 </tr>
                 <SubView
                   key={name + 1}
-                  spaceLeft={spaceLeft}
-                  stackeLeftPer={stackeLeftPer}
+                  spaceLeft={stakingSpaceLeft}
+                  stackeLeftPer={(Number(perc)).toFixed(2)}
                   txRewardWeight={txRewardWeight}
                   totalStaked={totalStaked}
                 />

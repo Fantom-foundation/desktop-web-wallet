@@ -97,7 +97,7 @@ const Stake = props => {
 
   const handleStackSubmit = useCallback(() => {
     const validation_errors = {
-      stakeValueMin: parseFloat(stakeValue) < 1,
+      // stakeValueMin: parseFloat(stakeValue) < 1,
       stakeValueInvalid:
         stakeValue === '' || stakeValue === undefined || stakeValue === null ,
       stakeValueMax: parseFloat(stakeValue) > account.balance ,

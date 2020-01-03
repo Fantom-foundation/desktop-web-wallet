@@ -73,6 +73,12 @@ export const accountGetBalance = (id: IAccount['publicAddress']) => {
   };
 };
 
+export const accountGetPrivateKey = (mnemonic, cb) => ({
+  type: ACCOUNT_ACTIONS.GET_PRIVATE_KEY,
+  mnemonic,
+  cb,
+});
+
 export const accountFTMtoUSD = () => {
   return {
     type: ACCOUNT_ACTIONS.GET_FTM_TO_USD,

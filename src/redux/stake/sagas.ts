@@ -47,15 +47,17 @@ function* delegateByAddressSaga({
   publicKey,
 }: ReturnType<typeof delegateByAddress>) {
   try {
-    const data = yield call(delegatorByAddressApi, publicKey);
     const pendingRewards = yield Fantom.getDelegationPendingRewards(
       publicKey,
       publicKey
     );
-
-    yield put(delegateByAddressSuccess(data));
-   
     console.log('****dsdspendingRewards', publicKey, pendingRewards)
+
+    const data = yield call(delegatorByAddressApi, publicKey);
+
+
+    yield put(delegateByAddressSuccess({...data, pendingRewards}));
+   
 
     // yield call(
     //   getDataWithQueryString("delegatorByAddress", publicKey)

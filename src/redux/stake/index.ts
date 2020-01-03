@@ -3,10 +3,13 @@
 import { createReducer } from '~/utility/createReducer';
 import { ACCOUNT_HANDLERS } from './handlers';
 
+import { STAKE_ACTIONS as types } from "./actions";
+
 export type TStakeObj = {
   publicKey: string;
   amount: number;
   claimedRewards: number;
+  pendingRewards: number,
   isDeligated: boolean;
   isAmountUnstaked: boolean;
 };
@@ -29,9 +32,7 @@ export const MODAL_INITIAL_STATE: InitialStateType = {
 };
 
 export const stakes = createReducer(MODAL_INITIAL_STATE, ACCOUNT_HANDLERS);
-
-// import { STAKE_ACTIONS as types } from "./actions";
-// // import { IAccountState  } from '.';
+// import { IAccountState  } from '.';
 
 // export type KeyReducerT = {
 //   publicKey: string,
@@ -39,20 +40,13 @@ export const stakes = createReducer(MODAL_INITIAL_STATE, ACCOUNT_HANDLERS);
 //   claimedRewards: number,
 // };
 
-// type KeyStateT = Array<KeyReducerT>;
-// type InitialStateType = {
-//   data: KeyStateT,
-//   validators: KeyStateT
-// }
 
-// type Action = {
-//   type: string,
-//   payload: KeyReducerT
-// };
+
 
 // const initialState = {
 //   data: [{publicKey:' '}],
 //   validators: [],
+//   errors: false,
 // };
 
 // const StakeReducer = (state = initialState, action) => {

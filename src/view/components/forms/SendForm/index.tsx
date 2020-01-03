@@ -68,6 +68,7 @@ const TransferFunds: FC<IProps> = ({
   const [modal, setModal] = useState(false);
   const [isSendSucess, setIsSendSuccess] = useState(false);
   const [password, setPassword] = useState('');
+  const [txId, setTxId] = useState('')
 
   const handleClearAll = useCallback(() => {
     setTo('');
@@ -154,11 +155,9 @@ const TransferFunds: FC<IProps> = ({
   if (errors && errors.length > 0) {
     if (errors.includes('password')) {
       errorType = 'password';
-    } else {
-      if (isSendSucess) {
+    } else if (isSendSucess) {
         errorType = 'other';
       }
-    }
   }
 
   console.log(errorType, '****8errorType');
@@ -190,16 +189,7 @@ const TransferFunds: FC<IProps> = ({
     });
     setIsSending(true);
     setModal(false);
-  }, [
-    sendingErrors,
-    password,
-    accountSendFunds,
-    to,
-    data.publicAddress,
-    amount,
-    memo,
-    accountGetBalance,
-  ]);
+  }, [sendingErrors, password, accountSendFunds, to, data.publicAddress, amount, memo, accountGetBalance, transactionsGetList]);
 
   const onClick = useCallback(
     event => copyToClipboard(event, transactionHash),

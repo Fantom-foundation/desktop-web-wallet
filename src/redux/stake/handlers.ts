@@ -90,8 +90,9 @@ export const setDelegatorByAddressFailure = (
   } else {
     stakes.push({
       publicKey,
-      isDeligated: true,
+      isDeligated: false,
       amount: 0,
+      pendingRewards: 0,
       claimedRewards: 0,
       isAmountUnstaked: false,
     });
