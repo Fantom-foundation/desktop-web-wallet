@@ -7,19 +7,20 @@ const stackUnstack = ({
   isStaked = false,
   selectedAddress = {
     isDeligated: false,
+    deactivatedEpoch: 0,
   },
 }) => {
   const isDeligated = selectedAddress && selectedAddress.isDeligated;
-
+  const deactivatedEpoch = selectedAddress && selectedAddress.deactivatedEpoch;
+  const isUnstaked = Number(deactivatedEpoch || 0);
+  if (isUnstaked > 0) {
+    return <div />;
+  }
   return (
     <Card className="mx-auto text-center pt-5 pb-6" style={{ maxWidth: 670 }}>
       <h2 className="mb-5">What would you like to do?</h2>
       <div
-        className={
-          isDeligated
-            ? 'mx-auto mt-4 w-100 '
-            : 'mx-auto mt-4 w-100'
-        }
+        className={isDeligated ? 'mx-auto mt-4 w-100 ' : 'mx-auto mt-4 w-100'}
         style={{ maxWidth: 480 }}
       >
         {isDeligated ? (
@@ -34,15 +35,14 @@ const stackUnstack = ({
             color="topaz"
             onClick={() => handleStep('stake')}
             className={
-            isDeligated
-              ? classnames('lg outlined mx-4')
-              : classnames('lg outlined')
-          }
+              isDeligated
+                ? classnames('lg outlined mx-4')
+                : classnames('lg outlined')
+            }
           >
-          Stake
+            Stake
           </Button>
         )}
-       
       </div>
     </Card>
   );

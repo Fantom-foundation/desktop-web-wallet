@@ -13,19 +13,20 @@ import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { connect } from 'react-redux';
 import Input from '../../../components/forms/Input';
 import { convertFTMValue } from '~/view/general/utilities';
-// import downloadIcon from 
+import moment from 'moment';
+// import downloadIcon from
 import {
   delegateByAddress as delegateByAddressAction,
   unstakeamount as unstakeamountAction,
   delegateAmount as delegateAmountAction,
   delegateAmountPassCheck as delegateAmountPass,
+  withdrawAmount as withdrawAmountAction,
 } from '~/redux/stake/actions';
+import FailureCard from '~/view/components/stake/failureCard';
 import { selectAccount } from '~/redux/account/selectors';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
-import classnames from 'classnames'
-import Web3 from 'web3'
-import FailureCard from '~/view/components/stake/failureCard';
-
+import classnames from 'classnames';
+import Web3 from 'web3';
 
 const Stake = props => {
   const [stakeValue, setStakeValue] = useState('');
@@ -46,15 +47,14 @@ const Stake = props => {
     accountData,
     accountGetBalance,
     delegateAmountPassCheck,
+    accountGetPrivateKey,
   } = props;
   const [isEdit, setIsEdit] = useState(false);
   const account = accountData.list && id && accountData.list[id];
 
-
   useEffect(() => {
     accountGetBalance(id);
   }, [accountGetBalance, id]);
-
 
   const handleStep = useCallback(
     actionType => {
@@ -62,10 +62,10 @@ const Stake = props => {
       if (actionType === 'stake') {
         setStep(step + 1);
       } else if (actionType === 'back') {
-          setStep(1);
-        } else {
-          setStep(5);
-        }
+        setStep(1);
+      } else {
+        setStep(5);
+      }
     },
     [step]
   );
@@ -76,6 +76,7 @@ const Stake = props => {
 
   const unStakeAmount = value => {
     const { unstakeamount, id } = props;
+
     unstakeamount({ publicKey: id, isUnstake: value });
   };
 
@@ -114,15 +115,19 @@ const Stake = props => {
       password,
     }, callback);
 
-   
+    setTimeout(() => {
+      setModal(false);
+      setStep(7);
+      accountGetBalance(id);
+    }, 2000);
   };
 
   const handleStackSubmit = useCallback(() => {
     const validation_errors = {
       stakeValueMin: parseFloat(stakeValue) < 1,
       stakeValueInvalid:
-        stakeValue === '' || stakeValue === undefined || stakeValue === null ,
-      stakeValueMax: parseFloat(stakeValue) > account.balance ,
+        stakeValue === '' || stakeValue === undefined || stakeValue === null,
+      stakeValueMax: parseFloat(stakeValue) > account.balance,
     };
 
     if (Object.values(validation_errors).includes(true))
@@ -138,13 +143,11 @@ const Stake = props => {
   const selectedAddress =
     stakes && stakes.length > 0
       ? stakes.find(stake => {
-        console.log(stake.publicKey, id, '***8sds')
-        return stake.publicKey === (id).toLowerCase()
-
-      })
+          console.log(stake.publicKey, id, '***8sds');
+          return stake.publicKey === id.toLowerCase();
+        })
       : [];
-  console.log(selectedAddress, '****selectedAddress')
-
+  console.log(selectedAddress, '****selectedAddress');
 
   const getCurrentCard = () => {
     switch (step) {
@@ -210,118 +213,136 @@ const Stake = props => {
     }
   };
 
-  
+  // eslint-disable-next-line react/no-multi-comp
+  const renderModal = () => {
+    return (
+      <Modal
+        isOpen={modal}
+        className={classnames('modal-dialog-centered', styles.passwordModal)}
+        toggle={() => setModal(false)}
+      >
+        <ModalBody className={styles.body}>
+          <Input
+            type="password"
+            label="Please enter your wallet password to send the transaction"
+            value={password}
+            placeholder="Enter password"
+            handler={value => {
+              setPassword(value);
+            }}
+            // errorClass="justify-content-center"
+            isError={error}
+            errorMsg={error ? 'Invalid password' : ''}
+          />
+          <div className="text-center">
+            <button
+              type="button"
+              onClick={stakeAmount}
+              className={classnames('btn btn-secondary', styles.sendBtn)}
+            >
+              Send
+            </button>
+          </div>
+        </ModalBody>
+      </Modal>
+    );
+  };
 
-   // eslint-disable-next-line react/no-multi-comp
-   const renderModal = ()=> {
-    return (<Modal
-      isOpen={modal}
-      className={classnames('modal-dialog-centered', styles.passwordModal)}
-      toggle={() => {setModal(false), setPassword('')}}
-    >
-      <ModalBody className={styles.body}>
-        <Input
-          type="password"
-          label="Please enter your wallet password to send the transaction"
-          value={password}
-          placeholder="Enter password"
-          handler={value => {
-          setPassword(value);
-        }}
-        // errorClass="justify-content-center"
-          isError={error}
-          errorMsg={
-          error
-            ? 'Invalid password'
-            : ''
-        }
-        />
-        <div className="text-center">
-          <button
-            type="button"
-            onClick={stakeAmount}
-            className={classnames('btn btn-secondary', styles.sendBtn)}
-          >
-          Send
-          </button>
-        </div>
-      </ModalBody>
-    </Modal>)
+  const onWithdrawAmount = () => {
+    const { withdrawAmount, id } = props;
 
-  }
+    withdrawAmount({ publicKey: id });
+  };
 
   const withdrawalStakeCard = () => {
-    const currentDate = new Date();
-    const nextSevenDays = currentDate.setDate(currentDate.getDate() + 7);
-    const delegateDate = new Date();
-    const deactivatedDate = delegateDate.setDate(
-      delegateDate.getDate() + Number(stakes.deactivatedTime || 0)
-    );
     const selectedAddress =
-    stakes && stakes.length > 0
-      ? stakes.find(stake => {
-        console.log(stake.publicKey, id, '***8sds')
-        return stake.publicKey === (id).toLowerCase()
+      stakes && stakes.length > 0
+        ? stakes.find(stake => {
+            console.log(stake.publicKey, id, '***8sds');
+            return stake.publicKey === id.toLowerCase();
+          })
+        : [];
 
-      })
-      : [];
-    const date1: any = new Date(deactivatedDate);
-    const date2: any = new Date(nextSevenDays) ;
-    const diffTime = Math.abs(date2 - date1);
-    const timeLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    const deactivatedEpoch = Number(selectedAddress.deactivatedEpoch || 0);
+    const deactivatedTime = Number(selectedAddress.deactivatedTime || 0);
+
+    const date1 = new Date(deactivatedTime * 1000);
+    date1.setDate(date1.getDate() + 7);
+    const date2 = new Date();
+    const startTime = moment(date1, 'YYYY/MM/DD HH:mm');
+    const endTime = moment(date2, 'YYYY/MM/DD HH:mm');
+
+    const timeLeft = startTime.diff(endTime, 'hours', true);
     // parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount)).toFixed(5)}
-    const stakedAmount =  parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount || '0')).toFixed(5)
-    if(selectedAddress && selectedAddress.isAmountUnstaked && timeLeft > 0){
-      return  (
+    const stakedAmount = parseFloat(
+      Web3.utils.fromWei(selectedAddress.stakedAmount || '0')
+    ).toFixed(5);
+    if (selectedAddress && timeLeft > 0) {
+      return (
         <>
           <Row className="mt-6">
             <Col>
               <Card className="text-center">
                 <div className={styles.availableWrapper}>
                   <h3 className="mb-0">
-                    Your {stakedAmount} FTM will available in 
-                    {' '}
-                    {timeLeft}
-                    {' '}
-days.
+                    {`Your ${stakedAmount} FTM will be available in ${
+                      timeLeft / 24 > 0
+                        ? Math.floor(timeLeft / 24) + ' days and'
+                        : ''
+                    }  ${Math.ceil(timeLeft % 24)} hours`}
                   </h3>
                 </div>
               </Card>
             </Col>
           </Row>
-      
-         
-        </>)
-    } 
-    if (stakes.isDeligated) {
-      return  (<Row className="mt-6">
-        <Col>
-          <Card className="text-center">
-            <div className={styles.availableWrapper}>
-              <h3 className="mb-0">Your {stakedAmount} FTM are available!</h3>
-              <button type="button">
-                Withdraw to your wallet now
-                {/* <img src={downloadIcon} alt="download" /> */}
-              </button>
-            </div>
-          </Card>
-        </Col>
-      </Row>)
+        </>
+      );
     }
-    return null 
-  }
+    if (deactivatedEpoch > 0 && timeLeft < 0) {
+      return (
+        <Row className="mt-6">
+          <Col>
+            <Card className="text-center">
+              <div className={styles.availableWrapper}>
+                <h3 className="mb-0">Your {stakedAmount} FTM are available!</h3>
+                <button onClick={() => onWithdrawAmount()} type="button">
+                  Withdraw to your wallet now
+                  {/* <img src={downloadIcon} alt="download" /> */}
+                </button>
+              </div>
+            </Card>
+          </Col>
+        </Row>
+      );
+    }
+    return null;
+  };
   const stakeDetails =
     stakes && stakes.length > 0
       ? stakes.find(stake => {
-        console.log(stake, id, '***8sds')
-        return stake.publicKey === (id).toLowerCase()
-      })
+          console.log(stake, id, '***8sds');
+          return stake.publicKey === id.toLowerCase();
+        })
       : [];
-  console.log('***stakeDetails', stakeDetails)
-  
-  const stakedAmount =  stakeDetails ? parseFloat(Web3.utils.fromWei((stakeDetails.stakedAmount || '0'))).toFixed(2) : '0'
-   const claimedRewards = stakeDetails? stakeDetails.claimedRewards === '0' ? 0 :parseFloat(Web3.utils.fromWei((stakeDetails.claimedRewards || '0'))).toFixed(2): '0'
-   const pendingRewards = stakeDetails? stakeDetails.pendingRewards === '0' ? 0 :  convertFTMValue(parseFloat(stakeDetails.pendingRewards)) : '0'
+  console.log('***stakeDetails', stakeDetails);
+
+  const stakedAmount = stakeDetails
+    ? parseFloat(Web3.utils.fromWei(stakeDetails.stakedAmount || '0')).toFixed(
+        2
+      )
+    : '0';
+  const claimedRewards = stakeDetails
+    ? stakeDetails.claimedRewards === '0'
+      ? 0
+      : parseFloat(
+          Web3.utils.fromWei(stakeDetails.claimedRewards || '0')
+        ).toFixed(2)
+    : '0';
+  const pendingRewards = stakeDetails
+    ? stakeDetails.pendingRewards === '0'
+      ? 0
+      : convertFTMValue(parseFloat(stakeDetails.pendingRewards))
+    : '0';
 
   return (
     <div>
@@ -331,9 +352,7 @@ days.
             <p className="card-label mb-4">Overview</p>
             <div className="text-right">
               <h2 className="pt-3">
-                {convertFTMValue(parseFloat(account.balance))}
-                {' '}
-FTM
+                {convertFTMValue(parseFloat(account.balance))} FTM
               </h2>
               <h3 className="opacity-5 mb-3">Available to stake</h3>
               <h2 className="pt-3"> {stakedAmount} FTM</h2>
@@ -346,16 +365,16 @@ FTM
           <Card className="h-100 ">
             <p className="card-label mb-4">Rewards</p>
             <div className="text-right">
-                <h2 className="pt-3">{claimedRewards} FTM</h2>
+              <h2 className="pt-3">{claimedRewards} FTM</h2>
               <h3 className="opacity-5 mb-3">Claimed rewards</h3>
               <h2 className="pt-3">{pendingRewards} FTM</h2>
-                  <h3 className="opacity-5 mb-3">Available to claim</h3>
+              <h3 className="opacity-5 mb-3">Available to claim</h3>
             </div>
           </Card>
         </Col>
       </Row>
-      {/* {withdrawalStakeCard()} */}
-      <Row className='mt-6'>
+      {withdrawalStakeCard()}
+      <Row className="mt-6">
         <Col>
           {withdrawalText ? (
             <WithdrawalProgress withdrawalText={withdrawalText} />
@@ -364,7 +383,7 @@ FTM
           )}
         </Col>
       </Row>
-      
+
       {renderModal()}
     </div>
   );
@@ -382,6 +401,7 @@ const mapDispatchToProps = {
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
   delegateAmount: delegateAmountAction,
   delegateAmountPassCheck: delegateAmountPass,
+  withdrawAmount: withdrawAmountAction,
 };
 
 export default connect(
