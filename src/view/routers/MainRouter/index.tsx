@@ -13,6 +13,8 @@ import { AccountCreateCredentialForm } from '~/view/pages/createWallet';
 import { AccountCreateInfo } from '~/view/pages/createWallet/mnemonicPhrase';
 import { AccountCreateSuccess } from '~/view/pages/account/AccountCreateSuccess';
 import { AccountRestoreRouter } from '~/view/pages/account/AccountRestoreRouter';
+import { AccountRestoreCredentials } from '~/view/pages/account/AccountRestoreCredentials';
+
 
 import AccessWallet from '~/view/pages/accessWallet';
 const MainRouter = (props) => {
@@ -22,6 +24,8 @@ const MainRouter = (props) => {
       <Switch>
         <Route exact path="/" component={AccountList} />
         <Route exact path={URLS.ACCOUNT_RESTORE} component={AccountRestoreRouter} />
+        <Route exact path='/account/restore/credentials' component={AccountRestoreCredentials} />
+
         <Route exact path="/access-wallet" component={AccessWallet} />
 
         <Route

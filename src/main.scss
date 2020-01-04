@@ -14,3 +14,14 @@
 // .modal-header {
 //   border-bottom: none;
 // }
+
+.redux-toastr .toastr {
+    &.rrt-success {
+      background-color: #007bff;
+  
+      .rrt-progressbar {
+        background-color: white;
+      }
+    }
+  }
+  

@@ -105,7 +105,7 @@ const TransferFunds: FC<IProps> = ({
           <Card className={classnames(styles.transCard, 'mb-5 mt-5')}>
             <h2>Transaction sent!</h2>
             <div className={classnames(styles.iconGap, styles.hash)}>
-              <a href="#">{txId}</a>
+              <a href="#">{localStorage.getItem('txHash')}</a>
               <button
                 className={styles.copyBtn}
                 type="button"
@@ -170,14 +170,14 @@ const TransferFunds: FC<IProps> = ({
     setModal(false);
   }, [setIsSending, setModal]);
 
-  const call = txHash => {
+  const call = (txHash: string) => {
+    debugger
     setTxId(txHash)
-
-
   }
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const callback = (value: boolean) => {
+    console.log( localStorage.getItem('txHash'), '****jasjdasdas')
     if (!value) {
       accountSendFunds ({
         to,
@@ -186,13 +186,10 @@ const TransferFunds: FC<IProps> = ({
         message: memo,
         password,
       }, call);
-
-    setIsSending(true);
-    setModal(false);
-      
-    }
+      setIsSending(true);
+      setModal(false);
+    }  
    
-    
   }
 
   const handleSubmit = useCallback(() => {

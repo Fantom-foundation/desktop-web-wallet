@@ -124,8 +124,8 @@ export const accountSendFunds = ({
   to,
   password,
   amount,
-    message,
-    cb,
+  message,
+  cb,
   });
 
 

@@ -68,9 +68,9 @@ function* createSetCredentials({
   const pass = create.password || ''
 
   const keystore = Fantom.getKeystore(privateKey, pass);
-  fileDownload(JSON.stringify(keystore), 'filename.txt');
-
-
+  const dateTime = new Date();
+  const fileName = `UTC--${dateTime.toISOString()} -- ${publicAddress}`;
+  fileDownload(JSON.stringify(keystore), `${fileName}.json`);
 
   yield put(
     accountSetCreate({
@@ -88,9 +88,10 @@ function* createSetRestoreCredentials({
   yield put(
     accountSetCreate({
       ...create,
-      stage: ACCOUNT_CREATION_STAGES.INFO,
     })
   );
+
+  yield put(push(URLS.ACCOUNT_SUCCESS));
 }
 
 function* createSetInfo() {
@@ -132,7 +133,7 @@ function* createRestoreMnemonics({
 }: ReturnType<typeof accountCreateRestoreMnemonics>) {
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 
-  yield put(accountSetCreate({ mnemonic, publicAddress }));
+  yield put(accountSetCreate({ mnemonic, publicAddress }  ));
   yield call(createSetConfirm);
 }
 

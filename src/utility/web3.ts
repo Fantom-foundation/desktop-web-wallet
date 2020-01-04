@@ -10,6 +10,7 @@ import { IAccount, INodeRecord } from '~/redux/account/types';
 import keythereum from 'keythereum';
 import BigInt from 'big-integer';
 import { contractFunctions} from './constants'
+import { func } from 'prop-types';
 
 // const {
 //   REACT_APP_EXAMPLE_ADDRESS,
@@ -564,6 +565,10 @@ async estimateFee({
     //   "0xfc00face00000000000000000000000000000000"
     // );
     // const am = Number(amount)
+    const data = () => {
+      return ''
+
+    }
     return this.transfer({
       from: publicKey,
       to: "0xfc00face00000000000000000000000000000000",
@@ -572,6 +577,7 @@ async estimateFee({
       privateKey,
       gasLimit: 200000,
       web3Delegate: web3,
+      cb: data,
     });
     // this.sfc.stakersNum(); // if everything is all right, will return non-zero value
   }
@@ -613,7 +619,11 @@ async estimateFee({
     const res = await useWeb3.eth.sendSignedTransaction(
       `0x${serializedTx.toString("hex")}`
     );
-    console.log('******asdasd', res)
+    console.log('******asdasd', res.transactionHash)
+    localStorage.setItem('txHash', res.transactionHash)
+    // if (cb) {
+    //   cb(res.transactionHash || '')
+    // }
     return res;
   }
   

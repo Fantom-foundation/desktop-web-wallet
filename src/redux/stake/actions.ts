@@ -8,6 +8,7 @@ export const STAKE_ACTIONS = {
   VALIDATORS_LIST: 'staking/VALIDATORS_LIST',
   DELEGATE_AMOUNT: 'staking/DELEGATE_AMOUNT',
   UNSTAKE_AMOUNT: 'staking/UNSTAKE_AMOUNT',
+  DELEGATE_AMOUNT_PASS_CHECK: 'staking/DELEGATE_AMOUNT_PASS_CHECK',
 };
 
 type TDelegateByStakerId = {
@@ -101,13 +102,22 @@ export const delegateByStakerId = ({ stakerId }: TDelegateByStakerId) => ({
   payload: { stakerId },
 });
 
-export const delegateAmount = ({ amount, publicKey, validatorId, password }) =>
+export const delegateAmount = ({ amount, publicKey, validatorId, password }, cb) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.DELEGATE_AMOUNT,
     amount,
     publicKey,
     validatorId,
     password,
+    cb,
+  });
+
+  export const delegateAmountPassCheck = ({publicKey, password }, cb) =>
+  dispatch.dispatch({
+    type: STAKE_ACTIONS.DELEGATE_AMOUNT_PASS_CHECK,
+    publicKey,
+    password,
+    cb,
   });
 
 export const delegateAmountSuccess = response => ({

@@ -167,6 +167,7 @@ const AccountListUnconnected: FC<IProps> = ({
                       'bg-dark-periwinkle',
                       styles.mobileBtn
                     )}
+                    onClick={() => goToRoute('create')}
                   >
                     Create a new wallet
                   </button>
@@ -174,7 +175,8 @@ const AccountListUnconnected: FC<IProps> = ({
                 <Col lg={12} className="mb-4">
                   <button
                     type="button"
-                    className={classnames('bg-topaz', styles.mobileBtn)}
+                      className={classnames('bg-topaz', styles.mobileBtn)}
+                      onClick={() => goToRoute('access')}
                   >
                     Access your wallet
                   </button>

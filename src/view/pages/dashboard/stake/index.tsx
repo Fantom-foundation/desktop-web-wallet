@@ -18,11 +18,13 @@ import {
   delegateByAddress as delegateByAddressAction,
   unstakeamount as unstakeamountAction,
   delegateAmount as delegateAmountAction,
+  delegateAmountPassCheck as delegateAmountPass,
 } from '~/redux/stake/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import classnames from 'classnames'
 import Web3 from 'web3'
+import FailureCard from '~/view/components/stake/failureCard';
 
 
 const Stake = props => {
@@ -43,6 +45,7 @@ const Stake = props => {
     delegateByAddress,
     accountData,
     accountGetBalance,
+    delegateAmountPassCheck,
   } = props;
   const [isEdit, setIsEdit] = useState(false);
   const account = accountData.list && id && accountData.list[id];
@@ -76,20 +79,42 @@ const Stake = props => {
     unstakeamount({ publicKey: id, isUnstake: value });
   };
 
-  const stakeAmount = () => {
+  const call = (res: boolean) => {
+    if (res) {
+      setStep(8)
+      setModal(false)
+    }
+  }
+
+  const callback = (res: boolean) => {
     const { delegateAmount } = props;
-    delegateAmount({
+    if (!res) {
+      setStep(7)
+      setModal(false)
+      delegateAmount({
+        publicKey: id,
+        amount: stakeValue,
+        validatorId: validator.id,
+        password,
+      }, call);
+      setTimeout(() => {
+        accountGetBalance(id);
+        delegateByAddress({ publicKey: id });
+      }, 4000);
+    }
+  }
+
+  
+
+  const stakeAmount = () => {
+    delegateAmountPassCheck({
       publicKey: id,
       amount: stakeValue,
-      validatorId: validator.name,
+      validatorId: validator.id,
       password,
-    });
+    }, callback);
 
-    setTimeout(() => {
-      setModal(false)
-      setStep(7)
-      accountGetBalance(id);
-    }, 2000);
+   
   };
 
   const handleStackSubmit = useCallback(() => {
@@ -177,7 +202,9 @@ const Stake = props => {
       case 6:
         return <StackUnstack handleStep={handleStep} />;
       case 7:
-          return <SuccessCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />;
+        return <SuccessCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />;
+      case 8:
+          return <FailureCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />;
       default:
         break;
     }
@@ -188,9 +215,9 @@ const Stake = props => {
    // eslint-disable-next-line react/no-multi-comp
    const renderModal = ()=> {
     return (<Modal
-      isOpen={modal || error}
+      isOpen={modal}
       className={classnames('modal-dialog-centered', styles.passwordModal)}
-      toggle={() => setModal(false)}
+      toggle={() => {setModal(false), setPassword('')}}
     >
       <ModalBody className={styles.body}>
         <Input
@@ -354,6 +381,7 @@ const mapDispatchToProps = {
   unstakeamount: unstakeamountAction,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
   delegateAmount: delegateAmountAction,
+  delegateAmountPassCheck: delegateAmountPass,
 };
 
 export default connect(

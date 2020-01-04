@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
 // @flow
 import { takeLatest, takeEvery, put, select, call, all } from 'redux-saga/effects';
 import {
@@ -111,6 +113,7 @@ export function* delegateAmountSaga({
   amount,
   validatorId,
   password,
+  cb,
 }: ReturnType<typeof delegateAmount>) {
   try {
     const { list }: IAccountState = yield select(selectAccount);
@@ -121,7 +124,8 @@ export function* delegateAmountSaga({
       keystore,
       password
     );
-    if(!privateKey){
+    if (!privateKey) {
+      cb(true)
       yield put(delegateAmountError());
       return
     }
@@ -132,8 +136,38 @@ export function* delegateAmountSaga({
       validatorId,
     });
     yield put(delegateAmountSuccess({ response: {} }));
+    cb(false)
     // Assign contract functions to sfc variable
   } catch (e) {
+    cb(true)
+    console.log('called catch', e);
+  }
+}
+
+
+export function* delegateAmountSagaPasswordCheck({
+  publicKey,
+  password,
+  cb,
+}: ReturnType<typeof delegateAmount>) {
+  try {
+    const { list }: IAccountState = yield select(selectAccount);
+
+    const { keystore } = list[publicKey];
+    const privateKey = yield call(
+      [Fantom, Fantom.getPrivateKey],
+      keystore,
+      password
+    );
+    if (!privateKey) {
+      cb(true)
+      yield put(delegateAmountError());
+      return
+    }
+    cb(false)
+    // Assign contract functions to sfc variable
+  } catch (e) {
+    cb(true)
     console.log('called catch', e);
   }
 }
@@ -166,6 +200,9 @@ export default function* stakeSaga() {
       delegateByStakerIdSaga
     ),
     yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
+    yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT_PASS_CHECK, delegateAmountSagaPasswordCheck),
+
+    
     yield takeLatest(STAKE_ACTIONS.UNSTAKE_AMOUNT, unstakeAmountSaga),
   ]);
 }

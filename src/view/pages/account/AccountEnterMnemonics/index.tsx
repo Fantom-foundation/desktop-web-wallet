@@ -34,6 +34,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   accountCreateRestoreMnemonics,
   accountCreateCancel,
   accountUploadKeystore,
+  push
 }) => {
   const [phrase, setPhrase] = useState('');
   const [error, setError] = useState(false);
@@ -88,6 +89,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       .join(' ');
 
     accountCreateRestoreMnemonics({ mnemonic });
+    // push('/account/restore/credentials')
   }, [is_next_disabled, accountCreateRestoreMnemonics, phrase]);
 
   // const onUpload = useCallback(
