@@ -80,26 +80,53 @@ class Web3Agent {
   }
 
   async delegateStake({ amount, publicKey, privateKey, validatorId }) {
-    const web3 = new Web3(new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || ''));
-    const sfc = new web3.eth.Contract(contractFunctions, "0xfc00face00000000000000000000000000000000");
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || '')
+    );
+    const web3Sfc = new web3.eth.Contract(
+      contractFunctions,
+      "0xfc00face00000000000000000000000000000000"
+    );
+    console.log(web3Sfc, '*****web3Sfc')
     return this.transfer({
       from: publicKey,
       to: '0xfc00face00000000000000000000000000000000',
       value: amount,
-      memo: sfc.methods.createDelegation(validatorId).encodeABI(),
+      memo: web3Sfc.methods.createDelegation(validatorId).encodeABI(),
       privateKey,
       gasLimit: 200000,
-      web3Sfc: web3,
+      web3Sfc,
+    });
+
+  }
+
+  async withdrawDelegateAmount({ publicKey }) {
+    const web3 = new Web3(new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || ''));
+
+    const sfc = new web3.eth.Contract(
+      contractFunctions,
+      "0xfc00face00000000000000000000000000000000"
+    );
+    return new Promise(resolve => {
+      sfc.methods
+        .withdrawDelegation()
+        .call({ from: publicKey }, function(error, result) {
+          console.log("withdrawDelegation", result);
+          resolve(result);
+        });
     });
   }
 
-  
 async deligateUnstake({
   publicKey,
 }) {
   const web3 = new Web3(new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || ''));
 
-  const sfc = new web3.eth.Contract(abi, "0xfa00face00fc0000000000000000000000000100");
+ 
+  const sfc = new web3.eth.Contract(
+    contractFunctions,
+    "0xfc00face00000000000000000000000000000000"
+  );
   sfc.methods.prepareToWithdrawDelegation().call({from: publicKey}, function(error, result){
     console.log(result, '***sdfksfsd')
     console.log(error, '***sdfksfsd1')
@@ -109,6 +136,7 @@ async deligateUnstake({
     return false
 });
 }
+
 
   async transfer({
     from,
@@ -121,38 +149,73 @@ async deligateUnstake({
   }: ITransfer) {
     if (!this.web3 || !(await this.isConnected()))
       throw new Error('Not connected');
+      console.log('*****asdasdas')
 
 
-    const web3 = web3Sfc || this.web3;
-    const nonce = await web3.eth.getTransactionCount(from);
-    const gasPrice = await web3.eth.getGasPrice();
+      console.log(web3Sfc,this.web3, '*****web3Sfcasd')
 
+    const useWeb3 = web3Sfc || this.web3;
+    const web4 = new Web3(new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || ''));
+
+    console.log('****useWeb3asd', web4.eth)
+    const nonce = await web4.eth.getTransactionCount(from);
+    const gasPrice = await web4.eth.getGasPrice();
     const rawTx = {
       from,
       to,
-      value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
+      value: Web3.utils.toHex(Web3.utils.toWei(value, "ether")),
       gasLimit: Web3.utils.toHex(gasLimit),
       gasPrice: Web3.utils.toHex(gasPrice),
       nonce: Web3.utils.toHex(nonce),
       data: memo,
     };
-
     const privateKeyBuffer = EthUtil.toBuffer(privateKey);
-
     const tx = new Transaction(rawTx);
-
     tx.sign(privateKeyBuffer);
     const serializedTx = tx.serialize();
+    console.log('*****iaskdkasdaksdk')
+    web4.eth.sendSignedTransaction(
+      `0x${serializedTx.toString("hex")}`
+    ).then(res => {
+      console.log(res, '****res')
+      return res
 
-    web3.eth
-      .sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
-      .then(res => {
-        console.log(res, '******res');
-        return res;
-      }).catch(err => {
-        console.log('******err', err)
+    }).catch(err => {
+      console.log(err, '****err')
 
-      });
+    })
+
+
+    // const web3 = web3Sfc || this.web3;
+    // const nonce = await web3.eth.getTransactionCount(from);
+    // const gasPrice = await web3.eth.getGasPrice();
+
+    // const rawTx = {
+    //   from,
+    //   to,
+    //   value: Web3.utils.toHex(Web3.utils.toWei(value, 'ether')),
+    //   gasLimit: Web3.utils.toHex(gasLimit),
+    //   gasPrice: Web3.utils.toHex(gasPrice),
+    //   nonce: Web3.utils.toHex(nonce),
+    //   data: memo,
+    // };
+
+    // const privateKeyBuffer = EthUtil.toBuffer(privateKey);
+
+    // const tx = new Transaction(rawTx);
+
+    // tx.sign(privateKeyBuffer);
+    // const serializedTx = tx.serialize();
+
+    // web3.eth
+    //   .sendSignedTransaction(`0x${serializedTx.toString('hex')}`)
+    //   .then(res => {
+    //     console.log(res, '******res');
+    //     return res;
+    //   }).catch(err => {
+    //     console.log('******err', err)
+
+    //   });
   }
 
   async estimateFee({

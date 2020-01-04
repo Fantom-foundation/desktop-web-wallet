@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-multi-comp */
 import React, { useState, useCallback, useEffect } from 'react';
 import styles from './styles.module.scss';
@@ -12,6 +13,7 @@ import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { connect } from 'react-redux';
 import Input from '../../../components/forms/Input';
 import { convertFTMValue } from '~/view/general/utilities';
+// import downloadIcon from 
 import {
   delegateByAddress as delegateByAddressAction,
   unstakeamount as unstakeamountAction,
@@ -223,19 +225,50 @@ const Stake = props => {
   }
 
   const withdrawalStakeCard = () => {
-    if(selectedAddress && selectedAddress.isAmountUnstaked){
+    const currentDate = new Date();
+    const nextSevenDays = currentDate.setDate(currentDate.getDate() + 7);
+    const delegateDate = new Date();
+    const deactivatedDate = delegateDate.setDate(
+      delegateDate.getDate() + Number(stakes.deactivatedTime || 0)
+    );
+    const date1: any = new Date(deactivatedDate);
+    const date2: any = new Date(nextSevenDays) ;
+    const diffTime = Math.abs(date2 - date1);
+    const timeLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    if(selectedAddress && selectedAddress.isAmountUnstaked && timeLeft > 0){
+      return  (
+        <>
+          <Row className="mt-6">
+            <Col>
+              <Card className="text-center">
+                <div className={styles.availableWrapper}>
+                  <h3 className="mb-0">
+              Your 322,456 FTM will available in {timeLeft} days.
+                  </h3>
+                </div>
+              </Card>
+            </Col>
+          </Row>
+      
+         
+        </>)
+    } 
+    if (stakes.isDeligated) {
       return  (<Row className="mt-6">
-        <Col>
-          <Card className="text-center">
-            <div className={styles.availableWrapper}>
-              <h3 className="mb-0">
-              Your 322,456 FTM will available in 71 hours and 59
-              minutes.
-              </h3>
-            </div>
-          </Card>
-        </Col>
-      </Row>)
+      <Col>
+        <Card className="text-center">
+          <div className={styles.availableWrapper}>
+            <h3 className="mb-0">Your 322,456 FTM are available!</h3>
+            <button type="button">
+        Withdraw to your wallet now
+              {/* <img src={downloadIcon} alt="download" /> */}
+            </button>
+          </div>
+        </Card>
+      </Col>
+    </Row>)
+
+
     }
     return null
     
@@ -274,7 +307,7 @@ FTM
           </Card>
         </Col>
       </Row>
-      {withdrawalStakeCard()}
+      {/* {withdrawalStakeCard()} */}
       <Row className='mt-6'>
         <Col>
           {withdrawalText ? (
