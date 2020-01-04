@@ -11,6 +11,7 @@ import {
   accountSetConnection,
   accountAddProvider,
   accountSetFTMtoUSD,
+  accountSetFTMMarketCap,
 } from '~/redux/account/actions';
 import { IAccountState, ACCOUNT_INITIAL_STATE } from '.';
 import { ACCOUNT_ACTIONS } from './constants';
@@ -92,6 +93,11 @@ const addProvider = (
     { price }: ReturnType<typeof accountSetFTMtoUSD>
   ) => assocPath(['ftmToUsd'], price, state);
 
+  // const setFtmMarketCap = (
+  //   state: IAccountState,
+  //   { marketCap }: ReturnType<typeof accountSetFTMMarketCap>
+  // ) => assocPath(['marketCap'], marketCap, state);
+
 export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_CREATE]: setCreate,
   [ACCOUNT_ACTIONS.SET_CREATE_STAGE]: setCreateStage,
@@ -106,4 +112,6 @@ export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_CONNECTION]: setConnection,
   [ACCOUNT_ACTIONS.ADD_PROVIDER]: addProvider,
   [ACCOUNT_ACTIONS.SET_FTM_USD]: setFtmToUsd,
+  // [ACCOUNT_ACTIONS.SET_FTM_MARKET_CAP]: setFtmMarketCap,
+
 };

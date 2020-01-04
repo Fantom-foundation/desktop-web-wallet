@@ -27,6 +27,7 @@ const delegatorByAddressApi = async publicKey => {
   );
 };
 
+
 type Action = {
   payload: {
     mnemonic: string;

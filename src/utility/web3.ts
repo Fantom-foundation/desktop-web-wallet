@@ -353,6 +353,7 @@ type Transfer = {
   privateKey: string,
   gasLimit?: number;
   web3Delegate?: any;
+  cb?: () => {}
 };
 const URL_FANTOM = API_URL_FANTOM;
 const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${KEY_INFURA}`;
@@ -588,6 +589,7 @@ async estimateFee({
     privateKey,
     gasLimit = 44000,
     web3Delegate = "",
+    cb,
   }: Transfer) {
     const useWeb3 = web3Delegate || this.web3;
     const nonce = await useWeb3.eth.getTransactionCount(from);
@@ -611,6 +613,7 @@ async estimateFee({
     const res = await useWeb3.eth.sendSignedTransaction(
       `0x${serializedTx.toString("hex")}`
     );
+    console.log('******asdasd', res)
     return res;
   }
   

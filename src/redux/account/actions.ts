@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { IAccountState } from '.';
 import { ACCOUNT_ACTIONS } from './constants';
 import { IAccount } from './types';
@@ -7,10 +8,17 @@ export const accountSetCreate = (create: Partial<IAccountState['create']>) => ({
   create,
 });
 
-export const accountSetFTMtoUSD = (price: string) => ({
+export const accountSetFTMtoUSD = (price: string) => {
+  return ({
   type: ACCOUNT_ACTIONS.SET_FTM_USD,
   price,
-});
+})};
+
+export const accountSetFTMMarketCap = (marketCap: string) => {
+  return ({
+  type: ACCOUNT_ACTIONS.SET_FTM_MARKET_CAP,
+  marketCap,
+})};
 
 export const accountSetCreateStage = (
   stage: Partial<IAccountState['create']['stage']>
@@ -85,6 +93,16 @@ export const accountFTMtoUSD = () => {
   };
 };
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const accountFTMMarketCap = (cb: any) => {
+  return {
+    type: ACCOUNT_ACTIONS.GET_FTM_MARKET_CAP,
+    cb,
+  };
+};
+
+
+
 export const accountSetAccount = (
   id: IAccount['publicAddress'],
   data: Partial<IAccount>
@@ -100,19 +118,31 @@ export const accountSendFunds = ({
   password,
   amount,
   message,
-}: {
-  from: IAccount['publicAddress'];
-  to: IAccount['publicAddress'];
-  password: string;
-  amount: string;
-  message: string;
-}) => ({
+}, cb) => ({
   type: ACCOUNT_ACTIONS.SEND_FUNDS,
   from,
   to,
   password,
   amount,
+    message,
+    cb,
+  });
+
+
+export const accountSendPasswordCheck = ({
+  from,
+  to,
+  password,
+  amount,
   message,
+}, cb) => ({
+  type: ACCOUNT_ACTIONS.SEND_FUNDS_PASS_CHECK,
+  from,
+  to,
+  password,
+  amount,
+    message,
+    cb,
 });
 
 export const accountTransferClear = () => ({

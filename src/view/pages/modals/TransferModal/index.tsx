@@ -79,6 +79,8 @@ const TransferModalUnconnected: FC<IProps> = ({
         amount,
         message,
         password,
+      }, () => {
+          
       });
     },
     [accountSendFunds, to, from, amount, password, message]

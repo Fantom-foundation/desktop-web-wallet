@@ -46,6 +46,7 @@ export interface IAccountState {
     error: string | null;
   };
   ftmToUsd: string;
+  marketCap: string
 }
 
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
@@ -71,6 +72,8 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
   },
   list: {},
   ftmToUsd: "0",
+  marketCap: '0',
+
 };
 
 export const account = createReducer(ACCOUNT_INITIAL_STATE, ACCOUNT_HANDLERS);

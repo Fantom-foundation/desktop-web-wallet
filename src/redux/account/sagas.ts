@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   takeLatest,
   put,
@@ -31,6 +32,7 @@ import {
   accountProviderConnected,
   accountReconnectProvider,
   accountGetPrivateKey,
+  accountSendPasswordCheck,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -195,12 +197,28 @@ function* getFTMtoUSD() {
   // const price = res && res.data && res.data.body && JSON.parse(res.data.body.price)
 }
 
+function* getFTMMarketCap({ cb }: any) {
+  console.log(cb, '***jsadasd')
+  const res = yield call(
+    fetch,
+    'https://api.coingecko.com/api/v3/simple/price?ids=fantom&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true'
+    
+  );
+  const data = yield call([res, 'json']); // or yield call([res, res.json])
+
+  const { usd_market_cap } = data.fantom;
+  cb(usd_market_cap)
+
+}
+
+
 function* sendFunds({
   from,
   to,
   amount,
   password,
   message,
+  cb,
 }: ReturnType<typeof accountSendFunds>) {
   yield put(accountSetTransferErrors({}));
 
@@ -227,7 +245,7 @@ function* sendFunds({
     value: amount.toString(),
     memo: message,
   });
-
+  
   const validation_errors = validateAccountTransaction({
     from,
     to,
@@ -248,6 +266,7 @@ function* sendFunds({
       value: amount.toString(),
       memo: message,
       privateKey,
+      cb,
     });
 
     yield put(
@@ -262,6 +281,60 @@ function* sendFunds({
       })
     );
   }
+}
+
+function* sendFundsPassCheck({
+  from,
+  to,
+  amount,
+  password,
+  message,
+  cb,
+}: ReturnType<typeof accountSendPasswordCheck>) {
+  yield put(accountSetTransferErrors({}));
+
+  yield call(getBalance, accountGetBalance(from));
+
+  const { list }: IAccountState = yield select(selectAccount);
+
+  if (!Object.prototype.hasOwnProperty.call(list, from))
+    return yield put(
+      accountSetTransferErrors({ from: 'Not a correct sender' })
+    );
+
+  const { keystore, balance } = list[from];
+
+  const privateKey = yield call(
+    [Fantom, Fantom.getPrivateKey],
+    keystore,
+    password
+  );
+
+  const fee: string = yield call([Fantom, Fantom.estimateFee], {
+    from,
+    to,
+    value: amount.toString(),
+    memo: message,
+  });
+  
+  const validation_errors = validateAccountTransaction({
+    from,
+    to,
+    privateKey,
+    balance,
+    fee,
+    amount,
+  });
+
+  if (!privateKey) {
+    cb(true)
+  } else {
+    cb(false)
+  }
+
+  if (Object.keys(validation_errors).length)
+    return yield put(accountSetTransferErrors(validation_errors));
+
 }
 
 // This export is used for testing
@@ -441,8 +514,11 @@ export function* accountSaga() {
 
   yield takeEvery(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
   yield takeEvery(ACCOUNT_ACTIONS.GET_FTM_TO_USD, getFTMtoUSD);
+  yield takeEvery(ACCOUNT_ACTIONS.GET_FTM_MARKET_CAP, getFTMMarketCap);
+
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
+  yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS_PASS_CHECK, sendFundsPassCheck);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
   yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
 

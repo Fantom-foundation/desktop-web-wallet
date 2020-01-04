@@ -122,7 +122,6 @@ const Stake = props => {
 
 
   const getCurrentCard = () => {
-  
     switch (step) {
       case 1:
         return (

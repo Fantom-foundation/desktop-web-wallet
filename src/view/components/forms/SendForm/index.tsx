@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useState, useCallback, useEffect } from 'react';
 import { Button, Modal, ModalBody, Card } from 'reactstrap';
 import classnames from 'classnames';
@@ -27,13 +28,14 @@ const mapStateToProps = state => ({
   account: selectAccount(state),
   transfer: selectAccountTransfer(state),
 });
+
 const mapDispatchToProps = {
   accountSendFunds: ACCOUNT_ACTIONS.accountSendFunds,
+  accountSendPasswordCheck: ACCOUNT_ACTIONS.accountSendPasswordCheck,
   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
   transactionsGetList: ACTIONS.transactionsGetList,
   accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
-
   accountGetTransferFee: ACCOUNT_ACTIONS.accountGetTransferFee,
   accountSetTransfer: ACCOUNT_ACTIONS.accountSetTransfer,
 };
@@ -50,6 +52,7 @@ const TransferFunds: FC<IProps> = ({
   data,
   accountGetBalance,
   accountSendFunds,
+  accountSendPasswordCheck,
   transactionsGetList,
   transfer,
   transactionHash,
@@ -102,7 +105,7 @@ const TransferFunds: FC<IProps> = ({
           <Card className={classnames(styles.transCard, 'mb-5 mt-5')}>
             <h2>Transaction sent!</h2>
             <div className={classnames(styles.iconGap, styles.hash)}>
-              <a href="#">{transactionHash}</a>
+              <a href="#">{txId}</a>
               <button
                 className={styles.copyBtn}
                 type="button"
@@ -167,6 +170,31 @@ const TransferFunds: FC<IProps> = ({
     setModal(false);
   }, [setIsSending, setModal]);
 
+  const call = txHash => {
+    setTxId(txHash)
+
+
+  }
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const callback = (value: boolean) => {
+    if (!value) {
+      accountSendFunds ({
+        to,
+        from: data.publicAddress,
+        amount,
+        message: memo,
+        password,
+      }, call);
+
+    setIsSending(true);
+    setModal(false);
+      
+    }
+   
+    
+  }
+
   const handleSubmit = useCallback(() => {
     const validation_errors = {
       ...sendingErrors,
@@ -175,21 +203,22 @@ const TransferFunds: FC<IProps> = ({
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
+    // const errorsas = Object.keys(transfer.errors);
+    // console.log(errorsas, '****asdkas')
 
     setTimeout(() => {
       accountGetBalance(data.publicAddress);
       transactionsGetList(data.publicAddress);
     }, 4000);
-    accountSendFunds({
+
+    accountSendPasswordCheck ({
       to,
       from: data.publicAddress,
       amount,
       message: memo,
       password,
-    });
-    setIsSending(true);
-    setModal(false);
-  }, [sendingErrors, password, accountSendFunds, to, data.publicAddress, amount, memo, accountGetBalance, transactionsGetList]);
+    }, callback);
+  }, [callback, sendingErrors,accountSendPasswordCheck, password, to, data.publicAddress, amount, memo, accountGetBalance, transactionsGetList]);
 
   const onClick = useCallback(
     event => copyToClipboard(event, transactionHash),
