@@ -19,6 +19,7 @@ import {
   setAmountUnstaked,
   delegateAmountSuccess,
   delegateAmountError,
+  withdrawAmount,
 } from './actions';
 import { selectAccount } from '../account/selectors';
 import {} from './handlers';
@@ -82,6 +83,7 @@ function* delegateByAddressSaga({
       paidUntilEpoch,
       pendingRewards: pendingRewards || 0,
     };
+
     console.log('delegateByAddressSagadelegateByAddressSaga', response);
     yield put(delegateByAddressSuccess(response));
 
@@ -186,6 +188,28 @@ export function* unstakeAmountSaga({
   }
 }
 
+export function* withdrawAmountSaga({
+  publicKey,
+}: ReturnType<typeof withdrawAmount>) {
+  try {
+    const { list }: IAccountState = yield select(selectAccount);
+
+    const { keystore } = list[publicKey];
+    const privateKey = yield call(
+      [Fantom, Fantom.getPrivateKey],
+      keystore,
+      'Sunil@123'
+    );
+
+    const res = yield Fantom.withdrawDelegateAmount(publicKey, privateKey);
+    console.log('withdrawAmountSaga response', res);
+
+    // Assign contract functions to sfc variable
+  } catch (e) {
+    console.log('withdrawAmountSaga', e);
+  }
+}
+
 export default function* stakeSaga() {
   yield all([
     yield takeEvery(STAKE_ACTIONS.DELEGATE_BY_ADDRESS, delegateByAddressSaga),
@@ -199,5 +223,6 @@ export default function* stakeSaga() {
     ),
     yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
     yield takeLatest(STAKE_ACTIONS.UNSTAKE_AMOUNT, unstakeAmountSaga),
+    yield takeLatest(STAKE_ACTIONS.WITHDRAW_AMOUNT, withdrawAmountSaga),
   ]);
 }

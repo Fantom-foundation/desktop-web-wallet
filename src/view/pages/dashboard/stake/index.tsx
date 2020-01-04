@@ -13,11 +13,13 @@ import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { connect } from 'react-redux';
 import Input from '../../../components/forms/Input';
 import { convertFTMValue } from '~/view/general/utilities';
+import moment from 'moment';
 // import downloadIcon from
 import {
   delegateByAddress as delegateByAddressAction,
   unstakeamount as unstakeamountAction,
   delegateAmount as delegateAmountAction,
+  withdrawAmount as withdrawAmountAction,
 } from '~/redux/stake/actions';
 import { selectAccount } from '~/redux/account/selectors';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
@@ -217,13 +219,13 @@ const Stake = props => {
     );
   };
 
+  const onWithdrawAmount = () => {
+    const { withdrawAmount, id } = props;
+
+    withdrawAmount({ publicKey: id });
+  };
+
   const withdrawalStakeCard = () => {
-    const currentDate = new Date();
-    const nextSevenDays = currentDate.setDate(currentDate.getDate() + 7);
-    const delegateDate = new Date();
-    const deactivatedDate = delegateDate.setDate(
-      delegateDate.getDate() + Number(stakes.deactivatedTime || 0)
-    );
     const selectedAddress =
       stakes && stakes.length > 0
         ? stakes.find(stake => {
@@ -231,15 +233,22 @@ const Stake = props => {
             return stake.publicKey === id.toLowerCase();
           })
         : [];
-    const date1: any = new Date(deactivatedDate);
-    const date2: any = new Date(nextSevenDays);
-    const diffTime = Math.abs(date2 - date1);
-    const timeLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+    const deactivatedEpoch = Number(selectedAddress.deactivatedEpoch || 0);
+    const deactivatedTime = Number(selectedAddress.deactivatedTime || 0);
+
+    const date1 = new Date(deactivatedTime * 1000);
+    date1.setDate(date1.getDate() + 7);
+    const date2 = new Date();
+    const startTime = moment(date1, 'YYYY/MM/DD HH:mm');
+    const endTime = moment(date2, 'YYYY/MM/DD HH:mm');
+
+    const timeLeft = startTime.diff(endTime, 'hours', true);
     // parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount)).toFixed(5)}
     const stakedAmount = parseFloat(
       Web3.utils.fromWei(selectedAddress.stakedAmount || '0')
     ).toFixed(5);
-    if (selectedAddress && selectedAddress.isAmountUnstaked && timeLeft > 0) {
+    if (selectedAddress && timeLeft > 0) {
       return (
         <>
           <Row className="mt-6">
@@ -247,7 +256,11 @@ const Stake = props => {
               <Card className="text-center">
                 <div className={styles.availableWrapper}>
                   <h3 className="mb-0">
-                    Your {stakedAmount} FTM will available in {timeLeft} days.
+                    {`Your ${stakedAmount} FTM will be available in ${
+                      timeLeft / 24 > 0
+                        ? Math.floor(timeLeft / 24) + ' days and'
+                        : ''
+                    }  ${Math.ceil(timeLeft % 24)} hours`}
                   </h3>
                 </div>
               </Card>
@@ -256,14 +269,14 @@ const Stake = props => {
         </>
       );
     }
-    if (stakes.isDeligated) {
+    if (deactivatedEpoch > 0 && timeLeft < 0) {
       return (
         <Row className="mt-6">
           <Col>
             <Card className="text-center">
               <div className={styles.availableWrapper}>
                 <h3 className="mb-0">Your {stakedAmount} FTM are available!</h3>
-                <button type="button">
+                <button onClick={() => onWithdrawAmount()} type="button">
                   Withdraw to your wallet now
                   {/* <img src={downloadIcon} alt="download" /> */}
                 </button>
@@ -331,7 +344,7 @@ const Stake = props => {
           </Card>
         </Col>
       </Row>
-      {/* {withdrawalStakeCard()} */}
+      {withdrawalStakeCard()}
       <Row className="mt-6">
         <Col>
           {withdrawalText ? (
@@ -358,6 +371,7 @@ const mapDispatchToProps = {
   unstakeamount: unstakeamountAction,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
   delegateAmount: delegateAmountAction,
+  withdrawAmount: withdrawAmountAction,
 };
 
 export default connect(

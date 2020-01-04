@@ -296,7 +296,7 @@ class Web3Agent {
       nonce: Web3.utils.toHex(nonce),
       data: memo,
     };
-    debugger;
+
     console.log('rawTxrawTx', rawTx);
     const privateKeyBuffer = EthUtil.toBuffer(privateKey);
     const tx = new Tx(rawTx);
@@ -328,6 +328,26 @@ class Web3Agent {
     });
   }
 
+  async withdrawDelegateAmount(publicKey, privateKey) {
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || '')
+    );
+
+    const web3Sfc = new web3.eth.Contract(
+      contractFunctions,
+      '0xfc00face00000000000000000000000000000000'
+    );
+    return this.transfer({
+      from: publicKey,
+      to: '0xfc00face00000000000000000000000000000000',
+      value: '0',
+      memo: web3Sfc.methods.withdrawDelegation().encodeABI(),
+      privateKey,
+      gasLimit: 200000,
+      web3Delegate: web3,
+    });
+  }
+
   mnemonicToKeys = (mnemonic: string): { publicAddress; privateKey } => {
     const seed = Bip39.mnemonicToSeed(mnemonic);
     const root = Hdkey.fromMasterSeed(seed);
@@ -340,29 +360,6 @@ class Web3Agent {
 
     return { publicAddress, privateKey };
   };
-
-  withdrawDelegateAmount({ publicKey }) {
-    const sfc = new this.web3.eth.Contract(
-      contractFunctions,
-      '0xfc00face00000000000000000000000000000000'
-    );
-    return new Promise(resolve => {
-      sfc.methods
-        .withdrawDelegation()
-        .call({ from: publicKey }, function(error, result) {
-          console.log('withdrawDelegation', result);
-          // sfc.methods.delegations('0x00f4cc6fc5e636ba1e1732bdef7af75df7b339b8').call({from: delegatorAddress}, function(error, result){
-          //   if (!error)
-          //     console.log(result);
-          // });
-          resolve(result);
-        });
-    });
-  }
-  // async getAccounts() {
-  //   const res = await this.web3.eth.getAccounts();
-  //   return res;
-  // }
 
   async getAccount(address: string) {
     // eslint-disable-next-line no-return-await

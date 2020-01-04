@@ -8,6 +8,7 @@ export const STAKE_ACTIONS = {
   VALIDATORS_LIST: 'staking/VALIDATORS_LIST',
   DELEGATE_AMOUNT: 'staking/DELEGATE_AMOUNT',
   UNSTAKE_AMOUNT: 'staking/UNSTAKE_AMOUNT',
+  WITHDRAW_AMOUNT: 'staking/WITHDRAW_AMOUNT',
 };
 
 type TDelegateByStakerId = {
@@ -23,6 +24,12 @@ export const unstakeamount = ({ publicKey, isUnstake }) =>
     type: STAKE_ACTIONS.UNSTAKE_AMOUNT,
     publicKey,
     isUnstake,
+  });
+
+export const withdrawAmount = ({ publicKey }) =>
+  dispatch.dispatch({
+    type: STAKE_ACTIONS.WITHDRAW_AMOUNT,
+    publicKey,
   });
 
 export const delagateUnstakeAmount = ({
