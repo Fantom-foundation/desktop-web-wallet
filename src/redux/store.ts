@@ -6,7 +6,7 @@ import { accountSaga } from './account/sagas';
 import validators from './stake/saga/validators';
 import stakeSaga from './stake/sagas';
 import { transactionsSaga } from './transactions/sagas';
-import { createBrowserHistory } from 'history';
+import { createBrowserHistory, createHashHistory } from 'history';
 import {
   routerMiddleware,
   RouterState,
@@ -20,7 +20,7 @@ import { transactions, ITRansactionsState } from '~/redux/transactions';
 import { accountReconnectProvider } from './account/actions';
 import { stakes, InitialStateType } from '~/redux/stake';
 
-export const history = createBrowserHistory();
+export const history = createHashHistory();
 
 const accountPersistConfig = {
   key: 'account',
