@@ -82,17 +82,6 @@ function* createSetCredentials({
   );
 }
 
-function* createSetRestoreCredentials({
-  create,
-}: ReturnType<typeof accountCreateSetRestoreCredentials>) {
-  yield put(
-    accountSetCreate({
-      ...create,
-    })
-  );
-
-  yield put(push(URLS.ACCOUNT_SUCCESS));
-}
 
 function* createSetInfo() {
   yield put(accountSetCreateStage(ACCOUNT_CREATION_STAGES.CONFIRM));
@@ -127,14 +116,28 @@ function* createCancel() {
   yield put(accountCreateClear());
   yield put(push('/'));
 }
+function* createSetRestoreCredentials({
+  create,
+}: ReturnType<typeof accountCreateSetRestoreCredentials>) {
+  console.log('****askdjkasd', create)
+
+  yield put(
+    accountSetCreate({
+      ...create,
+      //stage: ACCOUNT_CREATION_STAGES.INFO,
+    })
+  );
+  yield call(createSetConfirm);
+ // yield put(push(URLS.ACCOUNT_SUCCESS));
+}
 
 function* createRestoreMnemonics({
   mnemonic,
 }: ReturnType<typeof accountCreateRestoreMnemonics>) {
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
 
-  yield put(accountSetCreate({ mnemonic, publicAddress }  ));
-  yield call(createSetConfirm);
+  yield put(accountSetCreate({ mnemonic, publicAddress, stage: ACCOUNT_CREATION_STAGES.CREDENTIALS }  ));
+  //yield call(createSetConfirm);
 }
 
 function* getPrivateKey({mnemonic,cb}: ReturnType<typeof accountGetPrivateKey>) {
