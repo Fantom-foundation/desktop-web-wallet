@@ -72,6 +72,7 @@ const TransferFunds: FC<IProps> = ({
   const [isSendSucess, setIsSendSuccess] = useState(false);
   const [password, setPassword] = useState('');
   const [txId, setTxId] = useState('');
+  const [errorPass, setError] = useState(false);
 
   const handleClearAll = useCallback(() => {
     setTo('');
@@ -126,7 +127,7 @@ const TransferFunds: FC<IProps> = ({
         </div>
       );
     }
-    if (errorType !== '') {
+    if (errorType !== 'password' && isSendSucess) {
       return (
         <div>
           <Card className={classnames(styles.transCard, 'mb-5')}>
@@ -150,9 +151,11 @@ const TransferFunds: FC<IProps> = ({
     if (errors && errors.length === 0 && isSending) {
       setIsSendSuccess(true);
     }
-    if (errors.includes('password')) {
-      setModal(true);
-    }
+    // setIsInitial(true);
+    console.log(password, '*****password');
+    // if (!isInitial && errors.includes('password')) {
+    //   setModal(true);
+    // }
   }, [isSending, setIsSending, setModal, transfer.errors]);
 
   let errorType = '';
@@ -195,6 +198,8 @@ const TransferFunds: FC<IProps> = ({
       );
       setIsSending(true);
       setModal(false);
+    } else {
+      setError(true);
     }
   };
 
@@ -268,11 +273,9 @@ const TransferFunds: FC<IProps> = ({
               setPassword(value);
             }}
             // errorClass="justify-content-center"
-            isError={errorType === 'password' || sendingErrors.password}
+            isError={errorType === 'password' || errorPass}
             errorMsg={
-              errorType === 'password' || sendingErrors.password
-                ? 'Invalid password'
-                : ''
+              errorType === 'password' || errorPass ? 'Invalid password' : ''
             }
           />
           <div className="text-center">
@@ -287,7 +290,7 @@ const TransferFunds: FC<IProps> = ({
         </ModalBody>
       </Modal>
 
-      {errorType === '' && !isSendSucess && (
+      {!isSendSucess && (
         <div className={classnames('card', styles.card)}>
           <h2 className={styles.title}>Send FTM</h2>
           <div className={styles.inputsWrapper}>
