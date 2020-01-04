@@ -16,13 +16,13 @@ const stackUnstack = ({
       <h2 className="mb-5">What would you like to do?</h2>
       <div
         className={
-          true
-            ? 'mx-auto mt-4 w-100 d-flex justify-content-between'
+          isDeligated
+            ? 'mx-auto mt-4 w-100 '
             : 'mx-auto mt-4 w-100'
         }
         style={{ maxWidth: 480 }}
       >
-        {true ? (
+        {isDeligated ? (
           <Button
             className={classnames('lg mx-4')}
             onClick={() => handleStep('unstake')}
@@ -30,19 +30,19 @@ const stackUnstack = ({
             Unstake
           </Button>
         ) : (
-          <div className={classnames('lg mx-4')} />
-        )}
-        <Button
-          color="topaz"
-          onClick={() => handleStep('stake')}
-          className={
+          <Button
+            color="topaz"
+            onClick={() => handleStep('stake')}
+            className={
             isDeligated
               ? classnames('lg outlined mx-4')
               : classnames('lg outlined')
           }
-        >
+          >
           Stake
-        </Button>
+          </Button>
+        )}
+       
       </div>
     </Card>
   );

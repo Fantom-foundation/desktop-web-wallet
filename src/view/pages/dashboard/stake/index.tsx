@@ -22,12 +22,7 @@ import {
 import { selectAccount } from '~/redux/account/selectors';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import classnames from 'classnames'
-
-
-const rewardMock = [
-  { title: 'Claimed rewards', value: '0 FTM' },
-  { title: 'Available to claim', value: '0 FTM' },
-];
+import Web3 from 'web3'
 
 
 const Stake = props => {
@@ -99,7 +94,7 @@ const Stake = props => {
 
   const handleStackSubmit = useCallback(() => {
     const validation_errors = {
-      // stakeValueMin: parseFloat(stakeValue) < 1,
+      stakeValueMin: parseFloat(stakeValue) < 1,
       stakeValueInvalid:
         stakeValue === '' || stakeValue === undefined || stakeValue === null ,
       stakeValueMax: parseFloat(stakeValue) > account.balance ,
@@ -113,12 +108,17 @@ const Stake = props => {
       setStep(step + 1);
     }
   }, [account.balance, isEdit, stakeValue, step]);
-  console.log(stakes, '********stakes')
+  // console.log(stakes[0].publicKey,id,  '********stakes')
 
   const selectedAddress =
     stakes && stakes.length > 0
-      ? stakes.find(stake => stake.publicKey === id)
+      ? stakes.find(stake => {
+        console.log(stake.publicKey, id, '***8sds')
+        return stake.publicKey === (id).toLowerCase()
+
+      })
       : [];
+  console.log(selectedAddress, '****selectedAddress')
 
 
   const getCurrentCard = () => {
@@ -231,10 +231,20 @@ const Stake = props => {
     const deactivatedDate = delegateDate.setDate(
       delegateDate.getDate() + Number(stakes.deactivatedTime || 0)
     );
+    const selectedAddress =
+    stakes && stakes.length > 0
+      ? stakes.find(stake => {
+        console.log(stake.publicKey, id, '***8sds')
+        return stake.publicKey === (id).toLowerCase()
+
+      })
+      : [];
     const date1: any = new Date(deactivatedDate);
     const date2: any = new Date(nextSevenDays) ;
     const diffTime = Math.abs(date2 - date1);
     const timeLeft = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+    // parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount)).toFixed(5)}
+    const stakedAmount =  parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount || '0')).toFixed(5)
     if(selectedAddress && selectedAddress.isAmountUnstaked && timeLeft > 0){
       return  (
         <>
@@ -243,7 +253,11 @@ const Stake = props => {
               <Card className="text-center">
                 <div className={styles.availableWrapper}>
                   <h3 className="mb-0">
-              Your 322,456 FTM will available in {timeLeft} days.
+                    Your {stakedAmount} FTM will available in 
+                    {' '}
+                    {timeLeft}
+                    {' '}
+days.
                   </h3>
                 </div>
               </Card>
@@ -255,24 +269,33 @@ const Stake = props => {
     } 
     if (stakes.isDeligated) {
       return  (<Row className="mt-6">
-      <Col>
-        <Card className="text-center">
-          <div className={styles.availableWrapper}>
-            <h3 className="mb-0">Your 322,456 FTM are available!</h3>
-            <button type="button">
-        Withdraw to your wallet now
-              {/* <img src={downloadIcon} alt="download" /> */}
-            </button>
-          </div>
-        </Card>
-      </Col>
-    </Row>)
-
-
+        <Col>
+          <Card className="text-center">
+            <div className={styles.availableWrapper}>
+              <h3 className="mb-0">Your {stakedAmount} FTM are available!</h3>
+              <button type="button">
+                Withdraw to your wallet now
+                {/* <img src={downloadIcon} alt="download" /> */}
+              </button>
+            </div>
+          </Card>
+        </Col>
+      </Row>)
     }
-    return null
-    
+    return null 
   }
+  const stakeDetails =
+    stakes && stakes.length > 0
+      ? stakes.find(stake => {
+        console.log(stake, id, '***8sds')
+        return stake.publicKey === (id).toLowerCase()
+      })
+      : [];
+  console.log('***stakeDetails', stakeDetails)
+  
+  const stakedAmount =  stakeDetails ? parseFloat(Web3.utils.fromWei((stakeDetails.stakedAmount || '0'))).toFixed(2) : '0'
+   const claimedRewards = stakeDetails? stakeDetails.claimedRewards === '0' ? 0 :parseFloat(Web3.utils.fromWei((stakeDetails.claimedRewards || '0'))).toFixed(2): '0'
+   const pendingRewards = stakeDetails? stakeDetails.pendingRewards === '0' ? 0 :  convertFTMValue(parseFloat(stakeDetails.pendingRewards)) : '0'
 
   return (
     <div>
@@ -287,7 +310,7 @@ const Stake = props => {
 FTM
               </h2>
               <h3 className="opacity-5 mb-3">Available to stake</h3>
-              <h2 className="pt-3">0 FTM</h2>
+              <h2 className="pt-3"> {stakedAmount} FTM</h2>
               <h3 className="opacity-5 mb-3">Currently staking</h3>
             </div>
           </Card>
@@ -297,12 +320,10 @@ FTM
           <Card className="h-100 ">
             <p className="card-label mb-4">Rewards</p>
             <div className="text-right">
-              {rewardMock.map(({ title, value }) => (
-                <>
-                  <h2 className="pt-3">{value}</h2>
-                  <h3 className="opacity-5 mb-3">{title}</h3>
-                </>
-              ))}
+                <h2 className="pt-3">{claimedRewards} FTM</h2>
+              <h3 className="opacity-5 mb-3">Claimed rewards</h3>
+              <h2 className="pt-3">{pendingRewards} FTM</h2>
+                  <h3 className="opacity-5 mb-3">Available to claim</h3>
             </div>
           </Card>
         </Col>

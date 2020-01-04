@@ -66,8 +66,21 @@ export const setDelegatorByAddress = (
   state: InitialStateType,
   { response }: ReturnType<typeof delegateByAddressSuccess>
 ) => {
-  console.log(state, response, 'setDelegatorByAddress');
-  return { ...state };
+  console.log(state, '****sadsa')
+ 
+
+  const data = [{
+    ...state.data,
+    publicKey: response.address,
+    claimedRewards: response.claimedRewards,
+    pendingRewards: `${response.pendingRewards}`,
+    isDeligated: response.amount && response.amount !== ''  && response.amount !== '0',
+    stakedAmount: response.amount,
+    isAmountUnstaked: false,
+
+  }]
+  console.log(data, '***kasksakdsetDelegatorByAddress');
+  return { ...state, data};
 };
 
 export const setDelegatorByAddressFailure = (
@@ -94,6 +107,7 @@ export const setDelegatorByAddressFailure = (
       amount: 0,
       pendingRewards: 0,
       claimedRewards: 0,
+      stakedAmount: '0',
       isAmountUnstaked: false,
     });
   }

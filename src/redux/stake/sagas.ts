@@ -51,12 +51,12 @@ function* delegateByAddressSaga({
       publicKey,
       publicKey
     );
-    console.log('****dsdspendingRewards', publicKey, pendingRewards)
+ 
 
     const data = yield call(delegatorByAddressApi, publicKey);
+    console.log('****data', {...data.data.data})
 
-
-    yield put(delegateByAddressSuccess({...data, pendingRewards}));
+    yield put(delegateByAddressSuccess({...data.data.data, pendingRewards}));
    
 
     // yield call(

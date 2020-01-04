@@ -12,6 +12,7 @@ export type TStakeObj = {
   pendingRewards: number,
   isDeligated: boolean;
   isAmountUnstaked: boolean;
+  stakedAmount: string
 };
 export type TValidatorObj = {
   publicKey: string;

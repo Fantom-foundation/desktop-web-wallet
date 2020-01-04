@@ -358,6 +358,7 @@ function* connectToNewProvider(current_node: number) {
   const { custom_nodes } = yield select(selectAccountConnection);
   const nodes = [...DEFAULT_PROVIDERS, ...custom_nodes];
   const current = nodes[current_node] || nodes[0];
+  // console.log('asdkaksd', current.address)
 
   const { connected, timeout } = yield race({
     connected: call([Fantom, Fantom.setProvider], current.address),
