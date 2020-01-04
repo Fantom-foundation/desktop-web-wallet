@@ -1,5 +1,12 @@
 // @flow
-import { takeLatest, takeEvery, put, select, call, all } from 'redux-saga/effects';
+import {
+  takeLatest,
+  takeEvery,
+  put,
+  select,
+  call,
+  all,
+} from 'redux-saga/effects';
 import {
   STAKE_ACTIONS,
   delegateByAddress,
@@ -27,7 +34,6 @@ const delegatorByAddressApi = async publicKey => {
   );
 };
 
-
 type Action = {
   payload: {
     mnemonic: string;
@@ -48,17 +54,36 @@ function* delegateByAddressSaga({
   publicKey,
 }: ReturnType<typeof delegateByAddress>) {
   try {
-    const pendingRewards = yield Fantom.getDelegationPendingRewards(
+    const { pendingRewards, data } = yield Fantom.getDelegationPendingRewards(
       publicKey,
       publicKey
     );
- 
 
-    const data = yield call(delegatorByAddressApi, publicKey);
-    console.log('****data', {...data.data.data})
+    const delegatorResponse = yield call(delegatorByAddressApi, publicKey);
 
-    yield put(delegateByAddressSuccess({...data.data.data, pendingRewards}));
-   
+    const {
+      address,
+      amount,
+      claimedRewards,
+      createdEpoch,
+      createdTime,
+      toStakerID,
+    } = delegatorResponse.data.data;
+    const { deactivatedEpoch, deactivatedTime, paidUntilEpoch } = data;
+    const response = {
+      address,
+      amount,
+      claimedRewards,
+      createdEpoch,
+      createdTime,
+      toStakerID,
+      deactivatedEpoch,
+      deactivatedTime,
+      paidUntilEpoch,
+      pendingRewards: pendingRewards || 0,
+    };
+    console.log('delegateByAddressSagadelegateByAddressSaga', response);
+    yield put(delegateByAddressSuccess(response));
 
     // yield call(
     //   getDataWithQueryString("delegatorByAddress", publicKey)
@@ -121,9 +146,9 @@ export function* delegateAmountSaga({
       keystore,
       password
     );
-    if(!privateKey){
+    if (!privateKey) {
       yield put(delegateAmountError());
-      return
+      return;
     }
     yield Fantom.delegateStake({
       amount,
@@ -143,10 +168,17 @@ export function* unstakeAmountSaga({
   isUnstake,
 }: ReturnType<typeof unstakeamount>) {
   try {
-   const res =  yield Fantom.deligateUnstake({
-      publicKey,
-    });
-    console.log(res, '******8res')
+    const { list }: IAccountState = yield select(selectAccount);
+
+    const { keystore } = list[publicKey];
+    const privateKey = yield call(
+      [Fantom, Fantom.getPrivateKey],
+      keystore,
+      'Sunil@123'
+    );
+
+    const res = yield Fantom.delegateUnstake(publicKey, privateKey);
+    console.log(res, '******8res');
     yield put(setAmountUnstaked({ publicKey, isUnstake }));
     // Assign contract functions to sfc variable
   } catch (e) {

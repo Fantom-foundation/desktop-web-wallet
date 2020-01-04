@@ -3,16 +3,19 @@
 import { createReducer } from '~/utility/createReducer';
 import { ACCOUNT_HANDLERS } from './handlers';
 
-import { STAKE_ACTIONS as types } from "./actions";
+import { STAKE_ACTIONS as types } from './actions';
 
 export type TStakeObj = {
   publicKey: string;
   amount: number;
   claimedRewards: number;
-  pendingRewards: number,
+  pendingRewards: number;
   isDeligated: boolean;
   isAmountUnstaked: boolean;
-  stakedAmount: string
+  stakedAmount: string;
+  toStakerID: string;
+  deactivatedEpoch: string;
+  deactivatedTime: string;
 };
 export type TValidatorObj = {
   publicKey: string;
@@ -23,7 +26,7 @@ export type TValidatorObj = {
 export interface InitialStateType {
   data: Array<TStakeObj>;
   validators: Array<TValidatorObj>;
-  errors: boolean
+  errors: boolean;
 }
 
 export const MODAL_INITIAL_STATE: InitialStateType = {
@@ -40,9 +43,6 @@ export const stakes = createReducer(MODAL_INITIAL_STATE, ACCOUNT_HANDLERS);
 //   amount: number,
 //   claimedRewards: number,
 // };
-
-
-
 
 // const initialState = {
 //   data: [{publicKey:' '}],

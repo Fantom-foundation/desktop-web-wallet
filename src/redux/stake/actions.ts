@@ -46,10 +46,11 @@ export const setAmountUnstaked = ({ publicKey, isUnstake }) => ({
 });
 
 export const delegateByAddress = ({ publicKey }: { publicKey: string }) => {
-  return ({
+  return {
     type: STAKE_ACTIONS.DELEGATE_BY_ADDRESS,
     publicKey,
-  })};
+  };
+};
 
 export const delegateByAddressSuccess = response => ({
   type: `${STAKE_ACTIONS.DELEGATE_BY_ADDRESS}_SUCCESS`,
@@ -118,5 +119,3 @@ export const delegateAmountSuccess = response => ({
 export const delegateAmountError = () => ({
   type: `${STAKE_ACTIONS.DELEGATE_AMOUNT}_FAILURE`,
 });
-
-
