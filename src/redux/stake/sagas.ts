@@ -152,7 +152,7 @@ export function* delegateAmountSaga({
       password
     );
     if (!privateKey) {
-      cb(true)
+      cb(true);
       yield put(delegateAmountError());
       return;
     }
@@ -163,14 +163,13 @@ export function* delegateAmountSaga({
       validatorId,
     });
     yield put(delegateAmountSuccess({ response: {} }));
-    cb(false)
+    cb(false);
     // Assign contract functions to sfc variable
   } catch (e) {
-    cb(true)
+    cb(true);
     console.log('called catch', e);
   }
 }
-
 
 export function* delegateAmountSagaPasswordCheck({
   publicKey,
@@ -187,21 +186,21 @@ export function* delegateAmountSagaPasswordCheck({
       password
     );
     if (!privateKey) {
-      cb(true)
+      cb(true);
       yield put(delegateAmountError());
-      return
+      return;
     }
-    cb(false)
+    cb(false);
     // Assign contract functions to sfc variable
   } catch (e) {
-    cb(true)
+    cb(true);
     console.log('called catch', e);
   }
 }
 
 export function* unstakeAmountSaga({
   publicKey,
-  isUnstake,
+  password,
 }: ReturnType<typeof unstakeamount>) {
   try {
     const { list }: IAccountState = yield select(selectAccount);
@@ -210,12 +209,12 @@ export function* unstakeAmountSaga({
     const privateKey = yield call(
       [Fantom, Fantom.getPrivateKey],
       keystore,
-      'Sunil@123'
+      password
     );
 
     const res = yield Fantom.delegateUnstake(publicKey, privateKey);
     console.log(res, '******8res');
-    yield put(setAmountUnstaked({ publicKey, isUnstake }));
+    yield put(setAmountUnstaked({ publicKey }));
     // Assign contract functions to sfc variable
   } catch (e) {
     // yield put(setDopdownAlert("error", e.message));
@@ -256,9 +255,11 @@ export default function* stakeSaga() {
       delegateByStakerIdSaga
     ),
     yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
-    yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT_PASS_CHECK, delegateAmountSagaPasswordCheck),
+    yield takeLatest(
+      STAKE_ACTIONS.DELEGATE_AMOUNT_PASS_CHECK,
+      delegateAmountSagaPasswordCheck
+    ),
 
-    
     yield takeLatest(STAKE_ACTIONS.UNSTAKE_AMOUNT, unstakeAmountSaga),
     yield takeLatest(STAKE_ACTIONS.WITHDRAW_AMOUNT, withdrawAmountSaga),
   ]);

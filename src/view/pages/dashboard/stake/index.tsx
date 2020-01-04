@@ -9,6 +9,7 @@ import StackUnstack from 'src/view/components/stake/stakeUnstake';
 import StakeInput from 'src/view/components/stake/stakeInput';
 import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard';
 import SuccessCard from '~/view/components/stake/sucessCard';
+import WithdrawSuccess from '~/view/components/stake/withdrawSuccess';
 import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import { connect } from 'react-redux';
 import Input from '../../../components/forms/Input';
@@ -50,6 +51,7 @@ const Stake = props => {
     accountGetPrivateKey,
   } = props;
   const [isEdit, setIsEdit] = useState(false);
+  const [type, setType] = useState('');
   const account = accountData.list && id && accountData.list[id];
 
   useEffect(() => {
@@ -74,52 +76,75 @@ const Stake = props => {
     delegateByAddress({ publicKey: id });
   }, [delegateByAddress, id]);
 
-  const unStakeAmount = value => {
+  const unStakeAmount = () => {
     const { unstakeamount, id } = props;
-
-    unstakeamount({ publicKey: id, isUnstake: value });
+    setModal(false);
+    unstakeamount({ publicKey: id, password });
+    setTimeout(() => {
+      accountGetBalance(id);
+      setStep(9);
+      delegateByAddress({ publicKey: id });
+    }, 4000);
   };
 
   const call = (res: boolean) => {
     if (res) {
-      setStep(8)
-      setModal(false)
+      setStep(8);
+      setModal(false);
     }
-  }
+  };
 
   const callback = (res: boolean) => {
     const { delegateAmount } = props;
     if (!res) {
-      setStep(7)
-      setModal(false)
-      delegateAmount({
-        publicKey: id,
-        amount: stakeValue,
-        validatorId: validator.id,
-        password,
-      }, call);
+      setStep(7);
+      setModal(false);
+      delegateAmount(
+        {
+          publicKey: id,
+          amount: stakeValue,
+          validatorId: validator.id,
+          password,
+        },
+        call
+      );
       setTimeout(() => {
         accountGetBalance(id);
         delegateByAddress({ publicKey: id });
       }, 4000);
     }
-  }
-
-  
+  };
 
   const stakeAmount = () => {
-    delegateAmountPassCheck({
-      publicKey: id,
-      amount: stakeValue,
-      validatorId: validator.id,
-      password,
-    }, callback);
+    delegateAmountPassCheck(
+      {
+        publicKey: id,
+        amount: stakeValue,
+        validatorId: validator.id,
+        password,
+      },
+      callback
+    );
 
     setTimeout(() => {
-      setModal(false);
-      setStep(7);
       accountGetBalance(id);
     }, 2000);
+  };
+
+  const unStakeAmountPass = () => {
+    delegateAmountPassCheck(
+      {
+        publicKey: id,
+        amount: stakeValue,
+        validatorId: validator.id,
+        password,
+      },
+      (res: boolean) => {
+        if (!res) {
+          unStakeAmount();
+        }
+      }
+    );
   };
 
   const handleStackSubmit = useCallback(() => {
@@ -177,6 +202,7 @@ const Stake = props => {
             handleValidatorSelect={val => {
               setValidator(val);
               setStep(step + 1);
+              setType('stake');
             }}
             balance={account.balance}
           />
@@ -199,15 +225,26 @@ const Stake = props => {
         return (
           <UnstakeDecisionCard
             handleStep={handleStep}
-            unStakeAmount={value => unStakeAmount(value)}
+            handleModal={() => (setModal(true), setType('unStake'))}
           />
         );
       case 6:
         return <StackUnstack handleStep={handleStep} />;
       case 7:
-        return <SuccessCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />;
+        return (
+          <SuccessCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />
+        );
       case 8:
-          return <FailureCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />;
+        return (
+          <FailureCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />
+        );
+      case 9:
+        return (
+          <WithdrawSuccess
+            cardCss={styles.transCard}
+            iconGapCss={styles.iconGap}
+          />
+        );
       default:
         break;
     }
@@ -219,7 +256,9 @@ const Stake = props => {
       <Modal
         isOpen={modal}
         className={classnames('modal-dialog-centered', styles.passwordModal)}
-        toggle={() => setModal(false)}
+        toggle={() => {
+          setModal(false), setPassword('');
+        }}
       >
         <ModalBody className={styles.body}>
           <Input
@@ -237,7 +276,13 @@ const Stake = props => {
           <div className="text-center">
             <button
               type="button"
-              onClick={stakeAmount}
+              onClick={() => {
+                if (type === 'stake') {
+                  stakeAmount();
+                } else {
+                  unStakeAmountPass();
+                }
+              }}
               className={classnames('btn btn-secondary', styles.sendBtn)}
             >
               Send
@@ -263,8 +308,14 @@ const Stake = props => {
           })
         : [];
 
-    const deactivatedEpoch = Number(selectedAddress.deactivatedEpoch || 0);
-    const deactivatedTime = Number(selectedAddress.deactivatedTime || 0);
+    console.log(selectedAddress, '****selectedAddress');
+
+    const deactivatedEpoch = Number(
+      (selectedAddress && selectedAddress.deactivatedEpoch) || 0
+    );
+    const deactivatedTime = Number(
+      (selectedAddress && selectedAddress.deactivatedTime) || 0
+    );
 
     const date1 = new Date(deactivatedTime * 1000);
     date1.setDate(date1.getDate() + 7);
@@ -275,7 +326,9 @@ const Stake = props => {
     const timeLeft = startTime.diff(endTime, 'hours', true);
     // parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount)).toFixed(5)}
     const stakedAmount = parseFloat(
-      Web3.utils.fromWei(selectedAddress.stakedAmount || '0')
+      Web3.utils.fromWei(
+        (selectedAddress && selectedAddress.stakedAmount) || '0'
+      )
     ).toFixed(5);
     if (selectedAddress && timeLeft > 0) {
       return (
@@ -289,7 +342,7 @@ const Stake = props => {
                       timeLeft / 24 > 0
                         ? Math.floor(timeLeft / 24) + ' days and'
                         : ''
-                    }  ${Math.ceil(timeLeft % 24)} hours`}
+                    }  ${Math.floor(timeLeft % 24)} hours`}
                   </h3>
                 </div>
               </Card>

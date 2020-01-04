@@ -28,7 +28,7 @@ export const getValidatorsListFailure = () => ({
 
 export const amountUnstakedSuccess = (
   state: InitialStateType,
-  { publicKey, isUnstake }: ReturnType<typeof setAmountUnstaked>
+  { publicKey }: ReturnType<typeof setAmountUnstaked>
 ) => {
   const { data } = state;
   const stakes = data.slice();
@@ -41,7 +41,7 @@ export const amountUnstakedSuccess = (
         ...stakes[selectedAddressIndex],
         publicKey,
         isDeligated: false,
-        isAmountUnstaked: isUnstake,
+        isAmountUnstaked: false,
       });
     }
   }

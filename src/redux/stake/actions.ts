@@ -20,11 +20,11 @@ type TDelegateByAddress = {
   publicKey: string;
 };
 
-export const unstakeamount = ({ publicKey, isUnstake }) =>
+export const unstakeamount = ({ publicKey, password }) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.UNSTAKE_AMOUNT,
     publicKey,
-    isUnstake,
+    password,
   });
 
 export const withdrawAmount = ({ publicKey }) =>
@@ -47,10 +47,9 @@ export const delagateUnstakeAmount = ({
     validatorId,
   });
 
-export const setAmountUnstaked = ({ publicKey, isUnstake }) => ({
+export const setAmountUnstaked = ({ publicKey }) => ({
   type: `${STAKE_ACTIONS.UNSTAKE_AMOUNT}_SET`,
   publicKey,
-  isUnstake,
 });
 
 export const delegateByAddress = ({ publicKey }: { publicKey: string }) => {
@@ -110,7 +109,10 @@ export const delegateByStakerId = ({ stakerId }: TDelegateByStakerId) => ({
   payload: { stakerId },
 });
 
-export const delegateAmount = ({ amount, publicKey, validatorId, password }, cb) =>
+export const delegateAmount = (
+  { amount, publicKey, validatorId, password },
+  cb
+) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.DELEGATE_AMOUNT,
     amount,
@@ -120,7 +122,7 @@ export const delegateAmount = ({ amount, publicKey, validatorId, password }, cb)
     cb,
   });
 
-  export const delegateAmountPassCheck = ({publicKey, password }, cb) =>
+export const delegateAmountPassCheck = ({ publicKey, password }, cb) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.DELEGATE_AMOUNT_PASS_CHECK,
     publicKey,

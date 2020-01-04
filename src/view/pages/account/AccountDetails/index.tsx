@@ -32,7 +32,6 @@ import classnames from 'classnames';
 import { RefreshIcon } from 'src/view/components/svgIcons';
 import { ServerHttp2Session } from 'http2';
 
-
 const mapStateToProps = state => ({
   transactions: selectTransactions(state),
   accountData: selectAccount(state),
@@ -71,8 +70,8 @@ const AccountDetailsDashboard: FC<IProps> = ({
   // ftmMarketCap,
   id,
 }) => {
-  const [marketCap, setMarketCap] = useState('0')
-  console.log(transactions, '*****transactions')
+  const [marketCap, setMarketCap] = useState('0');
+  console.log(transactions, '*****transactions');
   //   const getBalance = useCallback(
   //     () => accountGetBalance(id),
   //     [id, accountGetBalance]
@@ -87,11 +86,16 @@ const AccountDetailsDashboard: FC<IProps> = ({
     accountGetBalance(id);
     accountFTMtoUSD();
     accountFTMMarketCap(value => {
-      console.log('***value', value)
-      setMarketCap(value)
-
-    })
-  }, [accountFTMMarketCap, accountFTMtoUSD, accountGetBalance, id, transactionsGetList]);
+      console.log('***value', value);
+      setMarketCap(value);
+    });
+  }, [
+    accountFTMMarketCap,
+    accountFTMtoUSD,
+    accountGetBalance,
+    id,
+    transactionsGetList,
+  ]);
   const account = accountData && accountData.list && id && accountData.list[id];
 
   // console.log(ftmMarketCap, '**ftmMarketCap');
@@ -99,15 +103,15 @@ const AccountDetailsDashboard: FC<IProps> = ({
   //   accountGetBalance(id);
 
   // }, [accountGetBalance, id]);
-  const [spin, setSpin] = useState(false)
+  const [spin, setSpin] = useState(false);
 
   const loadLatestBalance = useCallback(() => {
-    setSpin(true)
+    setSpin(true);
     setTimeout(() => {
-      setSpin(false)
-    }, 2000)
+      setSpin(false);
+    }, 2000);
     accountGetBalance(id);
-  },[accountGetBalance, id])
+  }, [accountGetBalance, id]);
   return (
     <div>
       {/* <Modal
@@ -144,14 +148,15 @@ const AccountDetailsDashboard: FC<IProps> = ({
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
                 <h1 className={classnames('mb-0', styles.ftmNumber)}>
-                 {account && convertFTMValue(parseFloat(account.balance))}
+                  {account && convertFTMValue(parseFloat(account.balance))}
                 </h1>
                 <h2 className={classnames('mb-0', styles.ftmText)}>
                   &nbsp;FTM
                 </h2>
               </div>
               <p className="text-right text-usd">
-                $ {account &&
+                ${' '}
+                {account &&
                   convertFTMValue(
                     parseFloat(account.balance) * parseFloat(ftmToUsdPrice)
                   )}
@@ -184,7 +189,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
               <div className="mb-4 d-flex justify-content-between">
                 <h4 className="m-0 opacity-85">Market cap:</h4>
                 <p className={classnames('m-0', styles.infoValue)}>
-                  {marketCap}
+                  {parseFloat(marketCap).toFixed(2)}
                 </p>
               </div>
             </Card>

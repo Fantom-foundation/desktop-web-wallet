@@ -71,7 +71,7 @@ const TransferFunds: FC<IProps> = ({
   const [modal, setModal] = useState(false);
   const [isSendSucess, setIsSendSuccess] = useState(false);
   const [password, setPassword] = useState('');
-  const [txId, setTxId] = useState('')
+  const [txId, setTxId] = useState('');
 
   const handleClearAll = useCallback(() => {
     setTo('');
@@ -80,13 +80,18 @@ const TransferFunds: FC<IProps> = ({
     setErrors({ amount: false, to: false, password: false });
   }, [setTo, setAmount, setMemo]);
   // const balance = parseFloat(data.balance)
+  console.log(amount, typeof amount, '****adsasd');
 
   const handlePassword = useCallback(() => {
     const validation_errors = {
-      amount: amount === '' || (amount || 0) > parseFloat(data.balance),
+      amount:
+        amount === '' ||
+        (amount || 0) > parseFloat(data.balance) ||
+        parseFloat(amount) <= 0,
       to: to.length !== 42,
       password: false,
     };
+    console.log(validation_errors, '****validation_errors');
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
@@ -159,8 +164,8 @@ const TransferFunds: FC<IProps> = ({
     if (errors.includes('password')) {
       errorType = 'password';
     } else if (isSendSucess) {
-        errorType = 'other';
-      }
+      errorType = 'other';
+    }
   }
 
   console.log(errorType, '****8errorType');
@@ -171,26 +176,27 @@ const TransferFunds: FC<IProps> = ({
   }, [setIsSending, setModal]);
 
   const call = (txHash: string) => {
-    debugger
-    setTxId(txHash)
-  }
+    setTxId(txHash);
+  };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const callback = (value: boolean) => {
-    console.log( localStorage.getItem('txHash'), '****jasjdasdas')
+    console.log(localStorage.getItem('txHash'), '****jasjdasdas');
     if (!value) {
-      accountSendFunds ({
-        to,
-        from: data.publicAddress,
-        amount,
-        message: memo,
-        password,
-      }, call);
+      accountSendFunds(
+        {
+          to,
+          from: data.publicAddress,
+          amount,
+          message: memo,
+          password,
+        },
+        call
+      );
       setIsSending(true);
       setModal(false);
-    }  
-   
-  }
+    }
+  };
 
   const handleSubmit = useCallback(() => {
     const validation_errors = {
@@ -208,14 +214,28 @@ const TransferFunds: FC<IProps> = ({
       transactionsGetList(data.publicAddress);
     }, 4000);
 
-    accountSendPasswordCheck ({
-      to,
-      from: data.publicAddress,
-      amount,
-      message: memo,
-      password,
-    }, callback);
-  }, [callback, sendingErrors,accountSendPasswordCheck, password, to, data.publicAddress, amount, memo, accountGetBalance, transactionsGetList]);
+    accountSendPasswordCheck(
+      {
+        to,
+        from: data.publicAddress,
+        amount,
+        message: memo,
+        password,
+      },
+      callback
+    );
+  }, [
+    callback,
+    sendingErrors,
+    accountSendPasswordCheck,
+    password,
+    to,
+    data.publicAddress,
+    amount,
+    memo,
+    accountGetBalance,
+    transactionsGetList,
+  ]);
 
   const onClick = useCallback(
     event => copyToClipboard(event, transactionHash),
@@ -234,7 +254,9 @@ const TransferFunds: FC<IProps> = ({
       <Modal
         isOpen={modal}
         className={classnames('modal-dialog-centered', styles.passwordModal)}
-        toggle={() => setModal(false)}
+        toggle={() => {
+          setModal(false), setPassword('');
+        }}
       >
         <ModalBody className={styles.body}>
           <Input
@@ -275,9 +297,19 @@ const TransferFunds: FC<IProps> = ({
               rightLabel="Entire balance"
               value={amount}
               handleRightButton={() => {
-                estimationMaxFantomBalance(data.balance).then(value => {
-                  setAmount(value);
-                });
+                console.log(
+                  data.balance,
+                  typeof data.balance,
+                  '***data.balance '
+                );
+                if (data.balance === '0') {
+                  setAmount('0');
+                } else {
+                  estimationMaxFantomBalance(data.balance).then(value => {
+                    setAmount(value);
+                  });
+                }
+                let balance = data.balance === '0' ? 0 : data.balance;
               }}
               type="number"
               handleChange={val => {
