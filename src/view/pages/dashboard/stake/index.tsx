@@ -83,8 +83,20 @@ const Stake = props => {
 
   const unStakeAmount = () => {
     const { unstakeamount, id } = props;
-    setModal(false);
-    unstakeamount({ publicKey: id, password });
+   
+    unstakeamount({ publicKey: id, password  }, (res) => {
+      if(res){
+        setModal(false);
+        setInProcess(false)
+
+      } else {
+        setStep(8);
+        setModal(false);
+        setInProcess(false)
+
+      }
+
+    });
     setTimeout(() => {
       accountGetBalance(id);
       setStep(9);
@@ -96,8 +108,17 @@ const Stake = props => {
     if (res) {
       setStep(8);
       setModal(false);
+      setInProcess(false)
+
     } else {
+      setTimeout(() => {
+        accountGetBalance(id);
+        delegateByAddress({ publicKey: id });
+      }, 4000);
       setStep(7);
+      setModal(false);
+      setInProcess(false)
+
     }
     setInProcess(false)
   };
@@ -115,10 +136,7 @@ const Stake = props => {
         },
         call
       );
-      setTimeout(() => {
-        accountGetBalance(id);
-        delegateByAddress({ publicKey: id });
-      }, 4000);
+     
     } else {
       setPassError(true);
       setInProcess(false)
@@ -143,6 +161,7 @@ const Stake = props => {
   };
 
   const unStakeAmountPass = () => {
+    setInProcess(true)
     delegateAmountPassCheck(
       {
         publicKey: id,
@@ -152,7 +171,10 @@ const Stake = props => {
       },
       (res: boolean) => {
         if (!res) {
+
           unStakeAmount();
+        } else {
+          setInProcess(false)
         }
       }
     );
@@ -274,15 +296,15 @@ const Stake = props => {
         <ModalBody className={styles.body}>
           <Input
             type="password"
-            label="Please enter your wallet password to stake"
+            label={`Please enter your wallet password to ${type}`}
             value={password}
             placeholder="Enter password"
             handler={value => {
               setPassword(value);
             }}
             // errorClass="justify-content-center"
-            isError={passError}
-            errorMsg={passError ? 'Invalid password' : ''}
+            isError={passError || error}
+            errorMsg={passError || error ? 'Invalid password' : ''}
           />
           <div className="text-center">
             <button
@@ -296,7 +318,7 @@ const Stake = props => {
               }}
               className={classnames('btn btn-secondary', styles.sendBtn)}
             >
-              {inProcess ? 'Staking...': 'Stake'}
+              { type === 'stake' ? inProcess ? 'Staking...': 'Stake' : inProcess ? 'Unstaking...' : 'Unstake'}
             </button>
           </div>
         </ModalBody>
@@ -306,7 +328,6 @@ const Stake = props => {
 
   const onWithdrawAmount = () => {
     const { withdrawAmount, id } = props;
-
     withdrawAmount({ publicKey: id });
   };
 
@@ -340,7 +361,7 @@ const Stake = props => {
       Web3.utils.fromWei(
         (selectedAddress && selectedAddress.stakedAmount) || '0'
       )
-    ).toFixed(5);
+    ).toFixed(2);
     if (selectedAddress && timeLeft > 0) {
       return (
         <>

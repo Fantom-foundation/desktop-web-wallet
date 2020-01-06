@@ -93,6 +93,7 @@ function* delegateByAddressSaga({
     //   getDataWithQueryString("delegatorByAddress", publicKey)
     // );
   } catch (e) {
+    console.log('******error', e)
     yield put(delegateByAddressFailure({ publicKey }));
   }
 }
@@ -201,6 +202,7 @@ export function* delegateAmountSagaPasswordCheck({
 export function* unstakeAmountSaga({
   publicKey,
   password,
+  cb,
 }: ReturnType<typeof unstakeamount>) {
   try {
     const { list }: IAccountState = yield select(selectAccount);
@@ -215,8 +217,11 @@ export function* unstakeAmountSaga({
     const res = yield Fantom.delegateUnstake(publicKey, privateKey);
     console.log(res, '******8res');
     yield put(setAmountUnstaked({ publicKey }));
+    cb(true)
     // Assign contract functions to sfc variable
   } catch (e) {
+    cb(false)
+    
     // yield put(setDopdownAlert("error", e.message));
   }
 }
