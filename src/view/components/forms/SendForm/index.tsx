@@ -83,7 +83,6 @@ const TransferFunds: FC<IProps> = ({
     setErrors({ amount: false, to: false, password: false });
   }, [setTo, setAmount, setMemo]);
   // const balance = parseFloat(data.balance)
-  console.log(amount, typeof amount, '****adsasd');
 
   const handlePassword = useCallback(() => {
     const validation_errors = {
@@ -93,7 +92,6 @@ const TransferFunds: FC<IProps> = ({
       to: to.length !== 42,
       password: false,
     };
-    console.log(validation_errors, '****validation_errors');
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
@@ -153,7 +151,6 @@ const TransferFunds: FC<IProps> = ({
       setIsSendSuccess(true);
     }
     // setIsInitial(true);
-    console.log(password, '*****password');
     // if (!isInitial && errors.includes('password')) {
     //   setModal(true);
     // }
@@ -310,11 +307,7 @@ const TransferFunds: FC<IProps> = ({
               rightLabel="Entire balance"
               value={amount}
               handleRightButton={() => {
-                console.log(
-                  data.balance,
-                  typeof data.balance,
-                  '***data.balance '
-                );
+                
                 if (data.balance === '0') {
                   setAmount('0');
                 } else {

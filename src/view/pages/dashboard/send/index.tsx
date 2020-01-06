@@ -63,12 +63,10 @@ const SendDetails = ({
   const account = accountData.list && id && accountData.list[id];
 
   // console.log(accountData, '****acc')
-  console.log(transactions, '*****transactions');
   let hash = '';
   if (transactions && transactions.list && transactions.list.length > 0) {
     hash = transactions.list[0].hash;
   }
-  console.log(hash, '****hash');
   useEffect(() => {
     setInterval(() => {
       accountGetBalance(id);

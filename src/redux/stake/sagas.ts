@@ -86,7 +86,6 @@ function* delegateByAddressSaga({
       pendingRewards: pendingRewards || 0,
     };
 
-    console.log('delegateByAddressSagadelegateByAddressSaga', response);
     yield put(delegateByAddressSuccess(response));
 
     // yield call(
@@ -215,7 +214,6 @@ export function* unstakeAmountSaga({
     );
 
     const res = yield Fantom.delegateUnstake(publicKey, privateKey);
-    console.log(res, '******8res');
     yield put(setAmountUnstaked({ publicKey }));
     cb(true)
     // Assign contract functions to sfc variable

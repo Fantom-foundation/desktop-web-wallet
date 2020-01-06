@@ -71,7 +71,6 @@ const AccountDetailsDashboard: FC<IProps> = ({
   id,
 }) => {
   const [marketCap, setMarketCap] = useState('0');
-  console.log(transactions, '*****transactions');
   //   const getBalance = useCallback(
   //     () => accountGetBalance(id),
   //     [id, accountGetBalance]
@@ -88,7 +87,6 @@ const AccountDetailsDashboard: FC<IProps> = ({
     }, 5000);
     accountFTMtoUSD();
     accountFTMMarketCap(value => {
-      console.log('***value', value);
       setMarketCap(value);
     });
   }, [
@@ -116,7 +114,6 @@ const AccountDetailsDashboard: FC<IProps> = ({
     transactionsGetList(id);
   }, [accountGetBalance, id, transactionsGetList]);
   const marketCapValue = parseFloat(marketCap).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
-  console.log(marketCapValue, '*****marketCapValue')
   return (
     <div>
       {/* <Modal

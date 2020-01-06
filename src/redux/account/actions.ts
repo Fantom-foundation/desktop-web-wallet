@@ -75,7 +75,6 @@ export const accountAddAccount = (account: IAccount) => ({
 });
 
 export const accountGetBalance = (id: IAccount['publicAddress']) => {
-  console.log('******call')
   return {
     type: ACCOUNT_ACTIONS.GET_BALANCE,
     id,

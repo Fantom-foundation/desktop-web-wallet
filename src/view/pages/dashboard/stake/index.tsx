@@ -296,7 +296,7 @@ const Stake = props => {
         <ModalBody className={styles.body}>
           <Input
             type="password"
-            label={`Please enter your wallet password to ${type}`}
+            label={`Please enter your wallet password to ${type === 'stake' ? "stake": "unstake"}`}
             value={password}
             placeholder="Enter password"
             handler={value => {

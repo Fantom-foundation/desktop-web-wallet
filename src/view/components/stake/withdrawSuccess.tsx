@@ -7,7 +7,7 @@ const WithdrawSuccessCard = ({ cardCss, iconGapCss }) => {
   return (
     <Card className={classnames(cardCss, 'mb-5 mt-5')}>
       <h2 className={iconGapCss}>
-        Withdrawal successful! <br /> The tokens are now in your wallet
+        Prepare to Withdrawal successful! 
       </h2>
 
       <div>

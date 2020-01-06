@@ -203,7 +203,6 @@ function* getFTMtoUSD() {
   );
   const data = yield call([res, 'json']); // or yield call([res, res.json])
 
-  console.log(data, '***data');
   const { price } = JSON.parse(data.body);
   yield put(accountSetFTMtoUSD(price));
 
@@ -211,7 +210,6 @@ function* getFTMtoUSD() {
 }
 
 function* getFTMMarketCap({ cb }: any) {
-  console.log(cb, '***jsadasd')
   const res = yield call(
     fetch,
     'https://api.coingecko.com/api/v3/simple/price?ids=fantom&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true'

@@ -214,7 +214,6 @@ class Web3Agent {
       sfc.methods
         .calcDelegationRewards(delegateAddress, fromEpoch, maxEpochs)
         .call({ from }, function(error, result) {
-          console.log(result, '***8sads');
           if (result) {
             resolve({
               pendingRewards: parseFloat(result['0']) / Math.pow(10, 18),
@@ -307,7 +306,6 @@ class Web3Agent {
     const res = await useWeb3.eth.sendSignedTransaction(
       `0x${serializedTx.toString('hex')}`
     );
-    console.log('******asdasd', res.transactionHash)
     // localStorage.setItem('txHash', res.transactionHash)
     // if (cb) {
     //   cb(res.transactionHash || '')
