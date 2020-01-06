@@ -90,7 +90,7 @@ export const setDelegatorByAddressFailure = (
   { publicKey }: ReturnType<typeof delegateByAddressFailure>
 ) => {
   const { data } = state;
-  const stakes = data.slice();
+  const stakes = data && data.slice() || [];
   if (state && state.data.length > 0) {
     const selectedAddressIndex = stakes.findIndex(
       d => d.publicKey === publicKey

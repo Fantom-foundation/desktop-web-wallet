@@ -255,10 +255,7 @@ class Web3Agent {
     //   "0xfc00face00000000000000000000000000000000"
     // );
     // const am = Number(amount)
-    const data = () => {
-      return ''
-
-    }
+    
     return this.transfer({
       from: publicKey,
       to: '0xfc00face00000000000000000000000000000000',
@@ -267,7 +264,7 @@ class Web3Agent {
       privateKey,
       gasLimit: 200000,
       web3Delegate: web3,
-      cb: data,
+      // cb: data,
     });
     // this.sfc.stakersNum(); // if everything is all right, will return non-zero value
   }
@@ -285,7 +282,7 @@ class Web3Agent {
     privateKey,
     gasLimit = 44000,
     web3Delegate = '',
-    cb,
+    // cb,
   }: Transfer) {
     const useWeb3 = web3Delegate || this.web3;
     const nonce = await useWeb3.eth.getTransactionCount(from);
@@ -311,7 +308,7 @@ class Web3Agent {
       `0x${serializedTx.toString('hex')}`
     );
     console.log('******asdasd', res.transactionHash)
-    localStorage.setItem('txHash', res.transactionHash)
+    // localStorage.setItem('txHash', res.transactionHash)
     // if (cb) {
     //   cb(res.transactionHash || '')
     // }
@@ -334,6 +331,7 @@ class Web3Agent {
       privateKey,
       gasLimit: 200000,
       web3Delegate: web3,
+      // cb: () => '',
     });
   }
 
@@ -354,6 +352,7 @@ class Web3Agent {
       privateKey,
       gasLimit: 200000,
       web3Delegate: web3,
+      // cb: () => '',
     });
   }
 

@@ -83,7 +83,9 @@ const AccountDetailsDashboard: FC<IProps> = ({
 
   useEffect(() => {
     transactionsGetList(id);
-    accountGetBalance(id);
+    setInterval(() => {
+      accountGetBalance(id);
+    }, 5000);
     accountFTMtoUSD();
     accountFTMMarketCap(value => {
       console.log('***value', value);
@@ -111,7 +113,10 @@ const AccountDetailsDashboard: FC<IProps> = ({
       setSpin(false);
     }, 2000);
     accountGetBalance(id);
-  }, [accountGetBalance, id]);
+    transactionsGetList(id);
+  }, [accountGetBalance, id, transactionsGetList]);
+  const marketCapValue = parseFloat(marketCap).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  console.log(marketCapValue, '*****marketCapValue')
   return (
     <div>
       {/* <Modal
@@ -189,7 +194,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
               <div className="mb-4 d-flex justify-content-between">
                 <h4 className="m-0 opacity-85">Market cap:</h4>
                 <p className={classnames('m-0', styles.infoValue)}>
-                  {parseFloat(marketCap).toFixed(2)}
+                  $ {marketCapValue}
                 </p>
               </div>
             </Card>

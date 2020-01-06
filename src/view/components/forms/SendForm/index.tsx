@@ -62,6 +62,7 @@ const TransferFunds: FC<IProps> = ({
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
+  const [inProcess, setInProcess] = useState(false)
   const [sendingErrors, setErrors] = useState({
     amount: false,
     to: false,
@@ -73,6 +74,7 @@ const TransferFunds: FC<IProps> = ({
   const [password, setPassword] = useState('');
   const [txId, setTxId] = useState('');
   const [errorPass, setError] = useState(false);
+  const [sendFailed, setSendFailed] = useState(false)
 
   const handleClearAll = useCallback(() => {
     setTo('');
@@ -127,7 +129,7 @@ const TransferFunds: FC<IProps> = ({
         </div>
       );
     }
-    if (errorType !== 'password' && isSendSucess) {
+    if (errorType !== 'password' && sendFailed) {
       return (
         <div>
           <Card className={classnames(styles.transCard, 'mb-5')}>
@@ -156,7 +158,7 @@ const TransferFunds: FC<IProps> = ({
     // if (!isInitial && errors.includes('password')) {
     //   setModal(true);
     // }
-  }, [isSending, setIsSending, setModal, transfer.errors]);
+  }, [isSending, password, setIsSending, setModal, transfer.errors]);
 
   let errorType = '';
   const errors = Object.keys(transfer.errors);
@@ -178,8 +180,17 @@ const TransferFunds: FC<IProps> = ({
     setModal(false);
   }, [setIsSending, setModal]);
 
-  const call = (txHash: string) => {
-    setTxId(txHash);
+  const call = (res: any) => {
+    if(res){
+      setIsSending(true);
+      setModal(false);
+      setInProcess(false)
+    } else {
+      setSendFailed(true)
+      setModal(false);
+      setInProcess(false)
+
+    }
   };
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -196,10 +207,9 @@ const TransferFunds: FC<IProps> = ({
         },
         call
       );
-      setIsSending(true);
-      setModal(false);
     } else {
       setError(true);
+      setInProcess(false)
     }
   };
 
@@ -213,7 +223,7 @@ const TransferFunds: FC<IProps> = ({
       return setErrors(validation_errors);
     // const errorsas = Object.keys(transfer.errors);
     // console.log(errorsas, '****asdkas')
-
+    setInProcess(true)
     setTimeout(() => {
       accountGetBalance(data.publicAddress);
       transactionsGetList(data.publicAddress);
@@ -260,7 +270,7 @@ const TransferFunds: FC<IProps> = ({
         isOpen={modal}
         className={classnames('modal-dialog-centered', styles.passwordModal)}
         toggle={() => {
-          setModal(false), setPassword('');
+          setModal(false), setPassword(''), setInProcess(false);
         }}
       >
         <ModalBody className={styles.body}>
@@ -282,15 +292,16 @@ const TransferFunds: FC<IProps> = ({
             <button
               type="button"
               onClick={handleSubmit}
+              disabled={inProcess}
               className={classnames('btn btn-secondary', styles.sendBtn)}
             >
-              Send
+              {inProcess  ?  "Sending...": 'Send'}
             </button>
           </div>
         </ModalBody>
       </Modal>
 
-      {!isSendSucess && (
+      {!isSendSucess && !sendFailed &&  (
         <div className={classnames('card', styles.card)}>
           <h2 className={styles.title}>Send FTM</h2>
           <div className={styles.inputsWrapper}>
@@ -312,7 +323,7 @@ const TransferFunds: FC<IProps> = ({
                     setAmount(value);
                   });
                 }
-                let balance = data.balance === '0' ? 0 : data.balance;
+                const balance = data.balance === '0' ? 0 : data.balance;
               }}
               type="number"
               handleChange={val => {

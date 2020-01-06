@@ -124,9 +124,17 @@ function* createSetRestoreCredentials({
   yield put(
     accountSetCreate({
       ...create,
-      //stage: ACCOUNT_CREATION_STAGES.INFO,
+      // stage: ACCOUNT_CREATION_STAGES.INFO,
     })
   );
+  const mnemonic = localStorage.getItem("mnemonic") || ''
+  const { privateKey, publicAddress } = Fantom.mnemonicToKeys(mnemonic);
+  const pass =  create.password || ''
+  const keystore = Fantom.getKeystore(privateKey, pass);
+  const dateTime = new Date();
+  const fileName = `UTC--${dateTime.toISOString()} -- ${publicAddress}`;
+  fileDownload(JSON.stringify(keystore), `${fileName}.json`);
+  localStorage.removeItem('mnemonic')
   yield call(createSetConfirm);
  // yield put(push(URLS.ACCOUNT_SUCCESS));
 }
@@ -135,9 +143,10 @@ function* createRestoreMnemonics({
   mnemonic,
 }: ReturnType<typeof accountCreateRestoreMnemonics>) {
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
+  localStorage.setItem('mnemonic', mnemonic)
 
   yield put(accountSetCreate({ mnemonic, publicAddress, stage: ACCOUNT_CREATION_STAGES.CREDENTIALS }  ));
-  //yield call(createSetConfirm);
+  // yield call(createSetConfirm);
 }
 
 function* getPrivateKey({mnemonic,cb}: ReturnType<typeof accountGetPrivateKey>) {
@@ -230,10 +239,13 @@ function* sendFunds({
 
   const { list }: IAccountState = yield select(selectAccount);
 
-  if (!Object.prototype.hasOwnProperty.call(list, from))
-    return yield put(
+  if (!Object.prototype.hasOwnProperty.call(list, from)){
+    cb(false)
+     yield put(
       accountSetTransferErrors({ from: 'Not a correct sender' })
     );
+  }
+   
 
   const { keystore, balance } = list[from];
 
@@ -258,9 +270,13 @@ function* sendFunds({
     fee,
     amount,
   });
+  console.log('*****validation_errors', validation_errors);
 
-  if (Object.keys(validation_errors).length)
-    return yield put(accountSetTransferErrors(validation_errors));
+  if (Object.keys(validation_errors).length){
+    cb(false)
+     yield put(accountSetTransferErrors(validation_errors));
+
+  }
 
   try {
     yield put(accountSetTransfer({ is_processing: true }));
@@ -270,20 +286,22 @@ function* sendFunds({
       value: amount.toString(),
       memo: message,
       privateKey,
-      cb,
     });
+    cb(true)
 
     yield put(
       accountSetTransfer({ ...ACCOUNT_INITIAL_STATE.transfer, is_sent: true })
     );
     yield call(getBalance, accountGetBalance(from));
   } catch (e) {
+    console.log(e, '*******error')
     yield put(
       accountSetTransfer({
         is_processing: false,
         errors: { send: e.toString() },
       })
     );
+    cb(false)
   }
 }
 

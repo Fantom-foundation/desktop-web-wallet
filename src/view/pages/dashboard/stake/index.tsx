@@ -39,6 +39,7 @@ const Stake = props => {
   const [modal, setModal] = useState(false);
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
+  const [passError, setPassError] = useState(false)
   const [withdrawalText, setWithdrawal] = useState('');
   const {
     stakes,
@@ -52,10 +53,14 @@ const Stake = props => {
   } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [type, setType] = useState('');
+  const [inProcess, setInProcess] = useState(false)
   const account = accountData.list && id && accountData.list[id];
 
   useEffect(() => {
-    accountGetBalance(id);
+    setInterval(() => {
+      accountGetBalance(id);
+    }, 5000);
+    // accountGetBalance(id);
   }, [accountGetBalance, id]);
 
   const handleStep = useCallback(
@@ -91,14 +96,16 @@ const Stake = props => {
     if (res) {
       setStep(8);
       setModal(false);
+    } else {
+      setStep(7);
     }
+    setInProcess(false)
   };
 
   const callback = (res: boolean) => {
     const { delegateAmount } = props;
     if (!res) {
-      setStep(7);
-      setModal(false);
+     
       delegateAmount(
         {
           publicKey: id,
@@ -112,6 +119,10 @@ const Stake = props => {
         accountGetBalance(id);
         delegateByAddress({ publicKey: id });
       }, 4000);
+    } else {
+      setPassError(true);
+      setInProcess(false)
+
     }
   };
 
@@ -125,7 +136,7 @@ const Stake = props => {
       },
       callback
     );
-
+    setInProcess(true)
     setTimeout(() => {
       accountGetBalance(id);
     }, 2000);
@@ -257,21 +268,21 @@ const Stake = props => {
         isOpen={modal}
         className={classnames('modal-dialog-centered', styles.passwordModal)}
         toggle={() => {
-          setModal(false), setPassword('');
+          setModal(false), setPassword(''), setInProcess(false);
         }}
       >
         <ModalBody className={styles.body}>
           <Input
             type="password"
-            label="Please enter your wallet password to send the transaction"
+            label="Please enter your wallet password to stake"
             value={password}
             placeholder="Enter password"
             handler={value => {
               setPassword(value);
             }}
             // errorClass="justify-content-center"
-            isError={error}
-            errorMsg={error ? 'Invalid password' : ''}
+            isError={passError}
+            errorMsg={passError ? 'Invalid password' : ''}
           />
           <div className="text-center">
             <button
@@ -285,7 +296,7 @@ const Stake = props => {
               }}
               className={classnames('btn btn-secondary', styles.sendBtn)}
             >
-              Send
+              {inProcess ? 'Staking...': 'Stake'}
             </button>
           </div>
         </ModalBody>

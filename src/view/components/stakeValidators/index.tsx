@@ -21,7 +21,11 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
             <b>
-              {totalStaked} FTM ({stackeLeftPer}% full)
+              {totalStaked}
+              {' '}
+FTM (
+              {stackeLeftPer}
+% full)
             </b>
           </p>
         </td>
@@ -34,7 +38,11 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>{spaceLeft} FTM</b>
+            <b>
+              {spaceLeft}
+              {' '}
+FTM
+            </b>
           </p>
         </td>
       </tr>
@@ -46,7 +54,7 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>{txRewardWeight}%</b>
+            <b>15%</b>
           </p>
         </td>
       </tr>
@@ -132,7 +140,10 @@ const DataRow = props => {
           <p className={styles.txDetails}>{validatingPower}</p>
         </td>
         <td>
-          <p className={styles.txDetails}>{upTime}%</p>
+          <p className={styles.txDetails}>
+            {upTime}
+%
+          </p>
         </td>
       </tr>
       <tr className={styles.subViewRow}>

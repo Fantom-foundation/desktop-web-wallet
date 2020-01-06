@@ -75,7 +75,10 @@ const RecieveDetails = ({
     [account.publicAddress]
   );
   useEffect(() => {
-    accountGetBalance(account.publicAddress);
+    setInterval(() => {
+      accountGetBalance(account.publicAddress);
+    }, 5000);
+    // accountGetBalance(account.publicAddress);
   }, [accountGetBalance, account.publicAddress]);
 
   return (
@@ -83,7 +86,9 @@ const RecieveDetails = ({
       <div className={styles.headWrapper}>
         <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
         <h2 className="mb-md-5">
-          {convertFTMValue(parseFloat(account.balance))} FTM
+          {convertFTMValue(parseFloat(account.balance))}
+          {' '}
+FTM
         </h2>
       </div>
       <Card>
