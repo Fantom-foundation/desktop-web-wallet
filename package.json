@@ -68,7 +68,8 @@
     "electron-build": "npm run preelectron-pack && electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
     "electron-build-win": "npm run preelectron-pack && electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
     "electron-build-mac": "npm run preelectron-pack && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
-    "preelectron-pack": "cross-env PUBLIC_URL=./ npm run build && copyfiles ./electron/**/* ./build/",
+    "electron-build-mac-app": "electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
+    "preelectron-pack": "cross-env PUBLIC_URL=./ npm run build && copyfiles ./electron/* ./build/",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
   },
   "husky": {
@@ -130,6 +131,7 @@
     "webpack-cli": "^3.3.10"
   },
   "build": {
+    "productName": "Fantom Wallet",
     "directories": {
       "buildResources": "build",
       "output": "dist"
