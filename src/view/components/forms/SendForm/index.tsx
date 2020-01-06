@@ -67,6 +67,7 @@ const TransferFunds: FC<IProps> = ({
     amount: false,
     to: false,
     password: false,
+    invalidAmount:  false,
   });
   const [isSending, setIsSending] = useState(false);
   const [modal, setModal] = useState(false);
@@ -80,18 +81,20 @@ const TransferFunds: FC<IProps> = ({
     setTo('');
     setAmount('');
     setMemo('');
-    setErrors({ amount: false, to: false, password: false });
+    setErrors({ amount: false, to: false, password: false,  invalidAmount: false });
   }, [setTo, setAmount, setMemo]);
   // const balance = parseFloat(data.balance)
 
   const handlePassword = useCallback(() => {
     const validation_errors = {
+      invalidAmount: amount.indexOf(".") === 0 || amount.includes('-') || amount === '',
       amount:
         amount === '' ||
         (amount || 0) > parseFloat(data.balance) ,
       to: to.length !== 42,
       password: false,
     };
+    console.log(typeof amount, '****saasd',validation_errors)
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
@@ -321,12 +324,12 @@ const TransferFunds: FC<IProps> = ({
               handleChange={val => {
                 console.log('****typeof', val);
                 setAmount(val);
-                setErrors({ ...sendingErrors, amount: false });
+                setErrors({ ...sendingErrors, amount: false, invalidAmount: false });
               }}
               error={{
-                isError: sendingErrors.amount,
-                errorText:
-                  'This amount exceeds your balance. Please enter a lower amount',
+                isError: sendingErrors.amount || sendingErrors.invalidAmount,
+                errorText:  sendingErrors.invalidAmount ? 'Invalid amount':  'This amount exceeds your balance. Please enter a lower amount'
+                 ,
               }}
             />
             <DashboardInput

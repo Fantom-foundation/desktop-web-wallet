@@ -70,8 +70,9 @@ const SendDetails = ({
   useEffect(() => {
     setInterval(() => {
       accountGetBalance(id);
-    }, 5000);
-    transactionsGetList(id);
+      transactionsGetList(id);
+    }, 2000);
+  
   }, [accountGetBalance, id, transactionsGetList]);
 
   return (

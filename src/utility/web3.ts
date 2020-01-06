@@ -306,7 +306,7 @@ class Web3Agent {
     const res = await useWeb3.eth.sendSignedTransaction(
       `0x${serializedTx.toString('hex')}`
     );
-    // localStorage.setItem('txHash', res.transactionHash)
+    localStorage.setItem('txHash', res.transactionHash)
     // if (cb) {
     //   cb(res.transactionHash || '')
     // }

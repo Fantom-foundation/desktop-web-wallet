@@ -81,10 +81,10 @@ const AccountDetailsDashboard: FC<IProps> = ({
   //   }, [getBalance, is_node_connected]);
 
   useEffect(() => {
-    transactionsGetList(id);
     setInterval(() => {
       accountGetBalance(id);
-    }, 5000);
+      transactionsGetList(id);
+    }, 2000);
     accountFTMtoUSD();
     accountFTMMarketCap(value => {
       setMarketCap(value);
@@ -185,7 +185,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
               <div className="mb-4 d-flex justify-content-between">
                 <h4 className="m-0 opacity-85">Price:</h4>
                 <p className={classnames('m-0', styles.infoValue)}>
-                  {ftmToUsdPrice}
+                  $ {parseFloat(ftmToUsdPrice).toFixed(5)}
                 </p>
               </div>
               <div className="mb-4 d-flex justify-content-between">

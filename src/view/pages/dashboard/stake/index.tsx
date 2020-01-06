@@ -59,7 +59,7 @@ const Stake = props => {
   useEffect(() => {
     setInterval(() => {
       accountGetBalance(id);
-    }, 5000);
+    }, 2000);
     // accountGetBalance(id);
   }, [accountGetBalance, id]);
 
@@ -309,6 +309,7 @@ const Stake = props => {
           <div className="text-center">
             <button
               type="button"
+              disabled={inProcess}
               onClick={() => {
                 if (type === 'stake') {
                   stakeAmount();
