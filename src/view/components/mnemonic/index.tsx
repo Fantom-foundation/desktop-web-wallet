@@ -51,11 +51,11 @@ export const MnemonicPhraseEmpty = ({ selected, onMnemonicRemove }) => (
       >
         <div className={styles.phrase}>
           <span className="opacity-5 mr-2">{index + 1}</span>
-          {selected[index] || ''}
-          {selected[index] && (
+          {selected[index] && selected[index].name || ''}
+          { selected[index] && selected[index].name && (
             <button
               type="button"
-              onClick={onMnemonicRemove(selected[index])}
+              onClick={() => onMnemonicRemove(selected[index])}
               className={styles.cross}
             >
               <i className="fas fa-times-circle" />
@@ -67,28 +67,42 @@ export const MnemonicPhraseEmpty = ({ selected, onMnemonicRemove }) => (
   </Row>
 );
 
-export const MnemonicButtons = ({ mnemonic, selected, onMnemonicSelect }) => (
-  <Row className={styles.mnemonicRow}>
-    {mnemonic.map((word, index) => {
+export const MnemonicButtons = ({ mnemonic, selected, onMnemonicSelect }) => {
+  console.log(mnemonic, '****asdas', selected)
+  // let btnDisabled = false;
+  // if(mnemonic && mnemonic.length > 0){
+  //   mnemonic.forEach(item => {
+  //     selected.forEach((select) => {
+  //       if(select.index === item.index){
+  //         btnDisabled = true;
+  //       }
+  //     })
+     
+
+  //   })
+  // }
+  return (<Row className={styles.mnemonicRow}>
+
+    {mnemonic && mnemonic.length > 0 && mnemonic.map((word, index) => {
       return (
         <Col
           xs={6}
           sm={4}
           className={classnames(styles.mnemonicCol, 'mt-4')}
-          key={index}
+          key={word.index}
         >
           <button
             type="button"
-            onClick={onMnemonicSelect(word)}
-            disabled={selected.includes(word)}
+            onClick={() => onMnemonicSelect(word)}
+            disabled={!word.isClickable}
             className={classnames(styles.mnemonicBtn, {
-              [styles.isDisable]: selected.includes(word),
+              [styles.isDisable]: !word.isClickable,
             })}
           >
-            {word}
+            {word.name}
           </button>
         </Col>
       );
     })}
-  </Row>
-);
+  </Row>)
+};

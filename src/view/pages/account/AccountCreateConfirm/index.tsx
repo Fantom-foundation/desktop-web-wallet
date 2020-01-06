@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, {
   FC,
   useState,
@@ -31,6 +32,26 @@ import { AccountCreateProcess } from '~/view/components/account/AccountCreatePro
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 
+ const ENUM_WORD = [
+  'first',
+  'second',
+  'third',
+  'fourth',
+  'fifth',
+  'sixth',
+  'seventh',
+  'eighth',
+  'ninth',
+  'tenth',
+  'eleventh',
+  'twelve',
+];
+
+type ShuffleItem = {
+  name: string,
+  index: string,
+  isClickable: boolean
+};
 const mapStateToProps = (
   state: IState
 ): Pick<IAccountState['create'], 'mnemonic'> =>
@@ -54,6 +75,18 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
   }) => {
     const [selected, setSelected] = useState<string[]>([]);
     const [is_cancel_modal_opened, setIsCancelModalOpened] = useState(false);
+    // const [shuffledMnemonic, setShuffledMnemonic] = useState([])
+    const [filterSelected, setfilterSelected] = useState<Array<ShuffleItem>>([])
+
+
+
+
+    const [shuffledMnemonics, setShuffledMnemonic] = useState<Array<ShuffleItem>>(
+      []
+    );
+    const [verifyMnemonic, setVerifyMnemonic] = useState<Array<ShuffleItem>>([]);
+    const [isEnable, setEnable] = useState(false);
+
     const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
       false
     );
@@ -72,47 +105,119 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
       [accountSetCreateStage]
     );
 
-    const onCancelModalOpen = useCallback(() => {
-      setIsCancelModalOpened(true);
-    }, [setIsCancelModalOpened]);
-
-    const onCancelModalClose = useCallback(() => {
-      setIsCancelModalOpened(false);
-    }, [setIsCancelModalOpened]);
-
-    const onIncorrectModalClose = useCallback(() => {
-      setIsIncorrectModalVisible(false);
-    }, [setIsIncorrectModalVisible]);
 
     const onSubmit = useCallback(() => {
-      if (is_next_disabled) return setIsIncorrectModalVisible(true);
+      // if (is_next_disabled) return setIsIncorrectModalVisible(true);
+      if (verifyMnemonic && verifyMnemonic.length === 0) {
+       
+        setIsIncorrectModalVisible(true)
+        return;
+
+      }
+      let inconsistency = "";
+  
+      const verifyMnemonicArr = verifyMnemonic.map(obj => obj.name.toLowerCase());
+  
+      mnemonic.split(" ").some((word, index) => {
+        if (word === verifyMnemonicArr[index]) return false;
+        inconsistency = ENUM_WORD[index];
+        return true;
+      });
+  
+      if (inconsistency !== "") {
+        setIsIncorrectModalVisible(true)
+        
+        return;
+      }
 
       accountCreateSetConfirm();
-    }, [is_next_disabled, accountCreateSetConfirm]);
+    }, [verifyMnemonic, mnemonic, accountCreateSetConfirm]);
 
-    const onMnemonicRemove = useCallback(
-      item => () => {
-        setSelected(selected.filter(el => el !== item));
-      },
-      [setSelected, selected]
-    );
+    // const onMnemonicRemove = useCallback(
+    //   item => () => {
+    //     setSelected(selected.filter(el => el !== item));
+    //   },
+    //   [setSelected, selected]
+    // );
 
-    const onMnemonicSelect = useCallback(
-      item => () => {
-        setSelected([...selected, item]);
-      },
-      [setSelected, selected]
+    // const onMnemonicSelect = useCallback(
+    //   item => () => {
+    //     setSelected([...selected, item.name]);
+    //     const newArr = filterSelected.push(item)
+    //     setfilterSelected(newArr)
+    //   },
+    //   [selected, filterSelected]
+    // );
+
+
+    
+  const onMnemonicSelect = ({ name, index }) => {
+    setVerifyMnemonic([
+      ...verifyMnemonic.slice(),
+      { name, index, isClickable: false },
+    ]);
+
+    setShuffledMnemonic(
+      shuffledMnemonics.map(item => ({
+        ...item,
+        isClickable: item.index !== index ? item.isClickable : false,
+      }))
     );
+  };
+
+  const onMnemonicRemove = ({ name, index })  => {
+    setVerifyMnemonic(verifyMnemonic.filter(word => word.index !== index));
+    setShuffledMnemonic(
+      shuffledMnemonics.map(word => ({
+        ...word,
+        ...(name === word.name ? { isClickable: true } : {}),
+      }))
+    );
+  };
+
 
     useEffect(() => {
       if (!mnemonic) onBackPressed();
-    });
-    const filteredMnemonics = shuffled_mnemonics.filter((item, index) => {
-      return {
-        name: item,
-        id: `${item}_ ${index}`,
-      }
-    })
+        const filteredArr: any = [];
+      shuffled_mnemonics.forEach((word, index) => {
+        const obj = {
+          name: word,
+          index: `${word}_${index}`,
+          isClickable: true,
+
+        }
+        filteredArr.push(obj)
+      })
+      setShuffledMnemonic(filteredArr)
+
+    }, [mnemonic, onBackPressed, shuffled_mnemonics]);
+
+   
+
+    
+  useEffect(() => {
+    if (verifyMnemonic && verifyMnemonic.length > 0) {
+
+      const verifyMnemonicArr = verifyMnemonic.map(obj =>
+        obj.name.toLowerCase()
+      );
+      const mnemonicString = mnemonic
+        .split(" ")
+        .slice(0, verifyMnemonicArr.length)
+        .join();
+
+      if (mnemonicString === verifyMnemonicArr.join()) setEnable(false);
+      else setEnable(true);
+      return;
+    }
+    setEnable(false);
+  }, [mnemonic, verifyMnemonic]);
+
+  console.log('*****ver', isEnable)
+   
+
+   
+const isBtnDisabled = verifyMnemonic && verifyMnemonic.length > 0 && verifyMnemonic.length === 12
 
     return (
       <Layout>
@@ -127,13 +232,13 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
             <div className={styles.phraseContent}>
               {/* <MnemonicPhrase mnemonic={mnemonic.split(" ")} /> */}
               <MnemonicPhraseEmpty
-                selected={selected}
+                selected={verifyMnemonic}
                 onMnemonicRemove={onMnemonicRemove}
               />
               {/* <MnemonicPhraseWithCross /> */}
               <MnemonicButtons
-                mnemonic={shuffled_mnemonics}
-                selected={selected}
+                mnemonic={shuffledMnemonics}
+                selected={verifyMnemonic}
                 onMnemonicSelect={onMnemonicSelect}
               />
             </div>
@@ -153,7 +258,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
                   'text-dark-grey-blue': !is_next_disabled,
                 })}
                 onClick={onSubmit}
-                // disabled={is_next_disabled}
+                disabled={!isBtnDisabled}
               >
                 Verify
               </Button>
