@@ -28,7 +28,7 @@ export const getValidatorsListFailure = () => ({
 
 export const amountUnstakedSuccess = (
   state: InitialStateType,
-  { publicKey, isUnstake }: ReturnType<typeof setAmountUnstaked>
+  { publicKey }: ReturnType<typeof setAmountUnstaked>
 ) => {
   const { data } = state;
   const stakes = data.slice();
@@ -41,7 +41,7 @@ export const amountUnstakedSuccess = (
         ...stakes[selectedAddressIndex],
         publicKey,
         isDeligated: false,
-        isAmountUnstaked: isUnstake,
+        isAmountUnstaked: false,
       });
     }
   }
@@ -53,12 +53,10 @@ export const delegateAmountSuccessHandler = (
   state: InitialStateType,
   { response }: ReturnType<typeof delegateAmountSuccess>
 ) => {
-  return { ...state, errors: false  };
+  return { ...state, errors: false };
 };
 
-export const delegateAmountFailureHandler = (
-  state: InitialStateType
-) => {
+export const delegateAmountFailureHandler = (state: InitialStateType) => {
   return { ...state, errors: true };
 };
 
@@ -66,8 +64,25 @@ export const setDelegatorByAddress = (
   state: InitialStateType,
   { response }: ReturnType<typeof delegateByAddressSuccess>
 ) => {
-  console.log(state, response, 'setDelegatorByAddress');
-  return { ...state };
+  console.log(state, '****sadsa');
+
+  const data = [
+    {
+      ...state.data,
+      publicKey: response.address,
+      claimedRewards: response.claimedRewards,
+      pendingRewards: `${response.pendingRewards}`,
+      isDeligated:
+        response.amount && response.amount !== '' && response.amount !== '0',
+      stakedAmount: response.amount,
+      isAmountUnstaked: false,
+      toStakerID: response.toStakerID,
+      deactivatedEpoch: response.deactivatedEpoch,
+      deactivatedTime: response.deactivatedTime,
+    },
+  ];
+  console.log(data, '***kasksakdsetDelegatorByAddress');
+  return { ...state, data };
 };
 
 export const setDelegatorByAddressFailure = (
@@ -75,7 +90,7 @@ export const setDelegatorByAddressFailure = (
   { publicKey }: ReturnType<typeof delegateByAddressFailure>
 ) => {
   const { data } = state;
-  const stakes = data.slice();
+  const stakes = data && data.slice() || [];
   if (state && state.data.length > 0) {
     const selectedAddressIndex = stakes.findIndex(
       d => d.publicKey === publicKey
@@ -94,7 +109,11 @@ export const setDelegatorByAddressFailure = (
       amount: 0,
       pendingRewards: 0,
       claimedRewards: 0,
+      stakedAmount: '0',
       isAmountUnstaked: false,
+      toStakerID: '0',
+      deactivatedEpoch: '0',
+      deactivatedTime: '0',
     });
   }
   return { ...state, data: stakes };

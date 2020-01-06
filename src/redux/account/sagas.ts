@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   takeLatest,
   put,
@@ -31,6 +32,7 @@ import {
   accountProviderConnected,
   accountReconnectProvider,
   accountGetPrivateKey,
+  accountSendPasswordCheck,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -66,9 +68,9 @@ function* createSetCredentials({
   const pass = create.password || ''
 
   const keystore = Fantom.getKeystore(privateKey, pass);
-  fileDownload(JSON.stringify(keystore), 'filename.txt');
-
-
+  const dateTime = new Date();
+  const fileName = `UTC--${dateTime.toISOString()} -- ${publicAddress}`;
+  fileDownload(JSON.stringify(keystore), `${fileName}.json`);
 
   yield put(
     accountSetCreate({
@@ -80,16 +82,6 @@ function* createSetCredentials({
   );
 }
 
-function* createSetRestoreCredentials({
-  create,
-}: ReturnType<typeof accountCreateSetRestoreCredentials>) {
-  yield put(
-    accountSetCreate({
-      ...create,
-      stage: ACCOUNT_CREATION_STAGES.INFO,
-    })
-  );
-}
 
 function* createSetInfo() {
   yield put(accountSetCreateStage(ACCOUNT_CREATION_STAGES.CONFIRM));
@@ -124,14 +116,37 @@ function* createCancel() {
   yield put(accountCreateClear());
   yield put(push('/'));
 }
+function* createSetRestoreCredentials({
+  create,
+}: ReturnType<typeof accountCreateSetRestoreCredentials>) {
+  console.log('****askdjkasd', create)
+
+  yield put(
+    accountSetCreate({
+      ...create,
+      // stage: ACCOUNT_CREATION_STAGES.INFO,
+    })
+  );
+  const mnemonic = localStorage.getItem("mnemonic") || ''
+  const { privateKey, publicAddress } = Fantom.mnemonicToKeys(mnemonic);
+  const pass =  create.password || ''
+  const keystore = Fantom.getKeystore(privateKey, pass);
+  const dateTime = new Date();
+  const fileName = `UTC--${dateTime.toISOString()} -- ${publicAddress}`;
+  fileDownload(JSON.stringify(keystore), `${fileName}.json`);
+  localStorage.removeItem('mnemonic')
+  yield call(createSetConfirm);
+ // yield put(push(URLS.ACCOUNT_SUCCESS));
+}
 
 function* createRestoreMnemonics({
   mnemonic,
 }: ReturnType<typeof accountCreateRestoreMnemonics>) {
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
+  localStorage.setItem('mnemonic', mnemonic)
 
-  yield put(accountSetCreate({ mnemonic, publicAddress }));
-  yield call(createSetConfirm);
+  yield put(accountSetCreate({ mnemonic, publicAddress, stage: ACCOUNT_CREATION_STAGES.CREDENTIALS }  ));
+  // yield call(createSetConfirm);
 }
 
 function* getPrivateKey({mnemonic,cb}: ReturnType<typeof accountGetPrivateKey>) {
@@ -188,12 +203,25 @@ function* getFTMtoUSD() {
   );
   const data = yield call([res, 'json']); // or yield call([res, res.json])
 
-  console.log(data, '***data');
   const { price } = JSON.parse(data.body);
   yield put(accountSetFTMtoUSD(price));
 
   // const price = res && res.data && res.data.body && JSON.parse(res.data.body.price)
 }
+
+function* getFTMMarketCap({ cb }: any) {
+  const res = yield call(
+    fetch,
+    'https://api.coingecko.com/api/v3/simple/price?ids=fantom&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true'
+    
+  );
+  const data = yield call([res, 'json']); // or yield call([res, res.json])
+
+  const { usd_market_cap } = data.fantom;
+  cb(usd_market_cap)
+
+}
+
 
 function* sendFunds({
   from,
@@ -201,7 +229,88 @@ function* sendFunds({
   amount,
   password,
   message,
+  cb,
 }: ReturnType<typeof accountSendFunds>) {
+  yield put(accountSetTransferErrors({}));
+
+  yield call(getBalance, accountGetBalance(from));
+
+  const { list }: IAccountState = yield select(selectAccount);
+
+  if (!Object.prototype.hasOwnProperty.call(list, from)){
+    cb(false)
+     yield put(
+      accountSetTransferErrors({ from: 'Not a correct sender' })
+    );
+  }
+   
+
+  const { keystore, balance } = list[from];
+
+  const privateKey = yield call(
+    [Fantom, Fantom.getPrivateKey],
+    keystore,
+    password
+  );
+
+  const fee: string = yield call([Fantom, Fantom.estimateFee], {
+    from,
+    to,
+    value: amount.toString(),
+    memo: message,
+  });
+  
+  const validation_errors = validateAccountTransaction({
+    from,
+    to,
+    privateKey,
+    balance,
+    fee,
+    amount,
+  });
+  console.log('*****validation_errors', validation_errors);
+
+  if (Object.keys(validation_errors).length){
+    cb(false)
+     yield put(accountSetTransferErrors(validation_errors));
+
+  }
+
+  try {
+    yield put(accountSetTransfer({ is_processing: true }));
+    yield call([Fantom, Fantom.transfer], {
+      from,
+      to,
+      value: amount.toString(),
+      memo: message,
+      privateKey,
+    });
+    cb(true)
+
+    yield put(
+      accountSetTransfer({ ...ACCOUNT_INITIAL_STATE.transfer, is_sent: true })
+    );
+    yield call(getBalance, accountGetBalance(from));
+  } catch (e) {
+    console.log(e, '*******error')
+    yield put(
+      accountSetTransfer({
+        is_processing: false,
+        errors: { send: e.toString() },
+      })
+    );
+    cb(false)
+  }
+}
+
+function* sendFundsPassCheck({
+  from,
+  to,
+  amount,
+  password,
+  message,
+  cb,
+}: ReturnType<typeof accountSendPasswordCheck>) {
   yield put(accountSetTransferErrors({}));
 
   yield call(getBalance, accountGetBalance(from));
@@ -227,7 +336,7 @@ function* sendFunds({
     value: amount.toString(),
     memo: message,
   });
-
+  
   const validation_errors = validateAccountTransaction({
     from,
     to,
@@ -237,31 +346,15 @@ function* sendFunds({
     amount,
   });
 
+  if (!privateKey) {
+    cb(true)
+  } else {
+    cb(false)
+  }
+
   if (Object.keys(validation_errors).length)
     return yield put(accountSetTransferErrors(validation_errors));
 
-  try {
-    yield put(accountSetTransfer({ is_processing: true }));
-    yield call([Fantom, Fantom.transfer], {
-      from,
-      to,
-      value: amount.toString(),
-      memo: message,
-      privateKey,
-    });
-
-    yield put(
-      accountSetTransfer({ ...ACCOUNT_INITIAL_STATE.transfer, is_sent: true })
-    );
-    yield call(getBalance, accountGetBalance(from));
-  } catch (e) {
-    yield put(
-      accountSetTransfer({
-        is_processing: false,
-        errors: { send: e.toString() },
-      })
-    );
-  }
 }
 
 // This export is used for testing
@@ -358,6 +451,7 @@ function* connectToNewProvider(current_node: number) {
   const { custom_nodes } = yield select(selectAccountConnection);
   const nodes = [...DEFAULT_PROVIDERS, ...custom_nodes];
   const current = nodes[current_node] || nodes[0];
+  // console.log('asdkaksd', current.address)
 
   const { connected, timeout } = yield race({
     connected: call([Fantom, Fantom.setProvider], current.address),
@@ -440,8 +534,11 @@ export function* accountSaga() {
 
   yield takeEvery(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
   yield takeEvery(ACCOUNT_ACTIONS.GET_FTM_TO_USD, getFTMtoUSD);
+  yield takeEvery(ACCOUNT_ACTIONS.GET_FTM_MARKET_CAP, getFTMMarketCap);
+
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
+  yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS_PASS_CHECK, sendFundsPassCheck);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
   yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
 

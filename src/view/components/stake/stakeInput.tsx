@@ -13,7 +13,7 @@ const StakeInputCard = ({
 }) => {
   const errorTxt = errors.stakeValueMax
     ? 'Not enough FTM. Please enter a lower amount'
-    : errors.stakeValueMin ? 'Minimum 1 stake is required': 'Invalid stake amount';
+    : errors.stakeValueMin ? 'Minimum stake of 1 FTM required': 'Invalid stake amount';
   return (
     <Card className="mx-auto text-center pt-5 pb-6" style={{ maxWidth: 670 }}>
       <h2>How much FTM would you like to stake?</h2>

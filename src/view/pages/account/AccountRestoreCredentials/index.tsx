@@ -27,9 +27,12 @@ const AccountRestoreCredentialsUnconnected: FC<IProps> = ({
     <div id="account-information" className="account-information">
       <AccountCreateCredentialForm
         push={push}
-        onSubmit={accountCreateSetRestoreCredentials}
+        onSubmit={data=> {
+          accountCreateSetRestoreCredentials(data)
+          // push('/accounts')
+          }}
         list={list}
-        title='Access your wallet'
+        title='Access wallet'
       />
     </div>
   </Layout>

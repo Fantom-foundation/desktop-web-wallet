@@ -63,23 +63,25 @@ const SendDetails = ({
   const account = accountData.list && id && accountData.list[id];
 
   // console.log(accountData, '****acc')
-  console.log(transactions, '*****transactions');
   let hash = '';
   if (transactions && transactions.list && transactions.list.length > 0) {
     hash = transactions.list[0].hash;
   }
-  console.log(hash, '****hash');
   useEffect(() => {
-    accountGetBalance(id);
+    setInterval(() => {
+      accountGetBalance(id);
+    }, 5000);
     transactionsGetList(id);
-  }, [accountGetBalance, id]);
+  }, [accountGetBalance, id, transactionsGetList]);
 
   return (
     <div>
       <div className={styles.headWrapper}>
         <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
         <h2 className="mb-md-5">
-          {convertFTMValue(parseFloat(account.balance))} FTM
+          {convertFTMValue(parseFloat(account.balance))}
+          {' '}
+FTM
         </h2>
       </div>
       <SendForm data={account} transactionHash={hash || ''} />

@@ -21,6 +21,7 @@ import {
   selectAccount,
   selectAccountConnection,
   selectFtmToUsdPrice,
+  // selectFtmMarketCap,
 } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
 // import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
@@ -31,22 +32,19 @@ import classnames from 'classnames';
 import { RefreshIcon } from 'src/view/components/svgIcons';
 import { ServerHttp2Session } from 'http2';
 
-const overViewMock = [
-  { title: 'Price', value: '$0.01078000' },
-  { title: 'Market cap', value: '$19,620,860 USD' },
-];
-
 const mapStateToProps = state => ({
   transactions: selectTransactions(state),
   accountData: selectAccount(state),
   connection: selectAccountConnection(state),
   ftmToUsdPrice: selectFtmToUsdPrice(state),
+  // ftmMarketCap: selectFtmMarketCap(state),
 });
 const mapDispatchToProps = {
   accountCreateSetRestoreCredentials:
     ACCOUNT_ACTIONS.accountCreateSetRestoreCredentials,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
   accountFTMtoUSD: ACCOUNT_ACTIONS.accountFTMtoUSD,
+  accountFTMMarketCap: ACCOUNT_ACTIONS.accountFTMMarketCap,
   push: historyPush,
   transactionsGetList: ACTIONS.transactionsGetList,
 };
@@ -64,12 +62,15 @@ const AccountDetailsDashboard: FC<IProps> = ({
   accountData,
   accountGetBalance,
   accountFTMtoUSD,
+  accountFTMMarketCap,
   transactions,
   accountCreateSetRestoreCredentials,
   transactionsGetList,
   ftmToUsdPrice,
+  // ftmMarketCap,
   id,
 }) => {
+  const [marketCap, setMarketCap] = useState('0');
   //   const getBalance = useCallback(
   //     () => accountGetBalance(id),
   //     [id, accountGetBalance]
@@ -81,26 +82,38 @@ const AccountDetailsDashboard: FC<IProps> = ({
 
   useEffect(() => {
     transactionsGetList(id);
-    accountGetBalance(id);
+    setInterval(() => {
+      accountGetBalance(id);
+    }, 5000);
     accountFTMtoUSD();
-  }, [accountFTMtoUSD, accountGetBalance, id, transactionsGetList]);
+    accountFTMMarketCap(value => {
+      setMarketCap(value);
+    });
+  }, [
+    accountFTMMarketCap,
+    accountFTMtoUSD,
+    accountGetBalance,
+    id,
+    transactionsGetList,
+  ]);
   const account = accountData && accountData.list && id && accountData.list[id];
 
-  console.log(account, '**accountaccountaccount');
+  // console.log(ftmMarketCap, '**ftmMarketCap');
   // useEffect(() => {
   //   accountGetBalance(id);
 
   // }, [accountGetBalance, id]);
-  const [spin, setSpin] = useState(false)
+  const [spin, setSpin] = useState(false);
 
   const loadLatestBalance = useCallback(() => {
-    setSpin(true)
+    setSpin(true);
     setTimeout(() => {
-      setSpin(false)
-
-    }, 2000)
+      setSpin(false);
+    }, 2000);
     accountGetBalance(id);
-  },[accountGetBalance, id])
+    transactionsGetList(id);
+  }, [accountGetBalance, id, transactionsGetList]);
+  const marketCapValue = parseFloat(marketCap).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return (
     <div>
       {/* <Modal
@@ -144,6 +157,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
                 </h2>
               </div>
               <p className="text-right text-usd">
+                ${' '}
                 {account &&
                   convertFTMValue(
                     parseFloat(account.balance) * parseFloat(ftmToUsdPrice)
@@ -155,14 +169,31 @@ const AccountDetailsDashboard: FC<IProps> = ({
           <Col md={5} className="mb-6">
             <Card className="h-100">
               <p className="card-label">Overview</p>
-              {overViewMock.map(({ title, value }) => (
+
+              {/* { title: 'Price', value: '$0.01078000' },
+  {title: 'Market cap', value: '$19,620,860 USD' },
+                        
+             */}
+              {/* {overViewMock.map(({ title, value }) => (
                 <div className="mb-4 d-flex justify-content-between">
                   <h4 className="m-0 opacity-85">{title}:</h4>
                   <p className={classnames('m-0', styles.infoValue)}>
                     {title === 'Price' ? ftmToUsdPrice : value}
                   </p>
                 </div>
-              ))}
+              ))} */}
+              <div className="mb-4 d-flex justify-content-between">
+                <h4 className="m-0 opacity-85">Price:</h4>
+                <p className={classnames('m-0', styles.infoValue)}>
+                  {ftmToUsdPrice}
+                </p>
+              </div>
+              <div className="mb-4 d-flex justify-content-between">
+                <h4 className="m-0 opacity-85">Market cap:</h4>
+                <p className={classnames('m-0', styles.infoValue)}>
+                  $ {marketCapValue}
+                </p>
+              </div>
             </Card>
           </Col>
         </Row>

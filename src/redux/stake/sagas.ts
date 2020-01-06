@@ -1,5 +1,14 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-unused-vars */
 // @flow
-import { takeLatest, takeEvery, put, select, call, all } from 'redux-saga/effects';
+import {
+  takeLatest,
+  takeEvery,
+  put,
+  select,
+  call,
+  all,
+} from 'redux-saga/effects';
 import {
   STAKE_ACTIONS,
   delegateByAddress,
@@ -12,6 +21,7 @@ import {
   setAmountUnstaked,
   delegateAmountSuccess,
   delegateAmountError,
+  withdrawAmount,
 } from './actions';
 import { selectAccount } from '../account/selectors';
 import {} from './handlers';
@@ -47,22 +57,42 @@ function* delegateByAddressSaga({
   publicKey,
 }: ReturnType<typeof delegateByAddress>) {
   try {
-    const pendingRewards = yield Fantom.getDelegationPendingRewards(
+    const { pendingRewards, data } = yield Fantom.getDelegationPendingRewards(
       publicKey,
       publicKey
     );
-    console.log('****dsdspendingRewards', publicKey, pendingRewards)
 
-    const data = yield call(delegatorByAddressApi, publicKey);
+    const delegatorResponse = yield call(delegatorByAddressApi, publicKey);
 
+    const {
+      address,
+      amount,
+      claimedRewards,
+      createdEpoch,
+      createdTime,
+      toStakerID,
+    } = delegatorResponse.data.data;
+    const { deactivatedEpoch, deactivatedTime, paidUntilEpoch } = data;
+    const response = {
+      address,
+      amount,
+      claimedRewards,
+      createdEpoch,
+      createdTime,
+      toStakerID,
+      deactivatedEpoch,
+      deactivatedTime,
+      paidUntilEpoch,
+      pendingRewards: pendingRewards || 0,
+    };
 
-    yield put(delegateByAddressSuccess({...data, pendingRewards}));
-   
+    yield put(delegateByAddressSuccess(response));
 
     // yield call(
     //   getDataWithQueryString("delegatorByAddress", publicKey)
     // );
   } catch (e) {
+    console.log('******error', e)
     yield put(delegateByAddressFailure({ publicKey }));
   }
 }
@@ -110,6 +140,7 @@ export function* delegateAmountSaga({
   amount,
   validatorId,
   password,
+  cb,
 }: ReturnType<typeof delegateAmount>) {
   try {
     const { list }: IAccountState = yield select(selectAccount);
@@ -120,9 +151,10 @@ export function* delegateAmountSaga({
       keystore,
       password
     );
-    if(!privateKey){
+    if (!privateKey) {
+      cb(true);
       yield put(delegateAmountError());
-      return
+      return;
     }
     yield Fantom.delegateStake({
       amount,
@@ -131,25 +163,86 @@ export function* delegateAmountSaga({
       validatorId,
     });
     yield put(delegateAmountSuccess({ response: {} }));
+    cb(false);
     // Assign contract functions to sfc variable
   } catch (e) {
+    cb(true);
+    console.log('called catch', e);
+  }
+}
+
+export function* delegateAmountSagaPasswordCheck({
+  publicKey,
+  password,
+  cb,
+}: ReturnType<typeof delegateAmount>) {
+  try {
+    const { list }: IAccountState = yield select(selectAccount);
+
+    const { keystore } = list[publicKey];
+    const privateKey = yield call(
+      [Fantom, Fantom.getPrivateKey],
+      keystore,
+      password
+    );
+    if (!privateKey) {
+      cb(true);
+      yield put(delegateAmountError());
+      return;
+    }
+    cb(false);
+    // Assign contract functions to sfc variable
+  } catch (e) {
+    cb(true);
     console.log('called catch', e);
   }
 }
 
 export function* unstakeAmountSaga({
   publicKey,
-  isUnstake,
+  password,
+  cb,
 }: ReturnType<typeof unstakeamount>) {
   try {
-   const res =  yield Fantom.deligateUnstake({
-      publicKey,
-    });
-    console.log(res, '******8res')
-    yield put(setAmountUnstaked({ publicKey, isUnstake }));
+    const { list }: IAccountState = yield select(selectAccount);
+
+    const { keystore } = list[publicKey];
+    const privateKey = yield call(
+      [Fantom, Fantom.getPrivateKey],
+      keystore,
+      password
+    );
+
+    const res = yield Fantom.delegateUnstake(publicKey, privateKey);
+    yield put(setAmountUnstaked({ publicKey }));
+    cb(true)
     // Assign contract functions to sfc variable
   } catch (e) {
+    cb(false)
+    
     // yield put(setDopdownAlert("error", e.message));
+  }
+}
+
+export function* withdrawAmountSaga({
+  publicKey,
+}: ReturnType<typeof withdrawAmount>) {
+  try {
+    const { list }: IAccountState = yield select(selectAccount);
+
+    const { keystore } = list[publicKey];
+    const privateKey = yield call(
+      [Fantom, Fantom.getPrivateKey],
+      keystore,
+      'Sunil@123'
+    );
+
+    const res = yield Fantom.withdrawDelegateAmount(publicKey, privateKey);
+    console.log('withdrawAmountSaga response', res);
+
+    // Assign contract functions to sfc variable
+  } catch (e) {
+    console.log('withdrawAmountSaga', e);
   }
 }
 
@@ -165,6 +258,12 @@ export default function* stakeSaga() {
       delegateByStakerIdSaga
     ),
     yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
+    yield takeLatest(
+      STAKE_ACTIONS.DELEGATE_AMOUNT_PASS_CHECK,
+      delegateAmountSagaPasswordCheck
+    ),
+
     yield takeLatest(STAKE_ACTIONS.UNSTAKE_AMOUNT, unstakeAmountSaga),
+    yield takeLatest(STAKE_ACTIONS.WITHDRAW_AMOUNT, withdrawAmountSaga),
   ]);
 }

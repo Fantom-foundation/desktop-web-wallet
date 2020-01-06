@@ -45,7 +45,6 @@ FTM
           </div>
         </div>
         <div className={classnames('text-center', styles.btnWrapper)}>
-          {!isSubmit ? (
             <Button
               color="topaz"
               onClick={() => {
@@ -56,13 +55,7 @@ FTM
             >
               Stake
             </Button>
-          ) : (
-            <img
-              style={{ height: '80%', width: '15%' }}
-              src={SpinnerSVG}
-              alt=""
-            />
-          )}
+          
         </div>
       </Card>
     </div>

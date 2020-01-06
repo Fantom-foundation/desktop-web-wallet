@@ -54,10 +54,7 @@ FTM
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>
-              {txRewardWeight}
-%
-            </b>
+            <b>15%</b>
           </p>
         </td>
       </tr>
@@ -66,10 +63,10 @@ FTM
 };
 
 export const formatNumber = num => {
-  if (num && num.toString().indexOf(".") !== -1) {
-    return num.toString().replace(/\d(?=(\d{3})+\.)/g, "$&,");
+  if (num && num.toString().indexOf('.') !== -1) {
+    return num.toString().replace(/\d(?=(\d{3})+\.)/g, '$&,');
   }
-  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, "$1,");
+  return num.toString().replace(/(\d)(?=(\d{3})+(?!\d))/g, '$1,');
 };
 const DataRow = props => {
   // eslint-disable-next-line one-var
@@ -108,17 +105,16 @@ const DataRow = props => {
   const stackeLeftPer = (Number(delegatedMe) / (totalStaked * 15)) * 100;
   const nodeFull = 15 * Number(totalStake) - Number(delegatedMe);
 
-
   const stakingSpace = 15 * totalStake - delegatedMe;
   const dividend = 10 ** 18;
   const stakingSpaceLeft = formatNumber(
     Number((stakingSpace / dividend).toFixed(2))
   );
-  const stakeSpace = Number(stakingSpace) / dividend
-  const totalStakes = Number(totalStake) / dividend
+  const stakeSpace = Number(stakingSpace) / dividend;
+  const totalStakes = Number(totalStake) / dividend;
 
   const perc = Number((totalStakes / stakeSpace) * 100);
-  console.log(perc, '*****asdasds')
+  console.log(perc, '*****asdasds');
 
   // const availableSpace =
   //  balance && formatNumber(Number(balance.toFixed(2)));
@@ -180,7 +176,7 @@ const DataRow = props => {
                 <SubView
                   key={name + 1}
                   spaceLeft={stakingSpaceLeft}
-                  stackeLeftPer={(Number(perc)).toFixed(2)}
+                  stackeLeftPer={Number(perc).toFixed(2)}
                   txRewardWeight={txRewardWeight}
                   totalStaked={totalStaked}
                 />

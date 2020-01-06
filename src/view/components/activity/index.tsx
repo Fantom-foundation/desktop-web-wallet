@@ -17,10 +17,9 @@ import { mockComponent } from 'react-dom/test-utils';
 import Web3 from 'web3';
 import moment from 'moment';
 
-const FANTOM_WEB_URL = 'http://block-explorer.fantom.foundation.s3-website.ap-south-1.amazonaws.com'
+const FANTOM_WEB_URL = 'https://explorer.fantom.network'
 
 const SubView = (props: any) => {
-  console.log(props, '****asdasd');
   const { value, to, fee, newDate } = props;
   // const { hash = false, title, value } = props;
   const onClickTo = useCallback(event => copyToClipboard(event, to), [to]);
@@ -33,7 +32,9 @@ const SubView = (props: any) => {
       <div className={styles.subView}>
         <p className={styles.subViewTitle}>Recipient</p>
         <p className={styles.subViewValue}>
-          <a target='_blank' href={`${FANTOM_WEB_URL}/address/${to}`}>{to}</a>
+          <a target="_blank" href={`${FANTOM_WEB_URL}/address/${to}`}>
+            {to}
+          </a>
           <button onClick={onClickTo}>
             <CopyIcon />
           </button>
@@ -42,7 +43,9 @@ const SubView = (props: any) => {
       <div className={styles.subView}>
         <p className={styles.subViewTitle}>Transaction hash:</p>
         <p className={styles.subViewValue}>
-          <a target='_blank' href={`${FANTOM_WEB_URL}/transactions/${value}`}>{value}</a>
+          <a target="_blank" href={`${FANTOM_WEB_URL}/transactions/${value}`}>
+            {value}
+          </a>
           <button onClick={onClickHash}>
             <CopyIcon />
           </button>
@@ -101,7 +104,7 @@ const Activities = (props: any) => {
 };
 export default props => {
   return (
-    <Card>
+    <Card className={styles.card}>
       <p className="card-label">Activity</p>
       <div>
         {/* {activityMockData.map((data: object, index: number) => (

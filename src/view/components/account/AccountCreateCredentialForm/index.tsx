@@ -68,7 +68,7 @@ const AccountCreateCredentialForm: FC<IProps> = ({
 Create a keystore
           file and password
           {' '}
-          <span className={styles.infoIcon}>
+          {/* <span className={styles.infoIcon}>
             <i className="fas fa-info-circle" />
             <div className={styles.tooltipWrapper}>
               <p className={styles.tooltip}>
@@ -77,7 +77,7 @@ Create a keystore
                 You’ll need the password to decrypt it. Don’t lose them!
               </p>
             </div>
-          </span>
+          </span> */}
         </h3>
       </div>
       <Input

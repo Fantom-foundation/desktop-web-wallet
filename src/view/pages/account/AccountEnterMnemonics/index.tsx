@@ -34,6 +34,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   accountCreateRestoreMnemonics,
   accountCreateCancel,
   accountUploadKeystore,
+  push,
 }) => {
   const [phrase, setPhrase] = useState('');
   const [error, setError] = useState(false);
@@ -88,6 +89,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       .join(' ');
 
     accountCreateRestoreMnemonics({ mnemonic });
+    // push('/account/restore/credentials')
   }, [is_next_disabled, accountCreateRestoreMnemonics, phrase]);
 
   // const onUpload = useCallback(
@@ -189,7 +191,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
         </div>
         <div>
           <h4 className={classnames('opacity-7', styles.inputLabel)}>
-            Please type in your 12-word mnemonic phrase
+          Please type in your 12-word mnemonic phrase, all lower-case, separate by single spaces.
           </h4>
           <div className={styles.inputWrapper}>
             <Input

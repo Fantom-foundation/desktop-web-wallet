@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useState, useCallback, useEffect } from 'react';
 import { Button, Modal, ModalBody, Card } from 'reactstrap';
 import classnames from 'classnames';
@@ -27,13 +28,14 @@ const mapStateToProps = state => ({
   account: selectAccount(state),
   transfer: selectAccountTransfer(state),
 });
+
 const mapDispatchToProps = {
   accountSendFunds: ACCOUNT_ACTIONS.accountSendFunds,
+  accountSendPasswordCheck: ACCOUNT_ACTIONS.accountSendPasswordCheck,
   accountTransferClear: ACCOUNT_ACTIONS.accountTransferClear,
   transactionsGetList: ACTIONS.transactionsGetList,
   accountSetTransferErrors: ACCOUNT_ACTIONS.accountSetTransferErrors,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
-
   accountGetTransferFee: ACCOUNT_ACTIONS.accountGetTransferFee,
   accountSetTransfer: ACCOUNT_ACTIONS.accountSetTransfer,
 };
@@ -50,6 +52,7 @@ const TransferFunds: FC<IProps> = ({
   data,
   accountGetBalance,
   accountSendFunds,
+  accountSendPasswordCheck,
   transactionsGetList,
   transfer,
   transactionHash,
@@ -59,6 +62,7 @@ const TransferFunds: FC<IProps> = ({
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
+  const [inProcess, setInProcess] = useState(false)
   const [sendingErrors, setErrors] = useState({
     amount: false,
     to: false,
@@ -68,7 +72,9 @@ const TransferFunds: FC<IProps> = ({
   const [modal, setModal] = useState(false);
   const [isSendSucess, setIsSendSuccess] = useState(false);
   const [password, setPassword] = useState('');
-  const [txId, setTxId] = useState('')
+  const [txId, setTxId] = useState('');
+  const [errorPass, setError] = useState(false);
+  const [sendFailed, setSendFailed] = useState(false)
 
   const handleClearAll = useCallback(() => {
     setTo('');
@@ -80,7 +86,9 @@ const TransferFunds: FC<IProps> = ({
 
   const handlePassword = useCallback(() => {
     const validation_errors = {
-      amount: amount === '' || (amount || 0) > parseFloat(data.balance),
+      amount:
+        amount === '' ||
+        (amount || 0) > parseFloat(data.balance) ,
       to: to.length !== 42,
       password: false,
     };
@@ -102,7 +110,7 @@ const TransferFunds: FC<IProps> = ({
           <Card className={classnames(styles.transCard, 'mb-5 mt-5')}>
             <h2>Transaction sent!</h2>
             <div className={classnames(styles.iconGap, styles.hash)}>
-              <a href="#">{transactionHash}</a>
+              <a href="#">{localStorage.getItem('txHash')}</a>
               <button
                 className={styles.copyBtn}
                 type="button"
@@ -118,7 +126,7 @@ const TransferFunds: FC<IProps> = ({
         </div>
       );
     }
-    if (errorType !== '') {
+    if (errorType !== 'password' && sendFailed) {
       return (
         <div>
           <Card className={classnames(styles.transCard, 'mb-5')}>
@@ -142,10 +150,11 @@ const TransferFunds: FC<IProps> = ({
     if (errors && errors.length === 0 && isSending) {
       setIsSendSuccess(true);
     }
-    if (errors.includes('password')) {
-      setModal(true);
-    }
-  }, [isSending, setIsSending, setModal, transfer.errors]);
+    // setIsInitial(true);
+    // if (!isInitial && errors.includes('password')) {
+    //   setModal(true);
+    // }
+  }, [isSending, password, setIsSending, setModal, transfer.errors]);
 
   let errorType = '';
   const errors = Object.keys(transfer.errors);
@@ -156,8 +165,8 @@ const TransferFunds: FC<IProps> = ({
     if (errors.includes('password')) {
       errorType = 'password';
     } else if (isSendSucess) {
-        errorType = 'other';
-      }
+      errorType = 'other';
+    }
   }
 
   console.log(errorType, '****8errorType');
@@ -167,6 +176,39 @@ const TransferFunds: FC<IProps> = ({
     setModal(false);
   }, [setIsSending, setModal]);
 
+  const call = (res: any) => {
+    if(res){
+      setIsSending(true);
+      setModal(false);
+      setInProcess(false)
+    } else {
+      setSendFailed(true)
+      setModal(false);
+      setInProcess(false)
+
+    }
+  };
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const callback = (value: boolean) => {
+    console.log(localStorage.getItem('txHash'), '****jasjdasdas');
+    if (!value) {
+      accountSendFunds(
+        {
+          to,
+          from: data.publicAddress,
+          amount,
+          message: memo,
+          password,
+        },
+        call
+      );
+    } else {
+      setError(true);
+      setInProcess(false)
+    }
+  };
+
   const handleSubmit = useCallback(() => {
     const validation_errors = {
       ...sendingErrors,
@@ -175,21 +217,36 @@ const TransferFunds: FC<IProps> = ({
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
-
+    // const errorsas = Object.keys(transfer.errors);
+    // console.log(errorsas, '****asdkas')
+    setInProcess(true)
     setTimeout(() => {
       accountGetBalance(data.publicAddress);
       transactionsGetList(data.publicAddress);
     }, 4000);
-    accountSendFunds({
-      to,
-      from: data.publicAddress,
-      amount,
-      message: memo,
-      password,
-    });
-    setIsSending(true);
-    setModal(false);
-  }, [sendingErrors, password, accountSendFunds, to, data.publicAddress, amount, memo, accountGetBalance, transactionsGetList]);
+
+    accountSendPasswordCheck(
+      {
+        to,
+        from: data.publicAddress,
+        amount,
+        message: memo,
+        password,
+      },
+      callback
+    );
+  }, [
+    callback,
+    sendingErrors,
+    accountSendPasswordCheck,
+    password,
+    to,
+    data.publicAddress,
+    amount,
+    memo,
+    accountGetBalance,
+    transactionsGetList,
+  ]);
 
   const onClick = useCallback(
     event => copyToClipboard(event, transactionHash),
@@ -208,7 +265,9 @@ const TransferFunds: FC<IProps> = ({
       <Modal
         isOpen={modal}
         className={classnames('modal-dialog-centered', styles.passwordModal)}
-        toggle={() => setModal(false)}
+        toggle={() => {
+          setModal(false), setPassword(''), setInProcess(false);
+        }}
       >
         <ModalBody className={styles.body}>
           <Input
@@ -220,26 +279,25 @@ const TransferFunds: FC<IProps> = ({
               setPassword(value);
             }}
             // errorClass="justify-content-center"
-            isError={errorType === 'password' || sendingErrors.password}
+            isError={errorType === 'password' || errorPass}
             errorMsg={
-              errorType === 'password' || sendingErrors.password
-                ? 'Invalid password'
-                : ''
+              errorType === 'password' || errorPass ? 'Invalid password' : ''
             }
           />
           <div className="text-center">
             <button
               type="button"
               onClick={handleSubmit}
+              disabled={inProcess}
               className={classnames('btn btn-secondary', styles.sendBtn)}
             >
-              Send
+              {inProcess  ?  "Sending...": 'Send'}
             </button>
           </div>
         </ModalBody>
       </Modal>
 
-      {errorType === '' && !isSendSucess && (
+      {!isSendSucess && !sendFailed &&  (
         <div className={classnames('card', styles.card)}>
           <h2 className={styles.title}>Send FTM</h2>
           <div className={styles.inputsWrapper}>
@@ -249,9 +307,15 @@ const TransferFunds: FC<IProps> = ({
               rightLabel="Entire balance"
               value={amount}
               handleRightButton={() => {
-                estimationMaxFantomBalance(data.balance).then(value => {
-                  setAmount(value);
-                });
+                
+                if (data.balance === '0') {
+                  setAmount('0');
+                } else {
+                  estimationMaxFantomBalance(data.balance).then(value => {
+                    setAmount(value);
+                  });
+                }
+                const balance = data.balance === '0' ? 0 : data.balance;
               }}
               type="number"
               handleChange={val => {

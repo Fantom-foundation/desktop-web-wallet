@@ -8,6 +8,8 @@ export const STAKE_ACTIONS = {
   VALIDATORS_LIST: 'staking/VALIDATORS_LIST',
   DELEGATE_AMOUNT: 'staking/DELEGATE_AMOUNT',
   UNSTAKE_AMOUNT: 'staking/UNSTAKE_AMOUNT',
+  DELEGATE_AMOUNT_PASS_CHECK: 'staking/DELEGATE_AMOUNT_PASS_CHECK',
+  WITHDRAW_AMOUNT: 'staking/WITHDRAW_AMOUNT',
 };
 
 type TDelegateByStakerId = {
@@ -18,11 +20,18 @@ type TDelegateByAddress = {
   publicKey: string;
 };
 
-export const unstakeamount = ({ publicKey, isUnstake }) =>
+export const unstakeamount = ({ publicKey, password }, cb) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.UNSTAKE_AMOUNT,
     publicKey,
-    isUnstake,
+    password,
+    cb,
+  });
+
+export const withdrawAmount = ({ publicKey }) =>
+  dispatch.dispatch({
+    type: STAKE_ACTIONS.WITHDRAW_AMOUNT,
+    publicKey,
   });
 
 export const delagateUnstakeAmount = ({
@@ -39,17 +48,17 @@ export const delagateUnstakeAmount = ({
     validatorId,
   });
 
-export const setAmountUnstaked = ({ publicKey, isUnstake }) => ({
+export const setAmountUnstaked = ({ publicKey }) => ({
   type: `${STAKE_ACTIONS.UNSTAKE_AMOUNT}_SET`,
   publicKey,
-  isUnstake,
 });
 
 export const delegateByAddress = ({ publicKey }: { publicKey: string }) => {
-  return ({
+  return {
     type: STAKE_ACTIONS.DELEGATE_BY_ADDRESS,
     publicKey,
-  })};
+  };
+};
 
 export const delegateByAddressSuccess = response => ({
   type: `${STAKE_ACTIONS.DELEGATE_BY_ADDRESS}_SUCCESS`,
@@ -101,13 +110,25 @@ export const delegateByStakerId = ({ stakerId }: TDelegateByStakerId) => ({
   payload: { stakerId },
 });
 
-export const delegateAmount = ({ amount, publicKey, validatorId, password }) =>
+export const delegateAmount = (
+  { amount, publicKey, validatorId, password },
+  cb
+) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.DELEGATE_AMOUNT,
     amount,
     publicKey,
     validatorId,
     password,
+    cb,
+  });
+
+export const delegateAmountPassCheck = ({ publicKey, password }, cb) =>
+  dispatch.dispatch({
+    type: STAKE_ACTIONS.DELEGATE_AMOUNT_PASS_CHECK,
+    publicKey,
+    password,
+    cb,
   });
 
 export const delegateAmountSuccess = response => ({
@@ -118,5 +139,3 @@ export const delegateAmountSuccess = response => ({
 export const delegateAmountError = () => ({
   type: `${STAKE_ACTIONS.DELEGATE_AMOUNT}_FAILURE`,
 });
-
-

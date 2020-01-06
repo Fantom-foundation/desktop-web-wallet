@@ -11,6 +11,7 @@ export const ACCOUNT_CREATION_STAGES = {
   CREDENTIALS: 0,
   INFO: 1,
   CONFIRM: 2,
+  ACCESS: 3,
 };
 
 export const ACCOUNT_CREATION_STAGES_COMPONENTS = {
@@ -22,6 +23,8 @@ export const ACCOUNT_CREATION_STAGES_COMPONENTS = {
 export const ACCOUNT_RESTORE_STAGES_COMPONENTS = {
   [ACCOUNT_CREATION_STAGES.CREDENTIALS]: AccountRestoreCredentials,
   [ACCOUNT_CREATION_STAGES.INFO]: AccountEnterMnemonics,
+  [ACCOUNT_CREATION_STAGES.ACCESS]: AccountCreateConfirm,
+
 };
 export interface IAccountState {
   create: {
@@ -46,11 +49,12 @@ export interface IAccountState {
     error: string | null;
   };
   ftmToUsd: string;
+  marketCap: string
 }
 
 export const ACCOUNT_INITIAL_STATE: IAccountState = {
   create: {
-    stage: ACCOUNT_CREATION_STAGES.CREDENTIALS,
+    stage: ACCOUNT_CREATION_STAGES.INFO,
     password: '',
     icon: '',
     publicAddress: '',
@@ -71,6 +75,8 @@ export const ACCOUNT_INITIAL_STATE: IAccountState = {
   },
   list: {},
   ftmToUsd: "0",
+  marketCap: '0',
+
 };
 
 export const account = createReducer(ACCOUNT_INITIAL_STATE, ACCOUNT_HANDLERS);

@@ -68,15 +68,12 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   const [privateKey, setPrivateKey] = useState('');
 
   const toggleModal = () => {
-    setModal(!modal)
-    if(!modal){
+    setModal(!modal);
+    if (!modal) {
       accountGetPrivateKey(mnemonic, key => {
-        setPrivateKey(key)
-  
-      })
-
+        setPrivateKey(key);
+      });
     }
-   
   };
 
   const is_next_disabled = useMemo(
@@ -97,7 +94,6 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 
   useEffect(() => {
     if (!mnemonic || !password || !publicAddress) onBackPressed();
-   
   }, [mnemonic, onBackPressed, password, publicAddress]);
 
   const printer = useRef<any>(null);
@@ -106,7 +102,6 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     () => setIsRevealed(!is_revealed),
     [setIsRevealed, is_revealed]
   );
-  console.log('*******mnemonic', mnemonic)
 
   return (
     <Layout>

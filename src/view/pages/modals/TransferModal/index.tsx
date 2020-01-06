@@ -69,6 +69,9 @@ const TransferModalUnconnected: FC<IProps> = ({
       ),
     [list]
   );
+  const call = (txHash: string) => {
+  }
+
 
   const onSubmit = useCallback(
     event => {
@@ -79,7 +82,7 @@ const TransferModalUnconnected: FC<IProps> = ({
         amount,
         message,
         password,
-      });
+      },call);
     },
     [accountSendFunds, to, from, amount, password, message]
   );
