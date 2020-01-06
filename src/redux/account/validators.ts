@@ -22,7 +22,7 @@ export const validateAccountTransaction = ({
     from: !Web3.utils.isAddress(from) ? 'Not a valid recipient' : null,
     to: !Web3.utils.isAddress(to) ? 'Not a valid sender' : null,
     amount:
-      !parseFloat(amount) || parseFloat(amount) <= 0
+       isNaN(Number(amount)) || parseFloat(amount) < 0
         ? 'Please, enter valid amount'
         : null,
     password: !privateKey ? 'Password is incorrect' : null,
