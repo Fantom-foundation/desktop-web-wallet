@@ -20,11 +20,12 @@ type TDelegateByAddress = {
   publicKey: string;
 };
 
-export const unstakeamount = ({ publicKey, password }) =>
+export const unstakeamount = ({ publicKey, password }, cb) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.UNSTAKE_AMOUNT,
     publicKey,
     password,
+    cb,
   });
 
 export const withdrawAmount = ({ publicKey }) =>

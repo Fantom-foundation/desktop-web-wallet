@@ -89,8 +89,7 @@ const TransferFunds: FC<IProps> = ({
     const validation_errors = {
       amount:
         amount === '' ||
-        (amount || 0) > parseFloat(data.balance) ||
-        parseFloat(amount) <= 0,
+        (amount || 0) > parseFloat(data.balance) ,
       to: to.length !== 42,
       password: false,
     };

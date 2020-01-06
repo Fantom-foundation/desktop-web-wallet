@@ -17,11 +17,9 @@ import { mockComponent } from 'react-dom/test-utils';
 import Web3 from 'web3';
 import moment from 'moment';
 
-const FANTOM_WEB_URL =
-  'http://block-explorer.fantom.foundation.s3-website.ap-south-1.amazonaws.com';
+const FANTOM_WEB_URL = 'https://explorer.fantom.network'
 
 const SubView = (props: any) => {
-  console.log(props, '****asdasd');
   const { value, to, fee, newDate } = props;
   // const { hash = false, title, value } = props;
   const onClickTo = useCallback(event => copyToClipboard(event, to), [to]);
