@@ -113,7 +113,7 @@ export default props => {
   const {transactionHashDetails} = props
   return (
     <Card className={styles.card}>
-      <p className="card-label">Activity</p>
+      <p className="card-label">Recent Activity</p>
       <div>
         {/* {activityMockData.map((data: object, index: number) => (
         <Activities key={index} {...data} />

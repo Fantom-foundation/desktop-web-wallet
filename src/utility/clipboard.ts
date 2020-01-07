@@ -16,7 +16,7 @@ export const copyToClipboard = (e: any, publicAddress: string,  isStake?: boolea
   e.stopPropagation();
   copy(publicAddress);
   if(isStake){
-    toastr.success(`You need minimum ${estimateFee} in your balance to initiate unstake transaction`);
+    toastr.error(`You need minimum ${estimateFee} in your balance to initiate unstake transaction`);
   } else {
     toastr.success('Copied to clipboard');
   }

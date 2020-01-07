@@ -25,6 +25,7 @@
     "hdkey": "^1.1.1",
     "history": "^4.10.1",
     "identicons": "^0.1.0",
+    "js-file-download": "^0.4.9",
     "keythereum": "^1.0.4",
     "lodash": "^4.17.15",
     "moment": "^2.24.0",

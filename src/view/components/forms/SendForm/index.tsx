@@ -276,21 +276,26 @@ const TransferFunds: FC<IProps> = ({
   const getAmountErrorText = () => {
     const maxAmount = parseFloat(transactionFee) * 2
     const balanceLeft = parseFloat(data.balance) - maxAmount
+    if(balanceLeft < 0){
+      return `Insufficent funds to transfer`
+    }
     if(sendingErrors.invalidAmount){
        return 'Invalid amount' 
 
     } 
-    if (sendingErrors.amount){
-      return 'This amount exceeds your balance. Please enter a lower amount'
+    // if (sendingErrors.amount){
+    //   return 'This amount exceeds your balance. Please enter a lower amount'
 
-    }
+    // }
    
-    if(sendingErrors.maxBalance){
+    if(sendingErrors.maxBalance || sendingErrors.amount){
       return `You can transfer max ${balanceLeft.toFixed(6)} (Value + gas * price)`
     }
    
 
   }
+
+  console.log(Number(transactionFee) * 2, '*****transactionFeesa')
 
   return (
     <>
@@ -351,7 +356,10 @@ const TransferFunds: FC<IProps> = ({
                   setAmount('0');
                 } else {
                   const maxAmount = parseFloat(transactionFee) * 2
-                  const balanceLeft = parseFloat(data.balance) - maxAmount
+                  let balanceLeft = parseFloat(data.balance) - maxAmount
+                  if(balanceLeft < 0){
+                    balanceLeft = 0
+                  }
                   // estimationMaxFantomBalance(data.balance).then(value => {
                   //   setAmount(value);
                   // });

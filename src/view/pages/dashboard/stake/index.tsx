@@ -280,7 +280,12 @@ const Stake = props => {
             balanceLeft={balanceLeft}
             errors={errors}
             handleEntireBalance={() => {
-                  setStakeValue(balanceLeft.toString());
+              let bal = balanceLeft
+              if(balanceLeft < 0){
+                bal = 0
+
+              }
+                  setStakeValue(bal.toString());
               }
             }
             validatorBtn={styles.validatorBtn}

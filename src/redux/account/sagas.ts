@@ -10,6 +10,7 @@ import {
   race,
   fork,
 } from 'redux-saga/effects';
+
 import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from './constants';
 import {
   accountCreateSetCredentials,
@@ -56,7 +57,7 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist';
 import { path } from 'ramda';
 import axios from 'axios';
 import { getTransactions } from '../transactions/api';
-import fileDownload from 'react-file-download'
+import fileDownload from 'js-file-download'
 
 function* createSetCredentials({
   create,
@@ -112,6 +113,7 @@ function* createSetConfirm() {
   yield put(push(URLS.ACCOUNT_SUCCESS));
 }
 
+
 function* createCancel() {
   yield put(accountCreateClear());
   yield put(push('/'));
@@ -120,7 +122,8 @@ function* createSetRestoreCredentials({
   create,
 }: ReturnType<typeof accountCreateSetRestoreCredentials>) {
   console.log('****askdjkasd', create)
-
+  try {
+    
   yield put(
     accountSetCreate({
       ...create,
@@ -128,14 +131,21 @@ function* createSetRestoreCredentials({
     })
   );
   const mnemonic = localStorage.getItem("mnemonic") || ''
+  console.log('****asdasd', mnemonic)
   const { privateKey, publicAddress } = Fantom.mnemonicToKeys(mnemonic);
   const pass =  create.password || ''
   const keystore = Fantom.getKeystore(privateKey, pass);
   const dateTime = new Date();
   const fileName = `UTC--${dateTime.toISOString()} -- ${publicAddress}`;
+  // debugger
   fileDownload(JSON.stringify(keystore), `${fileName}.json`);
-  localStorage.removeItem('mnemonic')
+  localStorage.setItem('mnemonic', '')
+  yield delay(2000);
   yield call(createSetConfirm);
+
+} catch(e) {
+  console.log("restore exception: ", e)
+}
  // yield put(push(URLS.ACCOUNT_SUCCESS));
 }
 
