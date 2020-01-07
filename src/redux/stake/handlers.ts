@@ -91,7 +91,7 @@ export const setDelegatorByAddressFailure = (
 ) => {
   const { data } = state;
   const stakes = data && data.slice() || [];
-  if (state && state.data.length > 0) {
+  if (state&& state.data && state.data.length > 0) {
     const selectedAddressIndex = stakes.findIndex(
       d => d.publicKey === publicKey
     );

@@ -7,6 +7,8 @@ export interface ITRansactionsState {
   is_loading: boolean;
   error: string | null;
   page: number;
+  transactionsDetails: {},
+  address?: string
 }
 
 export const TRANSACTIONS_INITIAL_STATE: ITRansactionsState = {
@@ -14,6 +16,7 @@ export const TRANSACTIONS_INITIAL_STATE: ITRansactionsState = {
   is_loading: false,
   error: null,
   page: 0,
+  transactionsDetails: {},
 };
 
 export const transactions = createReducer(

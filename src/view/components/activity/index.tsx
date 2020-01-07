@@ -20,7 +20,7 @@ import moment from 'moment';
 const FANTOM_WEB_URL = 'https://explorer.fantom.network'
 
 const SubView = (props: any) => {
-  const { value, to, fee, newDate } = props;
+  const { value, to, fee, newDate, memo } = props;
   // const { hash = false, title, value } = props;
   const onClickTo = useCallback(event => copyToClipboard(event, to), [to]);
   const onClickHash = useCallback(event => copyToClipboard(event, value), [
@@ -61,6 +61,12 @@ const SubView = (props: any) => {
           {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)} FTM
         </p>
       </div>
+      {memo !== '' && memo !== undefined && <div className={styles.subView}>
+        <p className={styles.subViewTitle}>Memo</p>
+        <p className={styles.subViewValue}>
+          {memo}
+        </p>
+      </div>}
     </>
   );
 };
@@ -93,6 +99,7 @@ const Activities = (props: any) => {
       </div>
       <Collapse isOpen={isOpen}>
         <SubView
+          memo={props.memo}
           to={props.data.to}
           fee={props.data.fee}
           newDate={newDate}
@@ -103,6 +110,7 @@ const Activities = (props: any) => {
   );
 };
 export default props => {
+  const {transactionHashDetails} = props
   return (
     <Card className={styles.card}>
       <p className="card-label">Activity</p>
@@ -112,11 +120,15 @@ export default props => {
       ))} */}
         {props &&
           props.transactions &&
-          props.transactions.list &&
-          props.transactions.list.length > 0 &&
-          props.transactions.list.map((data: object, index: number) => (
-            <Activities key={index} data={data} address={props.address} />
-          ))}
+          props.transactions.length > 0 &&
+          props.transactions.map((data: any, index: number) => {
+            console.log('*****dsadas', data)
+            let memo = ''
+            if(!!transactionHashDetails && transactionHashDetails[data.hash] !== ''){
+                memo = transactionHashDetails[data.hash]
+            }
+            return <Activities key={index} memo={memo} data={data} address={props.address} />
+})}
       </div>
     </Card>
   );

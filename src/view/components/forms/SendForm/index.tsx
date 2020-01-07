@@ -38,6 +38,7 @@ const mapDispatchToProps = {
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
   accountGetTransferFee: ACCOUNT_ACTIONS.accountGetTransferFee,
   accountSetTransfer: ACCOUNT_ACTIONS.accountSetTransfer,
+  setTransactionDetails:  ACTIONS.setTransactionDetails,
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
@@ -56,6 +57,7 @@ const TransferFunds: FC<IProps> = ({
   transactionsGetList,
   transfer,
   transactionHash,
+  setTransactionDetails,
 }) => {
   // const data =  accountData.list && address && accountData.list[address];
 
@@ -184,11 +186,12 @@ const TransferFunds: FC<IProps> = ({
       setIsSending(true);
       setModal(false);
       setInProcess(false)
+      console.log(localStorage.getItem('txHash') || '', '****sadasas')
+      setTransactionDetails(localStorage.getItem('txHash') || '', memo)
     } else {
       setSendFailed(true)
       setModal(false);
       setInProcess(false)
-
     }
   };
 
@@ -252,8 +255,8 @@ const TransferFunds: FC<IProps> = ({
   ]);
 
   const onClick = useCallback(
-    event => copyToClipboard(event, transactionHash),
-    [transactionHash]
+    event => copyToClipboard(event, localStorage.getItem('txHash') || ''),
+    []
   );
 
   return (

@@ -28,6 +28,12 @@ const accountPersistConfig = {
   storage,
 };
 
+const transactionsPersistConfig = {
+  key: 'transactions',
+  whitelist: ['transactionsDetails'],
+  storage,
+};
+
 export interface IState {
   account: IAccountState;
   router: RouterState;
@@ -41,7 +47,7 @@ export const rootReducer = combineReducers<IState>({
   toastr,
   account: persistReducer(accountPersistConfig, account),
   router: connectRouter(history),
-  transactions,
+  transactions: persistReducer(transactionsPersistConfig, transactions),
   modal,
   stakes,
 });

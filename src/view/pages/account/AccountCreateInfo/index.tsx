@@ -111,9 +111,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
             <h3 className="font-weight-semi-bold">
               2<span className="opacity-3 mr-2 mr-md-3">/2</span> Your mnemonic
               phrase
-              <span className="ml-2">
-                <i className="fas fa-info-circle" />
-              </span>
+              
             </h3>
             <p className={`${styles.warning} py-3`}>
               Please backup the text below on paper and keep it somewhere secret

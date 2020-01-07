@@ -29,13 +29,10 @@ import styles from './styles.module.scss';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 
 const mapStateToProps = state => ({
-  transactions: selectTransactions(state),
   accountData: selectAccount(state),
 });
 
 const mapDispatchToProps = {
-  transactionsGetList: ACTIONS.transactionsGetList,
-  transactionsSetPage: ACTIONS.transactionsSetPage,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
 };
 
@@ -53,8 +50,6 @@ const SendDetails = ({
   },
   accountGetBalance,
   accountData,
-  transactionsGetList,
-  transactions,
 }) => {
   // const onClick = useCallback(
   //   event => copyToClipboard(event, account.publicAddress),
@@ -63,17 +58,19 @@ const SendDetails = ({
   const account = accountData.list && id && accountData.list[id];
 
   // console.log(accountData, '****acc')
-  let hash = '';
-  if (transactions && transactions.list && transactions.list.length > 0) {
-    hash = transactions.list[0].hash;
-  }
-  useEffect(() => {
-    setInterval(() => {
-      accountGetBalance(id);
-      transactionsGetList(id);
-    }, 2000);
   
-  }, [accountGetBalance, id, transactionsGetList]);
+  useEffect(() => {
+    // setInterval(() => {
+    //   accountGetBalance(id);
+    //   transactionsGetList(id);
+    // }, 2000);
+
+     const interval = setInterval(() => {
+      accountGetBalance(id);
+    }, 2000);
+    return () => clearInterval(interval);
+  
+  }, [accountGetBalance, id]);
 
   return (
     <div>
@@ -85,7 +82,7 @@ const SendDetails = ({
 FTM
         </h2>
       </div>
-      <SendForm data={account} transactionHash={hash || ''} />
+      <SendForm data={account}  />
       {/* <div>
         <Card className={classname(styles.card, 'mb-5 mt-5')}>
           <h2>Transaction sent!</h2>

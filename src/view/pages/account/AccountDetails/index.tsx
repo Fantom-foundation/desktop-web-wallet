@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/jsx-one-expression-per-line */
 import React, {
   FC,
@@ -11,7 +12,10 @@ import { Row, Col, Container, Card, Modal } from 'reactstrap';
 import { IAccount } from '~/redux/account/types';
 import Activity from 'src/view/components/activity';
 import axios from 'axios';
-import { selectTransactions } from '~/redux/transactions/selectors';
+import { 
+  selectTransactionsDetails,
+  selectTransactions,
+} from '~/redux/transactions/selectors';
 import * as ACTIONS from '~/redux/transactions/actions';
 
 import { connect } from 'react-redux';
@@ -23,6 +27,7 @@ import {
   selectFtmToUsdPrice,
   // selectFtmMarketCap,
 } from '~/redux/account/selectors';
+
 import { push as historyPush } from 'connected-react-router';
 // import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
 import styles from './styles.module.scss';
@@ -37,6 +42,7 @@ const mapStateToProps = state => ({
   accountData: selectAccount(state),
   connection: selectAccountConnection(state),
   ftmToUsdPrice: selectFtmToUsdPrice(state),
+  transactionHashDetails: selectTransactionsDetails(state),
   // ftmMarketCap: selectFtmMarketCap(state),
 });
 const mapDispatchToProps = {
@@ -67,10 +73,13 @@ const AccountDetailsDashboard: FC<IProps> = ({
   accountCreateSetRestoreCredentials,
   transactionsGetList,
   ftmToUsdPrice,
+  transactionHashDetails,
   // ftmMarketCap,
   id,
 }) => {
   const [marketCap, setMarketCap] = useState('0');
+  const [currentId, setCurrentId] = useState('')
+  const [currentTransactions, setCurrentTransactions]=  useState<Array<any>>([]);
   //   const getBalance = useCallback(
   //     () => accountGetBalance(id),
   //     [id, accountGetBalance]
@@ -79,23 +88,58 @@ const AccountDetailsDashboard: FC<IProps> = ({
   //   useEffect(() => {
   //     if (is_node_connected) getBalance();
   //   }, [getBalance, is_node_connected]);
-
+  console.log(' ******transactionHashDetails', transactionHashDetails)
+  // let interval;
   useEffect(() => {
-    setInterval(() => {
-      accountGetBalance(id);
-      transactionsGetList(id);
-    }, 2000);
+    if(currentId !== id){
+
+    accountGetBalance(id);
+    transactionsGetList(id);
+      setCurrentId(id)
+      setCurrentTransactions([])
+     
+
     accountFTMtoUSD();
     accountFTMMarketCap(value => {
       setMarketCap(value);
     });
-  }, [
-    accountFTMMarketCap,
-    accountFTMtoUSD,
-    accountGetBalance,
-    id,
-    transactionsGetList,
-  ]);
+      }
+
+       
+    const interval = setInterval(() => {
+      console.log("interval")
+      accountGetBalance(id);
+      transactionsGetList(id);
+      // if(transactions.list && transactions.list.length > 0){
+      //   setCurrentTransactions(transactions.list)
+      // }
+    }, 2000);
+      // if(currentId === id){
+      //   setCurrentTransactions(transactions.list || [])
+      // }
+    
+    
+    return () => {console.log("clearInterval kapil"); clearInterval(interval)};
+   
+  }, [accountFTMMarketCap, accountFTMtoUSD, accountGetBalance, currentId, id, transactions.list, transactionsGetList]);
+
+  // useEffect(() => {
+  //   console.log('******iduseEffect', id)
+  //   useInterval(() => {
+  //     accountGetBalance(id);
+  //     transactionsGetList(id);
+  //   }, 2000);
+  //   accountFTMtoUSD();
+  //   accountFTMMarketCap(value => {
+  //     setMarketCap(value);
+  //   });
+  // }, [
+  //   accountFTMMarketCap,
+  //   accountFTMtoUSD,
+  //   accountGetBalance,
+  //   id,
+  //   transactionsGetList,
+  // ]);
   const account = accountData && accountData.list && id && accountData.list[id];
 
   // console.log(ftmMarketCap, '**ftmMarketCap');
@@ -113,6 +157,8 @@ const AccountDetailsDashboard: FC<IProps> = ({
     accountGetBalance(id);
     transactionsGetList(id);
   }, [accountGetBalance, id, transactionsGetList]);
+  console.log('******id kapil', id, currentId, transactions)
+
   const marketCapValue = parseFloat(marketCap).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return (
     <div>
@@ -199,7 +245,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
         </Row>
         <Row>
           <Col>
-            <Activity transactions={transactions} address={id} />
+            {currentId !== "" && currentId === id && <Activity transactions={transactions.list} transactionHashDetails={transactionHashDetails} address={id} />}
           </Col>
         </Row>
       </div>

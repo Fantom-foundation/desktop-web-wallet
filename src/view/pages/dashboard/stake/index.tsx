@@ -57,11 +57,20 @@ const Stake = props => {
   const account = accountData.list && id && accountData.list[id];
 
   useEffect(() => {
-    setInterval(() => {
-      accountGetBalance(id);
+    delegateByAddress({ publicKey: id });
+    console.log("createtimeout kapil")
+    const interval = setInterval(() => {
+      if (!modal) {
+
+        accountGetBalance(id);
+        delegateByAddress({ publicKey: id });
+
+      }
     }, 2000);
-    // accountGetBalance(id);
-  }, [accountGetBalance, id]);
+    return () => {console.log("cleartimeout kapil"); clearInterval(interval)};
+  }, [accountGetBalance,delegateByAddress,inProcess, id]);
+
+
 
   const handleStep = useCallback(
     actionType => {
@@ -77,10 +86,6 @@ const Stake = props => {
     [step]
   );
 
-  useEffect(() => {
-    delegateByAddress({ publicKey: id });
-  }, [delegateByAddress, id]);
-
   const unStakeAmount = () => {
     const { unstakeamount, id } = props;
    
@@ -88,12 +93,10 @@ const Stake = props => {
       if(res){
         setModal(false);
         setInProcess(false)
-
       } else {
         setStep(8);
         setModal(false);
         setInProcess(false)
-
       }
 
     });
@@ -111,16 +114,16 @@ const Stake = props => {
       setInProcess(false)
 
     } else {
-      setTimeout(() => {
-        accountGetBalance(id);
-        delegateByAddress({ publicKey: id });
-      }, 4000);
+      // setTimeout(() => {
+      //   accountGetBalance(id);
+      //   delegateByAddress({ publicKey: id });
+      // }, 4000);
       setStep(7);
       setModal(false);
       setInProcess(false)
 
     }
-    setInProcess(false)
+    // setInProcess(false)
   };
 
   const callback = (res: boolean) => {
@@ -155,9 +158,9 @@ const Stake = props => {
       callback
     );
     setInProcess(true)
-    setTimeout(() => {
-      accountGetBalance(id);
-    }, 2000);
+    // setTimeout(() => {
+    //   accountGetBalance(id);
+    // }, 2000);
   };
 
   const unStakeAmountPass = () => {
@@ -226,7 +229,7 @@ const Stake = props => {
             errors={errors}
             handleEntireBalance={() => setStakeValue(account.balance)}
             validatorBtn={styles.validatorBtn}
-            handleStep={handleStackSubmit}
+            handleStep={() => handleStackSubmit()}
           />
         );
       case 3:
