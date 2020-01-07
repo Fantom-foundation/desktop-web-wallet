@@ -43,11 +43,13 @@
     border-color: map-get($color, Primary-Main);
     &:hover,
     &:active {
+      color: #fff;
       background-color: darken(map-get($color, Primary-Main), 10%);
       border-color: darken(map-get($color, Primary-Main), 10%);
     }
   }
   &-darkish-pink {
+    color: #fff;
     background-color: map-get($color, darkish-pink);
     border-color: map-get($color, darkish-pink);
     &:hover,
@@ -61,6 +63,7 @@
     border-color: map-get($color, dark-periwinkle);
     &:hover,
     &:active {
+      color: #fff;
       background-color: darken(map-get($color, dark-periwinkle), 10%);
       border-color: darken(map-get($color, dark-periwinkle), 10%);
     }
@@ -70,6 +73,7 @@
     border-color: map-get($color, topaz);
     &:hover,
     &:active {
+      color: #fff;
       background-color: darken(map-get($color, topaz), 10%);
       border-color: darken(map-get($color, topaz), 10%);
     }
