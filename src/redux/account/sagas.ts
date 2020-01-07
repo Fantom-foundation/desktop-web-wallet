@@ -368,22 +368,20 @@ export const ACCOUNT_SAGAS = {
 };
 
 function* getFee({
-  from,
-  to,
-  amount,
-  message,
+  gasLimit,
+  cb,
 }: ReturnType<typeof accountGetTransferFee>) {
-  yield delay(300);
+  // yield delay(300);
 
   try {
-    const fee: string = yield call([Fantom, Fantom.estimateFee], {
-      from,
-      to,
-      value: amount.toString(),
-      memo: message,
-    });
+    // const fee: string = yield call(Fantom.estimateFee, {
+    //   gasLimit,
+    // });
+    const fee = yield Fantom.getTransactionFee(gasLimit);
+    if(cb){
+      cb(fee)
+    }
 
-    yield put(accountSetTransfer({ fee }));
   } catch (e) {
     console.log(e);
   }

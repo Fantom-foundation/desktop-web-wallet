@@ -10,10 +10,24 @@ const StakeInputCard = ({
   handleStep,
   errors,
   handleEntireBalance,
+  balanceLeft,
 }) => {
-  const errorTxt = errors.stakeValueMax
-    ? 'Not enough FTM. Please enter a lower amount'
-    : errors.stakeValueMin ? 'Minimum stake of 1 FTM required': 'Invalid stake amount';
+  let errorTxt = ''
+  if(errors.stakeValueMax){
+    errorTxt = 'Not enough FTM. Please enter a lower amount'
+  } else if(errors.stakeValueMin){
+    errorTxt = 'Minimum stake of 1 FTM required'
+
+  } else if (errors.stakeValueInvalid){
+    errorTxt = 'Invalid stake amount'
+
+  } else if (errors.maxBalance){
+    errorTxt = `You can stake max ${balanceLeft.toFixed(6)} (Value + gas * price)`
+
+  }
+  // const errorTxt = errors.stakeValueMax
+  //   ? 'Not enough FTM. Please enter a lower amount'
+  //   : errors.stakeValueMin ? 'Minimum stake of 1 FTM required': 'Invalid stake amount';
   return (
     <Card className="mx-auto text-center pt-5 pb-6" style={{ maxWidth: 670 }}>
       <h2>How much FTM would you like to stake?</h2>
@@ -25,7 +39,7 @@ const StakeInputCard = ({
           rightLabel="Max"
           value={stakeValue}
           error={{
-            isError: errors.stakeValueInvalid || errors.stakeValueMax || errors.stakeValueMin,
+            isError: errors.stakeValueInvalid || errors.stakeValueMax || errors.stakeValueMin || errors.maxBalance,
             errorText: errorTxt,
           }}
           handleRightButton={() => handleEntireBalance()}

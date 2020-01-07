@@ -273,6 +273,20 @@ class Web3Agent {
     return wallet;
   }
 
+  async getTransactionFee(gasLimit) {
+    const gasPrice = await this.web3.eth.getGasPrice();
+    // const gasLimit = 200000;
+    const fee = Web3.utils.fromWei(
+      BigInt(gasPrice.toString())
+        .multiply(BigInt(gasLimit.toString()))
+        .toString()
+    );
+    console.log('****asdas', fee)
+    return fee;
+  }
+
+  
+
   async transfer({
     from,
     to,

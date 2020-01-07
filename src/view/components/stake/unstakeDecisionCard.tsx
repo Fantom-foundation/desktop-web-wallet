@@ -20,7 +20,7 @@ const UnstakeDecisionCard = ({ handleStep, handleModal }) => {
           Maybe later
         </Button>
         <Button
-          onClick={() => handleModal()}
+          onClick={e => handleModal(e)}
           color="topaz"
           className={classnames('lg outlined mx-4')}
         >

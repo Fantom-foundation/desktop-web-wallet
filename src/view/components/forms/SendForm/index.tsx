@@ -49,6 +49,8 @@ type IProps = ReturnType<typeof mapStateToProps> &
     transactionHash: string;
   };
 
+  const FANTOM_WEB_URL = "https://explorer.fantom.network"
+
 const TransferFunds: FC<IProps> = ({
   data,
   accountGetBalance,
@@ -57,6 +59,7 @@ const TransferFunds: FC<IProps> = ({
   transactionsGetList,
   transfer,
   transactionHash,
+  accountGetTransferFee,
   setTransactionDetails,
 }) => {
   // const data =  accountData.list && address && accountData.list[address];
@@ -70,6 +73,7 @@ const TransferFunds: FC<IProps> = ({
     to: false,
     password: false,
     invalidAmount:  false,
+    maxBalance: false,
   });
   const [isSending, setIsSending] = useState(false);
   const [modal, setModal] = useState(false);
@@ -78,12 +82,13 @@ const TransferFunds: FC<IProps> = ({
   const [txId, setTxId] = useState('');
   const [errorPass, setError] = useState(false);
   const [sendFailed, setSendFailed] = useState(false)
+  const [transactionFee, setTransactionFee] = useState('0')
 
   const handleClearAll = useCallback(() => {
     setTo('');
     setAmount('');
     setMemo('');
-    setErrors({ amount: false, to: false, password: false,  invalidAmount: false });
+    setErrors({ maxBalance: false, amount: false, to: false, password: false,  invalidAmount: false });
   }, [setTo, setAmount, setMemo]);
   // const balance = parseFloat(data.balance)
 
@@ -95,13 +100,21 @@ const TransferFunds: FC<IProps> = ({
         (amount || 0) > parseFloat(data.balance) ,
       to: to.length !== 42,
       password: false,
+      maxBalance: false,
     };
     console.log(typeof amount, '****saasd',validation_errors)
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
+
+      const fee = parseFloat(transactionFee) * 2
+      const totalAmount = Number(amount) + fee
+      if(totalAmount > Number(data.balance)){
+        setErrors({ ...sendingErrors, maxBalance: true})
+        return 
+      }
     setModal(true);
-  }, [data, to, amount]);
+  }, [amount, data.balance, to.length, transactionFee, sendingErrors]);
 
   const renderSendFormSucess = (
     isSendSucess,
@@ -110,12 +123,13 @@ const TransferFunds: FC<IProps> = ({
     onClick
   ) => {
     if (isSendSucess && errorType === '') {
+      const hashValue = localStorage.getItem('txHash')
       return (
         <div>
           <Card className={classnames(styles.transCard, 'mb-5 mt-5')}>
             <h2>Transaction sent!</h2>
             <div className={classnames(styles.iconGap, styles.hash)}>
-              <a href="#">{localStorage.getItem('txHash')}</a>
+              <a target='_blank' href={`${FANTOM_WEB_URL}/transactions/${hashValue}`}>{hashValue}</a>
               <button
                 className={styles.copyBtn}
                 type="button"
@@ -150,16 +164,26 @@ const TransferFunds: FC<IProps> = ({
     return null;
   };
 
+
+
+  // const callback = (fee: string) => {
+
+  // }
+
   useEffect(() => {
     const errors = Object.keys(transfer.errors);
     if (errors && errors.length === 0 && isSending) {
       setIsSendSuccess(true);
     }
+    accountGetTransferFee(44000, fee => {
+      setTransactionFee(fee)
+
+    })
     // setIsInitial(true);
     // if (!isInitial && errors.includes('password')) {
     //   setModal(true);
     // }
-  }, [isSending, password, setIsSending, setModal, transfer.errors]);
+  }, [accountGetTransferFee, isSending, password, setIsSending, setModal, transfer.errors]);
 
   let errorType = '';
   const errors = Object.keys(transfer.errors);
@@ -223,6 +247,8 @@ const TransferFunds: FC<IProps> = ({
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
+
+      
     // const errorsas = Object.keys(transfer.errors);
     // console.log(errorsas, '****asdkas')
     setInProcess(true)
@@ -241,23 +267,30 @@ const TransferFunds: FC<IProps> = ({
       },
       callback
     );
-  }, [
-    callback,
-    sendingErrors,
-    accountSendPasswordCheck,
-    password,
-    to,
-    data.publicAddress,
-    amount,
-    memo,
-    accountGetBalance,
-    transactionsGetList,
-  ]);
+  }, [sendingErrors, password, amount, data.publicAddress, accountSendPasswordCheck, to, memo, callback, accountGetBalance, transactionsGetList]);
 
   const onClick = useCallback(
     event => copyToClipboard(event, localStorage.getItem('txHash') || ''),
     []
   );
+  const getAmountErrorText = () => {
+    const maxAmount = parseFloat(transactionFee) * 2
+    const balanceLeft = parseFloat(data.balance) - maxAmount
+    if(sendingErrors.invalidAmount){
+       return 'Invalid amount' 
+
+    } 
+    if (sendingErrors.amount){
+      return 'This amount exceeds your balance. Please enter a lower amount'
+
+    }
+   
+    if(sendingErrors.maxBalance){
+      return `You can transfer max ${balanceLeft.toFixed(6)} (Value + gas * price)`
+    }
+   
+
+  }
 
   return (
     <>
@@ -317,21 +350,24 @@ const TransferFunds: FC<IProps> = ({
                 if (data.balance === '0') {
                   setAmount('0');
                 } else {
-                  estimationMaxFantomBalance(data.balance).then(value => {
-                    setAmount(value);
-                  });
+                  const maxAmount = parseFloat(transactionFee) * 2
+                  const balanceLeft = parseFloat(data.balance) - maxAmount
+                  // estimationMaxFantomBalance(data.balance).then(value => {
+                  //   setAmount(value);
+                  // });
+                  setAmount(balanceLeft.toString());
                 }
-                const balance = data.balance === '0' ? 0 : data.balance;
+                // const balance = data.balance === '0' ? 0 : data.balance;
               }}
               type="number"
               handleChange={val => {
                 console.log('****typeof', val);
                 setAmount(val);
-                setErrors({ ...sendingErrors, amount: false, invalidAmount: false });
+                setErrors({ ...sendingErrors, amount: false, invalidAmount: false, maxBalance: false });
               }}
               error={{
-                isError: sendingErrors.amount || sendingErrors.invalidAmount,
-                errorText:  sendingErrors.invalidAmount ? 'Invalid amount':  'This amount exceeds your balance. Please enter a lower amount'
+                isError: sendingErrors.amount || sendingErrors.invalidAmount || sendingErrors.maxBalance,
+                errorText: getAmountErrorText() || ''
                  ,
               }}
             />

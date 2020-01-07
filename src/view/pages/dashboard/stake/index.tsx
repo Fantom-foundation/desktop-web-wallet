@@ -15,6 +15,8 @@ import { connect } from 'react-redux';
 import Input from '../../../components/forms/Input';
 import { convertFTMValue } from '~/view/general/utilities';
 import moment from 'moment';
+import { copyToClipboard } from '~/utility/clipboard';
+
 // import downloadIcon from
 import {
   delegateByAddress as delegateByAddressAction,
@@ -50,14 +52,37 @@ const Stake = props => {
     accountGetBalance,
     delegateAmountPassCheck,
     accountGetPrivateKey,
+    accountGetTransferFee,
   } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [type, setType] = useState('');
   const [inProcess, setInProcess] = useState(false)
+  const [transactionFee ,setTransactionFee] = useState('')
   const account = accountData.list && id && accountData.list[id];
+
+  const setTxFee = () => {
+    const selectedAddress =
+    stakes && stakes.length > 0
+      ? stakes.find(stake => {
+          return stake.publicKey === id.toLowerCase();
+        })
+      : [];
+      const isDeligated = selectedAddress && selectedAddress.isDeligated;
+    let gasValue = 200000
+    if(isDeligated){
+      gasValue = 150000
+    }
+    accountGetTransferFee(gasValue, fee => {
+      setTransactionFee(fee)
+
+    })
+
+  }
 
   useEffect(() => {
     delegateByAddress({ publicKey: id });
+    setTxFee()
+
     console.log("createtimeout kapil")
     const interval = setInterval(() => {
       if (!modal) {
@@ -68,7 +93,8 @@ const Stake = props => {
       }
     }, 2000);
     return () => {console.log("cleartimeout kapil"); clearInterval(interval)};
-  }, [accountGetBalance,delegateByAddress,inProcess, id]);
+  }, [accountGetBalance,accountGetTransferFee, modal, type, delegateByAddress,inProcess, id, setTransactionFee]);
+  console.log('******transactionFee', transactionFee)
 
 
 
@@ -80,6 +106,12 @@ const Stake = props => {
       } else if (actionType === 'back') {
         setStep(1);
       } else {
+
+        accountGetTransferFee(150000, fee => {
+          setTransactionFee(fee)
+    
+        })
+
         setStep(5);
       }
     },
@@ -165,6 +197,9 @@ const Stake = props => {
 
   const unStakeAmountPass = () => {
     setInProcess(true)
+    // setTxFee()
+    
+
     delegateAmountPassCheck(
       {
         publicKey: id,
@@ -189,10 +224,23 @@ const Stake = props => {
       stakeValueInvalid:
         stakeValue === '' || stakeValue === undefined || stakeValue === null,
       stakeValueMax: parseFloat(stakeValue) > account.balance,
+      maxBalance: false,
     };
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
+
+      const fee = parseFloat(transactionFee) * 2
+      const totalAmount = Number(stakeValue) + fee
+      if(totalAmount > Number(account.balance)){
+        setErrors({ ...errors, maxBalance: true})
+        return 
+      }
+
+
+
+
+
     if (isEdit) {
       setStep(4);
     } else {
@@ -208,9 +256,12 @@ const Stake = props => {
           return stake.publicKey === id.toLowerCase();
         })
       : [];
+      selectedAddress && selectedAddress.isDeligated;
   console.log(selectedAddress, '****selectedAddress');
 
   const getCurrentCard = () => {
+    const maxAmount = parseFloat(transactionFee) * 2
+                  const balanceLeft = parseFloat(account.balance) - maxAmount
     switch (step) {
       case 1:
         return (
@@ -226,8 +277,12 @@ const Stake = props => {
             handleChange={val => {
               setStakeValue(val), setErrors({});
             }}
+            balanceLeft={balanceLeft}
             errors={errors}
-            handleEntireBalance={() => setStakeValue(account.balance)}
+            handleEntireBalance={() => {
+                  setStakeValue(balanceLeft.toString());
+              }
+            }
             validatorBtn={styles.validatorBtn}
             handleStep={() => handleStackSubmit()}
           />
@@ -261,7 +316,18 @@ const Stake = props => {
         return (
           <UnstakeDecisionCard
             handleStep={handleStep}
-            handleModal={() => (setModal(true), setType('unStake'))}
+            handleModal={event => {
+              const fee = parseFloat(transactionFee) * 2;
+    const totalAmount = Number(stakeValue) + fee;
+    if(totalAmount > Number(account.balance)){
+      // setErrors({ ...errors, maxBalance: true})
+      copyToClipboard(event, account.publicAddress, true, fee)
+      return 
+    } 
+    setModal(true);
+              setType('unStake')
+            }
+            }
           />
         );
       case 6:
@@ -313,7 +379,7 @@ const Stake = props => {
             <button
               type="button"
               disabled={inProcess}
-              onClick={() => {
+              onClick={(e) => {
                 if (type === 'stake') {
                   stakeAmount();
                 } else {
@@ -490,6 +556,7 @@ const mapDispatchToProps = {
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
   delegateAmount: delegateAmountAction,
   delegateAmountPassCheck: delegateAmountPass,
+  accountGetTransferFee: ACCOUNT_ACTIONS.accountGetTransferFee,
   withdrawAmount: withdrawAmountAction,
 };
 

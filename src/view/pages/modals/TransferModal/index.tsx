@@ -105,12 +105,12 @@ const TransferModalUnconnected: FC<IProps> = ({
       Web3.utils.isAddress(from) &&
       Web3.utils.isAddress(to)
     ) {
-      accountGetTransferFee({
-        from,
-        to,
-        amount,
-        message,
-      });
+      // accountGetTransferFee({
+      //   from,
+      //   to,
+      //   amount,
+      //   message,
+      // });
     } else if (parseFloat(fee) && parseFloat(fee) > 0) {
       accountSetTransfer({ fee: '' });
     }

@@ -163,22 +163,13 @@ export const accountSetTransfer = (
   transfer,
 });
 
-export const accountGetTransferFee = ({
-  from,
-  to,
-  amount,
-  message,
-}: {
-  from: IAccount['publicAddress'];
-  to: IAccount['publicAddress'];
-  amount: string;
-  message: string;
-}) => ({
+export const accountGetTransferFee = (
+  gasLimit,
+  cb
+) => ({
   type: ACCOUNT_ACTIONS.GET_TRANSFER_FEE,
-  from,
-  to,
-  amount,
-  message,
+  gasLimit,
+  cb,
 });
 
 export const accountSetTransferFee = (
