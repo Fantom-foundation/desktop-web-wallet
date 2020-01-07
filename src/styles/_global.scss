@@ -3,7 +3,8 @@ $white: #fff;
 $theme-blue: #00b1ff;
 
 $theme-blue-hover: #4b89ca;
-$color: (white: $white,
+$color: (
+  white: $white,
   black: #000,
   nav-link: $white,
   nav-link-hover: #8e8e8e,
@@ -40,7 +41,8 @@ $color: (white: $white,
 $primary-font: 'Roboto';
 $secondary-font: 'Lato';
 
-$font: (header-menu: $primary-font,
+$font: (
+  header-menu: $primary-font,
   header-menu-size: 16px,
   footer-menu-title: $primary-font,
   footer-menu-title-size: 20px,
@@ -71,6 +73,7 @@ body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+@import './fonts';
 @import './variables.scss';
 @import './typography';
 @import './button';
@@ -121,7 +124,6 @@ body {
 }
 
 @media (min-width: $tablet) {
-
   .mb-md-6,
   .my-md-6 {
     margin-bottom: 3.75rem !important;
