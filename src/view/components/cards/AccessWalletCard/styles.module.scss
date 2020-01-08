@@ -23,6 +23,7 @@
 }
 
 .body {
+  min-height: 588px;
   padding: 60px 40px 40px;
   @media (max-width: $phone) {
     padding: 30px 25px;

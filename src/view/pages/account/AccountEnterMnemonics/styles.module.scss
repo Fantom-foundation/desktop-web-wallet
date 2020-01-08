@@ -123,7 +123,7 @@ $gap: 15px;
       justify-content: space-between;
       align-items: center;
       border-radius: 20px;
-      padding: 20px 12px;
+      padding: 17px 12px 20px;
       text-align: center;
 
       h4 {
@@ -135,7 +135,7 @@ $gap: 15px;
       }
 
       &.active {
-        border: solid 3px map-get($color, topaz);
+        box-shadow: 0 0 0 3px map-get($color, topaz);
       }
 
       svg {
