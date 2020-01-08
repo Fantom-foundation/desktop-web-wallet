@@ -3,6 +3,7 @@ import { FormGroup, Label, Input } from 'reactstrap';
 import styles from './styles.module.scss';
 import PasswordShow from '../../../../images/icons/password-show.svg';
 import PasswordHide from '../../../../images/icons/password-hide.svg';
+import classnames from 'classnames';
 
 const setValue = (e, handler) => {
   e.preventDefault();
@@ -14,6 +15,7 @@ export default ({
   type = '',
   placeholder = '',
   value = '',
+  accessWallet = false,
   handler,
   isError,
   errorMsg,
@@ -26,11 +28,14 @@ export default ({
   return (
     <div>
       <div className={styles.input}>
-        <FormGroup>
+        <FormGroup className="position-relative">
           {label !== '' && <Label className={styles.label}>{label}</Label>}
           <div className={styles.inputWrapper}>
             <Input
-              className={!isError ? styles.inputBox : styles.errorInput}
+              className={classnames(styles.inputBox, {
+                [styles.errorInput]: isError && !accessWallet,
+                [styles.textLight]: accessWallet,
+              })}
               // className={}
               value={value}
               type={showPassword ? 'text' : type}
@@ -46,10 +51,14 @@ export default ({
               </button>
             )}
           </div>
-
-          <p className={!isError ? styles.warning : styles.error}>
+          <p
+            className={classnames(styles.errorText, {
+              [styles.warning]: !isError,
+              [styles.accessWallet]: accessWallet,
+            })}
+          >
             {isError !== undefined && errorMsg !== '' && (
-              <i className="fas fa-info-circle mr-2" />
+              <>{!accessWallet && <i className="fas fa-info-circle mr-2" />}</>
             )}
             <span>{errorMsg}</span>
           </p>

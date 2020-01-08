@@ -12,7 +12,14 @@ import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 import { Input, Button } from 'reactstrap';
 import { AccessWalletCard } from 'src/view/components/cards';
 import classnames from 'classnames';
-import { MnemonicIcon } from 'src/view/components/svgIcons';
+import uploadIcon from 'src/images/icons/upload.svg';
+
+import { Input as FormInput } from 'src/view/components/forms';
+import {
+  KeystoreIcon,
+  MnemonicIcon,
+  PrivatekeyIcon,
+} from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
 import { setDelegatorByAddressFailure } from '~/redux/stake/handlers';
@@ -54,11 +61,10 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   const is_next_disabled = useMemo<boolean>(() => {
     if (phrase.length === 0) return false;
 
-
     const words = phrase
       .split(' ')
       .map(el => el.trim())
-      .filter(el => (/^[a-zA-Z]+$/).test(el));
+      .filter(el => /^[a-zA-Z]+$/.test(el));
 
     return words.length === 12 || words.length === 24;
   }, [phrase]);
@@ -81,9 +87,11 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       phrase
         .split(' ')
         .map(el => el.trim())
-        .filter(el => (/^[a-zA-Z]+$/).test(el));
+        .filter(el => /^[a-zA-Z]+$/.test(el));
     const validation_errors = {
-      phrase: phrase === '' || words && !(words.length === 12 || words.length === 24),
+      phrase:
+        phrase === '' ||
+        (words && !(words.length === 12 || words.length === 24)),
     };
 
     if (validation_errors.phrase) return setError(validation_errors.phrase);
@@ -93,9 +101,9 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     const mnemonic = phrase
       .split(' ')
       .map(el => el.trim())
-      .filter(el => (/^[a-zA-Z]+$/).test(el))
+      .filter(el => /^[a-zA-Z]+$/.test(el))
       .join(' ');
-      console.log(mnemonic, '****mnemonic')
+    console.log(mnemonic, '****mnemonic');
 
     accountCreateRestoreMnemonics({ mnemonic });
     // push('/account/restore/credentials')
@@ -201,15 +209,58 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       <AccessWalletCard>
         <div className={styles.optionsWrapper}>
           <div className={styles.optionCol}>
-            <div className={classnames(styles.option, styles.active)}>
+            <div
+              className={classnames(styles.option, { [styles.active]: false })}
+            >
+              <KeystoreIcon />
+              <h4 className="opacity-7">Keystore</h4>
+            </div>
+          </div>
+          <div className={styles.optionCol}>
+            <div
+              className={classnames(styles.option, { [styles.active]: true })}
+            >
               <MnemonicIcon />
               <h4 className="opacity-7">Mnemonic phrase</h4>
             </div>
           </div>
+          <div className={styles.optionCol}>
+            <div
+              className={classnames(styles.option, { [styles.active]: false })}
+            >
+              <PrivatekeyIcon className="mt-1" />
+              <h4 className="opacity-7">Private key</h4>
+            </div>
+          </div>
         </div>
+        {/* --Keystore Start-- */}
+        <div>
+          <label
+            className={classnames(
+              styles.fileUploadBtn,
+              'outlined text-dark-grey-blue btn btn-topaz'
+            )}
+          >
+            <input className="d-none" type="file" />
+            <img src={uploadIcon} alt="Upload keystore file" />
+            Upload keystore file
+          </label>
+          <FormInput
+            accessWallet={true}
+            type="password"
+            placeholder="Enter you wallet password"
+            handler={() => {}}
+            isError={true}
+            errorMsg={'dsf'}
+          />
+        </div>
+        {/* --Keystore End-- */}
+
+        {/* --Mnemonic Start-- */}
         <div>
           <h4 className={classnames('opacity-7', styles.inputLabel)}>
-          Please type in your 12 or 24 word mnemonic phrase, all lower-case, separate by single spaces.
+            Please type in your 12 or 24 word mnemonic phrase, all lower-case,
+            separate by single spaces.
           </h4>
       
           <div className={styles.inputWrapper}>
@@ -240,6 +291,20 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
             )}
           </div>
         </div>
+        {/* --Mnemonic End-- */}
+
+        {/* --Private Start-- */}
+        <div>
+          <FormInput
+            accessWallet={true}
+            type="text"
+            label="Please type in your private key"
+            handler={() => {}}
+            isError={true}
+            errorMsg={'dsf'}
+          />
+        </div>
+        {/* --Private End-- */}
         <div className="text-center">
           <Button
             color={!is_next_disabled ? 'secondary' : 'primary'}
