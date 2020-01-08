@@ -191,13 +191,29 @@ $gap: 15px;
 .btn {
   width: 240px;
 }
-.fileUploadBtn {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  img {
-    height: 20px;
-    margin-right: 16px;
+.fileUploadBtnWrapper {
+  margin-bottom: 40px;
+  position: relative;
+  .fileUploadBtn {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    img {
+      height: 20px;
+      margin-right: 16px;
+    }
+  }
+  .info {
+    padding-top: 10px;
+    font-size: 12px;
+    font-weight: 500;
+    color: map-get($color, topaz);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    text-align: center;
   }
 }
