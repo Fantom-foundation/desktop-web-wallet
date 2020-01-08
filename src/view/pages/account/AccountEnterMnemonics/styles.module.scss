@@ -1,5 +1,10 @@
 @import '~/styles/variables.scss';
-
+.mainWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 488px;
+}
 .center {
   text-align: center;
 }
