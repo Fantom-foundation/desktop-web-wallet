@@ -30,6 +30,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   accountCreateRestoreMnemonics: ACCOUNT_ACTIONS.accountCreateRestoreMnemonics,
+  accountCreateRestorePrivateKey:
+    ACCOUNT_ACTIONS.accountCreateRestorePrivateKey,
   accountCreateCancel: ACCOUNT_ACTIONS.accountCreateCancel,
   accountUploadKeystore: ACCOUNT_ACTIONS.accountUploadKeystore,
 
@@ -47,11 +49,13 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   accountUploadKeystore,
   push,
   accountDetails,
+  accountCreateRestorePrivateKey,
 }) => {
   const [phrase, setPhrase] = useState('');
   const [error, setError] = useState(false);
   const [uploadedFile, setFile] = useState();
   const [currentTab, setCurrentTab] = useState(2);
+  const [userPrivateKey, setUserPrivateKey] = useState('');
   const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
     false
   );
@@ -133,7 +137,20 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
   const handlePrivateKeySubmit = useCallback(() => {
     //  setCurrentTab(tab)
-  }, []);
+    console.log('privateKey', userPrivateKey);
+    var regx = /^[a-zA-Z0-9]+$/;
+    //add validation
+    if (
+      !(
+        userPrivateKey === '' ||
+        userPrivateKey.length !== 66 ||
+        regx.test(userPrivateKey) === false ||
+        userPrivateKey.toLowerCase().substring(0, 2) !== '0x'
+      )
+    ) {
+      accountCreateRestorePrivateKey({ privateKey: userPrivateKey });
+    }
+  }, [userPrivateKey]);
 
   const handleAllSubmit = useCallback(() => {
     if (currentTab === 1) {
@@ -335,7 +352,10 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   accessWallet
                   type="text"
                   label="Please type in your private key"
-                  handler={() => {}}
+                  handler={val => {
+                    setUserPrivateKey(val);
+                  }}
+                  value={userPrivateKey}
                   isError
                   errorMsg="dsf"
                 />

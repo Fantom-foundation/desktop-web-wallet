@@ -20,6 +20,7 @@ import {
   accountCreateSetRestoreCredentials,
   accountCreateClear,
   accountCreateRestoreMnemonics,
+  accountCreateRestorePrivateKey,
   accountGetBalance,
   accountSetAccount,
   accountSendFunds,
@@ -57,7 +58,7 @@ import { REHYDRATE, RehydrateAction } from 'redux-persist';
 import { path } from 'ramda';
 import axios from 'axios';
 import { getTransactions } from '../transactions/api';
-import fileDownload from 'js-file-download'
+import fileDownload from 'js-file-download';
 
 function* createSetCredentials({
   create,
@@ -65,8 +66,8 @@ function* createSetCredentials({
   const mnemonic: string = bip.generateMnemonic();
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
   const { privateKey } = Fantom.mnemonicToKeys(mnemonic);
-  console.log('(*****create', create)
-  const pass = create.password || ''
+  console.log('(*****create', create);
+  const pass = create.password || '';
 
   const keystore = Fantom.getKeystore(privateKey, pass);
   const dateTime = new Date();
@@ -83,7 +84,6 @@ function* createSetCredentials({
   );
 }
 
-
 function* createSetInfo() {
   yield put(accountSetCreateStage(ACCOUNT_CREATION_STAGES.CONFIRM));
 }
@@ -94,13 +94,19 @@ function* createSetConfirm() {
     password,
     icon,
     publicAddress,
+    privateKey,
   }: IAccountState['create'] = yield select(selectAccountCreate);
 
-  if (!password || !publicAddress || !mnemonic)
+  if (!password || !publicAddress || !(mnemonic || privateKey))
     return yield put(accountSetCreate(ACCOUNT_INITIAL_STATE.create));
 
-  const { privateKey } = Fantom.mnemonicToKeys(mnemonic);
-  const keystore = Fantom.getKeystore(privateKey, password);
+  let pKey = privateKey || '';
+  if (!privateKey) {
+    const keys = Fantom.mnemonicToKeys(mnemonic);
+    pKey = keys.privateKey;
+  }
+
+  const keystore = Fantom.getKeystore(pKey, password);
 
   yield put(
     accountAddAccount({
@@ -113,7 +119,6 @@ function* createSetConfirm() {
   yield put(push(URLS.ACCOUNT_SUCCESS));
 }
 
-
 function* createCancel() {
   yield put(accountCreateClear());
   yield put(push('/'));
@@ -121,47 +126,79 @@ function* createCancel() {
 function* createSetRestoreCredentials({
   create,
 }: ReturnType<typeof accountCreateSetRestoreCredentials>) {
-  console.log('****askdjkasd', create)
+  console.log('****askdjkasd', create);
   try {
-    
-  yield put(
-    accountSetCreate({
-      ...create,
-      // stage: ACCOUNT_CREATION_STAGES.INFO,
-    })
-  );
-  const mnemonic = localStorage.getItem("mnemonic") || ''
-  console.log('****asdasd', mnemonic)
-  const { privateKey, publicAddress } = Fantom.mnemonicToKeys(mnemonic);
-  const pass =  create.password || ''
-  const keystore = Fantom.getKeystore(privateKey, pass);
-  const dateTime = new Date();
-  const fileName = `UTC--${dateTime.toISOString()} -- ${publicAddress}`;
-  // debugger
-  fileDownload(JSON.stringify(keystore), `${fileName}.json`);
-  localStorage.setItem('mnemonic', '')
-  yield delay(2000);
-  yield call(createSetConfirm);
-
-} catch(e) {
-  console.log("restore exception: ", e)
-}
- // yield put(push(URLS.ACCOUNT_SUCCESS));
+    const selectedAccount = yield select(selectAccountCreate);
+    console.log('****askdjkasd data', selectedAccount);
+    yield put(
+      accountSetCreate({
+        ...create,
+        // stage: ACCOUNT_CREATION_STAGES.INFO,
+      })
+    );
+    let privateKey = '';
+    let publicAddress = '';
+    if (selectAccount && selectedAccount.privateKey) {
+      const keys = Fantom.privateKeyToKeys(selectedAccount.privateKey);
+      privateKey = keys.privateKey;
+      publicAddress = keys.publicAddress;
+    } else {
+      const mnemonic = localStorage.getItem('mnemonic') || '';
+      const keys = Fantom.mnemonicToKeys(mnemonic);
+      privateKey = keys.privateKey;
+      publicAddress = keys.publicAddress;
+    }
+    const pass = create.password || '';
+    const keystore = Fantom.getKeystore(privateKey, pass);
+    const dateTime = new Date();
+    const fileName = `UTC--${dateTime.toISOString()} -- ${publicAddress}`;
+    // debugger
+    fileDownload(JSON.stringify(keystore), `${fileName}.json`);
+    localStorage.setItem('mnemonic', '');
+    yield delay(2000);
+    yield call(createSetConfirm);
+  } catch (e) {
+    console.log('restore exception: ', e);
+  }
+  // yield put(push(URLS.ACCOUNT_SUCCESS));
 }
 
 function* createRestoreMnemonics({
   mnemonic,
 }: ReturnType<typeof accountCreateRestoreMnemonics>) {
-  const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
-  localStorage.setItem('mnemonic', mnemonic)
+  const { publicAddress } = Fantom.mnemonicToKeys(mnemonic || '');
+  localStorage.setItem('mnemonic', mnemonic || '');
 
-  yield put(accountSetCreate({ mnemonic, publicAddress, stage: ACCOUNT_CREATION_STAGES.CREDENTIALS }  ));
+  yield put(
+    accountSetCreate({
+      mnemonic,
+      publicAddress,
+      stage: ACCOUNT_CREATION_STAGES.CREDENTIALS,
+    })
+  );
   // yield call(createSetConfirm);
 }
 
-function* getPrivateKey({mnemonic,cb}: ReturnType<typeof accountGetPrivateKey>) {
+function* createRestorePrivateKey({
+  privateKey,
+}: ReturnType<typeof accountCreateRestorePrivateKey>) {
+  const { publicAddress } = Fantom.privateKeyToKeys(privateKey || '');
+  yield put(
+    accountSetCreate({
+      privateKey,
+      publicAddress,
+      stage: ACCOUNT_CREATION_STAGES.CREDENTIALS,
+    })
+  );
+  // yield call(createSetConfirm);
+}
+
+function* getPrivateKey({
+  mnemonic,
+  cb,
+}: ReturnType<typeof accountGetPrivateKey>) {
   const { privateKey } = yield Fantom.mnemonicToKeys(mnemonic);
-  cb(privateKey)
+  cb(privateKey);
   // return privateKey
 }
 
@@ -223,15 +260,12 @@ function* getFTMMarketCap({ cb }: any) {
   const res = yield call(
     fetch,
     'https://api.coingecko.com/api/v3/simple/price?ids=fantom&vs_currencies=usd&include_market_cap=true&include_24hr_vol=true&include_24hr_change=true&include_last_updated_at=true'
-    
   );
   const data = yield call([res, 'json']); // or yield call([res, res.json])
 
   const { usd_market_cap } = data.fantom;
-  cb(usd_market_cap)
-
+  cb(usd_market_cap);
 }
-
 
 function* sendFunds({
   from,
@@ -247,13 +281,10 @@ function* sendFunds({
 
   const { list }: IAccountState = yield select(selectAccount);
 
-  if (!Object.prototype.hasOwnProperty.call(list, from)){
-    cb(false)
-     yield put(
-      accountSetTransferErrors({ from: 'Not a correct sender' })
-    );
+  if (!Object.prototype.hasOwnProperty.call(list, from)) {
+    cb(false);
+    yield put(accountSetTransferErrors({ from: 'Not a correct sender' }));
   }
-   
 
   const { keystore, balance } = list[from];
 
@@ -269,7 +300,7 @@ function* sendFunds({
     value: amount.toString(),
     memo: message,
   });
-  
+
   const validation_errors = validateAccountTransaction({
     from,
     to,
@@ -280,10 +311,9 @@ function* sendFunds({
   });
   console.log('*****validation_errors', validation_errors);
 
-  if (Object.keys(validation_errors).length){
-    cb(false)
-     yield put(accountSetTransferErrors(validation_errors));
-
+  if (Object.keys(validation_errors).length) {
+    cb(false);
+    yield put(accountSetTransferErrors(validation_errors));
   }
 
   try {
@@ -295,21 +325,21 @@ function* sendFunds({
       memo: message,
       privateKey,
     });
-    cb(true)
+    cb(true);
 
     yield put(
       accountSetTransfer({ ...ACCOUNT_INITIAL_STATE.transfer, is_sent: true })
     );
     yield call(getBalance, accountGetBalance(from));
   } catch (e) {
-    console.log(e, '*******error')
+    console.log(e, '*******error');
     yield put(
       accountSetTransfer({
         is_processing: false,
         errors: { send: e.toString() },
       })
     );
-    cb(false)
+    cb(false);
   }
 }
 
@@ -346,7 +376,7 @@ function* sendFundsPassCheck({
     value: amount.toString(),
     memo: message,
   });
-  
+
   const validation_errors = validateAccountTransaction({
     from,
     to,
@@ -357,14 +387,13 @@ function* sendFundsPassCheck({
   });
 
   if (!privateKey) {
-    cb(true)
+    cb(true);
   } else {
-    cb(false)
+    cb(false);
   }
 
   if (Object.keys(validation_errors).length)
     return yield put(accountSetTransferErrors(validation_errors));
-
 }
 
 // This export is used for testing
@@ -373,14 +402,12 @@ export const ACCOUNT_SAGAS = {
   createSetConfirm,
   createCancel,
   createRestoreMnemonics,
+  createRestorePrivateKey,
   getBalance,
   sendFunds,
 };
 
-function* getFee({
-  gasLimit,
-  cb,
-}: ReturnType<typeof accountGetTransferFee>) {
+function* getFee({ gasLimit, cb }: ReturnType<typeof accountGetTransferFee>) {
   // yield delay(300);
 
   try {
@@ -388,23 +415,25 @@ function* getFee({
     //   gasLimit,
     // });
     const fee = yield Fantom.getTransactionFee(gasLimit);
-    if(cb){
-      cb(fee)
+    if (cb) {
+      cb(fee);
     }
-
   } catch (e) {
     console.log(e);
   }
 }
 
-function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeystore>) {
+function* uploadKeystore({
+  file,
+  password,
+}: ReturnType<typeof accountUploadKeystore>) {
   try {
     yield put(accountSetCreate({ errors: {} }));
 
     const { icon } = yield select(selectAccountCreate);
     const { list }: IAccountState = yield select(selectAccount);
     const keystore: EncryptedKeystoreV3Json = yield call(readFileAsJSON, file);
-    console.log(keystore, '****8asdasds')
+    console.log(keystore, '****8asdasds');
 
     if (!keystore)
       return put(
@@ -412,7 +441,7 @@ function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeys
       );
 
     const result = Fantom.validateKeystore(keystore, password);
-    console.log('******result', result)
+    console.log('******result', result);
 
     if (!result)
       return yield put(
@@ -420,7 +449,10 @@ function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeys
           errors: { keystore: "Password doesn't match keystore file" },
         })
       );
-      console.log(Object.keys(list).includes(`0x${keystore.address}`), '***adasjd')
+    console.log(
+      Object.keys(list).includes(`0x${keystore.address}`),
+      '***adasjd'
+    );
 
     if (Object.keys(list).includes(`0x${keystore.address}`))
       return yield put(
@@ -430,7 +462,7 @@ function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeys
           },
         })
       );
-      console.log('****jdjajsdjs')
+    console.log('****jdjajsdjs');
 
     yield put(
       accountAddAccount({
@@ -543,11 +575,14 @@ export function* accountSaga() {
     ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS,
     createRestoreMnemonics
   );
+  yield takeLatest(
+    ACCOUNT_ACTIONS.CREATE_RESTORE_PRIVATE_KEY,
+    createRestorePrivateKey
+  );
 
   yield takeEvery(ACCOUNT_ACTIONS.GET_BALANCE, getBalance);
   yield takeEvery(ACCOUNT_ACTIONS.GET_FTM_TO_USD, getFTMtoUSD);
   yield takeEvery(ACCOUNT_ACTIONS.GET_FTM_MARKET_CAP, getFTMMarketCap);
-
 
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS, sendFunds);
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS_PASS_CHECK, sendFundsPassCheck);
@@ -556,7 +591,6 @@ export function* accountSaga() {
 
   yield takeLatest(ACCOUNT_ACTIONS.CHANGE_PROVIDER, changeProvider);
   yield takeLatest(ACCOUNT_ACTIONS.GET_PRIVATE_KEY, getPrivateKey);
-
 
   yield takeLatest(ACCOUNT_ACTIONS.RECONNECT_PROVIDER, reconnectProvider);
 }

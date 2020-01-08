@@ -254,7 +254,7 @@ class Web3Agent {
     //   "0xfc00face00000000000000000000000000000000"
     // );
     // const am = Number(amount)
-    
+
     return this.transfer({
       from: publicKey,
       to: '0xfc00face00000000000000000000000000000000',
@@ -281,11 +281,9 @@ class Web3Agent {
         .multiply(BigInt(gasLimit.toString()))
         .toString()
     );
-    console.log('****asdas', fee)
+    console.log('****asdas', fee);
     return fee;
   }
-
-  
 
   async transfer({
     from,
@@ -295,8 +293,8 @@ class Web3Agent {
     privateKey,
     gasLimit = 44000,
     web3Delegate = '',
-    // cb,
-  }: Transfer) {
+  }: // cb,
+  Transfer) {
     const useWeb3 = web3Delegate || this.web3;
     const nonce = await useWeb3.eth.getTransactionCount(from);
     const gasPrice = await useWeb3.eth.getGasPrice();
@@ -320,7 +318,7 @@ class Web3Agent {
     const res = await useWeb3.eth.sendSignedTransaction(
       `0x${serializedTx.toString('hex')}`
     );
-    localStorage.setItem('txHash', res.transactionHash)
+    localStorage.setItem('txHash', res.transactionHash);
     // if (cb) {
     //   cb(res.transactionHash || '')
     // }
@@ -377,6 +375,16 @@ class Web3Agent {
     const addr = EthUtil.publicToAddress(pubKey).toString('hex');
     const publicAddress = EthUtil.toChecksumAddress(addr);
     const privateKey = EthUtil.bufferToHex(addrNode._privateKey);
+
+    return { publicAddress, privateKey };
+  };
+
+  privateKeyToKeys = (privateKey: string): { publicAddress; privateKey } => {
+    const privateKeyBuffer = EthUtil.toBuffer(privateKey);
+
+    const pubKey = EthUtil.privateToPublic(privateKeyBuffer);
+    const addr = EthUtil.publicToAddress(pubKey).toString('hex');
+    const publicAddress = EthUtil.toChecksumAddress(addr);
 
     return { publicAddress, privateKey };
   };

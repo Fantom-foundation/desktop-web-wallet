@@ -32,7 +32,7 @@ import { AccountCreateProcess } from '~/view/components/account/AccountCreatePro
 import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
 import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 
- const ENUM_WORD = [
+const ENUM_WORD = [
   'first',
   'second',
   'third',
@@ -48,9 +48,9 @@ import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 ];
 
 type ShuffleItem = {
-  name: string,
-  index: string,
-  isClickable: boolean
+  name: string;
+  index: string;
+  isClickable: boolean;
 };
 const mapStateToProps = (
   state: IState
@@ -76,15 +76,16 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
     const [selected, setSelected] = useState<string[]>([]);
     const [is_cancel_modal_opened, setIsCancelModalOpened] = useState(false);
     // const [shuffledMnemonic, setShuffledMnemonic] = useState([])
-    const [filterSelected, setfilterSelected] = useState<Array<ShuffleItem>>([])
-
-
-
-
-    const [shuffledMnemonics, setShuffledMnemonic] = useState<Array<ShuffleItem>>(
+    const [filterSelected, setfilterSelected] = useState<Array<ShuffleItem>>(
       []
     );
-    const [verifyMnemonic, setVerifyMnemonic] = useState<Array<ShuffleItem>>([]);
+
+    const [shuffledMnemonics, setShuffledMnemonic] = useState<
+      Array<ShuffleItem>
+    >([]);
+    const [verifyMnemonic, setVerifyMnemonic] = useState<Array<ShuffleItem>>(
+      []
+    );
     const [isEnable, setEnable] = useState(false);
 
     const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
@@ -105,28 +106,27 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
       [accountSetCreateStage]
     );
 
-
     const onSubmit = useCallback(() => {
       // if (is_next_disabled) return setIsIncorrectModalVisible(true);
       if (verifyMnemonic && verifyMnemonic.length === 0) {
-       
-        setIsIncorrectModalVisible(true)
+        setIsIncorrectModalVisible(true);
         return;
-
       }
-      let inconsistency = "";
-  
-      const verifyMnemonicArr = verifyMnemonic.map(obj => obj.name.toLowerCase());
-  
-      mnemonic.split(" ").some((word, index) => {
+      let inconsistency = '';
+
+      const verifyMnemonicArr = verifyMnemonic.map(obj =>
+        obj.name.toLowerCase()
+      );
+
+      (mnemonic || '').split(' ').some((word, index) => {
         if (word === verifyMnemonicArr[index]) return false;
         inconsistency = ENUM_WORD[index];
         return true;
       });
-  
-      if (inconsistency !== "") {
-        setIsIncorrectModalVisible(true)
-        
+
+      if (inconsistency !== '') {
+        setIsIncorrectModalVisible(true);
+
         return;
       }
 
@@ -149,98 +149,94 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
     //   [selected, filterSelected]
     // );
 
+    const onMnemonicSelect = ({ name, index }) => {
+      setVerifyMnemonic([
+        ...verifyMnemonic.slice(),
+        { name, index, isClickable: false },
+      ]);
 
-    
-  const onMnemonicSelect = ({ name, index }) => {
-    setVerifyMnemonic([
-      ...verifyMnemonic.slice(),
-      { name, index, isClickable: false },
-    ]);
+      setShuffledMnemonic(
+        shuffledMnemonics.map(item => ({
+          ...item,
+          isClickable: item.index !== index ? item.isClickable : false,
+        }))
+      );
+    };
 
-    setShuffledMnemonic(
-      shuffledMnemonics.map(item => ({
-        ...item,
-        isClickable: item.index !== index ? item.isClickable : false,
-      }))
-    );
-  };
-
-  const onMnemonicRemove = ({ name, index })  => {
-    setVerifyMnemonic(verifyMnemonic.filter(word => word.index !== index));
-    setShuffledMnemonic(
-      shuffledMnemonics.map(word => ({
-        ...word,
-        ...(name === word.name ? { isClickable: true } : {}),
-      }))
-    );
-  };
-
+    const onMnemonicRemove = ({ name, index }) => {
+      setVerifyMnemonic(verifyMnemonic.filter(word => word.index !== index));
+      setShuffledMnemonic(
+        shuffledMnemonics.map(word => ({
+          ...word,
+          ...(name === word.name ? { isClickable: true } : {}),
+        }))
+      );
+    };
 
     useEffect(() => {
       if (!mnemonic) onBackPressed();
-        const filteredArr: any = [];
+      const filteredArr: any = [];
       shuffled_mnemonics.forEach((word, index) => {
         const obj = {
           name: word,
           index: `${word}_${index}`,
           isClickable: true,
-
-        }
-        filteredArr.push(obj)
-      })
-      setShuffledMnemonic(filteredArr)
-
+        };
+        filteredArr.push(obj);
+      });
+      setShuffledMnemonic(filteredArr);
     }, [mnemonic, onBackPressed, shuffled_mnemonics]);
 
-   
+    useEffect(() => {
+      if (verifyMnemonic && verifyMnemonic.length > 0) {
+        const verifyMnemonicArr = verifyMnemonic.map(obj =>
+          obj.name.toLowerCase()
+        );
+        const mnemonicString = mnemonic
+          .split(' ')
+          .slice(0, verifyMnemonicArr.length)
+          .join();
 
-    
-  useEffect(() => {
-    if (verifyMnemonic && verifyMnemonic.length > 0) {
+        if (mnemonicString === verifyMnemonicArr.join()) setEnable(false);
+        else setEnable(true);
+        return;
+      }
+      setEnable(false);
+    }, [mnemonic, verifyMnemonic]);
 
-      const verifyMnemonicArr = verifyMnemonic.map(obj =>
-        obj.name.toLowerCase()
-      );
-      const mnemonicString = mnemonic
-        .split(" ")
-        .slice(0, verifyMnemonicArr.length)
-        .join();
+    console.log('*****ver', isEnable);
 
-      if (mnemonicString === verifyMnemonicArr.join()) setEnable(false);
-      else setEnable(true);
-      return;
-    }
-    setEnable(false);
-  }, [mnemonic, verifyMnemonic]);
+    const isActive = () => {
+      if (verifyMnemonic && verifyMnemonic.length === 12) {
+        return true;
+      }
+      return false;
+    };
 
-  console.log('*****ver', isEnable)
+    console.log('******isActive', isActive);
 
-  const isActive = () => {
-    if(verifyMnemonic && verifyMnemonic.length === 12){
-      return true
-    }
-    return false
+    const handleClose = () => {
+      // push('/')
+    };
 
-  }
-
-  console.log('******isActive', isActive)
-   
-
-  const handleClose = () => {
-    // push('/')
-  }
-   
-const isBtnDisabled = verifyMnemonic && verifyMnemonic.length > 0 && verifyMnemonic.length === 12
+    const isBtnDisabled =
+      verifyMnemonic &&
+      verifyMnemonic.length > 0 &&
+      verifyMnemonic.length === 12;
 
     return (
       <Layout>
         <div>
-          <CreateWalletCard className='' handleClose={handleClose} title='Create a new wallet'>
+          <CreateWalletCard
+            className=""
+            handleClose={handleClose}
+            title="Create a new wallet"
+          >
             <Verification />
             {is_incorrect_modal_visible && (
-            <p className={styles.incorrect_mnemonic}>
+              <p className={styles.incorrect_mnemonic}>
                 Incorrect mnemonic phrase order. Please try again.
-            </p>
+              </p>
             )}
             <div className={styles.phraseContent}>
               {/* <MnemonicPhrase mnemonic={mnemonic.split(" ")} /> */}
