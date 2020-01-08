@@ -29,11 +29,31 @@ const AccountCreateCredentialForm: FC<IProps> = ({
   onSubmit,
   walletCardClassName = '',
   title,
+  push,
 }) => {
   const [password, setPassword] = useState('');
   const [password_again, setPasswordAgain] = useState('');
   const [checked, setChecked] = useState(false);
   const [errors, setErrors] = useState<Record<string, boolean>>(INITIAL_ERRORS);
+
+
+const validatePassField = useCallback(() => {
+  if( password !== '' && (!password.match(/[A-Z]+/) ||
+  !password.match(/[\W]/) ||
+  !password.match(/[0-9]+/) ||
+  password.length < 8)){
+    return true
+  }
+  return false
+}, [password])
+
+
+const validateRePassField = useCallback(() => {
+  if( !!password && !!password_again && password !== password_again){
+    return true
+  }
+  return false
+}, [password, password_again])
 
   const onNextPressed = useCallback(() => {
     const validation_errors = {
@@ -44,22 +64,28 @@ const AccountCreateCredentialForm: FC<IProps> = ({
         !password.match(/[0-9]+/) ||
         password.length < 8,
     };
-
-    if (Object.values(validation_errors).includes(true))
+  
+    if (Object.values(validation_errors).includes(true)){
       return setErrors(validation_errors);
+    }
+
     if (!checked) return;
 
     onSubmit({
       password,
     });
-  }, [onSubmit, password, password_again, checked]);
+  }, [password, password_again, checked, onSubmit]);
 
   function handleCheckBox(toggle) {
     setChecked(toggle);
   }
 
+  const handleClose = () => {
+    push('/')
+  }
+
   return (
-    <CreateWalletCard className={walletCardClassName} title={title}>
+    <CreateWalletCard className={walletCardClassName} handleClose={handleClose} title={title}>
       <div className={styles.title}>
         <h3 className="font-weight-semi-bold">
           1
@@ -86,9 +112,10 @@ Create a keystore
         value={password}
         handler={value => {
           setPassword(value);
-          setErrors({ ...errors, password: false });
+          // validatePassField()
+          // setErrors({ ...errors, password: false });
         }}
-        isError={errors.password || false}
+        isError={validatePassField() || false}
         errorMsg="Make sure to enter at least 8 characters, including one upper-case letter, a symbol and a number."
       />
 
@@ -98,11 +125,11 @@ Create a keystore
         value={password_again}
         handler={value => {
           setPasswordAgain(value);
-          setErrors({ ...errors, password_match: false });
+          // setErrors({ ...errors, password_match: false });
         }}
-        isError={errors.password_match}
+        isError={validateRePassField()}
         errorMsg={
-          errors.password_match ? 'The entered password does not match' : ''
+          validateRePassField() ? 'The entered password does not match' : ''
         }
       />
       <div className={styles.checkField}>
@@ -125,6 +152,16 @@ I understand that
         </p>
       </div>
       <div className={styles.downloadBtnWrapper}>
+        {/* <button
+          type="button"
+          className={classnames(styles.downloadBtn, {
+            [styles.disable]: !checked,
+          })}
+          onClick={onNextPressed}
+          disabled={!checked}
+        >
+         Back
+        </button> */}
         <button
           type="button"
           className={classnames(styles.downloadBtn, {

@@ -49,17 +49,17 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     false
   );
 
-  console.log(errors, '******errors');
+  // console.log((/^[a-zA-Z]+$/).test('dsas'), '******errors');
 
   const is_next_disabled = useMemo<boolean>(() => {
-    if (phrase.length === 0) return true;
+    if (phrase.length === 0) return false;
 
     const words = phrase
       .split(' ')
       .map(el => el.trim())
-      .filter(el => el.match(/^[A-Za-z]+$/));
+      .filter(el => /^[a-zA-Z]+$/.test(el));
 
-    return words.length !== 12;
+    return words.length === 12 || words.length === 24;
   }, [phrase]);
 
   // const onCancelModalOpen = useCallback(() => {
@@ -80,20 +80,23 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       phrase
         .split(' ')
         .map(el => el.trim())
-        .filter(el => el.match(/^[A-Za-z]+$/));
+        .filter(el => /^[a-zA-Z]+$/.test(el));
     const validation_errors = {
-      phrase: phrase === '' || (phrase !== '' && words && words.length !== 12),
+      phrase:
+        phrase === '' ||
+        (words && !(words.length === 12 || words.length === 24)),
     };
 
     if (validation_errors.phrase) return setError(validation_errors.phrase);
 
-    if (is_next_disabled) return setIsIncorrectModalVisible(true);
+    if (!is_next_disabled) return setIsIncorrectModalVisible(true);
 
     const mnemonic = phrase
       .split(' ')
       .map(el => el.trim())
-      .filter(el => el.match(/^[A-Za-z]+$/))
+      .filter(el => /^[a-zA-Z]+$/.test(el))
       .join(' ');
+    console.log(mnemonic, '****mnemonic');
 
     accountCreateRestoreMnemonics({ mnemonic });
     // push('/account/restore/credentials')
@@ -109,7 +112,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   //   },
   //   [accountUploadKeystore]
   // );
-  console.log('******is_incorrect_modal_visible', is_next_disabled);
+  console.log('******is_incorrect_modal_visible', !is_next_disabled);
 
   return (
     // <div>
@@ -240,7 +243,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
         {/* --Mnemonic Start-- */}
         <div>
           <h4 className={classnames('opacity-7', styles.inputLabel)}>
-            Please type in your 12-word mnemonic phrase, all lower-case,
+            Please type in your 12 or 24 word mnemonic phrase, all lower-case,
             separate by single spaces.
           </h4>
           <div className={styles.inputWrapper}>
@@ -276,7 +279,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
         {/* --Private End-- */}
         <div className="text-center">
           <Button
-            color={!is_next_disabled ? 'primary' : 'secondary'}
+            color={!is_next_disabled ? 'secondary' : 'primary'}
             className={styles.btn}
             onClick={onSubmit}
           >
