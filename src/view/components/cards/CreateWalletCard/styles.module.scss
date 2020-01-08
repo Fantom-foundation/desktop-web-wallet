@@ -1,25 +1,44 @@
 @import '~/styles/variables.scss';
+
 .root {
   max-width: 620px;
+
   padding: {
     left: 25px;
     right: 25px;
   }
+
   margin: {
     left: auto;
     right: auto;
   }
 }
+
+.close {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  line-height: 1;
+  color: #fff;
+  transform: translateY(-50%);
+  font-size: 30px;
+  font-weight: 600;
+  width: 30px;
+}
+
 .card {
   border-radius: 22px 22px 20px !important;
 }
+
 .head {
+  position: relative;
   border-radius: 20px 20px 0 0;
   height: 90px;
   display: flex;
   align-items: center;
   text-align: center;
   background: map-get($color, dark-periwinkle);
+
   @media (max-width: $tablet) {
     height: 83px;
   }
@@ -27,6 +46,7 @@
 
 .body {
   padding: 30px 40px 40px;
+
   @media (max-width: $phone) {
     padding: 30px 25px;
   }

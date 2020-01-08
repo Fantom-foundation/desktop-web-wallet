@@ -8,7 +8,7 @@ export default ({ handleClose = () => {}, children, className = '', title = 'Cre
     <Card className={classnames('p-0', styles.card)}>
       <div className={styles.head}>
         <h2 className="text-white w-100 m-0">{title}</h2>
-        <button type="submit" onClick={() => handleClose()}>X</button>
+        <button type="submit" className={classnames('btn-icon', styles.close)} onClick={() => handleClose()}>&times;</button>
       </div>
       <div className={styles.body}>{children}</div>
     </Card>

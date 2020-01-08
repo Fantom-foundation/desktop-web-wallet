@@ -440,7 +440,7 @@ const Stake = props => {
     if (selectedAddress && timeLeft > 0) {
       return (
         <>
-          <Row className="mt-6">
+          <Row >
             <Col>
               <Card className="text-center">
                 <div className={styles.availableWrapper}>
@@ -460,7 +460,7 @@ const Stake = props => {
     }
     if (deactivatedEpoch > 0 && timeLeft < 0) {
       return (
-        <Row className="mt-6">
+        <Row >
           <Col>
             <Card className="text-center">
               <div className={styles.availableWrapper}>
@@ -477,6 +477,34 @@ const Stake = props => {
     }
     return null;
   };
+
+
+
+
+
+  
+
+
+    const deactivatedEpoch = Number(
+      (selectedAddress && selectedAddress.deactivatedEpoch) || 0
+    );
+    const deactivatedTime = Number(
+      (selectedAddress && selectedAddress.deactivatedTime) || 0
+    );
+
+    const date1 = new Date(deactivatedTime * 1000);
+    date1.setDate(date1.getDate() + 7);
+    const date2 = new Date();
+    const startTime = moment(date1, 'YYYY/MM/DD HH:mm');
+    const endTime = moment(date2, 'YYYY/MM/DD HH:mm');
+
+    const timeLeft = startTime.diff(endTime, 'hours', true);
+    // parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount)).toFixed(5)}
+  
+
+
+
+
   const stakeDetails =
     stakes && stakes.length > 0
       ? stakes.find(stake => {
@@ -484,7 +512,6 @@ const Stake = props => {
           return stake.publicKey === id.toLowerCase();
         })
       : [];
-  console.log('***stakeDetails', stakeDetails);
 
   const stakedAmount = stakeDetails
     ? parseFloat(Web3.utils.fromWei(stakeDetails.stakedAmount || '0')).toFixed(
@@ -534,7 +561,7 @@ const Stake = props => {
         </Col>
       </Row>
       {withdrawalStakeCard()}
-      <Row className="mt-6">
+      <Row className={(deactivatedEpoch > 0 && timeLeft < 0) || (selectedAddress && timeLeft > 0) ? 'mt-6':''}>
         <Col>
           {withdrawalText ? (
             <WithdrawalProgress withdrawalText={withdrawalText} />

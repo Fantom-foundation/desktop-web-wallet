@@ -7,7 +7,7 @@ import {
 
 const SuccessCard = ({cardCss, iconGapCss}) => {
   return (
-    <Card className={classnames(cardCss, 'mb-5 mt-5')}>
+    <Card className={classnames(cardCss, 'mb-5')}>
       <h2 className={iconGapCss}>
         Congratulations!
         <br />
