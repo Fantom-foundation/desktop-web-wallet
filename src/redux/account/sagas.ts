@@ -137,7 +137,6 @@ function* createSetRestoreCredentials({
   const keystore = Fantom.getKeystore(privateKey, pass);
   const dateTime = new Date();
   const fileName = `UTC--${dateTime.toISOString()} -- ${publicAddress}`;
-  // debugger
   fileDownload(JSON.stringify(keystore), `${fileName}.json`);
   localStorage.setItem('mnemonic', '')
   yield delay(2000);
@@ -400,6 +399,7 @@ function* getFee({
 function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeystore>) {
   try {
     yield put(accountSetCreate({ errors: {} }));
+    console.log('**data', file, password)
 
     const { icon } = yield select(selectAccountCreate);
     const { list }: IAccountState = yield select(selectAccount);
@@ -408,7 +408,7 @@ function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeys
 
     if (!keystore)
       return put(
-        accountSetCreate({ errors: { keystore: 'Not a valid keystore file' } })
+        accountSetCreate({ errors: { keystore: 'Not a valid wallet file' } })
       );
 
     const result = Fantom.validateKeystore(keystore, password);
@@ -420,9 +420,19 @@ function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeys
           errors: { keystore: "Password doesn't match keystore file" },
         })
       );
-      console.log(Object.keys(list).includes(`0x${keystore.address}`), '***adasjd')
+      const prevList = Object.keys(list);
+      let isAddressFound = false
+      if(prevList && prevList.length > 0){
+        prevList.forEach(item => {
+          if(item.toLowerCase() === `0x${keystore.address}`){
+            isAddressFound = true
+          }
 
-    if (Object.keys(list).includes(`0x${keystore.address}`))
+        })
+
+      }
+
+    if (isAddressFound)
       return yield put(
         accountSetCreate({
           errors: {
@@ -430,7 +440,6 @@ function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeys
           },
         })
       );
-      console.log('****jdjajsdjs')
 
     yield put(
       accountAddAccount({
@@ -443,6 +452,7 @@ function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeys
 
     yield put(push(URLS.ACCOUNT_SUCCESS));
   } catch (e) {
+    console.log('***err', e)
     yield put(
       accountSetCreate({
         errors: { keystore: 'Invalid keystore file or password.' },

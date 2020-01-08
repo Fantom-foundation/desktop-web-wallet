@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useState, useCallback, useMemo, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
 import { withRouter, RouteComponentProps } from 'react-router';
@@ -51,13 +52,14 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   const [phrase, setPhrase] = useState('');
   const [error, setError] = useState(false);
   const [uploadedFile, setFile] = useState()
-  const [currentTab, setCurrentTab] = useState(2)
+  const [currentTab, setCurrentTab] = useState(1)
+  const [password, setPassword] = useState('')
+  const [fileError, setFileError] = useState(false)
+  const [passError, setPassError] = useState(false)
   const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
     false
   );
-  console.log('*****adjsjasaccountData', accountDetails)
 
-  // console.log((/^[a-zA-Z]+$/).test('dsas'), '******errors');
 
   const is_next_disabled = useMemo<boolean>(() => {
     if (phrase.length === 0) return false;
@@ -104,7 +106,6 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       .map(el => el.trim())
       .filter(el => /^[a-zA-Z]+$/.test(el))
       .join(' ');
-    console.log(mnemonic, '****mnemonic');
 
     accountCreateRestoreMnemonics({ mnemonic });
     // push('/account/restore/credentials')
@@ -117,19 +118,18 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       if (!file) return;
       setFile(file)
 
-      // accountUploadKeystore(file, password);
     },
     []
   );
 
+
   const handleFileSubmit = useCallback(
     () => {
      
-      accountUploadKeystore(uploadedFile, 'Sunil@123');
+      accountUploadKeystore(uploadedFile, password);
     },
-    [accountUploadKeystore, uploadedFile]
+    [accountUploadKeystore,password,  uploadedFile]
   );
-  console.log('******is_incorrect_modal_visible', !is_next_disabled);
 
   const handleCurrentTab = useCallback(
     tab => {
@@ -150,8 +150,18 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   
 
   const handleAllSubmit = useCallback(
-    () => {
+    (e: any) => {
+      e.preventDefault();
       if(currentTab === 1){
+        if(!(password && password !== '')){
+          setPassError(true)
+          return
+        }
+        if(!uploadedFile){
+          setFileError(true)
+          return 
+    
+        }
         handleFileSubmit()
 
       } else if (currentTab === 2){
@@ -161,10 +171,28 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
         handlePrivateKeySubmit()
       }
      
-    //  setCurrentTab(tab)
     },
     [currentTab, handlePrivateKeySubmit, onSubmit, handleFileSubmit]
   );
+
+
+  const getErrorText = () => {
+    if(passError){
+      return 'Please enter password.'
+
+    }
+    if(fileError){
+      return 'Please upload keystore.'
+
+    }
+    if(Object.keys(accountDetails.errors).length > 0){
+      return accountDetails.errors.keystore
+
+    }
+
+
+    
+  }
 
   
 
@@ -283,18 +311,22 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
               'outlined text-dark-grey-blue btn btn-topaz'
             )}
           >
-            <input className="d-none" type="file" />
+            <input className="d-none" type="file" onChange={e => {onUpload(e), setFileError(false)}} />
             <img src={uploadIcon} alt="Upload keystore file" />
             Upload keystore file
           </label>
-          <p> Keystore sucessfully loaded</p>
+          {uploadedFile && <p> Keystore sucessfully loaded</p>}
           <FormInput
             accessWallet
             type="password"
             placeholder="Enter you wallet password"
-            handler={() => {}}
-            isError
-            errorMsg="dsf"
+            value={password}
+            handler={val => {
+              setPassword(val)
+              setPassError(false)
+            }}
+            isError={passError}
+            errorMsg={getErrorText()}
           />
         </div>}
         {/* --Keystore End-- */}
@@ -352,7 +384,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
           <Button
             color={!is_next_disabled ? 'secondary' : 'primary'}
             className={styles.btn}
-            onClick={() => handleAllSubmit()}
+            onClick={(e) => handleAllSubmit(e)}
           >
             Unlock wallet
           </Button>
