@@ -397,13 +397,14 @@ function* getFee({
   }
 }
 
-function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
+function* uploadKeystore({ file, password }: ReturnType<typeof accountUploadKeystore>) {
   try {
     yield put(accountSetCreate({ errors: {} }));
 
-    const { password, icon } = yield select(selectAccountCreate);
+    const { icon } = yield select(selectAccountCreate);
     const { list }: IAccountState = yield select(selectAccount);
     const keystore: EncryptedKeystoreV3Json = yield call(readFileAsJSON, file);
+    console.log(keystore, '****8asdasds')
 
     if (!keystore)
       return put(
@@ -411,6 +412,7 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
       );
 
     const result = Fantom.validateKeystore(keystore, password);
+    console.log('******result', result)
 
     if (!result)
       return yield put(
@@ -418,6 +420,7 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
           errors: { keystore: "Password doesn't match keystore file" },
         })
       );
+      console.log(Object.keys(list).includes(`0x${keystore.address}`), '***adasjd')
 
     if (Object.keys(list).includes(`0x${keystore.address}`))
       return yield put(
@@ -427,6 +430,7 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
           },
         })
       );
+      console.log('****jdjajsdjs')
 
     yield put(
       accountAddAccount({
@@ -437,7 +441,7 @@ function* uploadKeystore({ file }: ReturnType<typeof accountUploadKeystore>) {
       })
     );
 
-    yield put(push(URLS.ACCOUNT_LIST));
+    yield put(push(URLS.ACCOUNT_SUCCESS));
   } catch (e) {
     yield put(
       accountSetCreate({

@@ -179,9 +179,10 @@ export const accountSetTransferFee = (
   fee,
 });
 
-export const accountUploadKeystore = (file: File) => ({
+export const accountUploadKeystore = (file: File, password: string) => ({
   type: ACCOUNT_ACTIONS.UPLOAD_KEYSTORE,
   file,
+  password,
 });
 
 export const accountSet = (account: Partial<IAccountState>) => ({

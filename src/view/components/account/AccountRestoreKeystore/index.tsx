@@ -23,9 +23,9 @@ const AccountRestoreKeystoreUnconnected: FC<IProps> = ({
 
       console.log(file);
       
-      accountUploadKeystore(file);
+      // accountUploadKeystore(file, 'asdsa');
     },
-    [accountUploadKeystore]
+    []
   );
 
   return (

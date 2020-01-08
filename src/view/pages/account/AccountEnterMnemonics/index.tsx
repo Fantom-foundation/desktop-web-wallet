@@ -15,8 +15,12 @@ import classnames from 'classnames';
 import { MnemonicIcon } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
+import { setDelegatorByAddressFailure } from '~/redux/stake/handlers';
 
-const mapStateToProps = selectAccountCreate;
+// const mapStateToProps = selectAccountCreate;
+const mapStateToProps = state => ({
+  accountDetails: selectAccountCreate(state),
+});
 const mapDispatchToProps = {
   accountCreateRestoreMnemonics: ACCOUNT_ACTIONS.accountCreateRestoreMnemonics,
   accountCreateCancel: ACCOUNT_ACTIONS.accountCreateCancel,
@@ -30,17 +34,20 @@ type IProps = ReturnType<typeof mapStateToProps> &
   RouteComponentProps & {};
 
 const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
-  errors,
+  // errors,
   accountCreateRestoreMnemonics,
   accountCreateCancel,
   accountUploadKeystore,
   push,
+  accountDetails,
 }) => {
   const [phrase, setPhrase] = useState('');
   const [error, setError] = useState(false);
+  const [uploadedFile, setFile] = useState()
   const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
     false
   );
+  console.log('*****adjsjasaccountData', accountDetails)
 
   // console.log((/^[a-zA-Z]+$/).test('dsas'), '******errors');
 
@@ -94,16 +101,25 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     // push('/account/restore/credentials')
   }, [is_next_disabled, accountCreateRestoreMnemonics, phrase]);
 
-  // const onUpload = useCallback(
-  //   (event: ChangeEvent<HTMLInputElement>) => {
-  //     const file = event.target.files && event.target.files[0];
+  const onUpload = useCallback(
+    (event: ChangeEvent<HTMLInputElement>) => {
+      const file = event.target.files && event.target.files[0];
 
-  //     if (!file) return;
+      if (!file) return;
+      setFile(file)
 
-  //     accountUploadKeystore(file);
-  //   },
-  //   [accountUploadKeystore]
-  // );
+      // accountUploadKeystore(file, password);
+    },
+    []
+  );
+
+  const handleFileSubmit = useCallback(
+    () => {
+     
+      accountUploadKeystore(uploadedFile, 'Sunil@123');
+    },
+    [accountUploadKeystore, uploadedFile]
+  );
   console.log('******is_incorrect_modal_visible', !is_next_disabled);
 
   return (
@@ -195,7 +211,19 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
           <h4 className={classnames('opacity-7', styles.inputLabel)}>
           Please type in your 12 or 24 word mnemonic phrase, all lower-case, separate by single spaces.
           </h4>
+      
           <div className={styles.inputWrapper}>
+            {/* <div className={styles.dropzone}>
+              <div className={styles.dropzone_sign}>
+                <h2>Drop keystore file here</h2>
+
+                <Button color="primary">Upload keystore file</Button>
+              </div>
+              <input type="file" onChange={onUpload} />
+            </div>
+
+            <div className={styles.error}>{errors.keystore}</div> */}
+            <input type="file" onChange={onUpload} />
             <Input
               type="textarea"
               className={classnames(styles.input, styles.textarea, {
@@ -216,7 +244,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
           <Button
             color={!is_next_disabled ? 'secondary' : 'primary'}
             className={styles.btn}
-            onClick={onSubmit}
+            onClick={handleFileSubmit}
           >
             Unlock wallet
           </Button>
