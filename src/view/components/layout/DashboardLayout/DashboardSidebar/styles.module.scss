@@ -120,7 +120,7 @@
   }
   .menus {
     padding: 0 15px;
-    display:table;
+    display: table;
     width: fit-content;
     margin: auto;
     li {
@@ -138,6 +138,7 @@
       }
     }
     a {
+      text-decoration: none;
       display: flex;
       align-items: center;
       color: #fff !important;
