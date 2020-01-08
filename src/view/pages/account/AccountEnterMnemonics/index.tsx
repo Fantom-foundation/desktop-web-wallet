@@ -63,14 +63,22 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
   const is_next_disabled = useMemo<boolean>(() => {
     if (phrase.length === 0) return false;
+    // let isCorrectWords = true
 
     const words = phrase
       .split(' ')
       .map(el => el.trim())
-      .filter(el => /^[a-zA-Z]+$/.test(el));
+      .filter(el => {
+        // if(/^[a-zA-Z]+$/.test(el)){
+        //   setError(true)
+        // }
+        return /^[a-zA-Z]+$/.test(el)
+      });
 
     return words.length === 12 || words.length === 24;
   }, [phrase]);
+
+  console.log('***jsad', /^[a-zA-Z]+$/.test('kasjdjsa'), /^[a-zA-Z]+$/.test('**sadh2'))
 
   // const onCancelModalOpen = useCallback(() => {
   //   setIsCancelModalOpened(true);
@@ -85,16 +93,25 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   // }, [setIsIncorrectModalVisible]);
 
   const onSubmit = useCallback(() => {
+    let isValidMnemonics = true
     const words =
       phrase !== '' &&
       phrase
         .split(' ')
         .map(el => el.trim())
-        .filter(el => /^[a-zA-Z]+$/.test(el));
+        .filter(el => {
+          
+            if(el !== '' && !/^[a-zA-Z]+$/.test(el)){
+              // setError(true)
+              isValidMnemonics = false
+            }
+            return /^[a-zA-Z]+$/.test(el)
+          
+        });
     const validation_errors = {
       phrase:
         phrase === '' ||
-        (words && !(words.length === 12 || words.length === 24)),
+        (words && !(words.length === 12 || words.length === 24) || !isValidMnemonics),
     };
 
     if (validation_errors.phrase) return setError(validation_errors.phrase);
@@ -111,12 +128,11 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     // push('/account/restore/credentials')
   }, [is_next_disabled, accountCreateRestoreMnemonics, phrase]);
 
-  const onUpload = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files && event.target.files[0];
+  const onUpload = useCallback((event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files && event.target.files[0];
 
-      if (!file) return;
-      setFile(file)
+    if (!file) return;
+    setFile(file);
 
     },
     []
@@ -133,15 +149,12 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
   const handleCurrentTab = useCallback(
     tab => {
-     
-     setCurrentTab(tab)
+      setCurrentTab(tab);
     },
     [setCurrentTab]
   );
 
-  const handlePrivateKeySubmit = useCallback(
-    () => {
-     
+  const handlePrivateKeySubmit = useCallback(() => {
     //  setCurrentTab(tab)
     },
     []
@@ -149,30 +162,30 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
   
 
-  const handleAllSubmit = useCallback(
-    (e: any) => {
-      e.preventDefault();
-      if(currentTab === 1){
-        if(!(password && password !== '')){
-          setPassError(true)
-          return
-        }
-        if(!uploadedFile){
-          setFileError(true)
-          return 
-    
-        }
-        handleFileSubmit()
+  
 
-      } else if (currentTab === 2){
-        onSubmit()
+  const handleAllSubmit = useCallback((e: any) => {
+    e.preventDefault();
 
-      } else if (currentTab === 3){
-        handlePrivateKeySubmit()
+    if (currentTab === 1) {
+      if(!(password && password !== '')){
+        setPassError(true)
+        return
       }
+      if(!uploadedFile){
+        setFileError(true)
+        return 
+  
+      }
+      handleFileSubmit()
+    } else if (currentTab === 2) {
+      onSubmit();
+    } else if (currentTab === 3) {
+      handlePrivateKeySubmit();
+    }
      
     },
-    [currentTab, handlePrivateKeySubmit, onSubmit, handleFileSubmit]
+    [currentTab, password, uploadedFile, handleFileSubmit, onSubmit, handlePrivateKeySubmit]
   );
 
 
@@ -274,72 +287,86 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
     <Layout>
       <AccessWalletCard>
-        <div className={styles.optionsWrapper}>
-          <div className={styles.optionCol}>
-            <div
-              className={classnames(styles.option, { [styles.active]: currentTab === 1 })}
-              onClick={() => handleCurrentTab(1)}
-            >
-              <KeystoreIcon />
-              <h4 className="opacity-7">Keystore</h4>
+        <div className={styles.mainWrapper}>
+          <div>
+            <div className={styles.optionsWrapper}>
+              <div className={styles.optionCol}>
+                <div
+                  className={classnames(styles.option, {
+                    [styles.active]: currentTab === 1,
+                  })}
+                  onClick={() => handleCurrentTab(1)}
+                >
+                  <KeystoreIcon />
+                  <h4 className="opacity-7">Keystore</h4>
+                </div>
+              </div>
+              <div className={styles.optionCol}>
+                <div
+                  className={classnames(styles.option, {
+                    [styles.active]: currentTab === 2,
+                  })}
+                  onClick={() => handleCurrentTab(2)}
+                >
+                  <MnemonicIcon />
+                  <h4 className="opacity-7">Mnemonic phrase</h4>
+                </div>
+              </div>
+              <div className={styles.optionCol}>
+                <div
+                  className={classnames(styles.option, {
+                    [styles.active]: currentTab === 3,
+                  })}
+                  onClick={() => handleCurrentTab(3)}
+                >
+                  <PrivatekeyIcon className="mt-1" />
+                  <h4 className="opacity-7">Private key</h4>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className={styles.optionCol}>
-            <div
-              className={classnames(styles.option, { [styles.active]: currentTab === 2 })}
-              onClick={() => handleCurrentTab(2)}
-            >
-              <MnemonicIcon />
-              <h4 className="opacity-7">Mnemonic phrase</h4>
-            </div>
-          </div>
-          <div className={styles.optionCol}>
-            <div
-              className={classnames(styles.option, { [styles.active]: currentTab === 3 })}
-              onClick={() => handleCurrentTab(3)}
-            >
-              <PrivatekeyIcon className="mt-1" />
-              <h4 className="opacity-7">Private key</h4>
-            </div>
-          </div>
-        </div>
-        {/* --Keystore Start-- */}
-        {currentTab === 1 && <div>
-          <label
-            className={classnames(
-              styles.fileUploadBtn,
-              'outlined text-dark-grey-blue btn btn-topaz'
-            )}
-          >
-            <input className="d-none" type="file" onChange={e => {onUpload(e), setFileError(false)}} />
-            <img src={uploadIcon} alt="Upload keystore file" />
-            Upload keystore file
-          </label>
-          {uploadedFile && <p> Keystore sucessfully loaded</p>}
-          <FormInput
-            accessWallet
-            type="password"
-            placeholder="Enter you wallet password"
-            value={password}
-            handler={val => {
-              setPassword(val)
-              setPassError(false)
-            }}
-            isError={passError}
-            errorMsg={getErrorText()}
-          />
-        </div>}
-        {/* --Keystore End-- */}
+            {/* --Keystore Start-- */}
+            {currentTab === 1 && (
+              <div>
+                <div className={classnames(styles.fileUploadBtnWrapper)}>
+                  <label
+                    className={classnames(
+                      styles.fileUploadBtn,
+                      'outlined text-dark-grey-blue btn btn-topaz'
+                    )}
+                  >
+                    <input className="d-none" type="file" onChange={e => {onUpload(e), setFileError(false)}} />
+                    <img src={uploadIcon} alt="Upload keystore file" />
+                    Upload keystore file
+                  </label>
+                  {uploadedFile && <p className={styles.info}>Keystore sucessfully loaded</p>}
+                  </div>
+                  <FormInput
+                    accessWallet
+                    type="password"
+                    placeholder="Enter you wallet password"
+                    value={password}
+                    handler={val => {
+                      setPassword(val)
+                      setPassError(false)
+                    }}
+                    isError={passError}
+                    errorMsg={getErrorText()}
+                  />
+                
+            
+         
+              </div>)}
+            {/* --Keystore End-- */}
 
-        {/* --Mnemonic Start-- */}
-        {currentTab === 2 && <div>
-          <h4 className={classnames('opacity-7', styles.inputLabel)}>
+            {/* --Mnemonic Start-- */}
+            {currentTab === 2 && (<div>
+              <h4 className={classnames('opacity-7', styles.inputLabel)}>
             Please type in your 12 or 24 word mnemonic phrase, all lower-case,
             separate by single spaces.
-          </h4>
+              </h4>
       
-          <div className={styles.inputWrapper}>
-            {/* <div className={styles.dropzone}>
+              <div className={styles.inputWrapper}>
+                {/* <div className={styles.dropzone}>
               <div className={styles.dropzone_sign}>
                 <h2>Drop keystore file here</h2>
 
@@ -349,45 +376,51 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
             </div>
 
             <div className={styles.error}>{errors.keystore}</div> */}
-            {/* <input type="file" onChange={onUpload} /> */}
-            <Input
-              type="textarea"
-              className={classnames(styles.input, styles.textarea, {
-                [styles.isError]: error,
-              })}
-              value={phrase}
-              onChange={e => {
-                setPhrase(e.target.value);
-                setError(false);
-              }}
-            />
-            {error && (
-              <p className={styles.errorText}>Invalid recovery phrase</p>
+                {/* <input type="file" onChange={onUpload} /> */}
+                <Input
+                  type="textarea"
+                  className={classnames(styles.input, styles.textarea, {
+                      [styles.isError]: error,
+                    })}
+                  value={phrase}
+                  onChange={e => {
+                      setPhrase(e.target.value);
+                      setError(false);
+                    }}
+                />
+                {error && (
+                <p className={styles.errorText}>Invalid recovery phrase</p>
+                  )}
+              </div>
+                                  </div>
             )}
-          </div>
-        </div>}
-        {/* --Mnemonic End-- */}
+            {/* --Mnemonic End-- */}
 
-        {/* --Private Start-- */}
-        { currentTab === 3 && <div>
-          <FormInput
-            accessWallet
-            type="text"
-            label="Please type in your private key"
-            handler={() => {}}
-            isError
-            errorMsg="dsf"
-          />
-        </div>}
-        {/* --Private End-- */}
-        <div className="text-center">
-          <Button
-            color={!is_next_disabled ? 'secondary' : 'primary'}
-            className={styles.btn}
-            onClick={(e) => handleAllSubmit(e)}
-          >
+            {/* --Private Start-- */}
+            {currentTab === 3 && (
+              <div>
+                <FormInput
+                  accessWallet
+                  type="text"
+                  label="Please type in your private key"
+                  handler={() => {}}
+                  isError
+                  errorMsg="dsf"
+                />
+              </div>
+            )}
+          
+          </div>
+          <div className="text-center">
+            <Button
+              color={!is_next_disabled ? 'secondary' : 'primary'}
+              className={styles.btn}
+              onClick={e => handleAllSubmit(e)}
+              // disbaled={!is_next_disabled}
+            >
             Unlock wallet
-          </Button>
+            </Button>
+          </div>
         </div>
       </AccessWalletCard>
     </Layout>
