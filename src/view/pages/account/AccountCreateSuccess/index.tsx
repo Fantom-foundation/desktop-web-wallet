@@ -22,7 +22,7 @@ const AccountCreateSuccess = props => {
           <div className="mb-4">
             <CheckCircleIcon />
           </div>
-          <h2 className="text-center">You are all set</h2>
+          <h2 className="text-center">You're all set!</h2>
           <p>You have successfully created your wallet.</p>
           <Button className="outlined mt-4" onClick={handleAccessWallet}>
               Access your wallet

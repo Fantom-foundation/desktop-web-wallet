@@ -214,20 +214,33 @@ const AccountCreateConfirmUnconnected: FC<IProps> = memo(
   }, [mnemonic, verifyMnemonic]);
 
   console.log('*****ver', isEnable)
+
+  const isActive = () => {
+    if(verifyMnemonic && verifyMnemonic.length === 12){
+      return true
+    }
+    return false
+
+  }
+
+  console.log('******isActive', isActive)
    
 
+  const handleClose = () => {
+    // push('/')
+  }
    
 const isBtnDisabled = verifyMnemonic && verifyMnemonic.length > 0 && verifyMnemonic.length === 12
 
     return (
       <Layout>
         <div>
-          <CreateWalletCard>
+          <CreateWalletCard className='' handleClose={handleClose} title='Create a new wallet'>
             <Verification />
             {is_incorrect_modal_visible && (
-              <p className={styles.incorrect_mnemonic}>
+            <p className={styles.incorrect_mnemonic}>
                 Incorrect mnemonic phrase order. Please try again.
-              </p>
+            </p>
             )}
             <div className={styles.phraseContent}>
               {/* <MnemonicPhrase mnemonic={mnemonic.split(" ")} /> */}
@@ -252,13 +265,13 @@ const isBtnDisabled = verifyMnemonic && verifyMnemonic.length > 0 && verifyMnemo
               </button>
 
               <Button
-                color={is_next_disabled ? 'secondary' : 'topaz'}
+                color={!isActive() ? 'secondary' : 'topaz'}
                 className={classnames('ml-2', {
-                  outlined: !is_next_disabled,
-                  'text-dark-grey-blue': !is_next_disabled,
+                  outlined: isActive(),
+                  'text-dark-grey-blue': isActive(),
                 })}
                 onClick={onSubmit}
-                disabled={!isBtnDisabled}
+                disabled={!isActive()}
               >
                 Verify
               </Button>
