@@ -12,7 +12,14 @@ import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 import { Input, Button } from 'reactstrap';
 import { AccessWalletCard } from 'src/view/components/cards';
 import classnames from 'classnames';
-import { MnemonicIcon } from 'src/view/components/svgIcons';
+import uploadIcon from 'src/images/icons/upload.svg';
+
+import { Input as FormInput } from 'src/view/components/forms';
+import {
+  KeystoreIcon,
+  MnemonicIcon,
+  PrivatekeyIcon,
+} from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
 
@@ -183,15 +190,58 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       <AccessWalletCard>
         <div className={styles.optionsWrapper}>
           <div className={styles.optionCol}>
-            <div className={classnames(styles.option, styles.active)}>
+            <div
+              className={classnames(styles.option, { [styles.active]: false })}
+            >
+              <KeystoreIcon />
+              <h4 className="opacity-7">Keystore</h4>
+            </div>
+          </div>
+          <div className={styles.optionCol}>
+            <div
+              className={classnames(styles.option, { [styles.active]: true })}
+            >
               <MnemonicIcon />
               <h4 className="opacity-7">Mnemonic phrase</h4>
             </div>
           </div>
+          <div className={styles.optionCol}>
+            <div
+              className={classnames(styles.option, { [styles.active]: false })}
+            >
+              <PrivatekeyIcon className="mt-1" />
+              <h4 className="opacity-7">Private key</h4>
+            </div>
+          </div>
         </div>
+        {/* --Keystore Start-- */}
+        <div>
+          <label
+            className={classnames(
+              styles.fileUploadBtn,
+              'outlined text-dark-grey-blue btn btn-topaz'
+            )}
+          >
+            <input className="d-none" type="file" />
+            <img src={uploadIcon} alt="Upload keystore file" />
+            Upload keystore file
+          </label>
+          <FormInput
+            accessWallet={true}
+            type="password"
+            placeholder="Enter you wallet password"
+            handler={() => {}}
+            isError={true}
+            errorMsg={'dsf'}
+          />
+        </div>
+        {/* --Keystore End-- */}
+
+        {/* --Mnemonic Start-- */}
         <div>
           <h4 className={classnames('opacity-7', styles.inputLabel)}>
-          Please type in your 12-word mnemonic phrase, all lower-case, separate by single spaces.
+            Please type in your 12-word mnemonic phrase, all lower-case,
+            separate by single spaces.
           </h4>
           <div className={styles.inputWrapper}>
             <Input
@@ -210,6 +260,20 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
             )}
           </div>
         </div>
+        {/* --Mnemonic End-- */}
+
+        {/* --Private Start-- */}
+        <div>
+          <FormInput
+            accessWallet={true}
+            type="text"
+            label="Please type in your private key"
+            handler={() => {}}
+            isError={true}
+            errorMsg={'dsf'}
+          />
+        </div>
+        {/* --Private End-- */}
         <div className="text-center">
           <Button
             color={!is_next_disabled ? 'primary' : 'secondary'}

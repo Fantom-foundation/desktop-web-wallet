@@ -20,7 +20,7 @@
   padding: 40px 0;
   flex-direction: column;
 
-  &>button {
+  & > button {
     margin: 10px 0;
   }
 }
@@ -92,7 +92,6 @@
   margin-top: 10px;
 }
 
-
 @import '~/styles/variables.scss';
 $gap: 15px;
 
@@ -114,10 +113,15 @@ $gap: 15px;
     }
 
     flex: 0 0 #{170px + $gap * 2};
-    max-width: 170px+$gap * 2;
+    max-width: 170px + $gap * 2;
 
     .option {
       width: 100%;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      align-items: center;
       border-radius: 20px;
       padding: 20px 12px;
       text-align: center;
@@ -186,4 +190,14 @@ $gap: 15px;
 
 .btn {
   width: 240px;
+}
+.fileUploadBtn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  img {
+    height: 20px;
+    margin-right: 16px;
+  }
 }
