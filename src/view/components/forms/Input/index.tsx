@@ -15,6 +15,7 @@ export default ({
   type = '',
   placeholder = '',
   value = '',
+  noBorder = false,
   accessWallet = false,
   handler,
   isError,
@@ -33,7 +34,7 @@ export default ({
           <div className={styles.inputWrapper}>
             <Input
               className={classnames(styles.inputBox, {
-                [styles.errorInput]: isError && !accessWallet,
+                [styles.errorInput]: isError && !noBorder,
                 [styles.textLight]: accessWallet,
               })}
               // className={}

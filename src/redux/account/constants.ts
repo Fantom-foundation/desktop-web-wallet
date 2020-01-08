@@ -1,4 +1,4 @@
-import { IAccount } from "./types";
+import { IAccount } from './types';
 
 const prefix = 'ACCOUNT.';
 
@@ -12,21 +12,22 @@ export const ACCOUNT_ACTIONS = {
   SET_FTM_USD: `${prefix}SET_FTM_TO_USD`,
   SET_FTM_MARKET_CAP: `${prefix}GET_FTM_MARKET_CAP`,
   GET_FTM_MARKET_CAP: `${prefix}GET_FTM_MARKET_CAP`,
-  
+
   CREATE_SET_CREDENTIALS: `${prefix}CREATE_SET_CREDENTIALS`,
-  CREATE_SET_RESTORE_CREDENTIALS: `${prefix}CREATE_SET_RESTORE_CREDENTIALS`,  
+  CREATE_SET_RESTORE_CREDENTIALS: `${prefix}CREATE_SET_RESTORE_CREDENTIALS`,
   CREATE_SET_INFO: `${prefix}CREATE_SET_INFO`,
   CREATE_SET_CONFIRM: `${prefix}CREATE_SET_CONFIRM`,
   CREATE_CANCEL: `${prefix}CREATE_CANCEL`,
   CREATE_CLEAR: `${prefix}CREATE_CLEAR`,
   CREATE_RESTORE_MNEMONICS: `${prefix}CREATE_RESTORE_MNEMONICS`,
-  
+  CREATE_RESTORE_PRIVATE_KEY: `${prefix}CREATE_RESTORE_PRIVATE_KEY`,
+
   SET_LIST: `${prefix}SET_LIST`,
   ADD_ACCOUNT: `${prefix}ADD_ACCOUNT`,
 
   GET_BALANCE: `${prefix}GET_BALANCE`,
   GET_PRIVATE_KEY: `${prefix}GET_PRIVATE_KEY`,
-  
+
   SEND_FUNDS: `${prefix}SEND_FUNDS`,
   SEND_FUNDS_PASS_CHECK: `${prefix}SEND_FUNDS_PASS_CHECK`,
   TRANSFER_CLEAR: `${prefix}TRANSFER_CLEAR`,
@@ -41,15 +42,15 @@ export const ACCOUNT_ACTIONS = {
   ADD_PROVIDER: `${prefix}ADD_PROVIDER`,
   PROVIDER_CONNECTED: `${prefix}PROVIDER_CONNECTED`,
   RECONNECT_PROVIDER: `${prefix}RECONNECT_PROVIDER`,
-}
+};
 
 export const EMPTY_ACCOUNT: IAccount = {
   publicAddress: '',
-  balance: '0', 
-  icon: '', 
+  balance: '0',
+  icon: '',
   keystore: null,
 
-  is_loading_balance: false, 
-}
+  is_loading_balance: false,
+};
 
-export const CONFIRMATION_PHRASE = "I have written down the phrase"; 
+export const CONFIRMATION_PHRASE = 'I have written down the phrase';

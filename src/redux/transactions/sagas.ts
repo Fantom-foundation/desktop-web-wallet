@@ -8,14 +8,11 @@ import { getTransactions, getFTMPrice } from './api';
 function* getList({ address }: ReturnType<typeof transactionsGetList>) {
   const { page, list, address:prevAddress } = yield select(selectTransactions);
   const updatedList = (prevAddress !== address ? [] : list)
-  console.log("prevAddress kapil",prevAddress, address, updatedList)
   yield put(transactionsSet({ error: null, is_loading: true, list: updatedList, address }));
 
   const offset = page * 10;
-  console.log(address, offset, '*****address kapil')
 
   const { error, data } = yield call(getTransactions, address, offset, 10);
-  console.log(error, data, '*****data kapil')
   // yield call(getBalance, accountGetBalance(from));
 
 

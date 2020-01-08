@@ -30,6 +30,7 @@ import { Address } from '~/view/components/account/Address';
 import { TextInput } from '~/view/components/inputs/TextInput';
 import { getURL } from '~/utility/dom';
 import { Layout } from '~/view/components/layout/Layout';
+import { Push } from 'connected-react-router';
 
 // import { Input } from '../../components/forms';
 
@@ -51,7 +52,9 @@ const mapDispatchToProps = {
 
 type IProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps &
-  RouteComponentProps & {};
+  RouteComponentProps & {
+    push: Push
+  };
 
 const AccountCreateInfoUnconnected: FC<IProps> = ({
   accountSetCreateStage,
@@ -61,6 +64,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   publicAddress,
   accountGetPrivateKey,
   icon,
+  history,
 }) => {
   const [is_revealed, setIsRevealed] = useState(false);
   const [modal, setModal] = useState(false);
@@ -102,11 +106,14 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
     () => setIsRevealed(!is_revealed),
     [setIsRevealed, is_revealed]
   );
+  const handleClose = () => {
+    history.push('/')
+  }
 
   return (
     <Layout>
       <div>
-        <CreateWalletCard>
+        <CreateWalletCard handleClose={() => handleClose()}>
           <div className={styles.title}>
             <h3 className="font-weight-semi-bold">
               2<span className="opacity-3 mr-2 mr-md-3">/2</span> Your mnemonic

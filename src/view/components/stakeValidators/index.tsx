@@ -9,7 +9,7 @@ import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 import { getValidatorsList as getValidatorsListAction } from '../../../redux/stake/actions';
 
 const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
-  console.log(stackeLeftPer, '****stackeLeftPer');
+  const stakedValue = parseFloat(totalStaked).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return (
     <>
       <tr>
@@ -21,7 +21,11 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
             <b>
-              {totalStaked} FTM ({stackeLeftPer}% full)
+              {stakedValue}
+              {' '}
+FTM (
+              {stackeLeftPer}
+% full)
             </b>
           </p>
         </td>
@@ -34,7 +38,11 @@ const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
         </td>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.value)}>
-            <b>{spaceLeft} FTM</b>
+            <b>
+              {spaceLeft}
+              {' '}
+FTM
+            </b>
           </p>
         </td>
       </tr>
@@ -135,7 +143,10 @@ const DataRow = props => {
           <p className={styles.txDetails}>{validatingPower}</p>
         </td>
         <td className="no-mobile">
-          <p className={styles.txDetails}>{upTime}%</p>
+          <p className={styles.txDetails}>
+            {upTime}
+%
+          </p>
         </td>
       </tr>
       <tr className={styles.subViewRow}>
@@ -161,7 +172,8 @@ const DataRow = props => {
                   </td>
                   <td className="d-md-none">
                     <p className={classnames(styles.txDetails, styles.value)}>
-                      {upTime}%
+                      {upTime}
+%
                     </p>
                   </td>
                 </tr>

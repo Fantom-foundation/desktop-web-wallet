@@ -122,7 +122,6 @@ export default props => {
           props.transactions &&
           props.transactions.length > 0 &&
           props.transactions.map((data: any, index: number) => {
-            console.log('*****dsadas', data)
             let memo = ''
             if(!!transactionHashDetails && transactionHashDetails[data.hash] !== ''){
                 memo = transactionHashDetails[data.hash]

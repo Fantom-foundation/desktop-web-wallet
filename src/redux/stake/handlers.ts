@@ -64,7 +64,6 @@ export const setDelegatorByAddress = (
   state: InitialStateType,
   { response }: ReturnType<typeof delegateByAddressSuccess>
 ) => {
-  console.log(state, '****sadsa');
 
   const data = [
     {
@@ -81,7 +80,6 @@ export const setDelegatorByAddress = (
       deactivatedTime: response.deactivatedTime,
     },
   ];
-  console.log(data, '***kasksakdsetDelegatorByAddress');
   return { ...state, data };
 };
 

@@ -94,7 +94,6 @@ const Stake = props => {
     }, 2000);
     return () => {console.log("cleartimeout kapil"); clearInterval(interval)};
   }, [accountGetBalance,accountGetTransferFee, modal, type, delegateByAddress,inProcess, id, setTransactionFee]);
-  console.log('******transactionFee', transactionFee)
 
 
 
@@ -252,12 +251,10 @@ const Stake = props => {
   const selectedAddress =
     stakes && stakes.length > 0
       ? stakes.find(stake => {
-          console.log(stake.publicKey, id, '***8sds');
           return stake.publicKey === id.toLowerCase();
         })
       : [];
       selectedAddress && selectedAddress.isDeligated;
-  console.log(selectedAddress, '****selectedAddress');
 
   const getCurrentCard = () => {
     const maxAmount = parseFloat(transactionFee) * 2
@@ -410,12 +407,10 @@ const Stake = props => {
     const selectedAddress =
       stakes && stakes.length > 0
         ? stakes.find(stake => {
-            console.log(stake.publicKey, id, '***8sds');
             return stake.publicKey === id.toLowerCase();
           })
         : [];
 
-    console.log(selectedAddress, '****selectedAddress');
 
     const deactivatedEpoch = Number(
       (selectedAddress && selectedAddress.deactivatedEpoch) || 0
@@ -508,7 +503,6 @@ const Stake = props => {
   const stakeDetails =
     stakes && stakes.length > 0
       ? stakes.find(stake => {
-          console.log(stake, id, '***8sds');
           return stake.publicKey === id.toLowerCase();
         })
       : [];

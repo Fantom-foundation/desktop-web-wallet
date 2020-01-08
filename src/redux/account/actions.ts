@@ -9,16 +9,18 @@ export const accountSetCreate = (create: Partial<IAccountState['create']>) => ({
 });
 
 export const accountSetFTMtoUSD = (price: string) => {
-  return ({
-  type: ACCOUNT_ACTIONS.SET_FTM_USD,
-  price,
-})};
+  return {
+    type: ACCOUNT_ACTIONS.SET_FTM_USD,
+    price,
+  };
+};
 
 export const accountSetFTMMarketCap = (marketCap: string) => {
-  return ({
-  type: ACCOUNT_ACTIONS.SET_FTM_MARKET_CAP,
-  marketCap,
-})};
+  return {
+    type: ACCOUNT_ACTIONS.SET_FTM_MARKET_CAP,
+    marketCap,
+  };
+};
 
 export const accountSetCreateStage = (
   stage: Partial<IAccountState['create']['stage']>
@@ -54,6 +56,13 @@ export const accountCreateRestoreMnemonics = ({
 }: Pick<IAccountState['create'], 'mnemonic'>) => ({
   type: ACCOUNT_ACTIONS.CREATE_RESTORE_MNEMONICS,
   mnemonic,
+});
+
+export const accountCreateRestorePrivateKey = ({
+  privateKey,
+}: Pick<IAccountState['create'], 'privateKey'>) => ({
+  type: ACCOUNT_ACTIONS.CREATE_RESTORE_PRIVATE_KEY,
+  privateKey,
 });
 
 export const accountCreateCancel = () => ({
@@ -101,8 +110,6 @@ export const accountFTMMarketCap = (cb: any) => {
   };
 };
 
-
-
 export const accountSetAccount = (
   id: IAccount['publicAddress'],
   data: Partial<IAccount>
@@ -112,13 +119,10 @@ export const accountSetAccount = (
   data,
 });
 
-export const accountSendFunds = ({
-  from,
-  to,
-  password,
-  amount,
-  message,
-}, cb) => ({
+export const accountSendFunds = (
+  { from, to, password, amount, message },
+  cb
+) => ({
   type: ACCOUNT_ACTIONS.SEND_FUNDS,
   from,
   to,
@@ -126,23 +130,19 @@ export const accountSendFunds = ({
   amount,
   message,
   cb,
-  });
+});
 
-
-export const accountSendPasswordCheck = ({
-  from,
-  to,
-  password,
-  amount,
-  message,
-}, cb) => ({
+export const accountSendPasswordCheck = (
+  { from, to, password, amount, message },
+  cb
+) => ({
   type: ACCOUNT_ACTIONS.SEND_FUNDS_PASS_CHECK,
   from,
   to,
   password,
   amount,
-    message,
-    cb,
+  message,
+  cb,
 });
 
 export const accountTransferClear = () => ({
@@ -163,10 +163,7 @@ export const accountSetTransfer = (
   transfer,
 });
 
-export const accountGetTransferFee = (
-  gasLimit,
-  cb
-) => ({
+export const accountGetTransferFee = (gasLimit, cb) => ({
   type: ACCOUNT_ACTIONS.GET_TRANSFER_FEE,
   gasLimit,
   cb,

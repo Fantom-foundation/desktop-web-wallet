@@ -31,6 +31,8 @@ const mapStateToProps = state => ({
 });
 const mapDispatchToProps = {
   accountCreateRestoreMnemonics: ACCOUNT_ACTIONS.accountCreateRestoreMnemonics,
+  accountCreateRestorePrivateKey:
+    ACCOUNT_ACTIONS.accountCreateRestorePrivateKey,
   accountCreateCancel: ACCOUNT_ACTIONS.accountCreateCancel,
   accountUploadKeystore: ACCOUNT_ACTIONS.accountUploadKeystore,
 
@@ -48,6 +50,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   accountUploadKeystore,
   push,
   accountDetails,
+  accountCreateRestorePrivateKey,
 }) => {
   const [phrase, setPhrase] = useState('');
   const [error, setError] = useState(false);
@@ -56,6 +59,9 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   const [password, setPassword] = useState('')
   const [fileError, setFileError] = useState(false)
   const [passError, setPassError] = useState(false)
+  const [userPrivateKey, setUserPrivateKey] = useState('');
+  const [privateKeyError , setPrivateKeyError] = useState(false)
+
   const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
     false
   );
@@ -78,7 +84,6 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     return words.length === 12 || words.length === 24;
   }, [phrase]);
 
-  console.log('***jsad', /^[a-zA-Z]+$/.test('kasjdjsa'), /^[a-zA-Z]+$/.test('**sadh2'))
 
   // const onCancelModalOpen = useCallback(() => {
   //   setIsCancelModalOpened(true);
@@ -147,18 +152,31 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     [accountUploadKeystore,password,  uploadedFile]
   );
 
-  const handleCurrentTab = useCallback(
-    tab => {
-      setCurrentTab(tab);
-    },
-    [setCurrentTab]
-  );
+  // const handleCurrentTab = useCallback(
+  //   tab => {
+  //     setCurrentTab(tab);
+  //   },
+  //   [setCurrentTab]
+  // );
 
   const handlePrivateKeySubmit = useCallback(() => {
-    //  setCurrentTab(tab)
-    },
-    []
-  );
+    const regx = /^[a-zA-Z0-9]+$/;
+    if (
+      (
+         (userPrivateKey === '' ||
+        userPrivateKey.length !== 66 ||
+        regx.test(userPrivateKey) === false ||
+        userPrivateKey.toLowerCase().substring(0, 2) !== '0x')
+      )
+    ) {
+      setPrivateKeyError(true)
+
+    } else {
+      accountCreateRestorePrivateKey({ privateKey: userPrivateKey });
+
+
+    }
+  }, [userPrivateKey, accountCreateRestorePrivateKey]);
 
   
 
@@ -166,6 +184,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
   const handleAllSubmit = useCallback((e: any) => {
     e.preventDefault();
+ 
 
     if (currentTab === 1) {
       if(!(password && password !== '')){
@@ -205,6 +224,50 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
 
     
+  }
+
+  const handleTabs = (tab) => {
+    setCurrentTab(tab)
+
+  setPrivateKeyError(false)
+  setPassError(false)
+  setFileError(false)
+  setError(false)
+
+  }
+
+  const getButtonActiveClass = () => {
+    if(currentTab === 2){
+      if(is_next_disabled){
+        return 'primary'
+      }
+      return 'secondary'
+    }
+
+    if(currentTab === 1){
+
+
+      // if(!(password && password !== '')){
+      //   setPassError(true)
+      //   return
+      // }
+   if((password && password !== '') && uploadedFile){
+        return 'primary'
+      }
+      return 'secondary'
+    }
+
+    if(currentTab === 3){
+   if(userPrivateKey && userPrivateKey.length === 66){
+    return 'primary'
+  }
+  return 'secondary'
+    }
+
+  }
+
+  const handleClose = () => {
+    push('/')
   }
 
   
@@ -286,7 +349,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     // </div>
 
     <Layout>
-      <AccessWalletCard>
+      <AccessWalletCard handleClose={handleClose} >
         <div className={styles.mainWrapper}>
           <div>
             <div className={styles.optionsWrapper}>
@@ -295,7 +358,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   className={classnames(styles.option, {
                     [styles.active]: currentTab === 1,
                   })}
-                  onClick={() => handleCurrentTab(1)}
+                  onClick={() => handleTabs(1)}
                 >
                   <KeystoreIcon />
                   <h4 className="opacity-7">Keystore</h4>
@@ -306,7 +369,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   className={classnames(styles.option, {
                     [styles.active]: currentTab === 2,
                   })}
-                  onClick={() => handleCurrentTab(2)}
+                  onClick={() => handleTabs(2)}
                 >
                   <MnemonicIcon />
                   <h4 className="opacity-7">Mnemonic phrase</h4>
@@ -317,7 +380,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   className={classnames(styles.option, {
                     [styles.active]: currentTab === 3,
                   })}
-                  onClick={() => handleCurrentTab(3)}
+                  onClick={() => handleTabs(3)}
                 >
                   <PrivatekeyIcon className="mt-1" />
                   <h4 className="opacity-7">Private key</h4>
@@ -342,6 +405,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   </div>
                   <FormInput
                     accessWallet
+                    noBorder
                     type="password"
                     placeholder="Enter you wallet password"
                     value={password}
@@ -403,9 +467,13 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   accessWallet
                   type="text"
                   label="Please type in your private key"
-                  handler={() => {}}
-                  isError
-                  errorMsg="dsf"
+                  handler={val => {
+                    setUserPrivateKey(val);
+                    setPrivateKeyError(false)
+                  }}
+                  value={userPrivateKey}
+                  isError={privateKeyError}
+                  errorMsg={privateKeyError ? "Please enter a valid 66 bit alphanumeric private key that starts with 0x" : "" }
                 />
               </div>
             )}
@@ -413,7 +481,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
           </div>
           <div className="text-center">
             <Button
-              color={!is_next_disabled ? 'secondary' : 'primary'}
+              color={getButtonActiveClass()}
               className={styles.btn}
               onClick={e => handleAllSubmit(e)}
               // disbaled={!is_next_disabled}

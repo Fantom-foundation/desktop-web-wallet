@@ -88,7 +88,8 @@ const AccountDetailsDashboard: FC<IProps> = ({
   //   useEffect(() => {
   //     if (is_node_connected) getBalance();
   //   }, [getBalance, is_node_connected]);
-  console.log(' ******transactionHashDetails', transactionHashDetails)
+  const account = accountData && accountData.list && id && accountData.list[id];
+
   // let interval;
   useEffect(() => {
     if(currentId !== id){
@@ -104,16 +105,19 @@ const AccountDetailsDashboard: FC<IProps> = ({
       setMarketCap(value);
     });
       }
+  let timeOutInterval = 2000
+  if( account && account.balance === '0'){
+    timeOutInterval = 5000
 
+  }
        
     const interval = setInterval(() => {
-      console.log("interval")
       accountGetBalance(id);
       transactionsGetList(id);
       // if(transactions.list && transactions.list.length > 0){
       //   setCurrentTransactions(transactions.list)
       // }
-    }, 2000);
+    }, timeOutInterval);
       // if(currentId === id){
       //   setCurrentTransactions(transactions.list || [])
       // }
@@ -121,7 +125,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
     
     return () => {console.log("clearInterval kapil"); clearInterval(interval)};
    
-  }, [accountFTMMarketCap, accountFTMtoUSD, accountGetBalance, currentId, id, transactions.list, transactionsGetList]);
+  }, [account, accountFTMMarketCap, accountFTMtoUSD, accountGetBalance, currentId, id, transactions.list, transactionsGetList]);
 
   // useEffect(() => {
   //   console.log('******iduseEffect', id)
@@ -140,7 +144,6 @@ const AccountDetailsDashboard: FC<IProps> = ({
   //   id,
   //   transactionsGetList,
   // ]);
-  const account = accountData && accountData.list && id && accountData.list[id];
 
   // console.log(ftmMarketCap, '**ftmMarketCap');
   // useEffect(() => {
@@ -157,7 +160,6 @@ const AccountDetailsDashboard: FC<IProps> = ({
     accountGetBalance(id);
     transactionsGetList(id);
   }, [accountGetBalance, id, transactionsGetList]);
-  console.log('******id kapil', id, currentId, transactions)
 
   const marketCapValue = parseFloat(marketCap).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return (

@@ -68,7 +68,6 @@ export const MnemonicPhraseEmpty = ({ selected, onMnemonicRemove }) => (
 );
 
 export const MnemonicButtons = ({ mnemonic, selected, onMnemonicSelect }) => {
-  console.log(mnemonic, '****asdas', selected)
   // let btnDisabled = false;
   // if(mnemonic && mnemonic.length > 0){
   //   mnemonic.forEach(item => {

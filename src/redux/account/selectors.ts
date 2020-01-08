@@ -1,7 +1,6 @@
 import { IState } from "~/redux/";
 
 export const selectAccount = (state: IState) => {
-  console.log(state.account, '*****state.account')
   return state.account
 };
 export const selectAccountConnection = (state: IState) => state.account.connection;

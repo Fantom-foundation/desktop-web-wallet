@@ -102,7 +102,6 @@ const TransferFunds: FC<IProps> = ({
       password: false,
       maxBalance: false,
     };
-    console.log(typeof amount, '****saasd',validation_errors)
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
@@ -198,7 +197,6 @@ const TransferFunds: FC<IProps> = ({
     }
   }
 
-  console.log(errorType, '****8errorType');
 
   const sendSuccess = useCallback(() => {
     setIsSending(true);
@@ -210,7 +208,6 @@ const TransferFunds: FC<IProps> = ({
       setIsSending(true);
       setModal(false);
       setInProcess(false)
-      console.log(localStorage.getItem('txHash') || '', '****sadasas')
       setTransactionDetails(localStorage.getItem('txHash') || '', memo)
     } else {
       setSendFailed(true)
@@ -221,7 +218,6 @@ const TransferFunds: FC<IProps> = ({
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   const callback = (value: boolean) => {
-    console.log(localStorage.getItem('txHash'), '****jasjdasdas');
     if (!value) {
       accountSendFunds(
         {
@@ -295,7 +291,6 @@ const TransferFunds: FC<IProps> = ({
 
   }
 
-  console.log(Number(transactionFee) * 2, '*****transactionFeesa')
 
   return (
     <>
@@ -369,7 +364,6 @@ const TransferFunds: FC<IProps> = ({
               }}
               type="number"
               handleChange={val => {
-                console.log('****typeof', val);
                 setAmount(val);
                 setErrors({ ...sendingErrors, amount: false, invalidAmount: false, maxBalance: false });
               }}
