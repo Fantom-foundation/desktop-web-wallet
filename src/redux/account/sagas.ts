@@ -210,7 +210,6 @@ function* createRestorePrivateKey({
       let isAddressFound = false
       if(prevList && prevList.length > 0){
         prevList.forEach(item => {
-          console.log('*****item.toLowerCase()', item.toLowerCase(), publicAddress);
           if(item.toLowerCase() === publicAddress.toLowerCase() ){
             isAddressFound = true
           }
