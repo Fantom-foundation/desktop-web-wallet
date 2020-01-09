@@ -217,7 +217,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       return 'Please upload keystore.'
 
     }
-    if(Object.keys(accountDetails.errors).length > 0){
+    if(Object.keys(accountDetails.errors).length > 0 && accountDetails.errors.keystore){
       return accountDetails.errors.keystore
 
     }
@@ -268,6 +268,19 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
   const handleClose = () => {
     push('/')
+  }
+
+  console.log('****errors', accountDetails.errors)
+  let isPrivateKeyError = false;
+  if(Object.keys(accountDetails.errors).length > 0 && accountDetails.errors.privateKey){
+    isPrivateKeyError = true
+
+  }
+
+  let isMnemonicExistError = false;
+  if(Object.keys(accountDetails.errors).length > 0 && accountDetails.errors.mnemonic){
+    isMnemonicExistError = true
+
   }
 
   
@@ -452,9 +465,11 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                       setError(false);
                     }}
                 />
-                {error && (
+                {error ? (
                 <p className={styles.errorText}>Invalid recovery phrase</p>
-                  )}
+                  ) : 
+                isMnemonicExistError ? <p className={styles.errorText}>{accountDetails && accountDetails.errors.mnemonic}</p> : ''
+                  }
               </div>
                                   </div>
             )}
@@ -473,7 +488,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   }}
                   value={userPrivateKey}
                   isError={privateKeyError}
-                  errorMsg={privateKeyError ? "Please enter a valid 66 bit alphanumeric private key that starts with 0x" : "" }
+                  errorMsg={isPrivateKeyError ? accountDetails.errors && accountDetails.errors.privateKey : privateKeyError ? "Please enter a valid 66 bit alphanumeric private key that starts with 0x" : "" }
                 />
               </div>
             )}

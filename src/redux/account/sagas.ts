@@ -165,6 +165,31 @@ function* createRestoreMnemonics({
   const { publicAddress } = Fantom.mnemonicToKeys(mnemonic || '');
   localStorage.setItem('mnemonic', mnemonic || '');
 
+
+  const { list }: IAccountState = yield select(selectAccount);
+ const prevList = Object.keys(list);
+      let isAddressFound = false
+      if(prevList && prevList.length > 0){
+        prevList.forEach(item => {
+          if(item.toLowerCase() === publicAddress.toLowerCase() ){
+            isAddressFound = true
+          }
+
+        })
+
+      }
+
+    if (isAddressFound)
+      return yield put(
+        accountSetCreate({
+          errors: {
+            mnemonic: "An account with this address already exist.",
+          },
+        })
+      );
+
+
+
   yield put(
     accountSetCreate({
       mnemonic,
@@ -179,6 +204,31 @@ function* createRestorePrivateKey({
   privateKey,
 }: ReturnType<typeof accountCreateRestorePrivateKey>) {
   const { publicAddress } = Fantom.privateKeyToKeys(privateKey || '');
+
+  const { list }: IAccountState = yield select(selectAccount);
+ const prevList = Object.keys(list);
+      let isAddressFound = false
+      if(prevList && prevList.length > 0){
+        prevList.forEach(item => {
+          console.log('*****item.toLowerCase()', item.toLowerCase(), publicAddress);
+          if(item.toLowerCase() === publicAddress.toLowerCase() ){
+            isAddressFound = true
+          }
+
+        })
+
+      }
+
+    if (isAddressFound)
+      return yield put(
+        accountSetCreate({
+          errors: {
+            privateKey: "An account with this address already exist.",
+          },
+        })
+      );
+
+
   yield put(
     accountSetCreate({
       privateKey,
