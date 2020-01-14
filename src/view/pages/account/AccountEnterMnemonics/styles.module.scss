@@ -1,10 +1,12 @@
 @import '~/styles/variables.scss';
+
 .mainWrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   min-height: 488px;
 }
+
 .center {
   text-align: center;
 }
@@ -25,7 +27,7 @@
   padding: 40px 0;
   flex-direction: column;
 
-  & > button {
+  &>button {
     margin: 10px 0;
   }
 }
@@ -117,8 +119,10 @@ $gap: 15px;
       right: $gap;
     }
 
+
+
     flex: 0 0 #{170px + $gap * 2};
-    max-width: 170px + $gap * 2;
+    max-width: 170px+$gap * 2;
 
     .option {
       width: 100%;
@@ -130,6 +134,8 @@ $gap: 15px;
       border-radius: 20px;
       padding: 17px 12px 20px;
       text-align: center;
+      cursor: pointer;
+
 
       h4 {
         margin-bottom: 2px;
@@ -196,20 +202,24 @@ $gap: 15px;
 .btn {
   width: 240px;
 }
+
 .fileUploadBtnWrapper {
   margin-bottom: 40px;
   position: relative;
+
   .fileUploadBtn {
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0;
+
     img {
       height: 20px;
       margin-right: 16px;
     }
   }
+
   .info {
     padding-top: 10px;
     font-size: 12px;
