@@ -22,6 +22,7 @@ import {
   delegateAmountSuccess,
   delegateAmountError,
   withdrawAmount,
+  withdrawAmountPassCheck,
 } from './actions';
 import { selectAccount } from '../account/selectors';
 import {} from './handlers';
@@ -226,6 +227,8 @@ export function* unstakeAmountSaga({
 
 export function* withdrawAmountSaga({
   publicKey,
+  password,
+  cb,
 }: ReturnType<typeof withdrawAmount>) {
   try {
     const { list }: IAccountState = yield select(selectAccount);
@@ -234,12 +237,47 @@ export function* withdrawAmountSaga({
     const privateKey = yield call(
       [Fantom, Fantom.getPrivateKey],
       keystore,
-      'Sunil@123'
+      password
     );
 
     const res = yield Fantom.withdrawDelegateAmount(publicKey, privateKey);
     console.log('withdrawAmountSaga response', res);
+    if(res){
+      cb(true)
+    } else {
+      cb(false)
+    }
 
+    // Assign contract functions to sfc variable
+  } catch (e) {
+    cb(false)
+    console.log('withdrawAmountSaga', e);
+  }
+}
+
+
+export function* withdrawAmountPasswordCheckSaga({
+  publicKey,
+  password,
+  cb,
+}: ReturnType<typeof withdrawAmountPassCheck>) {
+  try {
+    const { list }: IAccountState = yield select(selectAccount);
+
+    const { keystore } = list[publicKey];
+    const privateKey = yield call(
+      [Fantom, Fantom.getPrivateKey],
+      keystore,
+      password
+    );
+
+    if (!privateKey) {
+      cb(true);
+      // yield put(delegateAmountError());
+      return;
+    } 
+      cb(false)
+    
     // Assign contract functions to sfc variable
   } catch (e) {
     console.log('withdrawAmountSaga', e);
@@ -265,5 +303,7 @@ export default function* stakeSaga() {
 
     yield takeLatest(STAKE_ACTIONS.UNSTAKE_AMOUNT, unstakeAmountSaga),
     yield takeLatest(STAKE_ACTIONS.WITHDRAW_AMOUNT, withdrawAmountSaga),
+    yield takeLatest(STAKE_ACTIONS.WITHDRAW_AMOUNT_PASS_CHECK, withdrawAmountPasswordCheckSaga),
+
   ]);
 }

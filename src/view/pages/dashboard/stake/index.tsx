@@ -11,6 +11,9 @@ import UnstakeDecisionCard from 'src/view/components/stake/unstakeDecisionCard';
 import SuccessCard from '~/view/components/stake/sucessCard';
 import WithdrawSuccess from '~/view/components/stake/withdrawSuccess';
 import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
+import WithdrawSuccessfulCard from 'src/view/components/stake/withdrawalSuccessCard';
+
+
 import { connect } from 'react-redux';
 import Input from '../../../components/forms/Input';
 import { convertFTMValue } from '~/view/general/utilities';
@@ -24,6 +27,7 @@ import {
   delegateAmount as delegateAmountAction,
   delegateAmountPassCheck as delegateAmountPass,
   withdrawAmount as withdrawAmountAction,
+  withdrawAmountPassCheck as withdrawAmountPasswordCheck,
 } from '~/redux/stake/actions';
 import FailureCard from '~/view/components/stake/failureCard';
 import { selectAccount } from '~/redux/account/selectors';
@@ -51,6 +55,7 @@ const Stake = props => {
     accountData,
     accountGetBalance,
     delegateAmountPassCheck,
+    withdrawAmountPassCheck,
     accountGetPrivateKey,
     accountGetTransferFee,
   } = props;
@@ -93,7 +98,7 @@ const Stake = props => {
       }
     }, 2000);
     return () => {console.log("cleartimeout kapil"); clearInterval(interval)};
-  }, [accountGetBalance,accountGetTransferFee, modal, type, delegateByAddress,inProcess, id, setTransactionFee]);
+  }, [accountGetBalance, accountGetTransferFee, modal, type, delegateByAddress, inProcess, id, setTransactionFee, setTxFee]);
 
 
 
@@ -114,13 +119,13 @@ const Stake = props => {
         setStep(5);
       }
     },
-    [step]
+    [accountGetTransferFee, step]
   );
 
   const unStakeAmount = () => {
     const { unstakeamount, id } = props;
    
-    unstakeamount({ publicKey: id, password  }, (res) => {
+    unstakeamount({ publicKey: id, password  }, res => {
       if(res){
         setModal(false);
         setInProcess(false)
@@ -245,7 +250,49 @@ const Stake = props => {
     } else {
       setStep(step + 1);
     }
-  }, [account.balance, isEdit, stakeValue, step]);
+  }, [account.balance, errors, isEdit, stakeValue, step, transactionFee]);
+
+
+  const onWithdrawAmount = () => {
+    const { withdrawAmount, id } = props;
+    withdrawAmount({ publicKey: id, password }, res => {
+      if(res){
+        setInProcess(false);
+        setStep(10)
+        setModal(false)
+       
+
+      } else {
+        setStep(8);
+        setModal(false)
+        setInProcess(false);
+
+      }
+    });
+    // setTimeout(() => {
+    //   delegateByAddress({ publicKey: id });
+    //   accountGetBalance(id);
+
+    // }, 4000);
+   
+  };
+
+  const handlePasswordCheckForWithdraw = () => {
+    setInProcess(true)
+    withdrawAmountPassCheck({ publicKey: id, password }, res => {
+      if(res){
+        setPassError(true)
+        setInProcess(false)
+
+      } else {
+        onWithdrawAmount()
+
+      }
+
+    })
+
+
+  }
   // console.log(stakes[0].publicKey,id,  '********stakes')
 
   const selectedAddress =
@@ -283,8 +330,7 @@ const Stake = props => {
 
               }
                   setStakeValue(bal.toString());
-              }
-            }
+              }}
             validatorBtn={styles.validatorBtn}
             handleStep={() => handleStackSubmit()}
           />
@@ -328,8 +374,7 @@ const Stake = props => {
     } 
     setModal(true);
               setType('unStake')
-            }
-            }
+            }}
           />
         );
       case 6:
@@ -349,10 +394,41 @@ const Stake = props => {
             iconGapCss={styles.iconGap}
           />
         );
+
+        case 10:
+        return (
+          <WithdrawSuccessfulCard
+            cardCss={styles.transCard}
+            iconGapCss={styles.iconGap}
+          />
+        );
       default:
         break;
     }
   };
+
+  const getButtonTitle = () => {
+    if(type === 'stake'){
+      if(inProcess){
+        return 'Staking...'
+      }
+      return 'Stake'
+    } 
+     if (type === 'unStake'){
+      if(inProcess){
+        return 'Unstaking...'
+      }
+      return 'Unstake'
+
+    }
+    if (type === 'withdraw'){
+      if(inProcess){
+        return 'Withdrawing...'
+      }
+      return 'Withdraw'
+
+    }
+  }
 
   // eslint-disable-next-line react/no-multi-comp
   const renderModal = () => {
@@ -367,7 +443,7 @@ const Stake = props => {
         <ModalBody className={styles.body}>
           <Input
             type="password"
-            label={`Please enter your wallet password to ${type === 'stake' ? "stake": "unstake"}`}
+            label={`Please enter your wallet password to ${type === 'stake' ? "stake": type === 'withdraw' ? 'withdraw':"unstake"}`}
             value={password}
             placeholder="Enter password"
             handler={value => {
@@ -381,16 +457,20 @@ const Stake = props => {
             <button
               type="button"
               disabled={inProcess}
-              onClick={(e) => {
+              onClick={e => {
                 if (type === 'stake') {
                   stakeAmount();
-                } else {
+                } else if (type === 'withdraw'){
+                  handlePasswordCheckForWithdraw()
+                }
+                
+                else {
                   unStakeAmountPass();
                 }
               }}
               className={classnames('btn btn-secondary', styles.sendBtn)}
             >
-              { type === 'stake' ? inProcess ? 'Staking...': 'Stake' : inProcess ? 'Unstaking...' : 'Unstake'}
+              { getButtonTitle()}
             </button>
           </div>
         </ModalBody>
@@ -398,10 +478,8 @@ const Stake = props => {
     );
   };
 
-  const onWithdrawAmount = () => {
-    const { withdrawAmount, id } = props;
-    withdrawAmount({ publicKey: id });
-  };
+  console.log('****** Number(stakeValue)',  Number(stakeValue))
+
 
   const withdrawalStakeCard = () => {
     const selectedAddress =
@@ -435,14 +513,14 @@ const Stake = props => {
     if (selectedAddress && timeLeft > 0) {
       return (
         <>
-          <Row >
+          <Row>
             <Col>
               <Card className="text-center">
                 <div className={styles.availableWrapper}>
                   <h3 className="mb-0">
                     {`Your ${stakedAmount} FTM will be available in ${
                       timeLeft / 24 > 0
-                        ? Math.floor(timeLeft / 24) + ' days and'
+                        ? `${Math.floor(timeLeft / 24)  } days and`
                         : ''
                     }  ${Math.floor(timeLeft % 24)} hours`}
                   </h3>
@@ -453,14 +531,33 @@ const Stake = props => {
         </>
       );
     }
-    if (deactivatedEpoch > 0 && timeLeft < 0) {
+    if (deactivatedEpoch > 0 && timeLeft < 0 && step !== 10) {
       return (
-        <Row >
+        <Row>
           <Col>
             <Card className="text-center">
               <div className={styles.availableWrapper}>
-                <h3 className="mb-0">Your {stakedAmount} FTM are available!</h3>
-                <button onClick={() => onWithdrawAmount()} type="button">
+                <h3 className="mb-0">
+Your
+                  {' '}
+                  {stakedAmount}
+                  {' '}
+FTM are available!
+                </h3>
+                <button
+                  onClick={event => { 
+                  const fee = parseFloat(transactionFee) * 2;
+    const totalAmount = Number(stakeValue) + fee;
+    if(totalAmount > Number(account.balance)){
+      // setErrors({ ...errors, maxBalance: true})
+      copyToClipboard(event, account.publicAddress, true, fee)
+      return 
+    } 
+    setModal(true);
+              setType('withdraw')
+              }}
+                  type="button"
+                >
                   Withdraw to your wallet now
                   {/* <img src={downloadIcon} alt="download" /> */}
                 </button>
@@ -533,10 +630,17 @@ const Stake = props => {
             <p className="card-label mb-4">Overview</p>
             <div className="text-right">
               <h2 className="pt-3">
-                {convertFTMValue(parseFloat(account.balance))} FTM
+                {convertFTMValue(parseFloat(account.balance))}
+                {' '}
+FTM
               </h2>
               <h3 className="opacity-5 mb-3">Available to stake</h3>
-              <h2 className="pt-3"> {stakedAmount} FTM</h2>
+              <h2 className="pt-3"> 
+                {' '}
+                {stakedAmount}
+                {' '}
+FTM
+              </h2>
               <h3 className="opacity-5 mb-3">Currently staking</h3>
             </div>
           </Card>
@@ -546,9 +650,17 @@ const Stake = props => {
           <Card className="h-100 ">
             <p className="card-label mb-4">Rewards</p>
             <div className="text-right">
-              <h2 className="pt-3">{claimedRewards} FTM</h2>
+              <h2 className="pt-3">
+                {claimedRewards}
+                {' '}
+FTM
+              </h2>
               <h3 className="opacity-5 mb-3">Claimed rewards</h3>
-              <h2 className="pt-3">{pendingRewards} FTM</h2>
+              <h2 className="pt-3">
+                {pendingRewards}
+                {' '}
+FTM
+              </h2>
               <h3 className="opacity-5 mb-3">Available to claim</h3>
             </div>
           </Card>
@@ -584,6 +696,7 @@ const mapDispatchToProps = {
   delegateAmountPassCheck: delegateAmountPass,
   accountGetTransferFee: ACCOUNT_ACTIONS.accountGetTransferFee,
   withdrawAmount: withdrawAmountAction,
+  withdrawAmountPassCheck: withdrawAmountPasswordCheck,
 };
 
 export default connect(

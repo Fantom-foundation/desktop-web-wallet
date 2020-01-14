@@ -10,6 +10,7 @@ export const STAKE_ACTIONS = {
   UNSTAKE_AMOUNT: 'staking/UNSTAKE_AMOUNT',
   DELEGATE_AMOUNT_PASS_CHECK: 'staking/DELEGATE_AMOUNT_PASS_CHECK',
   WITHDRAW_AMOUNT: 'staking/WITHDRAW_AMOUNT',
+  WITHDRAW_AMOUNT_PASS_CHECK: 'staking/WITHDRAW_AMOUNT_PASS_CHECK',
 };
 
 type TDelegateByStakerId = {
@@ -28,10 +29,20 @@ export const unstakeamount = ({ publicKey, password }, cb) =>
     cb,
   });
 
-export const withdrawAmount = ({ publicKey }) =>
+export const withdrawAmount = ({ publicKey, password }, cb) =>
   dispatch.dispatch({
     type: STAKE_ACTIONS.WITHDRAW_AMOUNT,
     publicKey,
+    password,
+    cb,
+  });
+
+  export const withdrawAmountPassCheck = ({ publicKey, password }, cb) =>
+  dispatch.dispatch({
+    type: STAKE_ACTIONS.WITHDRAW_AMOUNT_PASS_CHECK,
+    publicKey,
+    password,
+    cb,
   });
 
 export const delagateUnstakeAmount = ({
