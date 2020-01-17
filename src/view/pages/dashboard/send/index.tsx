@@ -77,7 +77,7 @@ const SendDetails = ({
       <div className={styles.headWrapper}>
         <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
         <h2 className="mb-md-5">
-          {convertFTMValue(parseFloat(account.balance))}
+          {convertFTMValue(parseFloat(account&& account.balance ? account.balance : '0'))}
           {' '}
 FTM
         </h2>

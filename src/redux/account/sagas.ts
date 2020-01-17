@@ -279,7 +279,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
       });
     }
   } catch (e) {
-    console.log('exception', e);
+    // console.log('exception', e);
     yield put(
       accountSetAccount(id, {
         balance: '0',

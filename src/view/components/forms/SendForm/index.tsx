@@ -52,7 +52,7 @@ type IProps = ReturnType<typeof mapStateToProps> &
   const FANTOM_WEB_URL = "https://explorer.fantom.network"
 
 const TransferFunds: FC<IProps> = ({
-  data,
+  data = { balance: '0', publicAddress: ''},
   accountGetBalance,
   accountSendFunds,
   accountSendPasswordCheck,

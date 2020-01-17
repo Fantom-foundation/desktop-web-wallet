@@ -119,7 +119,7 @@ const AddressCardCreateWallet: FC<IProps> = ({
               <h2 className={classnames(styles.value, 'mb-4')}>{address}</h2>
               <p className="card-label mb-0">Balance</p>
               <h2 className={styles.value}>
-                {convertFTMValue(parseFloat(balance))}
+                {convertFTMValue(parseFloat(balance || '0'))}
                 {' '}
 FTM
               </h2>

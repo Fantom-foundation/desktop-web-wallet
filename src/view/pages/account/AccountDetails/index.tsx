@@ -11,7 +11,6 @@ import React, {
 import { Row, Col, Container, Card, Modal } from 'reactstrap';
 import { IAccount } from '~/redux/account/types';
 import Activity from 'src/view/components/activity';
-import axios from 'axios';
 import { 
   selectTransactionsDetails,
   selectTransactions,
@@ -198,7 +197,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
               <p className="card-label">Balance</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
                 <h1 className={classnames('mb-0', styles.ftmNumber)}>
-                  {account && convertFTMValue(parseFloat(account.balance))}
+                  {account ? convertFTMValue(parseFloat(account.balance)) : '0'}
                 </h1>
                 <h2 className={classnames('mb-0', styles.ftmText)}>
                   &nbsp;FTM
