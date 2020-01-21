@@ -2,20 +2,31 @@ import React, { useState, useCallback } from 'react';
 import Sidebar from './DashboardSidebar';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
-import { CheckIcon, CopyIcon, QrIcon } from 'src/view/components/svgIcons';
+import { CopyIcon, QrIcon ,
+  DownloadCircleIconGrey,
+} from 'src/view/components/svgIcons';
+import fileDownload from 'js-file-download';
+
 import { DashboardModal } from '../../Modal';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import { copyToClipboard } from '~/utility/clipboard';
 
+
 export default props => {
   const [modal, setModal] = useState(false);
-  const { address, history, location, children } = props;
+  const { address, history, location, children, keyStore } = props;
   const onClick = useCallback(event => copyToClipboard(event, address), [
     address,
   ]);
   const cardShow =
     location.pathname.includes('send') || location.pathname.includes('receive');
   const toggleModal = () => setModal(!modal);
+
+  const handleKeyStoreDownload = () => {
+    const dateTime = new Date();
+    const fileName = `UTC--${dateTime.toISOString()} -- ${address}`;
+    fileDownload(JSON.stringify(keyStore), `${fileName}.json`);
+  }
 
   return (
     <>
@@ -69,6 +80,9 @@ export default props => {
                     </button>
                     <button type="button" onClick={toggleModal}>
                       <QrIcon />
+                    </button>
+                    <button type="button" onClick={() => handleKeyStoreDownload()}>
+                      <DownloadCircleIconGrey />
                     </button>
                   </div>
                 </div>

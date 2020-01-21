@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useMemo, useEffect } from 'react';
 import { Switch, Route, RouteComponentProps } from 'react-router';
 import { URLS } from '~/constants/urls';
@@ -12,7 +13,10 @@ import Stake from '~/view/pages/dashboard/stake';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import * as ACTIONS from '~/redux/transactions/actions';
 
-const mapStateToProps = () => {};
+
+const mapStateToProps = state => ({
+  accountData: selectAccount(state),
+});
 const mapDispatchToProps = {
   push: historyPush,
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
@@ -26,8 +30,11 @@ const AccountRouterUnconnected: FC<IProps> = ({
   match: {
     params: { id },
   },
+  accountData,
   accountGetBalance,
 }) => {
+  const account = accountData && accountData.list && id && accountData.list[id];
+   console.log(account, '*****accowqunt')
   // const account = useMemo(() => list && id && list[id], [list, id]);
 
   // useEffect(() => {
@@ -51,7 +58,7 @@ const AccountRouterUnconnected: FC<IProps> = ({
   return (
     <>
       <Switch>
-        <DashboardLayout address={id}>
+        <DashboardLayout address={id} keyStore={account && account.keystore}>
           <Route
             exact
             path={URLS.ACCOUNT.BASE(':id')}
