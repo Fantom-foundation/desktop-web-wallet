@@ -256,6 +256,31 @@ export const DownloadCircleSolidIcon = () => (
     />
   </svg>
 );
+
+export const DownloadCircleIconGrey = () => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="35px"
+    height="35px"
+    viewBox="0 0 50 50"
+  >
+    <g
+      fill="currentColor"
+      stroke="currentColor"
+      strokeWidth="0.5px"
+    >
+      <path
+        d="M25,2.51A22.49,22.49,0,1,1,2.51,25,22.52,22.52,0,0,1,25,2.51M25,0A25,25,0,1,0,50,25,25,25,0,0,0,25,0Z"
+      />
+      <path
+        d="M34.9,21.36a1.25,1.25,0,0,0-1.77,0l-6.87,6.87V13.51a1.26,1.26,0,1,0-2.51,0V28.1l-6.67-6.68A1.26,1.26,0,0,0,15.3,23.2l8.88,8.88a1.28,1.28,0,0,0,1.78,0l8.94-8.95A1.25,1.25,0,0,0,34.9,21.36Z"
+      />
+      <path
+        d="M34,37.54H16.19a1.26,1.26,0,0,1,0-2.51H34a1.26,1.26,0,0,1,0,2.51Z"
+      />
+    </g>
+  </svg>
+);
 export const ArrowUpIcon = () => (
   <svg
     xmlns="http://www.w3.org/2000/svg"

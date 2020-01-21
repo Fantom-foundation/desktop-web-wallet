@@ -1,21 +1,56 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback , FC, useMemo, useEffect } from 'react';
 import Sidebar from './DashboardSidebar';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
-import { CheckIcon, CopyIcon, QrIcon } from 'src/view/components/svgIcons';
+import { CopyIcon, QrIcon ,DownloadCircleIconGrey} from 'src/view/components/svgIcons';
 import { DashboardModal } from '../../Modal';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import { copyToClipboard } from '~/utility/clipboard';
+import {  RouteComponentProps } from 'react-router';
+import { selectAccount } from '~/redux/account/selectors';
+import { connect } from 'react-redux';
+import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
+import fileDownload from 'js-file-download';
 
-export default props => {
+
+
+const mapStateToProps = state => ({
+  accountData: selectAccount(state),
+});
+
+const mapDispatchToProps = {
+  accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
+};
+
+type IProps = ReturnType<typeof mapStateToProps> &
+  RouteComponentProps<{  }> &
+  typeof mapDispatchToProps & {address: string};
+
+const DashboardLayout: FC<IProps> = ({
+  address,
+  history,
+  location,
+  children,
+  accountData,
+}) => {
+
   const [modal, setModal] = useState(false);
-  const { address, history, location, children } = props;
   const onClick = useCallback(event => copyToClipboard(event, address), [
     address,
   ]);
   const cardShow =
     location.pathname.includes('send') || location.pathname.includes('receive');
   const toggleModal = () => setModal(!modal);
+  const account =
+    accountData.list && address && accountData.list[address];
+
+    const keyStore = account && account.keystore
+
+    const handleKeyStoreDownload = () => {
+      const dateTime = new Date();
+      const fileName = `UTC--${dateTime.toISOString()} -- ${address}`;
+      fileDownload(JSON.stringify(keyStore), `${fileName}.json`);
+    }
 
   return (
     <>
@@ -70,6 +105,10 @@ export default props => {
                     <button type="button" onClick={toggleModal}>
                       <QrIcon />
                     </button>
+
+                    <button type="button" onClick={handleKeyStoreDownload}>
+                      <DownloadCircleIconGrey />
+                    </button>
                   </div>
                 </div>
               </div>
@@ -81,3 +120,11 @@ export default props => {
     </>
   );
 };
+
+const DashboardLayoutRouter = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(DashboardLayout);
+
+export default DashboardLayoutRouter;
+
