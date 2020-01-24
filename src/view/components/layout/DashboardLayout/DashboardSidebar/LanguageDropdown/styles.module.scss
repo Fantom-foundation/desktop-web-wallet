@@ -1,0 +1,23 @@
+@import '~/styles/variables.scss';
+
+.dropdownToggle {
+  opacity: 0.5;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  color: #fff !important;
+  font-size: 24px !important;
+  background: transparent !important;
+  border: 0 !important;
+
+  &:hover,
+  &:active,
+  &:focus {
+    opacity: 1;
+    background: transparent !important;
+  }
+
+  img {
+    margin-right: 20px;
+  }
+}

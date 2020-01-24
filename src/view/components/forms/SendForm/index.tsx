@@ -9,6 +9,7 @@ import {
   selectAccount,
   selectAccountTransfer,
 } from '~/redux/account/selectors';
+import { useTranslation } from "react-i18next";
 import { connect } from 'react-redux';
 import { IModalChildProps } from '~/redux/modal/constants';
 import { copyToClipboard } from '~/utility/clipboard';
@@ -63,6 +64,7 @@ const TransferFunds: FC<IProps> = ({
   setTransactionDetails,
 }) => {
   // const data =  accountData.list && address && accountData.list[address];
+  const { t } = useTranslation();
 
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
@@ -119,14 +121,15 @@ const TransferFunds: FC<IProps> = ({
     isSendSucess,
     errorType,
     publicAddress,
-    onClick
+    onClick,
+    t
   ) => {
     if (isSendSucess && errorType === '') {
       const hashValue = localStorage.getItem('txHash')
       return (
         <div>
           <Card className={classnames(styles.transCard, 'mb-5 mt-5')}>
-            <h2>Transaction sent!</h2>
+            <h2>{t("transactionSent!")}</h2>
             <div className={classnames(styles.iconGap, styles.hash)}>
               <a target='_blank' href={`${FANTOM_WEB_URL}/transactions/${hashValue}`}>{hashValue}</a>
               <button
@@ -149,9 +152,11 @@ const TransferFunds: FC<IProps> = ({
         <div>
           <Card className={classnames(styles.transCard, 'mb-5')}>
             <h2 className={styles.iconGap}>
-              Something went wrong.
+              {t("somethingWentWrong")}
+.
               <br />
-              Please try again.
+              {t("pleaseTryAgain")}
+.
             </h2>
             <div>
               <ErrorCircleIcon />
@@ -285,11 +290,12 @@ const TransferFunds: FC<IProps> = ({
     // }
    
     if(sendingErrors.maxBalance || sendingErrors.amount){
-      return `You can transfer max ${balanceLeft.toFixed(6)} (Value + gas * price)`
+      return `${t("canTransferMax")} ${balanceLeft.toFixed(6)} (Value + gas * price)`
     }
    
 
   }
+
 
 
   return (
@@ -298,7 +304,8 @@ const TransferFunds: FC<IProps> = ({
         isSendSucess,
         errorType,
         data.publicAddress,
-        onClick
+        onClick,
+        t
       )}
 
       <Modal
@@ -311,16 +318,16 @@ const TransferFunds: FC<IProps> = ({
         <ModalBody className={styles.body}>
           <Input
             type="password"
-            label="Please enter your wallet password to send the transaction"
+            label={t("enterWalletPassword")}
             value={password}
-            placeholder="Enter password"
+            placeholder={t("enterPassword")}
             handler={value => {
               setPassword(value);
             }}
             // errorClass="justify-content-center"
             isError={errorType === 'password' || errorPass}
             errorMsg={
-              errorType === 'password' || errorPass ? 'Invalid password' : ''
+              errorType === 'password' || errorPass ? t("invalidPassword") : ''
             }
           />
           <div className="text-center">
@@ -330,7 +337,7 @@ const TransferFunds: FC<IProps> = ({
               disabled={inProcess}
               className={classnames('btn btn-secondary', styles.sendBtn)}
             >
-              {inProcess  ?  "Sending...": 'Send'}
+              {inProcess  ?  t("sending"): t("send")}
             </button>
           </div>
         </ModalBody>
@@ -338,12 +345,12 @@ const TransferFunds: FC<IProps> = ({
 
       {!isSendSucess && !sendFailed &&  (
         <div className={classnames('card', styles.card)}>
-          <h2 className={styles.title}>Send FTM</h2>
+          <h2 className={styles.title}>{t("sendFTM")}</h2>
           <div className={styles.inputsWrapper}>
             <DashboardInput
-              label="Amount"
-              placeholder="Enter amount"
-              rightLabel="Entire balance"
+              label={t('amount')}
+              placeholder={t("enterAmount")}
+              rightLabel={t("entireBalance")}
               value={amount}
               handleRightButton={() => {
                 
@@ -374,7 +381,7 @@ const TransferFunds: FC<IProps> = ({
               }}
             />
             <DashboardInput
-              label="To address"
+              label={t("toAddress")}
               value={to}
               type="text"
               handleChange={val => {
@@ -385,13 +392,13 @@ const TransferFunds: FC<IProps> = ({
                 isError: sendingErrors.to,
                 errorText: 'Enter a valid FTM address',
               }}
-              placeholder="Enter address"
+              placeholder={t("enterAddress")}
             />
             <DashboardInput
-              label="Memo (optional)"
+              label={t("memoOptional")}
               value={memo}
               type="text"
-              placeholder="Enter memo"
+              placeholder={t("enterMemo")}
               handleChange={setMemo}
             />
           </div>
@@ -404,7 +411,7 @@ const TransferFunds: FC<IProps> = ({
               })}
               onClick={handlePassword}
             >
-              Send
+              {t("send")}
             </Button>
             <Button
               color="topaz"
@@ -415,7 +422,7 @@ const TransferFunds: FC<IProps> = ({
               )}
               onClick={handleClearAll}
             >
-              Clear All
+              {t("clearAll")}
             </Button>
           </div>
         </div>

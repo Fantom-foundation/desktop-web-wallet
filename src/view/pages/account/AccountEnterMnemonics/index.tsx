@@ -14,6 +14,7 @@ import { Input, Button } from 'reactstrap';
 import { AccessWalletCard } from 'src/view/components/cards';
 import classnames from 'classnames';
 import uploadIcon from 'src/images/icons/upload.svg';
+import { useTranslation } from "react-i18next";
 
 import { Input as FormInput } from 'src/view/components/forms';
 import {
@@ -61,7 +62,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   const [passError, setPassError] = useState(false)
   const [userPrivateKey, setUserPrivateKey] = useState('');
   const [privateKeyError , setPrivateKeyError] = useState(false)
-
+  const {t} = useTranslation();
   const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
     false
   );
@@ -270,7 +271,6 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     push('/')
   }
 
-  console.log('****errors', accountDetails.errors)
   let isPrivateKeyError = false;
   if(Object.keys(accountDetails.errors).length > 0 && accountDetails.errors.privateKey){
     isPrivateKeyError = true
@@ -362,7 +362,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     // </div>
 
     <Layout>
-      <AccessWalletCard handleClose={handleClose} >
+      <AccessWalletCard handleClose={handleClose} t={t}>
         <div className={styles.mainWrapper}>
           <div>
             <div className={styles.optionsWrapper}>

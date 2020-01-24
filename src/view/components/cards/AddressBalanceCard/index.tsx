@@ -10,6 +10,7 @@ import { selectAccount } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
 import { convertFTMValue } from '~/view/general/utilities';
 import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
+import { useTranslation } from "react-i18next";
 
 // export default ({ address = '', balance = '', addNew = false }) => {
 //   const [addNewWallet, setAddNewWallet] = useState(false)
@@ -79,6 +80,8 @@ const AddressCardCreateWallet: FC<IProps> = ({
 }) => {
   const balance =
     accountData.list && address && accountData.list[address].balance;
+    const { t } = useTranslation();
+
 
   // const getBalance = useCallback(() => accountGetBalance(address), [
   //   address,
@@ -101,7 +104,7 @@ const AddressCardCreateWallet: FC<IProps> = ({
                     className="btn btn-dark-periwinkle mb-4"
                     onClick={() => push('/account/create')}
                   >
-                    Create a wallet
+                    {t("createWallet")}
                   </button>
                   <button 
                     type="button"
@@ -115,9 +118,9 @@ const AddressCardCreateWallet: FC<IProps> = ({
             </div>
           ) : (
             <>
-              <p className="card-label mb-0">Address</p>
+              <p className="card-label mb-0">{t("address")}</p>
               <h2 className={classnames(styles.value, 'mb-4')}>{address}</h2>
-              <p className="card-label mb-0">Balance</p>
+              <p className="card-label mb-0">{t("balance")}</p>
               <h2 className={styles.value}>
                 {convertFTMValue(parseFloat(balance || '0'))}
                 {' '}

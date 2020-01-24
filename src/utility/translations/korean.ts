@@ -35,7 +35,7 @@ export const koreanTranslation = {
   "send": "전송",
   "receive": "수령하기",
   "stake": "예치하기",
-  "recentActivity ": "최근 활동",
+  "recentActivity": "최근 활동",
   "overview": "개요",
   "price": "가격",
   "marketCap": "시가총액",
@@ -45,12 +45,15 @@ export const koreanTranslation = {
   "enterAmount": "수량 입력",
   "toAddress": "보내는 주소",
   "enterAddress": "주소 입력",
-  "memo": "메모(추가사항)",
+  "memo": "메모",
+  "memoOptional": "메모(추가사항)",
   "enterMemo": "메모입력",
   "entireBalance": "전체 잔고",
   "copiedClipboard": "클립보드에서 붙여넣기",
   "clearAll": "모두 지우기",
   "enterWalletPassword": "당신의 거래내역을 전송하기 위해 지갑 비밀번호를 입력해 주세요",
+  "enterWalletPasswordCommon": "Please enter your wallet password to ",
+
   "enterPassword": "비밀번호를 입력해 주세요",
   "invalidPassword": " 비밀번호 불일치",
   "sending": "전송중...",
@@ -58,7 +61,7 @@ export const koreanTranslation = {
   "receiveFTM": "FTM 수령",
   "copy": "복사",
   "download": "다운로드",
-  "availableStake ": "예치 가능",
+  "availableStake": "예치 가능",
   "currentlyStaking": "현재 예치",
   "claimedRewards": "보상 요청",
   "availableClaim": "요청 가능",
@@ -86,7 +89,12 @@ export const koreanTranslation = {
   "prepareWithdrawalSuccessful": "인출준비 완료!",
   "ftmAvaliableDaysMsg": "당신의 1.05FTM은 6일 23시간 이후에 이용 가능합니다",
   "somethingWentWrong": "오류가 발생하였습니다.",
-  "Please try again": " 다시 시도해주세요",
+  "pleaseTryAgain": " 다시 시도해주세요",
+  "Recipient": "받으신 분",
+  "date": "일시",
+  "canTransferMax":"최대치로 전송 가능합니다",
+
+
   
 
 

@@ -30,7 +30,7 @@ export default ({
               </p>
             )}
             {rightLabel !== '' && (
-              <p onClick={handleRightButton} className={styles.entireBalance}>Entire balance</p>
+            <p onClick={handleRightButton} className={styles.entireBalance}>{rightLabel}</p>
             )}
           </div>
         </div>

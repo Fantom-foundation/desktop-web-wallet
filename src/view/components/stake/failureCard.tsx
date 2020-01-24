@@ -5,13 +5,15 @@ import {
   ErrorCircleIcon,
 } from 'src/view/components/svgIcons';
 
-const FailureCard = ({cardCss, iconGapCss}) => {
+const FailureCard = ({cardCss, iconGapCss, t}) => {
   return (
     <Card className={classnames(cardCss, 'mb-5')}>
       <h2 className={iconGapCss}>
-      Something went wrong.
+        {t("somethingWentWrong")}
+.
         <br />
-      Please try again.
+        {t("pleaseTryAgain")}
+.
       </h2>
       <div>
         <ErrorCircleIcon />

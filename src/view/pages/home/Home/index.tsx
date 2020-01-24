@@ -9,16 +9,19 @@ import WalletIcon from '../../../../images/icons/wallet.png';
 import { AddressBalanceCard } from '../../../components/cards';
 import classnames from 'classnames';
 import { push } from 'connected-react-router';
+import { useTranslation } from "react-i18next";
 
 function goToRoute(props) {
   props.history.push('/account/create');
 }
 const Home: FC<{}> = props => {
+  const { t } = useTranslation();
+
   return (
     <Layout noFooter>
       <div className={styles.banner}>
         <Container>
-          <h1 className={styles.homeTitle}>Welcome to FantomWallet</h1>
+          <h1 className={styles.homeTitle}>{t('welcomeFantomWallet')}</h1>
           <h3 className="font-weight-semi-bold">
             Send, receive and stake your FTM
           </h3>

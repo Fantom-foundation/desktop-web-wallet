@@ -4,7 +4,7 @@ import App from '~/App';
 import './main.scss';
 import * as serviceWorker from '~/serviceWorker';
 import i18n from "i18next";
-import { initReactI18next } from "react-i18next";
+import { initReactI18next, useTranslation } from "react-i18next";
 import { englishTranslation } from './utility/translations/english';
 import { koreanTranslation } from './utility/translations/korean';
 import { chineseTranslation } from './utility/translations/chinese';
@@ -26,13 +26,18 @@ i18n
         translation: chineseTranslation,
       },
     },
-    lng: "en",
-    fallbackLng: "en",
+    lng: localStorage.getItem('language') || 'en',
+    fallbackLng: localStorage.getItem('language') || 'en' ,
 
     interpolation: {
       escapeValue: false,
     },
   });
+
+
+
+  // i18n.changeLanguage('en');
+
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

@@ -11,7 +11,7 @@ import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import fileDownload from 'js-file-download';
-
+import { useTranslation } from "react-i18next";
 
 
 const mapStateToProps = state => ({
@@ -34,6 +34,7 @@ const DashboardLayout: FC<IProps> = ({
   accountData,
 }) => {
 
+
   const [modal, setModal] = useState(false);
   const onClick = useCallback(event => copyToClipboard(event, address), [
     address,
@@ -50,12 +51,15 @@ const DashboardLayout: FC<IProps> = ({
       const dateTime = new Date();
       const fileName = `UTC--${dateTime.toISOString()} -- ${address}`;
       fileDownload(JSON.stringify(keyStore), `${fileName}.json`);
+
     }
+    const { t } = useTranslation();
+
 
   return (
     <>
       <DashboardModal
-        title="Address"
+        title={t("address")}
         isOpen={modal}
         toggle={toggleModal}
         bodyClassName="d-flex align-items-center justify-content-center"
@@ -92,7 +96,7 @@ const DashboardLayout: FC<IProps> = ({
                   </p>
                 </div> */}
                 <div>
-                  <p className={styles.label}>Address</p>
+                  <p className={styles.label}>{t("address")}</p>
                 </div>
                 <div className={styles.hashWrapper}>
                   <div>

@@ -16,11 +16,12 @@ import { copyToClipboard } from '~/utility/clipboard';
 import { mockComponent } from 'react-dom/test-utils';
 import Web3 from 'web3';
 import moment from 'moment';
+import { useTranslation } from "react-i18next";
 
 const FANTOM_WEB_URL = 'https://explorer.fantom.network'
 
 const SubView = (props: any) => {
-  const { value, to, fee, newDate, memo } = props;
+  const { value, to, fee, newDate, memo, t } = props;
   // const { hash = false, title, value } = props;
   const onClickTo = useCallback(event => copyToClipboard(event, to), [to]);
   const onClickHash = useCallback(event => copyToClipboard(event, value), [
@@ -30,7 +31,7 @@ const SubView = (props: any) => {
   return (
     <>
       <div className={styles.subView}>
-        <p className={styles.subViewTitle}>Recipient</p>
+  <p className={styles.subViewTitle}>{t("Recipient")}</p>
         <p className={styles.subViewValue}>
           <a target="_blank" href={`${FANTOM_WEB_URL}/address/${to}`}>
             {to}
@@ -52,7 +53,7 @@ const SubView = (props: any) => {
         </p>
       </div>
       <div className={styles.subView}>
-        <p className={styles.subViewTitle}>Date</p>
+  <p className={styles.subViewTitle}>{t("date")}</p>
         <p className={styles.subViewValue}>{newDate}</p>
       </div>
       <div className={styles.subView}>
@@ -62,7 +63,7 @@ const SubView = (props: any) => {
         </p>
       </div>
       {memo !== '' && memo !== undefined && <div className={styles.subView}>
-        <p className={styles.subViewTitle}>Memo</p>
+        <p className={styles.subViewTitle}>{t("memo")}</p>
         <p className={styles.subViewValue}>
           {memo}
         </p>
@@ -73,7 +74,7 @@ const SubView = (props: any) => {
 
 const Activities = (props: any) => {
   const newTime = new Date(props.data.timestamp * 1000);
-  const { time, ftm, subView = [] } = props;
+  const { time, ftm, subView = [], t } = props;
   const [isOpen, setIsOpen] = useState(false);
   const newDate = moment(newTime).format('MMM DD, hh:mm a');
   const isRecieve = props.data.from === props.address.toLowerCase();
@@ -82,7 +83,7 @@ const Activities = (props: any) => {
       <div className={styles.activitiesRow} onClick={() => setIsOpen(!isOpen)}>
         <p className={styles.status}>
           {isRecieve ? <SendIcon /> : <ReceiveIcon />}
-          {isRecieve ? 'Sent' : 'Recieve'}
+          {isRecieve ? 'Sent' : t("receive")}
         </p>
         <div
           className={`d-flex justify-content-between w-100 ${styles.timeFtmWrapper}`}
@@ -99,6 +100,7 @@ const Activities = (props: any) => {
       </div>
       <Collapse isOpen={isOpen}>
         <SubView
+          t={t}
           memo={props.memo}
           to={props.data.to}
           fee={props.data.fee}
@@ -111,9 +113,11 @@ const Activities = (props: any) => {
 };
 export default props => {
   const {transactionHashDetails} = props
+  const { t } = useTranslation();
+
   return (
     <Card className={styles.card}>
-      <p className="card-label">Recent Activity</p>
+      <p className="card-label">{t("recentActivity")}</p>
       <div>
         {/* {activityMockData.map((data: object, index: number) => (
         <Activities key={index} {...data} />
@@ -126,7 +130,7 @@ export default props => {
             if(!!transactionHashDetails && transactionHashDetails[data.hash] !== ''){
                 memo = transactionHashDetails[data.hash]
             }
-            return <Activities key={index} memo={memo} data={data} address={props.address} />
+            return <Activities t={t} key={index} memo={memo} data={data} address={props.address} />
 })}
       </div>
     </Card>

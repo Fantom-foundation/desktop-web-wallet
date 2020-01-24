@@ -4,11 +4,13 @@ import { Push } from 'connected-react-router';
 import styles from './styles.module.scss';
 import { CreateWalletCard } from '../../cards';
 import { Input } from '../../forms';
+import { useTranslation } from "react-i18next";
 import {
   FormCheckedIcon,
   FormUnCheckedIcon,
 } from 'src/view/components/svgIcons';
 import classnames from 'classnames';
+
 
 type IProps = {
   push: Push;
@@ -83,6 +85,8 @@ const validateRePassField = useCallback(() => {
   const handleClose = () => {
     push('/')
   }
+  const { t } = useTranslation();
+
 
   return (
     <CreateWalletCard className={walletCardClassName} handleClose={handleClose} title={title}>
@@ -91,8 +95,7 @@ const validateRePassField = useCallback(() => {
           1
           <span className="opacity-3 mr-2 mr-md-3">/2</span>
           {' '}
-Create a keystore
-          file and password
+          {t("createKeystoreFilePassword")}
           {' '}
           {/* <span className={styles.infoIcon}>
             <i className="fas fa-info-circle" />
@@ -108,7 +111,7 @@ Create a keystore
       </div>
       <Input
         type="password"
-        label="Set a new password"
+        label={t("SetNewPassword")}
         value={password}
         handler={value => {
           setPassword(value);
@@ -116,12 +119,12 @@ Create a keystore
           // setErrors({ ...errors, password: false });
         }}
         isError={validatePassField() || false}
-        errorMsg="Make sure to enter at least 8 characters, including one upper-case letter, a symbol and a number."
+        errorMsg={t("walletPasswordValidationText")}
       />
 
       <Input
         type="password"
-        label="Re-enter password"
+        label={t("reEnterPassword")}
         value={password_again}
         handler={value => {
           setPasswordAgain(value);
@@ -129,7 +132,7 @@ Create a keystore
         }}
         isError={validateRePassField()}
         errorMsg={
-          validateRePassField() ? 'The entered password does not match' : ''
+          validateRePassField() ? t("passwordDoesNotMatch") : ''
         }
       />
       <div className={styles.checkField}>
@@ -143,12 +146,10 @@ Create a keystore
           </button>
         </div>
         <p>
-          I made a backup of the keystore file and saved the password in a safe
-          place.
+          {t("backupKeystoreFileText")}
+.
           <br />
-I understand that
-          {' '}
-            I will need the password and the keystore file to access my wallet.
+          {t("walletCreationT&C")}
         </p>
       </div>
       <div className={styles.downloadBtnWrapper}>
@@ -170,7 +171,7 @@ I understand that
           onClick={onNextPressed}
           disabled={!checked}
         >
-          Download keystore file
+          {t("downloadKeystoreFile")}
         </button>
       </div>
     </CreateWalletCard>

@@ -4,6 +4,7 @@ import { IAccount } from '~/redux/account/types';
 import styles from './styles.module.scss';
 import { CheckCircleIcon } from 'src/view/components/svgIcons';
 import { Layout } from '~/view/components/layout/Layout';
+import { useTranslation } from "react-i18next";
 
 // interface IProps {
 //   history: any
@@ -14,6 +15,8 @@ const AccountCreateSuccess = props => {
     const { history } = props
     history.push('/accounts')
   }, [props]);
+  const { t } = useTranslation();
+
   
   return (
     <Layout>
@@ -22,10 +25,13 @@ const AccountCreateSuccess = props => {
           <div className="mb-4">
             <CheckCircleIcon />
           </div>
-          <h2 className="text-center">You're all set!</h2>
-          <p>You have successfully created your wallet.</p>
+          <h2 className="text-center">{t("youAllSet")}</h2>
+          <p>
+            {t("successfullyCreatedWallet")}
+.
+          </p>
           <Button className="outlined mt-4" onClick={handleAccessWallet}>
-              Access your wallet
+            {t("accessWallet")}
           </Button>
         </div>
       </div> 

@@ -5,14 +5,14 @@ import {
   CheckCircleIcon,
 } from 'src/view/components/svgIcons';
 
-const SuccessCard = ({cardCss, iconGapCss}) => {
+const SuccessCard = ({cardCss, iconGapCss, t}) => {
   return (
     <Card className={classnames(cardCss, 'mb-5')}>
       <h2 className={iconGapCss}>
-        Congratulations!
+        {t("congratulations")}
         <br />
         {' '}
-FTM successfully staked.
+        {t("ftmSuccessfullyStaked.")}
       </h2>
 
       <div>

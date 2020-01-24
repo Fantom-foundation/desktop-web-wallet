@@ -2,6 +2,7 @@ import React from 'react';
 import { Card, Button } from 'reactstrap';
 import { DashboardInput } from 'src/view/components/forms';
 import classnames from 'classnames';
+import { useTranslation } from "react-i18next";
 
 const StakeInputCard = ({
   stakeValue,
@@ -12,6 +13,7 @@ const StakeInputCard = ({
   handleEntireBalance,
   balanceLeft,
 }) => {
+const { t } = useTranslation();
   let errorTxt = ''
   if(errors.stakeValueMax){
     errorTxt = 'Not enough FTM. Please enter a lower amount'
@@ -53,12 +55,12 @@ const StakeInputCard = ({
             className={classnames(validatorBtn, 'outlined lg')}
             onClick={handleStep}
           >
-            Select a validator
+            {t("selectValidator")}
             <i className="fas fa-chevron-right" />
           </Button>
         ) : (
           <Button className={validatorBtn} onClick={handleStep}>
-            Select a validator
+            {t("selectValidator")}
             <i className="fas fa-chevron-right" />
           </Button>
         )}

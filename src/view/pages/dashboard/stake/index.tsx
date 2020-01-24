@@ -12,7 +12,7 @@ import SuccessCard from '~/view/components/stake/sucessCard';
 import WithdrawSuccess from '~/view/components/stake/withdrawSuccess';
 import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import WithdrawSuccessfulCard from 'src/view/components/stake/withdrawalSuccessCard';
-
+import { useTranslation } from "react-i18next";
 
 import { connect } from 'react-redux';
 import Input from '../../../components/forms/Input';
@@ -41,6 +41,8 @@ const Stake = props => {
     name: '',
     id: '',
   });
+  const { t } = useTranslation();
+
   const [step, setStep] = useState(1);
   const [modal, setModal] = useState(false);
   const [password, setPassword] = useState('');
@@ -310,6 +312,7 @@ const Stake = props => {
       case 1:
         return (
           <StackUnstack
+            t={t}
             handleStep={handleStep}
             selectedAddress={selectedAddress}
           />
@@ -338,6 +341,7 @@ const Stake = props => {
       case 3:
         return (
           <StakeValidators
+            t={t}
             handleValidatorSelect={val => {
               setValidator(val);
               setStep(step + 1);
@@ -349,6 +353,7 @@ const Stake = props => {
       case 4:
         return (
           <StakeSummaryCard
+            t={t}
             validator={validator.name}
             stakeValue={stakeValue}
             stakeAmount={() => setModal(true)}
@@ -363,6 +368,7 @@ const Stake = props => {
       case 5:
         return (
           <UnstakeDecisionCard
+            t={t}
             handleStep={handleStep}
             handleModal={event => {
               const fee = parseFloat(transactionFee) * 2;
@@ -378,18 +384,19 @@ const Stake = props => {
           />
         );
       case 6:
-        return <StackUnstack handleStep={handleStep} />;
+        return <StackUnstack handleStep={handleStep} t={t} />;
       case 7:
         return (
-          <SuccessCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />
+          <SuccessCard t={t} cardCss={styles.transCard} iconGapCss={styles.iconGap} />
         );
       case 8:
         return (
-          <FailureCard cardCss={styles.transCard} iconGapCss={styles.iconGap} />
+          <FailureCard t={t} cardCss={styles.transCard} iconGapCss={styles.iconGap} />
         );
       case 9:
         return (
           <WithdrawSuccess
+            t={t}
             cardCss={styles.transCard}
             iconGapCss={styles.iconGap}
           />
@@ -398,6 +405,7 @@ const Stake = props => {
         case 10:
         return (
           <WithdrawSuccessfulCard
+            // t={t}
             cardCss={styles.transCard}
             iconGapCss={styles.iconGap}
           />
@@ -412,13 +420,13 @@ const Stake = props => {
       if(inProcess){
         return 'Staking...'
       }
-      return 'Stake'
+      return t("stake")
     } 
      if (type === 'unStake'){
       if(inProcess){
         return 'Unstaking...'
       }
-      return 'Unstake'
+      return t("unstake")
 
     }
     if (type === 'withdraw'){
@@ -445,13 +453,13 @@ const Stake = props => {
             type="password"
             label={`Please enter your wallet password to ${type === 'stake' ? "stake": type === 'withdraw' ? 'withdraw':"unstake"}`}
             value={password}
-            placeholder="Enter password"
+            placeholder={t("enterPassword")}
             handler={value => {
               setPassword(value);
             }}
             // errorClass="justify-content-center"
             isError={passError || error}
-            errorMsg={passError || error ? 'Invalid password' : ''}
+            errorMsg={passError || error ? t("invalidPassword") : ''}
           />
           <div className="text-center">
             <button
@@ -478,7 +486,6 @@ const Stake = props => {
     );
   };
 
-  console.log('****** Number(stakeValue)',  Number(stakeValue))
 
 
   const withdrawalStakeCard = () => {
@@ -627,21 +634,21 @@ FTM are available!
       <Row>
         <Col md={6} className="mb-6">
           <Card className="h-100">
-            <p className="card-label mb-4">Overview</p>
+            <p className="card-label mb-4">{t("overview")}</p>
             <div className="text-right">
               <h2 className="pt-3">
                 {convertFTMValue(parseFloat(account.balance))}
                 {' '}
 FTM
               </h2>
-              <h3 className="opacity-5 mb-3">Available to stake</h3>
+              <h3 className="opacity-5 mb-3">{t("availableStake")}</h3>
               <h2 className="pt-3"> 
                 {' '}
                 {stakedAmount}
                 {' '}
 FTM
               </h2>
-              <h3 className="opacity-5 mb-3">Currently staking</h3>
+              <h3 className="opacity-5 mb-3">{t("currentlyStaking")}</h3>
             </div>
           </Card>
         </Col>
@@ -655,13 +662,13 @@ FTM
                 {' '}
 FTM
               </h2>
-              <h3 className="opacity-5 mb-3">Claimed rewards</h3>
+              <h3 className="opacity-5 mb-3">{t("claimedRewards")}</h3>
               <h2 className="pt-3">
                 {pendingRewards}
                 {' '}
 FTM
               </h2>
-              <h3 className="opacity-5 mb-3">Available to claim</h3>
+              <h3 className="opacity-5 mb-3">{t("availableClaim")}</h3>
             </div>
           </Card>
         </Col>

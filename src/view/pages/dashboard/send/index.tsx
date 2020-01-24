@@ -3,6 +3,7 @@ import { SendForm } from '../../../components/forms';
 import { Card } from 'reactstrap';
 import { copyToClipboard } from '~/utility/clipboard';
 import { convertFTMValue } from '~/view/general/utilities';
+import { useTranslation } from "react-i18next";
 import React, {
   FC,
   useEffect,
@@ -56,6 +57,8 @@ const SendDetails = ({
   //   [account.publicAddress]
   // );
   const account = accountData.list && id && accountData.list[id];
+  const { t } = useTranslation();
+
 
   // console.log(accountData, '****acc')
   
@@ -75,14 +78,14 @@ const SendDetails = ({
   return (
     <div>
       <div className={styles.headWrapper}>
-        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
+        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">{t("balance")}</h3>
         <h2 className="mb-md-5">
           {convertFTMValue(parseFloat(account&& account.balance ? account.balance : '0'))}
           {' '}
 FTM
         </h2>
       </div>
-      <SendForm data={account}  />
+      <SendForm data={account} t={t} />
       {/* <div>
         <Card className={classname(styles.card, 'mb-5 mt-5')}>
           <h2>Transaction sent!</h2>

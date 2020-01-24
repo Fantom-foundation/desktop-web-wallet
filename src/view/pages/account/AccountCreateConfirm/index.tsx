@@ -22,6 +22,7 @@ import Verification from '../../verification';
 import classnames from 'classnames';
 import { WalletModal } from '~/view/components/Modal';
 import { Layout } from '~/view/components/layout/Layout';
+import { useTranslation } from "react-i18next";
 
 import {
   MnemonicPhrase,
@@ -241,15 +242,18 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
       verifyMnemonic.length > 0 &&
       verifyMnemonic.length === 12;
 
+      const { t } = useTranslation();
+
+
     return (
       <Layout>
         <div>
           <CreateWalletCard
             className=""
             handleClose={() => handleClose()}
-            title="Create a new wallet"
+            title={t("createNewWallet")}
           >
-            <Verification />
+            <Verification t={t} />
             {is_incorrect_modal_visible && (
               <p className={styles.incorrect_mnemonic}>
                 Incorrect mnemonic phrase order. Please try again.
@@ -274,7 +278,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
                 className="btn btn-primary mr-2"
                 onClick={onBackPressed}
               >
-                Back
+                {t("back")}
               </button>
 
               <Button
@@ -286,7 +290,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
                 onClick={onSubmit}
                 disabled={!isActive()}
               >
-                Verify
+                {t("verify")}
               </Button>
             </div>
           </CreateWalletCard>

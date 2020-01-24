@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import styles from './styles.module.scss';
 import SpinnerSVG from '../../../../images/icons/spinner.svg';
 
-export default ({ handleEditStep, stakeValue, validator, stakeAmount }) => {
+export default ({ handleEditStep, stakeValue, validator, stakeAmount, t }) => {
   const [isSubmit, setIsSubmit] = useState(false);
   return (
     <div className="mx-auto" style={{ maxWidth: 670 }}>
@@ -45,16 +45,16 @@ FTM
           </div>
         </div>
         <div className={classnames('text-center', styles.btnWrapper)}>
-            <Button
-              color="topaz"
-              onClick={() => {
+          <Button
+            color="topaz"
+            onClick={() => {
                 stakeAmount();
                 setIsSubmit(true);
               }}
-              className={classnames('outlined lg')}
-            >
-              Stake
-            </Button>
+            className={classnames('outlined lg')}
+          >
+            {t("stake")}
+          </Button>
           
         </div>
       </Card>

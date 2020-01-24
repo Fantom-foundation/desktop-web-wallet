@@ -18,7 +18,7 @@ import {
 import styles from './styles.module.scss';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import { copyToClipboard } from '~/utility/clipboard';
-
+import { useTranslation } from "react-i18next";
 import { RouteComponentProps } from 'react-router';
 
 import { IAccount } from '~/redux/account/types';
@@ -64,6 +64,8 @@ const RecieveDetails = ({
   accountData,
   accountGetBalance,
 }) => {
+  const { t } = useTranslation();
+
   const [amount, setAmount] = useState(false);
   const account = accountData.list && id && accountData.list[id];
 
@@ -84,7 +86,7 @@ const RecieveDetails = ({
   return (
     <div>
       <div className={styles.headWrapper}>
-        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">Balance</h3>
+        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">{t("balance")}</h3>
         <h2 className="mb-md-5">
           {convertFTMValue(parseFloat(account&&account.balance ? account.balance : '0'))}
           {' '}
@@ -93,7 +95,7 @@ FTM
       </div>
       <Card>
         <h2 className={classname(styles.cardTitle, 'font-weight-extra-bold')}>
-          Receive FTM
+          {t("receiveFTM")}
         </h2>
         <div className={classname(styles.qrWrapper, 'text-center')}>
           <QRCodeIcon
@@ -126,7 +128,7 @@ FTM
             }}
           >
             {copy ? <CopyCircleSolidIcon /> : <CopyCircleIcon />}
-            Copy
+            {t("copy")}
           </button>
 
           <button
@@ -138,7 +140,7 @@ FTM
             }}
           >
             {download ? <DownloadCircleSolidIcon /> : <DownloadCircleIcon />}
-            Download
+            {t("download")}
           </button>
         </div>
         {/* {amount && (

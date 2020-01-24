@@ -2,11 +2,12 @@ import React from 'react';
 import { Card, Button } from 'reactstrap';
 import classnames from 'classnames';
 
-const UnstakeDecisionCard = ({ handleStep, handleModal }) => {
+const UnstakeDecisionCard = ({ handleStep, handleModal, t }) => {
   return (
     <Card className="mx-auto text-center pt-5 pb-6" style={{ maxWidth: 670 }}>
       <h2 className="mb-5">
-        The withdrawal of your staked tokens will take 7 days.
+        {t("stakeWithdrawalDays")}
+.
       </h2>
       <div
         className="mx-auto mt-4 w-100 d-flex justify-content-between"
@@ -17,14 +18,16 @@ const UnstakeDecisionCard = ({ handleStep, handleModal }) => {
           color="darkish-pink"
           className={classnames('lg outlined mx-4')}
         >
-          Maybe later
+          {t("maybeLater")}
         </Button>
         <Button
           onClick={e => handleModal(e)}
           color="topaz"
           className={classnames('lg outlined mx-4')}
         >
-          Ok, unstake
+          {t("ok")}
+,
+          {t("unstake")}
         </Button>
       </div>
     </Card>

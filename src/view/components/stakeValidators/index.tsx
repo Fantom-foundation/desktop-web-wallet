@@ -8,14 +8,15 @@ import classnames from 'classnames';
 import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 import { getValidatorsList as getValidatorsListAction } from '../../../redux/stake/actions';
 
-const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer }) => {
+const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer, t }) => {
   const stakedValue = parseFloat(totalStaked).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return (
     <>
       <tr>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.label)}>
-            Total staked:
+            {t("totalStaked")}
+:
           </p>
         </td>
         <td className="px-md-3">
@@ -33,7 +34,8 @@ FTM (
       <tr>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.label)}>
-            Space left:
+            {t("spaceLeft")}
+:
           </p>
         </td>
         <td className="px-md-3">
@@ -49,7 +51,8 @@ FTM
       <tr>
         <td className="px-md-3">
           <p className={classnames(styles.txDetails, styles.label)}>
-            Commission:
+            {t("commission")}
+:
           </p>
         </td>
         <td className="px-md-3">
@@ -86,6 +89,7 @@ const DataRow = props => {
     createdTime,
     handleValidatorSelect,
     balance,
+    t,
   } = props;
   const [isOpen, setIsOpen] = useState(false);
   // const createdtime = new Date(createdTime)
@@ -138,7 +142,7 @@ const DataRow = props => {
         </td>
         <td className="text-right text-md-left">
           <p className={classnames(styles.validatingPowerLable, 'd-md-none')}>
-            Validating power
+            {t("validatingPower")}
           </p>
           <p className={styles.txDetails}>{validatingPower}</p>
         </td>
@@ -167,7 +171,7 @@ const DataRow = props => {
                   </td>
                   <td className="d-md-none">
                     <p className={classnames(styles.txDetails, styles.label)}>
-                      Uptime
+                      {t("uptime")}
                     </p>
                   </td>
                   <td className="d-md-none">
@@ -178,6 +182,7 @@ const DataRow = props => {
                   </td>
                 </tr>
                 <SubView
+                  t={t}
                   key={name + 1}
                   spaceLeft={stakingSpaceLeft}
                   stackeLeftPer={Number(perc).toFixed(2)}
@@ -200,7 +205,7 @@ const DataRow = props => {
                     className={classnames('lg outlined', styles.selectBtn)}
                     onClick={() => handleValidatorSelect({ name, id })}
                   >
-                    Select
+                    {t("select")}
                   </Button>
                 )}
               </div>
@@ -213,7 +218,7 @@ const DataRow = props => {
 };
 
 const validator = props => {
-  const { getValidatorsList, validators, handleValidatorSelect } = props;
+  const { getValidatorsList, validators, handleValidatorSelect, t } = props;
 
   useEffect(() => {
     getValidatorsList();
@@ -224,9 +229,9 @@ const validator = props => {
   return (
     <Card className={styles.card}>
       <h2 className={classnames(styles.title, 'font-weight-extra-bold')}>
-        Validators
+        {t("Validators")}
       </h2>
-      <p>Click on a validator for more info</p>
+      <p>{t("clickValidator")}</p>
       <div>
         <Table className={styles.table}>
           <thead className={styles.tableHead}>
@@ -237,7 +242,7 @@ const validator = props => {
                 [styles.down]: false,
               })}
             >
-              Name
+              {t("name")}
               <ArrowUpDownIcon />
             </th>
             <th
@@ -255,7 +260,7 @@ const validator = props => {
                 [styles.down]: false,
               })}
             >
-              Validating power
+              {t("validatingPower")}
               <ArrowUpDownIcon />
             </th>
             <th
@@ -264,7 +269,7 @@ const validator = props => {
                 [styles.down]: false,
               })}
             >
-              Uptime
+              {t("uptime")}
               <ArrowUpDownIcon />
             </th>
           </thead>
@@ -274,6 +279,7 @@ const validator = props => {
                 key={data.id}
                 index={index + 1}
                 {...data}
+                t={t}
                 balance={props.balance}
                 handleValidatorSelect={handleValidatorSelect}
                 validators={validators}

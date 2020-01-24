@@ -5,9 +5,12 @@ import { Layout } from '~/view/components/layout/Layout';
 import classnames from 'classnames';
 import { MnemonicIcon } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
-export default () => (
-  <Layout>
-    <AccessWalletCard>
+import { useTranslation } from "react-i18next";
+
+export default () => {
+  const {t} = useTranslation()
+  return (<Layout>
+    <AccessWalletCard t={t}>
       <div className={styles.optionsWrapper}>
         <div className={styles.optionCol}>
           <div className={classnames(styles.option, styles.active)}>
@@ -36,5 +39,5 @@ export default () => (
         </Button>
       </div>
     </AccessWalletCard>
-  </Layout>
-);
+  </Layout>)
+};

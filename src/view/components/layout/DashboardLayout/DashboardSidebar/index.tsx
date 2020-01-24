@@ -3,11 +3,12 @@ import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { MenuIcon } from 'src/view/components/svgIcons';
-
+import LanguageDropDown from './LanguageDropdown'
 import logoWhite from 'src/images/logo/fantom-logo-white.svg';
 import logo from 'src/images/logo/fantom-logo.svg';
 
 import menus from './menus';
+import { useTranslation } from "react-i18next";
 
 const getLinkPath = (name, address) => {
   switch (name) {
@@ -32,6 +33,8 @@ export default props => {
   if (selectedIndex === -1) {
     selectedIndex = 0;
   }
+
+const { t } = useTranslation();
   return (
     <>
       <div className={classnames('d-xl-none', styles.header)}>
@@ -82,10 +85,13 @@ export default props => {
                     onClick={() => setSidebarActive(false)}
                   >
                     <img src={icon} alt={name} />
-                    {name}
+                    {t(name.toLowerCase())}
                   </Link>
                 </li>
               ))}
+              <li>
+                <LanguageDropDown />
+              </li>
             </ul>
           </div>
         </div>

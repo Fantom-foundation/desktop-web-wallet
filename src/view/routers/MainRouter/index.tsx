@@ -17,7 +17,8 @@ import { AccountRestoreCredentials } from '~/view/pages/account/AccountRestoreCr
 
 
 import AccessWallet from '~/view/pages/accessWallet';
-const MainRouter = (props) => {
+
+const MainRouter = props => {
   console.log("props: ", props);
   return (
     <HashRouter>
@@ -42,7 +43,7 @@ const MainRouter = (props) => {
           component={AccountRestoreRouter}
         />
         <Route path={URLS.ACCOUNT.BASE(':id')} component={AccountRouter} />
-        <Route component={(p) => {console.log("p", p); return <h1>testt</h1>}} />
+        <Route component={p => {console.log("p", p); return <h1>testt</h1>}} />
 
       </Switch>
     </HashRouter>

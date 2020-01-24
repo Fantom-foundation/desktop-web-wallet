@@ -35,7 +35,7 @@ export const chineseTranslation = {
   "send": "提现",
   "receive": "充值​",
   "stake": "权益质押",
-  "recentActivity ": "近期活动",
+  "recentActivity": "近期活动",
   "overview": "总揽",
   "price": "价位",
   "marketCap": "市值",
@@ -45,7 +45,8 @@ export const chineseTranslation = {
   "enterAmount": "输入数量",
   "toAddress": "FTM​提现地址",
   "enterAddress": "输入​ FTM ​提现地址",
-  "memo": "备注​ (​可选择不填​)",
+  "memo": "备注​",
+  "memoOptional": "备注​ (​可选择不填​)",
   "enterMemo": "输入备注",
   "entireBalance": "全部资产",
   "copiedClipboard": "已复制地址",
@@ -58,7 +59,7 @@ export const chineseTranslation = {
   "receiveFTM": "充值​ FTM",
   "copy": "复制",
   "download": "下载",
-  "availableStake ": "可质押数量",
+  "availableStake": "可质押数量",
   "currentlyStaking": "目前质押数量",
   "claimedRewards": "已领取奖励数量",
   "availableClaim": "可领取奖励数量",
@@ -76,6 +77,8 @@ export const chineseTranslation = {
   "commission": "佣金",
   "select": "选择",
   "enterWalletPasswordStake": "请输入钱包密码以便参加权益质押",
+  "enterWalletPasswordCommon": "Please enter your wallet password to ",
+
   "congratulations": "恭喜您参加权益质押成功!",
   "ftmSuccessfullyStaked.": "您的​FTM ​已经成功的参加了权益质押​",
   "unstake": "取消权益质押",
@@ -86,7 +89,12 @@ export const chineseTranslation = {
   "prepareWithdrawalSuccessful": "提现准备成功!",
   "ftmAvaliableDaysMsg": "您的​1.05 FTM​将在​6​天​23​小时内可流动",
   "somethingWentWrong": "很抱歉，发生错误",
-  "Please try again": "请再试一次",
+  "pleaseTryAgain": "请再试一次",
+  "Recipient": "收款⼈人",
+  "date": "⽇日期",
+  "canTransferMax":"您最多可以转账",
+
+
   
 
 

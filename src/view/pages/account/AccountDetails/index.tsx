@@ -26,6 +26,7 @@ import {
   selectFtmToUsdPrice,
   // selectFtmMarketCap,
 } from '~/redux/account/selectors';
+import { useTranslation } from "react-i18next";
 
 import { push as historyPush } from 'connected-react-router';
 // import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
@@ -79,6 +80,8 @@ const AccountDetailsDashboard: FC<IProps> = ({
   const [marketCap, setMarketCap] = useState('0');
   const [currentId, setCurrentId] = useState('')
   const [currentTransactions, setCurrentTransactions]=  useState<Array<any>>([]);
+  const { t } = useTranslation();
+
   //   const getBalance = useCallback(
   //     () => accountGetBalance(id),
   //     [id, accountGetBalance]
@@ -194,7 +197,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
                 </button>
               </div>
 
-              <p className="card-label">Balance</p>
+              <p className="card-label">{t("balance")}</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
                 <h1 className={classnames('mb-0', styles.ftmNumber)}>
                   {account ? convertFTMValue(parseFloat(account.balance)) : '0'}
@@ -215,7 +218,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
           </Col>
           <Col md={5} className="mb-6">
             <Card className="h-100">
-              <p className="card-label">Overview</p>
+              <p className="card-label">{t("overview")}</p>
 
               {/* { title: 'Price', value: '$0.01078000' },
   {title: 'Market cap', value: '$19,620,860 USD' },
@@ -230,13 +233,13 @@ const AccountDetailsDashboard: FC<IProps> = ({
                 </div>
               ))} */}
               <div className="mb-4 d-flex justify-content-between">
-                <h4 className="m-0 opacity-85">Price:</h4>
+                <h4 className="m-0 opacity-85">{t("price")}:</h4>
                 <p className={classnames('m-0', styles.infoValue)}>
                   $ {parseFloat(ftmToUsdPrice).toFixed(5)}
                 </p>
               </div>
               <div className="mb-4 d-flex justify-content-between">
-                <h4 className="m-0 opacity-85">Market cap:</h4>
+                <h4 className="m-0 opacity-85">{t("marketCap")}:</h4>
                 <p className={classnames('m-0', styles.infoValue)}>
                   $ {marketCapValue}
                 </p>

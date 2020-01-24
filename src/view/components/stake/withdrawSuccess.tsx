@@ -3,11 +3,11 @@ import { Card } from 'reactstrap';
 import classnames from 'classnames';
 import { CheckCircleIcon } from 'src/view/components/svgIcons';
 
-const WithdrawSuccessCard = ({ cardCss, iconGapCss }) => {
+const WithdrawSuccessCard = ({ cardCss, iconGapCss, t }) => {
   return (
     <Card className={classnames(cardCss, 'mb-5')}>
       <h2 className={iconGapCss}>
-        Prepare to Withdrawal successful! 
+        {t("prepareWithdrawalSuccessful")}
       </h2>
 
       <div>

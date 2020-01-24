@@ -31,6 +31,7 @@ import { TextInput } from '~/view/components/inputs/TextInput';
 import { getURL } from '~/utility/dom';
 import { Layout } from '~/view/components/layout/Layout';
 import { Push } from 'connected-react-router';
+import { useTranslation } from "react-i18next";
 
 // import { Input } from '../../components/forms';
 
@@ -109,20 +110,23 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
   const handleClose = () => {
     history.push('/')
   }
+  const { t } = useTranslation();
+
 
   return (
     <Layout>
       <div>
-        <CreateWalletCard handleClose={() => handleClose()}>
+        <CreateWalletCard handleClose={() => handleClose()} title={t("createNewWallet")}>
           <div className={styles.title}>
             <h3 className="font-weight-semi-bold">
-              2<span className="opacity-3 mr-2 mr-md-3">/2</span> Your mnemonic
-              phrase
+              2
+              <span className="opacity-3 mr-2 mr-md-3">/2</span>
+              {t("yourMnemonicPhrase")}
               
             </h3>
             <p className={`${styles.warning} py-3`}>
-              Please backup the text below on paper and keep it somewhere secret
-              and safe.
+              {t("backupMnemonics")}
+.
             </p>
           </div>
           <div className={styles.phraseContent}>
@@ -133,7 +137,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
             <div className={styles.viewKey}>
               <span onClick={toggleModal}>
                 <i className="fas fa-info-circle mr-2" />
-                View your private key
+                {t("viewPrivateKey")}
               </span>
             </div>
           </div>
@@ -142,8 +146,8 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
             <div className={styles.privateKeyModal}>
               <h2 className="text-center">Your Private Key</h2>
               <p className={styles.warning}>
-                Please backup the text below on paper and keep it somewhere
-                secret and safe.
+                {t("backupMnemonics")}
+.
               </p>
               <h3 className={`${styles.privateKey} font-weight-semi-bold`}>
                 {privateKey}
@@ -166,7 +170,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
               className={`${styles.downloadBtn}`}
               onClick={onNextPressed}
             >
-              I wrote down my recovery key
+              {t("wroteRecoveryKey")}
             </button>
           </div>
         </CreateWalletCard>

@@ -13,6 +13,8 @@ import { IAccountState } from '~/redux/account';
 import fileSaver from 'file-saver';
 import { IAccount } from '~/redux/account/types';
 import { AccountListItem } from '../AccountListItem';
+import { useTranslation } from "react-i18next";
+
 
 import { Layout } from '~/view/components/layout/Layout';
 
@@ -50,14 +52,15 @@ const AccountListUnconnected: FC<IProps> = ({
       push('/account/restore');
     }
   };
+  const { t } = useTranslation();
 
   return (
     <Layout>
       <div className={styles.banner}>
         <Container>
-          <h1 className={styles.homeTitle}>Welcome to FantomWallet</h1>
+          <h1 className={styles.homeTitle}>{t('welcomeFantomWallet')}</h1>
           <h3 className="font-weight-semi-bold">
-            Send, receive and stake your FTM
+            {t('sendReceiveStakeFTM')}
           </h3>
         </Container>
       </div>
@@ -106,11 +109,10 @@ const AccountListUnconnected: FC<IProps> = ({
                       </div>
                       <div className={styles.homecontent}>
                         <div className={styles.text}>
-                          <h2>Create a new wallet</h2>
+                          <h2>{t('createNewWallet')}</h2>
                           <p className="text-white">
-                            Generate your unique Fantom wallet. Receive your own
-                            unique public address, and create access and
-                            recovery credentials.
+                            {t('generateFantomWalletText')}
+.
                           </p>
                         </div>
                         <button
@@ -118,7 +120,7 @@ const AccountListUnconnected: FC<IProps> = ({
                           className={styles.walletBtn}
                           onClick={() => goToRoute('create')}
                         >
-                          Get started
+                          {t("getStarted")}
                           <i className="fas fa-chevron-right" />
                         </button>
                       </div>
@@ -138,18 +140,19 @@ const AccountListUnconnected: FC<IProps> = ({
                       </div>
                       <div className={styles.homecontent}>
                         <div className={styles.text}>
-                          <h2>Access your wallet</h2>
+                          <h2>{t("accessWallet")}</h2>
                           <p className="text-white">
-                            Connect to the Fantom network and:
+                            {t("connectFantomNetwork")}
+:
                             <ul>
-                              <li>Send and receive FTM</li>
-                              <li>Stake your FTM</li>
-                              <li>Collect your rewards</li>
+                              <li>{t("sendRecieveFTM")}</li>
+                              <li>{t("stakeFTM")}</li>
+                              <li>{t("collectRewards")}</li>
                             </ul>
                           </p>
                         </div>
                         <button type="button" className={styles.walletBtn} onClick={() => goToRoute('access')}>
-                          Access now
+                          {t("accessNow")}
                           <i className="fas fa-chevron-right" />
                         </button>
                       </div>
@@ -169,16 +172,16 @@ const AccountListUnconnected: FC<IProps> = ({
                     )}
                     onClick={() => goToRoute('create')}
                   >
-                    Create a new wallet
+                    {t("createNewWallet")}
                   </button>
                 </Col>
                 <Col lg={12} className="mb-4">
                   <button
                     type="button"
-                      className={classnames('bg-topaz', styles.mobileBtn)}
-                      onClick={() => goToRoute('access')}
+                    className={classnames('bg-topaz', styles.mobileBtn)}
+                    onClick={() => goToRoute('access')}
                   >
-                    Access your wallet
+                    {t("accessWallet")}
                   </button>
                 </Col>
               </Row>
