@@ -1,7 +1,10 @@
+/* eslint-disable react/no-multi-comp */
 import React, { useState, useCallback , FC, useMemo, useEffect } from 'react';
 import Sidebar from './DashboardSidebar';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
+import {Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
+
 import { CopyIcon, QrIcon ,DownloadCircleIconGrey} from 'src/view/components/svgIcons';
 import { DashboardModal } from '../../Modal';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
@@ -20,6 +23,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = {
   accountGetBalance: ACCOUNT_ACTIONS.accountGetBalance,
+  accountRemoveAction: ACCOUNT_ACTIONS.accountRemoveAction,
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
@@ -32,10 +36,13 @@ const DashboardLayout: FC<IProps> = ({
   location,
   children,
   accountData,
+  accountRemoveAction,
 }) => {
 
 
   const [modal, setModal] = useState(false);
+  const [logoutModal, setLogoutModal] = useState(false);
+
   const onClick = useCallback(event => copyToClipboard(event, address), [
     address,
   ]);
@@ -53,7 +60,55 @@ const DashboardLayout: FC<IProps> = ({
       fileDownload(JSON.stringify(keyStore), `${fileName}.json`);
 
     }
+
+    const handleLogout = () => {
+
+      // history.push('/')
+      setLogoutModal(true)
+
+    }
+
+    const handleWalletLogout = () => {
+      console.log(history, '***history')
+      //  history.push('/')
+       accountRemoveAction(account && account.publicAddress)
+       setLogoutModal(false)
+       
+
+    }
     const { t } = useTranslation();
+    const onClose = () => {
+      setLogoutModal(false)
+
+    }
+    const renderModal = () => {
+      return (<Modal className="modal-dialog-centered" isOpen={logoutModal} toggle={onClose}>
+        <form>
+          <ModalHeader>Are you sure you want to logout?</ModalHeader>
+  
+          <ModalBody>
+            <div className={styles.content}>
+            <p>Logging out clears the wallet from local storage. It will not be accessible again on this browser unless the private key or mnemonic is imported.</p>
+            <p>This action is irreversible.</p>
+              
+            </div>
+  
+          </ModalBody>
+  
+          <ModalFooter>
+            <div className="text-center w-100">
+            <Button className="mx-3" color="secondary" onClick={onClose}>
+              Cancel
+            </Button>
+  
+            <Button className="mx-3" color="primary" type="submit" onClick={handleWalletLogout}>
+              Logout
+            </Button>
+            </div>
+          </ModalFooter>
+        </form>
+      </Modal>)
+    }
 
 
   return (
@@ -79,6 +134,7 @@ const DashboardLayout: FC<IProps> = ({
           <Sidebar
             address={address}
             history={history}
+            handleLogout={handleLogout}
             pathname={location.pathname}
           />
 
@@ -117,6 +173,7 @@ const DashboardLayout: FC<IProps> = ({
                 </div>
               </div>
               {children}
+              {renderModal()}
             </main>
           </div>
         </div>

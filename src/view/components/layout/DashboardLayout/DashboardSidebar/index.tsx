@@ -6,6 +6,7 @@ import { MenuIcon } from 'src/view/components/svgIcons';
 import LanguageDropDown from './LanguageDropdown'
 import logoWhite from 'src/images/logo/fantom-logo-white.svg';
 import logo from 'src/images/logo/fantom-logo.svg';
+import LogoutIcon from 'src/images/icons/sidebar/logout.svg';
 
 import menus from './menus';
 import { useTranslation } from "react-i18next";
@@ -89,6 +90,13 @@ const { t } = useTranslation();
                   </Link>
                 </li>
               ))}
+              <li>
+                
+                <a onClick={props.handleLogout}>
+                  <img src={LogoutIcon} alt="yh" />
+Logout
+                </a>
+              </li>
               <li>
                 <LanguageDropDown />
               </li>

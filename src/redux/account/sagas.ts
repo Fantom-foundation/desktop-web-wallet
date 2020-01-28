@@ -19,6 +19,7 @@ import {
   accountAddAccount,
   accountCreateSetRestoreCredentials,
   accountCreateClear,
+  accountRemoveAction,
   accountCreateRestoreMnemonics,
   accountCreateRestorePrivateKey,
   accountGetBalance,
@@ -35,6 +36,7 @@ import {
   accountReconnectProvider,
   accountGetPrivateKey,
   accountSendPasswordCheck,
+  accountSetList,
 } from './actions';
 import {
   ACCOUNT_CREATION_STAGES,
@@ -246,6 +248,9 @@ function* getPrivateKey({
   cb(privateKey);
   // return privateKey
 }
+
+
+
 
 function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
   try {
@@ -583,6 +588,40 @@ function* reconnectProvider() {
   yield call(connectToNewProvider, current_node);
 }
 
+
+function* removeAccount({ publicAddress }: ReturnType<typeof accountRemoveAction>) {
+  // yield delay(300);
+  try {
+    // const fee: string = yield call(Fantom.estimateFee, {
+    //   gasLimit,
+    // });
+    const { list }: IAccountState = yield select(selectAccount);
+    let isAddressFound = false
+    const prevListObj =  { ...list}; 
+    const prevList = Object.keys(list);
+      if(prevList && prevList.length > 0){
+        prevList.forEach(item => {
+          if(item.toLowerCase() === publicAddress.toLowerCase()){
+            delete prevListObj[item];
+            isAddressFound = true
+          }
+        })
+      }
+      if(isAddressFound){
+          yield put(
+          accountSetList({...prevListObj})
+        );
+      } 
+      yield delay(3000);
+      yield put(push('/'));
+
+
+  } catch (e) {
+    console.log(e);
+    yield put(push('/'));
+  }
+}
+
 function* testConnectionSaga() {
   try {
     const { is_node_connected } = yield select(selectAccountConnection);
@@ -636,7 +675,12 @@ export function* accountSaga() {
   yield takeLatest(ACCOUNT_ACTIONS.SEND_FUNDS_PASS_CHECK, sendFundsPassCheck);
   yield takeLatest(ACCOUNT_ACTIONS.GET_TRANSFER_FEE, getFee);
   yield takeLatest(ACCOUNT_ACTIONS.UPLOAD_KEYSTORE, uploadKeystore);
+  yield takeLatest(
+    ACCOUNT_ACTIONS.REMOVE_ACCOUNT,
+    removeAccount
+  );
 
+ 
   yield takeLatest(ACCOUNT_ACTIONS.CHANGE_PROVIDER, changeProvider);
   yield takeLatest(ACCOUNT_ACTIONS.GET_PRIVATE_KEY, getPrivateKey);
 

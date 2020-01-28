@@ -90,6 +90,13 @@ export const accountGetBalance = (id: IAccount['publicAddress']) => {
   };
 };
 
+export const accountRemoveAction = (publicAddress: IAccount['publicAddress']) => {
+  return {
+    type: ACCOUNT_ACTIONS.REMOVE_ACCOUNT,
+    publicAddress,
+  };
+};
+
 export const accountGetPrivateKey = (mnemonic, cb) => ({
   type: ACCOUNT_ACTIONS.GET_PRIVATE_KEY,
   mnemonic,
@@ -181,6 +188,7 @@ export const accountUploadKeystore = (file: File, password: string) => ({
   file,
   password,
 });
+
 
 export const accountSet = (account: Partial<IAccountState>) => ({
   type: ACCOUNT_ACTIONS.SET,

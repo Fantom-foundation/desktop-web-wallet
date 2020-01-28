@@ -4,6 +4,7 @@ const prefix = 'ACCOUNT.';
 
 export const ACCOUNT_ACTIONS = {
   SET_CREATE: `${prefix}SET_CREATE`,
+  REMOVE_ACCOUNT: `${prefix}REMOVE_ACCOUNT`,
   SET_CREATE_STAGE: `${prefix}SET_CREATE_STAGE`,
   SET_ACCOUNT: `${prefix}SET_ACCOUNT`,
   SET: `${prefix}SET`,

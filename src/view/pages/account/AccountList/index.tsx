@@ -53,6 +53,7 @@ const AccountListUnconnected: FC<IProps> = ({
     }
   };
   const { t } = useTranslation();
+  console.log(list, '******list')
 
   return (
     <Layout>
