@@ -16,15 +16,15 @@ const StakeInputCard = ({
 const { t } = useTranslation();
   let errorTxt = ''
   if(errors.stakeValueMax){
-    errorTxt = 'Not enough FTM. Please enter a lower amount'
+    errorTxt = t("notEnoughFTM")
   } else if(errors.stakeValueMin){
     errorTxt = 'Minimum stake of 1 FTM required'
 
   } else if (errors.stakeValueInvalid){
-    errorTxt = 'Invalid stake amount'
+    errorTxt = t("invalidStakeAmount")
 
   } else if (errors.maxBalance){
-    errorTxt = `You can stake max ${balanceLeft.toFixed(6)} (Value + gas * price)`
+    errorTxt = `${t("canStakeMax")} ${balanceLeft.toFixed(6)} (Value + gas * price)`
 
   }
   // const errorTxt = errors.stakeValueMax

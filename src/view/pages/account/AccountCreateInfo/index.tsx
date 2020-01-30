@@ -144,7 +144,7 @@ const AccountCreateInfoUnconnected: FC<IProps> = ({
 
           <WalletModal isOpen={modal} toggle={toggleModal} bodyClassName="">
             <div className={styles.privateKeyModal}>
-              <h2 className="text-center">Your Private Key</h2>
+              <h2 className="text-center">{t("yourPrivateKey")}</h2>
               <p className={styles.warning}>
                 {t("backupMnemonics")}
 .

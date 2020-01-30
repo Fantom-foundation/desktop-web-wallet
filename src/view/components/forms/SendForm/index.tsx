@@ -278,10 +278,10 @@ const TransferFunds: FC<IProps> = ({
     const maxAmount = parseFloat(transactionFee) * 2
     const balanceLeft = parseFloat(data.balance) - maxAmount
     if(balanceLeft < 0){
-      return `Insufficent funds to transfer`
+      return t('insufficentFundsTransfer')
     }
     if(sendingErrors.invalidAmount){
-       return 'Invalid amount' 
+       return  t("invalidAmount")
 
     } 
     // if (sendingErrors.amount){
@@ -390,7 +390,7 @@ const TransferFunds: FC<IProps> = ({
               }}
               error={{
                 isError: sendingErrors.to,
-                errorText: 'Enter a valid FTM address',
+                errorText: t("enterValidFTMAddress"),
               }}
               placeholder={t("enterAddress")}
             />

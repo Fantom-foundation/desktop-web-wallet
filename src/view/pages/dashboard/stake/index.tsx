@@ -405,7 +405,7 @@ const Stake = props => {
         case 10:
         return (
           <WithdrawSuccessfulCard
-            // t={t}
+            t={t}
             cardCss={styles.transCard}
             iconGapCss={styles.iconGap}
           />
@@ -451,7 +451,7 @@ const Stake = props => {
         <ModalBody className={styles.body}>
           <Input
             type="password"
-            label={`Please enter your wallet password to ${type === 'stake' ? "stake": type === 'withdraw' ? 'withdraw':"unstake"}`}
+            label={`${t('enterWalletPasswordModal')} ${type === 'stake' ? t('stake'): type === 'withdraw' ? 'withdraw':t('unstake')}`}
             value={password}
             placeholder={t("enterPassword")}
             handler={value => {
@@ -525,11 +525,11 @@ const Stake = props => {
               <Card className="text-center">
                 <div className={styles.availableWrapper}>
                   <h3 className="mb-0">
-                    {`Your ${stakedAmount} FTM will be available in ${
+                    {`${t('your')} ${stakedAmount} ${t('FTMAvail')} ${
                       timeLeft / 24 > 0
-                        ? `${Math.floor(timeLeft / 24)  } days and`
+                        ? `${Math.floor(timeLeft / 24)  } ${t('daysAnd')}`
                         : ''
-                    }  ${Math.floor(timeLeft % 24)} hours`}
+                    }  ${Math.floor(timeLeft % 24)} ${t('hours')}`}
                   </h3>
                 </div>
               </Card>
@@ -545,11 +545,11 @@ const Stake = props => {
             <Card className="text-center">
               <div className={styles.availableWrapper}>
                 <h3 className="mb-0">
-Your
+{t('your')}
                   {' '}
                   {stakedAmount}
                   {' '}
-FTM are available!
+      {t('FTMAvail')}!
                 </h3>
                 <button
                   onClick={event => { 
@@ -565,7 +565,7 @@ FTM are available!
               }}
                   type="button"
                 >
-                  Withdraw to your wallet now
+                  {t('withdrawToWallet')}
                   {/* <img src={downloadIcon} alt="download" /> */}
                 </button>
               </div>

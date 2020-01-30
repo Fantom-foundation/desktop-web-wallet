@@ -256,7 +256,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
             <Verification t={t} />
             {is_incorrect_modal_visible && (
               <p className={styles.incorrect_mnemonic}>
-                Incorrect mnemonic phrase order. Please try again.
+                {t("incorrectMnemonicPhrase")}
               </p>
             )}
             <div className={styles.phraseContent}>

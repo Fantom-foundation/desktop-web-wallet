@@ -8,6 +8,8 @@ import { initReactI18next, useTranslation } from "react-i18next";
 import { englishTranslation } from './utility/translations/english';
 import { koreanTranslation } from './utility/translations/korean';
 import { chineseTranslation } from './utility/translations/chinese';
+import {} from 'update-electron-app'
+
 
 
 

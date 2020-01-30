@@ -5,14 +5,15 @@ import {
   CheckCircleIcon,
 } from 'src/view/components/svgIcons';
 
-const SuccessCard = ({cardCss, iconGapCss}) => {
+const SuccessCard = ({cardCss, iconGapCss, t}) => {
   return (
     <Card className={classnames(cardCss, 'mb-5')}>
       <h2 className={iconGapCss}>
-      Withdrawal successful!
+        {t('withdrawalSuccessful')}
+!
         <br />
         {' '}
-        The tokens are now in your wallet
+        {t('wllaet')}
       </h2>
 
       <div>

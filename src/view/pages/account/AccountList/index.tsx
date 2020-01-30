@@ -1,4 +1,5 @@
-import React, { FC, useCallback } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import React, { FC, useCallback, useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'reactstrap';
 import Identicon from '~/view/general/Identicon';
 import { Address } from '~/view/components/account/Address';
@@ -14,7 +15,8 @@ import fileSaver from 'file-saver';
 import { IAccount } from '~/redux/account/types';
 import { AccountListItem } from '../AccountListItem';
 import { useTranslation } from "react-i18next";
-
+import { geolocated } from "react-geolocated";
+import OsLocale from 'os-locale';
 
 import { Layout } from '~/view/components/layout/Layout';
 
@@ -32,7 +34,14 @@ const mapDispatchToProps = {
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
-  typeof mapDispatchToProps & {};
+  typeof mapDispatchToProps & {
+    coords: any,
+    isGeolocationAvailable: any,
+    isGeolocationEnabled: any,
+    push: any,
+
+
+  };
 
 const AccountListUnconnected: FC<IProps> = ({
   list,
@@ -44,6 +53,19 @@ const AccountListUnconnected: FC<IProps> = ({
     },
     [push]
   );
+
+
+  useEffect(() => {
+    OsLocale().then(res => {
+      let locale = 'en'
+      const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
+      const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
+      if (isChinese) locale = 'chi'
+      if(isKorean) locale = 'kor'
+      localStorage.setItem('language', locale)
+  
+    })
+  }, []);
 
   const goToRoute = type => {
     if(type === 'create'){
@@ -223,9 +245,11 @@ const AccountListUnconnected: FC<IProps> = ({
   );
 };
 
+
 const AccountList = connect(
   mapStateToProps,
   mapDispatchToProps
 )(AccountListUnconnected);
+
 
 export { AccountList, AccountListUnconnected };

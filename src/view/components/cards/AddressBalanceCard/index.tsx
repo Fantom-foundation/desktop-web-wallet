@@ -111,7 +111,7 @@ const AddressCardCreateWallet: FC<IProps> = ({
                     className="btn btn-topaz px-5"
                     onClick={() => push('/account/restore')}
                   >
-                    Restore Wallet
+                    {t('restoreWallet')}
                   </button>
                 </div>
               </>

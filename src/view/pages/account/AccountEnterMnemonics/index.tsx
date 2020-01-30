@@ -211,11 +211,11 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
   const getErrorText = () => {
     if(passError){
-      return 'Please enter password.'
+      return t('pleaseEnterPassword')
 
     }
     if(fileError){
-      return 'Please upload keystore.'
+      return t('pleaseUploadKeystore')
 
     }
     if(Object.keys(accountDetails.errors).length > 0 && accountDetails.errors.keystore){
@@ -385,7 +385,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   onClick={() => handleTabs(2)}
                 >
                   <MnemonicIcon />
-                  <h4 className="opacity-7">Mnemonic phrase</h4>
+                <h4 className="opacity-7">{t('mnemonicPhrase')}</h4>
                 </div>
               </div>
               <div className={styles.optionCol}>
@@ -396,7 +396,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   onClick={() => handleTabs(3)}
                 >
                   <PrivatekeyIcon className="mt-1" />
-                  <h4 className="opacity-7">Private key</h4>
+                <h4 className="opacity-7">{t('privateKey')}</h4>
                 </div>
               </div>
             </div>
@@ -412,15 +412,15 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   >
                     <input className="d-none" type="file" onChange={e => {onUpload(e), setFileError(false)}} />
                     <img src={uploadIcon} alt="Upload keystore file" />
-                    Upload keystore file
+                    {t('uploadKeystoreFile')}
                   </label>
-                  {uploadedFile && <p className={styles.info}>Keystore sucessfully loaded</p>}
+                    {uploadedFile && <p className={styles.info}>{t('keystoreSucessfullyLoaded')}</p>}
                   </div>
                   <FormInput
                     accessWallet
                     noBorder
                     type="password"
-                    placeholder="Enter you wallet password"
+                    placeholder={t('enterYourWalletPassword')}
                     value={password}
                     handler={val => {
                       setPassword(val)
@@ -438,8 +438,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
             {/* --Mnemonic Start-- */}
             {currentTab === 2 && (<div>
               <h4 className={classnames('opacity-7', styles.inputLabel)}>
-            Please type in your 12 or 24 word mnemonic phrase, all lower-case,
-            separate by single spaces.
+            {t('enterMnemonic')}.
               </h4>
       
               <div className={styles.inputWrapper}>
@@ -466,7 +465,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                     }}
                 />
                 {error ? (
-                <p className={styles.errorText}>Invalid recovery phrase</p>
+<p className={styles.errorText}>{t('invalidRecoveryPhrase')}</p>
                   ) : 
                 isMnemonicExistError ? <p className={styles.errorText}>{accountDetails && accountDetails.errors.mnemonic}</p> : ''
                   }
@@ -481,14 +480,14 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                 <FormInput
                   accessWallet
                   type="text"
-                  label="Please type in your private key"
+                  label={t('typePrivateKey')}
                   handler={val => {
                     setUserPrivateKey(val);
                     setPrivateKeyError(false)
                   }}
                   value={userPrivateKey}
                   isError={privateKeyError}
-                  errorMsg={isPrivateKeyError ? accountDetails.errors && accountDetails.errors.privateKey : privateKeyError ? "Please enter a valid 66 bit alphanumeric private key that starts with 0x" : "" }
+                  errorMsg={isPrivateKeyError ? accountDetails.errors && accountDetails.errors.privateKey : privateKeyError ? t("enterPrivateValidation") : "" }
                 />
               </div>
             )}
@@ -501,7 +500,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
               onClick={e => handleAllSubmit(e)}
               // disbaled={!is_next_disabled}
             >
-            Unlock wallet
+            {t("unlockWallet")}
             </Button>
           </div>
         </div>

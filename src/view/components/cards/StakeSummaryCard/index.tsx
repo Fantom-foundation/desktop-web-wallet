@@ -9,11 +9,12 @@ export default ({ handleEditStep, stakeValue, validator, stakeAmount, t }) => {
   return (
     <div className="mx-auto" style={{ maxWidth: 670 }}>
       <Card className="pb-6">
-        <p className="card-label mb-4 mb-md-6">Summary</p>
+        <p className="card-label mb-4 mb-md-6">{t('summary')}</p>
         <div className={styles.contentWrapper}>
           <div className={classnames(styles.fields)}>
             <h3 className={classnames('opacity-7', styles.label)}>
-              Amount to stake:
+              {t('amountToStake')}
+:
             </h3>
             <h2 className={classnames(styles.value)}>
               {stakeValue}
@@ -30,7 +31,8 @@ FTM
           </div>
           <div className={classnames(styles.fields)}>
             <h3 className={classnames('opacity-7', styles.label)}>
-              Validator node:
+              {t('validatorNode')}
+:
             </h3>
             <h2 className={classnames(styles.validatorAddrValue)}>
               {validator}

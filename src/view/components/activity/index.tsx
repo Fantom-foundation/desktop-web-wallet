@@ -42,7 +42,7 @@ const SubView = (props: any) => {
         </p>
       </div>
       <div className={styles.subView}>
-        <p className={styles.subViewTitle}>Transaction hash:</p>
+        <p className={styles.subViewTitle}>{t("transactionHash")}:</p>
         <p className={styles.subViewValue}>
           <a target="_blank" href={`${FANTOM_WEB_URL}/transactions/${value}`}>
             {value}

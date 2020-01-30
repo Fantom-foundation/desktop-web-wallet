@@ -161,7 +161,7 @@ const DataRow = props => {
                 <tr>
                   <td className="d-md-none">
                     <p className={classnames(styles.txDetails, styles.label)}>
-                      Proof of Importance
+                      {t('poiFull')}
                     </p>
                   </td>
                   <td className="d-md-none">
@@ -194,9 +194,12 @@ const DataRow = props => {
                 {nodeFull <= 0 ? (
                   <p className={styles.txDetails}>
                     <b>
-                      This node is full at the moment.
+                      {t('nodeFull')}
+.
                       <br />
-                      Please select a different node.
+                      
+                      {t('diffNode')}
+.
                     </b>
                   </p>
                 ) : (

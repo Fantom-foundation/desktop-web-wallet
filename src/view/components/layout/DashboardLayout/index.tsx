@@ -84,12 +84,12 @@ const DashboardLayout: FC<IProps> = ({
     const renderModal = () => {
       return (<Modal className="modal-dialog-centered" isOpen={logoutModal} toggle={onClose}>
         <form>
-          <ModalHeader>Are you sure you want to logout?</ModalHeader>
+    <ModalHeader>{t('logoutMsg')}</ModalHeader>
   
           <ModalBody>
             <div className={styles.content}>
-            <p>Logging out clears the wallet from local storage. It will not be accessible again on this browser unless the private key or mnemonic is imported.</p>
-            <p>This action is irreversible.</p>
+            <p>{t('logoutDesc')}.</p>
+            <p>{t('reverseAction')}.</p>
               
             </div>
   
@@ -98,7 +98,7 @@ const DashboardLayout: FC<IProps> = ({
           <ModalFooter>
             <div className="text-center w-100">
             <Button className="mx-3" color="secondary" onClick={onClose}>
-              Cancel
+             Cancel
             </Button>
   
             <Button className="mx-3" color="primary" type="submit" onClick={handleWalletLogout}>

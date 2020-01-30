@@ -12,7 +12,7 @@ const SuccessCard = ({cardCss, iconGapCss, t}) => {
         {t("congratulations")}
         <br />
         {' '}
-        {t("ftmSuccessfullyStaked.")}
+        {t("ftmSuccessfullyStaked")}
       </h2>
 
       <div>
