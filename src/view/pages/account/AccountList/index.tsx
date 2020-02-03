@@ -15,7 +15,6 @@ import fileSaver from 'file-saver';
 import { IAccount } from '~/redux/account/types';
 import { AccountListItem } from '../AccountListItem';
 import { useTranslation } from "react-i18next";
-import { geolocated } from "react-geolocated";
 import OsLocale from 'os-locale';
 
 import { Layout } from '~/view/components/layout/Layout';
@@ -75,7 +74,6 @@ const AccountListUnconnected: FC<IProps> = ({
     }
   };
   const { t } = useTranslation();
-  console.log(list, '******list')
 
   return (
     <Layout>

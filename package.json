@@ -143,7 +143,7 @@
       "target": [
         "mas"
       ],
-      "provisioningProfile": "Fantom_Mac_Dist_Profile.provisionprofile",
+      "provisioningProfile": "fantom_mac_distribution.provisionprofile",
       "entitlements": "public/entitlements.mas.plist",
       "type": "distribution"
     }
