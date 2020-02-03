@@ -8,7 +8,8 @@
   &:not(:first-child) {
     border-top: 1px solid rgba(map-get($color, dark-grey-blue), 0.1);
   }
-  padding: 14px 17px 15px 18px;
+  // padding: 14px 17px 15px 18px;
+  padding: 10px 17px 7px 18px;
   @media (max-width: $tablet) {
     padding: 20px 0 18px;
   }
@@ -24,6 +25,11 @@
       margin: 0;
       color: map-get($color, dark-grey-blue);
     }
+    .ftm {
+      &.recive {
+        color: map-get($color, topaz);
+      }
+    }
     .status {
       width: 210px;
       font-size: 16px;
@@ -38,19 +44,24 @@
       }
     }
     .timeFtmWrapper {
-      flex: 0 0 calc(100% - 210px);
-      max-width: calc(100% - 210px);
-      @media (max-width: $tablet) {
-        flex: 0 0 100%;
-        max-width: 100%;
-      }
+      // flex: 0 0 calc(100% - 210px);
+      // max-width: calc(100% - 210px);
+      // @media (max-width: $tablet) {
+      flex: 0 0 100%;
+      max-width: 100%;
+      // }
     }
     .time {
       font: {
         size: 16px;
-        weight: 500;
+        weight: 400;
       }
-      color: rgba(map-get($color, dark-grey-blue), 0.8);
+      text-transform: uppercase;
+      display: flex;
+      flex-direction: column;
+      text-align: center;
+      line-height: 1.31;
+      color: map-get($color, dark-grey-blue);
       @media (max-width: $tablet) {
         font-size: 12px;
       }

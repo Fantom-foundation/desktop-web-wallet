@@ -11,6 +11,7 @@ import React, {
 import { Row, Col, Container, Card, Modal } from 'reactstrap';
 import { IAccount } from '~/redux/account/types';
 import Activity from 'src/view/components/activity';
+import { Tokens } from 'src/view/components/cards';
 import {
   selectTransactionsDetails,
   selectTransactions,
@@ -195,7 +196,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
       </Modal> */}
       <div className="dashboard-container">
         <Row>
-          <Col md={7} className="mb-6">
+          <Col md={7} className="mb-4 pb-2">
             <Card className="h-100">
               <div className={styles.refreshBtnWrapper}>
                 <button
@@ -228,7 +229,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
               </p>
             </Card>
           </Col>
-          <Col md={5} className="mb-6">
+          <Col md={5} className="mb-4 pb-2">
             <Card className="h-100">
               <p className="card-label">{t('overview')}</p>
 
@@ -260,7 +261,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
           </Col>
         </Row>
         <Row>
-          <Col>
+          <Col md={7} className="mb-4 pb-2">
             {currentId !== '' && currentId === id && (
               <Activity
                 transactions={transactions.list}
@@ -268,6 +269,9 @@ const AccountDetailsDashboard: FC<IProps> = ({
                 address={id}
               />
             )}
+          </Col>
+          <Col md={5} className="mb-4 pb-2">
+            <Tokens />
           </Col>
         </Row>
       </div>

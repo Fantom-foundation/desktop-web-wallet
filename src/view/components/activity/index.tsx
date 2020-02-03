@@ -6,6 +6,7 @@
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useCallback } from 'react';
+import classnames from 'classnames';
 import { Card, Collapse } from 'reactstrap';
 import styles from './styles.module.scss';
 import activityMockData from './activityMockData';
@@ -16,9 +17,9 @@ import { copyToClipboard } from '~/utility/clipboard';
 import { mockComponent } from 'react-dom/test-utils';
 import Web3 from 'web3';
 import moment from 'moment';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
-const FANTOM_WEB_URL = 'https://explorer.fantom.network'
+const FANTOM_WEB_URL = 'https://explorer.fantom.network';
 
 const SubView = (props: any) => {
   const { value, to, fee, newDate, memo, t } = props;
@@ -31,7 +32,7 @@ const SubView = (props: any) => {
   return (
     <>
       <div className={styles.subView}>
-  <p className={styles.subViewTitle}>{t("Recipient")}</p>
+        <p className={styles.subViewTitle}>{t('Recipient')}</p>
         <p className={styles.subViewValue}>
           <a target="_blank" href={`${FANTOM_WEB_URL}/address/${to}`}>
             {to}
@@ -42,7 +43,7 @@ const SubView = (props: any) => {
         </p>
       </div>
       <div className={styles.subView}>
-        <p className={styles.subViewTitle}>{t("transactionHash")}:</p>
+        <p className={styles.subViewTitle}>{t('transactionHash')}:</p>
         <p className={styles.subViewValue}>
           <a target="_blank" href={`${FANTOM_WEB_URL}/transactions/${value}`}>
             {value}
@@ -53,7 +54,7 @@ const SubView = (props: any) => {
         </p>
       </div>
       <div className={styles.subView}>
-  <p className={styles.subViewTitle}>{t("date")}</p>
+        <p className={styles.subViewTitle}>{t('date')}</p>
         <p className={styles.subViewValue}>{newDate}</p>
       </div>
       <div className={styles.subView}>
@@ -62,12 +63,12 @@ const SubView = (props: any) => {
           {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)} FTM
         </p>
       </div>
-      {memo !== '' && memo !== undefined && <div className={styles.subView}>
-        <p className={styles.subViewTitle}>{t("memo")}</p>
-        <p className={styles.subViewValue}>
-          {memo}
-        </p>
-      </div>}
+      {memo !== '' && memo !== undefined && (
+        <div className={styles.subView}>
+          <p className={styles.subViewTitle}>{t('memo')}</p>
+          <p className={styles.subViewValue}>{memo}</p>
+        </div>
+      )}
     </>
   );
 };
@@ -81,15 +82,22 @@ const Activities = (props: any) => {
   return (
     <div className={styles.activities}>
       <div className={styles.activitiesRow} onClick={() => setIsOpen(!isOpen)}>
-        <p className={styles.status}>
+        {/* <p className={styles.status}>
           {isRecieve ? <SendIcon /> : <ReceiveIcon />}
-          {isRecieve ? 'Sent' : t("receive")}
-        </p>
+          {isRecieve ? 'Sent' : t('receive')}
+        </p> */}
         <div
-          className={`d-flex justify-content-between w-100 ${styles.timeFtmWrapper}`}
+          className={classnames(
+            styles.timeFtmWrapperm,
+            'd-flex justify-content-between align-items-center w-100'
+          )}
         >
-          <p className={styles.time}>{newDate}</p>
-          <p className={styles.ftm}>
+          {/* <p className={styles.time}>{newDate}</p> */}
+          <p className={styles.time}>
+            <span>Jan</span>
+            <span>13</span>
+          </p>
+          <p className={classnames(styles.ftm, { [styles.recive]: isRecieve })}>
             {' '}
             {isRecieve ? '-' : '+'}
             {props.data.value &&
@@ -112,12 +120,12 @@ const Activities = (props: any) => {
   );
 };
 export default props => {
-  const {transactionHashDetails} = props
+  const { transactionHashDetails } = props;
   const { t } = useTranslation();
 
   return (
     <Card className={styles.card}>
-      <p className="card-label">{t("recentActivity")}</p>
+      <p className="card-label">{t('recentActivity')}</p>
       <div>
         {/* {activityMockData.map((data: object, index: number) => (
         <Activities key={index} {...data} />
@@ -126,12 +134,23 @@ export default props => {
           props.transactions &&
           props.transactions.length > 0 &&
           props.transactions.map((data: any, index: number) => {
-            let memo = ''
-            if(!!transactionHashDetails && transactionHashDetails[data.hash] !== ''){
-                memo = transactionHashDetails[data.hash]
+            let memo = '';
+            if (
+              !!transactionHashDetails &&
+              transactionHashDetails[data.hash] !== ''
+            ) {
+              memo = transactionHashDetails[data.hash];
             }
-            return <Activities t={t} key={index} memo={memo} data={data} address={props.address} />
-})}
+            return (
+              <Activities
+                t={t}
+                key={index}
+                memo={memo}
+                data={data}
+                address={props.address}
+              />
+            );
+          })}
       </div>
     </Card>
   );
