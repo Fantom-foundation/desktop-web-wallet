@@ -98,11 +98,11 @@ const DashboardLayout: FC<IProps> = ({
           <ModalFooter>
             <div className="text-center w-100">
             <Button className="mx-3" color="secondary" onClick={onClose}>
-             Cancel
+            {t('cancel')}
             </Button>
   
             <Button className="mx-3" color="primary" type="submit" onClick={handleWalletLogout}>
-              Logout
+            {t('logout')}
             </Button>
             </div>
           </ModalFooter>

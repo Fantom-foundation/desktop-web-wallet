@@ -129,11 +129,24 @@ export const chineseTranslation = {
   "typePrivateKey":"请输入您的私钥",
   "unlockWallet":"解锁钱包",
   "enterPrivateValidation":"请输入以0x开头的 66位 字母数字有效的私钥",
-  'hours': '小時',
+  'hours': '小时',
   'your': '您的',
   "logoutMsg":"您确定要注销吗?",
   "logoutDesc": '注销将会把钱包从本地储存清除掉. 除非您导入私钥或助记词，否则将无法在此浏览器上再次访问它.',
   "reverseAction": '这个动作是不可逆转的.',
+  "sent":"已发送",
+  "fee": '手续费',
+  "cancel": '取消',
+  "logout": '注销',
+  'rewards': '奖励',
+  "unstaking": '取消权益质押',
+  "withdraw": '提现',
+  "withdrawing": '提现中',
+  "invalidKeystoreTitle": "无效的密钥库文件或密码.",
+  "keystore": "密钥库",
+  "max":"最大值",
+  "staking":"权益质押中",
+
 
 
   

@@ -116,7 +116,7 @@ export const englishTranslation = {
   "withdrawalSuccessful":"Withdrawal successful",
   "wllaet":"The tokens are now in your wallet",
   "enterWalletPasswordModal":"Please enter your wallet password to",
-  "FTMAvail":"FTM will be available in",
+  "FTMAvail":"FTM is available for withdraw!",
   "daysAnd":"days and",
   "FTMAreAvailable":"FTM are available",
   "withdrawToWallet":"Withdraw to your wallet now",
@@ -135,6 +135,19 @@ export const englishTranslation = {
   "logoutMsg":"Are you sure you want to logout?",
   "logoutDesc": 'Logging out clears the wallet from local storage. It will not be accessible again on this browser unless the private key or mnemonic is imported.',
   "reverseAction": 'This action is irreversible.',
+  "sent":"Sent",
+  "fee": 'Fee',
+  "cancel": 'Cancel',
+  "logout": 'Logout',
+  'rewards': 'Rewards',
+  "unstaking": 'Unstaking...',
+  "withdraw": 'Withdraw',
+  "withdrawing": 'Withdrawing...',
+  "invalidKeystoreTitle": "Invalid keystore file or password.",
+  "keystore": "Keystore",
+  "max":"Max",
+  "staking":"Staking",
+
   
 
 

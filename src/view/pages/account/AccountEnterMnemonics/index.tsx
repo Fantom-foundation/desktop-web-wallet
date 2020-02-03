@@ -374,7 +374,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   onClick={() => handleTabs(1)}
                 >
                   <KeystoreIcon />
-                  <h4 className="opacity-7">Keystore</h4>
+                  <h4 className="opacity-7">{t("keystore")}</h4>
                 </div>
               </div>
               <div className={styles.optionCol}>

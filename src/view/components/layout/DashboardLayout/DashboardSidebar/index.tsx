@@ -92,9 +92,9 @@ const { t } = useTranslation();
               ))}
               <li>
                 
-                <a onClick={props.handleLogout}>
+                <a style={{ cursor: 'pointer'}} onClick={props.handleLogout}>
                   <img src={LogoutIcon} alt="yh" />
-Logout
+                  {t('logout')}
                 </a>
               </li>
               <li>

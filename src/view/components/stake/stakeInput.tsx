@@ -38,7 +38,7 @@ const { t } = useTranslation();
           lg
           type="number"
           placeholder="0"
-          rightLabel="Max"
+          rightLabel={t("max")}
           value={stakeValue}
           error={{
             isError: errors.stakeValueInvalid || errors.stakeValueMax || errors.stakeValueMin || errors.maxBalance,

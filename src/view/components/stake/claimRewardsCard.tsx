@@ -25,7 +25,7 @@ const ClaimRewardsCard = ({styles}) => {
         </Button>
       </div>
     </div>
-          </Card>)
+  </Card>)
 }
 
 export default ClaimRewardsCard

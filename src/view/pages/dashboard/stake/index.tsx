@@ -418,22 +418,22 @@ const Stake = props => {
   const getButtonTitle = () => {
     if(type === 'stake'){
       if(inProcess){
-        return 'Staking...'
+        return t("staking")
       }
       return t("stake")
     } 
      if (type === 'unStake'){
       if(inProcess){
-        return 'Unstaking...'
+        return t("unstaking")
       }
       return t("unstake")
 
     }
     if (type === 'withdraw'){
       if(inProcess){
-        return 'Withdrawing...'
+        return t("withdrawing")
       }
-      return 'Withdraw'
+      return t("withdraw")
 
     }
   }
@@ -451,7 +451,7 @@ const Stake = props => {
         <ModalBody className={styles.body}>
           <Input
             type="password"
-            label={`${t('enterWalletPasswordModal')} ${type === 'stake' ? t('stake'): type === 'withdraw' ? 'withdraw':t('unstake')}`}
+            label={`${t('enterWalletPasswordModal')} ${type === 'stake' ? t('stake'): type === 'withdraw' ? t('withdraw') : t('unstake')}`}
             value={password}
             placeholder={t("enterPassword")}
             handler={value => {
@@ -545,11 +545,12 @@ const Stake = props => {
             <Card className="text-center">
               <div className={styles.availableWrapper}>
                 <h3 className="mb-0">
-{t('your')}
+                  {t('your')}
                   {' '}
                   {stakedAmount}
                   {' '}
-      {t('FTMAvail')}!
+                  {t('FTMAvail')}
+!
                 </h3>
                 <button
                   onClick={event => { 
@@ -576,13 +577,6 @@ const Stake = props => {
     }
     return null;
   };
-
-
-
-
-
-  
-
 
     const deactivatedEpoch = Number(
       (selectedAddress && selectedAddress.deactivatedEpoch) || 0
@@ -655,7 +649,7 @@ FTM
 
         <Col md={6} className="mb-6">
           <Card className="h-100 ">
-            <p className="card-label mb-4">Rewards</p>
+            <p className="card-label mb-4">{t("rewards")}</p>
             <div className="text-right">
               <h2 className="pt-3">
                 {claimedRewards}

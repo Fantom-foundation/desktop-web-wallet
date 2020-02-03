@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {
   takeLatest,
@@ -10,6 +11,8 @@ import {
   race,
   fork,
 } from 'redux-saga/effects';
+import { useTranslation } from "react-i18next";
+
 
 import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from './constants';
 import {
@@ -478,6 +481,8 @@ function* uploadKeystore({
 }: ReturnType<typeof accountUploadKeystore>) {
   try {
     yield put(accountSetCreate({ errors: {} }));
+    // eslint-disable-next-line react-hooks/rules-of-hooks
+    const { t } = useTranslation()
 
     const { icon } = yield select(selectAccountCreate);
     const { list }: IAccountState = yield select(selectAccount);
@@ -529,9 +534,10 @@ function* uploadKeystore({
     yield put(push(URLS.ACCOUNT_SUCCESS));
   } catch (e) {
     console.log('***err', e)
+    const { t } = useTranslation()
     yield put(
       accountSetCreate({
-        errors: { keystore: 'Invalid keystore file or password.' },
+        errors: { keystore: t("invalidKeystoreTitle") },
       })
     );
   }

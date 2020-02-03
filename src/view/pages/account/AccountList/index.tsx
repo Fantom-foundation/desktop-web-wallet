@@ -56,15 +56,20 @@ const AccountListUnconnected: FC<IProps> = ({
 
 
   useEffect(() => {
-    OsLocale().then(res => {
-      let locale = 'en'
-      const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
-      const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
-      if (isChinese) locale = 'chi'
-      if(isKorean) locale = 'kor'
-      localStorage.setItem('language', locale)
-  
-    })
+    const isChecked = localStorage.getItem('isManualLang')
+    if(isChecked !== 'true'){
+      OsLocale().then(res => {
+        let locale = 'en'
+        const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
+        const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
+        if (isChinese) locale = 'chi'
+        if(isKorean) locale = 'kor'
+        localStorage.setItem('language', locale)
+    
+      })
+
+    }
+   
   }, []);
 
   const goToRoute = type => {

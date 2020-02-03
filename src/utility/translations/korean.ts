@@ -116,7 +116,7 @@ export const koreanTranslation = {
   "wllaet":"The tokens are now in your wallet",
   "enterWalletPasswordModal":"언스테이크 하기 위해 지갑 암호를 입력해주세요",
   "FTMAvail":"시간 뒤부터 FTM을 사용할 수 있습니다",
-  "daysAnd":"days and",
+  "daysAnd":"일 그리고",
   "FTMAreAvailable":"FTM are available",
   "withdrawToWallet":"지갑으로 바로 출금하기",
   "mnemonicPhrase":"니모닉 문구",
@@ -134,6 +134,18 @@ export const koreanTranslation = {
   "logoutMsg":"로그아웃 하시겠습니까?",
   "logoutDesc": '로그아웃 시 지갑이 로컬 저장소로부터 지워집니다. 다시 엑세스하기 위해서 프라이빗 키 또는 니모닉 문구를 필요로 합니다.',
   "reverseAction": '다음으로 진행 시 취소가 불가능합니다.',
+  "sent":"전송되었습니다",
+  "fee": '手续费',
+  "cancel": '취소',
+  "logout": '로그아웃',
+  'rewards': '보상',
+  "unstaking": '언스테이킹',
+  "withdraw": '출금',
+  "withdrawing": '출금중',
+  "invalidKeystoreTitle": "유효하지 않은 키스토어 파일 혹은 암호입니다.",
+  "keystore": "키스토어",
+  "max":"최대",
+  "staking":"스테이킹",
 
 
   

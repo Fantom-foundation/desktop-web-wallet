@@ -57,7 +57,7 @@ const SubView = (props: any) => {
         <p className={styles.subViewValue}>{newDate}</p>
       </div>
       <div className={styles.subView}>
-        <p className={styles.subViewTitle}>Fee</p>
+        <p className={styles.subViewTitle}>{t("fee")}</p>
         <p className={styles.subViewValue}>
           {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)} FTM
         </p>
@@ -83,7 +83,7 @@ const Activities = (props: any) => {
       <div className={styles.activitiesRow} onClick={() => setIsOpen(!isOpen)}>
         <p className={styles.status}>
           {isRecieve ? <SendIcon /> : <ReceiveIcon />}
-          {isRecieve ? 'Sent' : t("receive")}
+          {isRecieve ? t("sent") : t("receive")}
         </p>
         <div
           className={`d-flex justify-content-between w-100 ${styles.timeFtmWrapper}`}
