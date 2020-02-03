@@ -210,3 +210,11 @@ input::-webkit-inner-spin-button {
 .pointer {
   cursor: pointer;
 }
+
+.dashboard-container {
+  max-width: 970px;
+  margin: {
+    left: auto;
+    right: auto;
+  }
+}

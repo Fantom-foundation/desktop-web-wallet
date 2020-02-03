@@ -11,7 +11,7 @@ import React, {
 import { Row, Col, Container, Card, Modal } from 'reactstrap';
 import { IAccount } from '~/redux/account/types';
 import Activity from 'src/view/components/activity';
-import { 
+import {
   selectTransactionsDetails,
   selectTransactions,
 } from '~/redux/transactions/selectors';
@@ -26,7 +26,7 @@ import {
   selectFtmToUsdPrice,
   // selectFtmMarketCap,
 } from '~/redux/account/selectors';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 import { push as historyPush } from 'connected-react-router';
 // import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
@@ -78,8 +78,10 @@ const AccountDetailsDashboard: FC<IProps> = ({
   id,
 }) => {
   const [marketCap, setMarketCap] = useState('0');
-  const [currentId, setCurrentId] = useState('')
-  const [currentTransactions, setCurrentTransactions]=  useState<Array<any>>([]);
+  const [currentId, setCurrentId] = useState('');
+  const [currentTransactions, setCurrentTransactions] = useState<Array<any>>(
+    []
+  );
   const { t } = useTranslation();
 
   //   const getBalance = useCallback(
@@ -94,25 +96,22 @@ const AccountDetailsDashboard: FC<IProps> = ({
 
   // let interval;
   useEffect(() => {
-    if(currentId !== id){
+    if (currentId !== id) {
+      accountGetBalance(id);
+      transactionsGetList(id);
+      setCurrentId(id);
+      setCurrentTransactions([]);
 
-    accountGetBalance(id);
-    transactionsGetList(id);
-      setCurrentId(id)
-      setCurrentTransactions([])
-     
+      accountFTMtoUSD();
+      accountFTMMarketCap(value => {
+        setMarketCap(value);
+      });
+    }
+    let timeOutInterval = 2000;
+    if (account && account.balance === '0') {
+      timeOutInterval = 5000;
+    }
 
-    accountFTMtoUSD();
-    accountFTMMarketCap(value => {
-      setMarketCap(value);
-    });
-      }
-  let timeOutInterval = 2000
-  if( account && account.balance === '0'){
-    timeOutInterval = 5000
-
-  }
-       
     const interval = setInterval(() => {
       accountGetBalance(id);
       transactionsGetList(id);
@@ -120,14 +119,24 @@ const AccountDetailsDashboard: FC<IProps> = ({
       //   setCurrentTransactions(transactions.list)
       // }
     }, timeOutInterval);
-      // if(currentId === id){
-      //   setCurrentTransactions(transactions.list || [])
-      // }
-    
-    
-    return () => {console.log("clearInterval kapil"); clearInterval(interval)};
-   
-  }, [account, accountFTMMarketCap, accountFTMtoUSD, accountGetBalance, currentId, id, transactions.list, transactionsGetList]);
+    // if(currentId === id){
+    //   setCurrentTransactions(transactions.list || [])
+    // }
+
+    return () => {
+      console.log('clearInterval kapil');
+      clearInterval(interval);
+    };
+  }, [
+    account,
+    accountFTMMarketCap,
+    accountFTMtoUSD,
+    accountGetBalance,
+    currentId,
+    id,
+    transactions.list,
+    transactionsGetList,
+  ]);
 
   // useEffect(() => {
   //   console.log('******iduseEffect', id)
@@ -163,7 +172,10 @@ const AccountDetailsDashboard: FC<IProps> = ({
     transactionsGetList(id);
   }, [accountGetBalance, id, transactionsGetList]);
 
-  const marketCapValue = parseFloat(marketCap).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+  const marketCapValue = parseFloat(marketCap)
+    .toFixed(2)
+    .toString()
+    .replace(/\B(?=(\d{3})+(?!\d))/g, ',');
   return (
     <div>
       {/* <Modal
@@ -181,7 +193,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
           list={list}
         />
       </Modal> */}
-      <div>
+      <div className="dashboard-container">
         <Row>
           <Col md={7} className="mb-6">
             <Card className="h-100">
@@ -197,7 +209,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
                 </button>
               </div>
 
-              <p className="card-label">{t("balance")}</p>
+              <p className="card-label">{t('balance')}</p>
               <div className="d-flex align-items-center justify-content-end mb-3">
                 <h1 className={classnames('mb-0', styles.ftmNumber)}>
                   {account ? convertFTMValue(parseFloat(account.balance)) : '0'}
@@ -218,7 +230,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
           </Col>
           <Col md={5} className="mb-6">
             <Card className="h-100">
-              <p className="card-label">{t("overview")}</p>
+              <p className="card-label">{t('overview')}</p>
 
               {/* { title: 'Price', value: '$0.01078000' },
   {title: 'Market cap', value: '$19,620,860 USD' },
@@ -233,13 +245,13 @@ const AccountDetailsDashboard: FC<IProps> = ({
                 </div>
               ))} */}
               <div className="mb-4 d-flex justify-content-between">
-                <h4 className="m-0 opacity-85">{t("price")}:</h4>
+                <h4 className="m-0 opacity-85">{t('price')}:</h4>
                 <p className={classnames('m-0', styles.infoValue)}>
                   $ {parseFloat(ftmToUsdPrice).toFixed(5)}
                 </p>
               </div>
               <div className="mb-4 d-flex justify-content-between">
-                <h4 className="m-0 opacity-85">{t("marketCap")}:</h4>
+                <h4 className="m-0 opacity-85">{t('marketCap')}:</h4>
                 <p className={classnames('m-0', styles.infoValue)}>
                   $ {marketCapValue}
                 </p>
@@ -249,7 +261,13 @@ const AccountDetailsDashboard: FC<IProps> = ({
         </Row>
         <Row>
           <Col>
-            {currentId !== "" && currentId === id && <Activity transactions={transactions.list} transactionHashDetails={transactionHashDetails} address={id} />}
+            {currentId !== '' && currentId === id && (
+              <Activity
+                transactions={transactions.list}
+                transactionHashDetails={transactionHashDetails}
+                address={id}
+              />
+            )}
           </Col>
         </Row>
       </div>

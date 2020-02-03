@@ -4,6 +4,7 @@ import { URLS } from '~/constants/urls';
 import { selectAccount } from '~/redux/account/selectors';
 import { push as historyPush, push } from 'connected-react-router';
 import { AccountDetails } from '~/view/pages/account/AccountDetails';
+import FLend from '~/view/pages/fLend';
 import { connect } from 'react-redux';
 import { DashboardLayout } from '~/view/components/layout';
 import Send from '~/view/pages/dashboard/send';
@@ -57,6 +58,12 @@ const AccountRouterUnconnected: FC<IProps> = ({
             path={URLS.ACCOUNT.BASE(':id')}
             component={() => <AccountDetails id={id} />}
           />
+          <Route
+            exact
+            path={URLS.ACCOUNT.BASE(':id/f-lend')}
+            component={FLend}
+          />
+
           <Route exact path={URLS.ACCOUNT.BASE(':id/send')} component={Send} />
           <Route
             exact

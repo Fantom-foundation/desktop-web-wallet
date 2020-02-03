@@ -104,10 +104,9 @@
 }
 .menusWrapper {
   @media (max-width: $largeDesktop) {
-    padding-top: 178px;
     padding: {
-      top: 178px;
-      bottom: 50px;
+      top: 100px;
+      bottom: 30px;
     }
     height: 100vh;
     overflow: auto;
