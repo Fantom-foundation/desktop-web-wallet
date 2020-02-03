@@ -3,13 +3,13 @@ import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
 import classnames from 'classnames';
 import { MenuIcon } from 'src/view/components/svgIcons';
-import LanguageDropDown from './LanguageDropdown'
-import logoWhite from 'src/images/logo/fantom-logo-white.svg';
-import logo from 'src/images/logo/fantom-logo.svg';
+import LanguageDropDown from './LanguageDropdown';
+import logoWhite from 'src/images/logo/fantom-logo-icon-white.svg';
+import logo from 'src/images/logo/fantom-logo-icon.svg';
 import LogoutIcon from 'src/images/icons/sidebar/logout.svg';
 
 import menus from './menus';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 
 const getLinkPath = (name, address) => {
   switch (name) {
@@ -35,7 +35,7 @@ export default props => {
     selectedIndex = 0;
   }
 
-const { t } = useTranslation();
+  const { t } = useTranslation();
   return (
     <>
       <div className={classnames('d-xl-none', styles.header)}>
@@ -91,10 +91,9 @@ const { t } = useTranslation();
                 </li>
               ))}
               <li>
-                
                 <a onClick={props.handleLogout}>
                   <img src={LogoutIcon} alt="yh" />
-Logout
+                  Logout
                 </a>
               </li>
               <li>

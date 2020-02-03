@@ -80,9 +80,10 @@
     display: none;
   }
   @media (min-width: $largeDesktop) {
-    margin-bottom: 97px;
+    margin-bottom: 88px;
   }
   img {
+    height: 50px;
     @media (max-width: $tablet) {
       height: 31px;
     }
@@ -120,13 +121,12 @@
   }
   .menus {
     padding: 0 15px;
-    display: table;
-    width: fit-content;
-    margin: auto;
+    width: 100%;
     li {
+      text-align: center;
       list-style: none;
       &:not(:last-child) {
-        margin-bottom: 80px;
+        margin-bottom: 54px;
       }
       &:not(.active) {
         a {
@@ -136,17 +136,17 @@
           }
         }
       }
+      img {
+        display: block;
+        margin: 0 auto 10px;
+      }
     }
     a {
       text-decoration: none;
-      display: flex;
-      align-items: center;
+
       color: #fff !important;
-      font-size: 24px;
+      font-size: 14px;
       font-weight: 600;
-      img {
-        margin-right: 20px;
-      }
     }
   }
 }
