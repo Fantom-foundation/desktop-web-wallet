@@ -143,9 +143,25 @@
       "target": [
         "mas"
       ],
-      "provisioningProfile": "fantom_mac_distribution.provisionprofile",
+      "provisioningProfile": "embedded.provisionprofile",
       "entitlements": "public/entitlements.mas.plist",
       "type": "distribution"
-    }
+    },
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "files": [
+      "build/static",
+      "build",
+      {
+        "from": "build/static",
+        "to": "static"
+      }
+    ],
+    "extraResources": [{
+      "from": "build/static",
+      "to": "static"
+    }]
   }
 }
