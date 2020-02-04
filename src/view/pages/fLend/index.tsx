@@ -9,7 +9,7 @@ import SearchIcon from '../../../images/dashboard-icons/Archive/search.svg';
 export default () => (
   <div>
     <Row>
-      <Col md={4} className="mb-6">
+      <Col md={6} lg={4} className={classnames('mb-lg-6 mb-4', styles.order1)}>
         <Card className="h-100">
           <p className="fcard-label mb-0">
             Supply balance
@@ -24,7 +24,7 @@ export default () => (
               </div> */}
             </span>
           </p>
-          <div className="d-flex justify-content-between align-items-end h-100">
+          <div className={styles.balanceCard}>
             <div>
               <h3 className="pt-3">0 fUSD</h3>
               <h4 className="opacity-5 mb-3 font-weight-semi-bold">Earning</h4>
@@ -38,7 +38,7 @@ export default () => (
           </div>
         </Card>
       </Col>
-      <Col md={4} className="mb-6">
+      <Col md={12} lg={4} className={classnames('mb-lg-6 mb-4', styles.order3)}>
         <Card className="h-100">
           <p className="fcard-label mb-0">
             Collateral
@@ -51,7 +51,7 @@ export default () => (
           </div>
         </Card>
       </Col>
-      <Col md={4} className="mb-6">
+      <Col md={6} lg={4} className={classnames('mb-lg-6 mb-4', styles.order2)}>
         <Card className="h-100">
           <p className="fcard-label mb-0">
             Borrow balance
@@ -59,7 +59,7 @@ export default () => (
               <i className="fas fa-info-circle" />
             </span>
           </p>
-          <div className="d-flex justify-content-between align-items-end h-100">
+          <div className={styles.balanceCard}>
             <div>
               <h3 className="pt-3">500.00 fUSD </h3>
               <h4 className="opacity-5 mb-3 font-weight-semi-bold">
@@ -77,7 +77,7 @@ export default () => (
       </Col>
     </Row>
     <Row>
-      <Col md={6} className="mb-6">
+      <Col md={12} lg={6} className="mb-6">
         <Card>
           <Table className={styles.table}>
             <thead className={styles.tableHead}>
@@ -135,11 +135,28 @@ export default () => (
                   </label>
                 </td>
               </tr>
+              <tr>
+                <td>
+                  <img src={fantomActive} className="mr-3" alt="" />
+                  CSDT
+                </td>
+                <td>5.70%</td>
+                <td>
+                  <p className="mb-0">500 CSDT</p>
+                  <h5 className="mb-0 text-black opacity-6">500 fUSD</h5>
+                </td>
+                <td>
+                  <label className={styles.switch}>
+                    <input type="checkbox" />
+                    <span className={styles.slider}></span>
+                  </label>
+                </td>
+              </tr>
             </tbody>
           </Table>
         </Card>
       </Col>
-      <Col md={6} className="mb-6">
+      <Col md={12} lg={6} className="mb-6">
         <Card>
           <Table className={styles.table}>
             <thead className={styles.tableHead}>

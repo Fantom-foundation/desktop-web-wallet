@@ -55,9 +55,15 @@
     display: flex;
     justify-content: space-between;
     margin-top: 22px;
-
+    @media (max-width: $desktop) {
+      flex-wrap: wrap;
+    }
     .box {
       opacity: 0.4;
+      @media (max-width: $desktop) {
+        flex: 0 0 50%;
+        max-width: 50%;
+      }
       &.active {
         opacity: 1;
       }
@@ -69,6 +75,14 @@
         color: map-get($color, dark-grey-blue);
         text-align: center;
         margin-top: 10px;
+      }
+    }
+    .boxContent {
+      @media (max-width: $desktop) {
+        display: inline-flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
       }
     }
   }

@@ -31,6 +31,28 @@
     top: 15px;
   }
 }
+.order1 {
+  @media (max-width: $desktop) {
+    order: 1;
+  }
+}
+.order2 {
+  @media (max-width: $desktop) {
+    order: 2;
+  }
+}
+.order3 {
+  @media (max-width: $desktop) {
+    order: 3;
+  }
+}
+.balanceCard {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  height: 100%;
+  min-height: 125px;
+}
 .circle {
   width: 120px;
   height: 120px;

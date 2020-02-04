@@ -211,22 +211,26 @@ const AccountDetailsDashboard: FC<IProps> = ({
               </div>
 
               <p className="card-label">{t('balance')}</p>
-              <div className="d-flex align-items-center justify-content-end mb-3">
-                <h1 className={classnames('mb-0', styles.ftmNumber)}>
-                  {account ? convertFTMValue(parseFloat(account.balance)) : '0'}
-                </h1>
-                <h2 className={classnames('mb-0', styles.ftmText)}>
-                  &nbsp;FTM
-                </h2>
+              <div className={styles.balanceCard}>
+                <div className="d-flex align-items-center justify-content-end">
+                  <h1 className={classnames('mb-0', styles.ftmNumber)}>
+                    {account
+                      ? convertFTMValue(parseFloat(account.balance))
+                      : '0'}
+                  </h1>
+                  <h2 className={classnames('mb-0', styles.ftmText)}>
+                    &nbsp;FTM
+                  </h2>
+                </div>
+                <p className="text-right text-usd mb-0">
+                  ${' '}
+                  {account &&
+                    convertFTMValue(
+                      parseFloat(account.balance) * parseFloat(ftmToUsdPrice)
+                    )}
+                  <span> USD</span>
+                </p>
               </div>
-              <p className="text-right text-usd">
-                ${' '}
-                {account &&
-                  convertFTMValue(
-                    parseFloat(account.balance) * parseFloat(ftmToUsdPrice)
-                  )}
-                <span> USD</span>
-              </p>
             </Card>
           </Col>
           <Col md={5} className="mb-4 pb-2">
@@ -245,17 +249,19 @@ const AccountDetailsDashboard: FC<IProps> = ({
                   </p>
                 </div>
               ))} */}
-              <div className="mb-4 d-flex justify-content-between">
-                <h4 className="m-0 opacity-85">{t('price')}:</h4>
-                <p className={classnames('m-0', styles.infoValue)}>
-                  $ {parseFloat(ftmToUsdPrice).toFixed(5)}
-                </p>
-              </div>
-              <div className="mb-4 d-flex justify-content-between">
-                <h4 className="m-0 opacity-85">{t('marketCap')}:</h4>
-                <p className={classnames('m-0', styles.infoValue)}>
-                  $ {marketCapValue}
-                </p>
+              <div className={styles.balanceCard}>
+                <div className="mb-3 d-flex justify-content-between">
+                  <h4 className="m-0 opacity-85">{t('price')}:</h4>
+                  <p className={classnames('m-0', styles.infoValue)}>
+                    $ {parseFloat(ftmToUsdPrice).toFixed(5)}
+                  </p>
+                </div>
+                <div className="mb-3 d-flex justify-content-between">
+                  <h4 className="m-0 opacity-85">{t('marketCap')}:</h4>
+                  <p className={classnames('m-0', styles.infoValue)}>
+                    $ {marketCapValue}
+                  </p>
+                </div>
               </div>
             </Card>
           </Col>

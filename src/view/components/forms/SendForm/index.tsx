@@ -474,8 +474,10 @@ const TransferFunds: FC<IProps> = ({
                         [styles.active]: isActive,
                       })}
                     >
-                      <img src={isActive ? activeIcon : icon} alt={title} />
-                      <p>{title}</p>
+                      <div className={styles.boxContent}>
+                        <img src={isActive ? activeIcon : icon} alt={title} />
+                        <p>{title}</p>
+                      </div>
                     </div>
                   )
                 )}
