@@ -219,6 +219,13 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
     }
     if(Object.keys(accountDetails.errors).length > 0 && accountDetails.errors.keystore){
+      if(accountDetails.errors.keystore === 'Invalid keystore file or password'){
+        return t('invalidKeystoreTitle')
+      } 
+       if(accountDetails.errors.keystore === 'An account with this address already exist'){
+        return t('accountAlreadyExist')
+
+      }
       return accountDetails.errors.keystore
 
     }
@@ -467,7 +474,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                 {error ? (
 <p className={styles.errorText}>{t('invalidRecoveryPhrase')}</p>
                   ) : 
-                isMnemonicExistError ? <p className={styles.errorText}>{accountDetails && accountDetails.errors.mnemonic}</p> : ''
+                isMnemonicExistError ? <p className={styles.errorText}>{ accountDetails.errors && accountDetails.errors.mnemonic &&  t('accountAlreadyExist')}</p> : ''
                   }
               </div>
                                   </div>
@@ -487,7 +494,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   }}
                   value={userPrivateKey}
                   isError={privateKeyError}
-                  errorMsg={isPrivateKeyError ? accountDetails.errors && accountDetails.errors.privateKey : privateKeyError ? t("enterPrivateValidation") : "" }
+                  errorMsg={isPrivateKeyError ? accountDetails.errors && accountDetails.errors.privateKey && t("accountAlreadyExist") : privateKeyError ? t("enterPrivateValidation") : "" }
                 />
               </div>
             )}

@@ -11,8 +11,6 @@ import {
   race,
   fork,
 } from 'redux-saga/effects';
-import { useTranslation } from "react-i18next";
-
 
 import { ACCOUNT_ACTIONS, EMPTY_ACCOUNT } from './constants';
 import {
@@ -188,7 +186,7 @@ function* createRestoreMnemonics({
       return yield put(
         accountSetCreate({
           errors: {
-            mnemonic: "An account with this address already exist.",
+            mnemonic: "An account with this address already exist",
           },
         })
       );
@@ -227,7 +225,7 @@ function* createRestorePrivateKey({
       return yield put(
         accountSetCreate({
           errors: {
-            privateKey: "An account with this address already exist.",
+            privateKey: "An account with this address already exist",
           },
         })
       );
@@ -482,7 +480,6 @@ function* uploadKeystore({
   try {
     yield put(accountSetCreate({ errors: {} }));
     // eslint-disable-next-line react-hooks/rules-of-hooks
-    const { t } = useTranslation()
 
     const { icon } = yield select(selectAccountCreate);
     const { list }: IAccountState = yield select(selectAccount);
@@ -517,7 +514,7 @@ function* uploadKeystore({
       return yield put(
         accountSetCreate({
           errors: {
-            keystore: "An account with this address already exist.",
+            keystore: "An account with this address already exist",
           },
         })
       );
@@ -534,10 +531,9 @@ function* uploadKeystore({
     yield put(push(URLS.ACCOUNT_SUCCESS));
   } catch (e) {
     console.log('***err', e)
-    const { t } = useTranslation()
     yield put(
       accountSetCreate({
-        errors: { keystore: t("invalidKeystoreTitle") },
+        errors: { keystore: "Invalid keystore file or password" },
       })
     );
   }

@@ -11,7 +11,7 @@ export const koreanTranslation = {
   "sendReceiveStakeFTM": "당신의 FTM의 전송,수령 그리고 예치",
   "address": "주소",
   "balance": "잔고",
-  "createWallet": "새로운 지갑 생성",
+  "createWallet": "지갑 생성하기",
   "createKeystoreFilePassword": "키스토어 파일과 비밀번호 생성",
   "SetNewPassword": "새로운 비밀번호 설정",
   "walletPasswordValidationText": "최소 하나의 대문자,특수문자 그리고 숫자를 포함하고 있는 8글자인지확인부탁드립니다",
@@ -39,7 +39,7 @@ export const koreanTranslation = {
   "overview": "개요",
   "price": "가격",
   "marketCap": "시가총액",
-  "deposit": "Deposit",
+  "deposit": "입금",
   "sendFTM": "FTM 전송",
   "amount": "수량",
   "enterAmount": "수량 입력",
@@ -52,8 +52,7 @@ export const koreanTranslation = {
   "copiedClipboard": "클립보드에서 붙여넣기",
   "clearAll": "모두 지우기",
   "enterWalletPassword": "당신의 거래내역을 전송하기 위해 지갑 비밀번호를 입력해 주세요",
-  "enterWalletPasswordCommon": "Please enter your wallet password to ",
-
+  "enterWalletPasswordCommon": "지갑 암호를 입력하세요",
   "enterPassword": "비밀번호를 입력해 주세요",
   "invalidPassword": " 비밀번호 불일치",
   "sending": "전송중...",
@@ -102,7 +101,7 @@ export const koreanTranslation = {
   "enterValidFTMAddress":"유효한 FTM 주소를 입력하세요",
   "notEnoughFTM":"FTM이 충분하지 않습니다. 보다 적은 수량을 입력해주세요",
   "invalidStakeAmount":"스테이크할 수량이 올바르지 않습니다",
-  "canStakeMax":"You can stake max",
+  "canStakeMax":"스테이크 가능한 최대 수량",
   "poiFull":"중요성 증명",
   "nodeFull":"현재 노드가 가득 찼습니다",
   "diffNode":"다른 노드를 선택해주세요",
@@ -113,11 +112,11 @@ export const koreanTranslation = {
   "summary":"요약",
   "validatorNode":"검증자 노드",
   "withdrawalSuccessful":"출금 완료",
-  "wllaet":"The tokens are now in your wallet",
+  "wllaet":"이제 토큰을 지갑에서 확인 가능합니다",
   "enterWalletPasswordModal":"언스테이크 하기 위해 지갑 암호를 입력해주세요",
-  "FTMAvail":"시간 뒤부터 FTM을 사용할 수 있습니다",
+  "FTMAvail":"FTM을 출금 가능합니다!",
   "daysAnd":"일 그리고",
-  "FTMAreAvailable":"FTM are available",
+  "FTMAreAvailable":"FTM을 사용 가능합니다",
   "withdrawToWallet":"지갑으로 바로 출금하기",
   "mnemonicPhrase":"니모닉 문구",
   "privateKey":"프라이빗 키",
@@ -146,6 +145,12 @@ export const koreanTranslation = {
   "keystore": "키스토어",
   "max":"최대",
   "staking":"스테이킹",
+  'minStakeReq': '스테이크를 하기 위해 최소 1 FTM이 필요합니다',
+  "howMuchFTM":"FTM을 얼마나 스테이킹하시겠습니까",
+  "accountAlreadyExist":"해당 주소를 보유한 계정이 이미 존재합니다",
+
+
+
 
 
   

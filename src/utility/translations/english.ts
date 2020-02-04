@@ -143,10 +143,13 @@ export const englishTranslation = {
   "unstaking": 'Unstaking...',
   "withdraw": 'Withdraw',
   "withdrawing": 'Withdrawing...',
-  "invalidKeystoreTitle": "Invalid keystore file or password.",
+  "invalidKeystoreTitle": "Invalid keystore file or password",
   "keystore": "Keystore",
   "max":"Max",
   "staking":"Staking",
+  'minStakeReq': 'Minimum stake of 1 FTM required',
+  "howMuchFTM":"How much FTM would you like to stake",
+  "accountAlreadyExist":"An account with this address already exist",
 
   
 

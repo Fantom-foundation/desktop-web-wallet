@@ -98,18 +98,22 @@ const AccountListUnconnected: FC<IProps> = ({
             <Row>
               {Object.values(list).length > 0 &&
                 Object.values(list).map(account => {
-                  return (
-                    <Col
-                      lg={6}
-                      md={6}
-                      className={styles.marginBottom}
-                      onClick={() => onAccountSelect(account.publicAddress)}
-                    >
-                      <AddressBalanceCard
-                        address={account.publicAddress}
-                      />
-                    </Col>
-                  );
+                  if(account.keystore){
+                    return (
+                      <Col
+                        lg={6}
+                        md={6}
+                        className={styles.marginBottom}
+                        onClick={() => onAccountSelect(account.publicAddress)}
+                      >
+                        <AddressBalanceCard
+                          address={account.publicAddress}
+                        />
+                      </Col>
+                    );
+                  }
+                  return null
+                  
                 })}
               <Col lg={6} md={6} className={styles.marginBottom}>
                 <AddressBalanceCard

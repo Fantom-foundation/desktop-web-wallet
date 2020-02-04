@@ -375,7 +375,9 @@ const Stake = props => {
     const totalAmount = Number(stakeValue) + fee;
     if(totalAmount > Number(account.balance)){
       // setErrors({ ...errors, maxBalance: true})
-      copyToClipboard(event, account.publicAddress, true, fee)
+      const text = "copiedClipboard"
+
+      copyToClipboard(event, account.publicAddress, text,t, true, fee)
       return 
     } 
     setModal(true);
@@ -558,7 +560,9 @@ const Stake = props => {
     const totalAmount = Number(stakeValue) + fee;
     if(totalAmount > Number(account.balance)){
       // setErrors({ ...errors, maxBalance: true})
-      copyToClipboard(event, account.publicAddress, true, fee)
+      const text = "copiedClipboard"
+
+      copyToClipboard(event, account.publicAddress,text,t, true, fee)
       return 
     } 
     setModal(true);

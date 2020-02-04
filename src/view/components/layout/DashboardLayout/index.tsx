@@ -38,13 +38,15 @@ const DashboardLayout: FC<IProps> = ({
   accountData,
   accountRemoveAction,
 }) => {
-
+  const { t } = useTranslation();
 
   const [modal, setModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
+  const text = "copiedClipboard"
 
-  const onClick = useCallback(event => copyToClipboard(event, address), [
+  const onClick = useCallback(event => copyToClipboard(event, address, text, t), [
     address,
+    t,
   ]);
   const cardShow =
     location.pathname.includes('send') || location.pathname.includes('receive');
@@ -76,7 +78,7 @@ const DashboardLayout: FC<IProps> = ({
        
 
     }
-    const { t } = useTranslation();
+   
     const onClose = () => {
       setLogoutModal(false)
 

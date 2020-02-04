@@ -21,10 +21,12 @@ import { useTranslation } from "react-i18next";
 const FANTOM_WEB_URL = 'https://explorer.fantom.network'
 
 const SubView = (props: any) => {
-  const { value, to, fee, newDate, memo, t } = props;
+  const { value, to, fee, newDate, memo, t} = props;
+  const text = "copiedClipboard"
+
   // const { hash = false, title, value } = props;
-  const onClickTo = useCallback(event => copyToClipboard(event, to), [to]);
-  const onClickHash = useCallback(event => copyToClipboard(event, value), [
+  const onClickTo = useCallback(event => copyToClipboard(event, to, text, t), [to]);
+  const onClickHash = useCallback(event => copyToClipboard(event, value, text, t), [
     value,
   ]);
 

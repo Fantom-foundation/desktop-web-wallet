@@ -2,6 +2,7 @@ import React, { FC, useCallback } from 'react';
 import { FaIcon } from '../../inputs/FaIcon';
 import styles from './styles.module.scss';
 import { copyToClipboard } from '~/utility/clipboard';
+import { useTranslation } from 'react-i18next';
 
 interface IProps {
   address: string;
@@ -9,9 +10,9 @@ interface IProps {
 }
 
 const Address: FC<IProps> = ({ address, noIcon }) => {
-  const onClick = useCallback(event => copyToClipboard(event, address), [
-    address,
-  ]);
+  const {t} = useTranslation()
+  const text = "copiedClipboard"
+  const onClick = useCallback(event => copyToClipboard(event, address, text, t), [address, t, text]);
 
   return (
     <div className={styles.address} onClick={onClick}>

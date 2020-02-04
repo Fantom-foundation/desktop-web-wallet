@@ -11,7 +11,7 @@ export const chineseTranslation = {
   "sendReceiveStakeFTM": "提现​,​充值并质押您的​ FTM",
   "address": "FTM​地址",
   "balance": "FTM ​余额",
-  "createWallet": "Create a wallet",
+  "createWallet": "创立一个钱包",
   "createKeystoreFilePassword": "创建一个密钥库​(Keystore)​文档与密码",
   "SetNewPassword": "设定一个新的密码",
   "walletPasswordValidationText": "您的密码应为​ ​至少​8​个字符并包含一个大写字母，一个小写字母，一个特 殊字符和一个数字",
@@ -77,8 +77,7 @@ export const chineseTranslation = {
   "commission": "佣金",
   "select": "选择",
   "enterWalletPasswordStake": "请输入钱包密码以便参加权益质押",
-  "enterWalletPasswordCommon": "Please enter your wallet password to ",
-
+  "enterWalletPasswordCommon": "请输入您的钱包密码",
   "congratulations": "恭喜您参加权益质押成功!",
   "ftmSuccessfullyStaked": "您的​FTM ​已经成功的参加了权益质押​",
   "unstake": "取消权益质押",
@@ -115,7 +114,7 @@ export const chineseTranslation = {
   "withdrawalSuccessful":"提现成功",
   "wllaet":"货币已经到达钱包",
   "enterWalletPasswordModal":"请输入钱包密码来",
-  "FTMAvail":"FTM 将在 ... 可使用 (fill in the days on ...)",
+  "FTMAvail":"FTM可以被提现",
   "daysAnd":"天和",
   "FTMAreAvailable":"FTM 可使用",
   "withdrawToWallet":"提现到钱包",
@@ -146,11 +145,7 @@ export const chineseTranslation = {
   "keystore": "密钥库",
   "max":"最大值",
   "staking":"权益质押中",
-
-
-
-  
-
-
-
+  'minStakeReq': '最低权益质押数量需要1FTM',
+  "howMuchFTM":"您想权益质押多少 FTM？",
+  "accountAlreadyExist":"具有该地址的帐户已经存在",
 }

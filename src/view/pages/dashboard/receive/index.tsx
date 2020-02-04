@@ -72,9 +72,11 @@ const RecieveDetails = ({
   const [receiveValue, setReceiveAmount] = useState('');
   const [copy, setCopy] = useState(false);
   const [download, setDownload] = useState(false);
+  const text = "copiedClipboard"
+
   const onCopyClick = useCallback(
-    event => copyToClipboard(event, account.publicAddress),
-    [account.publicAddress]
+    event => copyToClipboard(event, account.publicAddress, text, t),
+    [account.publicAddress, t]
   );
   useEffect(() => {
     const interval = setInterval(() => {
