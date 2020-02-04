@@ -77,7 +77,7 @@ const SendDetails = ({
   return (
     <div>
       <div className={styles.headWrapper}>
-        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">
+        {/* <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">
           {t('balance')}
         </h3>
         <h2 className="mb-md-5">
@@ -85,13 +85,13 @@ const SendDetails = ({
             parseFloat(account && account.balance ? account.balance : '0')
           )}{' '}
           FTM
-        </h2>
+        </h2> */}
       </div>
       <Row>
-        <Col lg={8}>
+        <Col md={7} lg={8} className="mb-4 pb-2">
           <SendForm data={account} t={t} />
         </Col>
-        <Col lg={4} className="mb-4 pb-2">
+        <Col md={5} lg={4} className="mb-4 pb-2">
           <Card className="h-100">
             <p className="card-label">Balances</p>
             <TokenList />

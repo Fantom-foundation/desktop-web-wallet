@@ -86,7 +86,7 @@
   align-items: center;
   justify-content: center;
 
-  >h3,
+  > h3,
   button {
     margin: 0 14px;
 
@@ -330,7 +330,7 @@
 }
 
 .inputsWrapper {
-  @media (min-width: $tablet) {
+  @media (min-width: $desktop) {
     padding: {
       left: 10px;
       right: 10px;
@@ -368,7 +368,7 @@
     max-width: 870px;
   }
 
-  >div {
+  > div {
     border-radius: 20px;
     border: 0;
     overflow: hidden;

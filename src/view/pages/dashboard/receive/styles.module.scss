@@ -21,25 +21,32 @@
 .hash {
   display: flex;
   flex-wrap: wrap;
+  align-items: baseline;
 
   a {
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    overflow: hidden;
+    // white-space: nowrap;
+    // text-overflow: ellipsis;
+    // overflow: hidden;
     font-size: 24px;
     font-weight: 600;
     color: map-get($color, dark-grey-blue);
     padding-right: 20px;
-    // flex: 0 0 calc(100% - 18px);
-    // max-width: calc(100% - 18px);
+    @media (max-width: $desktop) {
+      flex: 0 0 calc(100% - 50px);
+      max-width: calc(100% - 50px);
+    }
+
     &:hover {
       color: map-get($color, dark-grey-blue);
     }
   }
 
   .copyBtn {
-    // flex: 0 0 18px;
-    // max-width: 18px;
+    @media (max-width: $desktop) {
+      flex: 0 0 50px;
+      max-width: 50px;
+      text-align: right;
+    }
 
     svg {
       // width: 18px;
