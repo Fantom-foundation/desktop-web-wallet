@@ -1,0 +1,22 @@
+.tokenList {
+  padding: 0;
+  .tokenListItem {
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+  }
+  .logoWraper {
+    display: flex;
+    align-items: center;
+
+    img {
+      width: 36px;
+      height: 36px;
+      border-radius: 100%;
+      object-fit: cover;
+      margin-right: 17px;
+    }
+  }
+}

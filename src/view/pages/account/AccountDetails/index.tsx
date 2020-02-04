@@ -11,7 +11,6 @@ import React, {
 import { Row, Col, Container, Card, Modal } from 'reactstrap';
 import { IAccount } from '~/redux/account/types';
 import Activity from 'src/view/components/activity';
-import { Tokens } from 'src/view/components/cards';
 import {
   selectTransactionsDetails,
   selectTransactions,
@@ -33,6 +32,7 @@ import { push as historyPush } from 'connected-react-router';
 // import { AccountCreateCredentialForm } from '~/view/components/account/AccountCreateCredentialForm';
 import styles from './styles.module.scss';
 import { convertFTMValue } from '~/view/general/utilities';
+import TokenList from 'src/view/components/tokenList';
 
 import classnames from 'classnames';
 import { RefreshIcon } from 'src/view/components/svgIcons';
@@ -271,7 +271,10 @@ const AccountDetailsDashboard: FC<IProps> = ({
             )}
           </Col>
           <Col md={5} className="mb-4 pb-2">
-            <Tokens />
+            <Card className="h-100">
+              <p className="card-label">Tokens</p>
+              <TokenList />
+            </Card>
           </Col>
         </Row>
       </div>
