@@ -2,7 +2,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   padding: 30px;
   position: sticky;
@@ -16,22 +16,25 @@
   @media (max-width: $smallPhone) {
     padding: 25px 15px;
   }
-  .logo {
-    @media (max-width: $tablet) {
-      height: 31px;
-    }
-  }
+  // .logo {
+  //   @media (max-width: $largeDesktop) {
+  //     height: 31px;
+  //   }
+  // }
 }
 .sidebarWrapper {
-  flex: 0 0 $dashboardSidebarWidth;
-  @media (min-width: 360.98px) {
+  // @media (min-width: 360.98px) {
+  //   max-width: $dashboardSidebarWidth;
+  // }
+  @media (min-width: $largeDesktop) {
+    flex: 0 0 $dashboardSidebarWidth;
     max-width: $dashboardSidebarWidth;
   }
   @media (max-width: $largeDesktop) {
     position: fixed;
     top: 0;
-    right: -$dashboardSidebarWidth;
-    width: 100%;
+    right: -220px;
+    width: 220px;
     height: 100vh;
     z-index: 999;
     transition: 0.3s;
@@ -41,9 +44,9 @@
       opacity: 1;
     }
   }
-  @media (max-width: 360.98px) {
-    right: -100vw;
-  }
+  // @media (max-width: 360.98px) {
+  //   right: -100vw;
+  // }
 }
 
 .root {
@@ -62,7 +65,7 @@
     @media (max-width: $largeDesktop) {
       position: absolute;
       width: 100%;
-      height: 84px;
+      height: 145px;
       left: 0;
       top: 0;
       border-top-left-radius: 50px;
@@ -72,16 +75,31 @@
       align-items: center;
       padding: 0 25px;
     }
+    .logoWrapper {
+      @media (max-width: $largeDesktop) {
+        position: absolute;
+        left: 50%;
+        bottom: 6px;
+        transform: translateX(-50%);
+      }
+      img {
+        @media (max-width: $tablet) {
+          height: 50px;
+        }
+      }
+    }
   }
 }
 .logoWrapper {
   text-align: center;
-  @media (min-width: $tablet) and (max-width: $largeDesktop) {
-    display: none;
-  }
+
+  // @media (min-width: $tablet) and (max-width: $largeDesktop) {
+  //   display: none;
+  // }
   @media (min-width: $largeDesktop) {
     margin-bottom: 88px;
   }
+
   img {
     height: 50px;
     @media (max-width: $tablet) {
@@ -105,7 +123,7 @@
 .menusWrapper {
   @media (max-width: $largeDesktop) {
     padding: {
-      top: 100px;
+      top: 228px;
       bottom: 30px;
     }
     height: 100vh;
@@ -115,9 +133,9 @@
       height: 0px;
     }
   }
-  @media (max-width: $tablet) {
-    padding-top: 162px;
-  }
+  // @media (max-width: $tablet) {
+  //   padding-top: 162px;
+  // }
   .menus {
     padding: 0 15px;
     width: 100%;

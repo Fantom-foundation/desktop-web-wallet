@@ -66,17 +66,16 @@ $font: (
 
 $navlink-textTransform: uppercase;
 
+@import './fonts';
+@import './variables.scss';
+@import './typography';
+@import './button';
 body {
   color: map-get($color, dark-grey-blue);
   font-family: Work Sans;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
-@import './fonts';
-@import './variables.scss';
-@import './typography';
-@import './button';
 
 .row {
   @media (max-width: $largeDesktop) {

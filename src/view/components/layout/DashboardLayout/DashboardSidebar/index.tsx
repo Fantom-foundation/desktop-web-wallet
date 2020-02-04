@@ -39,9 +39,9 @@ export default props => {
   return (
     <>
       <div className={classnames('d-xl-none', styles.header)}>
-        <Link to="/">
+        {/* <Link to="/">
           <img src={logo} className={styles.logo} alt="Fantom" />
-        </Link>
+        </Link> */}
         <button
           className={classnames('btn-icon')}
           type="button"

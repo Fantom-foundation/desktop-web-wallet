@@ -52,10 +52,16 @@
     z-index: 999;
   }
 }
+.mainTitle {
+  font: {
+    size: 36px;
+    weight: 600;
+  }
+}
 .contentWrapper {
   flex: 0 0 calc(100% - #{$dashboardSidebarWidth});
   max-width: calc(100% - #{$dashboardSidebarWidth});
-  padding: 70px 0 33px;
+  padding: 60px 0 33px;
 
   @media (max-width: $largeDesktop) {
     flex: 0 0 100%;
