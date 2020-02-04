@@ -134,6 +134,9 @@
     }
     a {
       color: map-get($color, Primary-Main);
+      &:not(:hover) {
+        text-decoration: none;
+      }
     }
     button {
       cursor: pointer;
