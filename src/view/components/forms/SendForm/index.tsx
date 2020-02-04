@@ -395,131 +395,126 @@ const TransferFunds: FC<IProps> = ({
           </div>
         </ModalBody>
       </Modal>
-      <Row>
-        <Col lg={8}>
-          {!isSendSucess && !sendFailed && (
-            <div className={classnames('card', styles.card)}>
-              {/* <h2 className={styles.title}>{t('sendFTM')}</h2> */}
-              <div className={styles.inputsWrapper}>
-                <FormGroup className={styles.formGroup}>
-                  <Label className={styles.label}>Select token</Label>
-                  <div className={styles.selectWrapper}>
-                    <select
-                      className={classnames('form-control', styles.select)}
-                    >
-                      <option>1</option>
-                      <option>2</option>
-                      <option>3</option>
-                      <option>4</option>
-                    </select>
-                  </div>
-                </FormGroup>
-                <DashboardInput
-                  label={t('amount')}
-                  placeholder={t('enterAmount')}
-                  rightLabel={t('entireBalance')}
-                  value={amount}
-                  handleRightButton={() => {
-                    if (data.balance === '0') {
-                      setAmount('0');
-                    } else {
-                      const maxAmount = parseFloat(transactionFee) * 2;
-                      let balanceLeft = parseFloat(data.balance) - maxAmount;
-                      if (balanceLeft < 0) {
-                        balanceLeft = 0;
-                      }
-                      // estimationMaxFantomBalance(data.balance).then(value => {
-                      //   setAmount(value);
-                      // });
-                      setAmount(balanceLeft.toString());
-                    }
-                    // const balance = data.balance === '0' ? 0 : data.balance;
-                  }}
-                  type="number"
-                  handleChange={val => {
-                    setAmount(val);
-                    setErrors({
-                      ...sendingErrors,
-                      amount: false,
-                      invalidAmount: false,
-                      maxBalance: false,
-                    });
-                  }}
-                  error={{
-                    isError:
-                      sendingErrors.amount ||
-                      sendingErrors.invalidAmount ||
-                      sendingErrors.maxBalance,
-                    errorText: getAmountErrorText() || '',
-                  }}
-                />
-                <DashboardInput
-                  label={t('toAddress')}
-                  value={to}
-                  type="text"
-                  handleChange={val => {
-                    setTo(val);
-                    setErrors({ ...sendingErrors, to: false });
-                  }}
-                  error={{
-                    isError: sendingErrors.to,
-                    errorText: t('enterValidFTMAddress'),
-                  }}
-                  placeholder={t('enterAddress')}
-                />
-                <div className="">
-                  <label className={styles.label}>Destinantion chain</label>
-                  <div className={styles.boxWrapper}>
-                    {destinantionChainData.map(
-                      ({ icon, activeIcon, title, isActive }) => (
-                        <div
-                          className={classnames(styles.box, {
-                            [styles.active]: isActive,
-                          })}
-                        >
-                          <img src={isActive ? activeIcon : icon} alt={title} />
-                          <p>{title}</p>
-                        </div>
-                      )
-                    )}
-                  </div>
-                </div>
 
-                <DashboardInput
-                  label={t('memoOptional')}
-                  value={memo}
-                  type="text"
-                  placeholder={t('enterMemo')}
-                  handleChange={setMemo}
-                />
+      {!isSendSucess && !sendFailed && (
+        <div className={classnames('card', styles.card)}>
+          {/* <h2 className={styles.title}>{t('sendFTM')}</h2> */}
+          <div className={styles.inputsWrapper}>
+            <FormGroup className={styles.formGroup}>
+              <Label className={styles.label}>Select token</Label>
+              <div className={styles.selectWrapper}>
+                <select className={classnames('form-control', styles.select)}>
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                </select>
               </div>
-              <div className={styles.btnWrapper}>
-                <Button
-                  color="topaz"
-                  className={classnames({
-                    outlined: true,
-                    // 'text-dark-grey-blue': !is_next_disabled,
-                  })}
-                  onClick={handlePassword}
-                >
-                  {t('send')}
-                </Button>
-                <Button
-                  color="topaz"
-                  className={classnames(
-                    styles.btn,
-                    styles.clear,
-                    'border-0 outlined'
-                  )}
-                  onClick={handleClearAll}
-                >
-                  {t('clearAll')}
-                </Button>
+            </FormGroup>
+            <DashboardInput
+              label={t('amount')}
+              placeholder={t('enterAmount')}
+              rightLabel={t('entireBalance')}
+              value={amount}
+              handleRightButton={() => {
+                if (data.balance === '0') {
+                  setAmount('0');
+                } else {
+                  const maxAmount = parseFloat(transactionFee) * 2;
+                  let balanceLeft = parseFloat(data.balance) - maxAmount;
+                  if (balanceLeft < 0) {
+                    balanceLeft = 0;
+                  }
+                  // estimationMaxFantomBalance(data.balance).then(value => {
+                  //   setAmount(value);
+                  // });
+                  setAmount(balanceLeft.toString());
+                }
+                // const balance = data.balance === '0' ? 0 : data.balance;
+              }}
+              type="number"
+              handleChange={val => {
+                setAmount(val);
+                setErrors({
+                  ...sendingErrors,
+                  amount: false,
+                  invalidAmount: false,
+                  maxBalance: false,
+                });
+              }}
+              error={{
+                isError:
+                  sendingErrors.amount ||
+                  sendingErrors.invalidAmount ||
+                  sendingErrors.maxBalance,
+                errorText: getAmountErrorText() || '',
+              }}
+            />
+            <DashboardInput
+              label={t('toAddress')}
+              value={to}
+              type="text"
+              handleChange={val => {
+                setTo(val);
+                setErrors({ ...sendingErrors, to: false });
+              }}
+              error={{
+                isError: sendingErrors.to,
+                errorText: t('enterValidFTMAddress'),
+              }}
+              placeholder={t('enterAddress')}
+            />
+            <div>
+              <label className={styles.label}>Destinantion chain</label>
+              <div className={styles.boxWrapper}>
+                {destinantionChainData.map(
+                  ({ icon, activeIcon, title, isActive }) => (
+                    <div
+                      className={classnames(styles.box, {
+                        [styles.active]: isActive,
+                      })}
+                    >
+                      <img src={isActive ? activeIcon : icon} alt={title} />
+                      <p>{title}</p>
+                    </div>
+                  )
+                )}
               </div>
             </div>
-          )}
-        </Col>
-      </Row>
+
+            <DashboardInput
+              label={t('memoOptional')}
+              value={memo}
+              type="text"
+              placeholder={t('enterMemo')}
+              handleChange={setMemo}
+            />
+          </div>
+          <div className={styles.btnWrapper}>
+            <Button
+              color="topaz"
+              className={classnames({
+                outlined: true,
+                // 'text-dark-grey-blue': !is_next_disabled,
+              })}
+              onClick={handlePassword}
+            >
+              {t('send')}
+            </Button>
+            <Button
+              color="topaz"
+              className={classnames(
+                styles.btn,
+                styles.clear,
+                'border-0 outlined'
+              )}
+              onClick={handleClearAll}
+            >
+              {t('clearAll')}
+            </Button>
+          </div>
+        </div>
+      )}
     </>
   );
 };

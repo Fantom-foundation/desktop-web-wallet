@@ -18,7 +18,7 @@ import {
 import styles from './styles.module.scss';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import { copyToClipboard } from '~/utility/clipboard';
-import { useTranslation } from "react-i18next";
+import { useTranslation } from 'react-i18next';
 import { RouteComponentProps } from 'react-router';
 
 import { IAccount } from '~/redux/account/types';
@@ -26,6 +26,14 @@ import { connect } from 'react-redux';
 import { selectAccount } from '~/redux/account/selectors';
 
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
+import FantomActive from '../../../../images/dashboard-icons/Archive/fantom-active.svg';
+import EthereumActive from '../../../../images/dashboard-icons/Archive/ethereum-active.svg';
+import BinanceActive from '../../../../images/dashboard-icons/Archive/binance-active.svg';
+import XarActive from '../../../../images/dashboard-icons/Archive/xar-active.svg';
+import Fantom from '../../../../images/dashboard-icons/Archive/fantom-inactive.svg';
+import Ethereum from '../../../../images/dashboard-icons/Archive/ethereum-inactive.svg';
+import Binance from '../../../../images/dashboard-icons/Archive/binance-inactive.svg';
+import Xar from '../../../../images/dashboard-icons/Archive/xar-inactive.svg';
 
 const downloadQR = address => {
   const canvas = document.getElementById(address) as HTMLCanvasElement;
@@ -40,6 +48,23 @@ const downloadQR = address => {
   downloadLink.click();
   document.body.removeChild(downloadLink);
 };
+
+const ReceiveData = [
+  { icon: Fantom, activeIcon: FantomActive, title: 'Opera', isActive: true },
+  {
+    icon: Ethereum,
+    activeIcon: EthereumActive,
+    title: 'Ethereum / ERC20',
+    isActive: false,
+  },
+  {
+    icon: Binance,
+    activeIcon: BinanceActive,
+    title: 'Binance / BEP2',
+    isActive: false,
+  },
+  { icon: Xar, activeIcon: XarActive, title: 'XAR', isActive: false },
+];
 
 const mapStateToProps = state => ({
   accountData: selectAccount(state),
@@ -86,17 +111,46 @@ const RecieveDetails = ({
   return (
     <div>
       <div className={styles.headWrapper}>
-        <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">{t("balance")}</h3>
+        {/* <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">
+          {t('balance')}
+        </h3>
         <h2 className="mb-md-5">
-          {convertFTMValue(parseFloat(account&&account.balance ? account.balance : '0'))}
-          {' '}
-FTM
+          {convertFTMValue(
+            parseFloat(account && account.balance ? account.balance : '0')
+          )}{' '}
+          FTM
+        </h2> */}
+        <h2 className="text-center mb-5">
+          Where are you receiving your FTM from?
         </h2>
       </div>
-      <Card>
-        <h2 className={classname(styles.cardTitle, 'font-weight-extra-bold')}>
+      <Card className={classname('px-5', styles.card)}>
+        {/* <h2 className={classname(styles.cardTitle, 'font-weight-extra-bold')}>
           {t("receiveFTM")}
-        </h2>
+        </h2> */}
+
+        <div className={styles.boxWrapper}>
+          {ReceiveData.map(({ icon, activeIcon, title, isActive }) => (
+            <div
+              className={classname(styles.box, {
+                [styles.active]: isActive,
+              })}
+            >
+              <img src={isActive ? activeIcon : icon} alt={title} />
+              <p>{title}</p>
+            </div>
+          ))}
+        </div>
+        <div>
+          <h3>Send your Opera FTM to:</h3>
+          <div className={classname(styles.iconGap, styles.hash)}>
+            <a href="#">ERC20Cfae08391a7dBbCCF6B98c5115Be854c09006</a>
+            <button className={styles.copyBtn} type="button">
+              <CopyIcon />
+            </button>
+          </div>
+        </div>
+
         <div className={classname(styles.qrWrapper, 'text-center')}>
           <QRCodeIcon
             address={account.publicAddress}
@@ -128,7 +182,7 @@ FTM
             }}
           >
             {copy ? <CopyCircleSolidIcon /> : <CopyCircleIcon />}
-            {t("copy")}
+            {t('copy')}
           </button>
 
           <button
@@ -140,7 +194,7 @@ FTM
             }}
           >
             {download ? <DownloadCircleSolidIcon /> : <DownloadCircleIcon />}
-            {t("download")}
+            {t('download')}
           </button>
         </div>
         {/* {amount && (

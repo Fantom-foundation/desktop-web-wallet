@@ -8,11 +8,56 @@
     margin-bottom: 40px;
   }
 }
+.iconGap {
+  margin-bottom: 40px;
+}
+
+.copyBtn {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+.hash {
+  display: flex;
+  flex-wrap: wrap;
+
+  a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 24px;
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+    padding-right: 20px;
+    // flex: 0 0 calc(100% - 18px);
+    // max-width: calc(100% - 18px);
+    &:hover {
+      color: map-get($color, dark-grey-blue);
+    }
+  }
+
+  .copyBtn {
+    // flex: 0 0 18px;
+    // max-width: 18px;
+
+    svg {
+      // width: 18px;
+      // height: 20px;
+      color: rgba(map-get($color, dark-grey-blue), 0.7);
+    }
+  }
+}
 .btnWrapper {
   display: flex;
   display: flex;
   justify-content: center;
   margin-bottom: 20px;
+}
+.card {
+  padding: 40px;
+  max-width: 970px;
+  margin: 0 auto;
 }
 
 .optionBtn {
@@ -85,6 +130,25 @@
     padding: {
       left: 15px;
       right: 15px;
+    }
+  }
+}
+.boxWrapper {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  margin-bottom: 50px;
+
+  .box {
+    opacity: 0.4;
+    &.active {
+      opacity: 1;
+    }
+
+    p {
+      color: map-get($color, dark-grey-blue);
+      text-align: center;
+      margin-top: 10px;
     }
   }
 }
