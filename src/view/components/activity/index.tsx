@@ -7,14 +7,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useState, useCallback } from 'react';
 import classnames from 'classnames';
-import { Card, Collapse } from 'reactstrap';
+import { Row, Col, Card, Collapse } from 'reactstrap';
 import styles from './styles.module.scss';
-import activityMockData from './activityMockData';
-import { SendIcon, ReceiveIcon, CopyIcon } from 'src/view/components/svgIcons';
-import { Link } from 'react-router-dom';
-import { any } from 'prop-types';
+import { CopyIcon } from 'src/view/components/svgIcons';
 import { copyToClipboard } from '~/utility/clipboard';
-import { mockComponent } from 'react-dom/test-utils';
 import Web3 from 'web3';
 import moment from 'moment';
 import { useTranslation } from 'react-i18next';
@@ -32,7 +28,7 @@ const SubView = (props: any) => {
   return (
     <>
       <div className={styles.subView}>
-        <p className={styles.subViewTitle}>{t('Recipient')}</p>
+        <p className={styles.subViewTitle}>To</p>
         <p className={styles.subViewValue}>
           <a target="_blank" href={`${FANTOM_WEB_URL}/address/${to}`}>
             {to}
@@ -53,16 +49,24 @@ const SubView = (props: any) => {
           </button>
         </p>
       </div>
-      <div className={styles.subView}>
-        <p className={styles.subViewTitle}>{t('date')}</p>
-        <p className={styles.subViewValue}>{newDate}</p>
-      </div>
-      <div className={styles.subView}>
-        <p className={styles.subViewTitle}>Fee</p>
-        <p className={styles.subViewValue}>
-          {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)} FTM
-        </p>
-      </div>
+      <Row>
+        <Col md={8} lg={6}>
+          <div className={classnames(styles.subView, 'mt-md-0')}>
+            <p className={styles.subViewTitle}>{t('date')}</p>
+            <p className={styles.subViewValue}>{newDate}</p>
+          </div>
+        </Col>
+        <Col md={4} lg={6}>
+          <div className={classnames(styles.subView, 'mt-md-0')}>
+            <p className={styles.subViewTitle}>Fee</p>
+            <p className={styles.subViewValue}>
+              {fee && parseFloat(Web3.utils.fromWei(fee.toString())).toFixed(5)}{' '}
+              FTM
+            </p>
+          </div>
+        </Col>
+      </Row>
+
       {memo !== '' && memo !== undefined && (
         <div className={styles.subView}>
           <p className={styles.subViewTitle}>{t('memo')}</p>
