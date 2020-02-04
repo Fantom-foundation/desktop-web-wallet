@@ -23,15 +23,18 @@
   }
 }
 .sidebarWrapper {
-  flex: 0 0 $dashboardSidebarWidth;
-  @media (min-width: 360.98px) {
+  // @media (min-width: 360.98px) {
+  //   max-width: $dashboardSidebarWidth;
+  // }
+  @media (min-width: $largeDesktop) {
+    flex: 0 0 $dashboardSidebarWidth;
     max-width: $dashboardSidebarWidth;
   }
   @media (max-width: $largeDesktop) {
     position: fixed;
     top: 0;
-    right: -$dashboardSidebarWidth;
-    width: 100%;
+    right: -220px;
+    width: 220px;
     height: 100vh;
     z-index: 999;
     transition: 0.3s;
@@ -41,9 +44,9 @@
       opacity: 1;
     }
   }
-  @media (max-width: 360.98px) {
-    right: -100vw;
-  }
+  // @media (max-width: 360.98px) {
+  //   right: -100vw;
+  // }
 }
 
 .root {
@@ -62,7 +65,7 @@
     @media (max-width: $largeDesktop) {
       position: absolute;
       width: 100%;
-      height: 84px;
+      height: 145px;
       left: 0;
       top: 0;
       border-top-left-radius: 50px;
@@ -72,15 +75,29 @@
       align-items: center;
       padding: 0 25px;
     }
+    .logoWrapper {
+      img {
+        @media (max-width: $tablet) {
+          height: 50px;
+        }
+      }
+    }
   }
 }
 .logoWrapper {
   text-align: center;
-  @media (min-width: $tablet) and (max-width: $largeDesktop) {
-    display: none;
-  }
+
+  // @media (min-width: $tablet) and (max-width: $largeDesktop) {
+  //   display: none;
+  // }
   @media (min-width: $largeDesktop) {
     margin-bottom: 88px;
+  }
+  @media (max-width: $largeDesktop) {
+    position: absolute;
+    left: 50%;
+    bottom: 6px;
+    transform: translateX(-50%);
   }
   img {
     height: 50px;
@@ -105,7 +122,7 @@
 .menusWrapper {
   @media (max-width: $largeDesktop) {
     padding: {
-      top: 100px;
+      top: 180px;
       bottom: 30px;
     }
     height: 100vh;
