@@ -1,21 +1,24 @@
 /* eslint-disable react/no-multi-comp */
-import React, { useState, useCallback , FC, useMemo, useEffect } from 'react';
+import React, { useState, useCallback, FC, useMemo, useEffect } from 'react';
 import Sidebar from './DashboardSidebar';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
-import {Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
+import { Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
 
-import { CopyIcon, QrIcon ,DownloadCircleIconGrey} from 'src/view/components/svgIcons';
+import {
+  CopyIcon,
+  QrIcon,
+  DownloadCircleIconGrey,
+} from 'src/view/components/svgIcons';
 import { DashboardModal } from '../../Modal';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import { copyToClipboard } from '~/utility/clipboard';
-import {  RouteComponentProps } from 'react-router';
+import { RouteComponentProps } from 'react-router';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import fileDownload from 'js-file-download';
-import { useTranslation } from "react-i18next";
-
+import { useTranslation } from 'react-i18next';
 
 const mapStateToProps = state => ({
   accountData: selectAccount(state),
@@ -27,8 +30,8 @@ const mapDispatchToProps = {
 };
 
 type IProps = ReturnType<typeof mapStateToProps> &
-  RouteComponentProps<{  }> &
-  typeof mapDispatchToProps & {address: string};
+  RouteComponentProps<{}> &
+  typeof mapDispatchToProps & { address: string };
 
 const DashboardLayout: FC<IProps> = ({
   address,
@@ -38,8 +41,6 @@ const DashboardLayout: FC<IProps> = ({
   accountData,
   accountRemoveAction,
 }) => {
-
-
   const [modal, setModal] = useState(false);
   const [logoutModal, setLogoutModal] = useState(false);
 
@@ -49,72 +50,73 @@ const DashboardLayout: FC<IProps> = ({
   const cardShow =
     location.pathname.includes('send') || location.pathname.includes('receive');
   const toggleModal = () => setModal(!modal);
-  const account =
-    accountData.list && address && accountData.list[address];
+  const account = accountData.list && address && accountData.list[address];
 
-    const keyStore = account && account.keystore
+  const keyStore = account && account.keystore;
 
-    const handleKeyStoreDownload = () => {
-      const dateTime = new Date();
-      const fileName = `UTC--${dateTime.toISOString()} -- ${address}`;
-      fileDownload(JSON.stringify(keyStore), `${fileName}.json`);
+  const handleKeyStoreDownload = () => {
+    const dateTime = new Date();
+    const fileName = `UTC--${dateTime.toISOString()} -- ${address}`;
+    fileDownload(JSON.stringify(keyStore), `${fileName}.json`);
+  };
 
-    }
+  const handleLogout = () => {
+    // history.push('/')
+    setLogoutModal(true);
+  };
 
-    const handleLogout = () => {
-
-      // history.push('/')
-      setLogoutModal(true)
-
-    }
-
-    const handleWalletLogout = () => {
-      console.log(history, '***history')
-      //  history.push('/')
-       accountRemoveAction(account && account.publicAddress)
-       setLogoutModal(false)
-       
-
-    }
-    const { t } = useTranslation();
-    const onClose = () => {
-      setLogoutModal(false)
-
-    }
-    const renderModal = () => {
-      return (<Modal className="modal-dialog-centered" isOpen={logoutModal} toggle={onClose}>
+  const handleWalletLogout = () => {
+    console.log(history, '***history');
+    //  history.push('/')
+    accountRemoveAction(account && account.publicAddress);
+    setLogoutModal(false);
+  };
+  const { t } = useTranslation();
+  const onClose = () => {
+    setLogoutModal(false);
+  };
+  const renderModal = () => {
+    return (
+      <Modal
+        className="modal-dialog-centered"
+        isOpen={logoutModal}
+        toggle={onClose}
+      >
         <form>
-    <ModalHeader>{t('logoutMsg')}</ModalHeader>
-  
+          <ModalHeader>{t('logoutMsg')}</ModalHeader>
+
           <ModalBody>
             <div className={styles.content}>
-            <p>{t('logoutDesc')}.</p>
-            <p>{t('reverseAction')}.</p>
-              
+              <p>{t('logoutDesc')}.</p>
+              <p>{t('reverseAction')}.</p>
             </div>
-  
           </ModalBody>
-  
+
           <ModalFooter>
             <div className="text-center w-100">
-            <Button className="mx-3" color="secondary" onClick={onClose}>
-             Cancel
-            </Button>
-  
-            <Button className="mx-3" color="primary" type="submit" onClick={handleWalletLogout}>
-              Logout
-            </Button>
+              <Button className="mx-3" color="secondary" onClick={onClose}>
+                Cancel
+              </Button>
+
+              <Button
+                className="mx-3"
+                color="primary"
+                type="submit"
+                onClick={handleWalletLogout}
+              >
+                Logout
+              </Button>
             </div>
           </ModalFooter>
         </form>
-      </Modal>)
-    }
-
+      </Modal>
+    );
+  };
 
   return (
     <>
       <DashboardModal
-        title={t("address")}
+        title={t('address')}
         isOpen={modal}
         toggle={toggleModal}
         bodyClassName="d-flex align-items-center justify-content-center"
@@ -151,8 +153,8 @@ const DashboardLayout: FC<IProps> = ({
                     Synchronized
                   </p>
                 </div> */}
-                <div>
-                  <p className={styles.label}>{t("address")}</p>
+                {/* <div>
+                  <p className={styles.label}>{t('address')}</p>
                 </div>
                 <div className={styles.hashWrapper}>
                   <div>
@@ -170,8 +172,11 @@ const DashboardLayout: FC<IProps> = ({
                       <DownloadCircleIconGrey />
                     </button>
                   </div>
-                </div>
+                </div> */}
+                <h3 className="opacity-5">FantomWallet</h3>
+                <h1 className={styles.mainTitle}>Dashboard</h1>
               </div>
+
               {children}
               {renderModal()}
             </main>
@@ -188,4 +193,3 @@ const DashboardLayoutRouter = connect(
 )(DashboardLayout);
 
 export default DashboardLayoutRouter;
-

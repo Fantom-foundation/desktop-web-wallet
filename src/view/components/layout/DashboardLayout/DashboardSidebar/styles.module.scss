@@ -2,7 +2,7 @@
 .header {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-end;
   width: 100%;
   padding: 30px;
   position: sticky;
@@ -16,11 +16,11 @@
   @media (max-width: $smallPhone) {
     padding: 25px 15px;
   }
-  .logo {
-    @media (max-width: $tablet) {
-      height: 31px;
-    }
-  }
+  // .logo {
+  //   @media (max-width: $largeDesktop) {
+  //     height: 31px;
+  //   }
+  // }
 }
 .sidebarWrapper {
   // @media (min-width: 360.98px) {
@@ -76,6 +76,12 @@
       padding: 0 25px;
     }
     .logoWrapper {
+      @media (max-width: $largeDesktop) {
+        position: absolute;
+        left: 50%;
+        bottom: 6px;
+        transform: translateX(-50%);
+      }
       img {
         @media (max-width: $tablet) {
           height: 50px;
@@ -93,12 +99,7 @@
   @media (min-width: $largeDesktop) {
     margin-bottom: 88px;
   }
-  @media (max-width: $largeDesktop) {
-    position: absolute;
-    left: 50%;
-    bottom: 6px;
-    transform: translateX(-50%);
-  }
+
   img {
     height: 50px;
     @media (max-width: $tablet) {
@@ -122,7 +123,7 @@
 .menusWrapper {
   @media (max-width: $largeDesktop) {
     padding: {
-      top: 180px;
+      top: 228px;
       bottom: 30px;
     }
     height: 100vh;
@@ -132,9 +133,9 @@
       height: 0px;
     }
   }
-  @media (max-width: $tablet) {
-    padding-top: 162px;
-  }
+  // @media (max-width: $tablet) {
+  //   padding-top: 162px;
+  // }
   .menus {
     padding: 0 15px;
     width: 100%;
