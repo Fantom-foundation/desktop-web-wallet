@@ -21,12 +21,14 @@ type ToasterType = {
 //   push,
 // }) => {
 
-export const copyToClipboard = (e: any, publicAddress: string,  text: string, t,  isStake?: boolean,  estimateFee?: number) => {
+export const copyToClipboard = (e: any, publicAddress: string,  text: string, t,  isStake?: boolean,  estimateFee?: number, isWithdraw?: boolean) => {
   e.stopPropagation();
   // const { t } = useTranslation()
   copy(publicAddress);
-  if(isStake){
-    toastr.error(`You need minimum ${estimateFee} in your balance to initiate unstake transaction`);
+  if(isWithdraw){
+    toastr.error(`${t("minimumAmountAlert")} ${estimateFee} ${t("minimumAmountAlert1")}`);
+  } else if(isStake){
+    toastr.error(`${t("minimumAmountAlert")} ${estimateFee} ${t("minimumUnstakeAlert")}`);
   } else {
     toastr.success(t(text));
   }

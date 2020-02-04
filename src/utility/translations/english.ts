@@ -150,6 +150,9 @@ export const englishTranslation = {
   'minStakeReq': 'Minimum stake of 1 FTM required',
   "howMuchFTM":"How much FTM would you like to stake",
   "accountAlreadyExist":"An account with this address already exist",
+  "minimumAmountAlert": "You need minimum",
+  "minimumAmountAlert1": "in your balance to initiate withdraw transaction.",
+  "minimumUnstakeAlert": "in your balance to initiate unstake transaction.",
 
   
 

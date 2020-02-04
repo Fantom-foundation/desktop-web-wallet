@@ -148,6 +148,9 @@ export const koreanTranslation = {
   'minStakeReq': '스테이크를 하기 위해 최소 1 FTM이 필요합니다',
   "howMuchFTM":"FTM을 얼마나 스테이킹하시겠습니까",
   "accountAlreadyExist":"해당 주소를 보유한 계정이 이미 존재합니다",
+  "minimumAmountAlert": "인출하기 위해 잔액이 최소",
+  "minimumAmountAlert1": "이상 필요합니다.",
+  "minimumUnstakeAlert": "이상 필요합니다.",
 
 
 

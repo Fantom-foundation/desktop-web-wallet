@@ -15,7 +15,7 @@ import OsLocale from 'os-locale';
 const languages = [{ id: 'bl',name: 'System' },{ id: 'en',name: 'English' }, { id: 'kor', name: '中文' }, { id: 'chi', name: '한국어' }];
 export default () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('English');
+  const [currentLanguage, setCurrentLanguage] = useState('System');
 
 const getCurrentLang = useCallback(() => {
   if(i18n.language === 'en'){

@@ -148,4 +148,7 @@ export const chineseTranslation = {
   'minStakeReq': '最低权益质押数量需要1FTM',
   "howMuchFTM":"您想权益质押多少 FTM？",
   "accountAlreadyExist":"具有该地址的帐户已经存在",
+  "minimumAmountAlert": "您需要的最低限额",
+  "minimumAmountAlert1": "提现交易易将从您的余额中扣取.",
+  "minimumUnstakeAlert": "取消的权益质押将从您的余额中存取",
 }
