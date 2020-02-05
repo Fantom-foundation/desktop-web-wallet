@@ -29,7 +29,8 @@ import {} from './handlers';
 import { IAccountState } from '../account';
 // import { setDopdownAlert } from "~/redux/notification/actions";
 import { getDataWithQueryString } from '../../api';
-import { Fantom } from '~/utility/web3';
+// import { Fantom } from '~/utility/web3';
+import Fantom, { delegateStake, delegateUnstake, withdrawDelegateAmount }  from 'web3-functions'
 
 const delegatorByAddressApi = async publicKey => {
   return getDataWithQueryString(
@@ -157,11 +158,12 @@ export function* delegateAmountSaga({
       yield put(delegateAmountError());
       return;
     }
-    yield Fantom.delegateStake({
+    yield call(delegateStake, {
       amount,
       publicKey,
       privateKey,
       validatorId,
+      isWeb:true,
     });
     yield put(delegateAmountSuccess({ response: {} }));
     cb(false);
@@ -214,7 +216,12 @@ export function* unstakeAmountSaga({
       password
     );
 
-    const res = yield Fantom.delegateUnstake(publicKey, privateKey);
+    const res = yield call(
+      delegateUnstake,
+      publicKey,
+      privateKey,
+      true
+    );
     yield put(setAmountUnstaked({ publicKey }));
     cb(true)
     // Assign contract functions to sfc variable
@@ -240,7 +247,12 @@ export function* withdrawAmountSaga({
       password
     );
 
-    const res = yield Fantom.withdrawDelegateAmount(publicKey, privateKey);
+    const res = yield call(
+      withdrawDelegateAmount,
+      publicKey,
+      privateKey,
+      true
+    );
     console.log('withdrawAmountSaga response', res);
     if(res){
       cb(true)

@@ -9,26 +9,31 @@ import classnames from 'classnames';
 import styles from './styles.module.scss';
 import LanguageIcon from 'src/images/icons/language-icon.svg';
 import i18n from "i18next";
-import OsLocale from 'os-locale';
+import detectBrowserLanguage from 'detect-browser-language'
+import { useTranslation } from 'react-i18next';
 
 
-const languages = [{ id: 'bl',name: 'System' },{ id: 'en',name: 'English' }, { id: 'kor', name: '中文' }, { id: 'chi', name: '한국어' }];
+const languages = [{ id: 'bl',name: 'Browser' },{ id: 'en',name: 'English' }, { id: 'kor', name: '한국어' }, { id: 'chi', name: '简体中文' }];
 export default () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const [currentLanguage, setCurrentLanguage] = useState('System');
-
+  const [currentLanguage, setCurrentLanguage] = useState('Browser');
+  const {t} = useTranslation()
 const getCurrentLang = useCallback(() => {
   if(i18n.language === 'en'){
     setCurrentLanguage('English')
     
   } else if(i18n.language === 'kor'){
-    setCurrentLanguage('中文')
+    setCurrentLanguage('한국어')
 
   } else if (i18n.language === 'chi'){
-    setCurrentLanguage('한국어')
+    setCurrentLanguage('简体中文')
 
   }
 }, [])
+
+const lang = detectBrowserLanguage()
+
+console.log(lang, '*****lang')
 
   useEffect(() => {
     getCurrentLang()
@@ -55,12 +60,12 @@ const getCurrentLang = useCallback(() => {
 
               if(id === 'bl'){
                 let currLang = 'English'
-                OsLocale().then(res => {
+                  const res = detectBrowserLanguage()
                   const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
                   const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
                   if (isChinese) {
                     lang = 'chi'
-                    currLang = "中文"
+                    currLang = "简体中文"
                   }
                   if(isKorean) {
                     lang = 'kor'
@@ -68,7 +73,7 @@ const getCurrentLang = useCallback(() => {
                   }
                   setCurrentLanguage(currLang)
                   localStorage.setItem('isManualLang', '')
-                })
+               
 
               } else {
                 if(id === 'kor'){
@@ -85,7 +90,7 @@ const getCurrentLang = useCallback(() => {
               localStorage.setItem('language', lang)    
             }}
           >
-            {name}
+            {id === 'bl' ? t(name.toLowerCase()): name}
           </DropdownItem>
         ))}
       </DropdownMenu>

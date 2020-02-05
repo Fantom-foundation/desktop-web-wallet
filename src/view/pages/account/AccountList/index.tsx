@@ -16,7 +16,7 @@ import { IAccount } from '~/redux/account/types';
 import { AccountListItem } from '../AccountListItem';
 import { useTranslation } from "react-i18next";
 import { geolocated } from "react-geolocated";
-import OsLocale from 'os-locale';
+import detectBrowserLanguage from 'detect-browser-language'
 
 import { Layout } from '~/view/components/layout/Layout';
 
@@ -54,11 +54,10 @@ const AccountListUnconnected: FC<IProps> = ({
     [push]
   );
 
-
-  useEffect(() => {
+  const setSystemLang = () => {
     const isChecked = localStorage.getItem('isManualLang')
     if(isChecked !== 'true'){
-      OsLocale().then(res => {
+      const res = detectBrowserLanguage()
         let locale = 'en'
         const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
         const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
@@ -66,9 +65,16 @@ const AccountListUnconnected: FC<IProps> = ({
         if(isKorean) locale = 'kor'
         localStorage.setItem('language', locale)
     
-      })
 
     }
+
+  }
+  // setSystemLang()
+
+
+
+  useEffect(() => {
+    setSystemLang()
    
   }, []);
 
@@ -98,7 +104,7 @@ const AccountListUnconnected: FC<IProps> = ({
             <Row>
               {Object.values(list).length > 0 &&
                 Object.values(list).map(account => {
-                  if(account.keystore){
+                  if(account.publicAddress){
                     return (
                       <Col
                         lg={6}

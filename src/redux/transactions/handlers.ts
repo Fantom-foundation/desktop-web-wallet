@@ -7,10 +7,7 @@ const setState = (
   state: ITRansactionsState,
   { payload }: ReturnType<typeof transactionsSet>
 ): ITRansactionsState => {
-  console.log("kapil state", state, payload, {
-    ...state,
-    ...payload,
-  })
+  
   return ({
   ...state,
   ...payload,

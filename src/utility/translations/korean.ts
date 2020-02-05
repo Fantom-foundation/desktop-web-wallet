@@ -138,26 +138,31 @@ export const koreanTranslation = {
   "cancel": '취소',
   "logout": '로그아웃',
   'rewards': '보상',
-  "unstaking": '언스테이킹',
+  "unstaking": '언스테이킹...',
   "withdraw": '출금',
-  "withdrawing": '출금중',
+  "withdrawing": '출금중...',
   "invalidKeystoreTitle": "유효하지 않은 키스토어 파일 혹은 암호입니다.",
   "keystore": "키스토어",
   "max":"최대",
-  "staking":"스테이킹",
+  "staking":"스테이킹...",
   'minStakeReq': '스테이크를 하기 위해 최소 1 FTM이 필요합니다',
   "howMuchFTM":"FTM을 얼마나 스테이킹하시겠습니까",
   "accountAlreadyExist":"해당 주소를 보유한 계정이 이미 존재합니다",
   "minimumAmountAlert": "인출하기 위해 잔액이 최소",
   "minimumAmountAlert1": "이상 필요합니다.",
   "minimumUnstakeAlert": "이상 필요합니다.",
-
-
-
-
-
-  
-
-
-
+  "browser": '브라우저',
+  "Jan": "一月",
+  "Feb": "二月",
+  "Mar": "三月",
+  "Apr": "四月",
+  "May": "五月",
+  "Jun": "六月",
+  "Jul": "七月",
+  "Aug": "八月",
+  "Sept": "九月",
+  "Sep": "九月",
+  "Oct": "十月",
+  "Nov": "十一月",
+  "Dec": "十二月",
 }

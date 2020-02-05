@@ -74,11 +74,19 @@ const SubView = (props: any) => {
   );
 };
 
+ const formatActivities = (activityDate, trans) => {
+  const t = new Date(activityDate * 1000);
+  const month = moment(t).format("MMM");
+  const time = moment(t).format("hh:mm A");
+  const dateString = `${trans(month)}, ${time}`;
+  return dateString;
+};
+
 const Activities = (props: any) => {
   const newTime = new Date(props.data.timestamp * 1000);
   const { time, ftm, subView = [], t } = props;
   const [isOpen, setIsOpen] = useState(false);
-  const newDate = moment(newTime).format('MMM DD, hh:mm a');
+  const newDate = formatActivities(props.data.timestamp , t);
   const isRecieve = props.data.from === props.address.toLowerCase();
   return (
     <div className={styles.activities}>

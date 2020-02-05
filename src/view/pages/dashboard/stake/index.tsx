@@ -552,7 +552,6 @@ const Stake = props => {
                   {stakedAmount}
                   {' '}
                   {t('FTMAvail')}
-!
                 </h3>
                 <button
                   onClick={event => { 

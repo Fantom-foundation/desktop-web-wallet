@@ -52,7 +52,8 @@ import {
 } from './selectors';
 import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
-import { Fantom, DEFAULT_PROVIDERS } from '~/utility/web3';
+import {  DEFAULT_PROVIDERS } from '~/utility/web3';
+import Fantom from 'web3-functions'
 import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
 import { readFileAsJSON } from '~/utility/filereader';
@@ -67,8 +68,7 @@ function* createSetCredentials({
   create,
 }: ReturnType<typeof accountCreateSetCredentials>) {
   const mnemonic: string = bip.generateMnemonic();
-  const { publicAddress } = Fantom.mnemonicToKeys(mnemonic);
-  const { privateKey } = Fantom.mnemonicToKeys(mnemonic);
+  const { privateKey, publicAddress } = yield call(Fantom.mnemonicToKeys, mnemonic);;
   const pass = create.password || '';
 
   const keystore = Fantom.getKeystore(privateKey, pass);
@@ -104,7 +104,7 @@ function* createSetConfirm() {
 
   let pKey = privateKey || '';
   if (!privateKey) {
-    const keys = Fantom.mnemonicToKeys(mnemonic);
+    const keys = yield call(Fantom.mnemonicToKeys, mnemonic);;
     pKey = keys.privateKey;
   }
 
@@ -144,7 +144,7 @@ function* createSetRestoreCredentials({
       publicAddress = keys.publicAddress;
     } else {
       const mnemonic = localStorage.getItem('mnemonic') || '';
-      const keys = Fantom.mnemonicToKeys(mnemonic);
+      const keys = yield call(Fantom.mnemonicToKeys, mnemonic);;
       privateKey = keys.privateKey;
       publicAddress = keys.publicAddress;
     }
@@ -165,21 +165,34 @@ function* createSetRestoreCredentials({
 function* createRestoreMnemonics({
   mnemonic,
 }: ReturnType<typeof accountCreateRestoreMnemonics>) {
-  const { publicAddress } = Fantom.mnemonicToKeys(mnemonic || '');
+  const { publicAddress } = yield call(Fantom.mnemonicToKeys, mnemonic);;
   localStorage.setItem('mnemonic', mnemonic || '');
 
 
   const { list }: IAccountState = yield select(selectAccount);
  const prevList = Object.keys(list);
+ const prevListObj =  { ...list}; 
       let isAddressFound = false
+      let isFound = false
       if(prevList && prevList.length > 0){
-        prevList.forEach(item => {
+        prevList.forEach((item: any) => {
           if(item.toLowerCase() === publicAddress.toLowerCase() ){
-            isAddressFound = true
+            if(prevListObj[item].publicAddress){
+              isAddressFound = true
+            } else {
+              delete prevListObj[item];
+              isFound = true
+            }
           }
 
         })
 
+      }
+
+      if(isFound){
+        yield put(
+          accountSetList({...prevListObj})
+        );
       }
 
     if (isAddressFound)
@@ -210,15 +223,28 @@ function* createRestorePrivateKey({
 
   const { list }: IAccountState = yield select(selectAccount);
  const prevList = Object.keys(list);
+ const prevListObj =  { ...list}; 
       let isAddressFound = false
+      let isFound = false
       if(prevList && prevList.length > 0){
-        prevList.forEach(item => {
+        prevList.forEach((item: any) => {
           if(item.toLowerCase() === publicAddress.toLowerCase() ){
-            isAddressFound = true
+            if(prevListObj[item].publicAddress){
+              isAddressFound = true
+            } else {
+              delete prevListObj[item];
+              isFound = true
+            }
           }
 
         })
 
+      }
+
+      if(isFound){
+        yield put(
+          accountSetList({...prevListObj})
+        );
       }
 
     if (isAddressFound)
@@ -245,7 +271,7 @@ function* getPrivateKey({
   mnemonic,
   cb,
 }: ReturnType<typeof accountGetPrivateKey>) {
-  const { privateKey } = yield Fantom.mnemonicToKeys(mnemonic);
+  const { privateKey } = yield call(Fantom.mnemonicToKeys, mnemonic);;
   cb(privateKey);
   // return privateKey
 }
@@ -269,6 +295,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 
     // const result = yield call([Fantom, Fantom.getBalance], id);
     const { error, data } = yield call(getTransactions, id, 0, 10);
+    console.log(error, '******error')
     if (!error && data.data && data.data.account) {
       const balanceStr = data.data.account.balance.toString();
       const balance = balanceStr;
@@ -374,6 +401,7 @@ function* sendFunds({
       value: amount.toString(),
       memo: message,
       privateKey,
+      isWeb: true,
     });
     cb(true);
 
@@ -499,15 +527,27 @@ function* uploadKeystore({
         })
       );
       const prevList = Object.keys(list);
-      let isAddressFound = false
+      const prevListObj =  { ...list}; 
+      let isAddressFound = false;
+      let isFound = false;
       if(prevList && prevList.length > 0){
-        prevList.forEach(item => {
+        prevList.forEach((item: any) => {
           if(item.toLowerCase() === `0x${keystore.address}`){
-            isAddressFound = true
+            if(prevListObj[item].publicAddress){
+              isAddressFound = true
+            } else {
+              delete prevListObj[item];
+              isFound = true
+            }
           }
 
         })
 
+      }
+      if(isFound){
+        yield put(
+          accountSetList({...prevListObj})
+        );
       }
 
     if (isAddressFound)

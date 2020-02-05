@@ -90,8 +90,8 @@ const DashboardLayout: FC<IProps> = ({
   
           <ModalBody>
             <div className={styles.content}>
-            <p>{t('logoutDesc')}.</p>
-            <p>{t('reverseAction')}.</p>
+            <p>{t('logoutDesc')}</p>
+            <p>{t('reverseAction')}</p>
               
             </div>
   
