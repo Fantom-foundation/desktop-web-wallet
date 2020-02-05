@@ -92,7 +92,7 @@ const SendDetails = ({
           <SendForm data={account} t={t} />
         </Col>
         <Col md={5} lg={4} className="mb-4 pb-2">
-          <Card className="h-100">
+          <Card className={classname('h-100', styles.balanceCard)}>
             <p className="card-label">Balances</p>
             <TokenList />
           </Card>

@@ -615,8 +615,10 @@ const Stake = props => {
                 {convertFTMValue(parseFloat(account.balance))} FTM
               </h2>
               <h3 className="opacity-5 mb-3">{t('availableStake')}</h3>
-              <h2 className="pt-3"> {stakedAmount} FTM</h2>
+              <h2 className="pt-3">{stakedAmount} FTM</h2>
               <h3 className="opacity-5 mb-3">{t('currentlyStaking')}</h3>
+              <h2 className="pt-3">Moniker</h2>
+              <h3 className="opacity-5 mb-3">{t('Validator')}</h3>
             </div>
           </Card>
         </Col>
@@ -625,6 +627,8 @@ const Stake = props => {
           <Card className="h-100 ">
             <p className="card-label mb-4">Rewards</p>
             <div className="text-right">
+              <h2 className="pt-3">64%</h2>
+              <h3 className="opacity-5 mb-3">{t('Current APR')}</h3>
               <h2 className="pt-3">{claimedRewards} FTM</h2>
               <h3 className="opacity-5 mb-3">{t('claimedRewards')}</h3>
               <h2 className="pt-3">{pendingRewards} FTM</h2>

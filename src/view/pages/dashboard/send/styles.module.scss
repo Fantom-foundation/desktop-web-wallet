@@ -63,3 +63,8 @@
     }
   }
 }
+.balanceCard {
+  @media (max-width: $desktop) {
+    max-height: 522px;
+  }
+}
