@@ -118,7 +118,7 @@ const ClaimfUSDModal = () => {
 const SuccessModal = () => {
   return (
     <>
-      <Modal isOpen={true} centered className={styles.successModal}>
+      <Modal isOpen={false} centered className={styles.successModal}>
         <ModalBody className={styles.modalBody}>
           <h2>Congratulations!</h2>
           <div className={styles.receiveRewards}>
