@@ -35,6 +35,9 @@
       flex: 0 0 calc(100% - 50px);
       max-width: calc(100% - 50px);
     }
+    @media (max-width: $tablet) {
+      font-size: 20px;
+    }
 
     &:hover {
       color: map-get($color, dark-grey-blue);
@@ -145,9 +148,17 @@
   justify-content: space-between;
   margin-top: 10px;
   margin-bottom: 50px;
+  @media (max-width: $tablet) {
+    flex-wrap: wrap;
+  }
 
   .box {
     opacity: 0.4;
+    @media (max-width: $tablet) {
+      flex: 0 0 50%;
+      max-width: 50%;
+      text-align: center;
+    }
     &.active {
       opacity: 1;
     }
@@ -156,6 +167,11 @@
       color: map-get($color, dark-grey-blue);
       text-align: center;
       margin-top: 10px;
+    }
+    img {
+      @media (max-width: $tablet) {
+        width: 40%;
+      }
     }
   }
 }

@@ -206,7 +206,7 @@ export default () => (
                   <span
                     className={classnames(styles.orange, styles.circleShape)}
                   />
-                  <span className={styles.leftSpace}>Fantom</span>
+                  <span className={styles.leftSpace}>iBTC</span>
                 </td>
                 <td>5.70%</td>
                 <td>

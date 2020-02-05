@@ -530,7 +530,7 @@ const Stake = props => {
     }
     if (deactivatedEpoch > 0 && timeLeft < 0 && step !== 10) {
       return (
-        <Row>
+        <Row className="mt-5">
           <Col>
             <Card className="text-center">
               <div className={styles.availableWrapper}>

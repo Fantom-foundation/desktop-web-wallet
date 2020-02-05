@@ -136,7 +136,7 @@ const SuccessModal = () => {
 };
 
 export default () => (
-  <Card className="py-5">
+  <Card className="py-5 mt-5">
     <div className="text-center">
       <InfoModal />
       <h2 className="mb-5">Claim your rewards</h2>

@@ -124,7 +124,7 @@ const RecieveDetails = ({
           Where are you receiving your FTM from?
         </h2>
       </div>
-      <Card className={classname('px-5', styles.card)}>
+      <Card className={classname('px-4 px-lg-5', styles.card)}>
         {/* <h2 className={classname(styles.cardTitle, 'font-weight-extra-bold')}>
           {t("receiveFTM")}
         </h2> */}
@@ -136,7 +136,11 @@ const RecieveDetails = ({
                 [styles.active]: isActive,
               })}
             >
-              <img src={isActive ? activeIcon : icon} alt={title} />
+              <img
+                src={isActive ? activeIcon : icon}
+                alt={title}
+                className="img-fluid"
+              />
               <p>{title}</p>
             </div>
           ))}
