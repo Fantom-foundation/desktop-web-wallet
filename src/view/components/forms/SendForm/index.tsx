@@ -450,20 +450,24 @@ const TransferFunds: FC<IProps> = ({
                 errorText: getAmountErrorText() || '',
               }}
             />
-            <DashboardInput
-              label={t('toAddress')}
-              value={to}
-              type="text"
-              handleChange={val => {
-                setTo(val);
-                setErrors({ ...sendingErrors, to: false });
-              }}
-              error={{
-                isError: sendingErrors.to,
-                errorText: t('enterValidFTMAddress'),
-              }}
-              placeholder={t('enterAddress')}
-            />
+            <div className="address">
+              <DashboardInput
+                label={t('toAddress')}
+                value={to}
+                type="text"
+                handleChange={val => {
+                  setTo(val);
+                  setErrors({ ...sendingErrors, to: false });
+                }}
+                error={{
+                  isError: sendingErrors.to,
+                  errorText: t('enterValidFTMAddress'),
+                }}
+                placeholder={t('enterAddress')}
+                paste
+              />
+            </div>
+
             <div>
               <label className={styles.label}>Destinantion chain</label>
               <div className={styles.boxWrapper}>

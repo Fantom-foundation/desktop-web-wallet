@@ -130,7 +130,7 @@ export default props => {
   return (
     <Card className={styles.card}>
       <p className="card-label">{t('recentActivity')}</p>
-      <div>
+      <div className={styles.activitiesWrapper}>
         {/* {activityMockData.map((data: object, index: number) => (
         <Activities key={index} {...data} />
       ))} */}

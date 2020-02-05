@@ -57,6 +57,8 @@
     margin-top: 22px;
     @media (max-width: $desktop) {
       flex-wrap: wrap;
+      max-width: 260px;
+      margin-top: 0;
     }
     .box {
       opacity: 0.4;

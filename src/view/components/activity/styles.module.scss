@@ -4,13 +4,26 @@
     padding-bottom: 24px;
   }
 }
+.activitiesWrapper {
+  overflow: auto;
+  max-height: 450px;
+  &::-webkit-scrollbar {
+    width: 3px;
+    height: 0px;
+    background: #dfe7e8;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: #0ebec2;
+    border-radius: 30px;
+  }
+}
 .activities {
   &:not(:first-child) {
     border-top: 1px solid rgba(map-get($color, dark-grey-blue), 0.1);
   }
   // padding: 14px 17px 15px 18px;
   padding: 10px 25px 7px 0px;
-  margin: 0 -5px;
+  // margin: 0 -5px;
   @media (max-width: $tablet) {
     padding: 20px 0 18px;
   }
@@ -134,6 +147,7 @@
     }
     a {
       color: map-get($color, Primary-Main);
+      font-weight: 600;
       &:not(:hover) {
         text-decoration: none;
       }

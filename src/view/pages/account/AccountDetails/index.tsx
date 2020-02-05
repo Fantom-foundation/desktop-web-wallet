@@ -251,13 +251,13 @@ const AccountDetailsDashboard: FC<IProps> = ({
               ))} */}
               <div className={styles.balanceCard}>
                 <div className="mb-3 d-flex justify-content-between">
-                  <h4 className="m-0 opacity-85">{t('price')}:</h4>
+                  <h4 className="m-0 opacity-7">{t('price')}:</h4>
                   <p className={classnames('m-0', styles.infoValue)}>
                     $ {parseFloat(ftmToUsdPrice).toFixed(5)}
                   </p>
                 </div>
                 <div className="mb-3 d-flex justify-content-between">
-                  <h4 className="m-0 opacity-85">{t('marketCap')}:</h4>
+                  <h4 className="m-0 opacity-7">{t('marketCap')}:</h4>
                   <p className={classnames('m-0', styles.infoValue)}>
                     $ {marketCapValue}
                   </p>

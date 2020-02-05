@@ -20,7 +20,7 @@
 }
 .hash {
   display: flex;
-  flex-wrap: wrap;
+  word-break: break-all;
   align-items: baseline;
 
   a {

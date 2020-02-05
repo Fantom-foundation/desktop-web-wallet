@@ -132,3 +132,17 @@
     }
   }
 }
+.pasteButton {
+  position: absolute;
+  background: transparent;
+  top: 50%;
+  padding: 0;
+  transform: translateY(-50%);
+  right: 30px;
+  color: #1965e9;
+  font-size: 14px;
+  border: 0;
+  font-weight: 500;
+  cursor: pointer;
+  outline: none !important;
+}

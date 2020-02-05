@@ -62,27 +62,24 @@ const TransferModalUnconnected: FC<IProps> = ({
   const [message, setMessage] = useState('');
 
   const senders = useMemo(
-    () =>
-      Object.entries(list).reduce(
-        obj => ({ ...obj }),
-        {}
-      ),
+    () => Object.entries(list).reduce(obj => ({ ...obj }), {}),
     [list]
   );
-  const call = (txHash: string) => {
-  }
-
+  const call = (txHash: string) => {};
 
   const onSubmit = useCallback(
     event => {
       event.preventDefault();
-      accountSendFunds({
-        to,
-        from,
-        amount,
-        message,
-        password,
-      },call);
+      accountSendFunds(
+        {
+          to,
+          from,
+          amount,
+          message,
+          password,
+        },
+        call
+      );
     },
     [accountSendFunds, to, from, amount, password, message]
   );
@@ -114,7 +111,15 @@ const TransferModalUnconnected: FC<IProps> = ({
     } else if (parseFloat(fee) && parseFloat(fee) > 0) {
       accountSetTransfer({ fee: '' });
     }
-  }, [accountGetTransferFee, accountSetTransfer, amount, fee, from, message, to]);
+  }, [
+    accountGetTransferFee,
+    accountSetTransfer,
+    amount,
+    fee,
+    from,
+    message,
+    to,
+  ]);
 
   useEffect(() => {
     if (from && Object.hasOwnProperty.call(list, from)) accountGetBalance(from);

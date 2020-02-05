@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { FormGroup, Label, Input } from 'reactstrap';
+import { FormGroup, Label, Input, Button } from 'reactstrap';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
 
@@ -11,8 +11,9 @@ export default ({
   type = 'text',
   rightLabel = '',
   handleChange,
+  paste = false,
   error = { isError: false, errorText: '' },
-  handleRightButton = ()=>{},
+  handleRightButton = () => {},
 }) => {
   return (
     <div
@@ -30,7 +31,9 @@ export default ({
               </p>
             )}
             {rightLabel !== '' && (
-            <p onClick={handleRightButton} className={styles.entireBalance}>{rightLabel}</p>
+              <p onClick={handleRightButton} className={styles.entireBalance}>
+                {rightLabel}
+              </p>
             )}
           </div>
         </div>
@@ -49,6 +52,11 @@ export default ({
             onChange={e => handleChange(e.target.value)}
             min="0"
           />
+          {paste && (
+            <button color="primary-main" className={styles.pasteButton}>
+              Paste
+            </button>
+          )}
         </div>
       </FormGroup>
     </div>
