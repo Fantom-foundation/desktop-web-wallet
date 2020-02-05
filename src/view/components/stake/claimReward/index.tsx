@@ -1,23 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Card, Button, Modal, ModalBody } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
 import { Input } from '../../forms';
 import { CheckCircleIcon } from 'src/view/components/svgIcons';
 const InfoModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
   return (
     <>
-      <button className={classnames(styles.infoBtn, 'btn-icon text-primary')}>
+      <button
+        className={classnames(styles.infoBtn, 'btn-icon text-primary')}
+        onClick={toggle}
+      >
         <i className="fas fa-info-circle" />
       </button>
-      <Modal isOpen={false} centered className={styles.infoModal}>
+      <Modal
+        isOpen={isOpen}
+        toggle={toggle}
+        centered
+        className={styles.infoModal}
+      >
         <ModalBody className={styles.modalBody}>
-          <h2 className="text-center mb-4 pb-2">
-            Claim your rewards{' '}
-            <span className={styles.cross}>
-              <i className="fas fa-times"></i>
-            </span>
-          </h2>
+          <button
+            className={classnames('btn-icon', styles.close)}
+            onClick={toggle}
+          >
+            <i className="fas fa-times"></i>
+          </button>
+          <h2 className="text-center mb-4 pb-2">Claim your rewards </h2>
           <h4 className="mb-3">You can claim your rewards in FTM or fUSD.</h4>
           <h4 className="mb-3">
             FTM rewards will be available after six months or when 80% of the
@@ -47,16 +58,27 @@ const InfoModal = () => {
 };
 
 const ClaimfUSDModal = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const toggle = () => setIsOpen(!isOpen);
   return (
     <>
-      <Modal isOpen={false} centered className={styles.claimUsdModal}>
+      <Button color="primary" onClick={toggle}>
+        Claim fUSD
+      </Button>
+      <Modal
+        isOpen={isOpen}
+        toggle={toggle}
+        centered
+        className={styles.claimUsdModal}
+      >
         <ModalBody className={styles.modalBody}>
-          <h2 className="text-center mb-4 pb-2">
-            Claim fUSD
-            <span className={styles.cross}>
-              <i className="fas fa-times"></i>
-            </span>
-          </h2>
+          <button
+            className={classnames('btn-icon', styles.close)}
+            onClick={toggle}
+          >
+            <i className="fas fa-times"></i>
+          </button>
+          <h2 className="text-center mb-4 pb-2">Claim fUSD</h2>
           <div className={styles.balanceCard}>
             <div className="mb-3 d-flex justify-content-between">
               <h3 className="m-0 opacity-5">Available to claim</h3>
@@ -125,7 +147,6 @@ export default () => (
         )}
       >
         <Button>Claim FTM</Button>
-        <Button color="primary">Claim fUSD</Button>
         <ClaimfUSDModal />
         <SuccessModal />
       </div>
