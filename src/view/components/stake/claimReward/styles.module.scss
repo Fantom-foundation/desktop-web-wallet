@@ -12,9 +12,17 @@
   right: 30px;
   font-size: 20px;
 }
-
+.close {
+  position: absolute;
+  padding: 10px !important;
+  right: 20px;
+  top: 20px;
+  font-size: 24px;
+  line-height: 12px;
+}
 .infoModal {
   max-width: 656px;
+
   @media (max-width: $desktop) {
     max-width: 707px;
   }
@@ -33,11 +41,6 @@
   }
   h2 {
     position: relative;
-    .cross {
-      position: absolute;
-      right: 0;
-      top: 0;
-    }
   }
 }
 .claimUsdModal {
@@ -53,11 +56,6 @@
     }
     h2 {
       position: relative;
-      .cross {
-        position: absolute;
-        right: 0;
-        top: 0;
-      }
     }
     h4 {
       font-weight: 400;
