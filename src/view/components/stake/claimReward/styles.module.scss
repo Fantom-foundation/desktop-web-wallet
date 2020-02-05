@@ -31,4 +31,69 @@
       line-height: 21px;
     }
   }
+  h2 {
+    position: relative;
+    .cross {
+      position: absolute;
+      right: 0;
+      top: 0;
+    }
+  }
+}
+.claimUsdModal {
+  max-width: 580px;
+
+  > div {
+    border-radius: 20px;
+  }
+  .modalBody {
+    padding: 40px;
+    @media (max-width: $desktop) {
+      padding: 40px 65px;
+    }
+    h2 {
+      position: relative;
+      .cross {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+    h4 {
+      font-weight: 400;
+      line-height: 21px;
+    }
+  }
+  .balanceCard {
+    p {
+      font-size: 18px;
+      font-weight: 600;
+      color: map-get($color, dark-grey-blue);
+    }
+  }
+  .receiveRewards {
+    text-align: center;
+    h1 {
+      font-size: 36px;
+      color: map-get($color, Primary-Main);
+    }
+    p {
+      font-weight: 400;
+      max-width: 300px;
+      margin: 0 auto;
+    }
+  }
+  .passwordInput {
+    input {
+      background: #f8f9fa;
+      border-color: #f8f9fa;
+      position: relative;
+      border-radius: 8px;
+      font-size: 18px;
+      font-weight: 600;
+      color: #2b3954;
+      height: 40px;
+      box-shadow: none;
+    }
+  }
 }
