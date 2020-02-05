@@ -97,3 +97,32 @@
     }
   }
 }
+.successModal {
+  max-width: 580px;
+
+  > div {
+    border-radius: 20px;
+  }
+  .modalBody {
+    padding: 40px;
+    text-align: center;
+    @media (max-width: $desktop) {
+      padding: 40px 65px;
+    }
+    h2 {
+      position: relative;
+      .cross {
+        position: absolute;
+        right: 0;
+        top: 0;
+      }
+    }
+  }
+  .receiveRewards {
+    margin: 40px 0;
+    h1 {
+      font-size: 36px;
+      color: map-get($color, Primary-Main);
+    }
+  }
+}

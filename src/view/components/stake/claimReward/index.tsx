@@ -3,7 +3,7 @@ import { Card, Button, Modal, ModalBody } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
 import { Input } from '../../forms';
-
+import { CheckCircleIcon } from 'src/view/components/svgIcons';
 const InfoModal = () => {
   return (
     <>
@@ -93,6 +93,26 @@ const ClaimfUSDModal = () => {
   );
 };
 
+const SuccessModal = () => {
+  return (
+    <>
+      <Modal isOpen={true} centered className={styles.successModal}>
+        <ModalBody className={styles.modalBody}>
+          <h2>Congratulations!</h2>
+          <div className={styles.receiveRewards}>
+            <h2>You successully claimed </h2>
+            <h1>13.92075 fUSD</h1>
+          </div>
+
+          <div>
+            <CheckCircleIcon />
+          </div>
+        </ModalBody>
+      </Modal>
+    </>
+  );
+};
+
 export default () => (
   <Card className="py-5">
     <div className="text-center">
@@ -107,6 +127,7 @@ export default () => (
         <Button>Claim FTM</Button>
         <Button color="primary">Claim fUSD</Button>
         <ClaimfUSDModal />
+        <SuccessModal />
       </div>
     </div>
   </Card>
