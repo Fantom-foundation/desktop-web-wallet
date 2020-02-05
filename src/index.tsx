@@ -15,14 +15,16 @@ import detectBrowserLanguage from 'detect-browser-language'
 
 const setCurrentLang = () => {
   const isChecked = localStorage.getItem('isManualLang')
-    let locale = localStorage.getItem('language') || i18n.language   
+    let locale = localStorage.getItem('language') || i18n.language 
 
 
     if(isChecked !== 'true'){
       const res = detectBrowserLanguage()
+      const isEnglish = res.toLowerCase().substring(0, 2) === 'en'
         const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
         const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
         if (isChinese) locale = 'chi'
+        if(isEnglish) locale = 'en'
         if(isKorean) locale = 'kor'
         localStorage.setItem('language', locale)
     
