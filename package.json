@@ -59,6 +59,7 @@
     "source-map-explorer": "^2.1.1",
     "typescript": "^3.6.4",
     "update-electron-app": "^1.5.0",
+    "victory": "^34.1.0",
     "web3": "^1.2.2",
     "web3-core": "^1.2.2",
     "web3-utils": "^1.2.2"

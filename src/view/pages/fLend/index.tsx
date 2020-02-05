@@ -5,6 +5,7 @@ import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 import classnames from 'classnames';
 import fantomActive from '../../../images/dashboard-icons/Archive/fantom-active.svg';
 import SearchIcon from '../../../images/dashboard-icons/Archive/search.svg';
+import CircleProgress from '../../components/circleProgress';
 
 export default () => (
   <div>
@@ -46,9 +47,10 @@ export default () => (
               <i className="fas fa-info-circle" />
             </span>
           </p>
-          <div className={styles.circle}>
+          {/* <div className={styles.circle}>
             <h3>50%</h3>
-          </div>
+          </div> */}
+          <CircleProgress />
         </Card>
       </Col>
       <Col md={6} lg={4} className={classnames('mb-lg-6 mb-4', styles.order2)}>
