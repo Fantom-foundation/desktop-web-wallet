@@ -1,0 +1,34 @@
+@import '~/styles/variables.scss';
+.btnWrapper {
+  max-width: 461px;
+  button {
+    min-width: 174px;
+  }
+}
+
+.infoBtn {
+  position: absolute;
+  top: 30px;
+  right: 30px;
+  font-size: 20px;
+}
+
+.infoModal {
+  max-width: 656px;
+  @media (max-width: $desktop) {
+    max-width: 707px;
+  }
+  > div {
+    border-radius: 20px;
+  }
+  .modalBody {
+    padding: 40px 60px;
+    @media (max-width: $desktop) {
+      padding: 40px 65px;
+    }
+    h4 {
+      font-weight: 400;
+      line-height: 21px;
+    }
+  }
+}

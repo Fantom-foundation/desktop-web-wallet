@@ -12,6 +12,7 @@ import SuccessCard from '~/view/components/stake/sucessCard';
 import WithdrawSuccess from '~/view/components/stake/withdrawSuccess';
 import WithdrawalProgress from 'src/view/components/stake/withdrawalProgress';
 import WithdrawSuccessfulCard from 'src/view/components/stake/withdrawalSuccessCard';
+import { UnstakeClaimCard, ClaimReward } from 'src/view/components/stake';
 import { useTranslation } from 'react-i18next';
 
 import { connect } from 'react-redux';
@@ -604,7 +605,7 @@ const Stake = props => {
     : '0';
 
   return (
-    <div>
+    <div className="dashboard-container">
       <Row>
         <Col md={6} className="mb-6">
           <Card className="h-100">
@@ -636,6 +637,8 @@ const Stake = props => {
           </Card>
         </Col>
       </Row>
+      <UnstakeClaimCard />
+      <ClaimReward />
       {withdrawalStakeCard()}
       <Row
         className={
