@@ -141,14 +141,21 @@
   },
   "build": {
     "productName": "Fantom Wallet",
-    "appId": "com.fantom.payments.mac",
-    "mac": {
-      "target": [
-        "mas"
-      ],
-      "provisioningProfile": "Fantom_Mac_Dist_Profile.provisionprofile",
-      "entitlements": "public/entitlements.mas.plist",
-      "type": "distribution"
-    }
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "files": [
+      "build/static",
+      "build",
+      {
+        "from": "build/static",
+        "to": "static"
+      }
+    ],
+    "extraResources": [{
+      "from": "build/static",
+      "to": "static"
+    }]
   }
 }
