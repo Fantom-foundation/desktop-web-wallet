@@ -10,6 +10,8 @@ import styles from './styles.module.scss';
 import LanguageIcon from 'src/images/icons/language-icon.svg';
 import i18n from "i18next";
 import detectBrowserLanguage from 'detect-browser-language'
+import getUserLocale from 'get-user-locale';
+
 import { useTranslation } from 'react-i18next';
 import OsLocale  from 'os-locale';
 
@@ -59,7 +61,7 @@ const getCurrentLang = useCallback(() => {
 
               if(id === 'bl'){
                 let currLang = 'English'
-                  const res = detectBrowserLanguage()
+                  const res = getUserLocale()
                 // OsLocale().then(res => {
                   const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
                   const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'

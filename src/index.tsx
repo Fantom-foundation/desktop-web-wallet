@@ -11,7 +11,7 @@ import { chineseTranslation } from './utility/translations/chinese';
 import {} from 'update-electron-app'
 import detectBrowserLanguage from 'detect-browser-language'
 import OsLocale  from 'os-locale';
-
+import getUserLocale from 'get-user-locale';
 
 
 const setCurrentLang = () => {
@@ -20,7 +20,9 @@ const setCurrentLang = () => {
 
 
     if(isChecked !== 'true'){
-      const res = detectBrowserLanguage()
+      // const res = detectBrowserLanguage()
+      const res = getUserLocale();
+
       // OsLocale().then(res => {
         const isEnglish = res.toLowerCase().substring(0, 2) === 'en'
         const isChinese = res.toLowerCase().substring(0, 2) === 'zh'

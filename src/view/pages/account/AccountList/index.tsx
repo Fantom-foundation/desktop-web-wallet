@@ -27,6 +27,7 @@ import WalletIcon from '../../../../images/icons/wallet.png';
 import { AddressBalanceCard } from '../../../components/cards';
 import classnames from 'classnames';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
+import getUserLocale from 'get-user-locale';
 
 const mapStateToProps = (state: IState): Pick<IAccountState, 'list'> =>
   pick(['list'])(selectAccount(state));
@@ -58,7 +59,7 @@ const AccountListUnconnected: FC<IProps> = ({
   console.log(i18n.language, '*******asd')
 
   const getBrowserLang = () => {
-    const res = detectBrowserLanguage()
+    const res = getUserLocale()
         let locale = localStorage.getItem('language')
         const isEnglish = res.toLowerCase().substring(0, 2) === 'en'
         const isChinese = res.toLowerCase().substring(0, 2) === 'zh'

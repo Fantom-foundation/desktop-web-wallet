@@ -23,6 +23,7 @@
     "ethereumjs-tx": "^1.3.7",
     "ethereumjs-util": "^6.0.0",
     "file-saver": "^2.0.2",
+    "get-user-locale": "^1.3.0",
     "handlebars": "^4.7.2",
     "hdkey": "^1.1.1",
     "history": "^4.10.1",
@@ -153,9 +154,11 @@
         "to": "static"
       }
     ],
-    "extraResources": [{
-      "from": "build/static",
-      "to": "static"
-    }]
+    "extraResources": [
+      {
+        "from": "build/static",
+        "to": "static"
+      }
+    ]
   }
 }
