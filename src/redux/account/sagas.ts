@@ -664,13 +664,13 @@ function* removeAccount({ publicAddress, cb }: ReturnType<typeof accountRemoveAc
       } 
       yield delay(2000);
       cb(true)
-      yield put(push('/'));
+      // yield put(push('/'));
 
 
   } catch (e) {
     console.log(e);
     cb(false)
-    yield put(push('/'));
+    // yield put(push('/'));
   }
 }
 

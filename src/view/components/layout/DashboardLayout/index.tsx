@@ -72,14 +72,13 @@ const DashboardLayout: FC<IProps> = ({
 
     const handleWalletLogout = () => {
        accountRemoveAction(account && account.publicAddress, (res) => {
+         localStorage.setItem("isModalOpen", 'false')
         setLogoutModal(false)
-        localStorage.setItem("isModalOpen", 'false')
+        history.push('/')
 
        })
 
-       setTimeout(() => {
-        history.push('/')
-      }, 2000);
+       
        
 
     }

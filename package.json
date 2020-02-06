@@ -1,5 +1,5 @@
 {
-  "name": "web_wallet1",
+  "name": "fantom",
   "version": "0.1.0",
   "private": true,
   "main": "electron/main.js",
@@ -153,11 +153,9 @@
         "to": "static"
       }
     ],
-    "extraResources": [
-      {
-        "from": "build/static",
-        "to": "static"
-      }
-    ]
+    "extraResources": [{
+      "from": "build/static",
+      "to": "static"
+    }]
   }
 }
