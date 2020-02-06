@@ -1,0 +1,66 @@
+@import '~/styles/variables.scss';
+.root {
+  display: table;
+  margin: auto;
+  .wrapper {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    position: relative;
+    &::before {
+      content: '';
+      position: absolute;
+      top: 17px;
+      left: 53px;
+      width: calc(100% - 115px);
+      height: 2px;
+      background: #d8d8d8;
+    }
+    .step {
+      min-width: 115px;
+      &.active {
+        .level {
+          border-color: #06bfc2;
+        }
+        &:not(:first-child) {
+          .level {
+            &::before {
+              content: '';
+              position: absolute;
+              top: 50%;
+              right: calc(100% + 2px);
+              transform: translateY(-50%);
+              width: #{115 - 36}px;
+              height: 2px;
+              background: #06bfc2;
+            }
+          }
+        }
+      }
+      &:not(.active) {
+        color: rgba(#2b3954, 0.3);
+      }
+      .level {
+        border-radius: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 36px;
+        height: 36px;
+        border: solid 2px #d5d5d5;
+        background: #fff;
+        font-size: 16.8px;
+        font-weight: 600;
+        line-height: 1.29;
+        margin: 0 auto 7px;
+        position: relative;
+      }
+      .label {
+        font-size: 12px;
+        font-weight: 500;
+        margin: 0;
+        color: inherit;
+      }
+    }
+  }
+}
