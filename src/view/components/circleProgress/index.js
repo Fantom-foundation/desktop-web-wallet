@@ -33,15 +33,15 @@ export default class CircleProgress extends React.Component {
   render() {
     const { data } = this.state;
     return (
-      <div>
-        <svg viewBox="0 0 400 400" width="100%" height="100%">
+      <div className="mx-auto" style={{ maxWidth: 139 }}>
+        <svg viewBox="0 0 300 300" width="100%" height="100%">
           <VictoryPie
             standalone={false}
             animate={{ duration: 1000 }}
-            width={400}
-            height={400}
+            width={300}
+            height={300}
             data={data}
-            innerRadius={120}
+            innerRadius={135}
             labels={() => null}
             style={{
               data: {
@@ -54,10 +54,10 @@ export default class CircleProgress extends React.Component {
           <VictoryPie
             standalone={false}
             animate={{ duration: 1000 }}
-            width={400}
-            height={400}
+            width={300}
+            height={300}
             data={data}
-            innerRadius={120}
+            innerRadius={135}
             cornerRadius={25}
             labels={() => null}
             style={{
@@ -75,8 +75,8 @@ export default class CircleProgress extends React.Component {
                 <VictoryLabel
                   textAnchor="middle"
                   verticalAnchor="middle"
-                  x={200}
-                  y={200}
+                  x={150}
+                  y={150}
                   text={`${Math.round(newProps.percent)}%`}
                   style={{ fontSize: 45 }}
                 />
