@@ -14,7 +14,6 @@ import { AccountCreateInfo } from '~/view/pages/createWallet/mnemonicPhrase';
 import { AccountCreateSuccess } from '~/view/pages/account/AccountCreateSuccess';
 import { AccountRestoreRouter } from '~/view/pages/account/AccountRestoreRouter';
 import { AccountRestoreCredentials } from '~/view/pages/account/AccountRestoreCredentials';
-import detectBrowserLanguage from 'detect-browser-language'
 
 import AccessWallet from '~/view/pages/accessWallet';
 

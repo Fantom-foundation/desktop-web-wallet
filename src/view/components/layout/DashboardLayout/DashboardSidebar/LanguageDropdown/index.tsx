@@ -11,6 +11,7 @@ import LanguageIcon from 'src/images/icons/language-icon.svg';
 import i18n from "i18next";
 import detectBrowserLanguage from 'detect-browser-language'
 import { useTranslation } from 'react-i18next';
+import OsLocale  from 'os-locale';
 
 
 const languages = [{ id: 'bl',name: 'Browser' },{ id: 'en',name: 'English' }, { id: 'kor', name: '한국어' }, { id: 'chi', name: '简体中文' }];
@@ -31,9 +32,7 @@ const getCurrentLang = useCallback(() => {
   }
 }, [])
 
-const lang = detectBrowserLanguage()
 
-console.log(lang, '*****lang')
 
   useEffect(() => {
     getCurrentLang()
@@ -61,6 +60,7 @@ console.log(lang, '*****lang')
               if(id === 'bl'){
                 let currLang = 'English'
                   const res = detectBrowserLanguage()
+                // OsLocale().then(res => {
                   const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
                   const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
                   if (isChinese) {
@@ -73,6 +73,7 @@ console.log(lang, '*****lang')
                   }
                   setCurrentLanguage(currLang)
                   localStorage.setItem('isManualLang', '')
+                // })
                
 
               } else {

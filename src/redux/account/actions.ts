@@ -90,10 +90,11 @@ export const accountGetBalance = (id: IAccount['publicAddress']) => {
   };
 };
 
-export const accountRemoveAction = (publicAddress: IAccount['publicAddress']) => {
+export const accountRemoveAction = (publicAddress: IAccount['publicAddress'], cb) => {
   return {
     type: ACCOUNT_ACTIONS.REMOVE_ACCOUNT,
     publicAddress,
+    cb,
   };
 };
 

@@ -6,6 +6,11 @@ import { selectTransactions } from './selectors';
 import { getTransactions, getFTMPrice } from './api';
 
 function* getList({ address }: ReturnType<typeof transactionsGetList>) {
+  
+  const res = localStorage.getItem("isModalOpen")
+  if(res === 'true'){
+    return;
+  }
   const { page, list, address:prevAddress } = yield select(selectTransactions);
   const updatedList = (prevAddress !== address ? [] : list)
   yield put(transactionsSet({ error: null, is_loading: true, list: updatedList, address }));

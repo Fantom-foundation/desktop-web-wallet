@@ -10,6 +10,7 @@ import { koreanTranslation } from './utility/translations/korean';
 import { chineseTranslation } from './utility/translations/chinese';
 import {} from 'update-electron-app'
 import detectBrowserLanguage from 'detect-browser-language'
+import OsLocale  from 'os-locale';
 
 
 
@@ -20,18 +21,23 @@ const setCurrentLang = () => {
 
     if(isChecked !== 'true'){
       const res = detectBrowserLanguage()
-      const isEnglish = res.toLowerCase().substring(0, 2) === 'en'
+      // OsLocale().then(res => {
+        const isEnglish = res.toLowerCase().substring(0, 2) === 'en'
         const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
         const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
         if (isChinese) locale = 'chi'
         if(isEnglish) locale = 'en'
         if(isKorean) locale = 'kor'
         localStorage.setItem('language', locale)
+
+      // })
+  
     
 
     }
-
     return locale
+
+
 }
 
 

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-multi-comp */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useCallback, useState, useEffect } from 'react';
 import { Container, Row, Col, Card } from 'reactstrap';
@@ -19,7 +20,7 @@ import { geolocated } from "react-geolocated";
 import detectBrowserLanguage from 'detect-browser-language'
 
 import { Layout } from '~/view/components/layout/Layout';
-
+import i18n from "i18next";
 import { Link } from 'react-router-dom';
 import KeyIcon from '../../../../images/icons/key.png';
 import WalletIcon from '../../../../images/icons/wallet.png';
@@ -54,29 +55,35 @@ const AccountListUnconnected: FC<IProps> = ({
     [push]
   );
 
-  const setSystemLang = () => {
-    const isChecked = localStorage.getItem('isManualLang')
-    if(isChecked !== 'true'){
-      const res = detectBrowserLanguage()
-        let locale = 'en'
+  console.log(i18n.language, '*******asd')
+
+  const getBrowserLang = () => {
+    const res = detectBrowserLanguage()
+        let locale = localStorage.getItem('language')
+        const isEnglish = res.toLowerCase().substring(0, 2) === 'en'
         const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
         const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
         if (isChinese) locale = 'chi'
         if(isKorean) locale = 'kor'
-        localStorage.setItem('language', locale)
-    
-
-    }
+        if(isEnglish) locale = 'en'
+        return locale
 
   }
-  // setSystemLang()
+
+  const setSystemLang = useCallback(() => {
+    const isChecked = localStorage.getItem('isManualLang')
+    if(isChecked !== 'true'){
+      const locale = getBrowserLang()
+        localStorage.setItem('language', locale ||'')
+    }
+  }, [])
 
 
 
   useEffect(() => {
     setSystemLang()
    
-  }, []);
+  }, [setSystemLang]);
 
   const goToRoute = type => {
     if(type === 'create'){
@@ -88,49 +95,39 @@ const AccountListUnconnected: FC<IProps> = ({
   const { t } = useTranslation();
   console.log(list, '******list')
 
-  return (
-    <Layout>
-      <div className={styles.banner}>
-        <Container>
-          <h1 className={styles.homeTitle}>{t('welcomeFantomWallet')}</h1>
-          <h3 className="font-weight-semi-bold">
-            {t('sendReceiveStakeFTM')}
-          </h3>
-        </Container>
-      </div>
-      {!!list && Object.values(list).length > 0 ? (
-        <div className={styles.homeWrapper}>
-          <Container className={styles.container}>
-            <Row>
-              {Object.values(list).length > 0 &&
-                Object.values(list).map(account => {
-                  if(account.publicAddress){
-                    return (
-                      <Col
-                        lg={6}
-                        md={6}
-                        className={styles.marginBottom}
-                        onClick={() => onAccountSelect(account.publicAddress)}
-                      >
-                        <AddressBalanceCard
-                          address={account.publicAddress}
-                        />
-                      </Col>
-                    );
-                  }
-                  return null
-                  
-                })}
-              <Col lg={6} md={6} className={styles.marginBottom}>
-                <AddressBalanceCard
-                  addNew
-                />
-              </Col>
-            </Row>
-          </Container>
-        </div>
-      ) : (
-        <div className={styles.homeWrapper}>
+  const setAppLanguage = lang => {
+    // const currLang = localStorage.getItem('language') || i18n.language 
+    let currLang = ''
+    if(lang === 'browser'){
+      const res = getBrowserLang() || ''
+      currLang = res
+      
+      localStorage.setItem('isManualLang', '')
+
+
+    } else if(lang === 'en'){
+        currLang = 'en'
+      } else if (lang === 'kor'){
+        currLang = 'kor'
+
+      } else if(lang === 'chi'){
+        currLang = 'chi'
+
+      }
+
+      if(lang !== 'browser'){
+        localStorage.setItem('isManualLang', 'true')
+      }
+    i18n.changeLanguage(currLang);
+    localStorage.setItem('language', currLang)  
+
+  }
+
+  const renderCreateAccessCards = (isActive) => {
+    if(!isActive){
+      return null;
+    }
+    return (<div className={styles.homeWrapper}>
           <Container>
             <div className={styles.desktopView}>
               <Row>
@@ -225,8 +222,64 @@ const AccountListUnconnected: FC<IProps> = ({
               </Row>
             </div>
           </Container>
+        </div>)
+  }
+  let isAvailAcc = false;
+
+
+  return (
+    <Layout>
+      <div className={styles.banner}>
+        <Container>
+          <h1 className={styles.homeTitle}>{t('welcomeFantomWallet')}</h1>
+          <h3>
+            {t('sendReceiveStakeFTM')}
+          </h3>
+          <h3>
+            <span className={classnames("pointer")} onClick={() => setAppLanguage('browser')}>{t("browser")}</span>
+            {" "}
+            <span className={classnames("pointer",{['text-underline']:i18n.language === 'en' })} onClick={() => setAppLanguage('en')}>English</span>
+            {" "} 
+            <span className={classnames("pointer",{['text-underline']:i18n.language === 'kor' })} onClick={() => setAppLanguage('kor')}>한국어</span>
+            {" "}
+            <span className={classnames("pointer",{['text-underline']:i18n.language === 'chi' })} onClick={() => setAppLanguage('chi')}>简体中文</span> 
+          </h3>
+        </Container>
+      </div>
+      {!!list && Object.values(list).length > 0 && (
+        <div className={styles.homeWrapper}>
+          <Container className={styles.container}>
+            <Row>
+              {Object.values(list).length > 0 &&
+                Object.values(list).map(account => {
+                  if(account.publicAddress){
+                    isAvailAcc = true
+                    return (
+                      <Col
+                        lg={6}
+                        md={6}
+                        className={styles.marginBottom}
+                        onClick={() => onAccountSelect(account.publicAddress)}
+                      >
+                        <AddressBalanceCard
+                          address={account.publicAddress}
+                        />
+                      </Col>
+                    );
+                  }
+                  return null
+                  
+                })}
+              {isAvailAcc && <Col lg={6} md={6} className={styles.marginBottom}>
+                <AddressBalanceCard
+                  addNew
+                />
+              </Col> }
+            </Row>
+          </Container>
         </div>
       )}
+      {renderCreateAccessCards(!isAvailAcc)}
     </Layout>
     // </Layout>
     // <div>

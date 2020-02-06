@@ -153,9 +153,11 @@
         "to": "static"
       }
     ],
-    "extraResources": [{
-      "from": "build/static",
-      "to": "static"
-    }]
+    "extraResources": [
+      {
+        "from": "build/static",
+        "to": "static"
+      }
+    ]
   }
 }

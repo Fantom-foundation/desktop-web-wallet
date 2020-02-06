@@ -63,6 +63,7 @@ import { path } from 'ramda';
 import axios from 'axios';
 import { getTransactions } from '../transactions/api';
 import fileDownload from 'js-file-download';
+import { createBrotliCompress } from 'zlib';
 
 function* createSetCredentials({
   create,
@@ -287,11 +288,18 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
       return;
     }
 
+    const res = localStorage.getItem("isModalOpen")
+    if(res === 'true'){
+      return;
+    }
+
+
     yield put(
       accountSetAccount(id, {
         is_loading_balance: true,
       })
     );
+
 
     // const result = yield call([Fantom, Fantom.getBalance], id);
     const { error, data } = yield call(getTransactions, id, 0, 10);
@@ -631,7 +639,7 @@ function* reconnectProvider() {
 }
 
 
-function* removeAccount({ publicAddress }: ReturnType<typeof accountRemoveAction>) {
+function* removeAccount({ publicAddress, cb }: ReturnType<typeof accountRemoveAction>) {
   // yield delay(300);
   try {
     // const fee: string = yield call(Fantom.estimateFee, {
@@ -654,12 +662,14 @@ function* removeAccount({ publicAddress }: ReturnType<typeof accountRemoveAction
           accountSetList({...prevListObj})
         );
       } 
-      yield delay(3000);
+      yield delay(2000);
+      cb(true)
       yield put(push('/'));
 
 
   } catch (e) {
     console.log(e);
+    cb(false)
     yield put(push('/'));
   }
 }

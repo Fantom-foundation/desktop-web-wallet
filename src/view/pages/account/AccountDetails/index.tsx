@@ -119,7 +119,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
       // if(transactions.list && transactions.list.length > 0){
       //   setCurrentTransactions(transactions.list)
       // }
-    }, 1000);
+    }, timeOutInterval);
       // if(currentId === id){
       //   setCurrentTransactions(transactions.list || [])
       // }

@@ -9,7 +9,7 @@ import { CopyIcon, QrIcon ,DownloadCircleIconGrey} from 'src/view/components/svg
 import { DashboardModal } from '../../Modal';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
 import { copyToClipboard } from '~/utility/clipboard';
-import {  RouteComponentProps } from 'react-router';
+import {  RouteComponentProps, withRouter } from 'react-router';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
@@ -63,24 +63,35 @@ const DashboardLayout: FC<IProps> = ({
 
     }
 
-    const handleLogout = () => {
 
-      // history.push('/')
+    const handleLogout = () => {
       setLogoutModal(true)
+      localStorage.setItem("isModalOpen", 'true')
 
     }
 
     const handleWalletLogout = () => {
-      console.log(history, '***history')
-      //  history.push('/')
-       accountRemoveAction(account && account.publicAddress)
-       setLogoutModal(false)
+       accountRemoveAction(account && account.publicAddress, (res) => {
+        setLogoutModal(false)
+        localStorage.setItem("isModalOpen", 'false')
+
+       })
+
+       setTimeout(() => {
+        history.push('/')
+      }, 2000);
        
 
     }
+
+    useEffect(() => {
+      localStorage.setItem("isModalOpen", 'false')
+    }, []);
    
     const onClose = () => {
       setLogoutModal(false)
+      localStorage.setItem("isModalOpen", 'false')
+
 
     }
     const renderModal = () => {
@@ -183,11 +194,13 @@ const DashboardLayout: FC<IProps> = ({
     </>
   );
 };
+const newComp = withRouter(DashboardLayout)
 
 const DashboardLayoutRouter = connect(
   mapStateToProps,
   mapDispatchToProps
-)(DashboardLayout);
+)(newComp);
+
 
 export default DashboardLayoutRouter;
 
