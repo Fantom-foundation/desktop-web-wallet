@@ -5,10 +5,11 @@ import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 import classnames from 'classnames';
 
 import SearchIcon from '../../../images/dashboard-icons/Archive/search.svg';
-import TokenList from './component/tokenList';
 import SupplyBalance from './component/supplyBalance';
 import Collateral from './component/collateral';
 import BorrowBalance from './component/borrowBalance';
+import BalanceList from './component/tokenList/balanceList';
+import BorrowList from './component/tokenList/borrowList';
 
 export default () => (
   <div>
@@ -34,8 +35,10 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                Asset
-                <ArrowUpDownIcon />
+                <div className={styles.tableHeading}>
+                  Asset
+                  <ArrowUpDownIcon />
+                </div>
               </th>
               <th
                 className={classnames({
@@ -43,8 +46,10 @@ export default () => (
                   [styles.down]: true,
                 })}
               >
-                APR
-                <ArrowUpDownIcon />
+                <div className={styles.tableHeading}>
+                  APR
+                  <ArrowUpDownIcon />
+                </div>
               </th>
               <th
                 className={classnames({
@@ -52,8 +57,10 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                Balance
-                <ArrowUpDownIcon />
+                <div className={styles.tableHeading}>
+                  Balance
+                  <ArrowUpDownIcon />
+                </div>
               </th>
               <th
                 className={classnames({
@@ -61,10 +68,12 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                Supply
+                <div className={styles.tableHeading}>Supply</div>
               </th>
             </thead>
-            <tbody></tbody>
+            <tbody>
+              <BalanceList />
+            </tbody>
           </Table>
         </Card>
       </Col>
@@ -78,11 +87,13 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                <span>
-                  <img src={SearchIcon} width="30" alt="" />
-                </span>
-                Asset
-                <ArrowUpDownIcon />
+                <div className={styles.tableHeading}>
+                  <span>
+                    <img src={SearchIcon} width="30" alt="" />
+                  </span>
+                  Asset
+                  <ArrowUpDownIcon />
+                </div>
               </th>
               <th
                 className={classnames({
@@ -90,8 +101,10 @@ export default () => (
                   [styles.down]: true,
                 })}
               >
-                Borrow APR
-                <ArrowUpDownIcon />
+                <div className={styles.tableHeading}>
+                  Borrow APR
+                  <ArrowUpDownIcon />
+                </div>
               </th>
               <th
                 className={classnames({
@@ -99,8 +112,10 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                Borrowed
-                <ArrowUpDownIcon />
+                <div className={styles.tableHeading}>
+                  Borrowed
+                  <ArrowUpDownIcon />
+                </div>
               </th>
               <th
                 className={classnames({
@@ -108,12 +123,14 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                % of limit
-                <ArrowUpDownIcon />
+                <div className={styles.tableHeading}>
+                  % of limit
+                  <ArrowUpDownIcon />
+                </div>
               </th>
             </thead>
             <tbody>
-              <TokenList />
+              <BorrowList />
             </tbody>
           </Table>
         </Card>

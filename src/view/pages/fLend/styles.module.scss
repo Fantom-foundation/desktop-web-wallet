@@ -54,7 +54,7 @@
       right: 10px;
     }
     border-color: rgba(map-get($color, dark-grey-blue), 0.1);
-    vertical-align: middle;
+    vertical-align: middle !important;
     position: relative;
     img {
       width: 18px;
@@ -99,6 +99,15 @@
       polygon:last-child {
         color: map-get($color, Primary-Main);
       }
+    }
+    &:not(:first-child) {
+      .tableHeading {
+        justify-content: flex-end;
+      }
+    }
+    .tableHeading {
+      display: flex;
+      align-items: center;
     }
   }
 }
