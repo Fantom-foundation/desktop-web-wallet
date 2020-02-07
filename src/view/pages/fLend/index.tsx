@@ -3,79 +3,24 @@ import { Row, Col, Card, Table } from 'reactstrap';
 import styles from './styles.module.scss';
 import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 import classnames from 'classnames';
-import fantomActive from '../../../images/dashboard-icons/Archive/fantom-active.svg';
+
 import SearchIcon from '../../../images/dashboard-icons/Archive/search.svg';
-import CircleProgress from '../../components/circleProgress';
+import TokenList from './component/tokenList';
+import SupplyBalance from './component/supplyBalance';
+import Collateral from './component/collateral';
+import BorrowBalance from './component/borrowBalance';
 
 export default () => (
   <div>
     <Row>
       <Col md={6} lg={4} className={classnames('mb-lg-6 mb-4', styles.order1)}>
-        <Card className="h-100">
-          <p className="fcard-label mb-0">
-            Supply balance
-            <span className={`${styles.infoIcon} ml-2`}>
-              <i className="fas fa-info-circle" />
-              {/* <div className={styles.tooltipWrapper}>
-                <p className="mb-0">
-                  The keystore file will contain your encrypted private key.
-                  <br />
-                  You’ll need the password to decrypt it. Don’t lose them!
-                </p>
-              </div> */}
-            </span>
-          </p>
-          <div className={styles.balanceCard}>
-            <div>
-              <h3 className="pt-3">0 fUSD</h3>
-              <h4 className="opacity-5 mb-3 font-weight-semi-bold">Earning</h4>
-            </div>
-            <div>
-              <h3 className="pt-3">500.00 fUSD</h3>
-              <h4 className="opacity-5 mb-3 font-weight-semi-bold">
-                Supply balance
-              </h4>
-            </div>
-          </div>
-        </Card>
+        <SupplyBalance />
       </Col>
       <Col md={12} lg={4} className={classnames('mb-lg-6 mb-4', styles.order3)}>
-        <Card className="h-100">
-          <p className="fcard-label mb-0">
-            Collateral
-            <span className={`${styles.infoIcon} ml-2`}>
-              <i className="fas fa-info-circle" />
-            </span>
-          </p>
-          {/* <div className={styles.circle}>
-            <h3>50%</h3>
-          </div> */}
-          <CircleProgress />
-        </Card>
+        <Collateral />
       </Col>
       <Col md={6} lg={4} className={classnames('mb-lg-6 mb-4', styles.order2)}>
-        <Card className="h-100">
-          <p className="fcard-label mb-0">
-            Borrow balance
-            <span className={`${styles.infoIcon} ml-2`}>
-              <i className="fas fa-info-circle" />
-            </span>
-          </p>
-          <div className={styles.balanceCard}>
-            <div>
-              <h3 className="pt-3">500.00 fUSD </h3>
-              <h4 className="opacity-5 mb-3 font-weight-semi-bold">
-                Borrow limit
-              </h4>
-            </div>
-            <div>
-              <h3 className="pt-3">0 fUSD</h3>
-              <h4 className="opacity-5 mb-3 font-weight-semi-bold">
-                Borrow balance
-              </h4>
-            </div>
-          </div>
-        </Card>
+        <BorrowBalance />
       </Col>
     </Row>
     <Row>
@@ -119,42 +64,7 @@ export default () => (
                 Supply
               </th>
             </thead>
-            <tbody>
-              <tr>
-                <td>
-                  <img src={fantomActive} className="mr-3" alt="" />
-                  Fantom
-                </td>
-                <td>5.70%</td>
-                <td>
-                  <p className="mb-0">150,615.22 FTM</p>
-                  <h5 className="mb-0 text-black opacity-6">1,506.15 fUSD</h5>
-                </td>
-                <td>
-                  <label className={styles.switch}>
-                    <input type="checkbox" />
-                    <span className={styles.slider}></span>
-                  </label>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <img src={fantomActive} className="mr-3" alt="" />
-                  CSDT
-                </td>
-                <td>5.70%</td>
-                <td>
-                  <p className="mb-0">500 CSDT</p>
-                  <h5 className="mb-0 text-black opacity-6">500 fUSD</h5>
-                </td>
-                <td>
-                  <label className={styles.switch}>
-                    <input type="checkbox" />
-                    <span className={styles.slider}></span>
-                  </label>
-                </td>
-              </tr>
-            </tbody>
+            <tbody></tbody>
           </Table>
         </Card>
       </Col>
@@ -203,20 +113,7 @@ export default () => (
               </th>
             </thead>
             <tbody>
-              <tr>
-                <td>
-                  <span
-                    className={classnames(styles.orange, styles.circleShape)}
-                  />
-                  <span className={styles.leftSpace}>iBTC</span>
-                </td>
-                <td>5.70%</td>
-                <td>
-                  <p className="mb-0">0 iBTC</p>
-                  <h5 className="mb-0 text-black opacity-6">0 fUSD</h5>
-                </td>
-                <td>0%</td>
-              </tr>
+              <TokenList />
             </tbody>
           </Table>
         </Card>
