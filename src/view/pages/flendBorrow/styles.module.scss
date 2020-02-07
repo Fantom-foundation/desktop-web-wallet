@@ -1,5 +1,57 @@
 @import '~/styles/variables.scss';
 
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  i {
+    position: absolute;
+    left: 40px;
+    top: 45px;
+    font-size: 22px;
+  }
+}
+.search {
+  position: relative;
+  margin: 40px;
+  input {
+    background: #f8f9fa;
+    border-color: #f8f9fa;
+    position: relative;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2b3954;
+    height: 40px;
+    box-shadow: none;
+    &::-webkit-input-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &:-moz-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &::-moz-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &:-ms-input-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+  }
+  img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+  }
+}
+
 .tokenlistBtn {
   width: 100%;
   border: 0;
@@ -28,5 +80,100 @@
     top: 50%;
     transform: translateY(-50%);
     font-size: 22px;
+  }
+}
+.table {
+  @media (max-width: $tablet) {
+    margin-bottom: 0px;
+  }
+  .tableHead {
+    @media (max-width: $tablet) {
+      display: none;
+    }
+  }
+  th,
+  td {
+    padding: {
+      left: 10px;
+      right: 10px;
+    }
+    border-color: rgba(map-get($color, dark-grey-blue), 0.1);
+    vertical-align: middle !important;
+    position: relative;
+    padding: 25px 40px;
+    img {
+      width: 18px;
+      height: 18px;
+      margin-right: 10px;
+    }
+    &:not(:first-child) {
+      text-align: right;
+    }
+  }
+  td {
+    color: map-get($color, dark-grey-blue);
+    font-weight: 500;
+    img {
+      width: 40px;
+      height: 40px;
+      border-radius: 100%;
+    }
+    p {
+      font-size: 16px;
+    }
+    h5 {
+      font-size: 14px;
+    }
+  }
+  th {
+    border: 0 !important;
+    font-size: 16px;
+    font-weight: 500;
+    color: rgba(map-get($color, dark-grey-blue), 0.5);
+    svg {
+      margin-left: 10px;
+      width: 13px;
+      height: 13px;
+    }
+    &.up {
+      polygon:first-child {
+        color: map-get($color, Primary-Main);
+      }
+    }
+    &.down {
+      polygon:last-child {
+        color: map-get($color, Primary-Main);
+      }
+    }
+    &:not(:first-child) {
+      .tableHeading {
+        justify-content: flex-end;
+      }
+    }
+    .tableHeading {
+      display: flex;
+      align-items: center;
+    }
+  }
+}
+
+.modal {
+  @media (min-width: $tablet) {
+    max-width: 570px;
+  }
+  > div {
+    border-radius: 20px;
+    border: 0;
+    overflow: hidden;
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+    @media (min-width: $tablet) {
+      min-height: 375px;
+    }
+  }
+  .body {
+    padding: 40px 0;
+    @media (max-width: $tablet) {
+      padding: 35px;
+    }
   }
 }
