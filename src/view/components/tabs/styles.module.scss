@@ -1,0 +1,28 @@
+@import '~/styles/variables.scss';
+.tabWtaper {
+  display: flex;
+  border-radius: 20px 20px 0 0;
+  overflow: hidden;
+}
+.tabBtn {
+  flex-grow: 1;
+  background: #fff;
+  height: 85px;
+  border: 0;
+  cursor: pointer;
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.29;
+  color: #2b3954;
+  outline: none !important;
+  &:not(.active) {
+    color: rgba(#2b3954, 0.3);
+    box-shadow: inset -3px 3px 10px 0 rgba(0, 0, 0, 0.05);
+    &:last-child {
+      box-shadow: inset 3px 3px 10px 0 rgba(0, 0, 0, 0.05);
+    }
+  }
+}
+.contentWtaper {
+  padding: 20px 30px;
+}
