@@ -1,9 +1,20 @@
 /* eslint-disable react/no-multi-comp */
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './styles.module.scss';
-import { Row, Col, Card } from 'reactstrap';
-import CircleLineProgress from '../../components/circleLineProgress';
-import Tabs from '../../components/tabs';
+import {
+  Row,
+  Col,
+  Card,
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+} from 'reactstrap';
+
+import CircleLineProgress from 'src/view/components/circleLineProgress';
+import Tabs from 'src/view/components/tabs';
+import TokenRange from 'src/view/components/tokenRange';
 
 const overviewData = [
   {
@@ -32,6 +43,26 @@ const overviewData = [
   },
 ];
 
+const TokenListModal = () => {
+  const [modal, setModal] = useState(false);
+
+  const toggle = () => setModal(!modal);
+  return (
+    <>
+      <button type="button" className={styles.tokenlistBtn} onClick={toggle}>
+        <div style={{ background: '#f5a623' }} className={styles.circle} />
+        iBTC
+        <i className="fas fa-caret-right" />
+      </button>
+      <Modal isOpen={modal} toggle={toggle} centered>
+        <ModalBody>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
+        </ModalBody>
+      </Modal>
+    </>
+  );
+};
+
 const Borrow = () => (
   <div>
     <CircleLineProgress
@@ -40,6 +71,17 @@ const Borrow = () => (
         { text: 'Confirm loan', active: false },
       ]}
     />
+    <h4>I want to borrow</h4>
+    <TokenListModal />
+    <div className="text-right">
+      <h4 className="opacity-5">Borrow balance</h4>
+      <h4>500 fUSD</h4>
+    </div>
+    <TokenRange />
+    <div className="text-right">
+      <h4 className="opacity-5">Borrow balance</h4>
+      <h4>500 fUSD</h4>
+    </div>
   </div>
 );
 const Repay = () => (
@@ -50,6 +92,17 @@ const Repay = () => (
         { text: 'Confirm repayment', active: false },
       ]}
     />
+    <h4>I want to borrow</h4>
+    <TokenListModal />
+    <div className="text-right">
+      <h4 className="opacity-5">Borrow balance</h4>
+      <h4>500 fUSD</h4>
+    </div>
+    <TokenRange />
+    <div className="text-right">
+      <h4 className="opacity-5">Borrow balance</h4>
+      <h4>500 fUSD</h4>
+    </div>
   </div>
 );
 

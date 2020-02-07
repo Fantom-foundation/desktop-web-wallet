@@ -1,1 +1,32 @@
 @import '~/styles/variables.scss';
+
+.tokenlistBtn {
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 8px 16px;
+  outline: none !important;
+  margin-bottom: 12px;
+  transition: 0.2s;
+  &:hover,
+  &:active {
+    background-color: darken(#f8f9fa, 10%);
+  }
+  .circle {
+    width: 24px;
+    height: 24px;
+    margin-right: 18px;
+    border-radius: 100%;
+  }
+  i {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+  }
+}
