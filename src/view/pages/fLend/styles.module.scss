@@ -49,10 +49,7 @@
   }
   th,
   td {
-    padding: {
-      left: 10px;
-      right: 10px;
-    }
+    padding: 17px 10px;
     border-color: rgba(map-get($color, dark-grey-blue), 0.1);
     vertical-align: middle !important;
     position: relative;
@@ -110,4 +107,8 @@
       align-items: center;
     }
   }
+}
+.card {
+  height: 532px;
+  overflow: auto;
 }

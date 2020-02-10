@@ -10,6 +10,10 @@ import Collateral from './component/collateral';
 import BorrowBalance from './component/borrowBalance';
 import BalanceList from './component/tokenList/balanceList';
 import BorrowList from './component/tokenList/borrowList';
+import SupplyBalanceModal from 'src/view/components/Modal/ModalContent/SupplyBalance';
+import BorrowBalanceModal from 'src/view/components/Modal/ModalContent/BorrowBalance';
+import CollateralModal from 'src/view/components/Modal/ModalContent/Collateral';
+import CollateralError from 'src/view/components/Modal/ModalContent/CollateralError';
 
 export default () => (
   <div>
@@ -26,7 +30,7 @@ export default () => (
     </Row>
     <Row>
       <Col md={12} lg={6} className="mb-6">
-        <Card>
+        <Card className={styles.card}>
           <Table className={styles.table}>
             <thead className={styles.tableHead}>
               <th
@@ -78,7 +82,7 @@ export default () => (
         </Card>
       </Col>
       <Col md={12} lg={6} className="mb-6">
-        <Card>
+        <Card className={styles.card}>
           <Table className={styles.table}>
             <thead className={styles.tableHead}>
               <th
@@ -136,5 +140,9 @@ export default () => (
         </Card>
       </Col>
     </Row>
+    <SupplyBalanceModal isOpen={false} />
+    <BorrowBalanceModal isOpen={false} />
+    <CollateralModal isOpen={false} />
+    <CollateralError isOpen={false} />
   </div>
 );

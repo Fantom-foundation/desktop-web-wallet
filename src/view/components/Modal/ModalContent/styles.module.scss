@@ -1,0 +1,62 @@
+@import '~/styles/variables.scss';
+
+.infoModal {
+  max-width: 656px;
+
+  @media (max-width: $desktop) {
+    max-width: 707px;
+  }
+  > div {
+    border-radius: 20px;
+  }
+  .modalBody {
+    padding: 40px 60px;
+    @media (max-width: $desktop) {
+      padding: 40px 65px;
+    }
+    h4 {
+      font-weight: 400;
+      line-height: 21px;
+    }
+  }
+  h2 {
+    position: relative;
+  }
+}
+.close {
+  position: absolute;
+  top: 9%;
+  right: 20px;
+  line-height: 1;
+  -webkit-transform: translateY(-50%);
+  transform: translateY(-50%);
+  font-size: 22px;
+  font-weight: 600;
+  width: 30px;
+}
+
+.collateralErrorModal {
+  max-width: 570px;
+
+  @media (max-width: $desktop) {
+    max-width: 707px;
+  }
+  > div {
+    border-radius: 20px;
+  }
+  .modalBody {
+    padding: 40px 60px;
+    @media (max-width: $desktop) {
+      padding: 40px 65px;
+    }
+    h5 {
+      font-size: 16px;
+      line-height: 21px;
+    }
+  }
+  h2 {
+    position: relative;
+    max-width: 470px;
+    margin: 0 auto;
+  }
+}
