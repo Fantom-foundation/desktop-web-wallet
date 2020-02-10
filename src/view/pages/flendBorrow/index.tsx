@@ -80,12 +80,12 @@ const Borrow = () => (
     <TokenListModalComponent />
     <div className="text-right">
       <h4 className="opacity-5">Borrow balance</h4>
-      <h4>500 fUSD</h4>
+      <h4 className="font-weight-semi-bold">500 fUSD</h4>
     </div>
     <TokenRange />
     <div className="text-right">
       <h4 className="opacity-5">Borrow balance</h4>
-      <h4>500 fUSD</h4>
+      <h4 className="font-weight-semi-bold">500 fUSD</h4>
     </div>
     <div>
       <div className="text-center mb-5">
@@ -141,12 +141,12 @@ const Repay = () => (
     <TokenListModalComponent />
     <div className="text-right">
       <h4 className="opacity-5">Borrow balance</h4>
-      <h4>500 fUSD</h4>
+      <h4 className="font-weight-semi-bold">500 fUSD</h4>
     </div>
     <TokenRange />
     <div className="text-right">
       <h4 className="opacity-5">Borrow balance</h4>
-      <h4>500 fUSD</h4>
+      <h4 className="font-weight-semi-bold">500 fUSD</h4>
     </div>
     <div>
       <div className="text-center mb-5">
