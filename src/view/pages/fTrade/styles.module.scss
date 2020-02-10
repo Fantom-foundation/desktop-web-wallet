@@ -58,3 +58,14 @@
     }
   }
 }
+.buyTable {
+  td,
+  th {
+    border-top: 0;
+    padding: 25px 40px !important;
+  }
+}
+.buyTableWrapper {
+  max-height: 450px;
+  overflow: auto;
+}

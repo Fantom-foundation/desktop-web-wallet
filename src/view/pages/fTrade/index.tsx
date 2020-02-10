@@ -125,8 +125,8 @@ export default () => (
             </h2>
           </div>
           <SearchInput />
-          <div>
-            <Table className="tokenTable">
+          <div className={styles.buyTableWrapper}>
+            <Table className={classnames('tokenTable', styles.buyTable)}>
               <BuyList />
             </Table>
           </div>
