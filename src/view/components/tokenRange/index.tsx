@@ -5,6 +5,7 @@ import convertIcon from 'src/images/icons/convert.svg';
 
 export default () => {
   const [range, setRange] = useState(200);
+  const rangeFill = (range - 100) / 4;
   return (
     <div className={styles.root}>
       <div className={styles.valueWrapper}>
@@ -23,7 +24,10 @@ export default () => {
         <div className={styles.rangeInputWrapper}>
           <div className={styles.mainBar} />
           <div
-            style={{ width: `${(range - 100) / 4}%` }}
+            style={{
+              width: `${rangeFill}%`,
+              borderRadius: (rangeFill > 97 && '12px') || '12px 0 0 12px',
+            }}
             className={styles.fillBar}
           />
           <input
