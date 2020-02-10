@@ -20,6 +20,7 @@ import SearchTokenList from 'src/view/pages/fLend/component/tokenList/searchToke
 import CircleLineProgress from 'src/view/components/circleLineProgress';
 import Tabs from 'src/view/components/tabs';
 import TokenRange from 'src/view/components/tokenRange';
+import TokenListModal from 'src/view/pages/tokenListModal';
 
 const overviewData = [
   {
@@ -48,9 +49,8 @@ const overviewData = [
   },
 ];
 
-const TokenListModal = () => {
+const TokenListModalComponent = () => {
   const [modal, setModal] = useState(false);
-
   const toggle = () => setModal(!modal);
   return (
     <>
@@ -59,58 +59,7 @@ const TokenListModal = () => {
         iBTC
         <i className="fas fa-caret-right" />
       </button>
-      <Modal isOpen={false} toggle={toggle} centered className={styles.modal}>
-        <ModalBody className={styles.body}>
-          <div className={styles.header}>
-            <i className="fas fa-chevron-left"></i>
-            <h2>Tokens available for borrowing</h2>
-          </div>
-          <div className={styles.search}>
-            <Input type="search" name="email" placeholder="Search tokens" />
-            <img src={SearchIcon} />
-          </div>
-          <Table className={styles.table}>
-            <thead className={styles.tableHead}>
-              <th
-                className={classnames({
-                  [styles.up]: false,
-                  [styles.down]: false,
-                })}
-              >
-                <div className={styles.tableHeading}>
-                  Asset
-                  <ArrowUpDownIcon />
-                </div>
-              </th>
-              <th
-                className={classnames({
-                  [styles.up]: false,
-                  [styles.down]: true,
-                })}
-              >
-                <div className={styles.tableHeading}>
-                  Borrow APR
-                  <ArrowUpDownIcon />
-                </div>
-              </th>
-              <th
-                className={classnames({
-                  [styles.up]: false,
-                  [styles.down]: false,
-                })}
-              >
-                <div className={styles.tableHeading}>
-                  Price (fUSD)
-                  <ArrowUpDownIcon />
-                </div>
-              </th>
-            </thead>
-            <tbody>
-              <SearchTokenList />
-            </tbody>
-          </Table>
-        </ModalBody>
-      </Modal>
+      <TokenListModal toggle={toggle} isOpen={modal} />
     </>
   );
 };
@@ -124,7 +73,7 @@ const Borrow = () => (
       ]}
     />
     <h4>I want to borrow</h4>
-    <TokenListModal />
+    <TokenListModalComponent />
     <div className="text-right">
       <h4 className="opacity-5">Borrow balance</h4>
       <h4>500 fUSD</h4>
@@ -145,7 +94,8 @@ const Repay = () => (
       ]}
     />
     <h4>I want to borrow</h4>
-    <TokenListModal />
+
+    <TokenListModalComponent />
     <div className="text-right">
       <h4 className="opacity-5">Borrow balance</h4>
       <h4>500 fUSD</h4>
