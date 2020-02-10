@@ -6,6 +6,8 @@ import { push as historyPush, push } from 'connected-react-router';
 import { AccountDetails } from '~/view/pages/account/AccountDetails';
 import FLend from '~/view/pages/fLend';
 import FlendBorrow from '~/view/pages/flendBorrow';
+import DeFi from '~/view/pages/deFi';
+import FTrade from '~/view/pages/fTrade';
 import { connect } from 'react-redux';
 import { DashboardLayout } from '~/view/components/layout';
 import Send from '~/view/pages/dashboard/send';
@@ -68,6 +70,11 @@ const AccountRouterUnconnected: FC<IProps> = ({
             exact
             path={URLS.ACCOUNT.BASE(':id/f-lend-borrow')}
             component={FlendBorrow}
+          />
+          <Route
+            exact
+            path={URLS.ACCOUNT.BASE(':id/f-trade')}
+            component={FTrade}
           />
 
           <Route exact path={URLS.ACCOUNT.BASE(':id/send')} component={Send} />

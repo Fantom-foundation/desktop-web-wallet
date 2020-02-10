@@ -15,6 +15,10 @@
   &-topaz {
     color: map-get($color, topaz) !important;
   }
+  &-navy-blue {
+    color: map-get($color, navy-blue) !important;
+  }
+
   &-ellipsis {
     white-space: nowrap;
     overflow: hidden;
