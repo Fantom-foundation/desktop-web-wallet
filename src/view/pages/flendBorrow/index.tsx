@@ -84,12 +84,17 @@ const Borrow = () => (
     </div>
     <TokenRange />
     <div className="text-right">
-      <h4 className="opacity-5">Borrow balance</h4>
-      <h4 className="font-weight-semi-bold">500 fUSD</h4>
+      <h4 className="opacity-5">Target collateral ratio</h4>
+      <h4 className="font-weight-semi-bold">0%</h4>
     </div>
     <div>
       <div className="text-center mb-5">
-        <h2 className="mb-4">You are borrowing</h2>
+        <h2 className="mb-4 position-relative">
+          <button className={classnames(styles.backBtb, 'btn-icon')}>
+            <i className="fas fa-chevron-left" />
+          </button>
+          You are borrowing
+        </h2>
         <h1 className="text-navy-blue font-weight-semi-bold">
           0.05616425 iBTC
         </h1>
@@ -145,12 +150,17 @@ const Repay = () => (
     </div>
     <TokenRange />
     <div className="text-right">
-      <h4 className="opacity-5">Borrow balance</h4>
-      <h4 className="font-weight-semi-bold">500 fUSD</h4>
+      <h4 className="opacity-5">Target collateral ratio</h4>
+      <h4 className="font-weight-semi-bold">100%</h4>
     </div>
     <div>
       <div className="text-center mb-5">
-        <h2 className="mb-4">You are repaying</h2>
+        <h2 className="mb-4 position-relative">
+          <button className={classnames(styles.backBtb, 'btn-icon')}>
+            <i className="fas fa-chevron-left" />
+          </button>
+          You are repaying
+        </h2>
         <h1 className="text-navy-blue font-weight-semi-bold">
           0.05616425 iBTC
         </h1>
