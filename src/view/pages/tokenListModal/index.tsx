@@ -18,39 +18,41 @@ export default ({ isOpen = false, toggle }) => {
           <SearchInput />
           <Table className={styles.table}>
             <thead className={styles.tableHead}>
-              <th
-                className={classnames({
-                  [styles.up]: false,
-                  [styles.down]: false,
-                })}
-              >
-                <div className={styles.tableHeading}>
-                  Asset
-                  <ArrowUpDownIcon />
-                </div>
-              </th>
-              <th
-                className={classnames({
-                  [styles.up]: false,
-                  [styles.down]: true,
-                })}
-              >
-                <div className={styles.tableHeading}>
-                  Borrow APR
-                  <ArrowUpDownIcon />
-                </div>
-              </th>
-              <th
-                className={classnames({
-                  [styles.up]: false,
-                  [styles.down]: false,
-                })}
-              >
-                <div className={styles.tableHeading}>
-                  Price (fUSD)
-                  <ArrowUpDownIcon />
-                </div>
-              </th>
+              <tr>
+                <th
+                  className={classnames({
+                    [styles.up]: false,
+                    [styles.down]: false,
+                  })}
+                >
+                  <div className={styles.tableHeading}>
+                    Asset
+                    <ArrowUpDownIcon />
+                  </div>
+                </th>
+                <th
+                  className={classnames({
+                    [styles.up]: false,
+                    [styles.down]: true,
+                  })}
+                >
+                  <div className={styles.tableHeading}>
+                    Borrow APR
+                    <ArrowUpDownIcon />
+                  </div>
+                </th>
+                <th
+                  className={classnames({
+                    [styles.up]: false,
+                    [styles.down]: false,
+                  })}
+                >
+                  <div className={styles.tableHeading}>
+                    Price (fUSD)
+                    <ArrowUpDownIcon />
+                  </div>
+                </th>
+              </tr>
             </thead>
             <tbody>
               <SearchTokenList />
