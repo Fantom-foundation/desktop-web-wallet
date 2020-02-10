@@ -1,14 +1,17 @@
 @import '~/styles/variables.scss';
 
 .header {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  i {
-    position: absolute;
-    left: 40px;
-    top: 45px;
-    font-size: 22px;
+  h2 {
+    position: relative;
+    text-align: center;
+    margin: 0;
+    i {
+      position: absolute;
+      left: 35px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+    }
   }
 }
 .search {

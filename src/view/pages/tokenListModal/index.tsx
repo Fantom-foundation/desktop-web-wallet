@@ -12,8 +12,10 @@ export default ({ isOpen = false, toggle }) => {
       <Modal isOpen={isOpen} toggle={toggle} centered className={styles.modal}>
         <ModalBody className={styles.body}>
           <div className={styles.header}>
-            <i className="fas fa-chevron-left" />
-            <h2>Tokens available for borrowing</h2>
+            <h2>
+              <i className="fas fa-chevron-left" />
+              Tokens available for borrowing
+            </h2>
           </div>
           <SearchInput />
           <Table className={styles.table}>
