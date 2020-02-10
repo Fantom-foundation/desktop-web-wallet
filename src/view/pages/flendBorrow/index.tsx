@@ -10,6 +10,7 @@ import CircleLineProgress from 'src/view/components/circleLineProgress';
 import Tabs from 'src/view/components/tabs';
 import TokenRange from 'src/view/components/tokenRange';
 import TokenListModal from 'src/view/pages/tokenListModal';
+import Input from 'src/view/components/forms/Input';
 
 const overviewData = [
   {
@@ -38,6 +39,20 @@ const overviewData = [
   },
 ];
 
+const borrowMockData = [
+  { label: 'Borrow APR', value: '5.47%' },
+  { label: 'Price', value: '8902.46 / iBTC' },
+  { label: 'Borrowed amount', value: '499.98 fUSD' },
+  { label: 'Fee', value: '0.02 fUSD' },
+  { label: 'Total', value: '500 fUSD' },
+];
+const repayMockData = [
+  { label: 'Price', value: '9500.45 / iBTC' },
+  { label: 'Current value of your loan', value: '550 fUSD' },
+  { label: 'Interest accumulated', value: '2 fUSD' },
+  { label: 'Fee', value: '0.02 fUSD' },
+  { label: 'You will receive', value: '547.98 fUSD' },
+];
 const TokenListModalComponent = () => {
   const [modal, setModal] = useState(false);
   const toggle = () => setModal(!modal);
@@ -72,9 +87,44 @@ const Borrow = () => (
       <h4 className="opacity-5">Borrow balance</h4>
       <h4>500 fUSD</h4>
     </div>
+    <div>
+      <div className="text-center mb-5">
+        <h2 className="mb-4">You are borrowing</h2>
+        <h1 className="text-navy-blue font-weight-semi-bold">
+          0.05616425 iBTC
+        </h1>
+      </div>
+      <div>
+        <table className={classnames(styles.table, 'w-100')}>
+          {borrowMockData.map(({ label, value }) => (
+            <tr>
+              <td>
+                <h3 className="opacity-5">{label}</h3>
+              </td>
+              <td className="text-right">
+                <h3>{value}</h3>
+              </td>
+            </tr>
+          ))}
+        </table>
+      </div>
+      <div>
+        <Input
+          label="Password"
+          type="password"
+          handler={() => {}}
+          isError=""
+          errorMsg=""
+        />
+      </div>
+    </div>
     <div className="text-center">
-      <Button className="disabled">Borrow iBTC</Button>
+      <Button
+        color={true ? 'secondary' : 'navy-blue'}
+        className={classnames({ ['disabled']: true })}
       >
+        Borrow iBTC
+      </Button>
     </div>
   </div>
 );
@@ -98,8 +148,44 @@ const Repay = () => (
       <h4 className="opacity-5">Borrow balance</h4>
       <h4>500 fUSD</h4>
     </div>
+    <div>
+      <div className="text-center mb-5">
+        <h2 className="mb-4">You are repaying</h2>
+        <h1 className="text-navy-blue font-weight-semi-bold">
+          0.05616425 iBTC
+        </h1>
+      </div>
+      <div>
+        <table className={classnames(styles.table, 'w-100')}>
+          {repayMockData.map(({ label, value }) => (
+            <tr>
+              <td>
+                <h3 className="opacity-5">{label}</h3>
+              </td>
+              <td className="text-right">
+                <h3>{value}</h3>
+              </td>
+            </tr>
+          ))}
+        </table>
+      </div>
+      <div>
+        <Input
+          label="Password"
+          type="password"
+          handler={() => {}}
+          isError=""
+          errorMsg=""
+        />
+      </div>
+    </div>
     <div className="text-center">
-      <Button color="navy-blue">Borrow iBTC</Button>
+      <Button
+        color={false ? 'secondary' : 'navy-blue'}
+        className={classnames({ ['disabled']: false })}
+      >
+        Borrow iBTC
+      </Button>
     </div>
   </div>
 );
