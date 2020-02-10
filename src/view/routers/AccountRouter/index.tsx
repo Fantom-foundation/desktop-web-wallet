@@ -71,6 +71,7 @@ const AccountRouterUnconnected: FC<IProps> = ({
             path={URLS.ACCOUNT.BASE(':id/f-lend-borrow')}
             component={FlendBorrow}
           />
+          <Route exact path={URLS.ACCOUNT.BASE(':id/defi')} component={DeFi} />
           <Route
             exact
             path={URLS.ACCOUNT.BASE(':id/f-trade')}
