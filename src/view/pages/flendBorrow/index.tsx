@@ -74,6 +74,7 @@ const Borrow = () => (
     </div>
     <div className="text-center">
       <Button className="disabled">Borrow iBTC</Button>
+      >
     </div>
   </div>
 );
