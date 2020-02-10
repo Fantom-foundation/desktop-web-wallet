@@ -1,0 +1,41 @@
+@import '~/styles/variables.scss';
+.search {
+  position: relative;
+  margin: 40px;
+  input {
+    background: #f8f9fa;
+    border-color: #f8f9fa;
+    position: relative;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: #2b3954;
+    height: 40px;
+    box-shadow: none;
+    &::-webkit-input-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &:-moz-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &::-moz-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &:-ms-input-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+  }
+  img {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    right: 20px;
+  }
+}

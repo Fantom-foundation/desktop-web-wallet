@@ -4,7 +4,7 @@ import classnames from 'classnames';
 import { Modal, ModalBody, Table, Input } from 'reactstrap';
 import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 import SearchTokenList from 'src/view/pages/fLend/component/tokenList/searchTokenList';
-import SearchIcon from 'src/images/dashboard-icons/Archive/search.svg';
+import SearchInput from 'src/view/components/forms/searchInput';
 
 export default ({ isOpen = false, toggle }) => {
   return (
@@ -15,10 +15,7 @@ export default ({ isOpen = false, toggle }) => {
             <i className="fas fa-chevron-left" />
             <h2>Tokens available for borrowing</h2>
           </div>
-          <div className={styles.search}>
-            <Input type="search" name="email" placeholder="Search tokens" />
-            <img src={SearchIcon} alt="search" />
-          </div>
+          <SearchInput />
           <Table className={styles.table}>
             <thead className={styles.tableHead}>
               <th

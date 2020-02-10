@@ -14,78 +14,61 @@ import {
   Input,
 } from 'reactstrap';
 import classnames from 'classnames';
-import SearchIcon from 'src/images/dashboard-icons/Archive/search.svg';
-import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
-import SearchTokenList from 'src/view/pages/fLend/component/tokenList/searchTokenList';
+
 import CircleLineProgress from 'src/view/components/circleLineProgress';
 import Tabs from 'src/view/components/tabs';
-import TokenRange from 'src/view/components/tokenRange';
-import TokenListModal from 'src/view/pages/tokenListModal';
+import Fantom from 'src/images/dashboard-icons/Archive/fantom-active.svg';
+import Dollar from 'src/images/dashboard-icons/Archive/dollar.svg';
+import SearchInput from 'src/view/components/forms/searchInput';
+import BuyList from 'src/view/pages/fLend/component/tokenList/buyList';
 
 const overviewData = [
   {
-    label: 'Borrow APR',
-    value: '5.47%',
+    icon: Fantom,
+    value: '150,615.22 FTM',
   },
   {
-    label: 'Price',
-    value: '8646.52 fUSD',
+    icon: Dollar,
+    value: '500 CSDT',
   },
   {
-    label: 'Borrowed',
-    value: '0 iBTC',
-  },
-  {
-    label: 'Interest accumulated',
-    value: '0 fUSD',
-  },
-  {
-    label: 'Max borrow',
-    value: '0.05616425 iBTC',
-  },
-  {
-    label: 'Collateral ratio',
-    value: '0%',
+    icon: Fantom,
+    value: '500 fUSD',
   },
 ];
+const repayMockData = [
+  { label: 'Price', value: '9500.45 / iBTC' },
+  { label: 'Current value of your loan', value: '550 fUSD' },
+  { label: 'Interest accumulated', value: '2 fUSD' },
+  { label: 'Fee', value: '0.02 fUSD' },
+  { label: 'You will receive', value: '547.98 fUSD' },
+];
 
-const TokenListModalComponent = () => {
-  const [modal, setModal] = useState(false);
-  const toggle = () => setModal(!modal);
-  return (
-    <>
-      <button type="button" className={styles.tokenlistBtn} onClick={toggle}>
-        <div style={{ background: '#f5a623' }} className={styles.circle} />
-        iBTC
-        <i className="fas fa-caret-right" />
-      </button>
-      <TokenListModal toggle={toggle} isOpen={modal} />
-    </>
-  );
-};
-
-const Borrow = () => (
+const Buy = () => (
   <div>
-    <CircleLineProgress
-      progress={[
-        { text: 'Enter quantity', active: true },
-        { text: 'Confirm loan', active: false },
-      ]}
-    />
-    <h4>I want to borrow</h4>
-    <TokenListModalComponent />
-    <div className="text-right">
-      <h4 className="opacity-5">Borrow balance</h4>
-      <h4>500 fUSD</h4>
+    <div className="m-4 mb-5">
+      <CircleLineProgress
+        progress={[
+          { text: 'Choose a token', active: true },
+          { text: 'Enter quantity', active: false },
+          { text: 'Confirm purchase', active: false },
+        ]}
+      />
     </div>
-    <TokenRange />
+
+    <h4>I want to buy</h4>
+    <button type="button" className={styles.tokenlistBtn}>
+      <div style={{ background: '#f5a623' }} className={styles.circle} />
+      iBTC
+      <i className="fas fa-caret-right" />
+    </button>
     <div className="text-right">
-      <h4 className="opacity-5">Borrow balance</h4>
+      <h4 className="opacity-5">Balance</h4>
       <h4>500 fUSD</h4>
     </div>
   </div>
 );
-const Repay = () => (
+const Sell = () => (
   <div>
     <CircleLineProgress
       progress={[
@@ -95,12 +78,11 @@ const Repay = () => (
     />
     <h4>I want to borrow</h4>
 
-    <TokenListModalComponent />
-    <div className="text-right">
-      <h4 className="opacity-5">Borrow balance</h4>
-      <h4>500 fUSD</h4>
-    </div>
-    <TokenRange />
+    <button type="button" className={styles.tokenlistBtn}>
+      <div style={{ background: '#f5a623' }} className={styles.circle} />
+      iBTC
+      <i className="fas fa-caret-right" />
+    </button>
     <div className="text-right">
       <h4 className="opacity-5">Borrow balance</h4>
       <h4>500 fUSD</h4>
@@ -109,29 +91,47 @@ const Repay = () => (
 );
 
 export default () => (
-  <div className="dashboard-container">
+  <>
     <Row>
-      <Col lg={5} className="mb-5">
+      <Col lg={3} className="mb-5">
         <Card>
-          <p className="card-label">Overview</p>
+          <p className="card-label mb-4 pb-2">Balances</p>
           <div className="">
-            {overviewData.map(({ label, value }) => (
-              <div>
-                <h2 className="mb-1">{value}</h2>
-                <p className="card-label">{label}</p>
+            {overviewData.map(({ icon, value }) => (
+              <div className={styles.balance}>
+                <img src={icon} alt={icon} />
+                <h4 className="mb-1">{value}</h4>
               </div>
             ))}
           </div>
         </Card>
       </Col>
-      <Col lg={7} className="mb-5">
+      <Col lg={6} className="mb-5">
         <Tabs
           tabs={[
-            { title: 'Borrow', content: <Borrow /> },
-            { title: 'Repay', content: <Repay /> },
+            { title: 'Buy', content: <Buy /> },
+            { title: 'Sell', content: <Sell /> },
           ]}
         />
       </Col>
     </Row>
-  </div>
+    <Row>
+      <Col lg={6} className="mb-5">
+        <Card className={styles.buyCard}>
+          <div className={styles.header}>
+            <h2>
+              <i className="fas fa-chevron-left" />
+              Buy
+            </h2>
+          </div>
+          <SearchInput />
+          <div>
+            <Table className="tokenTable">
+              <BuyList />
+            </Table>
+          </div>
+        </Card>
+      </Col>
+    </Row>
+  </>
 );

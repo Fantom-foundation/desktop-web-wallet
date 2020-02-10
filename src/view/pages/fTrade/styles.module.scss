@@ -1,1 +1,60 @@
 @import '~/styles/variables.scss';
+.tokenlistBtn {
+  width: 100%;
+  border: 0;
+  border-radius: 8px;
+  background-color: #f8f9fa;
+  display: flex;
+  align-items: center;
+  position: relative;
+  padding: 8px 16px;
+  outline: none !important;
+  margin-bottom: 20px;
+  transition: 0.2s;
+  &:hover,
+  &:active {
+    background-color: darken(#f8f9fa, 10%);
+  }
+  .circle {
+    width: 24px;
+    height: 24px;
+    margin-right: 18px;
+    border-radius: 100%;
+  }
+  i {
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 22px;
+  }
+}
+.balance {
+  display: flex;
+  align-items: center;
+  margin-bottom: 19px;
+  img {
+    width: 26px;
+    height: 26px;
+    border-radius: 100%;
+    object-fit: cover;
+    margin-right: 17px;
+  }
+}
+.buyCard {
+  padding: 30px 60px !important;
+}
+.header {
+  h2 {
+    position: relative;
+    text-align: center;
+    margin: 0;
+    i {
+      position: absolute;
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 22px;
+    }
+  }
+}
