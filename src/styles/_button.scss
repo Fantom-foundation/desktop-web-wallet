@@ -60,7 +60,18 @@
       border-color: darken(map-get($color, Primary-Main), 10%);
     }
   }
+  &-navy-blue {
+    color: #fff;
+    background-color: map-get($color, navy-blue);
+    border-color: map-get($color, navy-blue);
 
+    &:hover,
+    &:active {
+      background-color: darken(map-get($color, navy-blue), 10%);
+      border-color: darken(map-get($color, navy-blue), 10%);
+    }
+  }
+  // navy-blue
   &-darkish-pink {
     color: #fff;
     background-color: map-get($color, darkish-pink);
@@ -108,7 +119,14 @@
         color: darken(map-get($color, Primary-Main), 10%);
       }
     }
+    &.btn-navy-blue {
+      color: map-get($color, navy-blue);
 
+      &:hover,
+      &:active {
+        color: darken(map-get($color, navy-blue), 10%);
+      }
+    }
     &.btn-darkish-pink {
       color: map-get($color, darkish-pink);
 

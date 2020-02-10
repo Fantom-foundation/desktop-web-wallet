@@ -1,18 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 import React, { useState } from 'react';
 import styles from './styles.module.scss';
-import {
-  Row,
-  Col,
-  Card,
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  ModalFooter,
-  Table,
-  Input,
-} from 'reactstrap';
+import { Row, Col, Card, Button } from 'reactstrap';
 import classnames from 'classnames';
 import SearchIcon from 'src/images/dashboard-icons/Archive/search.svg';
 import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
@@ -83,6 +72,9 @@ const Borrow = () => (
       <h4 className="opacity-5">Borrow balance</h4>
       <h4>500 fUSD</h4>
     </div>
+    <div className="text-center">
+      <Button className="disabled">Borrow iBTC</Button>
+    </div>
   </div>
 );
 const Repay = () => (
@@ -104,6 +96,9 @@ const Repay = () => (
     <div className="text-right">
       <h4 className="opacity-5">Borrow balance</h4>
       <h4>500 fUSD</h4>
+    </div>
+    <div className="text-center">
+      <Button color="navy-blue">Borrow iBTC</Button>
     </div>
   </div>
 );
