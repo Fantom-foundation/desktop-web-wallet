@@ -1,6 +1,8 @@
 import React from 'react';
 import styles from './styles.module.scss';
-import fantomActive from '../../../../../images/dashboard-icons/Archive/fantom-active.svg';
+import fantomActive from 'src/images/dashboard-icons/Archive/fantom-active.svg';
+import DollarIcon from 'src/images/dashboard-icons/Archive/dollar.svg';
+
 export default () => (
   <>
     <tr>
@@ -22,7 +24,7 @@ export default () => (
     </tr>
     <tr>
       <td>
-        <img src={fantomActive} className="mr-3" alt="" />
+        <img src={DollarIcon} className="mr-3" alt="" />
         CSDT
       </td>
       <td>5.70%</td>

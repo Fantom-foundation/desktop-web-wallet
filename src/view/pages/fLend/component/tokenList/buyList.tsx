@@ -6,8 +6,8 @@ export default () => (
   <>
     <tr>
       <td>
-        <span className={classnames(styles.orange, styles.circleShape)} />
-        <h2 className={classnames('mb-0 font-weight-medium', styles.leftSpace)}>
+        <h2 className="m-token">
+          <span className="token" style={{ background: 'rgb(245, 166, 35)' }} />
           iBTC
         </h2>
       </td>
@@ -17,8 +17,8 @@ export default () => (
     </tr>
     <tr>
       <td>
-        <span className={classnames(styles.orange, styles.circleShape)} />
-        <h2 className={classnames('mb-0 font-weight-medium', styles.leftSpace)}>
+        <h2 className="m-token">
+          <span className="token" style={{ background: 'rgb(245, 166, 35)' }} />
           iBTC
         </h2>
       </td>

@@ -93,7 +93,7 @@ const Sell = () => (
 export default () => (
   <>
     <Row>
-      <Col lg={3} className="mb-5">
+      <Col md={4} lg={3} className="mb-5 order2">
         <Card>
           <p className="card-label mb-4 pb-2">Balances</p>
           <div className="">
@@ -106,7 +106,7 @@ export default () => (
           </div>
         </Card>
       </Col>
-      <Col lg={6} className="mb-5">
+      <Col md={8} lg={6} className="mb-5 order1">
         <Tabs
           tabs={[
             { title: 'Buy', content: <Buy /> },
@@ -116,7 +116,7 @@ export default () => (
       </Col>
     </Row>
     <Row>
-      <Col lg={6} className="mb-5">
+      <Col md={8} lg={6} className="mb-5">
         <Card className={styles.buyCard}>
           <div className={styles.header}>
             <h2>

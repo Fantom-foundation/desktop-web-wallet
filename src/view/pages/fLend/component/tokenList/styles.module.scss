@@ -1,36 +1,5 @@
 @import '~/styles/variables.scss';
 
-.circleShape {
-  width: 40px;
-  height: 40px;
-  border-radius: 100%;
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-
-  &.orange {
-    background: #f5a623;
-  }
-  &.darkBlue {
-    background: #132e60;
-  }
-  &.lightBlue {
-    background: #4a90e2;
-  }
-  &.green {
-    background: #b8e986;
-  }
-  &.yellow {
-    background: #f8e71c;
-  }
-  &.grey {
-    background: #9b9b9b;
-  }
-}
-.leftSpace {
-  padding-left: 57px;
-}
-
 .switch {
   position: relative;
   display: inline-block;

@@ -206,6 +206,10 @@ export default () => (
       <Col lg={5} className="mb-5">
         <Card>
           <p className="card-label">Overview</p>
+          <h2 className="m-token">
+            <span className="token" style={{ background: '#F5A623' }} />
+            iBTC
+          </h2>
           <div className="text-right">
             {overviewData.map(({ label, value }) => (
               <div>

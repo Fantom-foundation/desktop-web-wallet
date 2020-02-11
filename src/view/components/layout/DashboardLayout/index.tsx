@@ -178,7 +178,7 @@ const DashboardLayout: FC<IProps> = ({
                 location.pathname.includes('f-lend') ||
                 location.pathname.includes('f-lend-borrow') ||
                 location.pathname.includes('f-trade') ? (
-                  <div className="text-center">
+                  <div className="text-center mb-5 py-3">
                     <h1 className="font-weight-semi-bold">
                       {location.pathname.includes('f-trade')
                         ? 'fTrade'

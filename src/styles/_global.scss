@@ -234,14 +234,11 @@ input::-webkit-inner-spin-button {
 }
 
 .tokenTable {
+  overflow: auto;
   @media (max-width: $tablet) {
     margin-bottom: 0px;
   }
-  .tableHead {
-    @media (max-width: $tablet) {
-      display: none;
-    }
-  }
+
   th,
   td {
     padding: 17px 10px;
@@ -301,5 +298,32 @@ input::-webkit-inner-spin-button {
       display: flex;
       align-items: center;
     }
+  }
+}
+.m-token {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0;
+  .token {
+    width: 40px;
+    height: 40px;
+    margin-right: 16px;
+    border-radius: 100%;
+  }
+}
+
+.order1 {
+  @media (max-width: $desktop) {
+    order: 1;
+  }
+}
+.order2 {
+  @media (max-width: $desktop) {
+    order: 2;
+  }
+}
+.order3 {
+  @media (max-width: $desktop) {
+    order: 3;
   }
 }
