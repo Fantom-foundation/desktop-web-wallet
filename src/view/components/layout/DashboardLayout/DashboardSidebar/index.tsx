@@ -8,7 +8,7 @@ import logoWhite from 'src/images/logo/fantom-logo-icon-white.svg';
 import logo from 'src/images/logo/fantom-logo-icon.svg';
 import LogoutIcon from 'src/images/icons/sidebar/logout.svg';
 
-import menus from './menus';
+import menus, { tradeLendDefiMenu } from './menus';
 import { useTranslation } from 'react-i18next';
 
 const getLinkPath = (name, address) => {
@@ -21,12 +21,19 @@ const getLinkPath = (name, address) => {
       return `/account/${address}/receive`;
     case 'Stake':
       return `/account/${address}/stake`;
+    case 'DeFi':
+      return `/account/${address}/defi`;
+    case 'fTrade':
+      return `/account/${address}/f-trade`;
+    case 'fLend':
+      return `/account/${address}/f-lend`;
 
     default:
       return '';
   }
 };
 export default props => {
+  const { mainMenu = true } = props;
   const [sidebarActive, setSidebarActive] = useState(false);
   let selectedIndex = menus.findIndex(e => {
     return props.pathname.includes(e.name.toLowerCase());
@@ -56,7 +63,9 @@ export default props => {
           [styles.active]: sidebarActive,
         })}
       >
-        <div className={styles.root}>
+        <div
+          className={classnames(styles.root, { [styles.navyMenu]: !mainMenu })}
+        >
           <div className={styles.head}>
             <Link to="/">
               <div className={styles.logoWrapper}>
@@ -73,23 +82,41 @@ export default props => {
           </div>
           <div className={styles.menusWrapper}>
             <ul className={classnames(styles.mainMenu, styles.menus)}>
-              {menus.map(({ name, icon }, index) => (
-                <li
-                  // eslint-disable-next-line react/no-array-index-key
-                  key={index}
-                  className={classnames({
-                    [styles.active]: index === selectedIndex,
-                  })}
-                >
-                  <Link
-                    to={getLinkPath(name, props.address)}
-                    onClick={() => setSidebarActive(false)}
-                  >
-                    <img src={icon} alt={name} />
-                    {t(name.toLowerCase())}
-                  </Link>
-                </li>
-              ))}
+              {mainMenu
+                ? menus.map(({ name, icon }, index) => (
+                    <li
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index}
+                      className={classnames({
+                        [styles.active]: index === selectedIndex,
+                      })}
+                    >
+                      <Link
+                        to={getLinkPath(name, props.address)}
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        <img src={icon} alt={name} />
+                        {t(name.toLowerCase())}
+                      </Link>
+                    </li>
+                  ))
+                : tradeLendDefiMenu.map(({ name, icon }, index) => (
+                    <li
+                      // eslint-disable-next-line react/no-array-index-key
+                      key={index}
+                      className={classnames({
+                        [styles.active]: index === selectedIndex,
+                      })}
+                    >
+                      <Link
+                        to={getLinkPath(name, props.address)}
+                        onClick={() => setSidebarActive(false)}
+                      >
+                        <img src={icon} alt={name} />
+                        {t(name.toLowerCase())}
+                      </Link>
+                    </li>
+                  ))}
             </ul>
             <ul className={classnames(styles.menus)}>
               <li>

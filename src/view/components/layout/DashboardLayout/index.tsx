@@ -75,10 +75,9 @@ const DashboardLayout: FC<IProps> = ({
   const onClose = () => {
     setLogoutModal(false);
   };
-
+  const { pathname } = location;
+  const screen = pathname.slice(pathname.lastIndexOf('/') + 1);
   const RenderLayout = () => {
-    const { pathname } = location;
-    const screen = pathname.slice(pathname.lastIndexOf('/') + 1);
     let heading,
       info,
       wallet = false;
@@ -186,6 +185,9 @@ const DashboardLayout: FC<IProps> = ({
       >
         <div className={styles.wrapper}>
           <Sidebar
+            mainMenu={
+              screen !== 'defi' && screen !== 'f-trade' && screen !== 'f-lend'
+            }
             address={address}
             history={history}
             handleLogout={handleLogout}
