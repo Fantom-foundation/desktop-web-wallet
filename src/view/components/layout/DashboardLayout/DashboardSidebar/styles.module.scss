@@ -57,6 +57,9 @@
   @media (min-width: $largeDesktop) {
     padding-top: 40px;
     border-top-right-radius: 50px;
+    height: 100vh;
+    position: sticky;
+    top: 0;
   }
   @media (max-width: $largeDesktop) {
     border-top-left-radius: 50px;
@@ -121,6 +124,12 @@
   }
 }
 .menusWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  @media (min-width: $largeDesktop) {
+    height: calc(100vh - 178px);
+  }
   @media (max-width: $largeDesktop) {
     padding: {
       top: 228px;
@@ -139,12 +148,27 @@
   .menus {
     padding: 0 15px;
     width: 100%;
+    &.mainMenu {
+      @media (min-width: $largeDesktop) {
+        flex-grow: 1;
+        overflow: scroll;
+        padding: 0 9px 0 13px;
+        &::-webkit-scrollbar {
+          width: 4px;
+          height: 0px;
+        }
+        &::-webkit-scrollbar-thumb {
+          background: #fff;
+          border-radius: 30px;
+        }
+      }
+    }
     li {
       text-align: center;
       list-style: none;
-      &:not(:last-child) {
-        margin-bottom: 54px;
-      }
+      // &:not(:last-child) {
+      margin-bottom: 54px;
+      // }
       &:not(.active) {
         a {
           opacity: 0.5;

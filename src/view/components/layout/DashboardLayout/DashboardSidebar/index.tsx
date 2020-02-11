@@ -72,7 +72,7 @@ export default props => {
             </button>
           </div>
           <div className={styles.menusWrapper}>
-            <ul className={styles.menus}>
+            <ul className={classnames(styles.mainMenu, styles.menus)}>
               {menus.map(({ name, icon }, index) => (
                 <li
                   // eslint-disable-next-line react/no-array-index-key
@@ -90,14 +90,16 @@ export default props => {
                   </Link>
                 </li>
               ))}
+            </ul>
+            <ul className={classnames(styles.menus)}>
               <li>
+                <LanguageDropDown />
+              </li>
+              <li className="mb-0">
                 <a onClick={props.handleLogout}>
                   <img src={LogoutIcon} alt="yh" />
                   Logout
                 </a>
-              </li>
-              <li>
-                <LanguageDropDown />
               </li>
             </ul>
           </div>
