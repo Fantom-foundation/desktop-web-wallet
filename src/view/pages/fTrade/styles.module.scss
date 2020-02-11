@@ -16,10 +16,8 @@
     background-color: darken(#f8f9fa, 10%);
   }
   .circle {
-    width: 24px;
-    height: 24px;
-    margin-right: 18px;
-    border-radius: 100%;
+    width: 24px !important;
+    height: 24px !important;
   }
   i {
     position: absolute;
@@ -68,4 +66,55 @@
 .buyTableWrapper {
   max-height: 450px;
   overflow: auto;
+}
+
+.valueWrapper {
+  position: relative;
+  margin-top: 50px;
+  .value {
+    text-align: center;
+    font-size: 72px;
+    font-weight: 600;
+
+    span {
+      position: relative;
+
+      .tokeName {
+        position: absolute;
+        left: 100%;
+        bottom: 0;
+        margin-left: 10px;
+      }
+    }
+  }
+  .convert {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    img {
+      margin-bottom: 6px;
+    }
+    p {
+      font-size: 16px;
+    }
+  }
+}
+.rangeBtnWrapper {
+  margin-bottom: 50px;
+  text-align: center;
+  button {
+    font-size: 12px;
+    line-height: 0;
+    height: 24px;
+    min-width: 80px;
+    border-radius: 8px;
+    margin: 0 5px;
+  }
+}
+.backBtn {
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
 }
