@@ -75,6 +75,57 @@ const DashboardLayout: FC<IProps> = ({
   const onClose = () => {
     setLogoutModal(false);
   };
+  const { pathname } = location;
+  const screen = pathname.slice(pathname.lastIndexOf('/') + 1);
+  const RenderLayout = () => {
+    let heading,
+      info,
+      wallet = false;
+    switch (screen) {
+      case 'defi':
+        heading = 'Trade, lend, and borrow on Opera.';
+        info = 'Your decentralized finance suite';
+        break;
+      case 'f-trade':
+        heading = 'fTrade';
+        info = 'Buy and sell synthetics on Fantom';
+        break;
+      case 'f-lend':
+      case 'f-lend-borrow':
+        heading = 'fLend';
+        info = 'Earn interest on loans. Borrow tokens on interest.';
+        break;
+      case 'send':
+        heading = 'Send';
+        wallet = true;
+        break;
+      case 'receive':
+        heading = 'Receive';
+        wallet = true;
+        break;
+      case 'stake':
+        heading = 'Stake';
+        wallet = true;
+        break;
+      default:
+        heading = 'Dashboard';
+        wallet = true;
+        break;
+    }
+
+    return wallet ? (
+      <>
+        <h3 className="opacity-5">FantomWallet</h3>
+        <h1 className={styles.mainTitle}>{heading}</h1>
+      </>
+    ) : (
+      <div className="text-center">
+        <h1 className="font-weight-semi-bold">{heading}</h1>
+        <h2 style={{ fontWeight: 500 }}>{info}</h2>
+      </div>
+    );
+  };
+
   const renderModal = () => {
     return (
       <Modal
@@ -134,6 +185,9 @@ const DashboardLayout: FC<IProps> = ({
       >
         <div className={styles.wrapper}>
           <Sidebar
+            mainMenu={
+              screen !== 'defi' && screen !== 'f-trade' && screen !== 'f-lend'
+            }
             address={address}
             history={history}
             handleLogout={handleLogout}
