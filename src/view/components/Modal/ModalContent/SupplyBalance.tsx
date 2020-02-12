@@ -1,20 +1,22 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './styles.module.scss';
 import { Modal, ModalBody } from 'reactstrap';
 import classnames from 'classnames';
 
-export default ({ isOpen = false }) => {
-  // const [modal, setModal] = useState(false);
-
-  // const toggle = () => setModal(!modal);
-
+export default ({ isOpen = false, toggle }) => {
   return (
     <div>
-      <Modal isOpen={isOpen} className={styles.infoModal} centered>
+      <Modal
+        isOpen={isOpen}
+        toggle={toggle}
+        className={styles.infoModal}
+        centered
+      >
         <ModalBody className={styles.modalBody}>
           <button
             type="button"
             className={classnames('btn-icon', styles.close)}
+            onClick={toggle}
           >
             <i className="fas fa-times" />
           </button>

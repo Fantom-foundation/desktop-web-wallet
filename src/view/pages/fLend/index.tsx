@@ -10,9 +10,6 @@ import Collateral from './component/collateral';
 import BorrowBalance from './component/borrowBalance';
 import BalanceList from './component/tokenList/balanceList';
 import BorrowList from './component/tokenList/borrowList';
-import SupplyBalanceModal from 'src/view/components/Modal/ModalContent/SupplyBalance';
-import BorrowBalanceModal from 'src/view/components/Modal/ModalContent/BorrowBalance';
-import CollateralModal from 'src/view/components/Modal/ModalContent/Collateral';
 import CollateralError from 'src/view/components/Modal/ModalContent/CollateralError';
 import TokenListModal from 'src/view/pages/tokenListModal';
 
@@ -151,9 +148,6 @@ export default () => {
         isOpen={tokenSearchModal}
         toggle={tokenSearchModalToggle}
       />
-      <SupplyBalanceModal isOpen={false} />
-      <BorrowBalanceModal isOpen={false} />
-      <CollateralModal isOpen={false} />
       <CollateralError isOpen={false} />
     </div>
   );

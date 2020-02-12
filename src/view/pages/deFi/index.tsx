@@ -14,7 +14,7 @@ export default () => (
     <Row>
       <Col lg={6} className="mb-5">
         <Card className={styles.card}>
-          <div className="mb-4">
+          <div className="mb-3 pb-1">
             <img src={FTrade} alt="fTrade" />
           </div>
           <h3>fTrade</h3>
@@ -37,7 +37,7 @@ export default () => (
       </Col>
       <Col lg={6} className="mb-5">
         <Card className={styles.card}>
-          <div className="mb-4">
+          <div className="mb-3 pb-1">
             <img src={FLend} alt="flend" />
           </div>
           <h3>fLend</h3>
