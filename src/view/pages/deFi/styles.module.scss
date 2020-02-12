@@ -3,6 +3,8 @@
 .card {
   text-align: left;
   padding: 30px !important;
+  max-width: 465px;
+  margin: 0 auto;
   h4 {
     color: rgba(map-get($color, dark-grey-blue), 0.7);
   }
@@ -14,6 +16,7 @@
     color: map-get($color, Primary-Main);
     font-weight: 500;
     padding: 0;
+    background: none;
   }
 }
 .title {

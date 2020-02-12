@@ -235,14 +235,16 @@ input::-webkit-inner-spin-button {
 }
 
 .tokenTable {
-  overflow: auto;
   @media (max-width: $tablet) {
     margin-bottom: 0px;
+  }
+  @media (max-width: $phone) {
+    overflow: auto;
   }
 
   th,
   td {
-    padding: 17px 30px;
+    padding: 17px 10px;
     border-color: rgba(map-get($color, dark-grey-blue), 0.1);
     vertical-align: middle !important;
     position: relative;
@@ -253,6 +255,12 @@ input::-webkit-inner-spin-button {
     }
     &:not(:first-child) {
       text-align: right;
+    }
+    &:first-child {
+      padding-left: 30px;
+    }
+    &:last-child {
+      padding-right: 30px;
     }
   }
   td {
