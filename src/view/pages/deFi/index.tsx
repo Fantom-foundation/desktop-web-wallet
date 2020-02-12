@@ -8,7 +8,7 @@ import classnames from 'classnames';
 
 export default () => (
   <div className="dashboard-container">
-    <h2 className={classnames('text-center mb-5', styles.title)}>
+    <h2 className={classnames('text-center mb-4 mb-lg-5', styles.title)}>
       What would you like to do?
     </h2>
     <Row>
