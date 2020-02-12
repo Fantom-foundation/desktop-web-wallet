@@ -18,8 +18,11 @@ const stackUnstack = ({
     return <div />;
   }
   return (
-    <Card className="mx-auto text-center pt-5 pb-6" style={{ maxWidth: 670 }}>
-      <h2 className="mb-5">{t("whatLikeToDo?")}</h2>
+    <Card
+      className="mx-auto text-center pt-5 pb-6 mt-5"
+      style={{ maxWidth: 670 }}
+    >
+      <h2 className="mb-5">{t('whatLikeToDo?')}</h2>
       <div
         className={isDeligated ? 'mx-auto mt-4 w-100 ' : 'mx-auto mt-4 w-100'}
         style={{ maxWidth: 480 }}
@@ -29,7 +32,7 @@ const stackUnstack = ({
             className={classnames('lg mx-4')}
             onClick={() => handleStep('unstake')}
           >
-            {t("unstake")}
+            {t('unstake')}
           </Button>
         ) : (
           <Button
@@ -41,7 +44,7 @@ const stackUnstack = ({
                 : classnames('lg outlined')
             }
           >
-            {t("stake")}
+            {t('stake')}
           </Button>
         )}
       </div>

@@ -48,6 +48,17 @@
       border-color: #d5d5d5 !important;
     }
   }
+  &-light {
+    color: #2b3954;
+    background: #f8f9fa;
+    border-color: #f8f9fa;
+
+    &:hover,
+    &:active {
+      background: darken(#f8f9fa, 10%) !important;
+      border-color: darken(#f8f9fa, 10%) !important;
+    }
+  }
 
   &-primary {
     background-color: map-get($color, Primary-Main);

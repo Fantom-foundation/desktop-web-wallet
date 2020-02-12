@@ -90,7 +90,7 @@ const Borrow = () => (
     <div>
       <div className="text-center mb-5">
         <h2 className="mb-4 position-relative">
-          <button className={classnames(styles.backBtb, 'btn-icon')}>
+          <button className={classnames(styles.backBtn, 'btn-icon')}>
             <i className="fas fa-chevron-left" />
           </button>
           You are borrowing
@@ -156,7 +156,7 @@ const Repay = () => (
     <div>
       <div className="text-center mb-5">
         <h2 className="mb-4 position-relative">
-          <button className={classnames(styles.backBtb, 'btn-icon')}>
+          <button className={classnames(styles.backBtn, 'btn-icon')}>
             <i className="fas fa-chevron-left" />
           </button>
           You are repaying
@@ -206,6 +206,10 @@ export default () => (
       <Col lg={5} className="mb-5">
         <Card>
           <p className="card-label">Overview</p>
+          <h2 className="m-token my-5">
+            <span className="token" style={{ background: '#F5A623' }} />
+            iBTC
+          </h2>
           <div className="text-right">
             {overviewData.map(({ label, value }) => (
               <div>

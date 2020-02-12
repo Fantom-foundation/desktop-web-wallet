@@ -16,3 +16,9 @@
     padding: 0;
   }
 }
+.title {
+  padding-top: 85px;
+  @media (max-width: $tablet) {
+    padding-top: 30px;
+  }
+}

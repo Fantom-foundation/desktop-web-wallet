@@ -18,8 +18,8 @@ export default ({ isOpen = false, toggle }) => {
             </h2>
           </div>
           <SearchInput />
-          <Table className={styles.table}>
-            <thead className={styles.tableHead}>
+          <Table className="tokenTable mb-0">
+            <thead className="tableHead">
               <tr>
                 <th
                   className={classnames({
@@ -27,7 +27,7 @@ export default ({ isOpen = false, toggle }) => {
                     [styles.down]: false,
                   })}
                 >
-                  <div className={styles.tableHeading}>
+                  <div className="tableHeading">
                     Asset
                     <ArrowUpDownIcon />
                   </div>
@@ -38,7 +38,7 @@ export default ({ isOpen = false, toggle }) => {
                     [styles.down]: true,
                   })}
                 >
-                  <div className={styles.tableHeading}>
+                  <div className="tableHeading">
                     Borrow APR
                     <ArrowUpDownIcon />
                   </div>
@@ -49,7 +49,7 @@ export default ({ isOpen = false, toggle }) => {
                     [styles.down]: false,
                   })}
                 >
-                  <div className={styles.tableHeading}>
+                  <div className="tableHeading">
                     Price (fUSD)
                     <ArrowUpDownIcon />
                   </div>

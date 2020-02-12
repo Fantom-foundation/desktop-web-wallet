@@ -18,28 +18,28 @@ import CollateralError from 'src/view/components/Modal/ModalContent/CollateralEr
 export default () => (
   <div>
     <Row>
-      <Col md={6} lg={4} className={classnames('mb-lg-6 mb-4', styles.order1)}>
+      <Col md={6} lg={4} className="mb-lg-6 mb-4 order1">
         <SupplyBalance />
       </Col>
-      <Col md={12} lg={4} className={classnames('mb-lg-6 mb-4', styles.order3)}>
+      <Col md={12} lg={4} className="mb-lg-6 mb-4 order3">
         <Collateral />
       </Col>
-      <Col md={6} lg={4} className={classnames('mb-lg-6 mb-4', styles.order2)}>
+      <Col md={6} lg={4} className="mb-lg-6 mb-4 order2">
         <BorrowBalance />
       </Col>
     </Row>
     <Row>
-      <Col md={12} lg={6} className="mb-6">
-        <Card className={classnames(styles.card, 'pt-0 px-0')}>
+      <Col md={12} lg={6} className="mb-4">
+        <Card className={styles.card}>
           <Table className="tokenTable">
-            <thead className={styles.tableHead}>
+            <thead className="tableHead">
               <th
                 className={classnames({
                   [styles.up]: false,
                   [styles.down]: false,
                 })}
               >
-                <div className={styles.tableHeading}>
+                <div className="tableHeading">
                   Asset
                   <ArrowUpDownIcon />
                 </div>
@@ -50,7 +50,7 @@ export default () => (
                   [styles.down]: true,
                 })}
               >
-                <div className={styles.tableHeading}>
+                <div className="tableHeading">
                   APR
                   <ArrowUpDownIcon />
                 </div>
@@ -61,7 +61,7 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                <div className={styles.tableHeading}>
+                <div className="tableHeading">
                   Balance
                   <ArrowUpDownIcon />
                 </div>
@@ -72,7 +72,7 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                <div className={styles.tableHeading}>Supply</div>
+                <div className="tableHeading">Supply</div>
               </th>
             </thead>
             <tbody>
@@ -81,17 +81,17 @@ export default () => (
           </Table>
         </Card>
       </Col>
-      <Col md={12} lg={6} className="mb-6">
-        <Card className={classnames(styles.card, 'pt-0 px-0')}>
+      <Col md={12} lg={6} className="mb-4">
+        <Card className={styles.card}>
           <Table className="tokenTable">
-            <thead className={styles.tableHead}>
+            <thead className="tableHead">
               <th
                 className={classnames({
                   [styles.up]: false,
                   [styles.down]: false,
                 })}
               >
-                <div className={styles.tableHeading}>
+                <div className="tableHeading">
                   <span>
                     <img src={SearchIcon} width="30" alt="" />
                   </span>
@@ -105,7 +105,7 @@ export default () => (
                   [styles.down]: true,
                 })}
               >
-                <div className={styles.tableHeading}>
+                <div className="tableHeading">
                   Borrow APR
                   <ArrowUpDownIcon />
                 </div>
@@ -116,7 +116,7 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                <div className={styles.tableHeading}>
+                <div className="tableHeading">
                   Borrowed
                   <ArrowUpDownIcon />
                 </div>
@@ -127,7 +127,7 @@ export default () => (
                   [styles.down]: false,
                 })}
               >
-                <div className={styles.tableHeading}>
+                <div className="tableHeading">
                   % of limit
                   <ArrowUpDownIcon />
                 </div>

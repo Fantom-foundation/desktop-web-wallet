@@ -223,7 +223,41 @@ const DashboardLayout: FC<IProps> = ({
                     </button>
                   </div>
                 </div> */}
-                <RenderLayout />
+
+                {location.pathname.includes('defi') ||
+                location.pathname.includes('f-lend') ||
+                location.pathname.includes('f-lend-borrow') ||
+                location.pathname.includes('f-trade') ? (
+                  <div className="text-center mb-5 py-3">
+                    <h1 className="font-weight-semi-bold">
+                      {location.pathname.includes('f-trade')
+                        ? 'fTrade'
+                        : location.pathname.includes('defi')
+                        ? 'Trade, lend, and borrow on Opera.'
+                        : 'fLend'}
+                    </h1>
+                    <h2 style={{ fontWeight: 500 }}>
+                      {location.pathname.includes('f-trade')
+                        ? 'Buy and sell synthetics on Fantom'
+                        : location.pathname.includes('defi')
+                        ? 'Your decentralized finance suite'
+                        : 'Earn interest on loans. Borrow tokens on interest.'}
+                    </h2>
+                  </div>
+                ) : (
+                  <>
+                    <h3 className="opacity-5">FantomWallet</h3>
+                    <h1 className={styles.mainTitle}>
+                      {location.pathname.includes('send')
+                        ? 'Send'
+                        : location.pathname.includes('receive')
+                        ? 'Receive'
+                        : location.pathname.includes('stake')
+                        ? 'Stake'
+                        : 'Dashboard'}
+                    </h1>
+                  </>
+                )}
               </div>
 
               {children}

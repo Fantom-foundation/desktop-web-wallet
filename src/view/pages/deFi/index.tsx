@@ -4,10 +4,13 @@ import styles from './styles.module.scss';
 import { Row, Col, Card, Button } from 'reactstrap';
 import FLend from '~/images/dashboard-icons/f-lend.svg';
 import FTrade from '~/images/dashboard-icons/f-trade.svg';
+import classnames from 'classnames';
 
 export default () => (
   <div className="dashboard-container">
-    <h2 className="text-center mb-5">What would you like to do?</h2>
+    <h2 className={classnames('text-center mb-5', styles.title)}>
+      What would you like to do?
+    </h2>
     <Row>
       <Col lg={6} className="mb-5">
         <Card className={styles.card}>
