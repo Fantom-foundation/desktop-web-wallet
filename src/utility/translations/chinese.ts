@@ -165,5 +165,7 @@ export const chineseTranslation = {
   "Oct": "十月",
   "Nov": "十一月",
   "Dec": "十二月",
+  "th":"日",
+
 
 }

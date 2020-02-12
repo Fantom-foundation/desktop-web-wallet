@@ -167,6 +167,7 @@ export const englishTranslation = {
   "Oct": "Oct",
   "Nov": "Nov",
   "Dec": "Dec",
+  "th":"",
 
   
 

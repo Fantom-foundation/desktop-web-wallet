@@ -8,6 +8,7 @@
 import React, { useState, useCallback } from 'react';
 import { Card, Collapse } from 'reactstrap';
 import styles from './styles.module.scss';
+import i18n from "i18next";
 import activityMockData from './activityMockData';
 import { SendIcon, ReceiveIcon, CopyIcon } from 'src/view/components/svgIcons';
 import { Link } from 'react-router-dom';
@@ -25,15 +26,13 @@ const SubView = (props: any) => {
   const text = "copiedClipboard"
 
   // const { hash = false, title, value } = props;
-  const onClickTo = useCallback(event => copyToClipboard(event, to, text, t), [to]);
-  const onClickHash = useCallback(event => copyToClipboard(event, value, text, t), [
-    value,
-  ]);
+  const onClickTo = useCallback(event => copyToClipboard(event, to, text, t), [t, to]);
+  const onClickHash = useCallback(event => copyToClipboard(event, value, text, t), [t, value]);
 
   return (
     <>
       <div className={styles.subView}>
-  <p className={styles.subViewTitle}>{t("Recipient")}</p>
+        <p className={styles.subViewTitle}>{t("Recipient")}</p>
         <p className={styles.subViewValue}>
           <a target="_blank" href={`${FANTOM_WEB_URL}/address/${to}`}>
             {to}
@@ -55,7 +54,7 @@ const SubView = (props: any) => {
         </p>
       </div>
       <div className={styles.subView}>
-  <p className={styles.subViewTitle}>{t("date")}</p>
+        <p className={styles.subViewTitle}>{t("date")}</p>
         <p className={styles.subViewValue}>{newDate}</p>
       </div>
       <div className={styles.subView}>
@@ -77,9 +76,15 @@ const SubView = (props: any) => {
  const formatActivities = (activityDate, trans) => {
   const t = new Date(activityDate * 1000);
   const month = moment(t).format("MMM");
+  const date = moment(t).format("DD");
+  const d = date[0] === "0" ? date[1] : date;
   const time = moment(t).format("hh:mm A");
-  const dateString = `${trans(month)}, ${time}`;
-  return dateString;
+  const year = moment(t).format("YYYY");
+  const {language} = i18n;
+  const dateString = `${trans(month)} ${d}${trans("th")}, ${year} ${time}`;
+  if (language === "chi")
+    return `${year}年 ${trans(month)} ${d}${trans("th")},  ${time}`;
+ return dateString;
 };
 
 const Activities = (props: any) => {
