@@ -61,13 +61,10 @@ const DashboardLayout: FC<IProps> = ({
   };
 
   const handleLogout = () => {
-    // history.push('/')
     setLogoutModal(true);
   };
 
   const handleWalletLogout = () => {
-    console.log(history, '***history');
-    //  history.push('/')
     accountRemoveAction(account && account.publicAddress);
     setLogoutModal(false);
   };
@@ -77,42 +74,43 @@ const DashboardLayout: FC<IProps> = ({
   };
   const { pathname } = location;
   const screen = pathname.slice(pathname.lastIndexOf('/') + 1);
-  const RenderLayout = () => {
-    let heading,
-      info,
-      wallet = false;
-    switch (screen) {
-      case 'defi':
-        heading = 'Trade, lend, and borrow on Opera.';
-        info = 'Your decentralized finance suite';
-        break;
-      case 'f-trade':
-        heading = 'fTrade';
-        info = 'Buy and sell synthetics on Fantom';
-        break;
-      case 'f-lend':
-      case 'f-lend-borrow':
-        heading = 'fLend';
-        info = 'Earn interest on loans. Borrow tokens on interest.';
-        break;
-      case 'send':
-        heading = 'Send';
-        wallet = true;
-        break;
-      case 'receive':
-        heading = 'Receive';
-        wallet = true;
-        break;
-      case 'stake':
-        heading = 'Stake';
-        wallet = true;
-        break;
-      default:
-        heading = 'Dashboard';
-        wallet = true;
-        break;
-    }
 
+  let heading,
+    info,
+    wallet = false;
+  switch (screen) {
+    case 'defi':
+      heading = 'Trade, lend, and borrow on Opera.';
+      info = 'Your decentralized finance suite';
+      break;
+    case 'f-trade':
+      heading = 'fTrade';
+      info = 'Buy and sell synthetics on Fantom';
+      break;
+    case 'f-lend':
+    case 'f-lend-borrow':
+      heading = 'fLend';
+      info = 'Earn interest on loans. Borrow tokens on interest.';
+      break;
+    case 'send':
+      heading = 'Send';
+      wallet = true;
+      break;
+    case 'receive':
+      heading = 'Receive';
+      wallet = true;
+      break;
+    case 'stake':
+      heading = 'Stake';
+      wallet = true;
+      break;
+    default:
+      heading = 'Dashboard';
+      wallet = true;
+      break;
+  }
+
+  const RenderLayout = () => {
     return wallet ? (
       <>
         <h3 className="opacity-5">FantomWallet</h3>
@@ -185,9 +183,7 @@ const DashboardLayout: FC<IProps> = ({
       >
         <div className={styles.wrapper}>
           <Sidebar
-            mainMenu={
-              screen !== 'defi' && screen !== 'f-trade' && screen !== 'f-lend'
-            }
+            mainMenu={wallet}
             address={address}
             history={history}
             handleLogout={handleLogout}

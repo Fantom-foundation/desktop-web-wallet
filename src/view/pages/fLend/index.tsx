@@ -30,7 +30,7 @@ export default () => (
     </Row>
     <Row>
       <Col md={12} lg={6} className="mb-6">
-        <Card className={styles.card}>
+        <Card className={classnames(styles.card, 'pt-0 px-0')}>
           <Table className="tokenTable">
             <thead className={styles.tableHead}>
               <th
@@ -82,7 +82,7 @@ export default () => (
         </Card>
       </Col>
       <Col md={12} lg={6} className="mb-6">
-        <Card className={styles.card}>
+        <Card className={classnames(styles.card, 'pt-0 px-0')}>
           <Table className="tokenTable">
             <thead className={styles.tableHead}>
               <th
