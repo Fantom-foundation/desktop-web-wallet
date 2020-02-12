@@ -245,6 +245,7 @@ input::-webkit-inner-spin-button {
   th,
   td {
     padding: 17px 10px;
+    border-bottom: 1px solid;
     border-color: rgba(map-get($color, dark-grey-blue), 0.1);
     vertical-align: middle !important;
     position: relative;
