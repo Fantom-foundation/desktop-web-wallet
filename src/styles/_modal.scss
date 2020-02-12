@@ -62,3 +62,11 @@
 //   }
 // }
 
+.modal {
+  &-backdrop {
+    background: #002043;
+    &.show {
+      opacity: 0.4;
+    }
+  }
+}
