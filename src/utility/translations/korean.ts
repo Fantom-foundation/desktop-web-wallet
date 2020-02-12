@@ -165,4 +165,5 @@ export const koreanTranslation = {
   "Oct": "10 월",
   "Nov": "11 월",
   "Dec": "12 월",
+  "th":"일",
 }
