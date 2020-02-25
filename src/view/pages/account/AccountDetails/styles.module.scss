@@ -1,5 +1,13 @@
 @import '~/styles/variables.scss';
-
+.container {
+  @media (min-width: $largeDesktop) {
+    margin-left: 70px;
+  }
+  @media (max-width: $largeDesktop) {
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
 .wrap {
   margin: 60px auto;
 }

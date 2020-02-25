@@ -606,8 +606,8 @@ const Stake = props => {
 
   return (
     <div className="dashboard-container">
-      <Row>
-        <Col md={6} className="mb-6">
+      <Row className="mb-3">
+        <Col md={6} className="mb-3">
           <Card className="h-100">
             <p className="card-label mb-4">{t('overview')}</p>
             <div className="text-right">
@@ -623,7 +623,7 @@ const Stake = props => {
           </Card>
         </Col>
 
-        <Col md={6} className="mb-6">
+        <Col md={6} className="mb-3">
           <Card className="h-100 ">
             <p className="card-label mb-4">Rewards</p>
             <div className="text-right">
@@ -638,7 +638,9 @@ const Stake = props => {
         </Col>
       </Row>
       <UnstakeClaimCard />
+      <div className="pb-3" />
       <ClaimReward />
+      <div className="pb-3" />
       {withdrawalStakeCard()}
       <Row
         className={

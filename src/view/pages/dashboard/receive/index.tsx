@@ -109,7 +109,7 @@ const RecieveDetails = ({
   }, [accountGetBalance, account.publicAddress]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.headWrapper}>
         {/* <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">
           {t('balance')}

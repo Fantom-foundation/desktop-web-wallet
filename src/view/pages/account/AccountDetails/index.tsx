@@ -194,7 +194,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
           list={list}
         />
       </Modal> */}
-      <div className="dashboard-container">
+      <div className={classnames(styles.container, 'dashboard-container')}>
         <Row>
           <Col md={7} className="mb-4 pb-2">
             <Card className="h-100">

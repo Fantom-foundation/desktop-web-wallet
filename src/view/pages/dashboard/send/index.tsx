@@ -75,7 +75,7 @@ const SendDetails = ({
   }, [accountGetBalance, id]);
 
   return (
-    <div>
+    <div className={styles.container}>
       <div className={styles.headWrapper}>
         {/* <h3 className="mb-3 pb-1 opacity-5 font-weight-semi-bold">
           {t('balance')}
@@ -88,10 +88,10 @@ const SendDetails = ({
         </h2> */}
       </div>
       <Row>
-        <Col md={7} lg={8} className="mb-4 pb-2">
+        <Col md={7} lg={8} className={classname(styles.leftCol, 'mb-4 pb-2')}>
           <SendForm data={account} t={t} />
         </Col>
-        <Col md={5} lg={4} className="mb-4 pb-2">
+        <Col md={5} lg={4} className={classname(styles.rightCol, 'mb-4 pb-2')}>
           <Card className={classname('h-100', styles.balanceCard)}>
             <p className="card-label">Balances</p>
             <TokenList />

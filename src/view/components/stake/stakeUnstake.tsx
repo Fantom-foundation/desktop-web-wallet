@@ -19,7 +19,7 @@ const stackUnstack = ({
   }
   return (
     <Card
-      className="mx-auto text-center pt-5 pb-6 mt-5"
+      className="mx-auto text-center pt-5 pb-6 mt-3"
       style={{ maxWidth: 670 }}
     >
       <h2 className="mb-5">{t('whatLikeToDo?')}</h2>

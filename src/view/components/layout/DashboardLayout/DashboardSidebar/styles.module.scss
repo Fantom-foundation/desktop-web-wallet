@@ -181,7 +181,13 @@
       &:not(.active) {
         a {
           opacity: 0.5;
+          img {
+            opacity: 0.5;
+          }
           &:hover {
+            img {
+              opacity: 1;
+            }
             opacity: 1;
           }
         }

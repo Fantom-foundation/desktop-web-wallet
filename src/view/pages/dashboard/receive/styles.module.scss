@@ -1,4 +1,13 @@
 @import '~/styles/variables.scss';
+.container {
+  max-width: 970px;
+  @media (min-width: $largeDesktop) {
+    margin-left: 70px;
+  }
+  @media (max-width: $largeDesktop) {
+    margin: 0 auto;
+  }
+}
 .qrWrapper {
   margin-bottom: 40px;
 }
@@ -66,8 +75,6 @@
 }
 .card {
   padding: 40px;
-  max-width: 970px;
-  margin: 0 auto;
 }
 
 .optionBtn {

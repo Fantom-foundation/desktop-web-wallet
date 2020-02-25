@@ -1,9 +1,22 @@
 @import '~/styles/variables.scss';
-
+.container {
+  max-width: 1070px;
+}
 .iconGap {
   margin-bottom: 40px;
 }
-
+.leftCol {
+  @media (min-width: $desktop) {
+    flex: 0 0 63.637%;
+    max-width: 63.637%;
+  }
+}
+.rightCol {
+  @media (min-width: $desktop) {
+    flex: 0 0 36.363%;
+    max-width: 36.363%;
+  }
+}
 .copyBtn {
   cursor: pointer;
   background: transparent;
