@@ -336,7 +336,8 @@ const TransferFunds: FC<IProps> = ({
               type="button"
               onClick={handleSubmit}
               disabled={inProcess}
-              className={classnames('btn btn-secondary', styles.sendBtn)}
+              className={classnames(`btn  ${password !== '' ? 'outlined btn-topaz' : 'btn-secondary'}`, styles.sendBtn)}
+            //  btn-outlined-topaz
             >
               {inProcess  ?  t("sending"): t("send")}
             </button>

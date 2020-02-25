@@ -332,7 +332,7 @@ function* getBalance({ id }: ReturnType<typeof accountGetBalance>) {
 function* getFTMtoUSD() {
   const res = yield call(
     fetch,
-    'http://ec2-18-216-196-200.us-east-2.compute.amazonaws.com:3000/api/get-price'
+    'https://price.fantom.network/api/get-price'
   );
   const data = yield call([res, 'json']); // or yield call([res, res.json])
 

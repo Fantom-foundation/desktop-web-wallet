@@ -70,7 +70,7 @@ const SendDetails = ({
 
      const interval = setInterval(() => {
       accountGetBalance(id);
-    }, 2000);
+    }, 30000);
     return () => clearInterval(interval);
   
   }, [accountGetBalance, id]);

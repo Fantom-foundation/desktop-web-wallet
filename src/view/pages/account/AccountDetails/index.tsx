@@ -107,11 +107,11 @@ const AccountDetailsDashboard: FC<IProps> = ({
       setMarketCap(value);
     });
       }
-  let timeOutInterval = 2000
-  if( account && account.balance === '0'){
-    timeOutInterval = 5000
+  // let timeOutInterval = 2000
+  // if( account && account.balance === '0'){
+  //   timeOutInterval = 5000
 
-  }
+  // }
        
     const interval = setInterval(() => {
       accountGetBalance(id);
@@ -119,7 +119,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
       // if(transactions.list && transactions.list.length > 0){
       //   setCurrentTransactions(transactions.list)
       // }
-    }, timeOutInterval);
+    }, 30000);
       // if(currentId === id){
       //   setCurrentTransactions(transactions.list || [])
       // }

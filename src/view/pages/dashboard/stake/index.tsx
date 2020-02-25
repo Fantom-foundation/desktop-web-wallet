@@ -66,6 +66,7 @@ const Stake = props => {
   const [inProcess, setInProcess] = useState(false)
   const [transactionFee ,setTransactionFee] = useState('')
   const account = accountData.list && id && accountData.list[id];
+  const [isInitial, setIsInitial] = useState(false)
 
   const setTxFee = () => {
     const selectedAddress =
@@ -87,7 +88,12 @@ const Stake = props => {
   }
 
   useEffect(() => {
-    delegateByAddress({ publicKey: id });
+    if(!isInitial){
+      delegateByAddress({ publicKey: id });
+      setIsInitial(true)
+
+
+    }
     setTxFee()
 
     console.log("createtimeout kapil")
@@ -98,9 +104,9 @@ const Stake = props => {
         delegateByAddress({ publicKey: id });
 
       }
-    }, 2000);
+    }, 30000);
     return () => {console.log("cleartimeout kapil"); clearInterval(interval)};
-  }, [accountGetBalance, accountGetTransferFee, modal, type, delegateByAddress, inProcess, id, setTransactionFee, setTxFee]);
+  }, [accountGetBalance, accountGetTransferFee, modal, type, delegateByAddress, inProcess, id, setTransactionFee, setTxFee, isInitial]);
 
 
 
@@ -152,10 +158,10 @@ const Stake = props => {
       setInProcess(false)
 
     } else {
-      // setTimeout(() => {
-      //   accountGetBalance(id);
-      //   delegateByAddress({ publicKey: id });
-      // }, 4000);
+      setTimeout(() => {
+        accountGetBalance(id);
+        delegateByAddress({ publicKey: id });
+      }, 4000);
       setStep(7);
       setModal(false);
       setInProcess(false)
@@ -262,6 +268,10 @@ const Stake = props => {
         setInProcess(false);
         setStep(10)
         setModal(false)
+        setTimeout(() => {
+          delegateByAddress({ publicKey: id });
+          accountGetBalance(id);
+        }, 4000);
        
 
       } else {
@@ -270,6 +280,10 @@ const Stake = props => {
         setInProcess(false);
 
       }
+       setTimeout(() => {
+          delegateByAddress({ publicKey: id });
+          accountGetBalance(id);
+        }, 4000);
     });
     // setTimeout(() => {
     //   delegateByAddress({ publicKey: id });
@@ -478,7 +492,8 @@ const Stake = props => {
                   unStakeAmountPass();
                 }
               }}
-              className={classnames('btn btn-secondary', styles.sendBtn)}
+              className={classnames(`btn ${password !== '' ? 'outlined btn-topaz' : 'btn-secondary'}`, styles.sendBtn)}
+
             >
               { getButtonTitle()}
             </button>
