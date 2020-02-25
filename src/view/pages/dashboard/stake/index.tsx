@@ -87,20 +87,21 @@ const Stake = props => {
   }
 
   useEffect(() => {
-      delegateByAddress({ publicKey: id });
-      setTxFee()
+    delegateByAddress({ publicKey: id });
+    setTxFee()
 
-      console.log("createtimeout kapil")
-      const interval = setInterval(() => {
-        if (!modal) {
+    console.log("createtimeout kapil")
+    const interval = setInterval(() => {
+      if (!modal) {
 
-          accountGetBalance(id);
-          delegateByAddress({ publicKey: id });
+        accountGetBalance(id);
+        delegateByAddress({ publicKey: id });
 
-        }
-      }, 20000);
-      return () => {console.log("cleartimeout kapil"); clearInterval(interval)};
-    }, [accountGetBalance, accountGetTransferFee, modal, type, delegateByAddress, inProcess, id, setTransactionFee, setTxFee]);
+      }
+    }, 2000);
+    return () => {console.log("cleartimeout kapil"); clearInterval(interval)};
+  }, [accountGetBalance, accountGetTransferFee, modal, type, delegateByAddress, inProcess, id, setTransactionFee, setTxFee]);
+
 
 
   const handleStep = useCallback(
@@ -114,7 +115,7 @@ const Stake = props => {
 
         accountGetTransferFee(150000, fee => {
           setTransactionFee(fee)
-
+    
         })
 
         setStep(5);
@@ -125,7 +126,7 @@ const Stake = props => {
 
   const unStakeAmount = () => {
     const { unstakeamount, id } = props;
-
+   
     unstakeamount({ publicKey: id, password  }, res => {
       if(res){
         setModal(false);
@@ -166,7 +167,7 @@ const Stake = props => {
   const callback = (res: boolean) => {
     const { delegateAmount } = props;
     if (!res) {
-
+     
       delegateAmount(
         {
           publicKey: id,
@@ -176,7 +177,7 @@ const Stake = props => {
         },
         call
       );
-
+     
     } else {
       setPassError(true);
       setInProcess(false)
@@ -203,7 +204,7 @@ const Stake = props => {
   const unStakeAmountPass = () => {
     setInProcess(true)
     // setTxFee()
-
+    
 
     delegateAmountPassCheck(
       {
@@ -239,7 +240,7 @@ const Stake = props => {
       const totalAmount = Number(stakeValue) + fee
       if(totalAmount > Number(account.balance)){
         setErrors({ ...errors, maxBalance: true})
-        return
+        return 
       }
 
 
@@ -261,7 +262,7 @@ const Stake = props => {
         setInProcess(false);
         setStep(10)
         setModal(false)
-
+       
 
       } else {
         setStep(8);
@@ -275,7 +276,7 @@ const Stake = props => {
     //   accountGetBalance(id);
 
     // }, 4000);
-
+   
   };
 
   const handlePasswordCheckForWithdraw = () => {
@@ -377,8 +378,8 @@ const Stake = props => {
       const text = ""
 
       copyToClipboard(event, account.publicAddress, text,t, true, fee)
-      return
-    }
+      return 
+    } 
     setModal(true);
               setType('unStake')
             }}
@@ -422,7 +423,7 @@ const Stake = props => {
         return t("staking")
       }
       return t("stake")
-    }
+    } 
      if (type === 'unStake'){
       if(inProcess){
         return t("unstaking")
@@ -472,7 +473,7 @@ const Stake = props => {
                 } else if (type === 'withdraw'){
                   handlePasswordCheckForWithdraw()
                 }
-
+                
                 else {
                   unStakeAmountPass();
                 }
@@ -553,7 +554,7 @@ const Stake = props => {
                   {t('FTMAvail')}
                 </h3>
                 <button
-                  onClick={event => {
+                  onClick={event => { 
                   const fee = parseFloat(transactionFee) * 2;
     const totalAmount = Number(stakeValue) + fee;
     if(totalAmount > Number(account.balance)){
@@ -561,8 +562,8 @@ const Stake = props => {
       const text = "copiedClipboard"
 
       copyToClipboard(event, account.publicAddress,text,t, true, fee, true)
-      return
-    }
+      return 
+    } 
     setModal(true);
               setType('withdraw')
               }}
@@ -595,7 +596,7 @@ const Stake = props => {
 
     const timeLeft = startTime.diff(endTime, 'hours', true);
     // parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount)).toFixed(5)}
-
+  
 
 
 
@@ -638,7 +639,7 @@ const Stake = props => {
 FTM
               </h2>
               <h3 className="opacity-5 mb-3">{t("availableStake")}</h3>
-              <h2 className="pt-3">
+              <h2 className="pt-3"> 
                 {' '}
                 {stakedAmount}
                 {' '}

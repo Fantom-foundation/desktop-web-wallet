@@ -14,7 +14,7 @@ export const englishTranslation = {
   "createWallet": "Create a wallet",
   "createKeystoreFilePassword": "Create a keystore file and password",
   "SetNewPassword": "Set a new password",
-  "walletPasswordValidationText": "Make sure to enter at least 8 characters, including one upper-case letter, a symbol and a number",
+  "walletPasswordValidationText": "Make sure to enter at least 8 and max 200 characters, including one upper-case letter, a symbol and a number",
   "reEnterPassword": "Re-enter password",
   "backupKeystoreFileText": "I made a backup of the keystore file and saved the password in a safe",
   "walletCreationT&C": "I understand that I will need the password and the keystore file to access my wallet.",

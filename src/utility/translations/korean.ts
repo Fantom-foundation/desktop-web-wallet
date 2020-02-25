@@ -14,7 +14,7 @@ export const koreanTranslation = {
   "createWallet": "지갑 생성하기",
   "createKeystoreFilePassword": "키스토어 파일과 비밀번호 생성",
   "SetNewPassword": "새로운 비밀번호 설정",
-  "walletPasswordValidationText": "최소 하나의 대문자,특수문자 그리고 숫자를 포함하고 있는 8글자인지확인부탁드립니다",
+  "walletPasswordValidationText": "영문 대문자, 기호, 숫자를 각각 최소 1개씩 포함한 8자 이상의 비밀번호를 생성해주세요",
   "reEnterPassword": "비밀번호를 다시 입력해 주세요",
   "backupKeystoreFileText": "나는 키스토어 파일과 비밀번호를 안전한 장소에 백업해 두었습니다",
   "walletCreationT&C": "나는 지갑에 접속하기 위해 비밀번호와 키스토어 파일이 필요하다는 것을 인지하고 있습니다",

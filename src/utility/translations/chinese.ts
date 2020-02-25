@@ -14,7 +14,7 @@ export const chineseTranslation = {
   "createWallet": "创立一个钱包",
   "createKeystoreFilePassword": "创建一个密钥库​(Keystore)​文档与密码",
   "SetNewPassword": "设定一个新的密码",
-  "walletPasswordValidationText": "您的密码应为​ ​至少​8​个字符并包含一个大写字母，一个小写字母，一个特 殊字符和一个数字",
+  "walletPasswordValidationText": "请确保您至少输入8个字符，最多200个字符，且包含一个大写字母，一个符号和一个数字",
   "reEnterPassword": "请重新输入密码",
   "backupKeystoreFileText": "我备份了密钥库文件，并将密码保存在了一个安全的地方",
   "walletCreationT&C": "我知道我将需要密码和密钥库​(Keystore)​文件来访问我的钱包",

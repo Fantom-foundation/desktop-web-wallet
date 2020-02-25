@@ -63,7 +63,16 @@ const SendDetails = ({
   // console.log(accountData, '****acc')
   
   useEffect(() => {
-    accountGetBalance(id);
+    // setInterval(() => {
+    //   accountGetBalance(id);
+    //   transactionsGetList(id);
+    // }, 2000);
+
+     const interval = setInterval(() => {
+      accountGetBalance(id);
+    }, 2000);
+    return () => clearInterval(interval);
+  
   }, [accountGetBalance, id]);
 
   return (

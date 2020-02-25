@@ -43,7 +43,7 @@ const validatePassField = useCallback(() => {
   if( password !== '' && (!password.match(/[A-Z]+/) ||
   !password.match(/[\W]/) ||
   !password.match(/[0-9]+/) ||
-  password.length < 8)){
+  password.length < 8 || password.length > 200 )){
     return true
   }
   return false
@@ -64,7 +64,7 @@ const validateRePassField = useCallback(() => {
         !password.match(/[A-Z]+/) ||
         !password.match(/[\W]/) ||
         !password.match(/[0-9]+/) ||
-        password.length < 8,
+        password.length < 8 || password.length > 200,
     };
   
     if (Object.values(validation_errors).includes(true)){
