@@ -172,7 +172,7 @@ function* createRestoreMnemonics({
 
   const { list }: IAccountState = yield select(selectAccount);
  const prevList = Object.keys(list);
- const prevListObj =  { ...list}; 
+ const prevListObj =  { ...list};
       let isAddressFound = false
       let isFound = false
       if(prevList && prevList.length > 0){
@@ -224,7 +224,7 @@ function* createRestorePrivateKey({
 
   const { list }: IAccountState = yield select(selectAccount);
  const prevList = Object.keys(list);
- const prevListObj =  { ...list}; 
+ const prevListObj =  { ...list};
       let isAddressFound = false
       let isFound = false
       if(prevList && prevList.length > 0){
@@ -535,7 +535,7 @@ function* uploadKeystore({
         })
       );
       const prevList = Object.keys(list);
-      const prevListObj =  { ...list}; 
+      const prevListObj =  { ...list};
       let isAddressFound = false;
       let isFound = false;
       if(prevList && prevList.length > 0){
@@ -647,7 +647,7 @@ function* removeAccount({ publicAddress, cb }: ReturnType<typeof accountRemoveAc
     // });
     const { list }: IAccountState = yield select(selectAccount);
     let isAddressFound = false
-    const prevListObj =  { ...list}; 
+    const prevListObj =  { ...list};
     const prevList = Object.keys(list);
       if(prevList && prevList.length > 0){
         prevList.forEach(item => {
@@ -661,7 +661,7 @@ function* removeAccount({ publicAddress, cb }: ReturnType<typeof accountRemoveAc
           yield put(
           accountSetList({...prevListObj})
         );
-      } 
+      }
       yield delay(2000);
       cb(true)
       // yield put(push('/'));
@@ -732,7 +732,7 @@ export function* accountSaga() {
     removeAccount
   );
 
- 
+
   yield takeLatest(ACCOUNT_ACTIONS.CHANGE_PROVIDER, changeProvider);
   yield takeLatest(ACCOUNT_ACTIONS.GET_PRIVATE_KEY, getPrivateKey);
 
