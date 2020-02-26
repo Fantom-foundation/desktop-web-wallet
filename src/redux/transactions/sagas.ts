@@ -1,9 +1,8 @@
 import { takeLatest, call, put, select } from 'redux-saga/effects';
-import { transactionsGetList, transactionsSet, setTransactionDetails, getTransactionDetails  } from './actions';
+import { transactionsGetList, transactionsSet } from './actions';
 import { TRANSACTIONS_ACTIONS } from './constants';
-import { mockGetTransactions } from '~/utility/mocks/tranactions';
 import { selectTransactions } from './selectors';
-import { getTransactions, getFTMPrice } from './api';
+import { getTransactions } from './api';
 
 function* getList({ address }: ReturnType<typeof transactionsGetList>) {
   

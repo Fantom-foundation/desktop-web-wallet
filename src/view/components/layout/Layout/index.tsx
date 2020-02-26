@@ -20,7 +20,7 @@ class LayoutUnconnected extends React.PureComponent<IProps> {
   }
 
   render() {
-    const { children, noFooter, className, isOpened } = this.props;
+    const { children,  className, isOpened } = this.props;
 
     return (
       <div

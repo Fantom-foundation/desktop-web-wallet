@@ -31,11 +31,11 @@ const AccountTransactionsListUnconnected: FC<IProps> = ({
 }) => {
   useEffect(() => {
     transactionsSetPage(0);
-  }, [account.publicAddress, transactionsSetPage]);
+  }, [transactionsSetPage]);
 
   useEffect(() => {
     transactionsGetList(account.publicAddress);
-  }, [account.publicAddress, page, transactionsGetList]);
+  }, [account.publicAddress, transactionsGetList]);
 
   const onPrev = useCallback(() => {
     if (page === 0) return;

@@ -12,7 +12,7 @@ import {
 import classnames from 'classnames';
 
 
-type IProps = {
+interface IProps {
   push: Push;
   list: IAccountState['list'];
   onSubmit: (create: Partial<IAccountState['create']>) => void;

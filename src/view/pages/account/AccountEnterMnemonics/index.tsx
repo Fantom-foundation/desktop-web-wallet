@@ -1,3 +1,5 @@
+/* eslint-disable jsx-a11y/label-has-associated-control */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useState, useCallback, useMemo, ChangeEvent } from 'react';
 import { connect } from 'react-redux';
@@ -5,11 +7,6 @@ import { withRouter, RouteComponentProps } from 'react-router';
 import * as ACCOUNT_ACTIONS from '~/redux/account/actions';
 import { selectAccountCreate } from '~/redux/account/selectors';
 import { push as historyPush } from 'connected-react-router';
-import { AccountRestoreProcess } from '~/view/components/account/AccountRestoreProcess';
-import { PanelTitle } from '~/view/components/panels/PanelTitle';
-import { Textarea } from '~/view/components/inputs/Textarea';
-import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
-import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
 import { Input, Button } from 'reactstrap';
 import { AccessWalletCard } from 'src/view/components/cards';
 import classnames from 'classnames';
@@ -24,9 +21,7 @@ import {
 } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
-import { setDelegatorByAddressFailure } from '~/redux/stake/handlers';
 
-// const mapStateToProps = selectAccountCreate;
 const mapStateToProps = state => ({
   accountDetails: selectAccountCreate(state),
 });
@@ -47,7 +42,6 @@ type IProps = ReturnType<typeof mapStateToProps> &
 const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   // errors,
   accountCreateRestoreMnemonics,
-  accountCreateCancel,
   accountUploadKeystore,
   push,
   accountDetails,
@@ -63,7 +57,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   const [userPrivateKey, setUserPrivateKey] = useState('');
   const [privateKeyError , setPrivateKeyError] = useState(false)
   const {t} = useTranslation();
-  const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
+  const [ setIsIncorrectModalVisible] = useState(
     false
   );
 
@@ -132,7 +126,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
     accountCreateRestoreMnemonics({ mnemonic });
     // push('/account/restore/credentials')
-  }, [is_next_disabled, accountCreateRestoreMnemonics, phrase]);
+  }, [phrase, is_next_disabled, setIsIncorrectModalVisible, accountCreateRestoreMnemonics]);
 
   const onUpload = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
@@ -234,7 +228,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     
   }
 
-  const handleTabs = (tab) => {
+  const handleTabs = tab => {
     setCurrentTab(tab)
 
   setPrivateKeyError(false)
@@ -294,79 +288,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
 
   return (
-    // <div>
-    //   <AccountRestoreProcess stepNo={2} />
-
-    //   <section className={styles.container}>
-    //     <Container>
-    //       <Row>
-    //         <Col>
-    //           <div className={styles.content}>
-    //             <PanelTitle title="Restore Wallet" />
-
-    //             <div className={styles.inputs}>
-    //               <FormGroup>
-    //                 <Label for="wallet-seed">Enter wallet seed:</Label>
-
-    //                 <Textarea
-    //                   value={phrase}
-    //                   handler={setPhrase}
-    //                   placeholder="Enter your secret twelve word phrase here to restore your vault. Separate words with spaces."
-    //                 />
-    //               </FormGroup>
-
-    //               <div className={styles.or}>
-    //                 <span>OR</span>
-    //               </div>
-
-    //               <FormGroup>
-    //                 <div className={styles.dropzone}>
-    //                   <div className={styles.dropzone_sign}>
-    //                     <h2>Drop keystore file here</h2>
-
-    //                     <Button color="primary">Upload keystore file</Button>
-    //                   </div>
-    //                   <input type="file" onChange={onUpload} />
-    //                 </div>
-
-    //                 <div className={styles.error}>{errors.keystore}</div>
-    //               </FormGroup>
-    //             </div>
-    //           </div>
-
-    //           <div className={styles.buttons}>
-    //             <Button
-    //               color={
-    //                 is_next_disabled ? 'secondary bordered' : 'primary bordered'
-    //               }
-    //               onClick={onSubmit}
-    //             >
-    //               Restore wallet
-    //             </Button>
-    //             <Button color="secondary bordered" onClick={onCancelModalOpen}>
-    //               Cancel
-    //             </Button>
-    //           </div>
-    //         </Col>
-    //       </Row>
-    //     </Container>
-
-    //     <DialogPrompt
-    //       title="Cancel Wallet"
-    //       body="Are you sure you want to cancel the create wallet process?"
-    //       onConfirm={accountCreateCancel}
-    //       onClose={onCancelModalClose}
-    //       isOpened={is_cancel_modal_opened}
-    //     />
-
-    //     <DialogInfo
-    //       isOpened={is_incorrect_modal_visible}
-    //       onClose={onIncorrectModalClose}
-    //       body="The mnemonics you entered are incorrect"
-    //       title="Incorrect Mnemonics"
-    //     />
-    //   </section>
-    // </div>
+    
 
     <Layout>
       <AccessWalletCard handleClose={handleClose} t={t}>
@@ -392,7 +314,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   onClick={() => handleTabs(2)}
                 >
                   <MnemonicIcon />
-                <h4 className="opacity-7">{t('mnemonicPhrase')}</h4>
+                  <h4 className="opacity-7">{t('mnemonicPhrase')}</h4>
                 </div>
               </div>
               <div className={styles.optionCol}>
@@ -403,7 +325,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   onClick={() => handleTabs(3)}
                 >
                   <PrivatekeyIcon className="mt-1" />
-                <h4 className="opacity-7">{t('privateKey')}</h4>
+                  <h4 className="opacity-7">{t('privateKey')}</h4>
                 </div>
               </div>
             </div>
@@ -417,25 +339,29 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                       'outlined text-dark-grey-blue btn btn-topaz'
                     )}
                   >
-                    <input className="d-none" type="file" onChange={e => {onUpload(e), setFileError(false)}} />
+                    <input
+                      className="d-none"
+                      type="file" 
+                      onChange={e => {onUpload(e), setFileError(false)}}
+                    />
                     <img src={uploadIcon} alt="Upload keystore file" />
                     {t('uploadKeystoreFile')}
                   </label>
-                    {uploadedFile && <p className={styles.info}>{t('keystoreSucessfullyLoaded')}</p>}
-                  </div>
-                  <FormInput
-                    accessWallet
-                    noBorder
-                    type="password"
-                    placeholder={t('enterYourWalletPassword')}
-                    value={password}
-                    handler={val => {
+                  {uploadedFile && <p className={styles.info}>{t('keystoreSucessfullyLoaded')}</p>}
+                </div>
+                <FormInput
+                  accessWallet
+                  noBorder
+                  type="password"
+                  placeholder={t('enterYourWalletPassword')}
+                  value={password}
+                  handler={val => {
                       setPassword(val)
                       setPassError(false)
                     }}
-                    isError={passError}
-                    errorMsg={getErrorText()}
-                  />
+                  isError={passError}
+                  errorMsg={getErrorText()}
+                />
                 
             
          
@@ -445,7 +371,8 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
             {/* --Mnemonic Start-- */}
             {currentTab === 2 && (<div>
               <h4 className={classnames('opacity-7', styles.inputLabel)}>
-            {t('enterMnemonic')}.
+                {t('enterMnemonic')}
+.
               </h4>
       
               <div className={styles.inputWrapper}>
@@ -472,10 +399,13 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                     }}
                 />
                 {error ? (
-<p className={styles.errorText}>{t('invalidRecoveryPhrase')}</p>
+                  <p className={styles.errorText}>{t('invalidRecoveryPhrase')}</p>
                   ) : 
-                isMnemonicExistError ? <p className={styles.errorText}>{ accountDetails.errors && accountDetails.errors.mnemonic &&  t('accountAlreadyExist')}</p> : ''
-                  }
+                isMnemonicExistError ? <p className={styles.errorText}>
+                  { accountDetails.errors && accountDetails.errors.mnemonic &&  
+                t('accountAlreadyExist')}
+
+                                       </p> : ''}
               </div>
                                   </div>
             )}
@@ -494,7 +424,9 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   }}
                   value={userPrivateKey}
                   isError={privateKeyError}
-                  errorMsg={isPrivateKeyError ? accountDetails.errors && accountDetails.errors.privateKey && t("accountAlreadyExist") : privateKeyError ? t("enterPrivateValidation") : "" }
+                  errorMsg={isPrivateKeyError ? accountDetails.errors && 
+                    accountDetails.errors.privateKey && t("accountAlreadyExist") : 
+                  privateKeyError ? t("enterPrivateValidation") : ""}
                 />
               </div>
             )}
@@ -507,7 +439,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
               onClick={e => handleAllSubmit(e)}
               // disbaled={!is_next_disabled}
             >
-            {t("unlockWallet")}
+              {t("unlockWallet")}
             </Button>
           </div>
         </div>

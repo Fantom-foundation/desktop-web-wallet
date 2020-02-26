@@ -1,4 +1,4 @@
-import React, { FC, useCallback, ChangeEvent } from 'react';
+import React, { FC } from 'react';
 import { Container, Row, Col, Button } from 'reactstrap';
 import styles from './styles.module.scss';
 import { connect } from 'react-redux';
@@ -12,21 +12,8 @@ const mapDispatchToProps = {
 type IProps = ReturnType<typeof mapStateToProps> &
   typeof mapDispatchToProps & {};
 
-const AccountRestoreKeystoreUnconnected: FC<IProps> = ({
-  accountUploadKeystore,
-}) => {
-  const onUpload = useCallback(
-    (event: ChangeEvent<HTMLInputElement>) => {
-      const file = event.target.files && event.target.files[0];
-
-      if (!file) return;
-
-      console.log(file);
-      
-      // accountUploadKeystore(file, 'asdsa');
-    },
-    []
-  );
+const AccountRestoreKeystoreUnconnected: FC<IProps> = () => {
+  
 
   return (
     <section className={styles.wrap}>
@@ -39,7 +26,7 @@ const AccountRestoreKeystoreUnconnected: FC<IProps> = ({
 
                 <Button color="primary">Upload keystore file</Button>
               </div>
-              <input type="file" onChange={onUpload} />
+              {/* <input type="file" onChange={onUpload} /> */}
             </div>
           </Col>
         </Row>
