@@ -11,7 +11,7 @@ import React, {
 import { Row, Col, Container, Card, Modal } from 'reactstrap';
 import { IAccount } from '~/redux/account/types';
 import Activity from 'src/view/components/activity';
-import {
+import { 
   selectTransactionsDetails,
   selectTransactions,
 } from '~/redux/transactions/selectors';
@@ -100,33 +100,58 @@ const AccountDetailsDashboard: FC<IProps> = ({
     transactionsGetList(id);
       setCurrentId(id)
       setCurrentTransactions([])
-
+     
 
     accountFTMtoUSD();
     accountFTMMarketCap(value => {
       setMarketCap(value);
     });
       }
+  // let timeOutInterval = 2000
+  // if( account && account.balance === '0'){
+  //   timeOutInterval = 5000
+
+  // }
+       
+    const interval = setInterval(() => {
+      accountGetBalance(id);
+      transactionsGetList(id);
+      // if(transactions.list && transactions.list.length > 0){
+      //   setCurrentTransactions(transactions.list)
+      // }
+    }, 30000);
+      // if(currentId === id){
+      //   setCurrentTransactions(transactions.list || [])
+      // }
+    
+    
+    return () => {console.log("clearInterval kapil"); clearInterval(interval)};
+   
   }, [account, accountFTMMarketCap, accountFTMtoUSD, accountGetBalance, currentId, id, transactions.list, transactionsGetList]);
 
-  useEffect(() => {
-    accountGetBalance(id);
-    transactionsGetList(id);
-    accountFTMtoUSD();
-    accountFTMMarketCap(value => {
-      setMarketCap(value);
-    });
-  }, [
-    accountFTMMarketCap,
-    accountFTMtoUSD,
-    accountGetBalance,
-    id,
-    transactionsGetList,
-  ]);
-  useEffect(() => {
-    accountGetBalance(id);
+  // useEffect(() => {
+  //   console.log('******iduseEffect', id)
+  //   useInterval(() => {
+  //     accountGetBalance(id);
+  //     transactionsGetList(id);
+  //   }, 2000);
+  //   accountFTMtoUSD();
+  //   accountFTMMarketCap(value => {
+  //     setMarketCap(value);
+  //   });
+  // }, [
+  //   accountFTMMarketCap,
+  //   accountFTMtoUSD,
+  //   accountGetBalance,
+  //   id,
+  //   transactionsGetList,
+  // ]);
 
-  }, [accountGetBalance, id]);
+  // console.log(ftmMarketCap, '**ftmMarketCap');
+  // useEffect(() => {
+  //   accountGetBalance(id);
+
+  // }, [accountGetBalance, id]);
   const [spin, setSpin] = useState(false);
 
   const loadLatestBalance = useCallback(() => {
@@ -197,7 +222,7 @@ const AccountDetailsDashboard: FC<IProps> = ({
 
               {/* { title: 'Price', value: '$0.01078000' },
   {title: 'Market cap', value: '$19,620,860 USD' },
-
+                        
              */}
               {/* {overViewMock.map(({ title, value }) => (
                 <div className="mb-4 d-flex justify-content-between">

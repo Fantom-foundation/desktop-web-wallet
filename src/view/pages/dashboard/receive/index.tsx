@@ -79,7 +79,10 @@ const RecieveDetails = ({
     [account.publicAddress, t]
   );
   useEffect(() => {
+    const interval = setInterval(() => {
       accountGetBalance(account.publicAddress);
+    }, 30000);
+    return () => clearInterval(interval);
   }, [accountGetBalance, account.publicAddress]);
 
   return (
