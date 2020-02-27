@@ -1,11 +1,13 @@
 import React from 'react';
 import { VictoryPie, VictoryLabel, VictoryAnimation } from 'victory';
 
+const colors = ['#e1e3e7', '1965e9', '#7ed321', '#ff5600'];
+
 export default class CircleProgress extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      percent: 25,
+      percent: 0,
       data: this.getData(0),
     };
   }
@@ -28,6 +30,20 @@ export default class CircleProgress extends React.Component {
 
   getData(percent) {
     return [{ x: 1, y: percent }, { x: 2, y: 100 - percent }];
+  }
+
+  getColor(datum) {
+    if (datum.y === 0) return colors[0];
+    else if (datum.y <= 25) return colors[1];
+    else if (datum.y <= 50) return colors[2];
+    else if (datum.y > 50) return colors[3];
+  }
+
+  getPercentage({ percent }) {
+    if (percent === 0) return '0%';
+    else if (percent <= 25) return `${Math.round(percent * 10)}%`;
+    else if (percent <= 50) return `${Math.round((50 - percent) * 4 + 150)}%`;
+    else if (percent > 50) return `${Math.round(100 - percent + 100)}%`;
   }
 
   render() {
@@ -63,7 +79,7 @@ export default class CircleProgress extends React.Component {
             style={{
               data: {
                 fill: ({ datum }) => {
-                  const color = datum.y > 30 ? 'green' : 'red';
+                  const color = this.getColor(datum);
                   return datum.x === 1 ? color : 'transparent';
                 },
               },
@@ -77,7 +93,7 @@ export default class CircleProgress extends React.Component {
                   verticalAnchor="middle"
                   x={150}
                   y={150}
-                  text={`${Math.round(newProps.percent)}%`}
+                  text={this.getPercentage(newProps)}
                   style={{ fontSize: 45 }}
                 />
               );
