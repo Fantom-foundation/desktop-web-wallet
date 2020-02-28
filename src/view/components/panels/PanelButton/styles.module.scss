@@ -1,0 +1,19 @@
+@import '~/styles/variables.scss';
+
+.button {
+  height: $panel_height;
+  position: relative;
+  min-width: 65px;
+  color: #1c1c1c;
+  border-radius: 0;
+  background-color: #fff;
+  outline: none;
+  box-shadow: none;
+  
+  &:hover, &:active {
+    background-color: #fff;
+    color: #1c1c1c;    
+    outline: none;
+    box-shadow: none;
+  }
+}

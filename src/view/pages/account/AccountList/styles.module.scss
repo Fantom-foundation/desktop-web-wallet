@@ -1,0 +1,300 @@
+@import '~/styles/variables.scss';
+
+.container {
+  max-width: 770px;
+}
+
+.slogan {
+  letter-spacing: 3px;
+  font-size: 63px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  text-transform: uppercase;
+}
+
+.rounded {
+  text-transform: uppercase;
+  margin: 0 40px;
+  letter-spacing: 1px;
+  font-weight: 100;
+  font-size: 20px;
+  border: 2px solid #679ed2;
+  background-color: #000;
+  border-radius: 50px !important;
+  font-family: 'Roboto';
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white !important;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  // margin-top: 20px;
+
+  & > * {
+    margin: 0 10px;
+  }
+}
+
+.homeWrapper {
+  p {
+    font-size: 14px;
+  }
+
+  .walletBtn {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-weight: 600;
+    padding: 0;
+    position: relative;
+    width: 130px;
+    text-align: left;
+    cursor: pointer;
+    outline: 0 !important;
+
+    i {
+      font-size: 20px;
+      position: absolute;
+      top: 3px;
+      right: 0;
+      margin-left: 20px;
+    }
+  }
+
+  .cardBody {
+    padding: 10px;
+  }
+
+  .marginBottom {
+    margin-bottom: 30px;
+  }
+
+  .card {
+    padding: 30px;
+    max-width: 525px;
+    margin: 0 auto;
+  }
+}
+
+.cardContent {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+  .cardIcon {
+    flex: 0 0 30%;
+    max-width: 30%;
+    text-align: center;
+  }
+
+  .homecontent {
+    flex: 0 0 calc(100% - 30%);
+    max-width: calc(100% - 30%);
+  }
+
+  .text {
+    min-height: 140px;
+  }
+}
+
+.desktopView {
+  display: none;
+
+  @media (min-width: $tablet) {
+    display: block;
+  }
+}
+
+.mobileView {
+  display: none;
+
+  @media (max-width: $tablet) {
+    display: block;
+  }
+}
+
+.mobileBtn {
+  width: 100%;
+  height: 60px;
+  border-radius: 16px;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+  border: 0;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+}
+
+@import '~/styles/variables.scss';
+
+.container {
+  max-width: 770px;
+}
+
+.slogan {
+  letter-spacing: 3px;
+  font-size: 63px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.subtitle {
+  text-transform: uppercase;
+}
+
+.rounded {
+  text-transform: uppercase;
+  margin: 0 40px;
+  letter-spacing: 1px;
+  font-weight: 100;
+  font-size: 20px;
+  border: 2px solid #679ed2;
+  background-color: #000;
+  border-radius: 50px !important;
+  font-family: 'Roboto';
+  padding-left: 30px;
+  padding-right: 30px;
+  color: white !important;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none !important;
+}
+
+.banner {
+  padding: 70px 0 120px;
+  @media (max-width: $tablet) {
+    padding: 51px 0 90px;
+  }
+
+  .homeTitle {
+    font-size: 48px;
+    color: #fff;
+    font-weight: 600;
+
+    @media (max-width: $tablet) {
+      font-size: 36px;
+    }
+  }
+
+  h3 {
+    color: rgba(#fff, 0.8);
+
+    @media (max-width: $tablet) {
+      font-size: 16px;
+    }
+  }
+}
+
+.buttons {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  // margin-top: 20px;
+
+  & > * {
+    margin: 0 10px;
+  }
+}
+
+.homeWrapper {
+  p {
+    font-size: 14px;
+  }
+
+  .walletBtn {
+    background: transparent;
+    border: 0;
+    color: #fff;
+    font-weight: 600;
+    padding: 0;
+    position: relative;
+    width: 130px;
+    text-align: left;
+    cursor: pointer;
+    outline: 0 !important;
+
+    i {
+      font-size: 20px;
+      position: absolute;
+      top: 3px;
+      right: 0;
+      margin-left: 20px;
+    }
+  }
+
+  .cardBody {
+    padding: 10px;
+  }
+
+  .marginBottom {
+    margin-bottom: 30px;
+  }
+
+  .card {
+    padding: 30px;
+    max-width: 525px;
+    margin: 0 auto;
+  }
+}
+
+.cardContent {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+
+  .cardIcon {
+    flex: 0 0 30%;
+    max-width: 30%;
+    text-align: center;
+  }
+
+  .homecontent {
+    flex: 0 0 calc(100% - 30%);
+    max-width: calc(100% - 30%);
+  }
+
+  .text {
+    min-height: 140px;
+  }
+}
+
+.desktopView {
+  display: none;
+
+  @media (min-width: $tablet) {
+    display: block;
+  }
+}
+
+.mobileView {
+  display: none;
+
+  @media (max-width: $tablet) {
+    display: block;
+  }
+}
+
+.mobileBtn {
+  width: 100%;
+  height: 60px;
+  border-radius: 16px;
+  box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+  border: 0;
+  color: #fff;
+  font-weight: 600;
+  font-size: 18px;
+}

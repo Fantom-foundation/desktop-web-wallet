@@ -1,0 +1,32 @@
+@import '~/styles/variables.scss';
+
+.placeholder {
+  height: 100px;
+
+  @include tablet {
+    height: 64px;
+  }
+}
+.header {
+  display: flex;
+  align-items: center;
+  height: 121px;
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: map-get($color, Primary-Main);
+  padding: 20px 55px;
+  z-index: 999;
+  @media (max-width: $tablet) {
+    height: 73px;
+    padding: 20px 25px;
+  }
+}
+.logo {
+  img {
+    height: 41px;
+    @media (max-width: $tablet) {
+      width: 138px;
+    }
+  }
+}

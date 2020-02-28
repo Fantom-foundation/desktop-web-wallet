@@ -1,0 +1,98 @@
+@import '~/styles/variables.scss';
+
+.wrap {
+  max-width: 740px;
+  margin: 15px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: row;
+  position: relative;
+  padding: 20px 20px 40px 20px;
+}
+
+.icon {
+  width: 64px;
+  height: 64px;
+  flex: 0 0 64px;
+  position: relative;
+  z-index: 3;
+
+
+  @include tablet {
+    svg {
+      width: 54px;
+      height: 54px;
+    }
+  }
+
+  svg {
+    fill: #999999;
+    color: #999999;
+  }
+
+  &.active {
+    .title {
+      color: $color_primary;
+    }
+
+    svg {
+      fill: $color_primary;
+      color: $color_primary;
+    }
+  }
+}
+
+.line {
+  flex: 1;
+  height: 16px;
+  position: absolute;
+  top: 39px;
+  left: 0;
+  width: 100%;
+  padding: 0 40px 0 50px;
+  box-sizing: border-box;
+  flex-direction: row;
+  display: flex;
+}
+
+.seg {
+  background: #bbbbbb;
+  transform: skew(-35deg);
+  flex: 1;
+  height: 100%;
+  display: flex;
+
+  &.active {
+    background: $color_primary;
+  }
+
+  &::before {
+    content: '';
+    width: 50%;
+    height: 100%;
+    background: #999999;
+  }
+
+  &.active, &.current {
+    &::before {
+      background: $color_primary;
+    }
+  }
+}
+
+.spacer {
+  flex: 1;
+}
+
+.title {
+  position: absolute;
+  top: 60px;
+  white-space: nowrap;
+  left: 50%;
+  transform: translate(-50%, 0);
+
+  @include tablet {
+    font-size: 14px;
+  }
+}

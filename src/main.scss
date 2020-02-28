@@ -1,0 +1,27 @@
+@import '../node_modules/react-redux-toastr/src/styles/index';
+
+@import './styles/_global';
+
+// .modal-footer {
+//   background: transparentize(white, 0.9);
+//   border-top: none;
+// }
+
+// .modal-content {
+//   color: white;
+//   background: black;
+// }
+// .modal-header {
+//   border-bottom: none;
+// }
+
+.redux-toastr .toastr {
+    &.rrt-success {
+      background-color: #007bff;
+  
+      .rrt-progressbar {
+        background-color: white;
+      }
+    }
+  }
+  

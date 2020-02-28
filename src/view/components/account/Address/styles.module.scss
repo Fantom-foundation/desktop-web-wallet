@@ -1,0 +1,24 @@
+@import '~/styles/variables.scss';
+
+.address {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  cursor: pointer;
+  user-select: none;
+  
+  p {
+    text-overflow: ellipsis;
+    overflow: hidden;
+    flex: 1;
+    margin: 0;
+  }
+
+  i {
+    color: $color_primary;
+    flex: 0 0 16px;
+    margin-right: 10px;
+  }
+}

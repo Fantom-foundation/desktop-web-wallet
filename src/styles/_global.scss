@@ -1,0 +1,212 @@
+$white: #fff;
+// $theme-blue: #549aec;
+$theme-blue: #00b1ff;
+
+$theme-blue-hover: #4b89ca;
+$color: (
+  white: $white,
+  black: #000,
+  nav-link: $white,
+  nav-link-hover: #8e8e8e,
+  nav-link-active: #549aec,
+  footer-menu-title: $theme-blue,
+  footer-menu-link: $white,
+  text-primary: $theme-blue,
+  btn-primary: $theme-blue,
+  btn-primary-hover: $theme-blue-hover,
+  btn-dark: #000,
+  btn-dark-hover: #3b4c5a,
+  btn-dark-outline: #679ed2,
+  btn-add-wallet: #1c1c1c,
+  btn-add-wallet-background: $white,
+  back-next-btn: $white,
+  back-next-btn-hover: #ccc,
+  acc-info-copy-text: $white,
+  acc-info-copy-btn: $theme-blue,
+  acc-info-acc-name: $white,
+  acc-info-address-title: $theme-blue,
+  acc-details-copy-btn: $theme-blue,
+  acc-details-acc-no: $white,
+  acc-details-card-acc-no: $theme-blue,
+  card-account-no: $theme-blue,
+  add-wallet-title: #feffff,
+  add-wallet-title-background: $theme-blue,
+  mnemonic-collector-list: $theme-blue,
+  restore-vault-input-label: $white,
+  modal-header-border-line: #cecece,
+  modal-title: $theme-blue,
+  modal-footer-bg: #f7f5f4,
+);
+
+$primary-font: 'Roboto';
+$secondary-font: 'Lato';
+
+$font: (
+  header-menu: $primary-font,
+  header-menu-size: 16px,
+  footer-menu-title: $primary-font,
+  footer-menu-title-size: 20px,
+  footer-menu-link: $secondary-font,
+  footer-menu-link-weight: 300,
+  footer-menu-link-size: 16px,
+  landing-banner: $secondary-font,
+  page-title: $primary-font,
+  acc-process: $primary-font,
+  wallet-bar: $primary-font,
+  wallet-bar-size: 20px,
+  modal-title: $primary-font,
+  modal-title-weight: 500,
+  modal-btn: $primary-font,
+  modal-btn-weight: 300,
+  modal-body-text: $secondary-font,
+  modal-body-text-weight: 400,
+  btn: $primary-font,
+  restore-confirm: $primary-font,
+);
+
+$navlink-textTransform: uppercase;
+
+body {
+  color: map-get($color, dark-grey-blue);
+  font-family: Work Sans;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+@import './fonts';
+@import './variables.scss';
+@import './typography';
+@import './button';
+
+.row {
+  @media (max-width: $largeDesktop) {
+    margin: {
+      right: -11px;
+      left: -11px;
+    }
+  }
+}
+
+.col,
+[class*='col-'] {
+  @media (max-width: $largeDesktop) {
+    padding: {
+      right: 11px;
+      left: 11px;
+    }
+  }
+}
+
+.no-mobile {
+  @media (max-width: $tablet) {
+    display: none;
+  }
+}
+
+.bg {
+  &-dark-periwinkle {
+    background: map-get($color, dark-periwinkle) !important;
+  }
+
+  &-topaz {
+    background: map-get($color, topaz) !important;
+  }
+}
+
+.mb-6,
+.my-6 {
+  margin-bottom: 3.75rem !important;
+}
+
+.mt-6,
+.my-6 {
+  margin-top: 3.75rem !important;
+}
+
+@media (min-width: $tablet) {
+  .mb-md-6,
+  .my-md-6 {
+    margin-bottom: 3.75rem !important;
+  }
+
+  .mt-md-6,
+  .my-md-6 {
+    margin-top: 3.75rem !important;
+  }
+}
+
+.pb-6,
+.py-6 {
+  padding-bottom: 3.75rem !important;
+}
+
+.pt-6,
+.py-6 {
+  padding-top: 3.75rem !important;
+}
+
+.opacity-3 {
+  opacity: 0.3;
+}
+
+.opacity-5 {
+  opacity: 0.5;
+}
+
+.opacity-7 {
+  opacity: 0.7;
+}
+
+.opacity-8 {
+  opacity: 0.8;
+}
+
+.opacity-85 {
+  opacity: 0.85;
+}
+
+.card {
+  border: 0;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 0 40px 0 rgba(#000, 0.06);
+  background-color: #ffffff;
+
+  .card-label {
+    font-size: 18px;
+    font-weight: 600;
+    color: rgba(map-get($color, dark-grey-blue), 0.5);
+
+    @media (max-width: $tablet) {
+      font-size: 16px;
+    }
+  }
+}
+
+.modal-dialog {
+  @media (max-width: $tablet) {
+    width: calc(100% - 50px);
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.spin {
+  animation: 1s refresh-spin infinite linear;
+
+  @keyframes refresh-spin {
+    to {
+      transform: rotate(1turn);
+    }
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}

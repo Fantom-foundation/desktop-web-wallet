@@ -1,0 +1,134 @@
+@import '~/styles/variables.scss';
+
+.inputContainer {
+  margin: 40px 0;
+  position: relative;
+  @media (max-width: $tablet) {
+    margin: 30px 0;
+  }
+  .labelWrapper {
+    display: flex;
+    align-items: center;
+    margin-bottom: 12px;
+  }
+
+  .label {
+    font-size: 18px;
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+    margin: {
+      right: 18px;
+      bottom: 0;
+    }
+    @media (max-width: $tablet) {
+      font-size: 16px;
+    }
+  }
+
+  .labelSubText {
+    display: flex;
+    align-items: center;
+    flex-grow: 1;
+  }
+
+  .entireBalance {
+    margin: 0;
+    font: {
+      size: 14px;
+      weight: 500;
+    }
+    flex-grow: 1;
+    text-align: right;
+    cursor: pointer;
+    color: map-get($color, topaz);
+    @media (max-width: $tablet) {
+      font-size: 11px;
+    }
+  }
+
+  .inputWrapper {
+    position: relative;
+  }
+
+  .input {
+    background: #f8f9fa;
+    border-color: #f8f9fa;
+    position: relative;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+    height: 40px;
+    box-shadow: none;
+    @media (max-width: $tablet) {
+      font-size: 14px;
+    }
+
+    &::-webkit-input-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &:-moz-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &::-moz-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &:-ms-input-placeholder {
+      color: rgba(map-get($color, dark-grey-blue), 0.3);
+      font-weight: 400;
+    }
+
+    &.lg {
+      font: {
+        size: 24px;
+        weight: 600;
+      }
+
+      &::-webkit-input-placeholder {
+        font-weight: 600;
+      }
+
+      &:-moz-placeholder {
+        font-weight: 600;
+      }
+
+      &::-moz-placeholder {
+        font-weight: 600;
+      }
+
+      &:-ms-input-placeholder {
+        font-weight: 600;
+      }
+    }
+
+    &.error {
+      border-color: rgba(map-get($color, darkish-pink), 0.9);
+    }
+  }
+
+  .errorText {
+    color: map-get($color, darkish-pink);
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0;
+  }
+
+  .warning {
+    font-size: 12px;
+    color: #416ed5;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    line-height: normal;
+
+    i {
+      margin-top: 2px;
+    }
+  }
+}

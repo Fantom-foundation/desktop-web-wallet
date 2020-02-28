@@ -1,0 +1,49 @@
+@import '~/styles/variables.scss';
+.phrase {
+  font-weight: 500;
+  font-size: 16px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #d8d8d8;
+  color: map-get($color, dark-grey-blue);
+  position: relative;
+  .cross {
+    color: map-get($color, dark-grey-blue);
+    background: transparent;
+    padding: 0;
+    border: 0;
+    position: absolute;
+    top: 2px;
+    right: 21px;
+    outline: 0 !important;
+    cursor: pointer;
+    @media (max-width: $phone) {
+      right: 0;
+    }
+  }
+}
+.mnemonicRow {
+  margin: {
+    left: -21.5px;
+    right: -21.5px;
+  }
+}
+.mnemonicCol {
+  padding: {
+    left: 21.5px;
+    right: 21.5px;
+  }
+}
+.mnemonicBtn {
+  cursor: pointer;
+  width: 100%;
+  height: 40px;
+  background-color: transparent;
+  font-size: 16px;
+  font-weight: 500;
+  color: map-get($color, dark-grey-blue);
+  border: solid 1px map-get($color, dark-grey-blue);
+  &.isDisable {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}

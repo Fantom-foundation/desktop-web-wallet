@@ -1,0 +1,67 @@
+@import '~/styles/variables.scss';
+
+.contentWrapper {
+  padding-left: 80px;
+  @media (max-width: $tablet) {
+    padding-left: 0;
+  }
+}
+
+.editBtn {
+  height: auto !important;
+  min-width: auto !important;
+  border: 0 !important;
+  padding: 0;
+  font-size: 14px !important;
+}
+
+.fields {
+  display: flex;
+  align-items: center;
+  margin-bottom: 40px;
+  @media (max-width: $tablet) {
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 30px;
+  }
+  .label {
+    width: 160px;
+    @media (max-width: $tablet) {
+      font-size: 16px;
+    }
+  }
+  .value {
+    padding-left: 44px;
+    @media (max-width: $tablet) {
+      padding-left: 0;
+      font-size: 18px;
+    }
+    button {
+      margin-left: 20px;
+    }
+  }
+}
+
+.validatorAddrValue {
+  padding-left: 44px;
+  font-size: 10px;
+  @media (max-width: $tablet) {
+    padding-left: 0;
+  }
+  button {
+    margin-left: 20px;
+  }
+}
+
+.btnWrapper {
+  margin-top: 30px;
+  margin-bottom: 20px;
+  @media (max-width: $tablet) {
+    margin-top: 20px;
+  }
+  button {
+    @media (min-width: $tablet) {
+      max-width: 156px;
+    }
+  }
+}

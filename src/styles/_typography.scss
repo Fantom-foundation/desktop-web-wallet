@@ -1,0 +1,97 @@
+@import '~/styles/variables.scss';
+
+.text {
+  &-underline {
+    text-decoration: underline;
+  }
+
+
+  &-primary {
+    color: map-get($color, Primary-Main) !important;
+  }
+
+  &-dark-grey-blue {
+    color: map-get($color, dark-grey-blue) !important;
+  }
+
+  &-grey {
+    color: map-get($color, Grey-Main) !important;
+  }
+
+  &-danger {
+    color: map-get($color, Error) !important;
+  }
+
+  &-topaz {
+    color: map-get($color, topaz) !important;
+  }
+
+  &-ellipsis {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+    margin: 0;
+  }
+
+  &-usd {
+    font-size: 24px;
+    font-weight: 300;
+    color: rgba(map-get($color, dark-grey-blue), 0.5);
+  }
+}
+
+a {
+  color: map-get($color, Primary-Main);
+
+  &:hover {
+    color: darken(map-get($color, Primary-Main), 10%);
+  }
+}
+
+.font-weight-semi-bold {
+  font-weight: 600;
+}
+
+.font-weight-extra-bold {
+  font-weight: 800;
+}
+
+ExtraBold h1 {
+  font: {
+    size: 36px;
+    weight: 600;
+  }
+}
+
+h2 {
+  font: {
+    size: 24px;
+    weight: 600;
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 18px;
+  }
+}
+
+h3 {
+  font: {
+    size: 18px;
+    weight: 600;
+  }
+}
+
+h4 {
+  font: {
+    size: 16px;
+    weight: 500;
+  }
+}
+
+h6 {
+  font: {
+    size: 12px;
+    weight: 500;
+  }
+}

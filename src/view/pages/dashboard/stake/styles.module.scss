@@ -1,0 +1,463 @@
+@import '~/styles/variables.scss';
+
+.validatorBtn {
+  width: 300px;
+  position: relative;
+
+  padding: {
+    left: 35px;
+    right: 35px;
+  }
+
+  @media (max-width: $tablet) {
+    font-size: 18px !important;
+    width: 100%;
+  }
+
+  @media (max-width: $smallPhone) {
+    font-size: 16px !important;
+  }
+
+  i {
+    position: absolute;
+    top: 50%;
+    right: 21px;
+    transform: translateY(-50%);
+  }
+}
+
+.iconGap {
+  margin-bottom: 40px;
+}
+
+.copyBtn {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.card {
+  text-align: center;
+  max-width: 470px;
+
+  margin: {
+    left: auto;
+    right: auto;
+  }
+
+  svg {
+    @media (max-width: $tablet) {
+      width: 79px;
+      height: 79px;
+    }
+  }
+}
+
+.hash {
+  display: flex;
+  flex-wrap: wrap;
+
+  a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 24px;
+    font-weight: 600;
+    flex: 0 0 calc(100% - 18px);
+    max-width: calc(100% - 18px);
+  }
+
+  .copyBtn {
+    flex: 0 0 18px;
+    max-width: 18px;
+
+    svg {
+      width: 18px;
+      height: 20px;
+      color: rgba(map-get($color, dark-grey-blue), 0.5);
+    }
+  }
+}
+
+.availableWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+
+  >h3,
+  button {
+    margin: 0 14px;
+
+    @media (max-width: $tablet) {
+      ont-size: 16px;
+    }
+  }
+
+  button {
+    box-shadow: none !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+
+    font: {
+      size: 18px;
+      weight: 600;
+    }
+
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: map-get($color, Primary-Main);
+    transition: 0.15s ease-in-out;
+
+    &:hover {
+      text-decoration: underline;
+      color: darken(map-get($color, Primary-Main), 10%);
+    }
+
+    img {
+      margin-left: 10px;
+    }
+  }
+}
+
+.transCard {
+  text-align: center;
+  max-width: 470px;
+
+  margin: {
+    left: auto;
+    right: auto;
+  }
+}
+
+// .stakeButtons {
+//   display: flex;
+//   justify-content: space-between;
+//   align-items: center;
+//   @media (max-width: $tablet) {
+//     order: 2;
+//     width: 100%;
+//   }
+//   button {
+//     @media (max-width: $tablet) {
+//       width: 100%;
+//     }
+//   }
+// }
+
+// .stakeBtn,
+// .unStakeBtn {
+//   width: 100%;
+// }
+// .stakeBtn {
+//   padding-left: 15px;
+// }
+// .unStakeBtn {
+//   padding-right: 15px;
+// }
+// .rewardBtn {
+//   @media (max-width: $tablet) {
+//     width: 100%;
+//   }
+//   button {
+//     @media (max-width: $tablet) {
+//       width: 100%;
+//       order: 1;
+//       margin-bottom: 50px;
+//     }
+//   }
+// }
+// .stakeBtnWrap {
+//   margin: 0 auto;
+//   width: 100%;
+//   display: flex;
+//   align-items: center;
+//   justify-content: space-between;
+//   @media (max-width: $tablet) {
+//     flex-direction: column;
+//     width: 100%;
+//   }
+// }
+// .stakeBtnWrap {
+//   display: flex;
+//   flex-wrap: wrap;
+//   align-items: center;
+//   margin: 0 auto;
+//   button {
+//     @media (max-width: $tablet) {
+//       width: 100%;
+//     }
+//   }
+
+//   .m50 {
+//     flex: 0 0 33.3%;
+//     max-width: 33.3%;
+//     padding: 40px;
+//     @media (max-width: $tablet) {
+//       flex: 0 0 50%;
+//       max-width: 50%;
+//       order: 2;
+//       padding: 15px;
+//     }
+//   }
+//   .m100 {
+//     flex: 0 0 33.3%;
+//     max-width: 33.3%;
+//     padding: 40px;
+//     @media (max-width: $tablet) {
+//       flex: 0 0 100%;
+//       max-width: 100%;
+//       order: 1;
+//       margin-bottom: 50px;
+//       padding: 15px;
+//     }
+//   }
+// }
+.stakeButtonsWrap {
+  max-width: 628px;
+  margin: 30px auto 0;
+
+  .row {
+    margin-right: -40px;
+    margin-left: -40px;
+
+    @media (max-width: $largeDesktop) {
+      margin-right: -35px;
+      margin-left: -35px;
+    }
+
+    @media (max-width: $tablet) {
+      margin-right: -15px;
+      margin-left: -15px;
+    }
+
+    .col {
+      padding-right: 40px;
+      padding-left: 40px;
+
+      @media (max-width: $largeDesktop) {
+        padding-right: 35px;
+        padding-left: 35px;
+      }
+
+      @media (max-width: $tablet) {
+        padding-right: 15px;
+        padding-left: 15px;
+      }
+
+      @media (max-width: $smallPhone) {
+        flex: 0 0 100%;
+        max-width: 100%;
+        margin-bottom: 10px;
+      }
+
+      button {
+        @media (max-width: $tablet) {
+          font-size: 16px;
+          min-width: 122px;
+        }
+      }
+    }
+  }
+
+  .rewardBtn {
+    @media (max-width: $tablet) {
+      order: 1;
+      margin-bottom: 50px;
+    }
+  }
+
+  .unstakeBtn {
+    @media (max-width: $tablet) {
+      order: 2;
+    }
+  }
+
+  .stakeBtn {
+    @media (max-width: $tablet) {
+      order: 3;
+    }
+  }
+}
+
+.stakeCard {
+  h2 {
+    @media (max-width: $tablet) {
+      font-size: 18px;
+    }
+  }
+}
+
+.stakeBtnsWrap {
+  margin: 0 auto;
+  max-width: 480px;
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+
+  @media (max-width: $smallPhone) {
+    flex-direction: column;
+  }
+
+  button {
+    @media (max-width: $tablet) {
+      min-width: 122px;
+    }
+
+    @media (max-width: $smallPhone) {
+      margin-bottom: 10px;
+    }
+  }
+}
+
+@import '~/styles/variables.scss';
+
+.card {
+  padding: {
+    left: 30px !important;
+    right: 30px !important;
+  }
+
+  @media (max-width: $tablet) {
+    padding: {
+      left: 25px !important;
+      right: 25px !important;
+    }
+  }
+}
+
+.inputsWrapper {
+  @media (min-width: $tablet) {
+    padding: {
+      left: 10px;
+      right: 10px;
+    }
+  }
+}
+
+.title {
+  font-weight: 800;
+}
+
+.btnWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 20px;
+}
+
+.btn {
+  width: 200px;
+
+  &.send {
+    margin-bottom: 10px;
+    font-size: 21px;
+  }
+
+  &.clear {
+    font-size: 14px;
+    font-weight: 500;
+  }
+}
+
+.passwordModal {
+  @media (min-width: $tablet) {
+    max-width: 870px;
+  }
+
+  >div {
+    border-radius: 20px;
+    border: 0;
+    overflow: hidden;
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.06);
+
+    @media (min-width: $tablet) {
+      min-height: 301px;
+    }
+  }
+
+  .body {
+    padding: 20px 40px 40px;
+  }
+
+  .sendBtn {
+    margin-top: 35px;
+    width: 200px;
+  }
+
+  label {
+    font-size: 18px !important;
+  }
+
+  p {
+    margin-top: 20px !important;
+  }
+
+  ::-webkit-input-placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+
+  :-ms-input-placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+
+  ::placeholder {
+    color: rgba(#2b3954, 0.3) !important;
+    font-weight: 400 !important;
+    font-size: 18px !important;
+  }
+}
+
+.iconGap {
+  margin-bottom: 40px;
+}
+
+.copyBtn {
+  cursor: pointer;
+  background: transparent;
+  border: 0;
+  padding: 0;
+}
+
+.transCard {
+  text-align: center;
+  max-width: 470px;
+
+  margin: {
+    left: auto;
+    right: auto;
+  }
+}
+
+.hash {
+  display: flex;
+  flex-wrap: wrap;
+
+  a {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    font-size: 24px;
+    font-weight: 600;
+    flex: 0 0 calc(100% - 18px);
+    max-width: calc(100% - 18px);
+  }
+
+  .copyBtn {
+    flex: 0 0 18px;
+    max-width: 18px;
+
+    svg {
+      width: 18px;
+      height: 20px;
+      color: rgba(map-get($color, dark-grey-blue), 0.5);
+    }
+  }
+}

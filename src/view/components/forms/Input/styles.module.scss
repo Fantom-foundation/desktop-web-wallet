@@ -1,0 +1,79 @@
+@import '~/styles/variables.scss';
+
+.input {
+  margin: 35px 0;
+  position: relative;
+
+  .label {
+    font-size: 16px;
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+    @media (max-width: $tablet) {
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
+
+  .inputWrapper {
+    position: relative;
+  }
+
+  .inputBox {
+    background: #f8f9fa;
+    border-color: #f8f9fa;
+    position: relative;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    color: map-get($color, dark-grey-blue);
+    &.textLight {
+      font-weight: 400;
+    }
+  }
+  .errorInput {
+    border-color: map-get($color, scarlet);
+  }
+
+  .errorText {
+    color: map-get($color, scarlet);
+    font-size: 12px;
+    margin-top: 10px;
+    display: flex;
+    flex-direction: row;
+    line-height: normal;
+    &.warning {
+      color: #416ed5;
+    }
+    &.accessWallet {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      width: 100%;
+      text-align: center;
+      justify-content: center;
+      color: map-get($color, scarlet);
+    }
+    i {
+      margin-top: 2px;
+    }
+  }
+
+  .eyeIcon {
+    background: transparent;
+    border: 0;
+    position: absolute;
+    top: 50%;
+    right: 10px;
+    transform: translateY(-50%);
+    outline: 0 !important;
+    cursor: pointer;
+
+    img {
+      width: 18px;
+    }
+
+    i {
+      color: rgba(map-get($color, dark-grey-blue), 0.7);
+    }
+  }
+}

@@ -1,0 +1,42 @@
+@import '~/styles/variables.scss';
+
+.wrap {
+  margin: 60px auto;
+}
+
+.row {
+  padding: 15px 0;
+  background: $color_darkgray;
+}
+
+.transactions {
+  display: flex;
+}
+.createWalletModal {
+  max-width: 570px;
+  > div {
+    border-radius: 25px !important;
+  }
+}
+.refreshBtnWrapper {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  .refreshBtn {
+    line-height: 1;
+  }
+}
+.ftmNumber {
+  font-size: 36px;
+  font-weight: 600;
+}
+.ftmText {
+  font-size: 24px;
+  font-weight: 600;
+}
+
+.infoValue {
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1.31;
+}

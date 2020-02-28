@@ -1,0 +1,36 @@
+@import '~/styles/variables.scss';
+.layout {
+  display: flex;
+  flex-direction: column;
+  filter: blur(0);
+  transition: filter 0.25s;
+  will-change: filter;
+  position: relative;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: map-get($color, Primary-Main);
+    width: 100%;
+    height: 512px;
+    @media (max-width: $tablet) {
+      height: 370px;
+    }
+  }
+  main {
+    flex-grow: 1;
+    padding: 9px 0;
+    position: relative;
+    z-index: 1;
+    min-height: 400px;
+  }
+  &.blurred {
+    filter: blur(10px);
+    touch-action: none;
+    pointer-events: none;
+  }
+}

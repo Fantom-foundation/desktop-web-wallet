@@ -1,0 +1,54 @@
+@import '~/styles/variables.scss';
+
+.footer {
+  margin-top: 30px;
+
+  ul {
+    padding: 0 0 0 15px;
+  }
+
+  li {
+    padding: 5px 0;
+  }
+
+  a {
+    text-decoration: none;
+  }
+
+  h2 {
+    font-size: 20px;
+    margin-bottom: 20px;
+    color: $color_primary;
+    padding-left: 15px;
+  }
+
+  .footerContent {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: map-get($color, Primary-Main);
+    padding: 15px 0;
+    @media (max-width: $tablet) {
+      flex-direction: column;
+    }
+  }
+  h6 {
+    color: rgba(map-get($color, Primary-Main), 0.8);
+    @media (max-width: $tablet) {
+      order: 2;
+      text-align: center;
+    }
+  }
+  .socialIcon {
+    @media (max-width: $tablet) {
+      order: 1;
+    }
+    i {
+      margin: 15px 35px;
+      font-size: 25px;
+      @media (max-width: $smallPhone) {
+        margin: 15px;
+      }
+    }
+  }
+}

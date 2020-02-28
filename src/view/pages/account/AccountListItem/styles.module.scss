@@ -1,0 +1,25 @@
+@import "~/styles/variables.scss";
+
+.card {
+  cursor: pointer;
+  border-radius: 4px;
+  background: white;
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  padding: 30px;
+  box-sizing: border-box;
+  position: relative;
+
+  & > div {
+    margin: 30px 0;
+  }
+}
+
+.title {
+  padding: 20px;
+  text-transform: uppercase;
+  text-align: center;
+}
