@@ -23,7 +23,7 @@ const Home: FC<{}> = props => {
         <Container>
           <h1 className={styles.homeTitle}>{t('welcomeFantomWallet')}</h1>
           <h3 className="font-weight-semi-bold">
-            Send, receive and stake your FTM
+            Send, receive and stake your Opera FTM
           </h3>
         </Container>
       </div>
@@ -80,8 +80,8 @@ const Home: FC<{}> = props => {
                         <p className="text-white">
                           Connect to the Fantom network and:
                           <ul>
-                            <li>Send and receive FTM</li>
-                            <li>Stake your FTM</li>
+                            <li>Send and receive Opera FTM</li>
+                            <li>Stake your Opera FTM</li>
                             <li>Collect your rewards</li>
                           </ul>
                         </p>
