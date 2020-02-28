@@ -49,6 +49,18 @@ const ENUM_WORD = [
   'tenth',
   'eleventh',
   'twelve',
+  "thirteen",
+  "fourteen",
+  "fifteen",
+  "sixteen",
+  "seventeen",
+  "eighteen",
+  "nineteen",
+  "twenty",
+  "twenty-one",
+  "twenty-two",
+  "twenty-three",
+  "twenty-four",
 ];
 
 type ShuffleItem = {
@@ -226,7 +238,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
 
 
     const isActive = () => {
-      if (verifyMnemonic && verifyMnemonic.length === 12) {
+      if (verifyMnemonic && verifyMnemonic.length === 24) {
         return true;
       }
       return false;
@@ -240,7 +252,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
     const isBtnDisabled =
       verifyMnemonic &&
       verifyMnemonic.length > 0 &&
-      verifyMnemonic.length === 12;
+      verifyMnemonic.length === 24;
 
       const { t } = useTranslation();
 

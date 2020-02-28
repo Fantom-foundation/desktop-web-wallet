@@ -68,7 +68,7 @@ import { createBrotliCompress } from 'zlib';
 function* createSetCredentials({
   create,
 }: ReturnType<typeof accountCreateSetCredentials>) {
-  const mnemonic: string = bip.generateMnemonic();
+  const mnemonic: string = bip.generateMnemonic(256);
   const { privateKey, publicAddress } = yield call(Fantom.mnemonicToKeys, mnemonic);;
   const pass = create.password || '';
 
