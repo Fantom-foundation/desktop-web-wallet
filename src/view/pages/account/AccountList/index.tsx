@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable react/no-multi-comp */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { FC, useCallback, useEffect } from 'react';
@@ -86,7 +87,6 @@ const AccountListUnconnected: FC<IProps> = ({
   const { t } = useTranslation();
 
   const setAppLanguage = lang => {
-    // const currLang = localStorage.getItem('language') || i18n.language 
     let currLang = ''
     if(lang === 'browser'){
       const res = getBrowserLang() || ''
@@ -176,7 +176,11 @@ const AccountListUnconnected: FC<IProps> = ({
                         </ul>
                       </p>
                     </div>
-                    <button type="button" className={styles.walletBtn} onClick={() => goToRoute('access')}>
+                    <button
+                      type="button"
+                      className={styles.walletBtn}
+                      onClick={() => goToRoute('access')}
+                    >
                       {t("accessNow")}
                       <i className="fas fa-chevron-right" />
                     </button>
@@ -212,7 +216,7 @@ const AccountListUnconnected: FC<IProps> = ({
           </Row>
         </div>
       </Container>
-            </div>)
+    </div>)
   }
   let isAvailAcc = false;
 
@@ -234,11 +238,29 @@ const AccountListUnconnected: FC<IProps> = ({
 
             </span>
             {" "}
-            <span className={classnames("pointer",{'text-underline':i18n.language === 'en' })} onClick={() => setAppLanguage('en')}>English</span>
+            <span
+              className={classnames("pointer",{'text-underline':i18n.language === 'en' })} 
+              onClick={() => setAppLanguage('en')}
+            >
+English
+
+            </span>
             {" "} 
-            <span className={classnames("pointer",{'text-underline':i18n.language === 'kor' })} onClick={() => setAppLanguage('kor')}>한국어</span>
+            <span
+              className={classnames("pointer",{'text-underline':i18n.language === 'kor' })} 
+              onClick={() => setAppLanguage('kor')}
+            >
+한국어
+
+            </span>
             {" "}
-            <span className={classnames("pointer",{'text-underline':i18n.language === 'chi' })} onClick={() => setAppLanguage('chi')}>简体中文</span> 
+            <span
+              className={classnames("pointer",{'text-underline':i18n.language === 'chi' })} 
+              onClick={() => setAppLanguage('chi')}
+            >
+简体中文
+
+            </span> 
           </h3>
         </Container>
       </div>
@@ -270,7 +292,7 @@ const AccountListUnconnected: FC<IProps> = ({
                 <AddressBalanceCard
                   addNew
                 />
-              </Col> }
+                             </Col> }
             </Row>
           </Container>
         </div>

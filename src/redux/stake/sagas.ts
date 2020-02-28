@@ -12,7 +12,6 @@ import {
 import {
   STAKE_ACTIONS,
   delegateByAddress,
-  delegateByStakerId,
   delegateAmount,
   delegateByAddressSuccess,
   delegateByAddressFailure,
@@ -103,20 +102,20 @@ export function* delegateByAddressesSaga() {
   }
 }
 
-export function* delegateByStakerIdSaga({
-  payload: { stakerId },
-}: ReturnType<typeof delegateByStakerId>) {
-  try {
-    const res = yield call(
-      fetch,
-      `${process.env.REACT_APP_API_URL_FANTOM}api/v1/delegator/staker/${stakerId}`
-    );
-    const data = yield call([res, 'json']);
+// export function* delegateByStakerIdSaga({
+//   payload: { stakerId },
+// }: ReturnType<typeof delegateByStakerId>) {
+//   try {
+//     const res = yield call(
+//       fetch,
+//       `${process.env.REACT_APP_API_URL_FANTOM}api/v1/delegator/staker/${stakerId}`
+//     );
+//     const data = yield call([res, 'json']);
    
-  } catch (e) {
-    console.log(e, '****error')
-  }
-}
+//   } catch (e) {
+//     console.log(e, '****error')
+//   }
+// }
 
 export function* delegateAmountSaga({
   publicKey,
@@ -197,7 +196,7 @@ export function* unstakeAmountSaga({
       password
     );
 
-    const res = yield call(
+    yield call(
       delegateUnstake,
       publicKey,
       privateKey,
@@ -284,10 +283,10 @@ export default function* stakeSaga() {
       STAKE_ACTIONS.DELEGATE_BY_ADDRESSES,
       delegateByAddressesSaga
     ),
-    yield takeLatest(
-      STAKE_ACTIONS.DELEGATE_BY_STAKER_ID,
-      delegateByStakerIdSaga
-    ),
+    // yield takeLatest(
+    //   STAKE_ACTIONS.DELEGATE_BY_STAKER_ID,
+    //   delegateByStakerIdSaga
+    // ),
     yield takeLatest(STAKE_ACTIONS.DELEGATE_AMOUNT, delegateAmountSaga),
     yield takeLatest(
       STAKE_ACTIONS.DELEGATE_AMOUNT_PASS_CHECK,

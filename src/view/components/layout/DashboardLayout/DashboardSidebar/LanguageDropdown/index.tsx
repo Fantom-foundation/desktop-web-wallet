@@ -11,10 +11,10 @@ import LanguageIcon from 'src/images/icons/language-icon.svg';
 import i18n from "i18next";
 import detectBrowserLanguage from 'detect-browser-language'
 import { useTranslation } from 'react-i18next';
-import OsLocale  from 'os-locale';
 
 
-const languages = [{ id: 'bl',name: 'Browser' },{ id: 'en',name: 'English' }, { id: 'kor', name: '한국어' }, { id: 'chi', name: '简体中文' }];
+const languages = [{ id: 'bl',name: 'Browser' },
+{ id: 'en',name: 'English' }, { id: 'kor', name: '한국어' }, { id: 'chi', name: '简体中文' }];
 export default () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState('Browser');

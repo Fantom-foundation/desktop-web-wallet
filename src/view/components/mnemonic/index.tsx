@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/no-multi-comp */
 import React from 'react';
 import mnemonicMock from './mnemonicMock';
@@ -67,22 +68,11 @@ export const MnemonicPhraseEmpty = ({ selected, onMnemonicRemove }) => (
   </Row>
 );
 
-export const MnemonicButtons = ({ mnemonic, selected, onMnemonicSelect }) => {
-  // let btnDisabled = false;
-  // if(mnemonic && mnemonic.length > 0){
-  //   mnemonic.forEach(item => {
-  //     selected.forEach((select) => {
-  //       if(select.index === item.index){
-  //         btnDisabled = true;
-  //       }
-  //     })
-     
-
-  //   })
-  // }
+export const MnemonicButtons = ({ mnemonic, onMnemonicSelect }) => {
+ 
   return (<Row className={styles.mnemonicRow}>
 
-    {mnemonic && mnemonic.length > 0 && mnemonic.map((word, index) => {
+    {mnemonic && mnemonic.length > 0 && mnemonic.map(word => {
       return (
         <Col
           xs={6}
@@ -103,5 +93,5 @@ export const MnemonicButtons = ({ mnemonic, selected, onMnemonicSelect }) => {
         </Col>
       );
     })}
-  </Row>)
+          </Row>)
 };

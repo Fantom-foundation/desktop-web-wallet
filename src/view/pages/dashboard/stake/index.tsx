@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable react/no-multi-comp */
 import React, { useState, useCallback, useEffect } from 'react';
@@ -48,7 +49,6 @@ const Stake = props => {
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const [passError, setPassError] = useState(false)
-  const [withdrawalText, setWithdrawal] = useState('');
   const {
     stakes,
     id,
@@ -58,7 +58,6 @@ const Stake = props => {
     accountGetBalance,
     delegateAmountPassCheck,
     withdrawAmountPassCheck,
-    accountGetPrivateKey,
     accountGetTransferFee,
   } = props;
   const [isEdit, setIsEdit] = useState(false);
@@ -68,6 +67,7 @@ const Stake = props => {
   const account = accountData.list && id && accountData.list[id];
   const [isInitial, setIsInitial] = useState(false)
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const setTxFee = () => {
     const selectedAddress =
     stakes && stakes.length > 0
@@ -96,7 +96,6 @@ const Stake = props => {
     }
     setTxFee()
 
-    console.log("createtimeout kapil")
     const interval = setInterval(() => {
       if (!modal) {
 
@@ -105,8 +104,9 @@ const Stake = props => {
 
       }
     }, 30000);
-    return () => {console.log("cleartimeout kapil"); clearInterval(interval)};
-  }, [accountGetBalance, accountGetTransferFee, modal, type, delegateByAddress, inProcess, id, setTransactionFee, setTxFee, isInitial]);
+    return () => { clearInterval(interval)};
+  }, [accountGetBalance, accountGetTransferFee, modal, 
+    type, delegateByAddress, inProcess, id, setTransactionFee, setTxFee, isInitial]);
 
 
 
@@ -131,7 +131,7 @@ const Stake = props => {
   );
 
   const unStakeAmount = () => {
-    const { unstakeamount, id } = props;
+    const { unstakeamount } = props;
    
     unstakeamount({ publicKey: id, password  }, res => {
       if(res){
@@ -167,7 +167,6 @@ const Stake = props => {
       setInProcess(false)
 
     }
-    // setInProcess(false)
   };
 
   const callback = (res: boolean) => {
@@ -202,16 +201,12 @@ const Stake = props => {
       callback
     );
     setInProcess(true)
-    // setTimeout(() => {
-    //   accountGetBalance(id);
-    // }, 2000);
+   
   };
 
   const unStakeAmountPass = () => {
     setInProcess(true)
-    // setTxFee()
     
-
     delegateAmountPassCheck(
       {
         publicKey: id,
@@ -249,10 +244,6 @@ const Stake = props => {
         return 
       }
 
-
-
-
-
     if (isEdit) {
       setStep(4);
     } else {
@@ -262,7 +253,7 @@ const Stake = props => {
 
 
   const onWithdrawAmount = () => {
-    const { withdrawAmount, id } = props;
+    const { withdrawAmount } = props;
     withdrawAmount({ publicKey: id, password }, res => {
       if(res){
         setInProcess(false);
@@ -285,11 +276,7 @@ const Stake = props => {
           accountGetBalance(id);
         }, 4000);
     });
-    // setTimeout(() => {
-    //   delegateByAddress({ publicKey: id });
-    //   accountGetBalance(id);
-
-    // }, 4000);
+   
    
   };
 
@@ -309,7 +296,6 @@ const Stake = props => {
 
 
   }
-  // console.log(stakes[0].publicKey,id,  '********stakes')
 
   const selectedAddress =
     stakes && stakes.length > 0
@@ -336,7 +322,7 @@ const Stake = props => {
           <StakeInput
             stakeValue={stakeValue}
             handleChange={val => {
-              setStakeValue(val), setErrors({});
+              setStakeValue(val); setErrors({});
             }}
             balanceLeft={balanceLeft}
             errors={errors}
@@ -388,7 +374,6 @@ const Stake = props => {
               const fee = parseFloat(transactionFee) * 2;
     const totalAmount = Number(stakeValue) + fee;
     if(totalAmount > Number(account.balance)){
-      // setErrors({ ...errors, maxBalance: true})
       const text = ""
 
       copyToClipboard(event, account.publicAddress, text,t, true, fee)
@@ -461,13 +446,15 @@ const Stake = props => {
         isOpen={modal}
         className={classnames('modal-dialog-centered', styles.passwordModal)}
         toggle={() => {
-          setModal(false), setPassword(''), setInProcess(false);
+          setModal(false); setPassword(''); setInProcess(false);
         }}
       >
         <ModalBody className={styles.body}>
           <Input
             type="password"
-            label={`${t('enterWalletPasswordModal')} ${type === 'stake' ? t('stake'): type === 'withdraw' ? t('withdraw') : t('unstake')}`}
+            // eslint-disable-next-line no-nested-ternary
+            label={`${t('enterWalletPasswordModal')} ${type === 'stake' ? 
+            t('stake'): type === 'withdraw' ? t('withdraw') : t('unstake')}`}
             value={password}
             placeholder={t("enterPassword")}
             handler={value => {
@@ -492,7 +479,8 @@ const Stake = props => {
                   unStakeAmountPass();
                 }
               }}
-              className={classnames(`btn ${password !== '' ? 'outlined btn-topaz' : 'btn-secondary'}`, styles.sendBtn)}
+              className={classnames(`btn ${password !== '' ? 'outlined btn-topaz' : 
+              'btn-secondary'}`, styles.sendBtn)}
 
             >
               { getButtonTitle()}
@@ -506,7 +494,7 @@ const Stake = props => {
 
 
   const withdrawalStakeCard = () => {
-    const selectedAddress =
+    const selectedAddressWith =
       stakes && stakes.length > 0
         ? stakes.find(stake => {
             return stake.publicKey === id.toLowerCase();
@@ -515,10 +503,10 @@ const Stake = props => {
 
 
     const deactivatedEpoch = Number(
-      (selectedAddress && selectedAddress.deactivatedEpoch) || 0
+      (selectedAddressWith && selectedAddressWith.deactivatedEpoch) || 0
     );
     const deactivatedTime = Number(
-      (selectedAddress && selectedAddress.deactivatedTime) || 0
+      (selectedAddressWith && selectedAddressWith.deactivatedTime) || 0
     );
 
     const date1 = new Date(deactivatedTime * 1000);
@@ -528,7 +516,6 @@ const Stake = props => {
     const endTime = moment(date2, 'YYYY/MM/DD HH:mm');
 
     const timeLeft = startTime.diff(endTime, 'hours', true);
-    // parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount)).toFixed(5)}
     const stakedAmount = parseFloat(
       Web3.utils.fromWei(
         (selectedAddress && selectedAddress.stakedAmount) || '0'
@@ -573,7 +560,6 @@ const Stake = props => {
                   const fee = parseFloat(transactionFee) * 2;
     const totalAmount = Number(stakeValue) + fee;
     if(totalAmount > Number(account.balance)){
-      // setErrors({ ...errors, maxBalance: true})
       const text = "copiedClipboard"
 
       copyToClipboard(event, account.publicAddress,text,t, true, fee, true)
@@ -585,7 +571,6 @@ const Stake = props => {
                   type="button"
                 >
                   {t('withdrawToWallet')}
-                  {/* <img src={downloadIcon} alt="download" /> */}
                 </button>
               </div>
             </Card>
@@ -610,7 +595,6 @@ const Stake = props => {
     const endTime = moment(date2, 'YYYY/MM/DD HH:mm');
 
     const timeLeft = startTime.diff(endTime, 'hours', true);
-    // parseFloat(Web3.utils.fromWei(selectedAddress.stakedAmount)).toFixed(5)}
   
 
 
@@ -686,13 +670,11 @@ FTM
         </Col>
       </Row>
       {withdrawalStakeCard()}
-      <Row className={(deactivatedEpoch > 0 && timeLeft < 0) || (selectedAddress && timeLeft > 0) ? 'mt-6':''}>
+      <Row className={(deactivatedEpoch > 0 && timeLeft < 0) || 
+        (selectedAddress && timeLeft > 0) ? 'mt-6':''}
+      >
         <Col>
-          {withdrawalText ? (
-            <WithdrawalProgress withdrawalText={withdrawalText} />
-          ) : (
-            getCurrentCard()
-          )}
+          {getCurrentCard()}
         </Col>
       </Row>
 

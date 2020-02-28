@@ -1,10 +1,9 @@
 /* eslint-disable react/no-multi-comp */
-import React, { useState, useCallback , FC, useMemo, useEffect } from 'react';
+import React, { useState, useCallback , FC, useEffect } from 'react';
 import Sidebar from './DashboardSidebar';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
 import {Modal, ModalBody, ModalHeader, ModalFooter, Button } from 'reactstrap';
-
 import { CopyIcon, QrIcon ,DownloadCircleIconGrey} from 'src/view/components/svgIcons';
 import { DashboardModal } from '../../Modal';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
@@ -71,7 +70,7 @@ const DashboardLayout: FC<IProps> = ({
     }
 
     const handleWalletLogout = () => {
-       accountRemoveAction(account && account.publicAddress, (res) => {
+       accountRemoveAction(account && account.publicAddress, res => {
          localStorage.setItem("isModalOpen", 'false')
         setLogoutModal(false)
         history.push('/')
@@ -96,12 +95,12 @@ const DashboardLayout: FC<IProps> = ({
     const renderModal = () => {
       return (<Modal className="modal-dialog-centered" isOpen={logoutModal} toggle={onClose}>
         <form>
-    <ModalHeader>{t('logoutMsg')}</ModalHeader>
+          <ModalHeader>{t('logoutMsg')}</ModalHeader>
   
           <ModalBody>
             <div className={styles.content}>
-            <p>{t('logoutDesc')}</p>
-            <p>{t('reverseAction')}</p>
+              <p>{t('logoutDesc')}</p>
+              <p>{t('reverseAction')}</p>
               
             </div>
   
@@ -109,13 +108,13 @@ const DashboardLayout: FC<IProps> = ({
   
           <ModalFooter>
             <div className="text-center w-100">
-            <Button className="mx-3" color="secondary" onClick={onClose}>
-            {t('cancel')}
-            </Button>
+              <Button className="mx-3" color="secondary" onClick={onClose}>
+                {t('cancel')}
+              </Button>
   
-            <Button className="mx-3" color="primary" type="submit" onClick={handleWalletLogout}>
-            {t('logout')}
-            </Button>
+              <Button className="mx-3" color="primary" type="submit" onClick={handleWalletLogout}>
+                {t('logout')}
+              </Button>
             </div>
           </ModalFooter>
         </form>
@@ -133,7 +132,6 @@ const DashboardLayout: FC<IProps> = ({
       >
         <div className="text-center">
           <QRCodeIcon address={address} bgColor="white" fgColor="black" />
-          {/* <img src={QrImage} className="mb-4" /> */}
           <h4 className={classnames(styles.qrHashAddress, 'opacity-7')}>
             {address}
           </h4>
@@ -157,12 +155,7 @@ const DashboardLayout: FC<IProps> = ({
                   [styles.withoutCard]: cardShow,
                 })}
               >
-                {/* <div className="d-flex justify-content-end mb-3">
-                  <p className={styles.sync}>
-                    <CheckIcon />
-                    Synchronized
-                  </p>
-                </div> */}
+               
                 <div>
                   <p className={styles.label}>{t("address")}</p>
                 </div>

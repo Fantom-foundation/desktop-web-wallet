@@ -116,16 +116,3 @@ const AccountDetailsInfo = connect(
 )(AccountDetailsInfoUnconnected);
 
 export { AccountDetailsInfo };
-
-/*
-  <PanelTitle
-    title="Account management"
-    right={
-      <PanelButton
-        onClick={getBalance}
-        icon="fa-sync-alt"
-        spin={account.is_loading_balance}
-      />
-    }
-  />
-*/

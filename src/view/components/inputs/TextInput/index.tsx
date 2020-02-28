@@ -2,7 +2,7 @@ import React, {
   FC,
   InputHTMLAttributes,
   useCallback,
-  ChangeEventHandler
+  ChangeEventHandler,
 } from "react";
 import styles from "./styles.module.scss";
 import { FaIcon } from "../FaIcon";
@@ -37,7 +37,7 @@ const TextInput: FC<IProps> = ({
   return (
     <div
       className={classNames(styles.input, styles[appearance], {
-        [styles.has_icon]: icon || fa_icon
+        [styles.has_icon]: icon || fa_icon,
       })}
     >
       {label && <div className={styles.label}>{`${label}:`}</div>}

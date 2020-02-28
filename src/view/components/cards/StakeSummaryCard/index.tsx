@@ -1,11 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Card, Button } from 'reactstrap';
 import classnames from 'classnames';
 import styles from './styles.module.scss';
-import SpinnerSVG from '../../../../images/icons/spinner.svg';
 
 export default ({ handleEditStep, stakeValue, validator, stakeAmount, t }) => {
-  const [isSubmit, setIsSubmit] = useState(false);
   return (
     <div className="mx-auto" style={{ maxWidth: 670 }}>
       <Card className="pb-6">
@@ -51,7 +49,6 @@ FTM
             color="topaz"
             onClick={() => {
                 stakeAmount();
-                setIsSubmit(true);
               }}
             className={classnames('outlined lg')}
           >

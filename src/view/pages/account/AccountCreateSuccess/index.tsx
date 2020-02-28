@@ -1,14 +1,10 @@
-import React, { FC, useCallback } from 'react';
+import React, {  useCallback } from 'react';
 import {  Button } from 'reactstrap';
-import { IAccount } from '~/redux/account/types';
 import styles from './styles.module.scss';
 import { CheckCircleIcon } from 'src/view/components/svgIcons';
 import { Layout } from '~/view/components/layout/Layout';
 import { useTranslation } from "react-i18next";
 
-// interface IProps {
-//   history: any
-// }
 
 const AccountCreateSuccess = props => {
   const handleAccessWallet = useCallback(() => {

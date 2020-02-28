@@ -26,7 +26,6 @@ const AccountRestoreKeystoreUnconnected: FC<IProps> = () => {
 
                 <Button color="primary">Upload keystore file</Button>
               </div>
-              {/* <input type="file" onChange={onUpload} /> */}
             </div>
           </Col>
         </Row>

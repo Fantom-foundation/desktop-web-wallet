@@ -1,19 +1,13 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState, useCallback, useEffect } from 'react';
-import { Card, Input } from 'reactstrap';
-import { SendForm } from '../../../components/forms';
+import { Card } from 'reactstrap';
 import classname from 'classnames';
 import { convertFTMValue } from '~/view/general/utilities';
 import {
   CopyCircleIcon,
   CopyCircleSolidIcon,
-  SetAmountCircleIcon,
-  SetAmountCircleSolidIcon,
   DownloadCircleIcon,
   DownloadCircleSolidIcon,
-  CopyIcon,
-  CheckCircleIcon,
-  ErrorCircleIcon,
 } from 'src/view/components/svgIcons';
 import styles from './styles.module.scss';
 import QRCodeIcon from '~/view/general/QRCodeIcon/index';
@@ -66,10 +60,8 @@ const RecieveDetails = ({
 }) => {
   const { t } = useTranslation();
 
-  const [amount, setAmount] = useState(false);
   const account = accountData.list && id && accountData.list[id];
 
-  const [receiveValue, setReceiveAmount] = useState('');
   const [copy, setCopy] = useState(false);
   const [download, setDownload] = useState(false);
   const text = "copiedClipboard"
@@ -107,20 +99,9 @@ FTM
             id={account.publicAddress}
           />
 
-          {/* <img src={QrImage} alt="" /> */}
         </div>
         <div className={styles.btnWrapper}>
-          {/* <button
-            type="button"
-            className={classname(styles.optionBtn, 'btn-icon')}
-            onClick={() => {
-              setAmount(!amount);
-              setReceiveAmount('');
-            }}
-          >
-            {amount ? <SetAmountCircleSolidIcon /> : <SetAmountCircleIcon />}
-            Set amount
-          </button> */}
+          
           <button
             type="button"
             className={classname(styles.optionBtn, 'btn-icon')}
@@ -145,25 +126,7 @@ FTM
             {t("download")}
           </button>
         </div>
-        {/* {amount && (
-          <div className={styles.amountInput}>
-            <Input
-              type="text"
-              placeholder="Enter amount"
-              value={receiveValue}
-              onChange={e => {
-                const re = /^[0-9\b]+$/;
-                if (e.target.value === '' || re.test(e.target.value)) {
-                  setReceiveAmount(e.target.value);
-                }
-              }}
-              min="0"
-            />
-            <button type="button">
-              <i className="fas fa-check" />
-            </button>
-          </div>
-        )} */}
+        
       </Card>
     </div>
   );

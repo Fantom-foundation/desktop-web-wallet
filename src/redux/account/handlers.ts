@@ -86,16 +86,10 @@ const addProvider = (
     state
   );
 
-
   const setFtmToUsd = (
     state: IAccountState,
     { price }: ReturnType<typeof accountSetFTMtoUSD>
   ) => assocPath(['ftmToUsd'], price, state);
-
-  // const setFtmMarketCap = (
-  //   state: IAccountState,
-  //   { marketCap }: ReturnType<typeof accountSetFTMMarketCap>
-  // ) => assocPath(['marketCap'], marketCap, state);
 
 export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_CREATE]: setCreate,
@@ -111,6 +105,4 @@ export const ACCOUNT_HANDLERS = {
   [ACCOUNT_ACTIONS.SET_CONNECTION]: setConnection,
   [ACCOUNT_ACTIONS.ADD_PROVIDER]: addProvider,
   [ACCOUNT_ACTIONS.SET_FTM_USD]: setFtmToUsd,
-  // [ACCOUNT_ACTIONS.SET_FTM_MARKET_CAP]: setFtmMarketCap,
-
 };

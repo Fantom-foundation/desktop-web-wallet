@@ -4,7 +4,6 @@ import { Card, Button } from 'reactstrap';
 
 const stackUnstack = ({
   handleStep,
-  isStaked = false,
   selectedAddress = {
     isDeligated: false,
     deactivatedEpoch: 0,

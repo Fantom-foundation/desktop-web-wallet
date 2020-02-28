@@ -116,10 +116,10 @@ export const getValidatorsListFailure = () => ({
   type: `${STAKE_ACTIONS.VALIDATORS_LIST}_FAILURE`,
 });
 
-export const delegateByStakerId = ({ stakerId }: TDelegateByStakerId) => ({
-  type: STAKE_ACTIONS.DELEGATE_BY_STAKER_ID,
-  payload: { stakerId },
-});
+// export const delegateByStakerId = ({ stakerId }: TDelegateByStakerId) => ({
+//   type: STAKE_ACTIONS.DELEGATE_BY_STAKER_ID,
+//   payload: { stakerId },
+// });
 
 export const delegateAmount = (
   { amount, publicKey, validatorId, password },

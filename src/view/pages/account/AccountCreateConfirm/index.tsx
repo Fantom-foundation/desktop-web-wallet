@@ -5,7 +5,6 @@ import React, {
   useCallback,
   useEffect,
   useMemo,
-  memo,
 } from 'react';
 import {withRouter, RouteComponentProps} from 'react-router'
 import { connect } from 'react-redux';
@@ -20,21 +19,15 @@ import { pick } from 'ramda';
 import { IState } from '~/redux/store';
 import Verification from '../../verification';
 import classnames from 'classnames';
-import { WalletModal } from '~/view/components/Modal';
 import { Layout } from '~/view/components/layout/Layout';
 import { useTranslation } from "react-i18next";
 
 import {
-  MnemonicPhrase,
   MnemonicPhraseEmpty,
   MnemonicButtons,
-  MnemonicPhraseWithCross,
 } from 'src/view/components/mnemonic';
 import { CreateWalletCard } from '../../../components/cards';
-import { Col, Row, Container, Button } from 'reactstrap';
-import { AccountCreateProcess } from '~/view/components/account/AccountCreateProccess';
-import { DialogInfo } from '~/view/components/dialogs/DialogInfo';
-import { DialogPrompt } from '~/view/components/dialogs/DialogPrompt';
+import {  Button } from 'reactstrap';
 
 const ENUM_WORD = [
   'first',
@@ -79,11 +72,6 @@ const mapDispatchToProps = {
   accountCreateCancel: ACCOUNT_ACTIONS.accountCreateCancel,
 };
 
-// type IProps = ReturnType<typeof mapStateToProps> &
-//   typeof mapDispatchToProps & {
-//     push: Push
-//   };
-
 
 type IProps = ReturnType<typeof mapStateToProps> &
 typeof mapDispatchToProps &
@@ -91,13 +79,7 @@ RouteComponentProps & {
   push: Push
 };
 
-  // type IProps = {
-  //   push: Push;
-  //   accountSetCreateStage:any;
-  //   accountCreateSetConfirm: any;
-  //   mnemonic: string
-  // };
-
+ 
 const AccountCreateConfirmUnconnected: FC<IProps> = 
   ({
     accountSetCreateStage,
@@ -106,11 +88,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
     history,
   }) => {
     const [selected, setSelected] = useState<string[]>([]);
-    const [is_cancel_modal_opened, setIsCancelModalOpened] = useState(false);
-    // const [shuffledMnemonic, setShuffledMnemonic] = useState([])
-    const [filterSelected, setfilterSelected] = useState<Array<ShuffleItem>>(
-      []
-    );
+   
 
     const [shuffledMnemonics, setShuffledMnemonic] = useState<
       Array<ShuffleItem>
@@ -118,7 +96,6 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
     const [verifyMnemonic, setVerifyMnemonic] = useState<Array<ShuffleItem>>(
       []
     );
-    const [isEnable, setEnable] = useState(false);
 
     const [is_incorrect_modal_visible, setIsIncorrectModalVisible] = useState(
       false
@@ -219,22 +196,6 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
       setShuffledMnemonic(filteredArr);
     }, [mnemonic, onBackPressed, shuffled_mnemonics]);
 
-    useEffect(() => {
-      if (verifyMnemonic && verifyMnemonic.length > 0) {
-        const verifyMnemonicArr = verifyMnemonic.map(obj =>
-          obj.name.toLowerCase()
-        );
-        const mnemonicString = mnemonic
-          .split(' ')
-          .slice(0, verifyMnemonicArr.length)
-          .join();
-
-        if (mnemonicString === verifyMnemonicArr.join()) setEnable(false);
-        else setEnable(true);
-        return;
-      }
-      setEnable(false);
-    }, [mnemonic, verifyMnemonic]);
 
 
     const isActive = () => {
@@ -248,12 +209,6 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
     const handleClose = () => {
       history.push('/')
     };
-
-    const isBtnDisabled =
-      verifyMnemonic &&
-      verifyMnemonic.length > 0 &&
-      verifyMnemonic.length === 24;
-
       const { t } = useTranslation();
 
 
@@ -272,15 +227,12 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
               </p>
             )}
             <div className={styles.phraseContent}>
-              {/* <MnemonicPhrase mnemonic={mnemonic.split(" ")} /> */}
               <MnemonicPhraseEmpty
                 selected={verifyMnemonic}
                 onMnemonicRemove={onMnemonicRemove}
               />
-              {/* <MnemonicPhraseWithCross /> */}
               <MnemonicButtons
                 mnemonic={shuffledMnemonics}
-                selected={verifyMnemonic}
                 onMnemonicSelect={onMnemonicSelect}
               />
             </div>
@@ -308,72 +260,7 @@ const AccountCreateConfirmUnconnected: FC<IProps> =
           </CreateWalletCard>
         </div>
       </Layout>
-      // <div>
-      //   <AccountCreateProcess stepNo={3} />
-
-      //   <section className={styles.content}>
-      //     <Container>
-      //       <Row>
-      //         <Col>
-      //           <div className={styles.mnemonics}>
-      //             <h2>Enter your mnemonics in the correct order to create your account below</h2>
-
-      //             <Row className={styles.selectors}>
-      //               <Col>
-      //                 <div className={styles.mnemonic_container}>
-      //                   {selected.map(item => (
-      //                     <div key={item} className={styles.item}>
-      //                       <Button color="primary" onClick={onMnemonicRemove(item)}>
-      //                         {item}
-      //                       </Button>
-      //                     </div>
-      //                   ))}
-      //                 </div>
-
-      //                 <div className={styles.mnemonic_selector}>
-      //                   {shuffled_mnemonics.map(item => (
-      //                     <div key={item} className={styles.item}>
-      //                       <Button
-      //                         color="primary"
-      //                         onClick={onMnemonicSelect(item)}
-      //                         disabled={selected.includes(item)}
-      //                       >
-      //                         {item}
-      //                       </Button>
-      //                     </div>
-      //                   ))}
-      //                 </div>
-      //               </Col>
-      //             </Row>
-      //             <div className={styles.buttons}>
-      //               <Button color="primary bordered" onClick={onSubmit}>
-      //                 Create Wallet
-      //               </Button>
-      //               <Button className="secondary bordered" onClick={onCancelModalOpen}>
-      //                 Cancel
-      //               </Button>
-      //             </div>
-      //           </div>
-      //         </Col>
-      //       </Row>
-      //     </Container>
-
-      //     <DialogPrompt
-      //       title="Cancel Wallet"
-      //       body="Are you sure you want to cancel the create wallet process?"
-      //       onConfirm={accountCreateCancel}
-      //       onClose={onCancelModalClose}
-      //       isOpened={is_cancel_modal_opened}
-      //     />
-
-      //     <DialogInfo
-      //       isOpened={is_incorrect_modal_visible}
-      //       onClose={onIncorrectModalClose}
-      //       body="The mnemonics you entered are incorrect"
-      //       title="Incorrect Mnemonics"
-      //     />
-      //   </section>
-      // </div>
+     
     );
   }
 

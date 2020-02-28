@@ -1,5 +1,5 @@
 import React from 'react';
-import { Row, Col, Card, Table } from 'reactstrap';
+import { Row, Col, Card } from 'reactstrap';
 import Activity from 'src/view/components/activity';
 
 const overViewMock = [
@@ -17,7 +17,8 @@ export default () => (
             <h2 className="mb-0">&nbsp;FTM</h2>
           </div>
           <p className="text-right text-usd">
-            2,700,177.35<span>USD</span>
+            2,700,177.35
+            <span>USD</span>
           </p>
         </Card>
       </Col>
@@ -26,7 +27,10 @@ export default () => (
           <p className="card-label ">Overview</p>
           {overViewMock.map(({ title, value }) => (
             <div className="d-flex justify-content-between">
-              <h4 className="opacity-7">{title}:</h4>
+              <h4 className="opacity-7">
+                {title}
+:
+              </h4>
               <p className="font-weight-semi-bold">{value}</p>
             </div>
           ))}

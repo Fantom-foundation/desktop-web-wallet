@@ -37,7 +37,6 @@ export default ({
                 [styles.errorInput]: isError && !noBorder,
                 [styles.textLight]: accessWallet,
               })}
-              // className={}
               value={value}
               type={showPassword ? 'text' : type}
               placeholder={placeholder}
@@ -45,10 +44,11 @@ export default ({
             />
             {type === 'password' && (
               <button
+                type="submit"
                 className={styles.eyeIcon}
                 onClick={() => handleButton(!showPassword)}
               >
-                <img src={showPassword ? PasswordShow : PasswordHide} />
+                <img alt="" src={showPassword ? PasswordShow : PasswordHide} />
               </button>
             )}
           </div>

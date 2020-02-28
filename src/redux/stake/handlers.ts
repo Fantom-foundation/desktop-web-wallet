@@ -2,7 +2,6 @@
 import {
   delegateByAddresses,
   getValidatorsList,
-  delegateByStakerId,
   STAKE_ACTIONS,
   delegateByAddressFailure,
   getValidatorsListSuccess,
@@ -117,7 +116,7 @@ export const ACCOUNT_HANDLERS = {
   [STAKE_ACTIONS.VALIDATORS_LIST]: getValidatorsList,
   [`${STAKE_ACTIONS.VALIDATORS_LIST}_SUCCESS`]: setValidatorsList,
   [`${STAKE_ACTIONS.VALIDATORS_LIST}_FAILURE`]: getValidatorsListFailure,
-  [STAKE_ACTIONS.DELEGATE_BY_STAKER_ID]: delegateByStakerId,
+  // [STAKE_ACTIONS.DELEGATE_BY_STAKER_ID]: delegateByStakerId,
   [`${STAKE_ACTIONS.DELEGATE_AMOUNT}_SUCCESS`]: delegateAmountSuccessHandler,
   [`${STAKE_ACTIONS.DELEGATE_AMOUNT}_FAILURE`]: delegateAmountFailureHandler,
   [`${STAKE_ACTIONS.UNSTAKE_AMOUNT}_SET`]: amountUnstakedSuccess,

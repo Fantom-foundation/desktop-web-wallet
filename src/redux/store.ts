@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-underscore-dangle */
 import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
 import { persistStore, persistReducer } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -6,7 +8,7 @@ import { accountSaga } from './account/sagas';
 import validators from './stake/saga/validators';
 import stakeSaga from './stake/sagas';
 import { transactionsSaga } from './transactions/sagas';
-import { createBrowserHistory, createHashHistory } from 'history';
+import { createHashHistory } from 'history';
 import {
   routerMiddleware,
   RouterState,

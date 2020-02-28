@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import Web3 from 'web3';
@@ -37,8 +38,6 @@ type Transfer = {
   web3Delegate?: any;
   cb?: () => {};
 };
-const URL_FANTOM = API_URL_FANTOM;
-const URL_ETHEREUM = `https://rinkeby.infura.io/v3/${KEY_INFURA}`;
 
 export interface ITransfer {
   from: string;
@@ -50,12 +49,6 @@ export interface ITransfer {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   web3Delegate?: any;
 }
-// const web3 = new Web3(new Web3.providers.HttpProvider(API_URL_FANTOM));
-// const code = web3.eth
-//   .getCode("0xfa00face00fc0000000000000000000000000100")
-//   .then(res => console.log("code res: ", res))
-//   .catch(e => console.log("code e: ", e));
-// console.log("code: ", code);
 class Web3Agent {
   constructor() {
     this.web3 = new Web3(
@@ -77,7 +70,7 @@ class Web3Agent {
     return !!(await this.web3.eth.getNodeInfo());
   }
 
-  async setProvider(url: string) {
+  async setProvider() {
     const prov = new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || '');
 
     if (!this.web3) {
@@ -101,9 +94,8 @@ class Web3Agent {
     return new Promise(resolve => {
       sfc.methods
         .delegations(delegateAddress)
-        .call({ from }, function(error, result) {
+        .call({ from }, (error, result) => {
           if (!error) resolve(result);
-          console.log(error, 'errorerror getDelegate');
         });
     });
   }
@@ -129,35 +121,13 @@ class Web3Agent {
 
   getCurrentEpoch(from, sfc) {
     return new Promise(resolve => {
-      sfc.methods.currentEpoch().call({ from }, function(error, result) {
+      sfc.methods.currentEpoch().call({ from }, (error, result) => {
         if (!error) {
           resolve(result);
         }
-        console.log(error, 'errorerror getCurrentEpoch');
       });
     });
   }
-
-  // async deligateUnstake({ publicKey }) {
-  //   const web3 = new Web3(
-  //     new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || '')
-  //   );
-
-  //   const sfc = new web3.eth.Contract(
-  //     contractFunctions,
-  //     '0xfc00face00000000000000000000000000000000'
-  //   );
-  //   sfc.methods
-  //     .prepareToWithdrawDelegation()
-  //     .call({ from: publicKey }, function(error, result) {
-  //       console.log(result, '***sdfksfsd');
-  //       console.log(error, '***sdfksfsd1');
-  //       if (result) {
-  //         return true;
-  //       }
-  //       return false;
-  //     });
-  // }
 
   async estimateFee({
     from,
@@ -165,9 +135,6 @@ class Web3Agent {
     value,
     memo,
   }: Pick<ITransfer, 'from' | 'to' | 'value' | 'memo'>): Promise<string> {
-    // if (!this.web3 || !(await this.isConnected()))
-    //   throw new Error('Not connected');
-
     const gasPrice = await this.web3.eth.getGasPrice();
     const gasLimit = await this.web3.eth.estimateGas({
       from,
@@ -194,16 +161,7 @@ class Web3Agent {
       contractFunctions,
       '0xfc00face00000000000000000000000000000000'
     );
-    // sfc.methods
-    //   .delegations("0x2210BE0bDba6daC30c4023Ea22b4235E420178bE")
-    //   .call({ from: "0xde0B295669a9FD93d5F28D9Ec85E40f4cb697BAe" }, function(
-    //     error,
-    //     result
-    //   ) {
-    //     console.log("hello", error);
-    //     console.log(result);
-    //   });
-    // Get delegator info and current epoch - 1 (i.e the previous sealed epoch)
+   
     const info: any = await Promise.all([
       this.getCurrentEpoch(from, sfc),
       this.getDelegate(from, delegateAddress, sfc) || {},
@@ -213,10 +171,10 @@ class Web3Agent {
     return new Promise(resolve => {
       sfc.methods
         .calcDelegationRewards(delegateAddress, fromEpoch, maxEpochs)
-        .call({ from }, function(error, result) {
+        .call({ from }, (error, result) => {
           if (result) {
             resolve({
-              pendingRewards: parseFloat(result['0']) / Math.pow(10, 18),
+              pendingRewards: parseFloat(result['0']) / 10 ** 18,
               data: info[1],
             });
           } else {
@@ -227,13 +185,7 @@ class Web3Agent {
   }
 
   async delegateStake({ amount, publicKey, privateKey, validatorId }) {
-    console.log(
-      amount,
-      publicKey,
-      privateKey,
-      validatorId,
-      '******8amount, publicKey, privateKey, validatorId'
-    );
+   
 
     const web3 = new Web3(
       new Web3.providers.HttpProvider(REACT_APP_API_URL_WEB3 || '')
@@ -244,16 +196,7 @@ class Web3Agent {
       '0xfc00face00000000000000000000000000000000'
     );
 
-    // Assign contract functions to sfc variable
-    // tx = this.sfc.createDelegation("1", {
-    //   from: "0x2122ecA57D8F5Ca902363CbA9d256A66C7664332",
-    //   value: "1"
-    // });
-    // const sfc = new this.web3.eth.Contract(
-    //   abi,
-    //   "0xfc00face00000000000000000000000000000000"
-    // );
-    // const am = Number(amount)
+   
 
     return this.transfer({
       from: publicKey,
@@ -263,9 +206,7 @@ class Web3Agent {
       privateKey,
       gasLimit: 200000,
       web3Delegate: web3,
-      // cb: data,
     });
-    // this.sfc.stakersNum(); // if everything is all right, will return non-zero value
   }
 
   async restoreWallet(privateKey) {
@@ -275,7 +216,6 @@ class Web3Agent {
 
   async getTransactionFee(gasLimit) {
     const gasPrice = await this.web3.eth.getGasPrice();
-    // const gasLimit = 200000;
     const fee = Web3.utils.fromWei(
       BigInt(gasPrice.toString())
         .multiply(BigInt(gasLimit.toString()))
@@ -297,7 +237,6 @@ class Web3Agent {
     const useWeb3 = web3Delegate || this.web3;
     const nonce = await useWeb3.eth.getTransactionCount(from);
     const gasPrice = await useWeb3.eth.getGasPrice();
-    // const amount = parseFloat(value)
 
     const rawTx = {
       from,
@@ -317,9 +256,7 @@ class Web3Agent {
       `0x${serializedTx.toString('hex')}`
     );
     localStorage.setItem('txHash', res.transactionHash);
-    // if (cb) {
-    //   cb(res.transactionHash || '')
-    // }
+    
     return res;
   }
 
@@ -339,7 +276,6 @@ class Web3Agent {
       privateKey,
       gasLimit: 200000,
       web3Delegate: web3,
-      // cb: () => '',
     });
   }
 
@@ -360,7 +296,6 @@ class Web3Agent {
       privateKey,
       gasLimit: 200000,
       web3Delegate: web3,
-      // cb: () => '',
     });
   }
 
@@ -394,13 +329,6 @@ class Web3Agent {
     );
   }
 }
-// from debug network
-/* eslint-disable no-undef */
-// $FlowFixMe
-// GLOBAL.XMLHttpRequest = GLOBAL.originalXMLHttpRequest || GLOBAL.XMLHttpRequest;
-// export const  {
-//   Fantom: new Web3Agent(),
-// };
 
 const Fantom = new Web3Agent();
 

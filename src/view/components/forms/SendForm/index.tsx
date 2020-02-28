@@ -11,11 +11,8 @@ import {
 } from '~/redux/account/selectors';
 import { useTranslation } from "react-i18next";
 import { connect } from 'react-redux';
-import { IModalChildProps } from '~/redux/modal/constants';
 import { copyToClipboard } from '~/utility/clipboard';
-import { IAccount } from '~/redux/account/types';
 import { RouteComponentProps } from 'react-router';
-import { estimationMaxFantomBalance } from '../../../general/utilities';
 import * as ACTIONS from '~/redux/transactions/actions';
 
 import Input from '../Input';
@@ -59,13 +56,10 @@ const TransferFunds: FC<IProps> = ({
   accountSendPasswordCheck,
   transactionsGetList,
   transfer,
-  transactionHash,
   accountGetTransferFee,
   setTransactionDetails,
 }) => {
-  // const data =  accountData.list && address && accountData.list[address];
   const { t } = useTranslation();
-
   const [to, setTo] = useState('');
   const [amount, setAmount] = useState('');
   const [memo, setMemo] = useState('');
@@ -81,7 +75,6 @@ const TransferFunds: FC<IProps> = ({
   const [modal, setModal] = useState(false);
   const [isSendSucess, setIsSendSuccess] = useState(false);
   const [password, setPassword] = useState('');
-  const [txId, setTxId] = useState('');
   const [errorPass, setError] = useState(false);
   const [sendFailed, setSendFailed] = useState(false)
   const [transactionFee, setTransactionFee] = useState('0')
@@ -90,9 +83,10 @@ const TransferFunds: FC<IProps> = ({
     setTo('');
     setAmount('');
     setMemo('');
-    setErrors({ maxBalance: false, amount: false, to: false, password: false,  invalidAmount: false });
+    setErrors({ 
+      maxBalance: false, amount: false, to: false, password: false,  
+      invalidAmount: false });
   }, [setTo, setAmount, setMemo]);
-  // const balance = parseFloat(data.balance)
 
   const handlePassword = useCallback(() => {
     const validation_errors = {
@@ -117,12 +111,10 @@ const TransferFunds: FC<IProps> = ({
     setModal(true);
   }, [amount, data.balance, to.length, transactionFee, sendingErrors]);
 
+  // eslint-disable-next-line react/no-multi-comp
   const renderSendFormSucess = (
-    isSendSucess,
     errorType,
-    publicAddress,
-    onClick,
-    t
+    onClick
   ) => {
     if (isSendSucess && errorType === '') {
       const hashValue = localStorage.getItem('txHash')
@@ -131,7 +123,14 @@ const TransferFunds: FC<IProps> = ({
           <Card className={classnames(styles.transCard, 'mb-5 mt-5')}>
             <h2>{t("transactionSent!")}</h2>
             <div className={classnames(styles.iconGap, styles.hash)}>
-              <a target='_blank' href={`${FANTOM_WEB_URL}/transactions/${hashValue}`}>{hashValue}</a>
+              <a
+                rel="noopener noreferrer" 
+                target='_blank'
+                href={`${FANTOM_WEB_URL}/transactions/${hashValue}`}
+              >
+                {hashValue}
+
+              </a>
               <button
                 className={styles.copyBtn}
                 type="button"
@@ -168,12 +167,6 @@ const TransferFunds: FC<IProps> = ({
     return null;
   };
 
-
-
-  // const callback = (fee: string) => {
-
-  // }
-
   useEffect(() => {
     const errors = Object.keys(transfer.errors);
     if (errors && errors.length === 0 && isSending) {
@@ -183,17 +176,10 @@ const TransferFunds: FC<IProps> = ({
       setTransactionFee(fee)
 
     })
-    // setIsInitial(true);
-    // if (!isInitial && errors.includes('password')) {
-    //   setModal(true);
-    // }
   }, [accountGetTransferFee, isSending, password, setIsSending, setModal, transfer.errors]);
 
   let errorType = '';
   const errors = Object.keys(transfer.errors);
-  // if(errors && errors.length === 0 && isSending){
-  //   setIsSendSuccess(true)
-  // }
   if (errors && errors.length > 0) {
     if (errors.includes('password')) {
       errorType = 'password';
@@ -201,12 +187,6 @@ const TransferFunds: FC<IProps> = ({
       errorType = 'other';
     }
   }
-
-
-  const sendSuccess = useCallback(() => {
-    setIsSending(true);
-    setModal(false);
-  }, [setIsSending, setModal]);
 
   const call = (res: any) => {
     if(res){
@@ -248,12 +228,8 @@ const TransferFunds: FC<IProps> = ({
 
     if (Object.values(validation_errors).includes(true))
       return setErrors(validation_errors);
-
-      
-    // const errorsas = Object.keys(transfer.errors);
-    // console.log(errorsas, '****asdkas')
-    setInProcess(true)
-    setTimeout(() => {
+      setInProcess(true)
+      setTimeout(() => {
       accountGetBalance(data.publicAddress);
       transactionsGetList(data.publicAddress);
     }, 4000);
@@ -268,7 +244,9 @@ const TransferFunds: FC<IProps> = ({
       },
       callback
     );
-  }, [sendingErrors, password, amount, data.publicAddress, accountSendPasswordCheck, to, memo, callback, accountGetBalance, transactionsGetList]);
+  }, [sendingErrors, password, amount, 
+    data.publicAddress, accountSendPasswordCheck, to, 
+    memo, callback, accountGetBalance, transactionsGetList]);
   const text = "copiedClipboard"
 
   const onClick = useCallback(
@@ -285,35 +263,25 @@ const TransferFunds: FC<IProps> = ({
        return  t("invalidAmount")
 
     } 
-    // if (sendingErrors.amount){
-    //   return 'This amount exceeds your balance. Please enter a lower amount'
-
-    // }
    
     if(sendingErrors.maxBalance || sendingErrors.amount){
       return `${t("canTransferMax")} ${balanceLeft.toFixed(6)} (Value + gas * price)`
     }
-   
-
   }
-
-
-
   return (
     <>
       {renderSendFormSucess(
-        isSendSucess,
         errorType,
-        data.publicAddress,
-        onClick,
-        t
+        onClick
       )}
 
       <Modal
         isOpen={modal}
         className={classnames('modal-dialog-centered', styles.passwordModal)}
         toggle={() => {
-          setModal(false), setPassword(''), setInProcess(false);
+          setModal(false);
+          setPassword('');
+          setInProcess(false);
         }}
       >
         <ModalBody className={styles.body}>
@@ -325,7 +293,6 @@ const TransferFunds: FC<IProps> = ({
             handler={value => {
               setPassword(value);
             }}
-            // errorClass="justify-content-center"
             isError={errorType === 'password' || errorPass}
             errorMsg={
               errorType === 'password' || errorPass ? t("invalidPassword") : ''
@@ -336,8 +303,10 @@ const TransferFunds: FC<IProps> = ({
               type="button"
               onClick={handleSubmit}
               disabled={inProcess}
-              className={classnames(`btn  ${password !== '' ? 'outlined btn-topaz' : 'btn-secondary'}`, styles.sendBtn)}
-            //  btn-outlined-topaz
+              className={
+                classnames(`btn  ${password !== '' ? 'outlined btn-topaz' : 
+                'btn-secondary'}`, styles.sendBtn)
+}
             >
               {inProcess  ?  t("sending"): t("send")}
             </button>
@@ -364,20 +333,19 @@ const TransferFunds: FC<IProps> = ({
                   if(balanceLeft < 0){
                     balanceLeft = 0
                   }
-                  // estimationMaxFantomBalance(data.balance).then(value => {
-                  //   setAmount(value);
-                  // });
+                  
                   setAmount(balanceLeft.toString());
                 }
-                // const balance = data.balance === '0' ? 0 : data.balance;
               }}
               type="number"
               handleChange={val => {
                 setAmount(val);
-                setErrors({ ...sendingErrors, amount: false, invalidAmount: false, maxBalance: false });
+                setErrors({ ...sendingErrors, amount: false, 
+                  invalidAmount: false, maxBalance: false });
               }}
               error={{
-                isError: sendingErrors.amount || sendingErrors.invalidAmount || sendingErrors.maxBalance,
+                isError: sendingErrors.amount || 
+                sendingErrors.invalidAmount || sendingErrors.maxBalance,
                 errorText: getAmountErrorText() || ''
                  ,
               }}
@@ -409,7 +377,6 @@ const TransferFunds: FC<IProps> = ({
               color="topaz"
               className={classnames({
                 outlined: true,
-                // 'text-dark-grey-blue': !is_next_disabled,
               })}
               onClick={handlePassword}
             >

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { FormGroup, Label, Input } from 'reactstrap';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
@@ -30,7 +30,14 @@ export default ({
               </p>
             )}
             {rightLabel !== '' && (
-            <p onClick={handleRightButton} className={styles.entireBalance}>{rightLabel}</p>
+            // eslint-disable-next-line jsx-a11y/no-noninteractive-element-interactions
+            <p
+              onClick={handleRightButton} 
+              className={styles.entireBalance}
+            >
+              {rightLabel}
+
+            </p>
             )}
           </div>
         </div>

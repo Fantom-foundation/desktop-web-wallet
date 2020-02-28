@@ -18,7 +18,6 @@ const DialogAddNode: FC<IProps> = ({ isOpened, onClose, onAdd }) => {
   const onSubmit = useCallback(
     event => {
       event.preventDefault();
-      // if (!name || name.length < 3) return setError('Name is required');
       if (!address || !isNodeAddress(address))
         return setError('Not a valid node address');
 

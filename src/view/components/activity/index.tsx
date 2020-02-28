@@ -34,10 +34,10 @@ const SubView = (props: any) => {
       <div className={styles.subView}>
         <p className={styles.subViewTitle}>{t("Recipient")}</p>
         <p className={styles.subViewValue}>
-          <a target="_blank" href={`${FANTOM_WEB_URL}/address/${to}`}>
+          <a target="_blank" rel="noopener noreferrer" href={`${FANTOM_WEB_URL}/address/${to}`}>
             {to}
           </a>
-          <button onClick={onClickTo}>
+          <button type="submit" onClick={onClickTo}>
             <CopyIcon />
           </button>
         </p>
@@ -45,10 +45,14 @@ const SubView = (props: any) => {
       <div className={styles.subView}>
         <p className={styles.subViewTitle}>{t("transactionHash")}:</p>
         <p className={styles.subViewValue}>
-          <a target="_blank" href={`${FANTOM_WEB_URL}/transactions/${value}`}>
+          <a
+            target="_blank"
+            rel="noopener noreferrer" 
+            href={`${FANTOM_WEB_URL}/transactions/${value}`}
+          >
             {value}
           </a>
-          <button onClick={onClickHash}>
+          <button type="submit" onClick={onClickHash}>
             <CopyIcon />
           </button>
         </p>
@@ -68,7 +72,7 @@ const SubView = (props: any) => {
         <p className={styles.subViewValue}>
           {memo}
         </p>
-      </div>}
+                                            </div>}
     </>
   );
 };
@@ -134,9 +138,7 @@ export default props => {
     <Card className={styles.card}>
       <p className="card-label">{t("recentActivity")}</p>
       <div>
-        {/* {activityMockData.map((data: object, index: number) => (
-        <Activities key={index} {...data} />
-      ))} */}
+        
         {props &&
           props.transactions &&
           props.transactions.length > 0 &&

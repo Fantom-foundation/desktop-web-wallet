@@ -22,6 +22,7 @@ export const validateAccountTransaction = ({
     from: !Web3.utils.isAddress(from) ? 'Not a valid recipient' : null,
     to: !Web3.utils.isAddress(to) ? 'Not a valid sender' : null,
     amount:
+       // eslint-disable-next-line no-restricted-globals
        isNaN(Number(amount)) || parseFloat(amount) < 0
         ? 'Please, enter valid amount'
         : null,

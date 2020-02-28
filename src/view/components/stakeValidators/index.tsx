@@ -1,15 +1,16 @@
+/* eslint-disable jsx-a11y/control-has-associated-label */
 /* eslint-disable react/no-multi-comp */
 import React, { useState, useEffect } from 'react';
 import styles from './styles.module.scss';
-import mockData from './mockData';
 import { connect } from 'react-redux';
 import { Card, Collapse, Table, Button } from 'reactstrap';
 import classnames from 'classnames';
 import { ArrowUpDownIcon } from 'src/view/components/svgIcons';
 import { getValidatorsList as getValidatorsListAction } from '../../../redux/stake/actions';
 
-const SubView = ({ totalStaked, spaceLeft, txRewardWeight, stackeLeftPer, t }) => {
-  const stakedValue = parseFloat(totalStaked).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
+const SubView = ({ totalStaked, spaceLeft, stackeLeftPer, t }) => {
+  const stakedValue = 
+  parseFloat(totalStaked).toFixed(2).toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",")
   return (
     <>
       <tr>
@@ -79,12 +80,9 @@ const DataRow = props => {
     address: name,
     poi,
     validationScore: validatingPower,
-    uptime,
-    subView = [],
     totalStake,
     delegatedMe,
     txRewardWeight,
-    validators,
     deactivatedTime,
     createdTime,
     handleValidatorSelect,
@@ -92,7 +90,6 @@ const DataRow = props => {
     t,
   } = props;
   const [isOpen, setIsOpen] = useState(false);
-  // const createdtime = new Date(createdTime)
   const currDate = Math.round(new Date().getTime() / 1000);
 
   const upTime =
@@ -101,12 +98,6 @@ const DataRow = props => {
 
   const totalStaked = Number(totalStake) / 10 ** 18;
 
-  // const spaceLeft = totalStaked - Number(delegatedMe);
-  const spaceLeft = Number(
-    ((Number(balance) * 15 - Number(delegatedMe)) / 10 ** 18).toFixed(2)
-  );
-  // const isFull = Number(delegatedMe) === totalStaked * 15;
-  const stackeLeftPer = (Number(delegatedMe) / (totalStaked * 15)) * 100;
   const nodeFull = 15 * Number(totalStake) - Number(delegatedMe);
 
   const stakingSpace = 15 * totalStake - delegatedMe;
@@ -118,11 +109,6 @@ const DataRow = props => {
   const totalStakes = Number(totalStake) / dividend;
 
   const perc = Number((totalStakes / stakeSpace) * 100);
-  console.log(perc, '*****asdasds');
-
-  // const availableSpace =
-  //  balance && formatNumber(Number(balance.toFixed(2)));
-
   return (
     <>
       <tr className={styles.contentRow} onClick={() => setIsOpen(!isOpen)}>
@@ -186,7 +172,6 @@ const DataRow = props => {
                   key={name + 1}
                   spaceLeft={stakingSpaceLeft}
                   stackeLeftPer={Number(perc).toFixed(2)}
-                  txRewardWeight={txRewardWeight}
                   totalStaked={totalStaked}
                 />
               </table>
@@ -223,6 +208,7 @@ const DataRow = props => {
 const validator = props => {
   const { getValidatorsList, validators, handleValidatorSelect, t } = props;
 
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   useEffect(() => {
     getValidatorsList();
   }, [getValidatorsList]);

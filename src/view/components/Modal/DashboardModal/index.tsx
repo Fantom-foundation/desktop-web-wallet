@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './styles.module.scss';
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 import classnames from 'classnames';
+
 export default ({ isOpen, toggle, children, title, bodyClassName = '' }) => (
   <Modal
     isOpen={isOpen}

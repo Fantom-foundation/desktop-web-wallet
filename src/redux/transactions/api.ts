@@ -5,7 +5,6 @@ export const getTransactions = (
   offset: number,
   count: number
 ) => {
-  console.log(URLS.GET_ACCOUNT, 'called');
   return API.get(URLS.GET_ACCOUNT, { params: { address, offset, count } })
     .then(resultMiddleware)
     .catch(errorMiddleware);

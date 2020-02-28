@@ -27,9 +27,6 @@ const { t } = useTranslation();
     errorTxt = `${t("canStakeMax")} ${balanceLeft.toFixed(6)} (Value + gas * price)`
 
   }
-  // const errorTxt = errors.stakeValueMax
-  //   ? 'Not enough FTM. Please enter a lower amount'
-  //   : errors.stakeValueMin ? 'Minimum stake of 1 FTM required': 'Invalid stake amount';
   return (
     <Card className="mx-auto text-center pt-5 pb-6" style={{ maxWidth: 670 }}>
       <h2>
@@ -44,7 +41,8 @@ const { t } = useTranslation();
           rightLabel={t("max")}
           value={stakeValue}
           error={{
-            isError: errors.stakeValueInvalid || errors.stakeValueMax || errors.stakeValueMin || errors.maxBalance,
+            isError: errors.stakeValueInvalid || 
+            errors.stakeValueMax || errors.stakeValueMin || errors.maxBalance,
             errorText: errorTxt,
           }}
           handleRightButton={() => handleEntireBalance()}
@@ -67,10 +65,7 @@ const { t } = useTranslation();
             <i className="fas fa-chevron-right" />
           </Button>
         )}
-        {/* <Button className={validatorBtn} onClick={handleStep}>
-          Select a validator
-          <i className="fas fa-chevron-right" />
-        </Button> */}
+        
       </div>
     </Card>
   );

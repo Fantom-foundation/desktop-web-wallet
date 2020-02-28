@@ -40,7 +40,6 @@ type IProps = ReturnType<typeof mapStateToProps> &
   RouteComponentProps & {};
 
 const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
-  // errors,
   accountCreateRestoreMnemonics,
   accountUploadKeystore,
   push,
@@ -66,9 +65,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       .split(' ')
       .map(el => el.trim())
       .filter(el => {
-        // if(/^[a-zA-Z]+$/.test(el)){
-        //   setError(true)
-        // }
+        
         return /^[a-zA-Z]+$/.test(el)
       });
 
@@ -76,17 +73,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   }, [phrase]);
 
 
-  // const onCancelModalOpen = useCallback(() => {
-  //   setIsCancelModalOpened(true);
-  // }, [setIsCancelModalOpened]);
-
-  // const onCancelModalClose = useCallback(() => {
-  //   setIsCancelModalOpened(false);
-  // }, [setIsCancelModalOpened]);
-
-  // const onIncorrectModalClose = useCallback(() => {
-  //   setIsIncorrectModalVisible(false);
-  // }, [setIsIncorrectModalVisible]);
+  
 
   const onSubmit = useCallback(() => {
     let isValidMnemonics = true
@@ -98,7 +85,6 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
         .filter(el => {
           
             if(el !== '' && !/^[a-zA-Z]+$/.test(el)){
-              // setError(true)
               isValidMnemonics = false
             }
             return /^[a-zA-Z]+$/.test(el)
@@ -121,7 +107,6 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
       .join(' ');
 
     accountCreateRestoreMnemonics({ mnemonic });
-    // push('/account/restore/credentials')
   }, [phrase, accountCreateRestoreMnemonics]);
 
   const onUpload = useCallback((event: ChangeEvent<HTMLInputElement>) => {
@@ -143,12 +128,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     [accountUploadKeystore,password,  uploadedFile]
   );
 
-  // const handleCurrentTab = useCallback(
-  //   tab => {
-  //     setCurrentTab(tab);
-  //   },
-  //   [setCurrentTab]
-  // );
+ 
 
   const handlePrivateKeySubmit = useCallback(() => {
     const regx = /^[a-zA-Z0-9]+$/;
@@ -245,10 +225,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
     if(currentTab === 1){
 
 
-      // if(!(password && password !== '')){
-      //   setPassError(true)
-      //   return
-      // }
+     
    if((password && password !== '') && uploadedFile){
         return 'primary'
       }
@@ -338,7 +315,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                     <input
                       className="d-none"
                       type="file" 
-                      onChange={e => {onUpload(e), setFileError(false)}}
+                      onChange={e => {onUpload(e); setFileError(false)}}
                     />
                     <img src={uploadIcon} alt="Upload keystore file" />
                     {t('uploadKeystoreFile')}
@@ -372,17 +349,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
               </h4>
       
               <div className={styles.inputWrapper}>
-                {/* <div className={styles.dropzone}>
-              <div className={styles.dropzone_sign}>
-                <h2>Drop keystore file here</h2>
-
-                <Button color="primary">Upload keystore file</Button>
-              </div>
-              <input type="file" onChange={onUpload} />
-            </div>
-
-            <div className={styles.error}>{errors.keystore}</div> */}
-                {/* <input type="file" onChange={onUpload} /> */}
+                
                 <Input
                   type="textarea"
                   className={classnames(styles.input, styles.textarea, {
@@ -433,7 +400,6 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
               color={getButtonActiveClass()}
               className={styles.btn}
               onClick={e => handleAllSubmit(e)}
-              // disbaled={!is_next_disabled}
             >
               {t("unlockWallet")}
             </Button>

@@ -20,12 +20,6 @@ interface IProps {
   title: string
 };
 
-const INITIAL_ERRORS = {
-  password: false,
-  passwords_match: false,
-  icon: false,
-  unique: false,
-};
 
 const AccountCreateCredentialForm: FC<IProps> = ({
   onSubmit,
@@ -36,8 +30,6 @@ const AccountCreateCredentialForm: FC<IProps> = ({
   const [password, setPassword] = useState('');
   const [password_again, setPasswordAgain] = useState('');
   const [checked, setChecked] = useState(false);
-  const [errors, setErrors] = useState<Record<string, boolean>>(INITIAL_ERRORS);
-
 
 const validatePassField = useCallback(() => {
   if( password !== '' && (!password.match(/[A-Z]+/) ||
@@ -58,25 +50,12 @@ const validateRePassField = useCallback(() => {
 }, [password, password_again])
 
   const onNextPressed = useCallback(() => {
-    const validation_errors = {
-      password_match: !!password && password !== password_again,
-      password:
-        !password.match(/[A-Z]+/) ||
-        !password.match(/[\W]/) ||
-        !password.match(/[0-9]+/) ||
-        password.length < 8 || password.length > 200,
-    };
-  
-    if (Object.values(validation_errors).includes(true)){
-      return setErrors(validation_errors);
-    }
-
     if (!checked) return;
 
     onSubmit({
       password,
     });
-  }, [password, password_again, checked, onSubmit]);
+  }, [password, checked, onSubmit]);
 
   function handleCheckBox(toggle) {
     setChecked(toggle);
@@ -96,17 +75,7 @@ const validateRePassField = useCallback(() => {
           <span className="opacity-3 mr-2 mr-md-3">/2</span>
           {' '}
           {t("createKeystoreFilePassword")}
-          {' '}
-          {/* <span className={styles.infoIcon}>
-            <i className="fas fa-info-circle" />
-            <div className={styles.tooltipWrapper}>
-              <p className={styles.tooltip}>
-                The keystore file will contain your encrypted private key.
-                <br />
-                You’ll need the password to decrypt it. Don’t lose them!
-              </p>
-            </div>
-          </span> */}
+          {' '}         
         </h3>
       </div>
       <Input
@@ -115,8 +84,6 @@ const validateRePassField = useCallback(() => {
         value={password}
         handler={value => {
           setPassword(value);
-          // validatePassField()
-          // setErrors({ ...errors, password: false });
         }}
         isError={validatePassField() || false}
         errorMsg={t("walletPasswordValidationText")}
@@ -128,7 +95,6 @@ const validateRePassField = useCallback(() => {
         value={password_again}
         handler={value => {
           setPasswordAgain(value);
-          // setErrors({ ...errors, password_match: false });
         }}
         isError={validateRePassField()}
         errorMsg={
@@ -153,16 +119,6 @@ const validateRePassField = useCallback(() => {
         </p>
       </div>
       <div className={styles.downloadBtnWrapper}>
-        {/* <button
-          type="button"
-          className={classnames(styles.downloadBtn, {
-            [styles.disable]: !checked,
-          })}
-          onClick={onNextPressed}
-          disabled={!checked}
-        >
-         Back
-        </button> */}
         <button
           type="button"
           className={classnames(styles.downloadBtn, {

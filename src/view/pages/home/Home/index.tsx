@@ -3,12 +3,9 @@ import { Container, Row, Col, Card } from 'reactstrap';
 
 import styles from './styles.module.scss';
 import { Layout } from '~/view/components/layout/Layout';
-import { Link } from 'react-router-dom';
 import KeyIcon from '../../../../images/icons/key.png';
 import WalletIcon from '../../../../images/icons/wallet.png';
-import { AddressBalanceCard } from '../../../components/cards';
 import classnames from 'classnames';
-import { push } from 'connected-react-router';
 import { useTranslation } from "react-i18next";
 
 function goToRoute(props) {

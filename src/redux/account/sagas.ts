@@ -727,8 +727,6 @@ export function* accountSaga() {
     ACCOUNT_ACTIONS.REMOVE_ACCOUNT,
     removeAccount
   );
-
-
   yield takeLatest(ACCOUNT_ACTIONS.CHANGE_PROVIDER, changeProvider);
   yield takeLatest(ACCOUNT_ACTIONS.GET_PRIVATE_KEY, getPrivateKey);
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './styles.module.scss';
 
 export default ({t}) => {
@@ -7,8 +7,7 @@ export default ({t}) => {
       <h3 className="font-weight-semi-bold">{t("verification")}</h3>
       <p className="text-dark-grey-blue">
         {t("mnemonicOrderPhrase")}
-.
-       
+.      
       </p>
     </div>
   );

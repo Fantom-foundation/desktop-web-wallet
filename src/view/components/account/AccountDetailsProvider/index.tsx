@@ -34,7 +34,6 @@ const AccountDetailsProviderUnconnected: FC<IProps> = ({
   const onBlur = useCallback(() => setIsOpened(false), []);
 
   const nodes = [...DEFAULT_PROVIDERS, ...custom_nodes];
-  const node = nodes[current_node];
 
   return (
     <div>
@@ -44,7 +43,6 @@ const AccountDetailsProviderUnconnected: FC<IProps> = ({
         onFocus={onFocus}
         onBlur={onBlur}
       >
-        {/* <span>{`Node: ${node.name}`}</span> */}
         <FaIcon icon="fa-caret-down" />
       </div>
 
@@ -53,11 +51,9 @@ const AccountDetailsProviderUnconnected: FC<IProps> = ({
           {nodes.map((item, index) => (
             <div
               className={styles.item}
-              // key={`${index}`}
               onMouseDown={() => accountChangeProvider(index)}
             >
               <div className={styles.info}>
-                {/* <div>{item.name}</div> */}
                 <small>{item.address}</small>
               </div>
 

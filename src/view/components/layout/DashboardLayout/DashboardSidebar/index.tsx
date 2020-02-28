@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useState } from 'react';
 import styles from './styles.module.scss';
 import { Link } from 'react-router-dom';
@@ -36,6 +37,7 @@ export default props => {
   }
 
 const { t } = useTranslation();
+const {handleLogout} = props
   return (
     <>
       <div className={classnames('d-xl-none', styles.header)}>
@@ -92,7 +94,7 @@ const { t } = useTranslation();
               ))}
               <li>
                 
-                <a style={{ cursor: 'pointer'}} onClick={props.handleLogout}>
+                <a style={{ cursor: 'pointer'}} onClick={handleLogout}>
                   <img src={LogoutIcon} alt="yh" />
                   {t('logout')}
                 </a>
