@@ -57,11 +57,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
   const [userPrivateKey, setUserPrivateKey] = useState('');
   const [privateKeyError , setPrivateKeyError] = useState(false)
   const {t} = useTranslation();
-  const [ setIsIncorrectModalVisible] = useState(
-    false
-  );
-
-
+ 
   const is_next_disabled = useMemo<boolean>(() => {
     if (phrase.length === 0) return false;
     // let isCorrectWords = true
@@ -116,7 +112,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
     if (validation_errors.phrase) return setError(validation_errors.phrase);
 
-    if (!is_next_disabled) return setIsIncorrectModalVisible(true);
+    
 
     const mnemonic = phrase
       .split(' ')
@@ -126,7 +122,7 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
 
     accountCreateRestoreMnemonics({ mnemonic });
     // push('/account/restore/credentials')
-  }, [phrase, is_next_disabled, setIsIncorrectModalVisible, accountCreateRestoreMnemonics]);
+  }, [phrase, accountCreateRestoreMnemonics]);
 
   const onUpload = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files && event.target.files[0];
@@ -405,9 +401,9 @@ const AccountEnterMnemonicsUnconnected: FC<IProps> = ({
                   { accountDetails.errors && accountDetails.errors.mnemonic &&  
                 t('accountAlreadyExist')}
 
-                                       </p> : ''}
+                </p> : ''}
               </div>
-                                  </div>
+            </div>
             )}
             {/* --Mnemonic End-- */}
 

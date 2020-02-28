@@ -11,7 +11,6 @@ import {
   accountSetConnection,
   accountAddProvider,
   accountSetFTMtoUSD,
-  accountSetFTMMarketCap,
 } from '~/redux/account/actions';
 import { IAccountState, ACCOUNT_INITIAL_STATE } from '.';
 import { ACCOUNT_ACTIONS } from './constants';
