@@ -3,7 +3,7 @@ import React, {
   SelectHTMLAttributes,
   useCallback,
   ChangeEventHandler,
-  ReactElement
+  ReactElement,
 } from "react";
 import styles from "./styles.module.scss";
 import { FaIcon } from "../FaIcon";
@@ -39,7 +39,7 @@ const Select: FC<IProps> = ({
   return (
     <div
       className={classNames(styles.select, {
-        [styles.has_icon]: icon || fa_icon
+        [styles.has_icon]: icon || fa_icon,
       })}
     >
       {" "}

@@ -11,7 +11,6 @@ import { URLS } from '~/constants/urls';
 import classNames from 'classnames';
 import { selectAccount } from '~/redux/account/selectors';
 import { connect } from 'react-redux';
-import path from 'path';
 import { getURL } from '~/utility/dom';
 
 const mapStateToProps = selectAccount;

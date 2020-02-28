@@ -27,9 +27,7 @@ import {
 import { selectAccount } from '../account/selectors';
 import {} from './handlers';
 import { IAccountState } from '../account';
-// import { setDopdownAlert } from "~/redux/notification/actions";
 import { getDataWithQueryString } from '../../api';
-// import { Fantom } from '~/utility/web3';
 import Fantom, { delegateStake, delegateUnstake, withdrawDelegateAmount }  from 'web3-functions'
 
 const delegatorByAddressApi = async publicKey => {
@@ -39,21 +37,6 @@ const delegatorByAddressApi = async publicKey => {
   );
 };
 
-type Action = {
-  payload: {
-    mnemonic: string;
-    cb: (publicKey: string) => void;
-    publicKey?: string;
-    stakerId?: string;
-    amount?: string;
-  };
-};
-
-type TDelegate = {
-  payload: {
-    publicKey: string;
-  };
-};
 
 function* delegateByAddressSaga({
   publicKey,
@@ -105,7 +88,7 @@ export function* delegateByAddressesSaga() {
     walletsData: wallet.walletsData,
   }));
   if (walletsData && walletsData.length > 0) {
-    for (let i = 0; i < walletsData.length; i++) {
+    for (let i = 0; i < walletsData.length; i +=1) {
       const wallet = walletsData[i];
       const { publicKey } = wallet;
       if (publicKey) {
@@ -129,11 +112,9 @@ export function* delegateByStakerIdSaga({
       `${process.env.REACT_APP_API_URL_FANTOM}api/v1/delegator/staker/${stakerId}`
     );
     const data = yield call([res, 'json']);
-    //  yield call(
-    //     getDataWithQueryString("delegatorByStakerId", stakerId)
-    //   );
+   
   } catch (e) {
-    // yield put(setDopdownAlert("error", e.message));
+    console.log(e, '****error')
   }
 }
 

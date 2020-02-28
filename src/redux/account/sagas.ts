@@ -4,7 +4,6 @@ import {
   takeLatest,
   put,
   select,
-  apply,
   call,
   delay,
   takeEvery,
@@ -54,16 +53,13 @@ import { push } from 'connected-react-router';
 import { URLS } from '~/constants/urls';
 import {  DEFAULT_PROVIDERS } from '~/utility/web3';
 import Fantom from 'web3-functions'
-import { fromWei } from 'web3-utils';
 import { validateAccountTransaction } from './validators';
 import { readFileAsJSON } from '~/utility/filereader';
 import { EncryptedKeystoreV3Json } from 'web3-core';
 import { REHYDRATE, RehydrateAction } from 'redux-persist';
 import { path } from 'ramda';
-import axios from 'axios';
 import { getTransactions } from '../transactions/api';
 import fileDownload from 'js-file-download';
-import { createBrotliCompress } from 'zlib';
 
 function* createSetCredentials({
   create,

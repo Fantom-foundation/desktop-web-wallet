@@ -8,14 +8,8 @@ import {
   getValidatorsListSuccess,
   delegateByAddressSuccess,
   setAmountUnstaked,
-  delegateAmountSuccess,
 } from './actions';
 import { InitialStateType } from './index';
-
-// const setValidators = (
-//   state: InitialStateType,
-//   { publicKey }: ReturnType<typeof delegateByAddressSuccess>
-// ) => ({ ...state, publicKey });
 
 export const setValidatorsList = (
   state: InitialStateType,
@@ -50,8 +44,7 @@ export const amountUnstakedSuccess = (
 };
 
 export const delegateAmountSuccessHandler = (
-  state: InitialStateType,
-  { response }: ReturnType<typeof delegateAmountSuccess>
+  state: InitialStateType
 ) => {
   return { ...state, errors: false };
 };
@@ -117,32 +110,15 @@ export const setDelegatorByAddressFailure = (
   return { ...state, data: stakes };
 };
 
-// export const setDelegatorByAddresses = ({
-//   publicKey,
-// }: TDelegateByAddress) => ({
-//   type: `${STAKE_ACTIONS.DELEGATE_BY_ADDRESSES}_SUCCESS`,
-//   payload: { publicKey },
-// });
-
-// export const delegateByAddressesFailure = ({
-//   publicKey,
-// }: TDelegateByAddress) => ({
-//   type: `${STAKE_ACTIONS.DELEGATE_BY_ADDRESSES}_FAILURE`,
-//   payload: { publicKey },
-// });
-
 export const ACCOUNT_HANDLERS = {
   [`${STAKE_ACTIONS.DELEGATE_BY_ADDRESS}_SUCCESS`]: setDelegatorByAddress,
   [`${STAKE_ACTIONS.DELEGATE_BY_ADDRESS}_FAILURE`]: setDelegatorByAddressFailure,
   [STAKE_ACTIONS.DELEGATE_BY_ADDRESSES]: delegateByAddresses,
-  // [`${STAKE_ACTIONS.DELEGATE_BY_ADDRESSES}_SUCCESS`]: setDelegatorByAddresses,
-  // [`${STAKE_ACTIONS.DELEGATE_BY_ADDRESSES}_FAILURE`]: delegateByAddressesFailure,
   [STAKE_ACTIONS.VALIDATORS_LIST]: getValidatorsList,
   [`${STAKE_ACTIONS.VALIDATORS_LIST}_SUCCESS`]: setValidatorsList,
   [`${STAKE_ACTIONS.VALIDATORS_LIST}_FAILURE`]: getValidatorsListFailure,
   [STAKE_ACTIONS.DELEGATE_BY_STAKER_ID]: delegateByStakerId,
   [`${STAKE_ACTIONS.DELEGATE_AMOUNT}_SUCCESS`]: delegateAmountSuccessHandler,
   [`${STAKE_ACTIONS.DELEGATE_AMOUNT}_FAILURE`]: delegateAmountFailureHandler,
-
   [`${STAKE_ACTIONS.UNSTAKE_AMOUNT}_SET`]: amountUnstakedSuccess,
 };

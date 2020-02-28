@@ -69,7 +69,7 @@ const TransferModalUnconnected: FC<IProps> = ({
       ),
     [list]
   );
-  const call = (txHash: string) => {
+  const call = () => {
   }
 
 
@@ -94,7 +94,7 @@ const TransferModalUnconnected: FC<IProps> = ({
   useEffect(() => {
     // reset errors on input
     if (Object.keys(errors).length) accountSetTransferErrors({});
-  }, [to, from, amount, password, message, errors, accountSetTransferErrors]);
+  }, [errors, accountSetTransferErrors]);
 
   useEffect(() => {
     // estimate fee

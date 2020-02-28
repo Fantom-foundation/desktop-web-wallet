@@ -1,7 +1,7 @@
 import React, { FC } from 'react';
 import { Button, Modal, ModalHeader, ModalBody, ModalFooter } from 'reactstrap';
 
-type IProps = {
+interface IProps  {
   isOpened?: boolean;
   onClose?: () => void;
   onConfirm?: () => void;
