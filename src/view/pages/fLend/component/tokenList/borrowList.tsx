@@ -1,13 +1,18 @@
 import React from 'react';
 import styles from './styles.module.scss';
 import classnames from 'classnames';
+import BTC from '../../../../../images/btc.png'
 
+const icons = [
+
+]
 export default () => (
   <>
     <tr>
       <td>
         <h4 className="m-token mb-0">
-          <span className="token" style={{ background: 'rgb(245, 166, 35)' }} />
+          <img alt="" src={BTC} />
+          {/* <span className="token" style={{ background: 'rgb(245, 166, 35)' }} /> */}
           iBTC
         </h4>
       </td>
@@ -21,7 +26,7 @@ export default () => (
     <tr>
       <td>
         <h4 className="m-token mb-0">
-          <span className="token" style={{ background: 'rgb(245, 166, 35)' }} />
+          <img alt="" src={BTC} />
           iBTC
         </h4>
       </td>

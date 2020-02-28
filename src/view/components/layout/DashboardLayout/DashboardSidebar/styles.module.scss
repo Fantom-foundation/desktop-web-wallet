@@ -1,4 +1,5 @@
 @import '~/styles/variables.scss';
+
 .header {
   display: flex;
   align-items: center;
@@ -10,19 +11,24 @@
   z-index: 999;
   top: 0;
   left: 0;
+
   @media (max-width: $tablet) {
     padding: 25px;
   }
+
   @media (max-width: $smallPhone) {
     padding: 25px 15px;
   }
+
   // .logo {
   //   @media (max-width: $largeDesktop) {
   //     height: 31px;
   //   }
   // }
 }
+
 .sidebarWrapper {
+
   // @media (min-width: 360.98px) {
   //   max-width: $dashboardSidebarWidth;
   // }
@@ -30,6 +36,7 @@
     flex: 0 0 $dashboardSidebarWidth;
     max-width: $dashboardSidebarWidth;
   }
+
   @media (max-width: $largeDesktop) {
     position: fixed;
     top: 0;
@@ -39,11 +46,13 @@
     z-index: 999;
     transition: 0.3s;
     opacity: 0;
+
     &.active {
       right: 0;
       opacity: 1;
     }
   }
+
   // @media (max-width: 360.98px) {
   //   right: -100vw;
   // }
@@ -53,12 +62,15 @@
   position: relative;
   background: map-get($color, Primary-Main);
   height: 100%;
+
   &.navyMenu {
     background: map-get($color, navy-blue);
+
     .head {
       background: map-get($color, navy-blue);
     }
   }
+
   @media (min-width: $largeDesktop) {
     padding-top: 40px;
     border-top-right-radius: 50px;
@@ -66,10 +78,14 @@
     position: sticky;
     top: 0;
   }
+
   @media (max-width: $largeDesktop) {
     border-top-left-radius: 50px;
   }
+
   .head {
+    border-top-right-radius: 14px;
+
     @media (max-width: $largeDesktop) {
       position: absolute;
       width: 100%;
@@ -83,6 +99,7 @@
       align-items: center;
       padding: 0 25px;
     }
+
     .logoWrapper {
       @media (max-width: $largeDesktop) {
         position: absolute;
@@ -90,6 +107,7 @@
         bottom: 6px;
         transform: translateX(-50%);
       }
+
       img {
         @media (max-width: $tablet) {
           height: 50px;
@@ -98,6 +116,7 @@
     }
   }
 }
+
 .logoWrapper {
   text-align: center;
 
@@ -110,11 +129,13 @@
 
   img {
     height: 50px;
+
     @media (max-width: $tablet) {
       height: 31px;
     }
   }
 }
+
 .close {
   line-height: 1;
   color: #fff;
@@ -123,45 +144,55 @@
   position: absolute;
   right: 37px;
   top: 27px;
+
   @media (max-width: $tablet) {
     top: 16px;
     right: 25px;
   }
 }
+
 .menusWrapper {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+
   @media (min-width: $largeDesktop) {
     height: calc(100vh - 178px);
   }
+
   @media (max-width: $largeDesktop) {
     padding: {
       top: 228px;
       bottom: 30px;
     }
+
     height: 100vh;
     overflow: auto;
+
     &::-webkit-scrollbar {
       width: 0px;
       height: 0px;
     }
   }
+
   // @media (max-width: $tablet) {
   //   padding-top: 162px;
   // }
   .menus {
     padding: 0 15px;
     width: 100%;
+
     &.mainMenu {
       @media (min-width: $largeDesktop) {
         flex-grow: 1;
         overflow: scroll;
         padding: 0 9px 0 13px;
+
         &::-webkit-scrollbar {
           width: 4px;
           height: 0px;
         }
+
         &::-webkit-scrollbar-thumb {
           background: #fff;
           border-radius: 30px;
@@ -172,31 +203,38 @@
         margin: 0;
       }
     }
+
     li {
       text-align: center;
       list-style: none;
       // &:not(:last-child) {
       margin-bottom: 54px;
+
       // }
       &:not(.active) {
         a {
           opacity: 0.5;
+
           img {
             opacity: 0.5;
           }
+
           &:hover {
             img {
               opacity: 1;
             }
+
             opacity: 1;
           }
         }
       }
+
       img {
         display: block;
         margin: 0 auto 10px;
       }
     }
+
     a {
       text-decoration: none;
 
