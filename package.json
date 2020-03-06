@@ -73,7 +73,7 @@
     "electron-pack": "electron-builder build --linux -c.extraMetadata.main=build/electron/main.js --publish never",
     "electron-build": "npm run preelectron-pack && electron-builder build --linux -c.extraMetadata.main=build/electron/main.js",
     "electron-build-win": "npm run preelectron-pack && electron-builder build --win -c.extraMetadata.main=build/electron/main.js",
-    "electron-build-mac": "npm run preelectron-pack && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
+    "electron-build-mac": "npm run preelectron-pack && CSC_LINK=./public/all-certs.p12 && electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
     "electron-build-mac-app": "electron-builder build --mac -c.extraMetadata.main=build/electron/main.js",
     "preelectron-pack": "cross-env PUBLIC_URL=./ npm run build && copyfiles ./electron/* ./build/",
     "analyze": "source-map-explorer 'build/static/js/*.js'"
@@ -140,12 +140,23 @@
     "productName": "Fantom Wallet",
     "appId": "com.fantom.payments.mac",
     "mac": {
+      "category": "public.app-category.productivity",
       "target": [
+        "pkg",
+        "dmg",
+        "zip",
         "mas"
       ],
       "provisioningProfile": "embedded.provisionprofile",
-      "entitlements": "public/entitlements.mas.plist",
-      "type": "distribution"
+      "entitlements": "build/entitlements.mac.plist",
+      "type": "distribution",
+      "icon": "build/icon.icns"
+    },
+    "mas": {
+      "type": "distribution",
+      "category": "public.app-category.productivity",
+      "entitlements": "build/entitlements.mas.plist",
+      "icon": "build/icon.icns"
     },
     "directories": {
       "buildResources": "build",
@@ -159,9 +170,11 @@
         "to": "static"
       }
     ],
-    "extraResources": [{
-      "from": "build/static",
-      "to": "static"
-    }]
+    "extraResources": [
+      {
+        "from": "build/static",
+        "to": "static"
+      }
+    ]
   }
 }
