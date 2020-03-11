@@ -28,7 +28,6 @@
 }
 
 .sidebarWrapper {
-
   // @media (min-width: 360.98px) {
   //   max-width: $dashboardSidebarWidth;
   // }
@@ -126,6 +125,12 @@
   @media (min-width: $largeDesktop) {
     margin-bottom: 88px;
   }
+  @media (min-width: $largeDesktop) and (max-height: 820px) {
+    margin-bottom: 54px;
+  }
+  @media (min-width: $largeDesktop) and (max-height: 720px) {
+    margin-bottom: 45px;
+  }
 
   img {
     height: 50px;
@@ -159,7 +164,12 @@
   @media (min-width: $largeDesktop) {
     height: calc(100vh - 178px);
   }
-
+  @media (min-width: $largeDesktop) and (max-height: 820px) {
+    height: calc(100vh - 144px);
+  }
+  @media (min-width: $largeDesktop) and (max-height: 720px) {
+    height: calc(100vh - 134px);
+  }
   @media (max-width: $largeDesktop) {
     padding: {
       top: 228px;
@@ -207,10 +217,23 @@
     li {
       text-align: center;
       list-style: none;
-      // &:not(:last-child) {
-      margin-bottom: 54px;
 
-      // }
+      &:not(:last-child) {
+        @media (min-width: $largeDesktop) {
+          margin-bottom: 54px;
+        }
+        @media (min-width: $largeDesktop) and (max-height: 820px) {
+          margin-bottom: 42px;
+        }
+        @media (min-width: $largeDesktop) and (max-height: 720px) {
+          margin-bottom: 34px;
+        }
+      }
+
+      @media (max-width: $largeDesktop) {
+        margin-bottom: 54px;
+      }
+
       &:not(.active) {
         a {
           opacity: 0.5;
