@@ -61,10 +61,12 @@ const AccountListUnconnected: FC<IProps> = ({
         let locale = localStorage.getItem('language')
         const isEnglish = res.toLowerCase().substring(0, 2) === 'en'
         const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
+        const isVietnam = res.toLowerCase() === 'vi'
         const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
         if (isChinese) locale = 'chi'
         if(isKorean) locale = 'kor'
         if(isEnglish) locale = 'en'
+        if(isVietnam) locale = 'vie'
         return locale
 
   }
@@ -110,6 +112,9 @@ const AccountListUnconnected: FC<IProps> = ({
 
       } else if(lang === 'chi'){
         currLang = 'chi'
+
+      } else if(lang === 'vie'){
+        currLang = 'vie'
 
       }
 
@@ -220,7 +225,7 @@ const AccountListUnconnected: FC<IProps> = ({
           </Row>
         </div>
       </Container>
-    </div>)
+            </div>)
   }
   let isAvailAcc = false;
 
@@ -234,13 +239,46 @@ const AccountListUnconnected: FC<IProps> = ({
             {t('sendReceiveStakeFTM')}
           </h3>
           <h3>
-            <span className={classnames("pointer")} onClick={() => setAppLanguage('browser')}>{t("browser")}</span>
+            <span
+              className={classnames("pointer")} 
+              onClick={() => setAppLanguage('browser')}
+            >
+              {t("browser")}
+
+            </span>
             {" "}
-            <span className={classnames("pointer",{'text-underline':i18n.language === 'en' })} onClick={() => setAppLanguage('en')}>English</span>
+            <span
+              className={classnames("pointer",{'text-underline':i18n.language === 'en' })}
+              onClick={() => setAppLanguage('en')}
+            >
+English
+
+            </span>
             {" "} 
-            <span className={classnames("pointer",{'text-underline':i18n.language === 'kor' })} onClick={() => setAppLanguage('kor')}>한국어</span>
+            <span
+              className={classnames("pointer",{'text-underline':i18n.language === 'kor' })} 
+              onClick={() => setAppLanguage('kor')}
+            >
+한국어
+
+            </span>
             {" "}
-            <span className={classnames("pointer",{'text-underline':i18n.language === 'chi' })} onClick={() => setAppLanguage('chi')}>简体中文</span> 
+            <span
+              className={classnames("pointer",{'text-underline':i18n.language === 'chi' })}
+              onClick={() => setAppLanguage('chi')}
+            >
+简体中文
+
+            </span> 
+            {" "}
+            <span
+              className={classnames("pointer",{'text-underline':i18n.language === 'vie' })}
+              onClick={() => setAppLanguage('vie')}
+            >
+Tiếng Việt
+
+            </span> 
+          
           </h3>
         </Container>
       </div>
@@ -272,7 +310,7 @@ const AccountListUnconnected: FC<IProps> = ({
                 <AddressBalanceCard
                   addNew
                 />
-              </Col> }
+                             </Col> }
             </Row>
           </Container>
         </div>

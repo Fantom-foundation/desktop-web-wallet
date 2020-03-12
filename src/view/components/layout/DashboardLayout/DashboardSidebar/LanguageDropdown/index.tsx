@@ -14,7 +14,7 @@ import { useTranslation } from 'react-i18next';
 import OsLocale  from 'os-locale';
 
 
-const languages = [{ id: 'bl',name: 'Browser' },{ id: 'en',name: 'English' }, { id: 'kor', name: '한국어' }, { id: 'chi', name: '简体中文' }];
+const languages = [{ id: 'bl',name: 'Browser' },{ id: 'en',name: 'English' }, { id: 'kor', name: '한국어' }, { id: 'chi', name: '简体中文' }, {id: 'vie', name: 'Tiếng Việt'}];
 export default () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [currentLanguage, setCurrentLanguage] = useState('Browser');
@@ -28,6 +28,9 @@ const getCurrentLang = useCallback(() => {
 
   } else if (i18n.language === 'chi'){
     setCurrentLanguage('简体中文')
+
+  } else if (i18n.language === 'vie'){
+    setCurrentLanguage('Tiếng Việt')
 
   }
 }, [])
@@ -63,9 +66,15 @@ const getCurrentLang = useCallback(() => {
                 // OsLocale().then(res => {
                   const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
                   const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
+                  const isVietnam = res.toLowerCase() === 'vi'
                   if (isChinese) {
                     lang = 'chi'
                     currLang = "简体中文"
+                  }
+                  if(isVietnam){
+                    lang = 'vie'
+                    currLang = "Tiếng Việt"
+
                   }
                   if(isKorean) {
                     lang = 'kor'
@@ -81,6 +90,8 @@ const getCurrentLang = useCallback(() => {
                   lang = 'kor'
                 } else if (id === 'chi'){
                   lang = 'chi'
+                } else if (id === 'vie'){
+                  lang = 'vie'
                 }
                 localStorage.setItem('isManualLang', 'true')
                 setCurrentLanguage(name)

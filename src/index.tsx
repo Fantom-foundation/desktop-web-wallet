@@ -8,6 +8,8 @@ import { initReactI18next, useTranslation } from "react-i18next";
 import { englishTranslation } from './utility/translations/english';
 import { koreanTranslation } from './utility/translations/korean';
 import { chineseTranslation } from './utility/translations/chinese';
+import { vietnameseTranslation } from './utility/translations/vietnamese';
+
 import {} from 'update-electron-app'
 import detectBrowserLanguage from 'detect-browser-language'
 import OsLocale  from 'os-locale';
@@ -24,10 +26,12 @@ const setCurrentLang = () => {
       // OsLocale().then(res => {
         const isEnglish = res.toLowerCase().substring(0, 2) === 'en'
         const isChinese = res.toLowerCase().substring(0, 2) === 'zh'
+        const isVietnam = res.toLowerCase() === 'vi'
         const isKorean = res === 'ko' || res === 'ko_KR' || res === 'ko-KR'
         if (isChinese) locale = 'chi'
         if(isEnglish) locale = 'en'
         if(isKorean) locale = 'kor'
+        if(isVietnam) locale = 'vie'
         localStorage.setItem('language', locale)
 
       // })
@@ -54,6 +58,10 @@ i18n
       },
       chi: {
         translation: chineseTranslation,
+      },
+      vie:{
+        translation: vietnameseTranslation,
+
       },
     },
     lng: setCurrentLang() || 'en',
