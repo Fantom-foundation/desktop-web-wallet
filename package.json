@@ -50,7 +50,7 @@
     "react-to-print": "^2.0.0-alpha-4",
     "react-toasts": "^3.0.6",
     "reactstrap": "^8.1.1",
-    "redux": "^4.0.4",
+    "redux": "^4.0.5",
     "redux-axios-middleware": "^4.0.0",
     "redux-persist": "^6.0.0",
     "redux-saga": "^1.1.1",
