@@ -31,7 +31,7 @@
     "js-file-download": "^0.4.9",
     "keythereum": "^1.0.4",
     "lodash": "^4.17.15",
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "os-locale": "^4.0.0",
     "prop-types": "^15.6.2",
     "qrcode.react": "^0.9.3",
