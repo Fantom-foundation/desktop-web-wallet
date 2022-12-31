@@ -46,7 +46,7 @@
     "react-redux-toastr": "^7.6.1",
     "react-router": "^4.3.1",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "3.2.0",
+    "react-scripts": "5.0.1",
     "react-to-print": "^2.0.0-alpha-4",
     "react-toasts": "^3.0.6",
     "reactstrap": "^8.1.1",
@@ -137,7 +137,7 @@
     "ts-jest": "^24.1.0",
     "wait-on": "^3.3.0",
     "web3-fake-provider": "^0.1.0",
-    "webpack-cli": "^3.3.10"
+    "webpack-cli": "^5.0.1"
   },
   "build": {
     "productName": "Fantom Wallet",
